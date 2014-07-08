@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<!DOCTYPE project>
-
-<project name="gatling-liferay-portlet" basedir="." default="deploy">
-	<import file="/opt/liferay-developer-studio/liferay-plugins-sdk-6.2.10.1/portlets/build-common-portlet.xml" />
-</project>
