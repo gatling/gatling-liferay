@@ -3,4 +3,7 @@
 
 <display>
 	
+	<category name="Hidden">
+		<portlet id="gatling"></portlet>
+	</category>
 </display>
