@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hook PUBLIC "-//Liferay//DTD Hook 6.2.0//EN" "http://www.liferay.com/dtd/liferay-hook_6_2_0.dtd">
+
+<hook>
+	<portal-properties>portal.properties</portal-properties>
+	<language-properties>
+		content/Language.properties
+	</language-properties>
+	<language-properties>
+		content/Language_es.properties
+	</language-properties>
+	<language-properties>
+		content/Language_en.properties
+	</language-properties>
+	<custom-jsp-dir>/custom_jsps</custom-jsp-dir>
+	<custom-jsp-global>true</custom-jsp-global>
+
+	<!-- <service> -->
+	<!-- <service-type> -->
+	<!-- com.liferay.portlet.expando.service.ExpandoValueLocalService -->
+	<!-- </service-type> -->
+	<!-- <service-impl> -->
+	<!-- com.liferay.training.MyExpandoValueLocalService -->
+	<!-- </service-impl> -->
+	<!-- </service> -->
+	<servlet-filter>
+		<servlet-filter-name>My Filter</servlet-filter-name>
+		<servlet-filter-impl>com.liferay.training.filter.MyFilter</servlet-filter-impl>
+		<init-param>
+			<param-name>hello</param-name>
+			<param-value>future astronaut</param-value>
+		</init-param>
+	</servlet-filter>
+	<servlet-filter-mapping>
+		<servlet-filter-name>My Filter</servlet-filter-name>
+		<before-filter>SSO Open SSO Filter</before-filter>
+		<url-pattern>/web/guest/home/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</servlet-filter-mapping>
+	<struts-action>
+		<struts-action-path>/wiki/edit_page</struts-action-path>
+		<struts-action-impl>com.liferay.training.spacestrutsaction.hook.action.SpaceStrutsPortletAction</struts-action-impl>
+	</struts-action>
+</hook>

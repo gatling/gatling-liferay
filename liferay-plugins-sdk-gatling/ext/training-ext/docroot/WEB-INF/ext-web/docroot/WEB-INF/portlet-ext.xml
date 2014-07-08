@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<portlet-app
+	version="2.0"
+	xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+>
+
+	<portlet>
+		<portlet-name>19</portlet-name>
+		<display-name>Message Boards</display-name>
+		<portlet-class>com.liferay.portlet.StrutsPortlet</portlet-class>
+		<init-param>
+			<name>view-action</name>
+			<value>/message_boards/view</value>
+		</init-param>
+		<init-param>
+			<name>config-jsp</name>
+			<value>/html/portlet/message_boards/configuration.jsp</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<resource-bundle>com.liferay.portlet.StrutsResourceBundle</resource-bundle>
+		<portlet-preferences>
+			<preference>
+				<name>priorities</name>
+				<value>Urgent,/message_boards/priority_urgent.png,3.0</value>
+				<value>Sticky,/message_boards/priority_sticky.png,2.0</value>
+				<value>Announcement,/message_boards/priority_announcement.png,1.0</value>
+			</preference>
+			<preference>
+				<name>ranks</name>
+				<value>Civilian=0</value>
+				<value>Cadet=25</value>
+				<value>Navigator=100</value>
+				<value>Pilot=250</value>
+				<value>Astronaut=500</value>
+				<value>Neil Armstrong=1000</value>
+				<value>Moderator=organization:Message Boards Administrator</value>
+				<value>Moderator=organization-role:Message Boards Administrator</value>
+				<value>Moderator=regular-role:Message Boards Administrator</value>
+				<value>Moderator=site-role:Message Boards Administrator</value>
+				<value>Moderator=user-group:Message Boards Administrator</value>
+			</preference>
+		</portlet-preferences>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
+</portlet-app>
