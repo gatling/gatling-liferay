@@ -1,7 +1,10 @@
+.classpath
+.project
+.settings/
 */.classpath
 */.project
 */.settings/*
-*/.settings/**
+**/.settings/**
 */target/*
 */target/**
 liferay-plugins-sdk-gatling/build.*.properties
