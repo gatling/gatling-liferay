@@ -1,5 +1,15 @@
-<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
+<%@include file="/html/gatling/header.jsp" %>
 
-<portlet:defineObjects />
+<%
+	String redirect = PortalUtil.getCurrentURL(renderRequest);	
+%>
 
-This is the <b>Gatling</b> portlet in View mode.
+<aui:button-row>
+	<portlet:renderURL var="addSimulationURL">
+		<portlet:param name="mvcPath" value="/html/gatling/addSimulation.jsp" />
+		<portlet:param name="redirect" value="<%= redirect %>" />
+		<portlet:param name="p_p_isolated" value="1" />
+	</portlet:renderURL>
+
+	<aui:button value="add-simulation" onClick="<%= addSimulationURL.toString() %>"/>
+</aui:button-row>
