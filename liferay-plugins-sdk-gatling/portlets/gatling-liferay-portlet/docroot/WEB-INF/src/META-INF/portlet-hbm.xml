@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="com.liferay.sample.model.Request" />
+	<import class="com.liferay.sample.model.Scenario" />
+	<import class="com.liferay.sample.model.Simulation" />
+	<class name="com.liferay.sample.model.impl.RequestImpl" table="StressTool_Request">
+		<cache usage="read-write" />
+		<id name="request_id" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="scenario_id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="rate" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.liferay.sample.model.impl.ScenarioImpl" table="StressTool_Scenario">
+		<cache usage="read-write" />
+		<id name="scenario_id" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="simulation_id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="com.liferay.sample.model.impl.SimulationImpl" table="StressTool_Simulation">
+		<cache usage="read-write" />
+		<id name="simulation_id" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+</hibernate-mapping>
