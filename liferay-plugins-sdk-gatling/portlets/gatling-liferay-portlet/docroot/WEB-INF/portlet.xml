@@ -10,7 +10,7 @@
 		</portlet-class>
 		<init-param>
 			<name>view-template</name>
-			<value>/html/gatling/view.jsp</value>
+			<value>/html/portlet/gatling/view.jsp</value>
 		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
@@ -18,7 +18,7 @@
 			<portlet-mode>view</portlet-mode>
 		</supports>
 		<portlet-info>
-			<title>Gatling</title>
+			<title>Stress Tool</title>
 			<short-title>Gatling</short-title>
 			<keywords></keywords>
 		</portlet-info>

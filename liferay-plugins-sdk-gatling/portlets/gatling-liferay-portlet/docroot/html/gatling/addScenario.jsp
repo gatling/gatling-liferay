@@ -54,8 +54,10 @@
 			<td>
 			<aui:select name="url" id="url">
 				<aui:option selected=""> -- </aui:option>
-				<c:forEach items="<%= listUrls%>" var="u" varStatus="boucle">
-					<aui:option>${u} </aui:option>
+				<c:forEach var="page" items="${pageSiteWrapper}">
+				
+					<aui:option label="${page.label}" value="${page.value}" />
+
 				</c:forEach>
 		
 			</aui:select>
