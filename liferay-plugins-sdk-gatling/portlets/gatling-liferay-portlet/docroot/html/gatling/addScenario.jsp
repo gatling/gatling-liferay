@@ -1,11 +1,6 @@
 <%@include file="/html/gatling/header.jsp" %>
 
 <%
-	//url list send by the controler
-	List<String> listUrls = new ArrayList<String>();
-	listUrls.add("www.google.fr");
-	listUrls.add("www.excilys.com");
-	listUrls.add("www.liferay.com");
 	Request urlRequest = null;
 	if((request.getParameter("urlToAdd") != null)&&(request.getParameter("urlRate") != null)){
 		urlRequest =null;
@@ -59,16 +54,14 @@
 		<tr> <aui:input type="text" name="nameScenario" /></tr>
 		<tr>
 			<td>
-
-			<aui:select name="url" id="url">
-				<aui:option selected=""> -- </aui:option>
-				<c:forEach var="page" items="${pageSiteWrapper}">
-				
-					<aui:option label="${page.label}" value="${page.value}" />
-
-				</c:forEach>
-		
-			</aui:select>
+				<aui:select name="url" id="url">
+					<aui:option selected=""> -- </aui:option>
+					<c:forEach var="page" items='<%= ParamUtil.getString(request,"pageSiteWrapper") %>'>
+					
+						<aui:option label="${page.label}" value="${page.value}" />
+	
+					</c:forEach>
+				</aui:select>
 			</td>
 			
 			<td>
