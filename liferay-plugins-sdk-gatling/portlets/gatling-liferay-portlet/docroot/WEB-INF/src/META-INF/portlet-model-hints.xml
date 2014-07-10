@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.liferay.sample.model.Request">
+		<field name="request_id" type="long" />
+		<field name="scenario_id" type="long" />
+		<field name="url" type="String" />
+		<field name="rate" type="int" />
+	</model>
+	<model name="com.liferay.sample.model.Scenario">
+		<field name="scenario_id" type="long" />
+		<field name="name" type="String" />
+		<field name="simulation_id" type="long" />
+	</model>
+	<model name="com.liferay.sample.model.Simulation">
+		<field name="simulation_id" type="long" />
+		<field name="name" type="String" />
+	</model>
+</model-hints>
