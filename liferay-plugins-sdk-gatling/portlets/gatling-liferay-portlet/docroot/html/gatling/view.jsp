@@ -4,6 +4,7 @@
 	String redirect = PortalUtil.getCurrentURL(renderRequest);	
 %>
 
+<div class="right_column">
 <aui:button-row>
 	<portlet:renderURL var="addSimulationURL">
 		<portlet:param name="mvcPath" value="/html/gatling/addSimulation.jsp" />
@@ -13,3 +14,7 @@
 
 	<aui:button value="add-simulation" onClick="<%= addSimulationURL.toString() %>"/>
 </aui:button-row>
+</div>
+<div class="left_column">
+<%-- 	<%@include file="/html/gatling/viewSimulationsList.jsp" %> --%>
+</div>

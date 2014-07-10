@@ -26,17 +26,24 @@
 	
 	function <portlet:namespace/>addRequest()
 	{
-		alert("add request"+listUrlToStress);
-		var u = document.getElementById("url").value;
-		var r = Integer.parseInt(document.getElementById("rate").value);
-		location.href="addScenario.jsp?urlToAdd="+u+"&urlRate="+r; 
+		alert("add request ");
+		var A = AUI();		
+		var u = A.one('#url');
+		var r = A.one('#rate');
+		if(u==null){
+			console.log("impossible de récupérer l'elmt");
+		}
+		else{
+			console.log("url sellectionnée ");
+			}
+<!-- 		location.href="addRequest?urlToAdd="+u+"&urlRate="+r;  -->
 	}
 	
-	function <portlet:namespace/>addScenario()
-	{
-		alert("scenario added"); 
-		
-	}
+<%-- 	function <portlet:namespace/>addScenario() --%>
+<!-- 	{ -->
+<!-- 		alert("scenario added");  -->
+<%-- 		<portlet:namespace/>hideForm(); --%>
+<!-- 	} -->
 	
 </aui:script>
 
@@ -52,8 +59,8 @@
 		<tr> <aui:input type="text" name="nameScenario" /></tr>
 		<tr>
 			<td>
-			<aui:select name="url" id="url">
-				<aui:option selected=""> -- </aui:option>
+			<aui:select name="url" class="url" id="url" >
+				<aui:option selected="true"> -- </aui:option>
 				<c:forEach items="<%= listUrls%>" var="u" varStatus="boucle">
 					<aui:option>${u} </aui:option>
 				</c:forEach>
@@ -62,7 +69,7 @@
 			</td>
 			
 			<td>
-			<aui:input name="rate" id="rate">
+			<aui:input name="rate" id="rate" class="rate">
 				<aui:validator name="digits" />
 				<aui:validator name="range" > [0,100] </aui:validator>
 <%-- 				<aui:validator errorMessage="total-stess-rate-must-be-maximum-100% " name="custom">  --%>
@@ -75,7 +82,7 @@
 			</td>
 			<td>
 				<aui:button-row>
-					<aui:button type="submit" value="stress" onClick="<%= renderResponse.getNamespace() + \"addRequest()\"%>"/>
+					<aui:button type="button" value="Add Request" onClick="<%= renderResponse.getNamespace() + \"addRequest()\"%>"/>
 				</aui:button-row>
 			</td>
 		</tr>

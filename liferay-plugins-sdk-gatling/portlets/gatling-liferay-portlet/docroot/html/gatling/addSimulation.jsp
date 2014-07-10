@@ -2,7 +2,6 @@
 
 <%
 	String redirect = ParamUtil.getString(request, "redirect");
-	List<Scenario> lstScenario = new ArrayList<Scenario>();
 %>
 
 <aui:script >
@@ -15,13 +14,11 @@
 
 </aui:script> 
 
-
-<c:if test="lstScenario.size() != 0"> <%=lstScenario %>  pas vide</c:if>
 <aui:form action="" method="POST" name="formulaire-simulation">
 	<aui:fieldset>
 		<aui:input type="hidden" name="redirect" value="<%= redirect %>" />
 
-		<aui:input name="nameSimulation" />
+		<aui:input type="text" name="nameSimulation" />
 		
 		<aui:button-row>
 			<portlet:renderURL var="addScenarioURL">
