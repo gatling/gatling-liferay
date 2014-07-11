@@ -1,27 +1,25 @@
 package com.excilys.liferay.gatling;
 
-import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.service.GroupLocalServiceUtil;
-import com.liferay.portal.service.LayoutLocalServiceUtil;
-import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.sample.model.Request;
 import com.liferay.sample.model.Scenario;
+import com.liferay.sample.model.Simulation;
+import com.liferay.sample.service.RequestLocalServiceUtil;
 import com.liferay.sample.service.ScenarioLocalServiceUtil;
-import com.liferay.sample.service.persistence.ScenarioPersistence;
+import com.liferay.sample.service.SimulationLocalServiceUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -31,18 +29,82 @@ import javax.portlet.RenderResponse;
  */
 public class GatlingPortlet extends MVCPortlet {
 
+
+	private static Log log = LogFactoryUtil.getLog(GatlingPortlet.class);
+
+
+	/**
+	 * Adds a new Simulation to the database.
+	 * 
+	 */
+	public void addSimulation(ActionRequest request, ActionResponse response)
+			throws Exception {
+		long primaryKey = CounterLocalServiceUtil.increment(Simulation.class.getName());	
+		Simulation simulation = SimulationLocalServiceUtil.createSimulation(primaryKey);
+		if(!ParamUtil.getString(request, "simulationName").isEmpty()) {
+			simulation.setName(ParamUtil.getString(request, "simulationName"));
+			SimulationLocalServiceUtil.addSimulation(simulation);
+		}
+		else {
+			SessionErrors.add(request, "simulation-name-error");
+			sendRedirect(request, response);
+		}
+	}	
+
+	/**
+	 * Adds a new Scenario to the database.
+	 * 
+	 */
+	public void addScenario(ActionRequest request, ActionResponse response)
+			throws Exception {
+		long primaryKey = CounterLocalServiceUtil.increment(Scenario.class.getName());
+		Scenario scenario =ScenarioLocalServiceUtil.createScenario(primaryKey);
+		scenario.setName(ParamUtil.getString(request, "scenarioName"));
+		scenario.setSimulation_id(ParamUtil.getLong(request, "simulationId"));
+
+		ScenarioLocalServiceUtil.addScenario(scenario);
+	}
+
+	/**
+	 * Adds a new Request to the database.
+	 * 
+	 */
+	public void addRequest(ActionRequest request, ActionResponse response)
+			throws Exception {
+		long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
+		Request requestScenario = RequestLocalServiceUtil.createRequest(primaryKey);
+		requestScenario.setScenario_id(ParamUtil.getLong(request, "scenarioId"));
+		requestScenario.setUrl(ParamUtil.getString(request, "url"));
+		requestScenario.setRate(ParamUtil.getInteger(request, "rate"));
+
+		RequestLocalServiceUtil.addRequest(requestScenario);
+		
+	}
 	
-	Log l = LogFactoryUtil.getLog("l");
-	
-
-
-
+	public void editSimulation(ActionRequest request, ActionResponse response)
+			throws Exception {
+		response.setRenderParameter("jspPage", "/html/gatling/editSimulation.jsp"); 
+	}
 
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
+		String page = ParamUtil.get(renderRequest, "mvcPath", "");
 
+		/* liste des simulations */
+		if(page.isEmpty() || page.equals("list-simulation")) {
+			List<Simulation> list = new ArrayList<>();
+			try {
+				list = SimulationLocalServiceUtil.getSimulations(0, SimulationLocalServiceUtil.getSimulationsCount());
+			} catch (SystemException e) {
+				e.printStackTrace();
+			}
+			renderRequest.setAttribute("listSimulation", list);
+		}
 
-		
+		super.doView(renderRequest, renderResponse);
+
+		/*
+		 * TODO : Remettre au bon endroit
 		try {
 			
 			int sizeGroups  = GroupLocalServiceUtil.getGroupsCount();
@@ -73,9 +135,8 @@ public class GatlingPortlet extends MVCPortlet {
 			e.printStackTrace();
 		}finally {
 			super.doView(renderRequest, renderResponse);
-		}
-		
-		
-	}
 
+		}*/
+
+	}
 }

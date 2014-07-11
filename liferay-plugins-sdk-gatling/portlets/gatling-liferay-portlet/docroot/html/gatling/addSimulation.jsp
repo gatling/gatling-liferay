@@ -1,9 +1,17 @@
+<%@page import="com.excilys.liferay.gatling.PageSiteWrapper"%>
 <%@include file="/html/gatling/header.jsp" %>
 
 <%
 	String redirect = ParamUtil.getString(request, "redirect");
-	List<Scenario> lstScenario = new ArrayList<Scenario>();
+	if(ParamUtil.getString(request,"pageSiteWrapper") != null ){
+		System.out.println("wraper pas vide dans addSimulation + "+ParamUtil.getString(request,"pageSiteWrapper"));
+	}
+	if(request.getAttribute("pageSiteWrapper")  !=null){
+		System.out.println("attribut de la requette pas vide");
+	}
 %>
+
+<c:if test="${ pageSiteWrapper != null }">pageSiteWrapper pas vide dans simulation.jsp </c:if>
 
 <aui:script >
 
@@ -16,12 +24,11 @@
 </aui:script> 
 
 
-<c:if test="lstScenario.size() != 0"> <%=lstScenario %>  pas vide</c:if>
 <aui:form action="" method="POST" name="formulaire-simulation">
 	<aui:fieldset>
 		<aui:input type="hidden" name="redirect" value="<%= redirect %>" />
 
-		<aui:input name="nameSimulation" />
+		<aui:input type="text" name="nameSimulation" />
 		
 		<aui:button-row>
 			<portlet:renderURL var="addScenarioURL">
