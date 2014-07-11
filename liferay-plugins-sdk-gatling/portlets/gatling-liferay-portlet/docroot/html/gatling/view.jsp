@@ -1,7 +1,7 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 <div>
-	<h3>Liste des scénarios enregistrés (${listSimulation.size()})</h3>
+	<h3>Liste des simulations enregistrés (${listSimulation.size()})</h3>
 	<c:choose>
 		<c:when test="${empty listSimulation}">
 			<p>Il n'y a pas de simulations d'enregistrés !</p>

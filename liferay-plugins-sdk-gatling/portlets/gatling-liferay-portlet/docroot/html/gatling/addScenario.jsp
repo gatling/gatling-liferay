@@ -1,101 +1,49 @@
 <%@include file="/html/gatling/header.jsp" %>
 
 <%
-	Request urlRequest = null;
-	if((request.getParameter("urlToAdd") != null)&&(request.getParameter("urlRate") != null)){
-		urlRequest =null;
-	}
-	
-	Scenario scenario = null;
-	List<Request> listUrlToStress = new ArrayList<Request>();
-	int totalRate = 0;
+	String redirect = ParamUtil.getString(request, "redirect");
+
 %>
 
-<aui:script>
+<aui:script >
 
-	function <portlet:namespace/>hideForm(){
-		alert("cacher le formulaire ajout scenario");
-		var A = AUI();
-		A.one('#scenario').hide();		
-	}
-	
-	function <portlet:namespace/>addRequest()
+	function <portlet:namespace/>RecupRequestForm()
 	{
-		alert("add request ");
-		var A = AUI();		
-		var u = A.one('#url');
-		var r = A.one('#rate');
-		if(u==null){
-			console.log("impossible de récupérer l'elmt");
-		}
-		else{
-			console.log("url sellectionnée ");
-			}
-<!-- 		location.href="addRequest?urlToAdd="+u+"&urlRate="+r;  -->
+		var A = AUI();
+		A.one('#request').show();
 	}
-	
-<%-- 	function <portlet:namespace/>addScenario() --%>
-<!-- 	{ -->
-<!-- 		alert("scenario added");  -->
-<%-- 		<portlet:namespace/>hideForm(); --%>
-<!-- 	} -->
-	
-</aui:script>
 
-<aui:model-context bean="<%= scenario %>" model="<%= Scenario.class %>" />
-<aui:model-context bean="<%= urlRequest %>" model="<%= Request.class %>" />
+</aui:script> 
+
 
 <aui:form action="" method="POST" name="formulaire-scenario">
 	<aui:fieldset>
-	
+		<aui:input type="hidden" name="redirect" value="<%= redirect %>" />
+
+		<aui:input type="text" name="nameScenario" />
 		
+		<aui:button-row>
+			<portlet:renderURL var="addRequestURL">
+				<portlet:param name="mvcPath" value="/html/gatling/addRequest.jsp" />
+				<portlet:param name="redirect" value="<%= redirect %>" />
+				<portlet:param name="p_p_isolated" value="1" />
+			</portlet:renderURL>
+			<aui:button value="add-request" onClick="<%= renderResponse.getNamespace() + \"RecupRequestForm()\"%>"/>
+		</aui:button-row>
 		
-		<table>
-		<tr> <aui:input type="text" name="nameScenario" /></tr>
-		<tr>
-			<td>
-				<aui:select name="url" id="url">
-					<aui:option selected=""> -- </aui:option>
-					<c:forEach var="page" items='<%= ParamUtil.getString(request,"pageSiteWrapper") %>'>
-					
-						<aui:option label="${page.label}" value="${page.value}" />
-	
-					</c:forEach>
-				</aui:select>
-			</td>
-			
-			<td>
-			<aui:input name="rate" id="rate" class="rate">
-				<aui:validator name="digits" />
-				<aui:validator name="range" > [0,100] </aui:validator>
-<%-- 				<aui:validator errorMessage="total-stess-rate-must-be-maximum-100% " name="custom">  --%>
-<!-- 					function(val, fieldNode, ruleValue){ -->
-<!-- 						totalRate += val; -->
-<!-- 						return ( totalRate == 100 ) ; -->
-<!-- 					} -->
-<%-- 				</aui:validator> --%>
-			</aui:input>
-			</td>
-			<td>
-				<aui:button-row>
-					<aui:button type="button" value="Add Request" onClick="<%= renderResponse.getNamespace() + \"addRequest()\"%>"/>
-				</aui:button-row>
-			</td>
-		</tr>
-		</table>
+		<div id="request" class="request" hidden="true">
+			<%@include file="/html/gatling/addRequest.jsp" %>
+		</div>
+
 	</aui:fieldset>
-	
-	
-	<c:if test="${ listUrlToStress.size() != 0 }">
-		<table>
-			<c:forEach items="<%= listUrlToStress%>" var="urlToStress" varStatus="boucle">
-				<tr> <td>${urlToStress.url} </td> <td>${urlToStress.rate} </td></tr>
-			</c:forEach>
-		</table>
-	</c:if>
 
 	<aui:button-row>
-		<aui:button type="submit" value="addScenario" onClick="<%= renderResponse.getNamespace() + \"addScenario()\"%>"/>
-		<aui:button type="cancel"  onClick="<%= renderResponse.getNamespace() + \"hideForm()\"%>" />
+		<aui:button type="submit" value="addScenario"/>
+		<portlet:renderURL var="homeURL">
+			<portlet:param name="mvcPath" value="/html/gatling/view.jsp" />
+			<portlet:param name="redirect" value="<%= redirect %>" />
+			<portlet:param name="p_p_isolated" value="1" />
+		</portlet:renderURL>
+		<aui:button type="cancel"  onClick="<%= homeURL.toString() %>" />
 	</aui:button-row>
 </aui:form>
