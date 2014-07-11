@@ -87,6 +87,20 @@ public interface ScenarioModel extends BaseModel<Scenario> {
 	public void setName(String name);
 
 	/**
+	 * Returns the group_id of this scenario.
+	 *
+	 * @return the group_id of this scenario
+	 */
+	public long getGroup_id();
+
+	/**
+	 * Sets the group_id of this scenario.
+	 *
+	 * @param group_id the group_id of this scenario
+	 */
+	public void setGroup_id(long group_id);
+
+	/**
 	 * Returns the simulation_id of this scenario.
 	 *
 	 * @return the simulation_id of this scenario

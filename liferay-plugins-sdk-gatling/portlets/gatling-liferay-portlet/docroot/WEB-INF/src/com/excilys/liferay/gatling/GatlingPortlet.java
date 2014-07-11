@@ -1,11 +1,19 @@
 package com.excilys.liferay.gatling;
 
 import com.liferay.counter.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.model.Group;
+import com.liferay.portal.model.GroupConstants;
+import com.liferay.portal.service.GroupLocalServiceUtil;
+import com.liferay.portal.service.GroupServiceUtil;
 import com.liferay.sample.model.Request;
 import com.liferay.sample.model.Scenario;
 import com.liferay.sample.model.Simulation;
@@ -23,6 +31,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.FilterRegistration.Dynamic;
 
 /**
  * Portlet implementation class GatlingPortlet
@@ -75,11 +84,16 @@ public class GatlingPortlet extends MVCPortlet {
 	public void addScenario(ActionRequest request, ActionResponse response)
 			throws Exception {
 		long primaryKey = CounterLocalServiceUtil.increment(Scenario.class.getName());
-		Scenario scenario =ScenarioLocalServiceUtil.createScenario(primaryKey);
+		Scenario scenario = ScenarioLocalServiceUtil.createScenario(primaryKey);
 		scenario.setName(ParamUtil.getString(request, "scenarioName"));
 		scenario.setSimulation_id(ParamUtil.getLong(request, "simulationId"));
 
 		ScenarioLocalServiceUtil.addScenario(scenario);
+		
+		Simulation simulation = SimulationLocalServiceUtil.getSimulation(ParamUtil.getLong(request, "simulationId"));
+		//TODO: récuperer liste sscenario
+		request.setAttribute("simulation", simulation);
+		response.setRenderParameter("jspPage", "/html/gatling/editSimulation.jsp");
 	}
 
 	/**
@@ -118,8 +132,7 @@ public class GatlingPortlet extends MVCPortlet {
 	public void editSimulation(ActionRequest request, ActionResponse response)
 			throws Exception {
 
-		Long id = (Long) request.getAttribute("simulationId");
-		
+		Long id = (Long) ParamUtil.getLong(request, "simulationId");
 		List<Scenario> ls =new ArrayList<Scenario>();
 		try {
 			ls.addAll(ScenarioLocalServiceUtil.findBySimulationId(id));
@@ -131,7 +144,7 @@ public class GatlingPortlet extends MVCPortlet {
 			e.printStackTrace();
 		}
 		request.setAttribute("listscenario", ls);
-		
+		request.setAttribute("simulationId", id);
 		response.setRenderParameter("jspPage", "/html/gatling/editSimulation.jsp"); 
 	}
 
@@ -149,9 +162,40 @@ public class GatlingPortlet extends MVCPortlet {
 				e.printStackTrace();
 			}
 			renderRequest.setAttribute("listSimulation", list);
-		}
-		else if(page.equals(jspEditSimulation)) {
-			log.info("hello from doview");
+		} else if(page.equals(jspEditSimulation)) { // page de scenarios
+			
+
+			Long id = (Long) ParamUtil.getLong(renderRequest, "simulationId");
+
+			log.info("id simulation:" +id);
+			Simulation simulation;
+			try {
+				simulation = SimulationLocalServiceUtil.getSimulation(id);
+				renderRequest.setAttribute("simulation", simulation);
+			} catch (PortalException | SystemException e1) {
+				e1.printStackTrace();
+			}
+			
+			List<Scenario> ls = new ArrayList<Scenario>();
+			try {
+				ls.addAll(ScenarioLocalServiceUtil.findBySimulationId(id));
+				int sizeLs = ls.size();
+				
+				/*recupere la liste des sites*/				
+				DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Group.class)
+						.add(PropertyFactoryUtil.forName("type").ne(0))
+						.add(PropertyFactoryUtil.forName("site").eq(true))
+						.add(PropertyFactoryUtil.forName("active").eq(true));
+				
+				List<Group> listGroups = (List<Group>) GroupLocalServiceUtil.dynamicQuery(dq);
+				renderRequest.setAttribute("listGroup", listGroups);
+				
+			} catch (SystemException e) {
+				e.printStackTrace();
+			}
+			
+			renderRequest.setAttribute("listscenario", ls);
+			
 		}
 		/* on redirige sur la jsp de page */
 		include(page, renderRequest, renderResponse);
@@ -191,4 +235,7 @@ public class GatlingPortlet extends MVCPortlet {
 		}*/
 
 	}
+	
+	
+	
 }

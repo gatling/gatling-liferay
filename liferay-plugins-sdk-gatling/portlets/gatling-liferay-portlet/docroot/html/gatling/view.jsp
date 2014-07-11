@@ -1,6 +1,7 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 <div>
+
 	<h3><liferay-ui:message key="simulation-list-header"/></h3>
 	<c:choose>
 		<c:when test="${empty listSimulation}">

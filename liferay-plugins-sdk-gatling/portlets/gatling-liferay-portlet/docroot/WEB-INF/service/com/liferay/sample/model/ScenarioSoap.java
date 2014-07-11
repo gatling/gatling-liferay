@@ -31,6 +31,7 @@ public class ScenarioSoap implements Serializable {
 
 		soapModel.setScenario_id(model.getScenario_id());
 		soapModel.setName(model.getName());
+		soapModel.setGroup_id(model.getGroup_id());
 		soapModel.setSimulation_id(model.getSimulation_id());
 
 		return soapModel;
@@ -100,6 +101,14 @@ public class ScenarioSoap implements Serializable {
 		_name = name;
 	}
 
+	public long getGroup_id() {
+		return _group_id;
+	}
+
+	public void setGroup_id(long group_id) {
+		_group_id = group_id;
+	}
+
 	public long getSimulation_id() {
 		return _simulation_id;
 	}
@@ -110,5 +119,6 @@ public class ScenarioSoap implements Serializable {
 
 	private long _scenario_id;
 	private String _name;
+	private long _group_id;
 	private long _simulation_id;
 }

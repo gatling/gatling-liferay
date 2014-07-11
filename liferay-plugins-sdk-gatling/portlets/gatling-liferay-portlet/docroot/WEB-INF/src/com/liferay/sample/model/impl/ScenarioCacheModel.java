@@ -35,12 +35,14 @@ import java.io.ObjectOutput;
 public class ScenarioCacheModel implements CacheModel<Scenario>, Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(7);
+		StringBundler sb = new StringBundler(9);
 
 		sb.append("{scenario_id=");
 		sb.append(scenario_id);
 		sb.append(", name=");
 		sb.append(name);
+		sb.append(", group_id=");
+		sb.append(group_id);
 		sb.append(", simulation_id=");
 		sb.append(simulation_id);
 		sb.append("}");
@@ -61,6 +63,7 @@ public class ScenarioCacheModel implements CacheModel<Scenario>, Externalizable 
 			scenarioImpl.setName(name);
 		}
 
+		scenarioImpl.setGroup_id(group_id);
 		scenarioImpl.setSimulation_id(simulation_id);
 
 		scenarioImpl.resetOriginalValues();
@@ -72,6 +75,7 @@ public class ScenarioCacheModel implements CacheModel<Scenario>, Externalizable 
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		scenario_id = objectInput.readLong();
 		name = objectInput.readUTF();
+		group_id = objectInput.readLong();
 		simulation_id = objectInput.readLong();
 	}
 
@@ -87,10 +91,12 @@ public class ScenarioCacheModel implements CacheModel<Scenario>, Externalizable 
 			objectOutput.writeUTF(name);
 		}
 
+		objectOutput.writeLong(group_id);
 		objectOutput.writeLong(simulation_id);
 	}
 
 	public long scenario_id;
 	public String name;
+	public long group_id;
 	public long simulation_id;
 }
