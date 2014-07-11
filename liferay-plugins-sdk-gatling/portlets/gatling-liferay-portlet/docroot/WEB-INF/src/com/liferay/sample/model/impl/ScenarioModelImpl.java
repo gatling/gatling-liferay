@@ -75,7 +75,11 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.finder.cache.enabled.com.liferay.sample.model.Scenario"),
 			true);
-	public static final boolean COLUMN_BITMASK_ENABLED = false;
+	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
+				"value.object.column.bitmask.enabled.com.liferay.sample.model.Scenario"),
+			true);
+	public static long SIMULATION_ID_COLUMN_BITMASK = 1L;
+	public static long SCENARIO_ID_COLUMN_BITMASK = 2L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.liferay.sample.model.Scenario"));
 
@@ -176,7 +180,23 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 
 	@Override
 	public void setSimulation_id(long simulation_id) {
+		_columnBitmask |= SIMULATION_ID_COLUMN_BITMASK;
+
+		if (!_setOriginalSimulation_id) {
+			_setOriginalSimulation_id = true;
+
+			_originalSimulation_id = _simulation_id;
+		}
+
 		_simulation_id = simulation_id;
+	}
+
+	public long getOriginalSimulation_id() {
+		return _originalSimulation_id;
+	}
+
+	public long getColumnBitmask() {
+		return _columnBitmask;
 	}
 
 	@Override
@@ -259,6 +279,13 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 
 	@Override
 	public void resetOriginalValues() {
+		ScenarioModelImpl scenarioModelImpl = this;
+
+		scenarioModelImpl._originalSimulation_id = scenarioModelImpl._simulation_id;
+
+		scenarioModelImpl._setOriginalSimulation_id = false;
+
+		scenarioModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -328,5 +355,8 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 	private long _scenario_id;
 	private String _name;
 	private long _simulation_id;
+	private long _originalSimulation_id;
+	private boolean _setOriginalSimulation_id;
+	private long _columnBitmask;
 	private Scenario _escapedModel;
 }

@@ -275,6 +275,12 @@ public class ScenarioLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	public static java.util.List<com.liferay.sample.model.Scenario> findBySimulationId(
+		long simulationId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findBySimulationId(simulationId);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

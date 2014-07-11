@@ -247,7 +247,7 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
 	}
 
 	@Override
-	public int compareTo(Request request) {
+	public int compareTo(com.liferay.sample.model.Request request) {
 		return _request.compareTo(request);
 	}
 
@@ -257,17 +257,17 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<Request> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<com.liferay.sample.model.Request> toCacheModel() {
 		return _request.toCacheModel();
 	}
 
 	@Override
-	public Request toEscapedModel() {
+	public com.liferay.sample.model.Request toEscapedModel() {
 		return new RequestWrapper(_request.toEscapedModel());
 	}
 
 	@Override
-	public Request toUnescapedModel() {
+	public com.liferay.sample.model.Request toUnescapedModel() {
 		return new RequestWrapper(_request.toUnescapedModel());
 	}
 
