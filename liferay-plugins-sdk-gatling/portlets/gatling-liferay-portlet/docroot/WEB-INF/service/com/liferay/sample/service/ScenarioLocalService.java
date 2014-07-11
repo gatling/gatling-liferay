@@ -244,4 +244,8 @@ public interface ScenarioLocalService extends BaseLocalService,
 	public java.lang.Object invokeMethod(java.lang.String name,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
+
+	public java.util.List<com.liferay.sample.model.Scenario> findBySimulationId(
+		long simulationId)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

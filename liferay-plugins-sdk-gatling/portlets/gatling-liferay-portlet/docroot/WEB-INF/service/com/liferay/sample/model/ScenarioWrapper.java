@@ -220,7 +220,7 @@ public class ScenarioWrapper implements Scenario, ModelWrapper<Scenario> {
 	}
 
 	@Override
-	public int compareTo(Scenario scenario) {
+	public int compareTo(com.liferay.sample.model.Scenario scenario) {
 		return _scenario.compareTo(scenario);
 	}
 
@@ -230,17 +230,17 @@ public class ScenarioWrapper implements Scenario, ModelWrapper<Scenario> {
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<Scenario> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<com.liferay.sample.model.Scenario> toCacheModel() {
 		return _scenario.toCacheModel();
 	}
 
 	@Override
-	public Scenario toEscapedModel() {
+	public com.liferay.sample.model.Scenario toEscapedModel() {
 		return new ScenarioWrapper(_scenario.toEscapedModel());
 	}
 
 	@Override
-	public Scenario toUnescapedModel() {
+	public com.liferay.sample.model.Scenario toUnescapedModel() {
 		return new ScenarioWrapper(_scenario.toUnescapedModel());
 	}
 

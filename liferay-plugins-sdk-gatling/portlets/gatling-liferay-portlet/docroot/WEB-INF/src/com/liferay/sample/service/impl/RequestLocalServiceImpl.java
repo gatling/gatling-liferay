@@ -14,7 +14,11 @@
 
 package com.liferay.sample.service.impl;
 
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.sample.model.Request;
 import com.liferay.sample.service.base.RequestLocalServiceBaseImpl;
+
+import java.util.List;
 
 /**
  * The implementation of the request local service.
@@ -36,4 +40,12 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.liferay.sample.service.RequestLocalServiceUtil} to access the request local service.
 	 */
+	
+	
+	@Override
+	public List<Request> findByScenarioId(long scenarioId) throws SystemException{
+		
+			return requestPersistence.findByScenarioId(scenarioId);
+		
+	}
 }

@@ -76,7 +76,11 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.finder.cache.enabled.com.liferay.sample.model.Request"),
 			true);
-	public static final boolean COLUMN_BITMASK_ENABLED = false;
+	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
+				"value.object.column.bitmask.enabled.com.liferay.sample.model.Request"),
+			true);
+	public static long SCENARIO_ID_COLUMN_BITMASK = 1L;
+	public static long REQUEST_ID_COLUMN_BITMASK = 2L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.liferay.sample.model.Request"));
 
@@ -169,7 +173,19 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
 	@Override
 	public void setScenario_id(long scenario_id) {
+		_columnBitmask |= SCENARIO_ID_COLUMN_BITMASK;
+
+		if (!_setOriginalScenario_id) {
+			_setOriginalScenario_id = true;
+
+			_originalScenario_id = _scenario_id;
+		}
+
 		_scenario_id = scenario_id;
+	}
+
+	public long getOriginalScenario_id() {
+		return _originalScenario_id;
 	}
 
 	@Override
@@ -195,6 +211,10 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 	@Override
 	public void setRate(int rate) {
 		_rate = rate;
+	}
+
+	public long getColumnBitmask() {
+		return _columnBitmask;
 	}
 
 	@Override
@@ -278,6 +298,13 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
 	@Override
 	public void resetOriginalValues() {
+		RequestModelImpl requestModelImpl = this;
+
+		requestModelImpl._originalScenario_id = requestModelImpl._scenario_id;
+
+		requestModelImpl._setOriginalScenario_id = false;
+
+		requestModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -354,7 +381,10 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 		};
 	private long _request_id;
 	private long _scenario_id;
+	private long _originalScenario_id;
+	private boolean _setOriginalScenario_id;
 	private String _url;
 	private int _rate;
+	private long _columnBitmask;
 	private Request _escapedModel;
 }

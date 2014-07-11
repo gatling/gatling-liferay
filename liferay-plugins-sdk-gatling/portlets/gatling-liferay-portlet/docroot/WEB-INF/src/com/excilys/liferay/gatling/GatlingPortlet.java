@@ -29,7 +29,9 @@ import javax.portlet.RenderResponse;
  */
 public class GatlingPortlet extends MVCPortlet {
 
+
 	private static Log log = LogFactoryUtil.getLog(GatlingPortlet.class);
+
 
 	/**
 	 * Adds a new Simulation to the database.
@@ -113,13 +115,30 @@ public class GatlingPortlet extends MVCPortlet {
 			long groupId = 10184;
 
 			List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false);
-
 			renderRequest.setAttribute("setGroup", listGroups);
 			renderRequest.setAttribute("listLayout", listLayouts);
+			
+
+			
+			List<Scenario> ls =new ArrayList<Scenario>();
+			try {
+				ls.addAll(ScenarioLocalServiceUtil.findBySimulationId(1));
+				l.info(ls.get(0).getName());
+				int sizeLs = ls.size();
+				l.info(ls.get(sizeLs-1).getName());
+				
+			} catch (SystemException e) {
+				e.printStackTrace();
+			}
+			renderRequest.setAttribute("ls", ls);
+			
+			
 		} catch (SystemException e) {
 			e.printStackTrace();
 		}finally {
 			super.doView(renderRequest, renderResponse);
+
 		}*/
+
 	}
 }

@@ -280,6 +280,13 @@ public class RequestLocalServiceWrapper implements RequestLocalService,
 		return _requestLocalService.invokeMethod(name, parameterTypes, arguments);
 	}
 
+	@Override
+	public java.util.List<com.liferay.sample.model.Request> findByScenarioId(
+		long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _requestLocalService.findByScenarioId(scenarioId);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */
