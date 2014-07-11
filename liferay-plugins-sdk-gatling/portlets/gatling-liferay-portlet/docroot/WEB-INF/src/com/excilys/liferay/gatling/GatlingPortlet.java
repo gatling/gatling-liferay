@@ -86,7 +86,44 @@ public class GatlingPortlet extends MVCPortlet {
 		requestScenario.setRate(ParamUtil.getInteger(request, "rate"));
 
 		RequestLocalServiceUtil.addRequest(requestScenario);
+		
+	}
+	
+	public void editScenario(ActionRequest request, ActionResponse response)
+			throws Exception {
 
+		Long id = (Long) request.getAttribute("scenarioId");
+		
+		List<Request> ls =new ArrayList<Request>();
+		try {
+			ls.addAll(RequestLocalServiceUtil.findByScenarioId(id));
+			
+		} catch (SystemException e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("listrequest", ls);
+		
+		response.setRenderParameter("jspPage", "/html/gatling/editSimulation.jsp"); 
+	}
+	
+	public void editSimulation(ActionRequest request, ActionResponse response)
+			throws Exception {
+
+		Long id = (Long) request.getAttribute("simulationId");
+		
+		List<Scenario> ls =new ArrayList<Scenario>();
+		try {
+			ls.addAll(ScenarioLocalServiceUtil.findBySimulationId(id));
+			log.info(ls.get(0).getName());
+			int sizeLs = ls.size();
+			log.info(ls.get(sizeLs-1).getName());
+			
+		} catch (SystemException e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("listscenario", ls);
+		
+		response.setRenderParameter("jspPage", "/html/gatling/editSimulation.jsp"); 
 	}
 
 	@Override
@@ -96,7 +133,7 @@ public class GatlingPortlet extends MVCPortlet {
 		String page = ParamUtil.get(renderRequest, "page", jspListSimulation); 
 		/* liste des simulations */
 		if(page.isEmpty() || page.equals(jspListSimulation)) {
-			List<Simulation> list = new ArrayList<>();
+			List<Simulation> list = new ArrayList<Simulation>();
 			try {
 				list = SimulationLocalServiceUtil.getSimulations(0, SimulationLocalServiceUtil.getSimulationsCount());
 			} catch (SystemException e) {
