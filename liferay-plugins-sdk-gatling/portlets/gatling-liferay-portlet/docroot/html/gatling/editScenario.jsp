@@ -7,9 +7,31 @@
 	int totalRate = ParamUtil.getInteger(request,"totalRate");
 %>
 
+<script type="text/javascript">
+
+	function <portlet:namespace/>forcePoids()
+	{		
+		AUI().use('aui-base', function(A) {
+			var newVal = A.one('#<portlet:namespace/>poidForce').val();
+			if(newVal!=null){
+				A.all(':input').val(newVal);
+			}					
+	    });
+	}
+	
+	function <portlet:namespace/>showPoids()
+	{		
+		AUI().use('aui-base', function(A) {
+			A.all('.rate').show();	
+			var lst = A.all(':checked');
+		
+	    });
+	}
+</script>
+
 <aui:model-context bean="<%= scenario %>" model="<%= Scenario.class %>" />
 <aui:model-context bean="<%= urlRequest %>" model="<%= Request.class %>" />
-
+<%-- 				${layout.friendlyURL}"  --%>
 
 <portlet:renderURL var="addScenarioURL"/>
 <portlet:actionURL name="addRequest" var="addRequestURL" windowState="normal" />
@@ -17,56 +39,41 @@
 <aui:form action="<%= addScenarioURL %>" method="POST" name="formulaireScenario">
 	<aui:fieldset>
 		<aui:input type="hidden" name="total"  id="total" value="<%= totalRate %>" />	
-		<table>
-		<tr> <aui:input type="text" name="nameScenario" /></tr>
-		<tr>
+		<aui:input type="text" name="nameScenario" value="${scenarioName}"/>
+		<table>		
+			<tr><th></th><th>Page</th><th>weight</th> <th>weight(%) <th></tr>
 			
-			<aui:form action="" method="POST" name="formulaireRequest">
-				<td>
-					<aui:select name="url" id="url">
-						<aui:option selected=""> -- </aui:option>
-						<c:forEach var="layout" items='${ listLayout }'>
-						
-							<aui:option label="${layout.name}" value="${layout.friendlyURL}" />
-		
-						</c:forEach>
-					</aui:select>
-				</td>
-
-				<td>			
-				<aui:input name="rate" id="rate" class="rate" >
-					<aui:validator name="required"/>
-					<aui:validator name="range"> [0,100]</aui:validator>
-					<aui:validator errorMessage="total-stess-rate-must-be-100% " name="custom"> 
-						function(val, fieldNode, ruleValue){
-						var total = document.getElementById("<portlet:namespace />total")
-							console.log("total= "+total.value);
-							return ( (total.value + val) == 100 ) ;
-						}
-					</aui:validator>
-				</aui:input> 
-	
-				</td>
-			
-				<td>
-					<aui:button-row>					
-						<aui:button type="button" value="Add Request" onClick="<%= addRequestURL%>"/>
-					</aui:button-row>
-				</td>
-			</aui:form>
-		</tr>
-		</table>
-	</aui:fieldset>
-	
-	
-	<c:if test="${ listUrlToStress.size() != 0 }">
-		<table>
-			<c:forEach items="${ listUrlToStress }" var="urlToStress" varStatus="boucle">
-				<tr> <td>${urlToStress.url} </td> <td>${urlToStress.rate} </td></tr>
+			<c:forEach var="layout" items='${ listLayout }'>
+				<tr>
+					<td> <aui:input type="checkbox" name=""  onChange="<%= renderResponse.getNamespace() + \"showPoids()\"%>"/></td>
+					<td>${layout.name} </td>	
+					<td>
+						<aui:input  name="rate"  class="rate">
+							<aui:validator name="required" />
+							<aui:validator name="range"> [0,100]</aui:validator>
+							<aui:validator errorMessage="total-stess-rate-must-be-100% "
+								name="custom"> 
+							function(val, fieldNode, ruleValue){
+								var total = document.getElementById("<portlet:namespace />total");
+								console.log("total= "+total.value);
+								return ( (total.value + val) == 100 ) ;
+							}
+							</aui:validator>
+						</aui:input>
+					</td>
+					
+					<td><label>0%</label></td>
+				</tr>
 			</c:forEach>
 		</table>
-	</c:if>
-
+		<aui:input  type="text" name="poidForce" id="poidForce"> 
+			<aui:validator name="required"/>
+		</aui:input> 
+		<aui:button-row>
+		<aui:button type="button" value="Forcer le poids" onClick="<%= renderResponse.getNamespace() + \"forcePoids()\"%>"/>
+		</aui:button-row>
+		
+	</aui:fieldset>
 	<aui:button-row>
 		<aui:button type="submit" value="addScenario"/>
 		<portlet:renderURL var="homeURL">

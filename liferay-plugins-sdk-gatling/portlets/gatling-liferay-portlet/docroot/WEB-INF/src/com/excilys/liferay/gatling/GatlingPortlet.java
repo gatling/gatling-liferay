@@ -150,9 +150,7 @@ public class GatlingPortlet extends MVCPortlet {
 		log.info("addRequest contrôleur");
 		
 		ThemeDisplay themeDisplay =
-			(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-
-		
+			(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);		
 
 		//update request list of scenario
 		List<Request> listUrlToStress = (List<Request>) request.getAttribute("listUrlToStress");
@@ -167,7 +165,8 @@ public class GatlingPortlet extends MVCPortlet {
 		if(totalRate ==100){
 			log.info("total rate = 100 --> create request ");
 			//create request
-			Request newRequest = RequestLocalServiceUtil.createRequest(0);
+			long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
+			Request newRequest = RequestLocalServiceUtil.createRequest(primaryKey);
 			newRequest.setUrl(ParamUtil.getString(request, "url"));
 			newRequest.setRate(ParamUtil.getInteger(request, "rate"));
 			newRequest = RequestLocalServiceUtil.addRequest(newRequest);
@@ -179,14 +178,6 @@ public class GatlingPortlet extends MVCPortlet {
 		
 		sendRedirect(request, response);
 		
-		/* long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
-		Request requestScenario = RequestLocalServiceUtil.createRequest(primaryKey);
-		requestScenario.setScenario_id(ParamUtil.getLong(request, "scenarioId"));
-		requestScenario.setUrl(ParamUtil.getString(request, "url"));
-		requestScenario.setRate(ParamUtil.getInteger(request, "rate"));
-
-		RequestLocalServiceUtil.addRequest(requestScenario);
-		 */
 	}
 	
 	/**
@@ -199,11 +190,10 @@ public class GatlingPortlet extends MVCPortlet {
 		log.info("addScenario contrôleur");
 		
 		//create scenario
-		Scenario scenario = ScenarioLocalServiceUtil.createScenario(0);
-
+		long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
+		Scenario scenario = ScenarioLocalServiceUtil.createScenario(primaryKey);
 		scenario.setName(ParamUtil.getString(request, "name"));
-		scenario.setSimulation_id(ParamUtil.getLong(request, "simulation_id"));
-		
+		scenario.setSimulation_id(ParamUtil.getLong(request, "simulation_id"));		
 		scenario = ScenarioLocalServiceUtil.addScenario(scenario);
 
 		//update data in database 
