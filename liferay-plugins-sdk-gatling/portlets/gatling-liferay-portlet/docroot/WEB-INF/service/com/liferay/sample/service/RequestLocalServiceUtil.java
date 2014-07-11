@@ -273,6 +273,12 @@ public class RequestLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	public static java.util.List<com.liferay.sample.model.Request> findByScenarioId(
+		long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findByScenarioId(scenarioId);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

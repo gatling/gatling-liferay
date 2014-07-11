@@ -193,7 +193,7 @@ public class SimulationWrapper implements Simulation, ModelWrapper<Simulation> {
 	}
 
 	@Override
-	public int compareTo(Simulation simulation) {
+	public int compareTo(com.liferay.sample.model.Simulation simulation) {
 		return _simulation.compareTo(simulation);
 	}
 
@@ -203,17 +203,17 @@ public class SimulationWrapper implements Simulation, ModelWrapper<Simulation> {
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<Simulation> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<com.liferay.sample.model.Simulation> toCacheModel() {
 		return _simulation.toCacheModel();
 	}
 
 	@Override
-	public Simulation toEscapedModel() {
+	public com.liferay.sample.model.Simulation toEscapedModel() {
 		return new SimulationWrapper(_simulation.toEscapedModel());
 	}
 
 	@Override
-	public Simulation toUnescapedModel() {
+	public com.liferay.sample.model.Simulation toUnescapedModel() {
 		return new SimulationWrapper(_simulation.toUnescapedModel());
 	}
 

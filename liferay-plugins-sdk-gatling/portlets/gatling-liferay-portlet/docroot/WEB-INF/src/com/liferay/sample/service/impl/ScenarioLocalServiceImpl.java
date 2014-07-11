@@ -14,7 +14,11 @@
 
 package com.liferay.sample.service.impl;
 
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.sample.model.Scenario;
 import com.liferay.sample.service.base.ScenarioLocalServiceBaseImpl;
+
+import java.util.List;
 
 /**
  * The implementation of the scenario local service.
@@ -36,4 +40,10 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.liferay.sample.service.ScenarioLocalServiceUtil} to access the scenario local service.
 	 */
+	
+	
+	@Override
+	public List<Scenario> findBySimulationId(long simulationId) throws SystemException {
+		return scenarioPersistence.findBySimulationId(simulationId);
+	}
 }
