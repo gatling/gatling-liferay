@@ -7,11 +7,15 @@
 			<p>Il n'y a pas de simulations d'enregistrés !</p>
 		</c:when>
 		<c:otherwise>
-			<c:forEach items="${listSimulation}" var="scenario">
+			<c:forEach items="${listSimulation}" var="simulation">
 				<ul>
 					<li>
-						<c:out value="${scenario.name}"></c:out> 
-						<a href="#"><i class="icon-wrench"></i></a> 
+						<portlet:renderURL var="editSimulationURL">
+							<portlet:param name="mvcPath" value="/html/gatling/editSimulation.jsp"/>
+							<portlet:param name="simulationId" value="${simulation.simulation_id }"/>						
+						</portlet:renderURL>
+						<c:out value="${simulation.name}"></c:out> 
+						<a href="${editSimulationURL}"><i class="icon-wrench"></i></a>
 						<%--<a href="#"><i class="icon-trash"></i></a>--%>
 					</li>
 				</ul>
@@ -23,11 +27,10 @@
 <aui:button id="newSimulation" value="Ajouter Simulation"></aui:button>
 
 <%--redirect to addSimulation --%>
-<portlet:actionURL name="addSimulation" var="addSimulationURL" windowState="normal">
-</portlet:actionURL>
+<portlet:actionURL name="addSimulation" var="addSimulationURL" windowState="normal"/>
 <%--Formulaire d'ajout --%>
 <div id="newFormSimulation" hidden="true">
-	<aui:form action="${addSimulationURL }" name="simulation_fm" id="simulation_fm" >
+	<aui:form action="${addSimulationURL}" name="simulation_fm" id="simulation_fm" >
 		<aui:input label="nom-simulation" name="simulationName">
 			<aui:validator name="required"></aui:validator>
 		</aui:input>

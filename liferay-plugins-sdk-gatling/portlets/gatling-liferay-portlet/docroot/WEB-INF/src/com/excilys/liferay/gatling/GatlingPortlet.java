@@ -120,10 +120,14 @@ public class GatlingPortlet extends MVCPortlet {
 
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
-		String page = ParamUtil.get(renderRequest, "mvcPath", "");
-
+		/* récupération de la value mvcPath */
+		/* Elle doit être déclarée dans portlet.xml pour pouvoir récupérer la page associée */
+		String page = ParamUtil.get(renderRequest, "mvcPath", "list-simulation-jsp"); 
+		/* on récupére la page associée au mvcPath */
+		String renderPagePath = getInitParameter(page);  
+		log.info(renderPagePath);
 		/* liste des simulations */
-		if(page.isEmpty() || page.equals("list-simulation")) {
+		if(page.isEmpty() || page.equals("list-simulation-jsp")) {
 			List<Simulation> list = new ArrayList<Simulation>();
 			try {
 				list = SimulationLocalServiceUtil.getSimulations(0, SimulationLocalServiceUtil.getSimulationsCount());
@@ -132,18 +136,21 @@ public class GatlingPortlet extends MVCPortlet {
 			}
 			renderRequest.setAttribute("listSimulation", list);
 		}
+		else if(page.equals("edit-simulation-jsp")) {
+			log.info("hello from doview");
+		}
 
-		super.doView(renderRequest, renderResponse);
-
+		/* on redirige sur la page du mvcPath */
+		include(renderPagePath, renderRequest, renderResponse);
 		/*
 		 * TODO : Remettre au bon endroit
 		try {
-			
+
 			int sizeGroups  = GroupLocalServiceUtil.getGroupsCount();
 
 			List<Group> listGroups = GroupLocalServiceUtil.getGroups(0, sizeGroups);
 			long groupId = 10184;
-			
+
 			List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false);
 			renderRequest.setAttribute("setGroup", listGroups);
 			renderRequest.setAttribute("listLayout", listLayouts);
