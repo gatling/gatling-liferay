@@ -60,9 +60,10 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "scenario_id", Types.BIGINT },
 			{ "name", Types.VARCHAR },
+			{ "group_id", Types.BIGINT },
 			{ "simulation_id", Types.BIGINT }
 		};
-	public static final String TABLE_SQL_CREATE = "create table StressTool_Scenario (scenario_id LONG not null primary key,name VARCHAR(75) null,simulation_id LONG)";
+	public static final String TABLE_SQL_CREATE = "create table StressTool_Scenario (scenario_id LONG not null primary key,name VARCHAR(75) null,group_id LONG,simulation_id LONG)";
 	public static final String TABLE_SQL_DROP = "drop table StressTool_Scenario";
 	public static final String ORDER_BY_JPQL = " ORDER BY scenario.scenario_id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY StressTool_Scenario.scenario_id ASC";
@@ -122,6 +123,7 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 
 		attributes.put("scenario_id", getScenario_id());
 		attributes.put("name", getName());
+		attributes.put("group_id", getGroup_id());
 		attributes.put("simulation_id", getSimulation_id());
 
 		return attributes;
@@ -139,6 +141,12 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 
 		if (name != null) {
 			setName(name);
+		}
+
+		Long group_id = (Long)attributes.get("group_id");
+
+		if (group_id != null) {
+			setGroup_id(group_id);
 		}
 
 		Long simulation_id = (Long)attributes.get("simulation_id");
@@ -171,6 +179,16 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 	@Override
 	public void setName(String name) {
 		_name = name;
+	}
+
+	@Override
+	public long getGroup_id() {
+		return _group_id;
+	}
+
+	@Override
+	public void setGroup_id(long group_id) {
+		_group_id = group_id;
 	}
 
 	@Override
@@ -228,6 +246,7 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 
 		scenarioImpl.setScenario_id(getScenario_id());
 		scenarioImpl.setName(getName());
+		scenarioImpl.setGroup_id(getGroup_id());
 		scenarioImpl.setSimulation_id(getSimulation_id());
 
 		scenarioImpl.resetOriginalValues();
@@ -302,6 +321,8 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 			scenarioCacheModel.name = null;
 		}
 
+		scenarioCacheModel.group_id = getGroup_id();
+
 		scenarioCacheModel.simulation_id = getSimulation_id();
 
 		return scenarioCacheModel;
@@ -309,12 +330,14 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(7);
+		StringBundler sb = new StringBundler(9);
 
 		sb.append("{scenario_id=");
 		sb.append(getScenario_id());
 		sb.append(", name=");
 		sb.append(getName());
+		sb.append(", group_id=");
+		sb.append(getGroup_id());
 		sb.append(", simulation_id=");
 		sb.append(getSimulation_id());
 		sb.append("}");
@@ -324,7 +347,7 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(16);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.sample.model.Scenario");
@@ -337,6 +360,10 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 		sb.append(
 			"<column><column-name>name</column-name><column-value><![CDATA[");
 		sb.append(getName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>group_id</column-name><column-value><![CDATA[");
+		sb.append(getGroup_id());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>simulation_id</column-name><column-value><![CDATA[");
@@ -354,6 +381,7 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 		};
 	private long _scenario_id;
 	private String _name;
+	private long _group_id;
 	private long _simulation_id;
 	private long _originalSimulation_id;
 	private boolean _setOriginalSimulation_id;

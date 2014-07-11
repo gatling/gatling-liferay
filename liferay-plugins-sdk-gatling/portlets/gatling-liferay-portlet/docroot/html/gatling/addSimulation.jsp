@@ -1,4 +1,3 @@
-<%@page import="com.excilys.liferay.gatling.PageSiteWrapper"%>
 <%@include file="/html/gatling/header.jsp" %>
 
 <%
