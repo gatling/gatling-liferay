@@ -74,6 +74,7 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 
 		attributes.put("scenario_id", getScenario_id());
 		attributes.put("name", getName());
+		attributes.put("group_id", getGroup_id());
 		attributes.put("simulation_id", getSimulation_id());
 
 		return attributes;
@@ -91,6 +92,12 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 
 		if (name != null) {
 			setName(name);
+		}
+
+		Long group_id = (Long)attributes.get("group_id");
+
+		if (group_id != null) {
+			setGroup_id(group_id);
 		}
 
 		Long simulation_id = (Long)attributes.get("simulation_id");
@@ -139,6 +146,29 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 				Method method = clazz.getMethod("setName", String.class);
 
 				method.invoke(_scenarioRemoteModel, name);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public long getGroup_id() {
+		return _group_id;
+	}
+
+	@Override
+	public void setGroup_id(long group_id) {
+		_group_id = group_id;
+
+		if (_scenarioRemoteModel != null) {
+			try {
+				Class<?> clazz = _scenarioRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setGroup_id", long.class);
+
+				method.invoke(_scenarioRemoteModel, group_id);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -240,6 +270,7 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 
 		clone.setScenario_id(getScenario_id());
 		clone.setName(getName());
+		clone.setGroup_id(getGroup_id());
 		clone.setSimulation_id(getSimulation_id());
 
 		return clone;
@@ -289,12 +320,14 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(7);
+		StringBundler sb = new StringBundler(9);
 
 		sb.append("{scenario_id=");
 		sb.append(getScenario_id());
 		sb.append(", name=");
 		sb.append(getName());
+		sb.append(", group_id=");
+		sb.append(getGroup_id());
 		sb.append(", simulation_id=");
 		sb.append(getSimulation_id());
 		sb.append("}");
@@ -304,7 +337,7 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(16);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.sample.model.Scenario");
@@ -319,6 +352,10 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 		sb.append(getName());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>group_id</column-name><column-value><![CDATA[");
+		sb.append(getGroup_id());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>simulation_id</column-name><column-value><![CDATA[");
 		sb.append(getSimulation_id());
 		sb.append("]]></column-value></column>");
@@ -330,6 +367,7 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 
 	private long _scenario_id;
 	private String _name;
+	private long _group_id;
 	private long _simulation_id;
 	private BaseModel<?> _scenarioRemoteModel;
 }

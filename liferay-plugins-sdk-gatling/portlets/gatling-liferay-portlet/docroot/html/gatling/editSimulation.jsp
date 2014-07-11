@@ -1,6 +1,6 @@
 <%@include file="/html/gatling/header.jsp"%>
 
-<h3>Scenarios Of ${simulation} :</h3>
+<h3>Scenarios Of ${simulation.name} :</h3>
 
 <div>
 	<h3>Liste des scénarios enregistrés (${listScenarios.size()})</h3>
@@ -15,7 +15,7 @@
 					<li><portlet:renderURL var="editScenarioURL">
 							<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
 							<portlet:param name="scenarioId"
-								value="${simulation.scenario_id }" />
+								value="${scenario.scenario_id }" />
 						</portlet:renderURL> <c:out value="${scenario.name}"></c:out> <a
 						href="${editScenarioURL}"><i class="icon-wrench"></i></a> <%--<a href="#"><i class="icon-trash"></i></a>--%>
 					</li>
@@ -29,16 +29,28 @@
 <aui:button id="newScenario" value="Ajouter Scenario"></aui:button>
 
 <%--redirect to addSimulation --%>
-<portlet:renderURL var="editSimulationURL">
+<portlet:actionURL name="addScenario" var="addScenarioURL">
 	<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
-</portlet:renderURL>
+	<portlet:param name="simulationId" value="${simulation.simulation_id}" />
+</portlet:actionURL>
 <%--Formulaire d'ajout --%>
 <div id="newFormScenario" hidden="true">
 	<aui:form action="${addScenarioURL}" name="scenario_fm"
 		id="scenario_fm">
+
 		<aui:input label="nom-scenario" name="scenarioName">
 			<aui:validator name="required"></aui:validator>
 		</aui:input>
+		<aui:fieldset>
+			<aui:select name="Sites">
+				<aui:option value="" />
+				<c:forEach var="group" items="${listGroup}">
+				
+					<aui:option label="${group.name}" value="${group.groupId}" />
+				</c:forEach>
+			</aui:select>
+		</aui:fieldset>
+
 		<aui:button name="ajouter-scenario" type="submit"></aui:button>
 	</aui:form>
 </div>

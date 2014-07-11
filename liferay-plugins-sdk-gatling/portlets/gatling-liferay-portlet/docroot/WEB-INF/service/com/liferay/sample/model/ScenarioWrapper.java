@@ -50,6 +50,7 @@ public class ScenarioWrapper implements Scenario, ModelWrapper<Scenario> {
 
 		attributes.put("scenario_id", getScenario_id());
 		attributes.put("name", getName());
+		attributes.put("group_id", getGroup_id());
 		attributes.put("simulation_id", getSimulation_id());
 
 		return attributes;
@@ -67,6 +68,12 @@ public class ScenarioWrapper implements Scenario, ModelWrapper<Scenario> {
 
 		if (name != null) {
 			setName(name);
+		}
+
+		Long group_id = (Long)attributes.get("group_id");
+
+		if (group_id != null) {
+			setGroup_id(group_id);
 		}
 
 		Long simulation_id = (Long)attributes.get("simulation_id");
@@ -134,6 +141,26 @@ public class ScenarioWrapper implements Scenario, ModelWrapper<Scenario> {
 	@Override
 	public void setName(java.lang.String name) {
 		_scenario.setName(name);
+	}
+
+	/**
+	* Returns the group_id of this scenario.
+	*
+	* @return the group_id of this scenario
+	*/
+	@Override
+	public long getGroup_id() {
+		return _scenario.getGroup_id();
+	}
+
+	/**
+	* Sets the group_id of this scenario.
+	*
+	* @param group_id the group_id of this scenario
+	*/
+	@Override
+	public void setGroup_id(long group_id) {
+		_scenario.setGroup_id(group_id);
 	}
 
 	/**
