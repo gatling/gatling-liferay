@@ -1,27 +1,33 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 <div>
-	<h3>Liste des scénarios enregistrés</h3>
+	<h3>Liste des scénarios enregistrés (${listSimulation.size()})</h3>
 	<c:choose>
-		<c:when test="${empty listScenario  }">
-			<p>Il n'y a pas de scénarios enregistrés !</p>
+		<c:when test="${empty listSimulation}">
+			<p>Il n'y a pas de simulations d'enregistrés !</p>
 		</c:when>
 		<c:otherwise>
-			<c:forEach items="${listScenario}" var="scenario">
-				<ol>
-					<li><c:out value="${scenario}"></c:out> <a href="#"><i
-							class="icon-wrench"></i></a></li>
-				</ol>
+			<c:forEach items="${listSimulation}" var="scenario">
+				<ul>
+					<li>
+						<c:out value="${scenario.name}"></c:out> 
+						<a href="#"><i class="icon-wrench"></i></a> 
+						<%--<a href="#"><i class="icon-trash"></i></a>--%>
+					</li>
+				</ul>
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
 </div>
 <hr>
 <aui:button id="newSimulation" value="Ajouter Simulation"></aui:button>
-<div id="divNewSimulation" hidden="true">
-	<h5>Nouvelle simulation</h5>
-	<portlet:actionURL name="addSimulation" var="addSimulationURL" windowState="normal" />
-	<aui:form post="${addSimulationURL }" name="simulation_fm" id="simulation_fm">
+
+<%--redirect to addSimulation --%>
+<portlet:actionURL name="addSimulation" var="addSimulationURL" windowState="normal">
+</portlet:actionURL>
+<%--Formulaire d'ajout --%>
+<div id="newFormSimulation" hidden="true">
+	<aui:form action="${addSimulationURL }" name="simulation_fm" id="simulation_fm" >
 		<aui:input label="nom-simulation" name="simulationName">
 			<aui:validator name="required"></aui:validator>
 		</aui:input>
@@ -29,11 +35,28 @@
 	</aui:form>
 </div>
 
-<aui:script use="aui-base">
-	A.one("#newSimulation").on('click', function() {
-		A.one("#divNewSimulation").show();
-		this.set('disabled', true);
-		this.ancestor('.aui-button').addClass('aui-button-disabled');
-	});
-
+<aui:script>
+YUI().use(
+  'aui-modal',
+  function(Y) {
+    var modal = new Y.Modal(
+      {
+        bodyContent: AUI().one("#newFormSimulation").html(),
+        centered: true,
+        headerContent: '<h3>Créer nouvelle simulation</h3>',
+        modal: true,
+        resizable: false,
+        visible: false,
+        width: 450
+      }
+    ).render();
+    
+    Y.one('#newSimulation').on(
+      'click',
+      function() {
+        modal.show();
+      }
+    );
+  }
+);
 </aui:script>
