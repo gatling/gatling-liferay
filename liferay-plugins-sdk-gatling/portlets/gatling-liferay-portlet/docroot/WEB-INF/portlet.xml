@@ -24,6 +24,8 @@
 			<mime-type>text/html</mime-type>
 			<portlet-mode>view</portlet-mode>
 		</supports>
+		<supported-locale>en</supported-locale>       
+        <supported-locale>fr</supported-locale>
 		<portlet-info>
 			<title>Stress Tool</title>
 			<short-title>Gatling</short-title>
@@ -41,5 +43,6 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
+		
 	</portlet>
 </portlet-app>
