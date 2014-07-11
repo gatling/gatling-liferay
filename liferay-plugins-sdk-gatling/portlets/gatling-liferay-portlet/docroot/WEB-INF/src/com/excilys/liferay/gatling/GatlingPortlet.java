@@ -142,7 +142,21 @@ public class GatlingPortlet extends MVCPortlet {
 			renderRequest.setAttribute("listSimulation", list);
 		}
 		else if(page.equals(jspEditSimulation)) {
-			log.info("hello from doview");
+			Long id = (Long) ParamUtil.getLong(renderRequest, "similationId");
+			log.info(id);
+			
+			List<Scenario> ls =new ArrayList<Scenario>();
+			try {
+				ls.addAll(ScenarioLocalServiceUtil.findBySimulationId(id));
+				log.info(ls.get(0).getName());
+				int sizeLs = ls.size();
+				log.info(ls.get(sizeLs-1).getName());
+				
+			} catch (SystemException e) {
+				e.printStackTrace();
+			}
+			renderRequest.setAttribute("listscenario", ls);
+			
 		}
 		/* on redirige sur la jsp de page */
 		include(page, renderRequest, renderResponse);

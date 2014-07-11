@@ -5,23 +5,23 @@
 <div>
 	<h3>Liste des scénarios enregistrés (${listScenarios.size()})</h3>
 	<c:choose>
-		<c:when test="${empty listScenario}">
+		<c:when test="${empty listscenario}">
 			<p>Il n'y a pas de scenario d'enregistrés !</p>
 		</c:when>
 		<c:otherwise>
-			<c:forEach items="${listScenario}" var="simulation">
-				<ul>
-					<li>
-						<portlet:renderURL var="editScenarioURL">
-							<portlet:param name="mvcPath" value="/html/gatling/editScenario.jsp"/>
-							<portlet:param name="scenarioId" value="${simulation.scenario_id }"/>						
-						</portlet:renderURL>
-						<c:out value="${scenario.name}"></c:out> 
-						<a href="${editScenarioURL}"><i class="icon-wrench"></i></a>
-						<%--<a href="#"><i class="icon-trash"></i></a>--%>
+			<ul>
+				<c:forEach items="${listscenario}" var="scenario">
+
+					<li><portlet:renderURL var="editScenarioURL">
+							<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
+							<portlet:param name="scenarioId"
+								value="${simulation.scenario_id }" />
+						</portlet:renderURL> <c:out value="${scenario.name}"></c:out> <a
+						href="${editScenarioURL}"><i class="icon-wrench"></i></a> <%--<a href="#"><i class="icon-trash"></i></a>--%>
 					</li>
-				</ul>
-			</c:forEach>
+
+				</c:forEach>
+			</ul>
 		</c:otherwise>
 	</c:choose>
 </div>
@@ -30,11 +30,12 @@
 
 <%--redirect to addSimulation --%>
 <portlet:renderURL var="editSimulationURL">
-	<portlet:param name="mvcPath" value="/html/gatling/editSimulation.jsp"/>
+	<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
 </portlet:renderURL>
 <%--Formulaire d'ajout --%>
 <div id="newFormScenario" hidden="true">
-	<aui:form action="${addScenarioURL}" name="scenario_fm" id="scenario_fm" >
+	<aui:form action="${addScenarioURL}" name="scenario_fm"
+		id="scenario_fm">
 		<aui:input label="nom-scenario" name="scenarioName">
 			<aui:validator name="required"></aui:validator>
 		</aui:input>
