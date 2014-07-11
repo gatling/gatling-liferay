@@ -9,10 +9,16 @@
 		<portlet-name>gatling</portlet-name>
 		<display-name>Gatling</display-name>
 		<portlet-class>com.excilys.liferay.gatling.GatlingPortlet</portlet-class>
+		<!-- Déclaration des pages ici -->
 		<init-param>
-			<name>view-template</name>
+			<name>list-simulation-jsp</name>
 			<value>/html/gatling/view.jsp</value>
 		</init-param>
+		<init-param>
+			<name>edit-simulation-jsp</name>
+			<value>/html/gatling/editSimulation.jsp</value>
+		</init-param>
+		<!--  -->
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
