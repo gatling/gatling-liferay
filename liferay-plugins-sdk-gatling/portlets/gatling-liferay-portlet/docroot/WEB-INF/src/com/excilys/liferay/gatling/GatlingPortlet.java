@@ -100,7 +100,24 @@ public class GatlingPortlet extends MVCPortlet {
 		}
 
 		super.doView(renderRequest, renderResponse);
+
+		/*
+		 * TODO : Remettre au bon endroit
+		try {
+			
+			int sizeGroups  = GroupLocalServiceUtil.getGroupsCount();
+
+			List<Group> listGroups = GroupLocalServiceUtil.getGroups(0, sizeGroups);
+			long groupId = 10184;
+			
+			List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false);
+			
+			renderRequest.setAttribute("setGroup", listGroups);
+			renderRequest.setAttribute("listLayout", listLayouts);
+		} catch (SystemException e) {
+			e.printStackTrace();
+		}finally {
+			super.doView(renderRequest, renderResponse);
+		}*/
 	}
-
-
 }
