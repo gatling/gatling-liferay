@@ -90,7 +90,7 @@ public class GatlingPortlet extends MVCPortlet {
 		String renderPagePath = getInitParameter(page);  
 		log.info(renderPagePath);
 		/* liste des simulations */
-		if(page.isEmpty() || page.equals("view-jsp")) {
+		if(page.isEmpty() || page.equals("list-simulation-jsp")) {
 			List<Simulation> list = new ArrayList<>();
 			try {
 				list = SimulationLocalServiceUtil.getSimulations(0, SimulationLocalServiceUtil.getSimulationsCount());
