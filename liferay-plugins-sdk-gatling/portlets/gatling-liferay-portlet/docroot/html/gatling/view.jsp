@@ -7,26 +7,29 @@
 			<p><liferay-ui:message key="simulation-list-empty"/></p>
 		</c:when>
 		<c:otherwise>
+		<ul>
 			<c:forEach items="${listSimulation}" var="simulation">
-				<ul>
-					<li>
-						<portlet:renderURL var="editSimulationURL">
-							<portlet:param name="page" value="/html/gatling/editSimulation.jsp"/>
-							<portlet:param name="simulationId" value="${simulation.simulation_id }"/>						
-						</portlet:renderURL>
-						<c:out value="${simulation.name}"></c:out> 
-						<a href="${editSimulationURL}"><i class="icon-wrench"></i></a>
-						<%--<a href="#"><i class="icon-trash"></i></a>--%>
-					</li>
-				</ul>
+				<li>
+					<portlet:renderURL var="editSimulationURL">
+						<portlet:param name="page" value="/html/gatling/editSimulation.jsp"/>
+						<portlet:param name="simulationId" value="${simulation.simulation_id }"/>						
+					</portlet:renderURL>
+					<portlet:actionURL var="removeSimulationURL" name="removeSimulation" windowState="normal">
+						<portlet:param name="simulationId" value="${simulation.simulation_id }"/>						
+					</portlet:actionURL>
+					<c:out value="${simulation.name}"></c:out> 
+					<a href="${editSimulationURL}"><i class="icon-wrench"></i></a>
+					<a href="${removeSimulationURL }"><i class="icon-trash"></i></a>
+				</li>
 			</c:forEach>
+		</ul>
 		</c:otherwise>
 	</c:choose>
 </div>
 <hr>
 <aui:button id="newSimulation" value="simulation-list-btn-add-simulation"></aui:button>
 
-<%--redirect to addSimulation --%>
+<%--submit to addSimulation --%>
 <portlet:actionURL name="addSimulation" var="addSimulationURL" windowState="normal"/>
 <%--Formulaire d'ajout --%>
 <div id="newFormSimulation" hidden="true">

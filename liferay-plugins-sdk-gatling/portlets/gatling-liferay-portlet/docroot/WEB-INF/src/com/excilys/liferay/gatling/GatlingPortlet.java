@@ -34,6 +34,9 @@ public class GatlingPortlet extends MVCPortlet {
 	
 	protected String jspListSimulation, jspEditSimulation;
 	
+	/**
+	 * récupérer les noms de toutes les pages
+	 */
 	@Override
 	public void init() throws PortletException {
 		jspListSimulation = getInitParameter("list-simulation-jsp");
@@ -57,6 +60,12 @@ public class GatlingPortlet extends MVCPortlet {
 			SessionErrors.add(request, "simulation-name-error");
 			sendRedirect(request, response);
 		}
+	}	
+	
+	public void removeSimulation(ActionRequest request, ActionResponse response)
+			throws Exception {
+		log.info("remove Simulation with id : "+ ParamUtil.getLong(request, "simulationId"));
+		SimulationLocalServiceUtil.deleteSimulation(ParamUtil.getLong(request, "simulationId"));
 	}	
 
 	/**
