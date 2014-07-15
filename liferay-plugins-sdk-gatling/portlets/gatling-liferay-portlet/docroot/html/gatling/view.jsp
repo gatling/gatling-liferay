@@ -10,12 +10,12 @@
 		<liferay-ui:search-container-row className="com.liferay.sample.model.Simulation"
 										keyProperty="simulation_id"
 										modelVar="simulation">
-			<%--un champs texte --%>
-			<liferay-ui:search-container-column-text name="simulation-list-table-header-name" value="${simulation.name }"/>
 			<portlet:renderURL var="editSimulationURL">
 				<portlet:param name="page" value="/html/gatling/editSimulation.jsp"/>
 				<portlet:param name="simulationId" value="${simulation.simulation_id }"/>						
-			</portlet:renderURL>
+			</portlet:renderURL>							
+			<%--un champs texte --%>
+			<liferay-ui:search-container-column-text name="simulation-list-table-header-name" value="${simulation.name }" href="${editSimulationURL}"/>
 			<%--lien edition --%>
 			<liferay-ui:search-container-column-text >
 				<a href="${editSimulationURL}"><liferay-ui:icon image="edit" /><liferay-ui:message key="edit-message"/></a>

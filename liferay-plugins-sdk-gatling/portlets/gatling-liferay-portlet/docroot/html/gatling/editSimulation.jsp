@@ -15,14 +15,14 @@
 		<liferay-ui:search-container-row className="com.liferay.sample.model.Scenario"
 										keyProperty="scenario_id"
 										modelVar="scenario">
-			<%--un champs texte --%>
-			<liferay-ui:search-container-column-text name="simulation-edit-table-header-name" value="${scenario.name }"/>
 			<portlet:renderURL var="editScenarioURL">
 				<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
 				<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
-			</portlet:renderURL> 
+			</portlet:renderURL> 							
+			<%--un champs texte --%>
+			<liferay-ui:search-container-column-text name="simulation-edit-table-header-name" value="${scenario.name }" href="${editScenarioURL}" />
 			<%--lien edition --%>
-			<liferay-ui:search-container-column-text >
+			<liferay-ui:search-container-column-text>
 				<a href="${editScenarioURL}"><liferay-ui:icon image="edit" /><liferay-ui:message key="edit-message"/></a>
 			</liferay-ui:search-container-column-text>
 			<%-- lien suppression --%>
