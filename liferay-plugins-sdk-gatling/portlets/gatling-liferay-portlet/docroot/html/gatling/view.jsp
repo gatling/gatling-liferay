@@ -11,18 +11,18 @@
 										keyProperty="simulation_id"
 										modelVar="simulation">
 			<%--un champs texte --%>
-			<liferay-ui:search-container-column-text name="Name" value="${simulation.name }"/>
+			<liferay-ui:search-container-column-text name="simulation-list-table-header-name" value="${simulation.name }"/>
 			<portlet:renderURL var="editSimulationURL">
 				<portlet:param name="page" value="/html/gatling/editSimulation.jsp"/>
 				<portlet:param name="simulationId" value="${simulation.simulation_id }"/>						
 			</portlet:renderURL>
 			<%--lien edition --%>
 			<liferay-ui:search-container-column-text >
-				<a href="${editSimulationURL}"><liferay-ui:icon image="edit" />Editer</a>
+				<a href="${editSimulationURL}"><liferay-ui:icon image="edit" /><liferay-ui:message key="edit-message"/></a>
 			</liferay-ui:search-container-column-text>
 			<%-- lien suppression --%>
 			<liferay-ui:search-container-column-text > 
-				<a href="#"><liferay-ui:icon image="delete" />Supprimer</a>
+				<a href="#"><liferay-ui:icon image="delete" /><liferay-ui:message key="delete-message"/></a>
 			</liferay-ui:search-container-column-text>
 		</liferay-ui:search-container-row>
 		<%--itere et affiche la liste --%>
