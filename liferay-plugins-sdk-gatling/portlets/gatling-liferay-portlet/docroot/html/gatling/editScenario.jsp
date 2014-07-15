@@ -58,10 +58,21 @@
 					<td> <aui:input type="checkbox" name="${status.index}"   class='url${status.index}' /></td>
 					<td>${layout.name} </td>	
 					<td>
-						<aui:input  name="rate"  class='poids' onChange='<%= renderResponse.getNamespace() + \"showPoids()\" %>'>
-							<aui:validator name="required" />
-							<aui:validator name="range"> [0,100]</aui:validator>
-						</aui:input>
+						<c:choose>
+							<c:when test='${listrequest.contains(layout.name) }'>
+								<aui:input  name="rate"  class='poids' value="" onChange='<%= renderResponse.getNamespace() + \"showPoids()\" %>'>
+									<aui:validator name="required" />
+									<aui:validator name="range"> [0,100]</aui:validator>
+								</aui:input>
+							</c:when>
+							<c:otherwise>
+								<aui:input  name="rate"  class='poids' onChange='<%= renderResponse.getNamespace() + \"showPoids()\" %>'>
+									<aui:validator name="required" />
+									<aui:validator name="range"> [0,100]</aui:validator>
+								</aui:input>
+							</c:otherwise>
+						</c:choose>
+						
 					</td>
 					
 					<td><label class='url${status.index}'>0%</label></td>

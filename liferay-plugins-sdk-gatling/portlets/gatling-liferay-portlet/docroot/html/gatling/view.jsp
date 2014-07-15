@@ -1,33 +1,35 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 <div>
-
-	<h3><liferay-ui:message key="simulation-list-header"/></h3>
-	<c:choose>
-		<c:when test="${empty listSimulation}">
-			<p><liferay-ui:message key="simulation-list-empty"/></p>
-		</c:when>
-		<c:otherwise>
-		<ul>
-			<c:forEach items="${listSimulation}" var="simulation">
-				<li>
-					<portlet:renderURL var="editSimulationURL">
-						<portlet:param name="page" value="/html/gatling/editSimulation.jsp"/>
-						<portlet:param name="simulationId" value="${simulation.simulation_id }"/>						
-					</portlet:renderURL>
-					<portlet:actionURL var="removeSimulationURL" name="removeSimulation" windowState="normal">
-						<portlet:param name="simulationId" value="${simulation.simulation_id }"/>						
-					</portlet:actionURL>
-					<c:out value="${simulation.name}"></c:out> 
-					<a href="${editSimulationURL}"><i class="icon-wrench"></i></a>
-					<a href="${removeSimulationURL }"><i class="icon-trash"></i></a>
-				</li>
-			</c:forEach>
-		</ul>
-		</c:otherwise>
-	</c:choose>
+	<liferay-ui:header title="simulation-list-header" ></liferay-ui:header>
+	<%--Search container (tableau) --%>
+	<liferay-ui:search-container emptyResultsMessage="simulation-list-empty" >
+		<%--Liste sur laquelle on travail --%>
+		<liferay-ui:search-container-results results="${listSimulation }" total="${listSimulation.size() }" />
+		<%--itération des colonnes --%>
+		<liferay-ui:search-container-row className="com.liferay.sample.model.Simulation"
+										keyProperty="simulation_id"
+										modelVar="simulation">
+			<%--un champs texte --%>
+			<liferay-ui:search-container-column-text name="simulation-list-table-header-name" value="${simulation.name }"/>
+			<portlet:renderURL var="editSimulationURL">
+				<portlet:param name="page" value="/html/gatling/editSimulation.jsp"/>
+				<portlet:param name="simulationId" value="${simulation.simulation_id }"/>						
+			</portlet:renderURL>
+			<%--lien edition --%>
+			<liferay-ui:search-container-column-text >
+				<a href="${editSimulationURL}"><liferay-ui:icon image="edit" /><liferay-ui:message key="edit-message"/></a>
+			</liferay-ui:search-container-column-text>
+			<%-- lien suppression --%>
+			<liferay-ui:search-container-column-text > 
+				<a href="#"><liferay-ui:icon image="delete" /><liferay-ui:message key="delete-message"/></a>
+			</liferay-ui:search-container-column-text>
+		</liferay-ui:search-container-row>
+		<%--itere et affiche la liste --%>
+		<liferay-ui:search-iterator />		
+	</liferay-ui:search-container>
 </div>
-<hr>
+
 <aui:button id="newSimulation" value="simulation-list-btn-add-simulation"></aui:button>
 
 <%--submit to addSimulation --%>

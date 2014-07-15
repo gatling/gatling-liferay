@@ -1,32 +1,41 @@
 <%@include file="/html/gatling/header.jsp"%>
 
-<h3>Scenarios Of ${simulation.name} :</h3>
-
+<portlet:renderURL var="backURL">
+	<portlet:param name="page" value="/html/gatling/view.jsp"/>
+</portlet:renderURL>
+<%--entete --%>
+<c:set var="entete"><liferay-ui:message key="simulation-edit-header" arguments="${simulation.name}" /></c:set>
+<liferay-ui:header title="${entete}" backURL="${backURL}"/>
 <div>
-	<h3>Liste des scénarios enregistrés (${listScenarios.size()})</h3>
-	<c:choose>
-		<c:when test="${empty listscenario}">
-			<p>Il n'y a pas de scenario d'enregistrés !</p>
-		</c:when>
-		<c:otherwise>
-			<ul>
-				<c:forEach items="${listscenario}" var="scenario">
-
-					<li><portlet:renderURL var="editScenarioURL">
-							<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
-							<portlet:param name="scenarioId"
-								value="${scenario.scenario_id }" />
-						</portlet:renderURL> <c:out value="${scenario.name}"></c:out> <a
-						href="${editScenarioURL}"><i class="icon-wrench"></i></a> <%--<a href="#"><i class="icon-trash"></i></a>--%>
-					</li>
-
-				</c:forEach>
-			</ul>
-		</c:otherwise>
-	</c:choose>
+	<%--Search container (tableau) --%>
+	<liferay-ui:search-container emptyResultsMessage="simulation-list-empty" >
+		<%--Liste sur laquelle on travail --%>
+		<liferay-ui:search-container-results results="${listScenario }" total="${listScenario.size() }" />
+		<%--itération des colonnes --%>
+		<liferay-ui:search-container-row className="com.liferay.sample.model.Scenario"
+										keyProperty="scenario_id"
+										modelVar="scenario">
+			<%--un champs texte --%>
+			<liferay-ui:search-container-column-text name="simulation-edit-table-header-name" value="${scenario.name }"/>
+			<portlet:renderURL var="editScenarioURL">
+				<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
+				<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
+			</portlet:renderURL> 
+			<%--lien edition --%>
+			<liferay-ui:search-container-column-text >
+				<a href="${editScenarioURL}"><liferay-ui:icon image="edit" /><liferay-ui:message key="edit-message"/></a>
+			</liferay-ui:search-container-column-text>
+			<%-- lien suppression --%>
+			<liferay-ui:search-container-column-text > 
+				<a href="#"><liferay-ui:icon image="delete" /><liferay-ui:message key="delete-message"/></a>
+			</liferay-ui:search-container-column-text>
+		</liferay-ui:search-container-row>
+		<%--itere et affiche la liste --%>
+		<liferay-ui:search-iterator />		
+	</liferay-ui:search-container>
 </div>
 
-<aui:button id="newScenario" value="Ajouter Scenario"></aui:button>
+<aui:button id="newScenario" value="simulation-edit-btn-add-scenario"></aui:button>
 
 <%--redirect to addSimulation --%>
 <portlet:actionURL name="addScenario" var="addScenarioURL">
@@ -35,17 +44,14 @@
 </portlet:actionURL>
 <%--Formulaire d'ajout --%>
 <div id="newFormScenario" hidden="true">
-	<aui:form action="${addScenarioURL}" name="scenario_fm"
-		id="scenario_fm">
+	<aui:form action="${addScenarioURL}" name="scenario_fm" id="scenario_fm">
 
-		<aui:input label="nom-scenario" name="scenarioName">
+		<aui:input label="simulation-edit-form-nom-scenario" name="scenarioName">
 			<aui:validator name="required"></aui:validator>
 		</aui:input>
 		<aui:fieldset>
-			<aui:select name="Sites">
-				<aui:option value="" />
+			<aui:select label="simulation-edit-form-sites" name="sites" showEmptyOption="true" >
 				<c:forEach var="group" items="${listGroup}">
-				
 					<aui:option label="${group.name}" value="${group.groupId}" />
 				</c:forEach>
 			</aui:select>
@@ -63,7 +69,7 @@ YUI().use(
       {
         bodyContent: AUI().one("#newFormScenario").html(),
         centered: true,
-        headerContent: '<h3>Créer nouvelle scenario</h3>',
+        headerContent: '<h3><liferay-ui:message key="simulation-edit-form-header"></liferay-ui:message></h3>',
         modal: true,
         resizable: false,
         visible: false,
