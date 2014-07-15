@@ -299,11 +299,12 @@ public class GatlingPortlet extends MVCPortlet {
 	 * @return list des sites
 	 */
 	private List<Group> getListOfSites()  {
-		/*recupere la liste des sites*/				
+		/*recupere la liste des sites*/			
 		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Group.class)
-				.add(PropertyFactoryUtil.forName("type").ne(0))
+				.add(PropertyFactoryUtil.forName("type").eq(1)) //1 -> site
 				.add(PropertyFactoryUtil.forName("site").eq(true))
 				.add(PropertyFactoryUtil.forName("active").eq(true));
+		
 
 		List<Group> listGroups = new ArrayList<Group>();
 		try {
@@ -311,7 +312,9 @@ public class GatlingPortlet extends MVCPortlet {
 		} catch (SystemException e) {
 			e.printStackTrace();
 		}
+		
 		return listGroups;
+
 	}
 	
 }
