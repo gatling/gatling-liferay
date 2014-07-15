@@ -72,30 +72,34 @@ public class GatlingPortlet extends MVCPortlet {
 			sendRedirect(request, response);
 		}
 	}
-	public void editSimulation(ActionRequest request, ActionResponse response)
-			throws Exception {
-
-		Long id = (Long) ParamUtil.getLong(request, "simulationId");
-		List<Scenario> ls =new ArrayList<Scenario>();
-		try {
-			ls.addAll(ScenarioLocalServiceUtil.findBySimulationId(id));
-			log.info(ls.get(0).getName());
-			int sizeLs = ls.size();
-			log.info(ls.get(sizeLs-1).getName());
-
-		} catch (SystemException e) {
-			e.printStackTrace();
-		}
-		request.setAttribute("listscenario", ls);
-		request.setAttribute("simulationId", id);
-		response.setRenderParameter("jspPage", jspEditSimulation); 
-	}
 
 	public void removeSimulation(ActionRequest request, ActionResponse response)
 			throws Exception {
-		log.info("remove Simulation with id : "+ ParamUtil.getLong(request, "simulationId"));
-		SimulationLocalServiceUtil.deleteSimulation(ParamUtil.getLong(request, "simulationId"));
-		//TODO : remove all scenario for this simulation
+		long simulationId = ParamUtil.getLong(request, "simulationId");
+		log.info("remove Simulation with id : "+ simulationId);
+		// Etape 1
+		// -> Suppression des tables
+		List<Scenario> listRequests = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
+		// Suppressions des requests
+		for(Scenario scenario : listRequests) {
+			RequestLocalServiceUtil.removeByScenarioId(scenario.getScenario_id());
+		}
+		//Suppression des scénarios
+		ScenarioLocalServiceUtil.removeBySimulationId(simulationId);
+		// Supression de la simulations
+		SimulationLocalServiceUtil.deleteSimulation(simulationId);
+		
+		// Etape 2 
+		// -> récupération des simulations
+		List<Simulation> list = new ArrayList<Simulation>();
+		try {
+			list = SimulationLocalServiceUtil.getSimulations(0, SimulationLocalServiceUtil.getSimulationsCount());
+		} catch (SystemException e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("listSimulation", list);
+		response.setRenderParameter("jspPage", jspListSimulation); 
+		sendRedirect(request, response);
 	}	
 
 	/*
