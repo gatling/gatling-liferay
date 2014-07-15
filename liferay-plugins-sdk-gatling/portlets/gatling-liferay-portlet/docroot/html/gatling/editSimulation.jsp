@@ -3,6 +3,7 @@
 <portlet:renderURL var="backURL">
 	<portlet:param name="page" value="/html/gatling/view.jsp"/>
 </portlet:renderURL>
+<%--entete --%>
 <c:set var="entete"><liferay-ui:message key="simulation-edit-header" arguments="${simulation.name}" /></c:set>
 <liferay-ui:header title="${entete}" backURL="${backURL}"/>
 <div>
