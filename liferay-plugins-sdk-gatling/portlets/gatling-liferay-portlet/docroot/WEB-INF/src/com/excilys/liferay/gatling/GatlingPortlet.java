@@ -228,6 +228,7 @@ public class GatlingPortlet extends MVCPortlet {
 			List<Group> liGroups = getListOfSites();
 			renderRequest.setAttribute("listGroup", liGroups);
 		}
+		
 		/* on redirige sur la jsp de page */
 		include(page, renderRequest, renderResponse);
 	}

@@ -1,8 +1,7 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 <div>
-
-	<h3><liferay-ui:message key="simulation-list-header"/></h3>
+	<liferay-ui:header title="simulation-list-header" ></liferay-ui:header>
 	<c:choose>
 		<c:when test="${empty listSimulation}">
 			<p><liferay-ui:message key="simulation-list-empty"/></p>
@@ -27,7 +26,7 @@
 		</c:otherwise>
 	</c:choose>
 </div>
-<hr>
+
 <aui:button id="newSimulation" value="simulation-list-btn-add-simulation"></aui:button>
 
 <%--submit to addSimulation --%>

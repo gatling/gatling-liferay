@@ -1,9 +1,10 @@
 <%@include file="/html/gatling/header.jsp"%>
 
-<h3>Scenarios Of ${simulation.name} :</h3>
-
+<portlet:renderURL var="backURL">
+	<portlet:param name="page" value="/html/gatling/view.jsp"/>
+</portlet:renderURL>
+<liferay-ui:header title="Liste des scénarios pour ${simulation.name}" backURL="${backURL}"></liferay-ui:header>
 <div>
-	<h3>Liste des scénarios enregistrés</h3>
 	<c:choose>
 		<c:when test="${empty listScenario}">
 			<p>Il n'y a pas de scenario d'enregistrés !</p>
@@ -11,7 +12,6 @@
 		<c:otherwise>
 			<ul>
 				<c:forEach items="${listScenario}" var="scenario">
-
 					<li><portlet:renderURL var="editScenarioURL">
 							<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
 							<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
@@ -20,7 +20,6 @@
 						<a href="${editScenarioURL}"><i class="icon-wrench"></i></a> 
 						<%--<a href="#"><i class="icon-trash"></i></a>--%>
 					</li>
-
 				</c:forEach>
 			</ul>
 		</c:otherwise>
