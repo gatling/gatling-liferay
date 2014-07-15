@@ -1,5 +1,5 @@
 <%@include file="/html/gatling/header.jsp"%>
-
+ 
 <portlet:renderURL var="backURL">
 	<portlet:param name="page" value="/html/gatling/view.jsp"/>
 </portlet:renderURL>
@@ -8,7 +8,7 @@
 <liferay-ui:header title="${entete}" backURL="${backURL}"/>
 <div>
 	<%--Search container (tableau) --%>
-	<liferay-ui:search-container emptyResultsMessage="simulation-list-empty" >
+	<liferay-ui:search-container emptyResultsMessage="scenario-list-empty" >
 		<%--Liste sur laquelle on travail --%>
 		<liferay-ui:search-container-results results="${listScenario }" total="${listScenario.size() }" />
 		<%--itération des colonnes --%>
@@ -26,7 +26,7 @@
 				<a href="${editScenarioURL}"><liferay-ui:icon image="edit" /><liferay-ui:message key="edit-message"/></a>
 			</liferay-ui:search-container-column-text>
 			<%-- lien suppression --%>
-			<liferay-ui:search-container-column-text > 
+			<liferay-ui:search-container-column-text> 
 				<a href="#"><liferay-ui:icon image="delete" /><liferay-ui:message key="delete-message"/></a>
 			</liferay-ui:search-container-column-text>
 		</liferay-ui:search-container-row>
