@@ -18,6 +18,11 @@
 			<name>edit-simulation-jsp</name>
 			<value>/html/gatling/editSimulation.jsp</value>
 		</init-param>
+		
+		<init-param>
+			<name>edit-scenario-jsp</name>
+			<value>/html/gatling/editScenario.jsp</value>
+		</init-param>
 		<!--  -->
 		<expiration-cache>0</expiration-cache>
 		<supports>
