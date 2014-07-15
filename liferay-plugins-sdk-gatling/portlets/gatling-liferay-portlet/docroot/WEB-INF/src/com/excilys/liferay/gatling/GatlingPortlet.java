@@ -25,6 +25,7 @@ import com.liferay.util.bridges.mvc.MVCPortlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -147,26 +148,37 @@ public class GatlingPortlet extends MVCPortlet {
 	
 		Long idScenario = ParamUtil.getLong(request, "scenarioId");
 		Map<String, String[]> parameters = request.getParameterMap();
+		Map<String, Request> lstRequestToEdit =new HashMap<String, Request>();
+		try {
+			for(Request r :RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(request, "scenarioId",0))){
+				lstRequestToEdit.put(r.getUrl().trim(),  r);
+			}
+			
+		} catch (SystemException e) {
+			e.printStackTrace();
+		}
 		
 		if(idScenario !=null){
-			List<Request> ls =new ArrayList<Request>();
-			try {
-				ls.addAll(RequestLocalServiceUtil.findByScenarioId(idScenario));
-				
-			} catch (SystemException e) {
-				e.printStackTrace();
-			}
-			request.setAttribute("listrequest", ls);
 			
 			long groupId =ParamUtil.getLong(request, "groupId");
 			List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false);
+			
 			for (String key : parameters.keySet()){
-				log.info(key + ":[" + StringUtil.merge(parameters.get(key)) + "]");
+
 				if(StringUtil.merge(parameters.get(key)).equals("true")){
 					int requestNumber = Integer.parseInt(key);
 					int weight  =  Integer.parseInt(StringUtil.merge(parameters.get("rate")).split(",")[requestNumber]);
 					String url = listLayouts.get(requestNumber).getFriendlyURL();
-					addRequest(url, weight, idScenario);
+					if(lstRequestToEdit.containsKey(url.trim())){
+						Request updatedRequest = lstRequestToEdit.get(url);
+						updatedRequest.setRate(weight);
+						log.info("nouveau poids "+weight);
+						RequestLocalServiceUtil.updateRequest(updatedRequest);
+					}
+					else{
+						log.info("creation de nouvelle requette ");
+						addRequest(url, weight, idScenario);
+					}				
 				}
 			}
 		}
@@ -261,7 +273,19 @@ public class GatlingPortlet extends MVCPortlet {
 				
 				renderRequest.setAttribute("scenarioId", ParamUtil.get(renderRequest, "scenarioId",0));
 				renderRequest.setAttribute("groupId", groupId);
-				renderRequest.setAttribute("listLayout", listLayouts);			
+				renderRequest.setAttribute("listLayout", listLayouts);	
+				
+				Map<String, Integer> ls =new HashMap<String, Integer>();
+				try {
+					for(Request r :RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(renderRequest, "scenarioId",0))){
+						ls.put(r.getUrl(), r.getRate());
+					}
+					
+				} catch (SystemException e) {
+					e.printStackTrace();
+				}
+
+				renderRequest.setAttribute("listrequest", ls);
 				
 			} catch (SystemException e) {
 				e.printStackTrace();

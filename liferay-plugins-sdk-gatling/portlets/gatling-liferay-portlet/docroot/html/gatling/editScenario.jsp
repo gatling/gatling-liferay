@@ -37,10 +37,8 @@
 	    });
 	}
 </script>
-
 <aui:model-context bean="<%= scenario %>" model="<%= Scenario.class %>" />
 <aui:model-context bean="<%= urlRequest %>" model="<%= Request.class %>" />
-<%-- 				${layout.friendlyURL}"  --%>
 
 <portlet:actionURL name="editScenario"  var="addScenarioURL" windowState="normal"/>
 
@@ -59,9 +57,9 @@
 					<td>${layout.name} </td>	
 					<td>
 						<c:choose>
-							<c:when test='${listrequest.contains(layout.name) }'>
-								<aui:input  name="rate"  class='poids' value="" onChange='<%= renderResponse.getNamespace() + \"showPoids()\" %>'>
-									<aui:validator name="required" />
+							<c:when test='${listrequest.containsKey(layout.friendlyURL)}'>
+								<aui:input  name="rate"  class='poids' value="${listrequest.get(layout.friendlyURL)} " onChange='<%= renderResponse.getNamespace() + \"showPoids()\" %>'>
+<%-- 									<aui:validator name="required" /> --%>
 									<aui:validator name="range"> [0,100]</aui:validator>
 								</aui:input>
 							</c:when>
