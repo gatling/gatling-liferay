@@ -5,25 +5,32 @@
 </portlet:renderURL>
 <liferay-ui:header title="Liste des scénarios pour ${simulation.name}" backURL="${backURL}"></liferay-ui:header>
 <div>
-	<c:choose>
-		<c:when test="${empty listScenario}">
-			<p>Il n'y a pas de scenario d'enregistrés !</p>
-		</c:when>
-		<c:otherwise>
-			<ul>
-				<c:forEach items="${listScenario}" var="scenario">
-					<li><portlet:renderURL var="editScenarioURL">
-							<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
-							<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
-						</portlet:renderURL> 
-						<c:out value="${scenario.name}"></c:out> 
-						<a href="${editScenarioURL}"><i class="icon-wrench"></i></a> 
-						<%--<a href="#"><i class="icon-trash"></i></a>--%>
-					</li>
-				</c:forEach>
-			</ul>
-		</c:otherwise>
-	</c:choose>
+	<%--Search container (tableau) --%>
+	<liferay-ui:search-container emptyResultsMessage="simulation-list-empty" >
+		<%--Liste sur laquelle on travail --%>
+		<liferay-ui:search-container-results results="${listScenario }" total="${listScenario.size() }" />
+		<%--itération des colonnes --%>
+		<liferay-ui:search-container-row className="com.liferay.sample.model.Scenario"
+										keyProperty="scenario_id"
+										modelVar="scenario">
+			<%--un champs texte --%>
+			<liferay-ui:search-container-column-text name="Name" value="${scenario.name }"/>
+			<portlet:renderURL var="editScenarioURL">
+				<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
+				<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
+			</portlet:renderURL> 
+			<%--lien edition --%>
+			<liferay-ui:search-container-column-text >
+				<a href="${editScenarioURL}"><liferay-ui:icon image="edit" />Editer</a>
+			</liferay-ui:search-container-column-text>
+			<%-- lien suppression --%>
+			<liferay-ui:search-container-column-text > 
+				<a href="#"><liferay-ui:icon image="delete" />Supprimer</a>
+			</liferay-ui:search-container-column-text>
+		</liferay-ui:search-container-row>
+		<%--itere et affiche la liste --%>
+		<liferay-ui:search-iterator />		
+	</liferay-ui:search-container>
 </div>
 
 <aui:button id="newScenario" value="Ajouter Scenario"></aui:button>
