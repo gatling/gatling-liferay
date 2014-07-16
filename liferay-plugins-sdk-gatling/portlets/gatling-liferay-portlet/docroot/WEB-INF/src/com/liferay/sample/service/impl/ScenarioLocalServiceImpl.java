@@ -46,4 +46,9 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	public List<Scenario> findBySimulationId(long simulationId) throws SystemException {
 		return scenarioPersistence.findBySimulationId(simulationId);
 	}
+	
+	@Override
+	public	void removeBySimulationId(long simulationId) throws SystemException {
+		scenarioPersistence.removeBySimulationId(simulationId);;
+	}
 }

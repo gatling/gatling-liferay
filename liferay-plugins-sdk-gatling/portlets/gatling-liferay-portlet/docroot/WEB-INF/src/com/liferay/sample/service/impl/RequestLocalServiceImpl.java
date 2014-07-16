@@ -44,8 +44,11 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 	
 	@Override
 	public List<Request> findByScenarioId(long scenarioId) throws SystemException{
-		
 			return requestPersistence.findByScenarioId(scenarioId);
-		
+	}
+	
+	@Override
+	public void removeByScenarioId(long scenarioId) throws SystemException {
+		requestPersistence.removeByScenarioId(scenarioId);
 	}
 }
