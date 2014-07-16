@@ -19,7 +19,7 @@
 		AUI().use('aui-base', function(A) {
 			var newVal = A.one('#<portlet:namespace/>poidForce').val();
 			if(newVal!=null){
-				A.all(':input').val(newVal);
+				A.all(':input:not([disabled])').val(newVal);
 			}					
 	    });
 	}
@@ -27,13 +27,25 @@
 	function <portlet:namespace/>showPoids()
 	{		
 		AUI().use('aui-base', function(A) {
-			var lstSelected =  A.all(':input');
-			var classe = this.Element.className;
-			console.log(classe+" is selected");
+			var lstSelected =  A.all(':input:not([disabled])');
+			var total =0;
 			for(var element in lstSelected){
-				var test= 100;
-				 A.one(':label.'+classe).val(test);
+				var total = total + element.val();
+			}
+			for(var element in lstSelected){
+				pourcent = element.val() / total;
+				classe = element.id;
+				A.one(':label.'+classe).val(pourcent);
 			}		
+	    });
+	}
+	
+	function <portlet:namespace/>showPoidsCase(elm)
+	{		
+		AUI().use('aui-base', function(A) {
+			var id= elm.class;
+			console.log("id= "+id);
+// 			A.one('input.'+elm.id).disabled("false");	
 	    });
 	}
 </script>
@@ -53,19 +65,17 @@
 			
 			<c:forEach var="layout" items='${ listLayout }' varStatus="status">
 				<tr>
-					<td> <aui:input type="checkbox" name="${status.index}"   class='url${status.index}' /></td>
+					<td> <aui:input type="checkbox" name="${status.index}"   id= "${status.index}" class='${status.index}' onChange='<%= renderResponse.getNamespace() + \"showPoidsCase(this)\" %>'/></td>
 					<td>${layout.name} </td>	
 					<td>
 						<c:choose>
 							<c:when test='${listrequest.containsKey(layout.friendlyURL)}'>
-								<aui:input  name="rate"  class='poids' value="${listrequest.get(layout.friendlyURL)} " onChange='<%= renderResponse.getNamespace() + \"showPoids()\" %>'>
-<%-- 									<aui:validator name="required" /> --%>
+								<aui:input  name="rate"  class="poids ${status.index}" disabled="false" value="${listrequest.get(layout.friendlyURL)} " onChange='<%= renderResponse.getNamespace() + \"showPoids()\" %>'>
 									<aui:validator name="range"> [0,100]</aui:validator>
 								</aui:input>
 							</c:when>
 							<c:otherwise>
-								<aui:input  name="rate"  class='poids' onChange='<%= renderResponse.getNamespace() + \"showPoids()\" %>'>
-									<aui:validator name="required" />
+								<aui:input  name="rate"  class="poids ${status.index}"  disabled="true" onChange='<%= renderResponse.getNamespace() + \"showPoids()\" %>'>
 									<aui:validator name="range"> [0,100]</aui:validator>
 								</aui:input>
 							</c:otherwise>
@@ -73,7 +83,7 @@
 						
 					</td>
 					
-					<td><label class='url${status.index}'>0%</label></td>
+					<td><label class='${status.index}'>0%</label></td>
 				</tr>
 			</c:forEach>
 		</table>
