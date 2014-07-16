@@ -17,8 +17,8 @@
 			<tr>
 				<th><liferay-ui:message key="scenario-edit-table-header-activate" /></th>
 				<th><liferay-ui:message key="scenario-edit-table-header-page" /></th>
-				<th><liferay-ui:message key="scenario-edit-table-header-rate" /></th>
 				<th><liferay-ui:message key="scenario-edit-table-header-weight" /></th>
+				<th><liferay-ui:message key="scenario-edit-table-header-percentage" /></th>
 			</tr>
 			
 			<c:forEach var="layout" items='${ listLayout }' varStatus="status">
@@ -52,10 +52,10 @@
 				</tr>
 			</c:forEach>
 		</table>
-		<aui:input  type="text" name="poidForce" id="poidForce" label="scenario-edit-force-rate"> 
+		<aui:input  type="text" name="poidForce" id="poidForce" label="scenario-edit-force-weight"> 
 			<aui:validator name="number"/>
 		</aui:input> 
-		<aui:button type="button" value="scenario-edit-force-rate-btn" onClick='<%=renderResponse.getNamespace() +"forcePoids()"%>'/>
+		<aui:button type="button" value="scenario-edit-force-weight-btn" onClick='<%=renderResponse.getNamespace() +"forcePoids()"%>'/>
 		
 	</aui:fieldset>
 	<aui:button-row>

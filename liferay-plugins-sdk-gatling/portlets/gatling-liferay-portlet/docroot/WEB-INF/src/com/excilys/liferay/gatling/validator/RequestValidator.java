@@ -26,8 +26,8 @@ public class RequestValidator {
 			valid = false;
 		}
 		
-		if (Validator.isNull(request.getRate())) {
-			errors.add("request-rate-required");
+		if (Validator.isNull(request.getWeight())) {
+			errors.add("request-weight-required");
 			valid = false;
 		}
 		
