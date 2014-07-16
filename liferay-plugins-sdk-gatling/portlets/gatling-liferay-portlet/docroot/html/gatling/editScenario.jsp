@@ -5,7 +5,7 @@
 	<portlet:param name="simulationId" value="${scenario.simulation_id }"/>		
 </portlet:renderURL>
 <%--titre de la page --%>
-<liferay-ui:header title="${not empty scenario.name ? scenario.name : 'New Scenario' }" backURL="${backURL }"/>
+<liferay-ui:header title="${scenario.name }" backURL="${backURL }"/>
 
 <portlet:actionURL name="editScenario"  var="editScenarioURL" windowState="normal"/>
 <aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario">
@@ -13,7 +13,12 @@
 		<aui:input type="hidden" name="scenarioId" value='${empty scenario ? "" : scenario.scenario_id }'/>	
 		<aui:input type="hidden" name="groupId" value='${scenario.group_id}'/>	
 		<table class="table table-striped table-bordered">		
-			<tr><th>Activate</th><th>Page</th><th>Rate</th><th>Weight(%) </th></tr>
+			<tr>
+				<th><liferay-ui:message key="scenario-edit-table-header-activate" /></th>
+				<th><liferay-ui:message key="scenario-edit-table-header-page" /></th>
+				<th><liferay-ui:message key="scenario-edit-table-header-rate" /></th>
+				<th><liferay-ui:message key="scenario-edit-table-header-weight" /></th>
+			</tr>
 			
 			<c:forEach var="layout" items='${ listLayout }' varStatus="status">
 				<tr>
@@ -25,7 +30,6 @@
 						<td>
 							<aui:input label="" name="rate"  cssClass="poids" value="${listrequest.get(layout.friendlyURL)}" onChange="showPoids()">
 								<aui:validator name="number"/>
-								<aui:validator name="range">[0,100]</aui:validator>
 							</aui:input>
 						</td>
 						<td><span class='url${status.index} percentage'>0%</span></td>
@@ -46,10 +50,10 @@
 				</tr>
 			</c:forEach>
 		</table>
-		<aui:input  type="text" name="poidForce" id="poidForce"> 
+		<aui:input  type="text" name="poidForce" id="poidForce" label="scenario-edit-force-rate"> 
 			<aui:validator name="number"/>
 		</aui:input> 
-		<aui:button type="button" value="Forcer le poids" onClick="forcePoids()"/>
+		<aui:button type="button" value="scenario-edit-force-rate-btn" onClick="forcePoids()"/>
 		
 	</aui:fieldset>
 	<aui:button-row>
