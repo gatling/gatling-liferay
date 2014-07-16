@@ -143,10 +143,10 @@ public class GatlingPortlet extends MVCPortlet {
 	 * edit scenario
 	 * @param request
 	 * @param response
+	 * @throws SystemException 
 	 * @throws Exception
 	 */
-	public void editScenario(ActionRequest request, ActionResponse response)
-			throws Exception {
+	public void editScenario(ActionRequest request, ActionResponse response) {
 	
 		Long idScenario = ParamUtil.getLong(request, "scenarioId");
 		Map<String, String[]> parameters = request.getParameterMap();
@@ -163,39 +163,57 @@ public class GatlingPortlet extends MVCPortlet {
 		if(idScenario !=null){
 			
 			long groupId =ParamUtil.getLong(request, "groupId");
-			List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false);
-			
-			for (String key : parameters.keySet()){
-
-				if(StringUtil.merge(parameters.get(key)).equals("true")){
-					int requestNumber = Integer.parseInt(key);
-					int weight  =  Integer.parseInt(StringUtil.merge(parameters.get("rate")).split(",")[requestNumber]);
-					String url = listLayouts.get(requestNumber).getFriendlyURL();
-					if(lstRequestToEdit.containsKey(url.trim())){
-						Request updatedRequest = lstRequestToEdit.get(url);
-						updatedRequest.setRate(weight);
-						log.info("nouveau poids "+weight);
-						RequestLocalServiceUtil.updateRequest(updatedRequest);
+			List<Layout> listLayouts;
+			try {
+				listLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false);
+				for (String key : parameters.keySet()){
+					
+					if((StringUtil.merge(parameters.get(key)).equals("true")) && (!key.contains("Checkbox")) ){
+						int requestNumber = Integer.parseInt(key);
+						int weight  =  Integer.parseInt(StringUtil.merge(parameters.get("rate")).split(",")[requestNumber]);
+						String url = listLayouts.get(requestNumber).getFriendlyURL();
+						if((lstRequestToEdit.containsKey(url.trim())) && (lstRequestToEdit.get(url).getRate() != weight)){
+							Request updatedRequest = lstRequestToEdit.get(url);
+							updatedRequest.setRate(weight);
+							RequestLocalServiceUtil.updateRequest(updatedRequest);
+							log.info("request updated succefully");
+						}
+						else if(! lstRequestToEdit.containsKey(url.trim())){					
+							addRequest(url, weight, idScenario);
+							log.info("request created and added succefully ");
+						}				
 					}
-					else{
-						log.info("creation de nouvelle requette ");
-						addRequest(url, weight, idScenario);
-					}				
+					else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox")) ){
+						int requestNumber = Integer.parseInt(key);
+						String url = listLayouts.get(requestNumber).getFriendlyURL();
+						if(lstRequestToEdit.containsKey(url.trim())){
+							Request RequestToDelete = lstRequestToEdit.get(url);
+							RequestLocalServiceUtil.deleteRequest(RequestToDelete);
+							log.info("request deleted succefully ");
+						}
+						
+					}
 				}
-			}
-		}
-		
-		// Récupération de la simulation
-		Scenario scenario = ScenarioLocalServiceUtil.getScenario(idScenario);
-		Simulation simulation = SimulationLocalServiceUtil.getSimulation(scenario.getSimulation_id());
-		request.setAttribute("simulation", simulation);
-		// Récupération des scénarios de la simulation
-		List<Scenario> liScenarios = getScenarioForSimulation(simulation.getSimulation_id());
-		request.setAttribute("listScenario", liScenarios);
-		// List of Sites
-		List<Group> liGroups = getListOfSites();
-		request.setAttribute("listGroup", liGroups);
-		response.setRenderParameter("jspPage", "/html/gatling/editSimulation.jsp"); 
+				
+				// Récupération de la simulation
+				Scenario scenario = ScenarioLocalServiceUtil.getScenario(idScenario);
+				Simulation simulation = SimulationLocalServiceUtil.getSimulation(scenario.getSimulation_id());
+				request.setAttribute("simulation", simulation);
+				// Récupération des scénarios de la simulation
+				List<Scenario> liScenarios = getScenarioForSimulation(simulation.getSimulation_id());
+				request.setAttribute("listScenario", liScenarios);
+				// List of Sites
+				List<Group> liGroups = getListOfSites();
+				request.setAttribute("listGroup", liGroups);
+				response.setRenderParameter("jspPage", "/html/gatling/editSimulation.jsp");
+			} catch (SystemException e) {
+				log.info("pbm with layout : "+e.getMessage());
+			} catch (PortalException e) {
+				log.info("pbm appel aux method localServiceUtil : "+e.getMessage());
+			} catch (Exception e) {
+				log.info("pbm with addRequestMethod : "+e.getMessage());
+			} 
+		}	 
 	}
 
 	/**
@@ -264,7 +282,6 @@ public class GatlingPortlet extends MVCPortlet {
 			 * Edition d'un scénario -> liste des requêtes
 			 */
 			try {
-				int sizeGroups  = GroupLocalServiceUtil.getGroupsCount();
 				Scenario scenario = ScenarioLocalServiceUtil.getScenario(ParamUtil.getLong(renderRequest, "scenarioId"));
 				long groupId = scenario.getGroup_id();
 

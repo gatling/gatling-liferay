@@ -4,7 +4,7 @@
 	<portlet:param name="page" value="/html/gatling/editSimulation.jsp"/>
 	<portlet:param name="simulationId" value="${scenario.simulation_id }"/>		
 </portlet:renderURL>
-<%--titre de la page --%>
+
 <liferay-ui:header title="${scenario.name }" backURL="${backURL }"/>
 
 
@@ -27,7 +27,7 @@
 				<c:choose>
 					<c:when test='${listrequest.containsKey(layout.friendlyURL)}'>
 						<%--Affichage on connait déjà la request --%>
-						<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' checked="checked" onChange="showPoids()"/></td>
+						<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' checked="true" onChange="showPoids()"/></td>
 						<td>${layout.name}</td>	
 						<td>
 							<aui:input label="" name="rate"  cssClass="poids" value="${listrequest.get(layout.friendlyURL)}" onChange="showPoids()">
@@ -55,7 +55,7 @@
 		<aui:input  type="text" name="poidForce" id="poidForce" label="scenario-edit-force-rate"> 
 			<aui:validator name="number"/>
 		</aui:input> 
-		<aui:button type="button" value="scenario-edit-force-rate-btn" onClick="forcePoids()"/>
+		<aui:button type="button" value="scenario-edit-force-rate-btn" onClick='<%=renderResponse.getNamespace() +"forcePoids()"%>'/>
 		
 	</aui:fieldset>
 	<aui:button-row>
@@ -71,7 +71,8 @@
 		AUI().use('aui-base', function(A) {
 			var newVal = A.one('#<portlet:namespace/>poidForce').val();
 			if(newVal!=null){
-				A.all(':input').val(newVal);
+				A.all('.poids').val(newVal);
+				showPoids();
 			}					
 	    });
 	}
