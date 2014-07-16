@@ -19,6 +19,7 @@
 				<tr>
 				<c:choose>
 					<c:when test='${listrequest.containsKey(layout.friendlyURL)}'>
+						<%--Affichage on connait déjà la request --%>
 						<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' checked="checked" onChange="showPoids()"/></td>
 						<td>${layout.name}</td>	
 						<td>
@@ -27,9 +28,10 @@
 								<aui:validator name="range">[0,100]</aui:validator>
 							</aui:input>
 						</td>
-						<td><span class='url${status.index}'>0%</span></td>
+						<td><span class='url${status.index} percentage'>0%</span></td>
 					</c:when>
 					<c:otherwise>
+						<%-- Affichage request pas enregistrée --%>
 						<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' onChange="showPoids()"/></td>
 						<td>${layout.name}</td>	
 						<td>
@@ -77,23 +79,10 @@
 							this.ancestor("tr").one(".percentage").text(perc.toFixed(2));
 						}
 					}
-					else this.ancestor("tr").one(".percentage").text(0.00);
+					else this.ancestor("tr").one(".percentage").text(0);
 			});
 	    });
 	}
 	// Pour afficher les pourcentages si les champs on été remplis (cas edit)
 	showPoids();
 </script>
-	
-<%-- 
-	function <portlet:namespace/>forcePoids()
-	{		
-		AUI().use('aui-base', function(A) {
-			var newVal = A.one('#<portlet:namespace/>poidForce').val();
-			if(newVal!=null){
-				A.all(':input').val(newVal);
-			};		
-	    });
-	}
-	
---%>
