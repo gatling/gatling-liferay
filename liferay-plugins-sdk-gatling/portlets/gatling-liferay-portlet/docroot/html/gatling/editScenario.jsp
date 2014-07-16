@@ -19,7 +19,7 @@
 				<tr>
 				<c:choose>
 					<c:when test='${listrequest.containsKey(layout.friendlyURL)}'>
-						<td><aui:input type="checkbox" name="${status.index}" cssClass='url${status.index}' checked="checked"/></td>
+						<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' checked="checked" onChange="showPoids()"/></td>
 						<td>${layout.name}</td>	
 						<td>
 							<aui:input label="" name="rate"  cssClass="poids" value="${listrequest.get(layout.friendlyURL)}" onChange="showPoids()">
@@ -30,7 +30,7 @@
 						<td><span class='url${status.index}'>0%</span></td>
 					</c:when>
 					<c:otherwise>
-						<td><aui:input type="checkbox" name="${status.index}" cssClass='url${status.index}' checked="checked"/></td>
+						<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' onChange="showPoids()"/></td>
 						<td>${layout.name}</td>	
 						<td>
 							<aui:input label="" name="rate"  cssClass="poids" 
@@ -63,22 +63,25 @@
 			var totalRate = parseInt(0);
 			A.all('.poids').each(
 				function() {
-					if(!(this.val() == "" || isNaN(this.val()))) {
-						totalRate += parseInt(this.val());	
-					}
+					if(this.ancestor("tr").one(".activate:checked"))
+						if(!(this.val() == "" || isNaN(this.val()))) {
+							totalRate += parseInt(this.val());	
+						}
 			});
 			var total = totalRate / 100;
 			A.all('.poids').each(
-					function() {
+				function() {
+					if(this.ancestor("tr").one(".activate:checked")) {
 						if(!(this.val() == "" || isNaN(this.val()))) {
 							var perc = (this.val() / totalRate) * 100;
 							this.ancestor("tr").one(".percentage").text(perc.toFixed(2));
 						}
-						
-				});
+					}
+					else this.ancestor("tr").one(".percentage").text(0.00);
+			});
 	    });
 	}
-	
+	// Pour afficher les pourcentages si les champs on été remplis (cas edit)
 	showPoids();
 </script>
 	
@@ -93,15 +96,4 @@
 	    });
 	}
 	
-	function <portlet:namespace/>showPoids()
-	{		
-		AUI().use('aui-base', function(A) {
-			var lstSelected =  A.all('.poids');
-			console.log(classe+" is selected");
-			for(var element in lstSelected){
-				var test= 100;
-				 A.one(':label.'+classe).val(test);
-			}
-	    });
-	}
 --%>
