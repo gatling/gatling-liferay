@@ -15,7 +15,10 @@
 package com.liferay.sample.service.impl;
 
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.sample.NoSuchScenarioException;
 import com.liferay.sample.model.Scenario;
+import com.liferay.sample.service.RequestLocalServiceUtil;
+import com.liferay.sample.service.ScenarioLocalServiceUtil;
 import com.liferay.sample.service.base.ScenarioLocalServiceBaseImpl;
 
 import java.util.List;
@@ -48,7 +51,22 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	}
 	
 	@Override
-	public	void removeBySimulationId(long simulationId) throws SystemException {
-		scenarioPersistence.removeBySimulationId(simulationId);;
+	public	void removeBySimulationIdCascade(long simulationId) throws SystemException {
+		List<Scenario> listRequests = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
+		//Demande de suppression des requetes associées
+		for(Scenario scenario : listRequests) {
+			RequestLocalServiceUtil.removeByScenarioId(scenario.getScenario_id());
+		}
+		scenarioPersistence.removeBySimulationId(simulationId);
+	}
+	
+	@Override
+	public	void removeByIdCascade(long scenarioId) throws SystemException {
+		RequestLocalServiceUtil.removeByScenarioId(scenarioId);
+		try {
+			scenarioPersistence.remove(scenarioId);
+		} catch (NoSuchScenarioException e) {
+			e.printStackTrace();
+		}
 	}
 }

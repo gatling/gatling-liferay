@@ -1,6 +1,5 @@
 package com.excilys.liferay.gatling;
 
-import com.excilys.liferay.gatling.service.GatlingService;
 import com.excilys.liferay.gatling.validator.RequestValidator;
 import com.excilys.liferay.gatling.validator.ScenarioValidator;
 import com.excilys.liferay.gatling.validator.SimulationValidator;
@@ -47,7 +46,6 @@ public class GatlingPortlet extends MVCPortlet {
 
 	private static Log log = LogFactoryUtil.getLog(GatlingPortlet.class);
 
-	private static GatlingService gatlingService = GatlingService.INSTANCE;
 
 	protected String jspListSimulation, jspEditSimulation, jspEditScenario;
 
@@ -94,7 +92,7 @@ public class GatlingPortlet extends MVCPortlet {
 		log.info("remove Simulation with id : "+ simulationId);
 		// Etape 1
 		// -> Suppression des tables
-		gatlingService.removeSimulation(simulationId);
+		SimulationLocalServiceUtil.removeSimulationCascade(simulationId);
 		// Etape 2 
 		// -> récupération des simulations
 		List<Simulation> list = new ArrayList<Simulation>();
@@ -207,6 +205,28 @@ public class GatlingPortlet extends MVCPortlet {
 		// Récupération de la simulation
 		Scenario scenario = ScenarioLocalServiceUtil.getScenario(idScenario);
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(scenario.getSimulation_id());
+		request.setAttribute("simulation", simulation);
+		// Récupération des scénarios de la simulation
+		List<Scenario> liScenarios = getScenarioForSimulation(simulation.getSimulation_id());
+		request.setAttribute("listScenario", liScenarios);
+		// List of Sites
+		List<Group> liGroups = getListOfSites();
+		request.setAttribute("listGroup", liGroups);
+		response.setRenderParameter("jspPage", "/html/gatling/editSimulation.jsp"); 
+	}
+	
+	public void removeScenario(ActionRequest request, ActionResponse response)
+			throws Exception {
+		long scenarioId = ParamUtil.getLong(request, "scenarioId");
+		//Pour le retour
+		long simulationId = ParamUtil.getLong(request, "simulationId");
+		log.info("remove Scenario with id : "+ scenarioId);
+		// Etape 1
+		// -> Suppression des tables
+		ScenarioLocalServiceUtil.removeByIdCascade(scenarioId);
+		// Etape 2 
+		// -> récupération des scénarios
+		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
 		request.setAttribute("simulation", simulation);
 		// Récupération des scénarios de la simulation
 		List<Scenario> liScenarios = getScenarioForSimulation(simulation.getSimulation_id());

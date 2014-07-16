@@ -18,7 +18,11 @@
 			<portlet:renderURL var="editScenarioURL">
 				<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
 				<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
-			</portlet:renderURL> 							
+			</portlet:renderURL> 	
+			<portlet:actionURL var="removeScenarioURL" name="removeScenario">
+				<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
+				<portlet:param name="simulationId" value="${scenario.simulation_id }" />
+			</portlet:actionURL> 						
 			<%--un champs texte --%>
 			<liferay-ui:search-container-column-text name="simulation-edit-table-header-name" value="${scenario.name }" href="${editScenarioURL}" />
 			<%--lien edition --%>
@@ -27,7 +31,7 @@
 			</liferay-ui:search-container-column-text>
 			<%-- lien suppression --%>
 			<liferay-ui:search-container-column-text> 
-				<a href="#"><liferay-ui:icon image="delete" /><liferay-ui:message key="delete-message"/></a>
+				<a href="${removeScenarioURL}"><liferay-ui:icon image="delete" /><liferay-ui:message key="delete-message"/></a>
 			</liferay-ui:search-container-column-text>
 		</liferay-ui:search-container-row>
 		<%--itere et affiche la liste --%>

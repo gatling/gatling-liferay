@@ -14,6 +14,9 @@
 
 package com.liferay.sample.service.impl;
 
+import com.liferay.portal.NoSuchModelException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.sample.service.ScenarioLocalServiceUtil;
 import com.liferay.sample.service.base.SimulationLocalServiceBaseImpl;
 
 /**
@@ -36,4 +39,13 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.liferay.sample.service.SimulationLocalServiceUtil} to access the simulation local service.
 	 */
+	
+	public void removeSimulationCascade(Long simulationId) throws SystemException {
+		ScenarioLocalServiceUtil.removeBySimulationIdCascade(simulationId);
+		try {
+			simulationPersistence.remove(simulationId);
+		} catch (NoSuchModelException e) {
+			e.printStackTrace();
+		}
+	}
 }
