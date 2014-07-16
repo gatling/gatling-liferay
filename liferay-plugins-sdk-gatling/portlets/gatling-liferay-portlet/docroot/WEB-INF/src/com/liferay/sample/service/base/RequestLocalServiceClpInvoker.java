@@ -113,6 +113,10 @@ public class RequestLocalServiceClpInvoker {
 		_methodName46 = "findByScenarioId";
 
 		_methodParameterTypes46 = new String[] { "long" };
+
+		_methodName47 = "removeByScenarioId";
+
+		_methodParameterTypes47 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -221,6 +225,13 @@ public class RequestLocalServiceClpInvoker {
 			return RequestLocalServiceUtil.findByScenarioId(((Long)arguments[0]).longValue());
 		}
 
+		if (_methodName47.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes47, parameterTypes)) {
+			RequestLocalServiceUtil.removeByScenarioId(((Long)arguments[0]).longValue());
+
+			return null;
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -262,4 +273,6 @@ public class RequestLocalServiceClpInvoker {
 	private String[] _methodParameterTypes41;
 	private String _methodName46;
 	private String[] _methodParameterTypes46;
+	private String _methodName47;
+	private String[] _methodParameterTypes47;
 }

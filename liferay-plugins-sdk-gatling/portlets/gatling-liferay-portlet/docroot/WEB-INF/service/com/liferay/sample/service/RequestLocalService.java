@@ -248,4 +248,7 @@ public interface RequestLocalService extends BaseLocalService,
 	public java.util.List<com.liferay.sample.model.Request> findByScenarioId(
 		long scenarioId)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public void removeByScenarioId(long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

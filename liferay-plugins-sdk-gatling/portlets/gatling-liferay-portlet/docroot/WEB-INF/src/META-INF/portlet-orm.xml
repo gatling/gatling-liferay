@@ -22,6 +22,7 @@
 		<attributes>
 			<id name="scenario_id" />
 			<basic name="name" />
+			<basic name="group_id" />
 			<basic name="simulation_id" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />

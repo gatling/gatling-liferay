@@ -113,6 +113,10 @@ public class RequestLocalServiceClp implements RequestLocalService {
 		_methodName19 = "findByScenarioId";
 
 		_methodParameterTypes19 = new String[] { "long" };
+
+		_methodName20 = "removeByScenarioId";
+
+		_methodParameterTypes20 = new String[] { "long" };
 	}
 
 	@Override
@@ -690,6 +694,30 @@ public class RequestLocalServiceClp implements RequestLocalService {
 		return (java.util.List<com.liferay.sample.model.Request>)ClpSerializer.translateOutput(returnObj);
 	}
 
+	@Override
+	public void removeByScenarioId(long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		try {
+			_invokableLocalService.invokeMethod(_methodName20,
+				_methodParameterTypes20, new Object[] { scenarioId });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -729,4 +757,6 @@ public class RequestLocalServiceClp implements RequestLocalService {
 	private String[] _methodParameterTypes17;
 	private String _methodName19;
 	private String[] _methodParameterTypes19;
+	private String _methodName20;
+	private String[] _methodParameterTypes20;
 }

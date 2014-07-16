@@ -20,6 +20,7 @@
 			<generator class="assigned" />
 		</id>
 		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="group_id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="simulation_id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="com.liferay.sample.model.impl.SimulationImpl" table="StressTool_Simulation">

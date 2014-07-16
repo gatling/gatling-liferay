@@ -279,6 +279,11 @@ public class RequestLocalServiceUtil {
 		return getService().findByScenarioId(scenarioId);
 	}
 
+	public static void removeByScenarioId(long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getService().removeByScenarioId(scenarioId);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

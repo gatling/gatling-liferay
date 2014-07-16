@@ -117,6 +117,10 @@ public class ScenarioLocalServiceClpInvoker {
 		_methodName46 = "findBySimulationId";
 
 		_methodParameterTypes46 = new String[] { "long" };
+
+		_methodName47 = "removeBySimulationId";
+
+		_methodParameterTypes47 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -225,6 +229,13 @@ public class ScenarioLocalServiceClpInvoker {
 			return ScenarioLocalServiceUtil.findBySimulationId(((Long)arguments[0]).longValue());
 		}
 
+		if (_methodName47.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes47, parameterTypes)) {
+			ScenarioLocalServiceUtil.removeBySimulationId(((Long)arguments[0]).longValue());
+
+			return null;
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -266,4 +277,6 @@ public class ScenarioLocalServiceClpInvoker {
 	private String[] _methodParameterTypes41;
 	private String _methodName46;
 	private String[] _methodParameterTypes46;
+	private String _methodName47;
+	private String[] _methodParameterTypes47;
 }

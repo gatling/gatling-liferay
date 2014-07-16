@@ -287,6 +287,12 @@ public class RequestLocalServiceWrapper implements RequestLocalService,
 		return _requestLocalService.findByScenarioId(scenarioId);
 	}
 
+	@Override
+	public void removeByScenarioId(long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_requestLocalService.removeByScenarioId(scenarioId);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

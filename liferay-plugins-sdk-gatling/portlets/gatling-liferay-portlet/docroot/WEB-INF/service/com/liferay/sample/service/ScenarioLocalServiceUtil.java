@@ -281,6 +281,11 @@ public class ScenarioLocalServiceUtil {
 		return getService().findBySimulationId(simulationId);
 	}
 
+	public static void removeBySimulationId(long simulationId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getService().removeBySimulationId(simulationId);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

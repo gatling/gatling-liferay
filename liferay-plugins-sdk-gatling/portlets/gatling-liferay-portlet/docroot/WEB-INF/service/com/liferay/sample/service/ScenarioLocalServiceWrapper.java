@@ -289,6 +289,12 @@ public class ScenarioLocalServiceWrapper implements ScenarioLocalService,
 		return _scenarioLocalService.findBySimulationId(simulationId);
 	}
 
+	@Override
+	public void removeBySimulationId(long simulationId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_scenarioLocalService.removeBySimulationId(simulationId);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

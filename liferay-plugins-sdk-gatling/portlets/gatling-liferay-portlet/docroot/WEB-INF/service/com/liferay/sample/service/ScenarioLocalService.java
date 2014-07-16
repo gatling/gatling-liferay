@@ -248,4 +248,7 @@ public interface ScenarioLocalService extends BaseLocalService,
 	public java.util.List<com.liferay.sample.model.Scenario> findBySimulationId(
 		long simulationId)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public void removeBySimulationId(long simulationId)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

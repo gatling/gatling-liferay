@@ -8,6 +8,7 @@ create table StressTool_Request (
 create table StressTool_Scenario (
 	scenario_id LONG not null primary key,
 	name VARCHAR(75) null,
+	group_id LONG,
 	simulation_id LONG
 );
 
