@@ -260,21 +260,17 @@ public class GatlingPortlet extends MVCPortlet {
 			renderRequest.setAttribute("listGroup", liGroups);
 		}
 		else if(page.equals(jspEditScenario)){
-			//scenario
+			/*
+			 * Edition d'un scénario -> liste des requêtes
+			 */
 			try {
-				log.info("jsp edit scenario");
-
 				int sizeGroups  = GroupLocalServiceUtil.getGroupsCount();
-				List<Group> listGroups = GroupLocalServiceUtil.getGroups(0, sizeGroups);
 				Scenario scenario = ScenarioLocalServiceUtil.getScenario(ParamUtil.getLong(renderRequest, "scenarioId"));
-				log.info("group id "+scenario.getGroup_id());
 				long groupId = scenario.getGroup_id();
 
 				List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false);
-				log.info("taille list"+listLayouts.size());
 				
-				renderRequest.setAttribute("scenarioId", ParamUtil.get(renderRequest, "scenarioId",0));
-				renderRequest.setAttribute("groupId", groupId);
+				renderRequest.setAttribute("scenario", scenario);
 				renderRequest.setAttribute("listLayout", listLayouts);	
 				
 				Map<String, Integer> ls =new HashMap<String, Integer>();
@@ -292,7 +288,6 @@ public class GatlingPortlet extends MVCPortlet {
 			} catch (SystemException e) {
 				e.printStackTrace();
 			} catch (PortalException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
