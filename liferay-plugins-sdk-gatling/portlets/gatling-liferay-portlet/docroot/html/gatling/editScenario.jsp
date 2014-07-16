@@ -25,7 +25,7 @@
 				<c:choose>
 					<c:when test='${listrequest.containsKey(layout.friendlyURL)}'>
 						<%--Affichage on connait déjà la request --%>
-						<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' checked="checked" onChange="showPoids()"/></td>
+						<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' checked="true" onChange="showPoids()"/></td>
 						<td>${layout.name}</td>	
 						<td>
 							<aui:input label="" name="rate"  cssClass="poids" value="${listrequest.get(layout.friendlyURL)}" onChange="showPoids()">
