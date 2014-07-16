@@ -13,7 +13,11 @@
 			<portlet:renderURL var="editSimulationURL">
 				<portlet:param name="page" value="/html/gatling/editSimulation.jsp"/>
 				<portlet:param name="simulationId" value="${simulation.simulation_id }"/>						
-			</portlet:renderURL>							
+			</portlet:renderURL>
+			<portlet:actionURL var="deleteSimulationURL" name="removeSimulation">
+				<portlet:param name="page" value="/html/gatling/editSimulation.jsp"/>
+				<portlet:param name="simulationId" value="${simulation.simulation_id }"/>						
+			</portlet:actionURL>						
 			<%--un champs texte --%>
 			<liferay-ui:search-container-column-text name="simulation-list-table-header-name" value="${simulation.name }" href="${editSimulationURL}"/>
 			<%--lien edition --%>
@@ -22,7 +26,7 @@
 			</liferay-ui:search-container-column-text>
 			<%-- lien suppression --%>
 			<liferay-ui:search-container-column-text > 
-				<a href="#"><liferay-ui:icon image="delete" /><liferay-ui:message key="delete-message"/></a>
+				<a href="${deleteSimulationURL}"><liferay-ui:icon image="delete" /><liferay-ui:message key="delete-message"/></a>
 			</liferay-ui:search-container-column-text>
 		</liferay-ui:search-container-row>
 		<%--itere et affiche la liste --%>
