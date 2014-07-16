@@ -59,7 +59,7 @@
 		
 	</aui:fieldset>
 	<aui:button-row>
-		<aui:button type="submit" value="addScenario"/>
+		<aui:button type="submit" />
 		<aui:button type="cancel" href="${backURL}" />
 	</aui:button-row>
 </aui:form>
