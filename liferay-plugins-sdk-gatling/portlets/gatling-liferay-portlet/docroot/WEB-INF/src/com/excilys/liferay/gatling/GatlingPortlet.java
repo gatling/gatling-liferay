@@ -47,6 +47,8 @@ public class GatlingPortlet extends MVCPortlet {
 
 	private static Log log = LogFactoryUtil.getLog(GatlingPortlet.class);
 
+	private static GatlingService gatlingService = GatlingService.INSTANCE;
+
 	protected String jspListSimulation, jspEditSimulation, jspEditScenario;
 
 
