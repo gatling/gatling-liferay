@@ -315,7 +315,16 @@ public class GatlingPortlet extends MVCPortlet {
 				renderRequest.setAttribute("simulation", simulation);
 				// List of Scénarios
 				List<Scenario> ls = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
+				
+				//map <scenario, number of requests>
+				Map<Scenario, Integer> scenariosMap = new HashMap<Scenario, Integer>();
+				for(Scenario scena : ls){
+					List<Request> lsR = RequestLocalServiceUtil.findByScenarioId(scena.getScenario_id());
+					scenariosMap.put(scena, lsR.size());
+				}
+				
 				renderRequest.setAttribute("listScenario", ls);	
+				renderRequest.setAttribute("MapScenario", scenariosMap);	
 			} catch (PortalException | SystemException e1) {
 				e1.printStackTrace();
 			}
@@ -333,9 +342,10 @@ public class GatlingPortlet extends MVCPortlet {
 				long groupId = scenario.getGroup_id();
 
 				List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false);
-
+				
 				renderRequest.setAttribute("scenario", scenario);
 				renderRequest.setAttribute("listLayout", listLayouts);	
+				renderRequest.setAttribute("siteName", listLayouts.get(0).getGroup().getName());
 
 				Map<String, Integer> ls =new HashMap<String, Integer>();
 				try {

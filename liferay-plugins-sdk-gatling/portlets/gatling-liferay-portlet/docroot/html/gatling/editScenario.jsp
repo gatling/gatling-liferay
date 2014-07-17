@@ -5,7 +5,7 @@
 	<portlet:param name="simulationId" value="${scenario.simulation_id }"/>		
 </portlet:renderURL>
 
-<liferay-ui:header title="${scenario.name }" backURL="${backURL }"/>
+<liferay-ui:header title="${scenario.name } : ${siteName}" backURL="${backURL }"/>
 
 
 <portlet:actionURL name="editScenario"  var="editScenarioURL" windowState="normal"/>
@@ -59,7 +59,7 @@
 		
 	</aui:fieldset>
 	<aui:button-row>
-		<aui:button type="submit" />
+		<aui:button type="submit" value="addScenario"/>
 		<aui:button type="cancel" href="${backURL}" />
 	</aui:button-row>
 </aui:form>
@@ -70,7 +70,7 @@
 	{		
 		AUI().use('aui-base', function(A) {
 			var newVal = A.one('#<portlet:namespace/>poidForce').val();
-			if(newVal!=null){
+			if((newVal!=null) && (!isNaN(newVal))){
 				A.all('.poids').val(newVal);
 				showPoids();
 			}					
@@ -100,6 +100,5 @@
 			});
 	    });
 	}
-	// Pour afficher les pourcentages si les champs on été remplis (cas edit)
 	showPoids();
 </script>
