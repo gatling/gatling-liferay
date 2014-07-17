@@ -249,6 +249,8 @@ public class GatlingPortlet extends MVCPortlet {
 				response.setRenderParameter("page", jspEditSimulation);
 			} catch (SystemException e) {
 				log.info("pbm with layout : "+e.getMessage());
+			} catch (PortalException e) {
+				log.info("pbm with ScenarioLocalServiceUtil.getScenario "+ e.getMessage());
 			} 
 		}
 	}
