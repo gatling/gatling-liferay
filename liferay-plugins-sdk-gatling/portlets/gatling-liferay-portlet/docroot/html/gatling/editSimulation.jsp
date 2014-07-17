@@ -24,7 +24,7 @@
 				<portlet:param name="simulationId" value="${scenario.simulation_id }" />
 			</portlet:actionURL> 						
 			<%--un champs texte --%>
-			<liferay-ui:search-container-column-text name="simulation-edit-table-header-name" value="${scenario.name }" href="${editScenarioURL}" />
+			<liferay-ui:search-container-column-text name="simulation-edit-table-header-name" value="${scenario.name } (${MapScenario.get(scenario) } requests)" href="${editScenarioURL}" />
 			<%--lien edition --%>
 			<liferay-ui:search-container-column-text>
 				<a href="${editScenarioURL}"><liferay-ui:icon image="edit" /><liferay-ui:message key="edit-message"/></a>
