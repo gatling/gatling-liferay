@@ -5,3 +5,7 @@
 .margin-left {
 	margin-left: 40px !important;
 }
+
+.portlet-topper-toolbar {
+	display:none !important;
+}

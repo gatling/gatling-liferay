@@ -96,9 +96,12 @@
 				else {
 					A.one("#checkAll").set("checked",false);
 				}
-			})
+			});
 		});
+		if(A.all(".activate:checked").size() === A.all(".activate").size())
+			A.one("#checkAll").set("checked",true);
 	});
+	
 	
 	
 	function <portlet:namespace/>forcePoids()
