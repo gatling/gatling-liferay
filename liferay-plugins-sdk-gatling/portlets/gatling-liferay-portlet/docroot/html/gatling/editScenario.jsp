@@ -15,7 +15,7 @@
 		<aui:input type="hidden" name="groupId" value='${scenario.group_id}'/>	
 		<table class="table table-striped table-bordered table-scenario">		
 			<tr>
-				<th><liferay-ui:message key="scenario-edit-table-header-activate" /></th>
+				<th><input type="checkbox" id="checkAll" /> <liferay-ui:message key="scenario-edit-table-header-activate" /></th>
 				<th><liferay-ui:message key="scenario-edit-table-header-page" /></th>
 				<th><liferay-ui:message key="scenario-edit-table-header-weight" />
 					<input type="text" name="poidForce" id="<portlet:namespace/>poidForce" class="margin-left"/>
@@ -65,7 +65,30 @@
 </aui:form>
 
 <script type="text/javascript">
-
+	AUI().use('aui-base', function(A) {
+		A.one("#checkAll").on('click',function(event) {
+			if(this.get('checked')) {
+				A.all(".activate").set("checked",true);
+			}
+			else {
+				A.all(".activate").set("checked",false);
+			}
+		});
+		
+		A.all(".activate").each(function() {
+		      this.on('click',function(event) {
+				if(this.get('checked')) {
+					if(A.all(".activate:checked").size() === A.all(".activate").size())
+						A.one("#checkAll").set("checked",true);
+				}
+				else {
+					A.one("#checkAll").set("checked",false);
+				}
+			})
+		});
+	});
+	
+	
 	function <portlet:namespace/>forcePoids()
 	{		
 		AUI().use('aui-base', function(A) {
