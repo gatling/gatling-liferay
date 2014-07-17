@@ -55,7 +55,6 @@
 				</tr>
 			</c:forEach>
 		</table> 
-		<aui:button type="button" value="scenario-edit-force-weight-btn" onClick='<%=renderResponse.getNamespace() +"forcePoids()"%>'/>
 		
 	</aui:fieldset>
 	<aui:button-row>
