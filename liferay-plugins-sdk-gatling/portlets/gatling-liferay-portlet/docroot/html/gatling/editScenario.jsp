@@ -45,17 +45,18 @@
 						<td>${layout.name}</td>	
 						<td>
 							<aui:input label="" name="rate"  cssClass="poids" 
-											onChange="showPoids()">
+											onChange="showPoids()" value="0">
 								<aui:validator name="number"/>
 								<aui:validator errorMessage="The weight must be provided" name="custom"> 
 									function(val, fieldNode, ruleValue){
 										console.log("verif de required");
-										AUI().use('aui-base', function(A) {
-											if(fieldNode.ancestor("tr").one(".activate:checked")){
-												return (val != "");
-											}
-											return true;
-										});
+										return true;
+<!-- 										AUI().use('aui-base', function(A) { -->
+<!-- 											if(fieldNode.ancestor("tr").one(".activate:checked")){ -->
+<!-- 												return (val != ""); -->
+<!-- 											} -->
+<!-- 											return true; -->
+<!-- 										}); -->
 									}
 								</aui:validator>
 							</aui:input>

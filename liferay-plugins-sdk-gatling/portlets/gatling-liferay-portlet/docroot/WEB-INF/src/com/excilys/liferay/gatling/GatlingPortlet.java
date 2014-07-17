@@ -14,10 +14,12 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
+import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.sample.model.Request;
 import com.liferay.sample.model.Scenario;
 import com.liferay.sample.model.Simulation;
@@ -115,12 +117,21 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	public void addScenario(ActionRequest request, ActionResponse response)
 			throws Exception {
+		
+		ThemeDisplay themeDisplay =
+				(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+		
 		//create scenario
 		long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
 		Scenario scenario = ScenarioLocalServiceUtil.createScenario(primaryKey);
 		scenario.setName(ParamUtil.getString(request, "scenarioName"));
 		scenario.setSimulation_id(ParamUtil.getLong(request, "simulationId"));
 		scenario.setGroup_id(ParamUtil.getLong(request, "sites"));
+		//ajout de l'url du site
+		String urlSite = GroupLocalServiceUtil.fetchGroup(ParamUtil.getLong(request, "sites")).getIconURL(themeDisplay);	
+		urlSite = urlSite.split("/")[0]+"//"+urlSite.split("/")[2]+"/web"+GroupLocalServiceUtil.fetchGroup(ParamUtil.getLong(request, "sites")).getFriendlyURL();
+		log.info(urlSite);
+		scenario.setUrl_site(urlSite);
 		// Saving ...
 		List<String> errors = new ArrayList<String>();
 		if(ScenarioValidator.validateScenario(scenario, errors)) {
