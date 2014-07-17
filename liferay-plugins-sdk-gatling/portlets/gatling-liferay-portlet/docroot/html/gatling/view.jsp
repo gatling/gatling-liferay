@@ -28,6 +28,8 @@
 			<liferay-ui:search-container-column-text > 
 				<a href="${deleteSimulationURL}"><liferay-ui:icon image="delete" /><liferay-ui:message key="delete-message"/></a>
 			</liferay-ui:search-container-column-text>
+			<%--menu action --%>
+			<liferay-ui:search-container-column-jsp align="right" path="/html/gatling/simulation_actions.jsp"/>
 		</liferay-ui:search-container-row>
 		<%--itere et affiche la liste --%>
 		<liferay-ui:search-iterator />		
