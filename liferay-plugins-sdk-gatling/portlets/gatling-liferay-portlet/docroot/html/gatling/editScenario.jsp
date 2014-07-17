@@ -47,7 +47,7 @@
 							<aui:input label="" name="rate"  cssClass="poids" 
 											onChange="showPoids()" value="0">
 								<aui:validator name="number"/>
-								<aui:validator errorMessage="The weight must be provided" name="custom"> 
+								<%--<aui:validator errorMessage="The weight must be provided" name="custom"> 
 									function(val, fieldNode, ruleValue){
 										console.log("verif de required");
 										return true;
@@ -58,7 +58,7 @@
 <!-- 											return true; -->
 <!-- 										}); -->
 									}
-								</aui:validator>
+								</aui:validator>  --%>
 							</aui:input>
 						</td>
 						<td><span class='url${status.index} percentage'>0%</span></td>
@@ -70,7 +70,7 @@
 		
 	</aui:fieldset>
 	<aui:button-row>
-		<aui:button type="submit" value="addScenario"/>
+		<aui:button type="submit" />
 		<aui:button type="cancel" href="${backURL}" />
 	</aui:button-row>
 </aui:form>

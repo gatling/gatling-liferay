@@ -243,6 +243,9 @@ public class GatlingPortlet extends MVCPortlet {
 						}
 					}
 				}
+				
+				Scenario scenario = ScenarioLocalServiceUtil.getScenario(idScenario);
+				response.setRenderParameter("simulationId", Long.toString(scenario.getSimulation_id()));
 				response.setRenderParameter("page", jspEditSimulation);
 			} catch (SystemException e) {
 				log.info("pbm with layout : "+e.getMessage());
