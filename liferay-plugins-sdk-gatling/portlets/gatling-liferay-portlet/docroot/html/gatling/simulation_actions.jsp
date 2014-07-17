@@ -17,6 +17,11 @@
 	</portlet:renderURL>
 
 	<liferay-ui:icon image="edit" url="${editSimulationURL}" />
+	
+	<portlet:renderURL var="GenerateSimulationURL">
+	</portlet:renderURL>
+
+	<liferay-ui:icon image="submit" url="${GenerateSimulationURL}" message="Generate Simulation"/>
 
 	<portlet:actionURL var="deleteSimulationURL" name="removeSimulation">
 		<portlet:param name="simulationId"

@@ -25,14 +25,8 @@
 			</portlet:actionURL> 						
 			<%--un champs texte --%>
 			<liferay-ui:search-container-column-text name="simulation-edit-table-header-name" value="${scenario.name } (${MapScenario.get(scenario) } requests)" href="${editScenarioURL}" />
-			<%--lien edition --%>
-			<liferay-ui:search-container-column-text>
-				<a href="${editScenarioURL}"><liferay-ui:icon image="edit" /><liferay-ui:message key="edit-message"/></a>
-			</liferay-ui:search-container-column-text>
-			<%-- lien suppression --%>
-			<liferay-ui:search-container-column-text> 
-				<a href="${removeScenarioURL}"><liferay-ui:icon image="delete" /><liferay-ui:message key="delete-message"/></a>
-			</liferay-ui:search-container-column-text>
+			<%--menu action --%>
+			<liferay-ui:search-container-column-jsp align="right" path="/html/gatling/scenario_actions.jsp"/>
 		</liferay-ui:search-container-row>
 		<%--itere et affiche la liste --%>
 		<liferay-ui:search-iterator />		
