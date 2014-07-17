@@ -13,12 +13,15 @@
 	<aui:fieldset>
 		<aui:input type="hidden" name="scenarioId" value='${empty scenario ? "" : scenario.scenario_id }'/>	
 		<aui:input type="hidden" name="groupId" value='${scenario.group_id}'/>	
-		<table class="table table-striped table-bordered">		
+		<table class="table table-striped table-bordered table-scenario">		
 			<tr>
-				<th><liferay-ui:message key="scenario-edit-table-header-activate" /></th>
+				<th><input type="checkbox" id="checkAll" /> <liferay-ui:message key="scenario-edit-table-header-activate" /></th>
 				<th><liferay-ui:message key="scenario-edit-table-header-page" /></th>
-				<th><liferay-ui:message key="scenario-edit-table-header-rate" /></th>
-				<th><liferay-ui:message key="scenario-edit-table-header-weight" /></th>
+				<th><liferay-ui:message key="scenario-edit-table-header-weight" />
+					<input type="text" name="poidForce" id="<portlet:namespace/>poidForce" class="margin-left"/>
+					<aui:button type="button" value="scenario-edit-force-weight-btn" onClick="<%=renderResponse.getNamespace() +\"forcePoids()\" %>"/>
+				</th>
+				<th><liferay-ui:message key="scenario-edit-table-header-percentage" /></th>
 			</tr>
 			
 			<c:forEach var="layout" items='${ listLayout }' varStatus="status">
@@ -62,11 +65,8 @@
 				</c:choose>
 				</tr>
 			</c:forEach>
-		</table>
-		<aui:input  type="text" name="poidForce" id="poidForce" label="scenario-edit-force-rate"> 
-			<aui:validator name="number"/>
-		</aui:input> 
-		<aui:button type="button" value="scenario-edit-force-rate-btn" onClick='<%=renderResponse.getNamespace() +"forcePoids()"%>'/>
+		</table> 
+		<aui:button type="button" value="scenario-edit-force-weight-btn" onClick='<%=renderResponse.getNamespace() +"forcePoids()"%>'/>
 		
 	</aui:fieldset>
 	<aui:button-row>
@@ -76,7 +76,30 @@
 </aui:form>
 
 <script type="text/javascript">
-
+	AUI().use('aui-base', function(A) {
+		A.one("#checkAll").on('click',function(event) {
+			if(this.get('checked')) {
+				A.all(".activate").set("checked",true);
+			}
+			else {
+				A.all(".activate").set("checked",false);
+			}
+		});
+		
+		A.all(".activate").each(function() {
+		      this.on('click',function(event) {
+				if(this.get('checked')) {
+					if(A.all(".activate:checked").size() === A.all(".activate").size())
+						A.one("#checkAll").set("checked",true);
+				}
+				else {
+					A.one("#checkAll").set("checked",false);
+				}
+			})
+		});
+	});
+	
+	
 	function <portlet:namespace/>forcePoids()
 	{		
 		AUI().use('aui-base', function(A) {

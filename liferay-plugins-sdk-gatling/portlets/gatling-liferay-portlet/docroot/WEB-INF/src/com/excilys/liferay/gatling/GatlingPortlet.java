@@ -180,9 +180,9 @@ public class GatlingPortlet extends MVCPortlet {
 						int requestNumber = Integer.parseInt(key);
 						int weight  =  Integer.parseInt(StringUtil.merge(parameters.get("rate")).split(",")[requestNumber]);
 						String url = listLayouts.get(requestNumber).getFriendlyURL();
-						if((lstRequestToEdit.containsKey(url.trim())) && (lstRequestToEdit.get(url).getRate() != weight)){
+						if((lstRequestToEdit.containsKey(url.trim())) && (lstRequestToEdit.get(url).getWeight() != weight)){
 							Request updatedRequest = lstRequestToEdit.get(url);
-							updatedRequest.setRate(weight);
+							updatedRequest.setWeight(weight);
 							// Saving ...
 							List<String> errors = new ArrayList<String>();
 							if(RequestValidator.validateRequest(updatedRequest, errors)) {
@@ -273,7 +273,7 @@ public class GatlingPortlet extends MVCPortlet {
 		long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
 		Request newRequest = RequestLocalServiceUtil.createRequest(primaryKey);
 		newRequest.setUrl(url);
-		newRequest.setRate(rate);
+		newRequest.setWeight(rate);
 		newRequest.setScenario_id(idScenario);
 		// Saving ...
 		List<String> errors = new ArrayList<String>();
@@ -347,10 +347,10 @@ public class GatlingPortlet extends MVCPortlet {
 				renderRequest.setAttribute("listLayout", listLayouts);	
 				renderRequest.setAttribute("siteName", listLayouts.get(0).getGroup().getName());
 
-				Map<String, Integer> ls =new HashMap<String, Integer>();
+				Map<String, Double> ls =new HashMap<String, Double>();
 				try {
 					for(Request r :RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(renderRequest, "scenarioId",0))){
-						ls.put(r.getUrl(), r.getRate());
+						ls.put(r.getUrl(), r.getWeight());
 					}
 
 				} catch (SystemException e) {
