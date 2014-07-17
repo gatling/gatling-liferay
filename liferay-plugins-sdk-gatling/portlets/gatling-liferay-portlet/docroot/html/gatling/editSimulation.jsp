@@ -49,20 +49,19 @@
 <%--Formulaire d'ajout --%>
 <div id="newFormScenario" hidden="true">
 	<aui:form action="${addScenarioURL}" name="scenario_fm" id="scenario_fm">
+	<aui:input label="simulation-edit-form-nom-scenario" name="scenarioName">
+		<aui:validator name="required"></aui:validator>
+	</aui:input>
+	<aui:fieldset>
+		<aui:select label="simulation-edit-form-sites" name="sites" showEmptyOption="true" >
+			<c:forEach var="group" items="${listGroup}">
+				<aui:option label="${group.name}" value="${group.groupId}" />
+			</c:forEach>
+		</aui:select>
+	</aui:fieldset>
 
-		<aui:input label="simulation-edit-form-nom-scenario" name="scenarioName">
-			<aui:validator name="required"></aui:validator>
-		</aui:input>
-		<aui:fieldset>
-			<aui:select label="simulation-edit-form-sites" name="sites" showEmptyOption="true" >
-				<c:forEach var="group" items="${listGroup}">
-					<aui:option label="${group.name}" value="${group.groupId}" />
-				</c:forEach>
-			</aui:select>
-		</aui:fieldset>
-
-		<aui:button name="ajouter-scenario" type="submit"></aui:button>
-	</aui:form>
+	<aui:button name="ajouter-scenario" type="submit"></aui:button>
+</aui:form>
 </div>
 
 <aui:script>
@@ -73,7 +72,7 @@ YUI().use(
       {
         bodyContent: AUI().one("#newFormScenario").html(),
         centered: true,
-        headerContent: '<h3><liferay-ui:message key="simulation-edit-form-header"></liferay-ui:message></h3>',
+        headerContent: '<h3><liferay-ui:message key="simulation-edit-form-header"/></h3>',
         modal: true,
         resizable: false,
         visible: false,
