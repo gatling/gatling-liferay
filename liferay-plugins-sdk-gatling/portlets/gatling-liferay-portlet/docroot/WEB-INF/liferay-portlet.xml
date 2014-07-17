@@ -10,6 +10,9 @@
 			configuration
 		</control-panel-entry-category>
 		<control-panel-entry-weight>1.5</control-panel-entry-weight>
+		<!-- remove default template (and portlet-topper-toolbar) -->
+		<use-default-template>false</use-default-template>
+		<!-- evite de double post d'action -->
 		<action-url-redirect>true</action-url-redirect>
 		<header-portlet-css>/css/main.css</header-portlet-css>
 		<footer-portlet-javascript>
