@@ -13,11 +13,14 @@
 	<aui:fieldset>
 		<aui:input type="hidden" name="scenarioId" value='${empty scenario ? "" : scenario.scenario_id }'/>	
 		<aui:input type="hidden" name="groupId" value='${scenario.group_id}'/>	
-		<table class="table table-striped table-bordered">		
+		<table class="table table-striped table-bordered table-scenario">		
 			<tr>
 				<th><liferay-ui:message key="scenario-edit-table-header-activate" /></th>
 				<th><liferay-ui:message key="scenario-edit-table-header-page" /></th>
-				<th><liferay-ui:message key="scenario-edit-table-header-weight" /></th>
+				<th><liferay-ui:message key="scenario-edit-table-header-weight" />
+					<input type="text" name="poidForce" id="<portlet:namespace/>poidForce" class="margin-left"/>
+					<aui:button type="button" value="scenario-edit-force-weight-btn" onClick="<%=renderResponse.getNamespace() +\"forcePoids()\" %>"/>
+				</th>
 				<th><liferay-ui:message key="scenario-edit-table-header-percentage" /></th>
 			</tr>
 			
@@ -51,10 +54,7 @@
 				</c:choose>
 				</tr>
 			</c:forEach>
-		</table>
-		<aui:input  type="text" name="poidForce" id="poidForce" label="scenario-edit-force-weight"> 
-			<aui:validator name="number"/>
-		</aui:input> 
+		</table> 
 		<aui:button type="button" value="scenario-edit-force-weight-btn" onClick='<%=renderResponse.getNamespace() +"forcePoids()"%>'/>
 		
 	</aui:fieldset>

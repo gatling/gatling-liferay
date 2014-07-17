@@ -29,5 +29,3 @@
 
 
 <liferay-theme:defineObjects />
-
-<%@ include file="/html/common/init-ext.jsp" %>
