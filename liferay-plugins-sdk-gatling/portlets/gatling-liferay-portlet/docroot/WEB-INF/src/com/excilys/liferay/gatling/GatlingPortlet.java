@@ -170,6 +170,16 @@ public class GatlingPortlet extends MVCPortlet {
 				SessionErrors.add(request, error);
 			}
 		}
+		
+		//add Requests
+		List<Layout> listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), false));
+		List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), true);
+		listLayouts.addAll(listLayoutsPrivate);
+		
+		for(Layout layout: listLayouts){
+			addRequest(layout.getFriendlyURL(), 0, scenario.getScenario_id(), false);
+		}
+		
 		response.setRenderParameter("simulationId", Long.toString(scenario.getSimulation_id()));
 		response.setRenderParameter("page", jspEditSimulation); 
 	}
@@ -228,7 +238,7 @@ public class GatlingPortlet extends MVCPortlet {
 
 						}
 						else if(! lstRequestToEdit.containsKey(url.trim())){					
-							addRequest(url, weight, idScenario);
+							//addRequest(url, weight, idScenario);
 							log.info("request created and added succefully ");
 						}				
 					}
@@ -278,7 +288,7 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 
 
-	public void addRequest(String url, double rate, long idScenario) {
+	public void addRequest(String url, double rate, long idScenario, boolean checked) {
 
 		log.info("addRequest contrôleur");
 		//create request
@@ -289,6 +299,7 @@ public class GatlingPortlet extends MVCPortlet {
 			newRequest.setUrl(url);
 			newRequest.setWeight(rate);
 			newRequest.setScenario_id(idScenario);
+			newRequest.setChecked(checked);
 			// Saving ...
 			List<String> errors = new ArrayList<String>();
 			if(RequestValidator.validateRequest(newRequest, errors)) {
