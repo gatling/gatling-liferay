@@ -202,12 +202,14 @@ public class GatlingPortlet extends MVCPortlet {
 
 			List<Layout> listLayouts;
 			try {
-				listLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false);
+				listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(groupId, false));
+				List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true);
+				listLayouts.addAll(listLayoutsPrivate);
 				for (String key : parameters.keySet()){
 
 					if((StringUtil.merge(parameters.get(key)).equals("true")) && (!key.contains("Checkbox")) ){
 						int requestNumber = Integer.parseInt(key);
-						int weight  =  Integer.parseInt(StringUtil.merge(parameters.get("rate")).split(",")[requestNumber]);
+						double weight  =   Double.parseDouble(StringUtil.merge(parameters.get("rate")).split(",")[requestNumber]);
 						String url = listLayouts.get(requestNumber).getFriendlyURL();
 						if((lstRequestToEdit.containsKey(url.trim())) && (lstRequestToEdit.get(url).getWeight() != weight)){
 							Request updatedRequest = lstRequestToEdit.get(url);
@@ -244,10 +246,6 @@ public class GatlingPortlet extends MVCPortlet {
 				response.setRenderParameter("page", jspEditSimulation);
 			} catch (SystemException e) {
 				log.info("pbm with layout : "+e.getMessage());
-			} catch (PortalException e) {
-				log.info("pbm appel aux method localServiceUtil : "+e.getMessage());
-			} catch (Exception e) {
-				log.info("pbm with addRequestMethod : "+e.getMessage());
 			} 
 		}
 	}
@@ -275,21 +273,26 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 
 
-	public void addRequest(String url, int rate, long idScenario)
-			throws Exception {
+	public void addRequest(String url, double rate, long idScenario) {
 
 		log.info("addRequest contrôleur");
 		//create request
-		long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
-		Request newRequest = RequestLocalServiceUtil.createRequest(primaryKey);
-		newRequest.setUrl(url);
-		newRequest.setWeight(rate);
-		newRequest.setScenario_id(idScenario);
-		// Saving ...
-		List<String> errors = new ArrayList<String>();
-		if(RequestValidator.validateRequest(newRequest, errors)) {
-			newRequest = RequestLocalServiceUtil.addRequest(newRequest);
+		long primaryKey;
+		try {
+			primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
+			Request newRequest = RequestLocalServiceUtil.createRequest(primaryKey);
+			newRequest.setUrl(url);
+			newRequest.setWeight(rate);
+			newRequest.setScenario_id(idScenario);
+			// Saving ...
+			List<String> errors = new ArrayList<String>();
+			if(RequestValidator.validateRequest(newRequest, errors)) {
+				newRequest = RequestLocalServiceUtil.addRequest(newRequest);
+			}
+		} catch (SystemException e) {
+			log.info("pbm with addRequestMethod "+e.getMessage());
 		}
+		
 	}
 	/**
 	 * ici en fonction de la page demandée, on effectue différentes actions pour envoyer <br/>
