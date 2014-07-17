@@ -26,14 +26,15 @@
 			<name>form-first-scenario-jsp</name>
 			<value>/html/gatling/formAddFirstScenario.jsp</value>
 		</init-param>
-		<!--  -->
+		<!-- -->
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
 			<portlet-mode>view</portlet-mode>
 		</supports>
-		<supported-locale>en</supported-locale>       
-        <supported-locale>fr</supported-locale>
+		<supported-locale>en</supported-locale>
+		<supported-locale>fr</supported-locale>
+		<resource-bundle>content.Language</resource-bundle>
 		<portlet-info>
 			<title>Stress Tool</title>
 			<short-title>Gatling</short-title>
@@ -51,6 +52,6 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
-		
+
 	</portlet>
 </portlet-app>
