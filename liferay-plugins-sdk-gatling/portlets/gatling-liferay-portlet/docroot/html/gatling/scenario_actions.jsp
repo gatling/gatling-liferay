@@ -19,6 +19,7 @@
 	<portlet:actionURL var="deleteScenarioURL" name="removeScenario">
 		<portlet:param name="scenarioId"
 			value="<%=String.valueOf(scenarioId)%>" />
+				<portlet:param name="simulationId" value="<%=String.valueOf(scenario.getSimulation_id())%>" />
 	</portlet:actionURL>
 
 	<liferay-ui:icon-delete url="${deleteScenarioURL}" />
