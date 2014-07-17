@@ -79,11 +79,12 @@
 	AUI().use('aui-base', function(A) {
 		A.one("#checkAll").on('click',function(event) {
 			if(this.get('checked')) {
-				A.all(".activate").set("checked",true);
+				A.all(".activate").set("checked",true);		
 			}
 			else {
 				A.all(".activate").set("checked",false);
 			}
+			showPoids();
 		});
 		
 		A.all(".activate").each(function() {
@@ -127,7 +128,10 @@
 					if(this.ancestor("tr").one(".activate:checked")) {
 						if(!(this.val() == "" || isNaN(this.val()))) {
 							var perc = (this.val() / totalRate) * 100;
-							this.ancestor("tr").one(".percentage").text(perc.toFixed(2));
+							//cas du 0/0
+							if(isNaN(perc))
+								this.ancestor("tr").one(".percentage").text("0");
+							else this.ancestor("tr").one(".percentage").text(perc.toFixed(2));
 						}
 					}
 					else this.ancestor("tr").one(".percentage").text(0);
