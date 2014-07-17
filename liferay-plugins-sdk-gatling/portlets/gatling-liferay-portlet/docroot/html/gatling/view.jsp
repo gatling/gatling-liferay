@@ -20,14 +20,6 @@
 			</portlet:actionURL>						
 			<%--un champs texte --%>
 			<liferay-ui:search-container-column-text name="simulation-list-table-header-name" value="${simulation.name }" href="${editSimulationURL}"/>
-			<%--lien edition --%>
-			<liferay-ui:search-container-column-text >
-				<a href="${editSimulationURL}"><liferay-ui:icon image="edit" /><liferay-ui:message key="edit-message"/></a>
-			</liferay-ui:search-container-column-text>
-			<%-- lien suppression --%>
-			<liferay-ui:search-container-column-text > 
-				<a href="${deleteSimulationURL}"><liferay-ui:icon image="delete" /><liferay-ui:message key="delete-message"/></a>
-			</liferay-ui:search-container-column-text>
 			<%--menu action --%>
 			<liferay-ui:search-container-column-jsp align="right" path="/html/gatling/simulation_actions.jsp"/>
 		</liferay-ui:search-container-row>
