@@ -49,7 +49,7 @@ public class GatlingPortlet extends MVCPortlet {
 	private static Log log = LogFactoryUtil.getLog(GatlingPortlet.class);
 
 
-	protected String jspListSimulation, jspEditSimulation, jspEditScenario;
+	protected String jspListSimulation, jspEditSimulation, jspEditScenario, jspFormFirstScenario;
 
 
 	/**
@@ -60,6 +60,7 @@ public class GatlingPortlet extends MVCPortlet {
 		jspListSimulation = getInitParameter("list-simulation-jsp");
 		jspEditSimulation = getInitParameter("edit-simulation-jsp");
 		jspEditScenario = getInitParameter("edit-scenario-jsp");
+		jspFormFirstScenario = getInitParameter("form-first-scenario-jsp");
 		super.init();
 	}
 
@@ -77,15 +78,22 @@ public class GatlingPortlet extends MVCPortlet {
 		simulation.setName(ParamUtil.getString(request, "simulationName"));
 		List<String> errors = new ArrayList<String>();
 		if(SimulationValidator.validateSimulation(simulation, errors)) {
-
-			SimulationLocalServiceUtil.addSimulation(simulation);
+			simulation = SimulationLocalServiceUtil.addSimulation(simulation);
+			List<Scenario> list = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
+			if(list.isEmpty()) {
+				response.setRenderParameter("simulationId", Long.toString(simulation.getSimulation_id()));
+				response.setRenderParameter("page", jspFormFirstScenario);
+			}
+			else {
+				response.setRenderParameter("page", jspListSimulation);
+			}
 		}
 		else {
 			for(String error : errors) {
 				SessionErrors.add(request, error);
 			}
 		}
-		sendRedirect(request, response);
+		
 	}
 
 	public void removeSimulation(ActionRequest request, ActionResponse response)
@@ -95,22 +103,42 @@ public class GatlingPortlet extends MVCPortlet {
 		// Etape 1
 		// -> Suppression des tables
 		SimulationLocalServiceUtil.removeSimulationCascade(simulationId);
-		// Etape 2 
-		// -> récupération des simulations
-		List<Simulation> list = new ArrayList<Simulation>();
-		try {
-			list = SimulationLocalServiceUtil.getSimulations(0, SimulationLocalServiceUtil.getSimulationsCount());
-		} catch (SystemException e) {
-			e.printStackTrace();
-		}
-		request.setAttribute("listSimulation", list);
-		response.setRenderParameter("jspPage", jspListSimulation); 
-		sendRedirect(request, response);
+		response.setRenderParameter("page", jspListSimulation);
 	}	
 
 	/*
 	 * ==== Scenario ====
 	 */
+	/**
+	 * Add the First Scenario to the database
+	 * 
+	 */
+	public void addFirstScenario(ActionRequest request, ActionResponse response)
+			throws Exception {
+		//create scenario
+		long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
+		Scenario scenario = ScenarioLocalServiceUtil.createScenario(primaryKey);
+		scenario.setName(ParamUtil.getString(request, "scenarioName"));
+		scenario.setSimulation_id(ParamUtil.getLong(request, "simulationId"));
+		scenario.setGroup_id(ParamUtil.getLong(request, "sites"));
+		// Saving ...
+		List<String> errors = new ArrayList<String>();
+		if(ScenarioValidator.validateScenario(scenario, errors)) {
+			scenario = ScenarioLocalServiceUtil.addScenario(scenario);
+			log.info("First Scenario Added");
+			// redirect to editScenario
+			response.setRenderParameter("scenarioId", Long.toString(scenario.getScenario_id()));
+			response.setRenderParameter("page", jspEditScenario);
+		}
+		else {
+			for(String error : errors) {
+				SessionErrors.add(request, error);
+			}
+			// redirect to form first scénario
+			response.setRenderParameter("simulationId", Long.toString(scenario.getSimulation_id()));
+			response.setRenderParameter("page", jspFormFirstScenario);
+		}
+	}
 	/**
 	 * Add a new Scenario to the database
 	 * 
@@ -142,18 +170,8 @@ public class GatlingPortlet extends MVCPortlet {
 				SessionErrors.add(request, error);
 			}
 		}
-		// Récupération de la simulation
-		Simulation simulation = SimulationLocalServiceUtil.getSimulation(ParamUtil.getLong(request, "simulationId"));
-		request.setAttribute("simulation", simulation);
-		// Récupération des scénarios de la simulation
-		List<Scenario> liScenarios = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
-		request.setAttribute("listScenario", liScenarios);
-		// List of Sites
-		List<Group> liGroups = getListOfSites();
-		request.setAttribute("listGroup", liGroups);
-
-		response.setRenderParameter("jspPage", jspEditSimulation); 
-		sendRedirect(request, response);
+		response.setRenderParameter("simulationId", Long.toString(scenario.getSimulation_id()));
+		response.setRenderParameter("page", jspEditSimulation); 
 	}
 
 
@@ -223,17 +241,7 @@ public class GatlingPortlet extends MVCPortlet {
 						}
 					}
 				}
-				// Récupération de la simulation
-				Scenario scenario = ScenarioLocalServiceUtil.getScenario(idScenario);
-				Simulation simulation = SimulationLocalServiceUtil.getSimulation(scenario.getSimulation_id());
-				request.setAttribute("simulation", simulation);
-				// Récupération des scénarios de la simulation
-				List<Scenario> liScenarios = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
-				request.setAttribute("listScenario", liScenarios);
-				// List of Sites
-				List<Group> liGroups = getListOfSites();
-				request.setAttribute("listGroup", liGroups);
-				response.setRenderParameter("jspPage", "/html/gatling/editSimulation.jsp");
+				response.setRenderParameter("page", jspEditSimulation);
 			} catch (SystemException e) {
 				log.info("pbm with layout : "+e.getMessage());
 			} catch (PortalException e) {
@@ -253,17 +261,8 @@ public class GatlingPortlet extends MVCPortlet {
 		// Etape 1
 		// -> Suppression des tables
 		ScenarioLocalServiceUtil.removeByIdCascade(scenarioId);
-		// Etape 2 
-		// -> récupération des scénarios
-		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
-		request.setAttribute("simulation", simulation);
-		// Récupération des scénarios de la simulation
-		List<Scenario> liScenarios = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
-		request.setAttribute("listScenario", liScenarios);
-		// List of Sites
-		List<Group> liGroups = getListOfSites();
-		request.setAttribute("listGroup", liGroups);
-		response.setRenderParameter("jspPage", "/html/gatling/editSimulation.jsp"); 
+		response.setRenderParameter("simulationId", Long.toString(simulationId));
+		response.setRenderParameter("page", jspEditSimulation); 
 	}
 
 	/*
@@ -302,11 +301,11 @@ public class GatlingPortlet extends MVCPortlet {
 		/* récupération du chemin de la prochaine jsp ou par défaut jspListSimulation */
 		String page = ParamUtil.get(renderRequest, "page", jspListSimulation); 
 
-
 		if(page.equals(jspListSimulation)) {
 			/*
 			 * Page d'acceuil, liste des simulations
 			 */
+			log.info("DoView : List Simulation");
 			List<Simulation> list = new ArrayList<Simulation>();
 			try {
 				list = SimulationLocalServiceUtil.getSimulations(0, SimulationLocalServiceUtil.getSimulationsCount());
@@ -314,10 +313,11 @@ public class GatlingPortlet extends MVCPortlet {
 				e.printStackTrace();
 			}
 			renderRequest.setAttribute("listSimulation", list);
-		} else if(page.equals(jspEditSimulation)) {
+		} else if(page.equals(jspEditSimulation) || page.equals(jspFormFirstScenario)) {
 			/*
 			 * Edition d'une simulation, liste des scénarios
 			 */
+			log.info("DoView : Edit Simulation");
 			Long id = (Long) ParamUtil.getLong(renderRequest, "simulationId");
 
 			Simulation simulation;
@@ -348,12 +348,15 @@ public class GatlingPortlet extends MVCPortlet {
 			/*
 			 * Edition d'un scénario -> liste des requêtes
 			 */
+			log.info("DoView : Edit Scenario");
 			try {
 				Scenario scenario = ScenarioLocalServiceUtil.getScenario(ParamUtil.getLong(renderRequest, "scenarioId"));
 				long groupId = scenario.getGroup_id();
+				List<Layout> listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(groupId, false));
+				// Puis les privates
+				List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true);
+				listLayouts.addAll(listLayoutsPrivate);
 
-				List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false);
-				
 				renderRequest.setAttribute("scenario", scenario);
 				renderRequest.setAttribute("listLayout", listLayouts);	
 				renderRequest.setAttribute("siteName", listLayouts.get(0).getGroup().getName());
