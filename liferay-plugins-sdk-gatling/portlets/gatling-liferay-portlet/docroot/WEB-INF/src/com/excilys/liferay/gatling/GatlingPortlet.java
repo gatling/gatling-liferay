@@ -233,18 +233,12 @@ public class GatlingPortlet extends MVCPortlet {
 				
 				//on met à jour les données
 				for (String key : parameters.keySet()){
-					//log.info(key+": "+StringUtil.merge(parameters.get(key)));
 					if((StringUtil.merge(parameters.get(key)).equals("true")) && (!key.contains("Checkbox")) ){
-						log.info("update request "+Double.parseDouble(key));
 						int requestNumber = (int) Double.parseDouble(key);
-						log.info(requestNumber+" to edit");
 						double weight  =   Double.parseDouble(StringUtil.merge(parameters.get("rate"+key)));
 						String url = listLayouts.get(requestNumber).getFriendlyURL();
-						log.info(requestNumber+" freindly url = "+url);
-						log.info(requestNumber+" weight = "+weight+" : oldWeight "+lstRequestToEdit.get(url).getWeight());
 						
 						if((lstRequestToEdit.containsKey(url.trim())) && ((lstRequestToEdit.get(url).getWeight() != weight) || (!lstRequestToEdit.get(url).isChecked()))){
-							log.info("request ok to update");
 							Request updatedRequest = lstRequestToEdit.get(url);
 							updatedRequest.setWeight(weight);
 							updatedRequest.setChecked(true);
@@ -259,7 +253,6 @@ public class GatlingPortlet extends MVCPortlet {
 									SessionErrors.add(request, error);
 								}
 							}
-
 						}
 						
 						// ajout de nouvelles requêtes correspondants aux nouvelles pages
@@ -268,18 +261,23 @@ public class GatlingPortlet extends MVCPortlet {
 							log.info("request created and added succefully ");
 						}				
 					}
-					else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox")) ){
+					else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox")) && (!key.contains("/")) ){
 						int requestNumber = (int) Double.parseDouble(key);
 						String url = listLayouts.get(requestNumber).getFriendlyURL();
 						if(lstRequestToEdit.containsKey(url.trim())){
 							Request requestToDelete = lstRequestToEdit.get(url);
 							if(requestToDelete.getChecked()){
-								//RequestLocalServiceUtil.deleteRequest(requestToDelete);
 								requestToDelete.setChecked(false);
 								RequestLocalServiceUtil.updateRequest(requestToDelete);
-								log.info("request deleted succefully ");
+								log.info("request check apdated succefully ");
 							}
 						}
+					}
+					else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox") && (key.contains("/"))) ){
+						String url = key;
+						Request requestToDelete = lstRequestToEdit.get(url);
+						RequestLocalServiceUtil.deleteRequest(requestToDelete);
+						log.info("request deleted succefully ");
 					}
 				}
 				

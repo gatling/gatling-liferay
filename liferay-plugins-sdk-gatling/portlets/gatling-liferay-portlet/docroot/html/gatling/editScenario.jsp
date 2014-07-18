@@ -54,7 +54,7 @@
 				<!-- Cas où la page est nouvellement créé -->
 				<c:if test='${listPages.get(layout)[0] == 2.0}'>
 					<%-- Affichage request pas enregistrée --%>
-					<td><aui:input type="checkbox" name="${listPages.get(layout)[3]}" cssClass='activate url${listPages.get(layout)[3]}' onChange="showPoids()"/></td>
+					<td><aui:input type="checkbox" name="${listPages.get(layout)[3]}" cssClass='activate' onChange="showPoids()"/></td>
 					<td><label style="color: green">${layout[0]} (new Page)</label></td>	
 					<td>
 						<aui:input label="" name="rate${listPages.get(layout)[3]}"  cssClass="poids" 
