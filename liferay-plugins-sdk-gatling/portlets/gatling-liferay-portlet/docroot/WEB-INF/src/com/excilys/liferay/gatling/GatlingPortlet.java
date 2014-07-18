@@ -95,6 +95,28 @@ public class GatlingPortlet extends MVCPortlet {
 		}
 		
 	}
+	
+	public void editSimulation(ActionRequest request, ActionResponse response) throws Exception{
+
+		Long idSimulation = ParamUtil.getLong(request, "simulationId");
+		Simulation simulation = SimulationLocalServiceUtil.getSimulation(idSimulation);
+		Long usersSimulation = ParamUtil.getLong(request, "simulationUsers");
+		Long durationSimulation = ParamUtil.getLong(request, "simulationDuration");
+		simulation.setUsers_per_seconds(usersSimulation);
+		simulation.setDuration(durationSimulation);
+		List<String> errors = new ArrayList<String>();
+		if(SimulationValidator.validateSimulation(simulation, errors)) {
+			SimulationLocalServiceUtil.updateSimulation(simulation);			
+		}
+		else {
+			for(String error : errors) {
+				SessionErrors.add(request, error);
+			}
+		}
+		response.setRenderParameter("simulationId", Long.toString(simulation.getSimulation_id()));
+		response.setRenderParameter("page", jspEditSimulation);
+
+	}
 
 	public void removeSimulation(ActionRequest request, ActionResponse response)
 			throws Exception {

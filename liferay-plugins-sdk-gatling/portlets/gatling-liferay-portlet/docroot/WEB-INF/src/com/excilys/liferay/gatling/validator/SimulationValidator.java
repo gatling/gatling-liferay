@@ -25,7 +25,17 @@ public class SimulationValidator {
 			errors.add("simulation-name-required");
 			valid = false;
 		}
-
+		
+		if( Validator.isNull(simulation.getDuration())) {
+			errors.add("simulation-duration-required");
+			valid = false;			
+		}
+		
+		if( Validator.isNull(simulation.getUsers_per_seconds())) {
+			errors.add("simulation-users_per_seconds-required");
+			valid = false;			
+		}
+		
 		return valid;
 	}
 
