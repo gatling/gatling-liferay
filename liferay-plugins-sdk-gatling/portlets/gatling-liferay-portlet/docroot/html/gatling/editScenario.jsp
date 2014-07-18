@@ -67,8 +67,9 @@
 				</tr>
 			</c:forEach>
 		</table> 
-		
 	</aui:fieldset>
+	
+	
 	<aui:button-row>
 		<aui:button type="submit" />
 		<aui:button type="cancel" href="${backURL}" />
