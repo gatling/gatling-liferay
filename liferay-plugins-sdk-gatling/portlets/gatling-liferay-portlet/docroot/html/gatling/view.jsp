@@ -56,6 +56,7 @@ YUI().use(
         modal: true,
         resizable: false,
         visible: false,
+        zIndex: 100,
         width: 450
       }
     ).render();
