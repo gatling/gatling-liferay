@@ -13,8 +13,8 @@
 <div id="myTab">
 	<%--Tabs --%>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="#tab-1">Scenarios</a></li>
-		<li><a href="#tab-2">Details</a></li>
+		<li class="active"><a href="#tab-1"><liferay-ui:message key="scenario" /></a></li>
+		<li><a href="#tab-2"><liferay-ui:message key="simulation-edit-details" /></a></li>
 	</ul>
 	<%--
 	
