@@ -1,11 +1,13 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 <div>
+	<%--session errors --%>
+	<liferay-ui:error key="simulation-name-required" message="simulation-name-required"/>
 	<liferay-ui:header title="simulation-list-header" ></liferay-ui:header>
 	<%--Search container (tableau) --%>
 	<%--lien vers la FAQ --%>
 	<div class="well well-small">
-		<span class="label label-info">FAQ Gatling</span> <a href="https://github.com/excilys/gatling/wiki/Getting-Started">https://github.com/excilys/gatling/wiki/Getting-Started</a>
+		<a href="https://github.com/excilys/gatling/wiki/Getting-Started"><span class="label label-info">FAQ Gatling</span></a>
 	</div>
 	<liferay-ui:search-container emptyResultsMessage="simulation-list-empty" >
 		<%--Liste sur laquelle on travail --%>
@@ -54,6 +56,7 @@ YUI().use(
         modal: true,
         resizable: false,
         visible: false,
+        zIndex: 100,
         width: 450
       }
     ).render();

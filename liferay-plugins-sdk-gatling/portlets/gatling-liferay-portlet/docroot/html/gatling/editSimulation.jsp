@@ -7,7 +7,10 @@
 <c:set var="entete">
 	<liferay-ui:message key="simulation-edit-header" arguments="${simulation.name}" />
 </c:set>
-
+<%--session errors --%>
+<liferay-ui:error key="scenario-name-required" message="scenario-name-required"/>
+<liferay-ui:error key="simulation-duration-required" message="simulation-duration-required"/>
+<liferay-ui:error key="simulation-users_per_seconds-required" message="simulation-users_per_seconds-required"/>
 <liferay-ui:header title="${entete}" backURL="${backURL}"/>
 
 <div id="myTab">
@@ -125,6 +128,7 @@ YUI().use(
         modal: true,
         resizable: false,
         visible: false,
+        zIndex: 100,
         width: 450
       }
     ).render();

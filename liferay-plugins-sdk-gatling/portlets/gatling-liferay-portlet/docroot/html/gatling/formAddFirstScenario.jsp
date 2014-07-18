@@ -1,5 +1,8 @@
 <%@include file="/html/gatling/header.jsp"%>
 
+<%--session errors --%>
+<liferay-ui:error key="scenario-name-required" message="scenario-name-required"/>
+
 <%--This page is called only to add the first scenario --%>
 <c:set var="entete"><liferay-ui:message key="simulation-edit-form-header" /></c:set>
 <liferay-ui:header title="${entete}"/>
