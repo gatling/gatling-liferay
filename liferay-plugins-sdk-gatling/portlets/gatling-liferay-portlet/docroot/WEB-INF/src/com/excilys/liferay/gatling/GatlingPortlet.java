@@ -31,6 +31,7 @@ import com.liferay.util.bridges.mvc.MVCPortlet;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -90,6 +91,7 @@ public class GatlingPortlet extends MVCPortlet {
 		}
 		else {
 			for(String error : errors) {
+				log.info(error);
 				SessionErrors.add(request, error);
 			}
 		}
@@ -414,21 +416,25 @@ public class GatlingPortlet extends MVCPortlet {
 				
 				//on récupère la liste des layout
 				long groupId = scenario.getGroup_id();
-				List<Layout> listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(groupId, false));
+				List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId,false,0);
 				// Puis les privates
-				List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true);
-				listLayouts.addAll(listLayoutsPrivate);
-
+				List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
+				
+				List<Layout> sortedLayoutList = new ArrayList<Layout>();
+				//On va trier les layout dans l'ordre de parent
+				addToSortedLayoutList(sortedLayoutList, listLayouts);
+				addToSortedLayoutList(sortedLayoutList, listLayoutsPrivate);
+				
 				//On recupère la liste des requêtes dans la base
 				List<Request> listRequests = RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(renderRequest, "scenarioId",0));
 				
 				//construction des listes pour l'affichage			
-				Map<String[], Double[]> ListAAfficher = new HashMap<String[], Double[]>();
+				Map<String[], Double[]> ListAAfficher = new LinkedHashMap<String[], Double[]>();
 				int[] listIndexRequest = new int[listRequests.size()];
 				
 				
-				for(int i=0; i<  listLayouts.size();i++){
-					Layout layout = listLayouts.get(i);
+				for(int i=0; i<sortedLayoutList.size();i++){
+					Layout layout = sortedLayoutList.get(i);
 					Double[] poidVerif = {0.0, 0.0, 0.0}; // (pageStatus, poidsRequete, checked )
 					String[] layoutData = {layout.getName(), layout.getFriendlyURL()}; //(pageNAme, pageUrl)
 					
@@ -472,16 +478,12 @@ public class GatlingPortlet extends MVCPortlet {
 						ListAAfficher.put(layoutData, poidVerif);
 					}
 				}
-				
-				
-				
-				
 				log.info("taille de la map envoyé "+ListAAfficher.size());
-
+				
 				//ajout des paramètres dans la requête
 				renderRequest.setAttribute("scenario", scenario);
 				renderRequest.setAttribute("listPages", ListAAfficher);	
-				renderRequest.setAttribute("siteName", listLayouts.get(0).getGroup().getName());
+				renderRequest.setAttribute("siteName", sortedLayoutList.get(0).getGroup().getName());
 
 			} catch (SystemException e) {
 				log.info("pbm avec récupération des layout "+e.getMessage());
@@ -492,6 +494,23 @@ public class GatlingPortlet extends MVCPortlet {
 
 		/* on redirige sur la jsp de page */
 		include(page, renderRequest, renderResponse);	
+	}
+	
+	/**
+	 * Add to sorted layout list
+	 */
+	private void addToSortedLayoutList(List<Layout> sortedLayoutList, List<Layout> listLayouts) {
+		for(Layout l : listLayouts) {
+			sortedLayoutList.add(l);
+			//Recusive call
+			try {
+				if(!l.getChildren().isEmpty())
+					addToSortedLayoutList(sortedLayoutList, l.getChildren());
+			} catch (SystemException e) {
+				e.printStackTrace();
+			}
+			
+		}
 	}
 
 	/**
