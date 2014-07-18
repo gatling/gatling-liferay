@@ -3,6 +3,10 @@
 <div>
 	<liferay-ui:header title="simulation-list-header" ></liferay-ui:header>
 	<%--Search container (tableau) --%>
+	<%--lien vers la FAQ --%>
+	<div class="well well-small">
+		<span class="label label-info">FAQ Gatling</span> <a href="https://github.com/excilys/gatling/wiki/Getting-Started">https://github.com/excilys/gatling/wiki/Getting-Started</a>
+	</div>
 	<liferay-ui:search-container emptyResultsMessage="simulation-list-empty" >
 		<%--Liste sur laquelle on travail --%>
 		<liferay-ui:search-container-results results="${listSimulation }" total="${listSimulation.size() }" />
