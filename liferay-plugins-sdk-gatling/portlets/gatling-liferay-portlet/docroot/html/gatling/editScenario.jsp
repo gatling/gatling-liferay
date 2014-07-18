@@ -111,7 +111,7 @@
 			if((newVal!=null) && (!isNaN(newVal))){
 				A.all('.poids').val(newVal);
 				showPoids();
-			}					
+			}				
 	    });
 	}
 	function showPoids()
@@ -122,10 +122,11 @@
 				function() {
 					if(this.ancestor("tr").one(".activate:checked"))
 						if(!(this.val() == "" || isNaN(this.val()))) {
-							totalRate += parseInt(this.val());	
+							totalRate += parseFloat(this.val());	
 						}
 			});
 			var total = totalRate / 100;
+
 			A.all('.poids').each(
 				function() {
 					if(this.ancestor("tr").one(".activate:checked")) {
@@ -133,11 +134,11 @@
 							var perc = (this.val() / totalRate) * 100;
 							//cas du 0/0
 							if(isNaN(perc))
-								this.ancestor("tr").one(".percentage").text("0");
-							else this.ancestor("tr").one(".percentage").text(perc.toFixed(2));
+								this.ancestor("tr").one(".percentage").text("0.00 %");
+							else this.ancestor("tr").one(".percentage").text(perc.toFixed(2)+" %");
 						}
 					}
-					else this.ancestor("tr").one(".percentage").text(0);
+					else this.ancestor("tr").one(".percentage").text("0.00 %");
 			});
 	    });
 	}
