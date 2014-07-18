@@ -25,6 +25,7 @@
 		<column name="url" type="String"></column>
 		<column name="weight" type="double"></column>
 		<column name="checked" type="boolean"></column>
+		<column name="privatePage" type="int"></column>
 		
 		<finder name="ScenarioId" return-type="Collection">
 			<finder-column name="scenario_id" />
