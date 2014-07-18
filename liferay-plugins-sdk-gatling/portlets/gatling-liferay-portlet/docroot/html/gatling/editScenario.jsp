@@ -37,10 +37,10 @@
 					<!-- checked ou pas en fonction de la requête -->
 					<c:choose>
 						<c:when test="${listPages.get(layout)[2] == 1.0}">
-							<aui:input type="checkbox" name="${status.index}"  cssClass='activate url${status.index}' checked="true" onChange="showPoids()"/>
+							<aui:input type="checkbox" name="${listPages.get(layout)[3]}"  cssClass='activate url${listPages.get(layout)[3]}' checked="true" onChange="showPoids()"/>
 						</c:when>
 						<c:otherwise>
-							<aui:input type="checkbox" name="${status.index}"  cssClass='activate url${status.index}' checked="false" onChange="showPoids()"/>
+							<aui:input type="checkbox" name="${listPages.get(layout)[3]}"  cssClass='activate url${listPages.get(layout)[3]}' checked="false" onChange="showPoids()"/>
 						</c:otherwise>		
 					</c:choose>
 					</td>
@@ -48,31 +48,31 @@
 					<td>${layout[0]}</td>	
 					
 					<td>
-						<aui:input label="" name="rate"  cssClass="poids" value="${listPages.get(layout)[1]}" onChange="showPoids()">
+						<aui:input label="" name="rate${listPages.get(layout)[3]}"  cssClass="poids" value="${listPages.get(layout)[1]}" onChange="showPoids()">
 							<aui:validator name="number"/>
 						</aui:input>
 					</td>
-					<td><span class='url${status.index} percentage'>0%</span></td>
+					<td><span class='url${listPages.get(layout)[3]} percentage'>0%</span></td>
 				</c:if>
 				
 				<!-- Cas où la page est nouvellement créé -->
 				<c:if test='${listPages.get(layout)[0] == 2.0}'>
 					<%-- Affichage request pas enregistrée --%>
-					<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' onChange="showPoids()"/></td>
+					<td><aui:input type="checkbox" name="${listPages.get(layout)[3]}" cssClass='activate' onChange="showPoids()"/></td>
 					<td><label style="color: green">${layout[0]} (new Page)</label></td>	
 					<td>
-						<aui:input label="" name="rate"  cssClass="poids" 
+						<aui:input label="" name="rate${listPages.get(layout)[3]}"  cssClass="poids" 
 										onChange="showPoids()" value="0">
 							<aui:validator name="number"/>
 						</aui:input>
 					</td>
-					<td><span class='url${status.index} percentage'>0%</span></td>
+					<td><span class='url${listPages.get(layout)[3]} percentage'>0%</span></td>
 				</c:if>
 				
 				<!-- Cas ou la page a été supprimée -->
 				<c:if test='${listPages.get(layout)[0] == 0.0}'>
 					<%-- Affichage request pas enregistrée --%>
-					<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' onChange="showPoids()"/></td>
+					<td><aui:input type="checkbox" name="${layout[0]}" cssClass='activate' onChange="showPoids()"/></td>
 					<td><label style="color: red">${layout[0]}</label></td>	
 					<td>
 						<aui:input label="" name="rate" value="${listPages.get(layout)[1]}"  cssClass="poids" 
@@ -80,7 +80,7 @@
 							<aui:validator name="number"/>
 						</aui:input>
 					</td>
-					<td><span class='url${status.index} percentage'>0%</span></td>
+					<td><span class='percentage'>0%</span></td>
 				</c:if>
 				</tr>
 			</c:forEach>

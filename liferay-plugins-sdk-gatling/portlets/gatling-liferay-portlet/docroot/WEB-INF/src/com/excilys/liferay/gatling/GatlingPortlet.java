@@ -238,33 +238,34 @@ public class GatlingPortlet extends MVCPortlet {
 		Long idScenario = ParamUtil.getLong(request, "scenarioId");
 		Map<String, String[]> parameters = request.getParameterMap();
 		Map<String, Request> lstRequestToEdit =new HashMap<String, Request>();
-		try {
-			for(Request r :RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(request, "scenarioId",0))){
-				lstRequestToEdit.put(r.getUrl().trim(),  r);
-			}
-
-		} catch (SystemException e) {
-			e.printStackTrace();
-		}
-
+		
 		if(idScenario !=null){
 
 			long groupId =ParamUtil.getLong(request, "groupId");
-
 			List<Layout> listLayouts;
+			
 			try {
+				//on récupère la liste de layout
 				listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(groupId, false));
 				List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true);
 				listLayouts.addAll(listLayoutsPrivate);
+				
+				//on récupère la liste de requête
+				for(Request r :RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(request, "scenarioId",0))){
+					lstRequestToEdit.put(r.getUrl().trim(),  r);
+				}
+				
+				//on met à jour les données
 				for (String key : parameters.keySet()){
-
 					if((StringUtil.merge(parameters.get(key)).equals("true")) && (!key.contains("Checkbox")) ){
-						int requestNumber = Integer.parseInt(key);
-						double weight  =   Double.parseDouble(StringUtil.merge(parameters.get("rate")).split(",")[requestNumber]);
+						int requestNumber = (int) Double.parseDouble(key);
+						double weight  =   Double.parseDouble(StringUtil.merge(parameters.get("rate"+key)));
 						String url = listLayouts.get(requestNumber).getFriendlyURL();
-						if((lstRequestToEdit.containsKey(url.trim())) && (lstRequestToEdit.get(url).getWeight() != weight)){
+						
+						if((lstRequestToEdit.containsKey(url.trim())) && ((lstRequestToEdit.get(url).getWeight() != weight) || (!lstRequestToEdit.get(url).isChecked()))){
 							Request updatedRequest = lstRequestToEdit.get(url);
 							updatedRequest.setWeight(weight);
+							updatedRequest.setChecked(true);
 							// Saving ...
 							List<String> errors = new ArrayList<String>();
 							if(RequestValidator.validateRequest(updatedRequest, errors)) {
@@ -276,22 +277,31 @@ public class GatlingPortlet extends MVCPortlet {
 									SessionErrors.add(request, error);
 								}
 							}
-
 						}
+						
+						// ajout de nouvelles requêtes correspondants aux nouvelles pages
 						else if(! lstRequestToEdit.containsKey(url.trim())){					
-							//addRequest(url, weight, idScenario);
+							addRequest(url, weight, idScenario, true, (listLayouts.get(requestNumber).isPrivateLayout() ? 1:0));
 							log.info("request created and added succefully ");
 						}				
 					}
-					else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox")) ){
-						int requestNumber = Integer.parseInt(key);
+					else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox")) && (!key.contains("/")) ){
+						int requestNumber = (int) Double.parseDouble(key);
 						String url = listLayouts.get(requestNumber).getFriendlyURL();
 						if(lstRequestToEdit.containsKey(url.trim())){
-							Request RequestToDelete = lstRequestToEdit.get(url);
-							RequestLocalServiceUtil.deleteRequest(RequestToDelete);
-							log.info("request deleted succefully ");
-
+							Request requestToDelete = lstRequestToEdit.get(url);
+							if(requestToDelete.getChecked()){
+								requestToDelete.setChecked(false);
+								RequestLocalServiceUtil.updateRequest(requestToDelete);
+								log.info("request check apdated succefully ");
+							}
 						}
+					}
+					else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox") && (key.contains("/"))) ){
+						String url = key;
+						Request requestToDelete = lstRequestToEdit.get(url);
+						RequestLocalServiceUtil.deleteRequest(requestToDelete);
+						log.info("request deleted succefully ");
 					}
 				}
 				
@@ -434,24 +444,23 @@ public class GatlingPortlet extends MVCPortlet {
 				
 				
 				for(int i=0; i<sortedLayoutList.size();i++){
-					Layout layout = sortedLayoutList.get(i);
-					Double[] poidVerif = {0.0, 0.0, 0.0}; // (pageStatus, poidsRequete, checked )
+					Layout layout = sortedLayoutList.get(i);					
 					String[] layoutData = {layout.getName(), layout.getFriendlyURL()}; //(pageNAme, pageUrl)
 					
 					//récupération des anciennes pages avec celles supprimés
 					for(int j =0; j< listRequests.size();j++){
 						
+						Double[] poidVerif = {0.0, 0.0, 0.0, (double) i}; // (pageStatus, poidsRequete, checked, index )
 						Request r = listRequests.get(j);
 						poidVerif[1] = r.getWeight();
 						boolean checkPrivate = (r.getPrivatePage()==1 ? true : false);
 						
-						if(r.getChecked()==true){
+						if(r.isChecked()){
 							poidVerif[2] = 1.0;
 						}
 						
 						if( (layout.isPrivateLayout() == checkPrivate ) && (layout.getFriendlyURL().equals(r.getUrl()))){
 							//ici les pages existantes trouvées dans la liste de requêtes
-							log.info("index requete exist "+j+" et url "+r.getUrl());
 							poidVerif[0] = 1.0;
 							ListAAfficher.put(layoutData, poidVerif);
 							listIndexRequest[j] = 1;
@@ -473,7 +482,7 @@ public class GatlingPortlet extends MVCPortlet {
 					if(listIndexRequest[i] != 1){					
 						Request r = listRequests.get(i);
 						log.info(r.getUrl()+": index dans liste: "+i+" list length "+listIndexRequest.length+" liste request size "+listRequests.size());
-						Double[] poidVerif = {0.0, r.getWeight(), (r.getChecked() ==true? 1.0 :0.0)};
+						Double[] poidVerif = {0.0, r.getWeight(), (r.getChecked() ==true? 1.0 :0.0),null};
 						String[] layoutData = {r.getUrl(), r.getUrl()}; 
 						ListAAfficher.put(layoutData, poidVerif);
 					}
