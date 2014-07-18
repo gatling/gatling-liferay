@@ -25,7 +25,9 @@ public class SimulationValidator {
 			errors.add("simulation-name-required");
 			valid = false;
 		}
-		
+		/*
+		 * TODO: Not required to create, but required for generation
+		 * 
 		if( Validator.isNull(simulation.getDuration())) {
 			errors.add("simulation-duration-required");
 			valid = false;			
@@ -35,7 +37,7 @@ public class SimulationValidator {
 			errors.add("simulation-users_per_seconds-required");
 			valid = false;			
 		}
-		
+		 */
 		return valid;
 	}
 

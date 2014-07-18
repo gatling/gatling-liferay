@@ -11,12 +11,16 @@
 <liferay-ui:header title="${entete}" backURL="${backURL}"/>
 
 <div id="myTab">
-
+	<%--Tabs --%>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="#tab-1">Tab #1</a></li>
-		<li><a href="#tab-2">Tab #2</a></li>
+		<li class="active"><a href="#tab-1">Scenarios</a></li>
+		<li><a href="#tab-2">Details</a></li>
 	</ul>
-
+	<%--
+	
+	=== Tab scenario ===
+	
+	--%>
 	<div class="tab-content">
 		<div id="tab-1" class="tab-pane">
 			<div>
@@ -66,6 +70,11 @@
 				</aui:form>
 			</div>
 		</div>
+		<%--
+		
+		=== Tab details ===
+		
+		 --%>
 		<div id="tab-2">
 			<%--redirect to addSimulation --%>
 			<portlet:actionURL name="editSimulation" var="editSimulationURL">
