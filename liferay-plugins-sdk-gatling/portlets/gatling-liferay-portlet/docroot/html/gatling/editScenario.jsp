@@ -35,8 +35,7 @@
 				<%-- Cas où la page est nouvellement créé --%>
 				<tr class="success">
 					<%-- Affichage request pas enregistrée --%>
-					<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' onChange="showPoids()"/></td>
-					<td>${layout.showName()}</td>	
+					<td><aui:input type="checkbox" name="${status.index}" cssClass='activate' onChange="showPoids()"/></td>
 					<td>
 						<aui:input label="" name="weight${status.index}"  cssClass="poids" 
 										onChange="showPoids()" value="0">
@@ -58,7 +57,7 @@
 					</td>
 					<td>${layout.showName()}</td>	
 					<td>
-						<aui:input label="" name="weight${status.index}" value="${layout.weight}"  cssClass="poids" 
+						<aui:input label="" name="weight${layout.requestId}" value="${layout.weight}"  cssClass="poids" 
 										onChange="showPoids()" >
 							<aui:validator name="number"/>
 						</aui:input>

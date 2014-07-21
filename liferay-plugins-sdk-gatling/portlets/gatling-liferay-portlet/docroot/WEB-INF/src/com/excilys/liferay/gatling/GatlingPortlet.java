@@ -245,13 +245,23 @@ public class GatlingPortlet extends MVCPortlet {
 		if(idScenario !=null){
 
 			long groupId =ParamUtil.getLong(request, "groupId");
-			List<Layout> listLayouts;
 			
 			try {
-				//on récupère la liste de layout
-				listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(groupId, false));
-				List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true);
-				listLayouts.addAll(listLayoutsPrivate);
+				
+				List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId,false,0);
+				String siteName = listLayouts.get(0).getGroup().getName();
+				// Puis les privates
+				List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
+				
+				List<DisplayLayout> displayLayoutList = new ArrayList<DisplayLayout>();
+				//On va trier les layout dans l'ordre de parent
+				DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listLayouts);
+				DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listLayoutsPrivate);
+				
+				//On recupère la liste des requêtes dans la base
+				List<Request> listRequests = RequestLocalServiceUtil.findByScenarioId(idScenario);
+				//Merge Layout and Request in DisplayLayout List
+				displayLayoutList = DisplayLayoutUtil.addRequestToDisplayLayoutList(displayLayoutList, listRequests);
 				
 				//on récupère la liste de requête
 				for(Request r :RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(request, "scenarioId",0))){
@@ -260,12 +270,18 @@ public class GatlingPortlet extends MVCPortlet {
 				
 				//on met à jour les données
 				for (String key : parameters.keySet()){
+					log.info(key+" : "+StringUtil.merge(parameters.get(key)));
+					//Cas de case coché
 					if((StringUtil.merge(parameters.get(key)).equals("true")) && (!key.contains("Checkbox")) ){
-						int requestNumber = (int) Double.parseDouble(key);
+						int layoutId = (int) Double.parseDouble(key);
 						double weight  =   Double.parseDouble(StringUtil.merge(parameters.get("weight"+key)));
-						String url = listLayouts.get(requestNumber).getFriendlyURL();
-						
+						DisplayLayout displayLayout = displayLayoutList.get(layoutId);
+						String url = displayLayout.getUrl();
+						log.info(" url recupere "+ url + " et weight "+weight );
+						log.info("request exist "+lstRequestToEdit.containsKey(url.trim()));
+						//Si la requête exist déja donc l'éditer
 						if((lstRequestToEdit.containsKey(url.trim())) && ((lstRequestToEdit.get(url).getWeight() != weight) || (!lstRequestToEdit.get(url).isChecked()))){
+							log.info("request to update");
 							Request updatedRequest = lstRequestToEdit.get(url);
 							updatedRequest.setWeight(weight);
 							updatedRequest.setChecked(true);
@@ -283,19 +299,23 @@ public class GatlingPortlet extends MVCPortlet {
 						}
 						
 						// ajout de nouvelles requêtes correspondants aux nouvelles pages
-						else if(! lstRequestToEdit.containsKey(url.trim())){					
-							addRequest(listLayouts.get(requestNumber), weight, idScenario, true);
+						else if(! lstRequestToEdit.containsKey(url.trim())){		
+							Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.isPrivatePage(), displayLayout.getLayoutId());
+							addRequest(layout, weight, idScenario, true);
 							log.info("request created and added succefully ");
 						}				
 					}
 					
+					//Cas de suppression de requête dans le scenario --> case pas coché en bd update
 					else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox")) && (!key.contains("/")) ){
-						int requestNumber = (int) Double.parseDouble(key);
-						String url = listLayouts.get(requestNumber).getFriendlyURL();
-						//Cas de suppression de requête dans le scenario	
+						int layoutId = (int) Double.parseDouble(key);
+						DisplayLayout displayLayout = displayLayoutList.get(layoutId);
+						Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.isPrivatePage(), displayLayout.getLayoutId());
+						String url = layout.getFriendlyURL();
+							
 						if(lstRequestToEdit.containsKey(url.trim())){
 							Request requestToDelete = lstRequestToEdit.get(url);
-							if(requestToDelete.getChecked()){
+							if(requestToDelete.isChecked()){
 								requestToDelete.setChecked(false);
 								RequestLocalServiceUtil.updateRequest(requestToDelete);
 								log.info("request check apdated succefully ");
