@@ -270,18 +270,14 @@ public class GatlingPortlet extends MVCPortlet {
 				
 				//on met à jour les données
 				for (String key : parameters.keySet()){
-					log.info(key+" : "+StringUtil.merge(parameters.get(key)));
 					//Cas de case coché
 					if((StringUtil.merge(parameters.get(key)).equals("true")) && (!key.contains("Checkbox")) ){
 						int layoutId = (int) Double.parseDouble(key);
 						double weight  =   Double.parseDouble(StringUtil.merge(parameters.get("weight"+key)));
 						DisplayLayout displayLayout = displayLayoutList.get(layoutId);
 						String url = displayLayout.getUrl();
-						log.info(" url recupere "+ url + " et weight "+weight );
-						log.info("request exist "+lstRequestToEdit.containsKey(url.trim()));
 						//Si la requête exist déja donc l'éditer
-						if((lstRequestToEdit.containsKey(url.trim())) && ((lstRequestToEdit.get(url).getWeight() != weight) || (!lstRequestToEdit.get(url).isChecked()))){
-							log.info("request to update");
+						if(( lstRequestToEdit.containsKey(url.trim()) ) && ((lstRequestToEdit.get(url).getWeight() != weight) || (!lstRequestToEdit.get(url).isChecked()))){
 							Request updatedRequest = lstRequestToEdit.get(url);
 							updatedRequest.setWeight(weight);
 							updatedRequest.setChecked(true);

@@ -58,7 +58,7 @@ public class DisplayLayoutUtil {
 			//change the object (add weight, checked ...)
 			int index = result.indexOf(dlr);
 			// if in layout
-			if(index > 0) {
+			if(index >= 0) {
 				// put in on the "old" object place
 				result.add(index, dlr);
 				// remove the replaced object
@@ -67,7 +67,7 @@ public class DisplayLayoutUtil {
 			// if not in layoutList add after its parent or at the end
 			else {
 				int parentIndex = findParentPosition(result,dlr.getParentLayoutId());
-				if(parentIndex > 0) {
+				if(parentIndex >= 0) {
 					// put in on the "old" object place
 					result.add(parentIndex+1, dlr);
 				}
