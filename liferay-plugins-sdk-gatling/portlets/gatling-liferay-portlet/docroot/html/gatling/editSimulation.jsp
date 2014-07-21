@@ -22,7 +22,6 @@
 	<%--
 	
 	=== Tab scenario ===
-	
 	--%>
 	<div class="tab-content">
 		<div id="tab-1" class="tab-pane">

@@ -36,11 +36,12 @@
 				<tr class="success">
 					<%-- Affichage request pas enregistrée --%>
 					<td><aui:input type="checkbox" name="${status.index}" cssClass='activate' onChange="showPoids()"/></td>
+					<td>${layout.showName()}</td>	
 					<td>
 						<aui:input label="" name="weight${status.index}"  cssClass="poids" 
 										onChange="showPoids()" value="0">
 							<aui:validator name="number"/>
-						</aui:input>
+						</aui:input> 
 					</td>
 					<td><span class='percentage'>0%</span></td>
 				</tr>
