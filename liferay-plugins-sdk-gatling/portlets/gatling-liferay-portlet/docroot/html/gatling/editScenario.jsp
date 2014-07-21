@@ -12,6 +12,8 @@
 <liferay-ui:header title="${scenario.name } : ${siteName}" backURL="${backURL }"/>
 
 <portlet:actionURL name="editScenario"  var="editScenarioURL" windowState="normal"/>
+
+	
 <aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario">
 	<aui:fieldset>
 		<aui:input type="hidden" name="scenarioId" value='${empty scenario ? "" : scenario.scenario_id }'/>	
@@ -47,11 +49,11 @@
 					<td>${layout.showName()}</td>	
 					
 					<td>
-						<aui:input label="" name="rate"  cssClass="poids" value="${layout.weight}" onChange="showPoids()">
+						<aui:input label="" name="weight${status.index}"  cssClass="poids" value="${layout.weight}" onChange="showPoids()">
 							<aui:validator name="number"/>
 						</aui:input>
 					</td>
-					<td><span class='url${status.index} percentage'>0%</span></td>
+					<td><span class='percentage'>0%</span></td>
 				</c:if>
 				
 				<!-- Cas où la page est nouvellement créé -->
@@ -60,26 +62,32 @@
 					<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' onChange="showPoids()"/></td>
 					<td><label style="color: green">${layout.showName()} (new Page)</label></td>	
 					<td>
-						<aui:input label="" name="rate"  cssClass="poids" 
+						<aui:input label="" name="weight${status.index}"  cssClass="poids" 
 										onChange="showPoids()" value="0">
 							<aui:validator name="number"/>
 						</aui:input>
 					</td>
-					<td><span class='url${status.index} percentage'>0%</span></td>
+					<td><span class='percentage'>0%</span></td>
 				</c:if>
 				
 				<!-- Cas ou la page a été supprimée -->
 				<c:if test="${layout.state == 'OLD_REQUEST'}">
 					<%-- Affichage request pas enregistrée --%>
-					<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' onChange="showPoids()"/></td>
+					<td>
+						<portlet:actionURL var="deleteRequestURL" name="removeRequest">
+								<portlet:param name="requestId" value="${layout.requestId}" />
+						</portlet:actionURL>
+						<liferay-ui:icon-delete url="${deleteRequestURL}" />
+					</td>
 					<td><label style="color: red">${layout.showName()}</label></td>	
 					<td>
-						<aui:input label="" name="rate" value="${layout.weight}"  cssClass="poids" 
+						<aui:input label="" name="weight${status.index}" value="${layout.weight}"  cssClass="poids" 
 										onChange="showPoids()" >
 							<aui:validator name="number"/>
 						</aui:input>
 					</td>
-					<td><span class='url${status.index} percentage'>0%</span></td>
+					<td><span class='percentage'>0%</span></td>
+					
 				</c:if>
 				</tr>
 			</c:forEach>

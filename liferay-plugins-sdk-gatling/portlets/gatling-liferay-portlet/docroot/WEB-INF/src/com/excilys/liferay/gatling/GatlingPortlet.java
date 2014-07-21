@@ -240,33 +240,34 @@ public class GatlingPortlet extends MVCPortlet {
 		Long idScenario = ParamUtil.getLong(request, "scenarioId");
 		Map<String, String[]> parameters = request.getParameterMap();
 		Map<String, Request> lstRequestToEdit =new HashMap<String, Request>();
-		try {
-			for(Request r :RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(request, "scenarioId",0))){
-				lstRequestToEdit.put(r.getUrl().trim(),  r);
-			}
-
-		} catch (SystemException e) {
-			e.printStackTrace();
-		}
-
+		
 		if(idScenario !=null){
 
 			long groupId =ParamUtil.getLong(request, "groupId");
-
 			List<Layout> listLayouts;
+			
 			try {
+				//on récupère la liste de layout
 				listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(groupId, false));
 				List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true);
 				listLayouts.addAll(listLayoutsPrivate);
+				
+				//on récupère la liste de requête
+				for(Request r :RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(request, "scenarioId",0))){
+					lstRequestToEdit.put(r.getUrl().trim(),  r);
+				}
+				
+				//on met à jour les données
 				for (String key : parameters.keySet()){
-
 					if((StringUtil.merge(parameters.get(key)).equals("true")) && (!key.contains("Checkbox")) ){
-						int requestNumber = Integer.parseInt(key);
-						double weight  =   Double.parseDouble(StringUtil.merge(parameters.get("rate")).split(",")[requestNumber]);
+						int requestNumber = (int) Double.parseDouble(key);
+						double weight  =   Double.parseDouble(StringUtil.merge(parameters.get("weight"+key)));
 						String url = listLayouts.get(requestNumber).getFriendlyURL();
-						if((lstRequestToEdit.containsKey(url.trim())) && (lstRequestToEdit.get(url).getWeight() != weight)){
+						
+						if((lstRequestToEdit.containsKey(url.trim())) && ((lstRequestToEdit.get(url).getWeight() != weight) || (!lstRequestToEdit.get(url).isChecked()))){
 							Request updatedRequest = lstRequestToEdit.get(url);
 							updatedRequest.setWeight(weight);
+							updatedRequest.setChecked(true);
 							// Saving ...
 							List<String> errors = new ArrayList<String>();
 							if(RequestValidator.validateRequest(updatedRequest, errors)) {
@@ -278,21 +279,26 @@ public class GatlingPortlet extends MVCPortlet {
 									SessionErrors.add(request, error);
 								}
 							}
-
 						}
+						
+						// ajout de nouvelles requêtes correspondants aux nouvelles pages
 						else if(! lstRequestToEdit.containsKey(url.trim())){					
-							//addRequest(url, weight, idScenario);
+							addRequest(listLayouts.get(requestNumber), weight, idScenario, true);
 							log.info("request created and added succefully ");
 						}				
 					}
-					else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox")) ){
-						int requestNumber = Integer.parseInt(key);
+					
+					else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox")) && (!key.contains("/")) ){
+						int requestNumber = (int) Double.parseDouble(key);
 						String url = listLayouts.get(requestNumber).getFriendlyURL();
+						//Cas de suppression de requête dans le scenario	
 						if(lstRequestToEdit.containsKey(url.trim())){
-							Request RequestToDelete = lstRequestToEdit.get(url);
-							RequestLocalServiceUtil.deleteRequest(RequestToDelete);
-							log.info("request deleted succefully ");
-
+							Request requestToDelete = lstRequestToEdit.get(url);
+							if(requestToDelete.getChecked()){
+								requestToDelete.setChecked(false);
+								RequestLocalServiceUtil.updateRequest(requestToDelete);
+								log.info("request check apdated succefully ");
+							}
 						}
 					}
 				}
@@ -308,6 +314,12 @@ public class GatlingPortlet extends MVCPortlet {
 		}
 	}
 
+	/**
+	 *  	REmove scenario from database
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	public void removeScenario(ActionRequest request, ActionResponse response)
 			throws Exception {
 		long scenarioId = ParamUtil.getLong(request, "scenarioId");
@@ -327,13 +339,13 @@ public class GatlingPortlet extends MVCPortlet {
 
 	/**
 	 * Add a new Request to the database
+<<<<<<< HEAD
 	 * @param parentLayoutId 
 	 * 
 	 */
 
 
-	public void addRequest(Layout layout, int weight, long idScenario, boolean checked) {
-
+	public void addRequest(Layout layout, double weight, long idScenario, boolean checked) {
 		log.info("addRequest contrôleur");
 		//create request
 		long primaryKey;
@@ -358,6 +370,24 @@ public class GatlingPortlet extends MVCPortlet {
 		}
 		
 	}
+	
+	/**
+	 *  Remove request from database
+	 * @param request
+	 * @param response
+	 */
+	public void removeRequest(ActionRequest request, ActionResponse response){
+		long requestId = (long) Double.parseDouble(request.getParameter("requestId"));
+		try {
+			RequestLocalServiceUtil.deleteRequest(requestId);
+			log.info("request deleted succefully ");
+		} catch (PortalException | SystemException e) {
+			log.info("fail to delete request: "+e.getMessage());
+		}
+		
+		
+	}
+	
 	/**
 	 * ici en fonction de la page demandée, on effectue différentes actions pour envoyer <br/>
 	 * les informations nécessaire à la construction de la page

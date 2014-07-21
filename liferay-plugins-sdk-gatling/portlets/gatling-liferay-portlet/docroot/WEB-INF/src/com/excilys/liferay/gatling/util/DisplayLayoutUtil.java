@@ -55,8 +55,6 @@ public class DisplayLayoutUtil {
 				result.add(dlr);
 			}
 		}
-		log.info("Size Result 1 : "+result.size());
-		
 
 		// Indent
 		indentDisplayLayout(result);
