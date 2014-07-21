@@ -1,3 +1,4 @@
-<h1>How to use Gatling Portlet?</h1>
+<%@include file="/html/gatling/header.jsp"%>
+<h1 style="text-align: center;">How to use Gatling Portlet?</h1>
 
-en construction
+<liferay-ui:message key="help_content"  />
