@@ -9,3 +9,6 @@
 */target/**
 liferay-plugins-sdk-gatling/build.*.properties
 liferay-plugins-sdk-gatling/.ivy/*
+liferay-plugins-sdk-gatling/portlets/gatling-liferay-portlet/.checkstyle
+liferay-plugins-sdk-gatling/portlets/gatling-liferay-portlet/bin/
+liferay-plugins-sdk-gatling/portlets/gatling-liferay-portlet/build.xml
