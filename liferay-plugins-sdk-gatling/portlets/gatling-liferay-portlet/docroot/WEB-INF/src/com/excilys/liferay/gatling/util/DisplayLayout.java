@@ -5,7 +5,7 @@ import com.liferay.sample.model.Request;
 
 public class DisplayLayout {
 	
-	private static final String INDENT = "&#8213;";
+	private static final String INDENT = "&#8213;"; //big hyphen
 	
 	public enum RequestState {
 		OLD_REQUEST, DEFAULT, NEW_REQUEST;
@@ -13,7 +13,6 @@ public class DisplayLayout {
 	// field for comparaison
 	private RequestState state;
 
-	
 	// field for space
 	private int numberOfSpace;
 	
@@ -31,7 +30,7 @@ public class DisplayLayout {
 	// Common initialization
 	{
 		state = RequestState.DEFAULT;
-		numberOfSpace=1;
+		numberOfSpace=0;
 	}
 	
 	public DisplayLayout(Layout layout) {
@@ -46,6 +45,7 @@ public class DisplayLayout {
 	}
 	
 	public DisplayLayout(Request request){
+		layoutId = request.getLayoutId();
 		parentLayoutId = request.getParentLayoutId();
 		checked=request.isChecked();
 		privatePage=request.isPrivatePage();
@@ -87,7 +87,7 @@ public class DisplayLayout {
 	
 	public String showName() {
 		StringBuffer sb = new StringBuffer();
-		for(int i = 0; i< numberOfSpace - 1; i++) {
+		for(int i = 0; i< numberOfSpace; i++) {
 			sb.append(INDENT);
 		}
 		sb.append(" ").append(name);
