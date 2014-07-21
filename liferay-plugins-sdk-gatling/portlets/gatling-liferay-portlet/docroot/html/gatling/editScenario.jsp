@@ -14,7 +14,7 @@
 <portlet:actionURL name="editScenario"  var="editScenarioURL" windowState="normal"/>
 
 	
-<aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario">
+<aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario" id="formulaireScenario">
 	<aui:fieldset>
 		<aui:input type="hidden" name="scenarioId" value='${empty scenario ? "" : scenario.scenario_id }'/>	
 		<aui:input type="hidden" name="groupId" value='${scenario.group_id}'/>	
@@ -32,6 +32,7 @@
 			<c:forEach var="layout" items='${ listPages }' varStatus="status">
 			<c:choose>
 				<c:when test="${layout.state == 'NEW_REQUEST'}">
+
 				<%-- Cas où la page est nouvellement créé --%>
 				<tr class="success">
 					<%-- Affichage request pas enregistrée --%>
@@ -92,20 +93,68 @@
 				</tr>
 				</c:otherwise>
 			</c:choose>
+			<%--Add a variable to know if we need to ask the user about upgrading its scenario --%>
+			<c:if test="${empty confirmUpgrade && (layout.state == 'NEW_REQUEST' || layout.state == 'OLD_REQUEST') }">
+				<c:set var="confirmUpgrade" value="confirmUpgrade"/>
+			</c:if>
 			</c:forEach>
 		</table> 
 	</aui:fieldset>
 	
-	
+
 	<aui:button-row>
-		<aui:button type="submit" />
+		<aui:button type="submit" onClick="confirmSubmit();return false;" />
 		<aui:button type="cancel" href="${backURL}" />
 	</aui:button-row>
 </aui:form>
 
-
+<c:if test="${not empty confirmUpgrade }">
+<script type="text/javascript">
+	function confirmSubmit() {
+		AUI().use(
+			  'aui-modal',
+			  function(Y) {
+			    var confirmUpgradeDialog = new Y.Modal(
+			      {
+			        bodyContent: 'This will upgrade your scenario\'s schema to the last version of your site',
+			        centered: true,
+			        headerContent: '<h3>Upgrade Scenario</h3>',
+			        modal: true,
+			        resizable: false,
+			        zIndex: 100
+			      }
+			    ).render();
+			    
+			    confirmUpgradeDialog.addToolbar(
+			    	      [
+			    	        {
+			    	          label: 'Cancel',
+			    	          on: {
+			    	            click: function() {
+			    	            	confirmUpgradeDialog.hide();
+			    	            }
+			    	          }
+			    	        },
+			    	        {
+			    	          label: 'Upgrade',
+			    	          on: {
+				    	            click: function() {
+				    	            	AUI().one('#<portlet:namespace/>formulaireScenario').submit();
+				    	            }
+				    	          }
+			    	        }
+			    	      ]
+			    	    );
+			  }
+			);
+		// stop form submitting
+		
+	}
+</script>
+</c:if>
 
 <script type="text/javascript">
+
 	AUI().use('aui-base', function(A) {
 		A.one("#checkAll").on('click',function(event) {
 			if(this.get('checked')) {
