@@ -25,6 +25,10 @@
 		<init-param>
 			<name>form-first-scenario-jsp</name>
 			<value>/html/gatling/formAddFirstScenario.jsp</value>
+		</init-param>	
+		<init-param>
+			<name>help-jsp</name>
+			<value>/html/gatling/help.jsp</value>
 		</init-param>
 		<!-- -->
 		<expiration-cache>0</expiration-cache>

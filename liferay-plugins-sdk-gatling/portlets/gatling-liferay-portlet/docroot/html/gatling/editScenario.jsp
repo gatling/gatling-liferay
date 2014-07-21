@@ -9,6 +9,7 @@
 	<portlet:param name="simulationId" value="${scenario.simulation_id }" />
 </portlet:renderURL>
 
+
 <liferay-ui:header title="${scenario.name } : ${siteName}" backURL="${backURL }" />
 
 
@@ -19,15 +20,13 @@
 	</ul>
 
 	<div class="tab-content">
-		<!-- 
-	
-		=== Tab scenario === 
-		
-		-->
-	
-		
+
+
+
 		<div id="tab-1">
-						<portlet:actionURL name="editScenario" var="editScenarioURL" windowState="normal" />
+			<portlet:actionURL name="editScenario" var="editScenarioURL" windowState="normal" />
+
+
 			<aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario">
 				<aui:fieldset>
 					<aui:input type="hidden" name="scenarioId" value='${empty scenario ? "" : scenario.scenario_id }' />
@@ -42,15 +41,14 @@
 							<th><liferay-ui:message key="scenario-edit-table-header-percentage" /></th>
 						</tr>
 
-						<c:forEach var="layout" items='${ listPages.keySet() }' varStatus="status">
+						<c:forEach var="layout" items='${ listPages }' varStatus="status">
 							<tr>
 
 								<!--  Cas ou page existe et requête aussi -->
-								<c:if test='${listPages.get(layout)[0] == 1.0}'>
-
+								<c:if test="${layout.state == 'DEFAULT'}">
 									<td>
 										<!-- checked ou pas en fonction de la requête --> <c:choose>
-											<c:when test="${listPages.get(layout)[2] == 1.0}">
+											<c:when test="${layout.checked}">
 												<aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' checked="true" onChange="showPoids()" />
 											</c:when>
 											<c:otherwise>
@@ -59,39 +57,43 @@
 										</c:choose>
 									</td>
 
-									<td>${layout[0]}</td>
+									<td>${layout.showName()}</td>
 
-									<td><aui:input label="" name="rate" cssClass="poids" value="${listPages.get(layout)[1]}" onChange="showPoids()">
+									<td><aui:input label="" name="weight${status.index}" cssClass="poids" value="${layout.weight}" onChange="showPoids()">
 											<aui:validator name="number" />
 										</aui:input></td>
-									<td><span class='url${status.index} percentage'>0%</span></td>
+									<td><span class='percentage'>0%</span></td>
 								</c:if>
 
 								<!-- Cas où la page est nouvellement créé -->
-								<c:if test='${listPages.get(layout)[0] == 2.0}'>
-									Affichage request pas enregistrée
+								<c:if test="${layout.state == 'NEW_REQUEST'}">
+									<%-- Affichage request pas enregistrée --%>
 									<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' onChange="showPoids()" /></td>
-									<td><label style="color: green">${layout[0]} (new Page)</label></td>
-									<td><aui:input label="" name="rate" cssClass="poids" onChange="showPoids()" value="0">
+									<td><label style="color: green">${layout.showName()} (new Page)</label></td>
+									<td><aui:input label="" name="weight${status.index}" cssClass="poids" onChange="showPoids()" value="0">
 											<aui:validator name="number" />
 										</aui:input></td>
-									<td><span class='url${status.index} percentage'>0%</span></td>
+									<td><span class='percentage'>0%</span></td>
 								</c:if>
 
 								<!-- Cas ou la page a été supprimée -->
-								<c:if test='${listPages.get(layout)[0] == 0.0}'>
-									Affichage request pas enregistrée
-									<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' onChange="showPoids()" /></td>
-									<td><label style="color: red">${layout[0]}</label></td>
-									<td><aui:input label="" name="rate" value="${listPages.get(layout)[1]}" cssClass="poids" onChange="showPoids()">
+								<c:if test="${layout.state == 'OLD_REQUEST'}">
+									<%-- Affichage request pas enregistrée --%>
+									<td><portlet:actionURL var="deleteRequestURL" name="removeRequest">
+											<portlet:param name="requestId" value="${layout.requestId}" />
+										</portlet:actionURL> <liferay-ui:icon-delete url="${deleteRequestURL}" /></td>
+									<td><label style="color: red">${layout.showName()}</label></td>
+									<td><aui:input label="" name="weight${status.index}" value="${layout.weight}" cssClass="poids" onChange="showPoids()">
 											<aui:validator name="number" />
 										</aui:input></td>
-									<td><span class='url${status.index} percentage'>0%</span></td>
+									<td><span class='percentage'>0%</span></td>
+
 								</c:if>
 							</tr>
 						</c:forEach>
 					</table>
 				</aui:fieldset>
+
 
 
 				<aui:button-row>
@@ -105,30 +107,30 @@
 		=== Tab details === 
 		
 		-->
-		
-		
+
+
 		<div id="tab-2" class="tab-pane">
 			<!-- redirect to editScenarioDetails -->
-		<portlet:actionURL name="editScenarioDetails" var="editScenarioDetailsURL">
-			<portlet:param name="scenarioId" value="${scenario.scenario_id}" />
-		</portlet:actionURL>
-		<div id="details">
-			<aui:form action="${editScenarioDetailsURL}" name="scenario_details" id="scenario_details">
-				<h3>
-					<liferay-ui:message key="scenario-edit-details" />
-				</h3>
+			<portlet:actionURL name="editScenarioDetails" var="editScenarioDetailsURL">
+				<portlet:param name="scenarioId" value="${scenario.scenario_id}" />
+			</portlet:actionURL>
+			<div id="details">
+				<aui:form action="${editScenarioDetailsURL}" name="scenario_details" id="scenario_details">
+					<h3>
+						<liferay-ui:message key="scenario-edit-details" />
+					</h3>
 
-				<aui:input label="scenario-edit-nb-users-per-second" name="scenarioUsers" value="${scenario.users_per_seconds}">
-					<aui:validator name="number"></aui:validator>
-				</aui:input>
+					<aui:input label="scenario-edit-nb-users-per-second" name="scenarioUsers" value="${scenario.users_per_seconds}">
+						<aui:validator name="number"></aui:validator>
+					</aui:input>
 
-				<aui:input label="scenario-edit-duration" name="scenarioDuration" value="${scenario.duration}">
-					<aui:validator name="number"></aui:validator>
-				</aui:input>
+					<aui:input label="scenario-edit-duration" name="scenarioDuration" value="${scenario.duration}">
+						<aui:validator name="number"></aui:validator>
+					</aui:input>
 
-				<aui:button name="details-scenario" type="submit"></aui:button>
-			</aui:form>
-		</div> 
+					<aui:button name="details-scenario" type="submit"></aui:button>
+				</aui:form>
+			</div>
 		</div>
 	</div>
 </div>
