@@ -29,4 +29,10 @@
 	</portlet:actionURL>
 
 	<liferay-ui:icon-delete url="${deleteSimulationURL}" />
+	
+	<portlet:renderURL var="helpURL">
+		<portlet:param name="page" value="/html/gatling/help.jsp" />
+	</portlet:renderURL>
+
+	<liferay-ui:icon image="submit" url="${helpURL}" message="Help"/>
 </liferay-ui:icon-menu>

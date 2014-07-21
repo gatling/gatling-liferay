@@ -50,7 +50,7 @@ public class GatlingPortlet extends MVCPortlet {
 	private static Log log = LogFactoryUtil.getLog(GatlingPortlet.class);
 
 
-	protected String jspListSimulation, jspEditSimulation, jspEditScenario, jspFormFirstScenario;
+	protected String jspListSimulation, jspEditSimulation, jspEditScenario, jspFormFirstScenario, jspHelp;
 
 
 	/**
@@ -62,6 +62,7 @@ public class GatlingPortlet extends MVCPortlet {
 		jspEditSimulation = getInitParameter("edit-simulation-jsp");
 		jspEditScenario = getInitParameter("edit-scenario-jsp");
 		jspFormFirstScenario = getInitParameter("form-first-scenario-jsp");
+		jspHelp = getInitParameter("help-jsp");
 		super.init();
 	}
 
@@ -406,6 +407,11 @@ public class GatlingPortlet extends MVCPortlet {
 				e.printStackTrace();
 			}
 			renderRequest.setAttribute("listSimulation", list);
+		} else if(page.equals(jspHelp)) {
+			
+			
+			
+			
 		} else if(page.equals(jspEditSimulation) || page.equals(jspFormFirstScenario)) {
 			/*
 			 * Edition d'une simulation, liste des scénarios
