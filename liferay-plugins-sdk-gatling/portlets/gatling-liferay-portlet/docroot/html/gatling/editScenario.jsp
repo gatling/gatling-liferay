@@ -30,6 +30,8 @@
 			</tr>
 			
 			<c:forEach var="layout" items='${ listPages }' varStatus="status">
+			
+				
 				<tr>
 				
 				<!--  Cas ou page existe et requête aussi -->
@@ -38,10 +40,10 @@
 					<!-- checked ou pas en fonction de la requête -->
 					<c:choose>
 						<c:when test="${layout.checked}">
-							<aui:input type="checkbox" name="${status.index}"  cssClass='activate url${status.index}' checked="true" onChange="showPoids()"/>
+							<aui:input type="checkbox" name="${status.index}"  cssClass='activate' checked="true" onChange="showPoids()"/>
 						</c:when>
 						<c:otherwise>
-							<aui:input type="checkbox" name="${status.index}"  cssClass='activate url${status.index}' checked="false" onChange="showPoids()"/>
+							<aui:input type="checkbox" name="${status.index}"  cssClass='activate' checked="false" onChange="showPoids()"/>
 						</c:otherwise>		
 					</c:choose>
 					</td>
@@ -59,7 +61,7 @@
 				<!-- Cas où la page est nouvellement créé -->
 				<c:if test="${layout.state == 'NEW_REQUEST'}">
 					<%-- Affichage request pas enregistrée --%>
-					<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' onChange="showPoids()"/></td>
+					<td><aui:input type="checkbox" name="${status.index}" cssClass='activate' onChange="showPoids()"/></td>
 					<td><label style="color: green">${layout.showName()} (new Page)</label></td>	
 					<td>
 						<aui:input label="" name="weight${status.index}"  cssClass="poids" 
@@ -81,7 +83,7 @@
 					</td>
 					<td><label style="color: red">${layout.showName()}</label></td>	
 					<td>
-						<aui:input label="" name="weight${status.index}" value="${layout.weight}"  cssClass="poids" 
+						<aui:input label="" name="weight${layout.requestId}" value="${layout.weight}"  cssClass="poids" 
 										onChange="showPoids()" >
 							<aui:validator name="number"/>
 						</aui:input>
