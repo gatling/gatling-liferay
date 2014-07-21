@@ -19,8 +19,8 @@ public class DisplayLayout {
 	// field of Request table
 	private boolean checked;
 	private boolean privatePage;
-	private int requestId;
-	private int scenarioId;
+	private long requestId;
+	private long scenarioId;
 	private String name;
 	private String url;
 	private double weight;
@@ -46,6 +46,7 @@ public class DisplayLayout {
 	
 	public DisplayLayout(Request request){
 		layoutId = request.getLayoutId();
+		requestId = request.getRequest_id();
 		parentLayoutId = request.getParentLayoutId();
 		checked=request.isChecked();
 		privatePage=request.isPrivatePage();
@@ -115,16 +116,16 @@ public class DisplayLayout {
 	public void setPrivatePage(boolean privatePage) {
 		this.privatePage = privatePage;
 	}
-	public int getRequestId() {
+	public long getRequestId() {
 		return requestId;
 	}
-	public void setRequestId(int requestId) {
+	public void setRequestId(long requestId) {
 		this.requestId = requestId;
 	}
-	public int getScenarioId() {
+	public long getScenarioId() {
 		return scenarioId;
 	}
-	public void setScenarioId(int scenarioId) {
+	public void setScenarioId(long scenarioId) {
 		this.scenarioId = scenarioId;
 	}
 	public String getUrl() {
