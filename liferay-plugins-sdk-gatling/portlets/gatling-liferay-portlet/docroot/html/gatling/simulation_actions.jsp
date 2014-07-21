@@ -18,10 +18,13 @@
 
 	<liferay-ui:icon image="edit" url="${editSimulationURL}" />
 	
-	<portlet:renderURL var="GenerateSimulationURL">
-	</portlet:renderURL>
 
-	<liferay-ui:icon image="submit" url="${GenerateSimulationURL}" message="Generate Simulation"/>
+	<portlet:actionURL var="generateSimulationURL" name="generateSimulation">
+		<portlet:param name="simulationId"
+			value="<%=String.valueOf(simulationId)%>" />
+	</portlet:actionURL>
+	
+	<liferay-ui:icon image="submit" url="${generateSimulationURL}" message="Generate Simulation"/>
 
 	<portlet:actionURL var="deleteSimulationURL" name="removeSimulation">
 		<portlet:param name="simulationId"

@@ -28,8 +28,12 @@ import com.liferay.sample.service.ScenarioLocalServiceUtil;
 import com.liferay.sample.service.SimulationLocalServiceUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -99,26 +103,8 @@ public class GatlingPortlet extends MVCPortlet {
 	}
 	
 	public void editSimulation(ActionRequest request, ActionResponse response) throws Exception{
-
-		Long idSimulation = ParamUtil.getLong(request, "simulationId");
-		Simulation simulation = SimulationLocalServiceUtil.getSimulation(idSimulation);
-		Long usersSimulation = ParamUtil.getLong(request, "simulationUsers");
-		Long durationSimulation = ParamUtil.getLong(request, "simulationDuration");
-		simulation.setUsers_per_seconds(usersSimulation);
-		simulation.setDuration(durationSimulation);
-		List<String> errors = new ArrayList<String>();
-		if(SimulationValidator.validateSimulation(simulation, errors)) {
-			SimulationLocalServiceUtil.updateSimulation(simulation);			
-		}
-		else {
-			for(String error : errors) {
-				SessionErrors.add(request, error);
-			}
-		}
-		response.setRenderParameter("simulationId", Long.toString(simulation.getSimulation_id()));
-		response.setRenderParameter("page", jspEditSimulation);
-
 	}
+	
 
 	public void removeSimulation(ActionRequest request, ActionResponse response)
 			throws Exception {
@@ -304,6 +290,32 @@ public class GatlingPortlet extends MVCPortlet {
 				log.info("pbm with ScenarioLocalServiceUtil.getScenario "+ e.getMessage());
 			} 
 		}
+		
+	}
+	
+	public void editScenarioDetails(ActionRequest request, ActionResponse response)
+			throws Exception {
+		
+
+
+		Long idScenario = ParamUtil.getLong(request, "scenarioId");
+		Scenario scenario = ScenarioLocalServiceUtil.getScenario(idScenario);
+		Long usersSimulation = ParamUtil.getLong(request, "scenarioUsers");
+		Long durationSimulation = ParamUtil.getLong(request, "scenarioDuration");
+		scenario.setUsers_per_seconds(usersSimulation);
+		scenario.setDuration(durationSimulation);
+		List<String> errors = new ArrayList<String>();
+		if(ScenarioValidator.validateEditScenarioDetails(scenario, errors)) {
+			ScenarioLocalServiceUtil.updateScenario(scenario);			
+		}
+		else {
+			for(String error : errors) {
+				SessionErrors.add(request, error);
+			}
+		}
+		response.setRenderParameter("scenarioId", Long.toString(scenario.getScenario_id()));
+		response.setRenderParameter("page", jspEditScenario);
+
 	}
 
 	public void removeScenario(ActionRequest request, ActionResponse response)
@@ -533,6 +545,36 @@ public class GatlingPortlet extends MVCPortlet {
 
 		return listGroups;
 
+	}
+	
+	public void generateSimulation(ActionRequest request, ActionResponse response)
+			throws Exception {
+
+		Date date =new Date();
+		File simulationFile = new File("/home/pif/Documents/SimulationsGatling/Simulation"  + date.getTime() + ".scala");
+			simulationFile.createNewFile();
+		
+
+		Long simulationId = ParamUtil.getLong(request, "simulationId");
+
+		StringBuilder sb = new StringBuilder();
+		
+		ScriptGenerator.generateImports(sb);
+		sb.append("\nclass SimulationLiferay extends Simulation {\n");
+		ScriptGenerator.generateClass(sb, simulationId);
+		sb.append("\n}");
+		simulationFile.setWritable(true);
+		
+		FileWriter fw = new FileWriter(simulationFile);
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.write(sb.toString());
+		
+		
+		
+		
+		bw.close();
+		
+				
 	}
 
 }
