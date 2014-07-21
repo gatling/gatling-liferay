@@ -1,11 +1,12 @@
 package com.excilys.liferay.gatling.util;
 
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.model.Layout;
 import com.liferay.sample.model.Request;
 
 public class DisplayLayout {
 	
-	private static final String INDENT = "&#8213;"; //big hyphen
+	private static final String INDENT = "&emsp;&emsp;"; //tab
 	
 	public enum RequestState {
 		OLD_REQUEST, DEFAULT, NEW_REQUEST;
@@ -37,7 +38,7 @@ public class DisplayLayout {
 		
 		layoutId = layout.getLayoutId();
 		parentLayoutId = layout.getParentLayoutId();
-		name = layout.getName();
+		name = layout.getName(LocaleUtil.getDefault());
 		checked=false;
 		privatePage=layout.isPrivateLayout();
 		url = layout.getFriendlyURL();
@@ -87,7 +88,7 @@ public class DisplayLayout {
 	
 	public String showName() {
 		StringBuffer sb = new StringBuffer();
-		for(int i = 0; i< numberOfSpace; i++) {
+		for(int i = 0; i< numberOfSpace-1; i++) {
 			sb.append(INDENT);
 		}
 		sb.append(" ").append(name);
