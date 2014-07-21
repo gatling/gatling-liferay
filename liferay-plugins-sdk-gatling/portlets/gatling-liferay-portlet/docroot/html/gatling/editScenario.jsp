@@ -12,6 +12,8 @@
 <liferay-ui:header title="${scenario.name } : ${siteName}" backURL="${backURL }"/>
 
 <portlet:actionURL name="editScenario"  var="editScenarioURL" windowState="normal"/>
+
+	
 <aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario">
 	<aui:fieldset>
 		<aui:input type="hidden" name="scenarioId" value='${empty scenario ? "" : scenario.scenario_id }'/>	
@@ -72,7 +74,12 @@
 				<!-- Cas ou la page a été supprimée -->
 				<c:if test='${listPages.get(layout)[0] == 0.0}'>
 					<%-- Affichage request pas enregistrée --%>
-					<td><aui:input type="checkbox" name="${layout[0]}" cssClass='activate' onChange="showPoids()"/></td>
+					<td>
+						<portlet:actionURL var="deleteRequestURL" name="removeRequest">
+								<portlet:param name="requestId" value="${listPages.get(layout)[4]}" />
+						</portlet:actionURL>
+						<liferay-ui:icon-delete url="${deleteRequestURL}" />
+					</td>
 					<td><label style="color: red">${layout[0]}</label></td>	
 					<td>
 						<aui:input label="" name="rate" value="${listPages.get(layout)[1]}"  cssClass="poids" 
@@ -81,6 +88,7 @@
 						</aui:input>
 					</td>
 					<td><span class='percentage'>0%</span></td>
+					
 				</c:if>
 				</tr>
 			</c:forEach>

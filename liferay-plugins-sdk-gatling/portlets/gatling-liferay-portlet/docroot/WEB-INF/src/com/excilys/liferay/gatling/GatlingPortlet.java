@@ -285,9 +285,11 @@ public class GatlingPortlet extends MVCPortlet {
 							log.info("request created and added succefully ");
 						}				
 					}
+					
 					else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox")) && (!key.contains("/")) ){
 						int requestNumber = (int) Double.parseDouble(key);
 						String url = listLayouts.get(requestNumber).getFriendlyURL();
+						//Cas de suppression de requête dans le scenario	
 						if(lstRequestToEdit.containsKey(url.trim())){
 							Request requestToDelete = lstRequestToEdit.get(url);
 							if(requestToDelete.getChecked()){
@@ -296,12 +298,6 @@ public class GatlingPortlet extends MVCPortlet {
 								log.info("request check apdated succefully ");
 							}
 						}
-					}
-					else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox") && (key.contains("/"))) ){
-						String url = key;
-						Request requestToDelete = lstRequestToEdit.get(url);
-						RequestLocalServiceUtil.deleteRequest(requestToDelete);
-						log.info("request deleted succefully ");
 					}
 				}
 				
@@ -316,6 +312,12 @@ public class GatlingPortlet extends MVCPortlet {
 		}
 	}
 
+	/**
+	 *  	REmove scenario from database
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	public void removeScenario(ActionRequest request, ActionResponse response)
 			throws Exception {
 		long scenarioId = ParamUtil.getLong(request, "scenarioId");
@@ -335,10 +337,12 @@ public class GatlingPortlet extends MVCPortlet {
 
 	/**
 	 * Add a new Request to the database
-	 * 
+	 * @param url
+	 * @param rate
+	 * @param idScenario
+	 * @param checked
+	 * @param privatePage
 	 */
-
-
 	public void addRequest(String url, double rate, long idScenario, boolean checked, int privatePage) {
 
 		log.info("addRequest contrôleur");
@@ -362,6 +366,24 @@ public class GatlingPortlet extends MVCPortlet {
 		}
 		
 	}
+	
+	/**
+	 *  Remove request from database
+	 * @param request
+	 * @param response
+	 */
+	public void removeRequest(ActionRequest request, ActionResponse response){
+		long requestId = (long) Double.parseDouble(request.getParameter("requestId"));
+		try {
+			RequestLocalServiceUtil.deleteRequest(requestId);
+			log.info("request deleted succefully ");
+		} catch (PortalException | SystemException e) {
+			log.info("fail to delete request: "+e.getMessage());
+		}
+		
+		
+	}
+	
 	/**
 	 * ici en fonction de la page demandée, on effectue différentes actions pour envoyer <br/>
 	 * les informations nécessaire à la construction de la page
@@ -450,9 +472,12 @@ public class GatlingPortlet extends MVCPortlet {
 					//récupération des anciennes pages avec celles supprimés
 					for(int j =0; j< listRequests.size();j++){
 						
-						Double[] poidVerif = {0.0, 0.0, 0.0, (double) i}; // (pageStatus, poidsRequete, checked, index )
+						 
 						Request r = listRequests.get(j);
+						// (pageStatus, poidsRequete, checked, index, RequestID )
+						Double[] poidVerif = {0.0, 0.0, 0.0, (double) i,0.0};
 						poidVerif[1] = r.getWeight();
+						
 						boolean checkPrivate = (r.getPrivatePage()==1 ? true : false);
 						
 						if(r.isChecked()){
@@ -462,6 +487,7 @@ public class GatlingPortlet extends MVCPortlet {
 						if( (layout.isPrivateLayout() == checkPrivate ) && (layout.getFriendlyURL().equals(r.getUrl()))){
 							//ici les pages existantes trouvées dans la liste de requêtes
 							poidVerif[0] = 1.0;
+							poidVerif[4] = (double) r.getRequest_id();
 							ListAAfficher.put(layoutData, poidVerif);
 							listIndexRequest[j] = 1;
 							break;
@@ -482,7 +508,7 @@ public class GatlingPortlet extends MVCPortlet {
 					if(listIndexRequest[i] != 1){					
 						Request r = listRequests.get(i);
 						log.info(r.getUrl()+": index dans liste: "+i+" list length "+listIndexRequest.length+" liste request size "+listRequests.size());
-						Double[] poidVerif = {0.0, r.getWeight(), (r.getChecked() ==true? 1.0 :0.0),null};
+						Double[] poidVerif = {0.0, r.getWeight(), (r.getChecked() ==true? 1.0 :0.0),null,(double) r.getRequest_id()};
 						String[] layoutData = {r.getUrl(), r.getUrl()}; 
 						ListAAfficher.put(layoutData, poidVerif);
 					}
