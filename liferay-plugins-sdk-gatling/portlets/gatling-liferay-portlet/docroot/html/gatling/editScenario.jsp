@@ -27,16 +27,15 @@
 				<th><liferay-ui:message key="scenario-edit-table-header-percentage" /></th>
 			</tr>
 			
-			<c:forEach var="layout" items='${ listPages.keySet() }' varStatus="status">
+			<c:forEach var="layout" items='${ listPages }' varStatus="status">
 				<tr>
 				
 				<!--  Cas ou page existe et requête aussi -->
-				<c:if test='${listPages.get(layout)[0] == 1.0}'>
-					
+				<c:if test="${layout.state == 'DEFAULT'}">
 					<td>
 					<!-- checked ou pas en fonction de la requête -->
 					<c:choose>
-						<c:when test="${listPages.get(layout)[2] == 1.0}">
+						<c:when test="${layout.checked}">
 							<aui:input type="checkbox" name="${status.index}"  cssClass='activate url${status.index}' checked="true" onChange="showPoids()"/>
 						</c:when>
 						<c:otherwise>
@@ -45,10 +44,10 @@
 					</c:choose>
 					</td>
 					
-					<td>${layout[0]}</td>	
+					<td>${layout.showName()}</td>	
 					
 					<td>
-						<aui:input label="" name="rate"  cssClass="poids" value="${listPages.get(layout)[1]}" onChange="showPoids()">
+						<aui:input label="" name="rate"  cssClass="poids" value="${layout.weight}" onChange="showPoids()">
 							<aui:validator name="number"/>
 						</aui:input>
 					</td>
@@ -56,10 +55,10 @@
 				</c:if>
 				
 				<!-- Cas où la page est nouvellement créé -->
-				<c:if test='${listPages.get(layout)[0] == 2.0}'>
+				<c:if test="${layout.state == 'NEW_REQUEST'}">
 					<%-- Affichage request pas enregistrée --%>
 					<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' onChange="showPoids()"/></td>
-					<td><label style="color: green">${layout[0]} (new Page)</label></td>	
+					<td><label style="color: green">${layout.showName()} (new Page)</label></td>	
 					<td>
 						<aui:input label="" name="rate"  cssClass="poids" 
 										onChange="showPoids()" value="0">
@@ -70,12 +69,12 @@
 				</c:if>
 				
 				<!-- Cas ou la page a été supprimée -->
-				<c:if test='${listPages.get(layout)[0] == 0.0}'>
+				<c:if test="${layout.state == 'OLD_REQUEST'}">
 					<%-- Affichage request pas enregistrée --%>
 					<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' onChange="showPoids()"/></td>
-					<td><label style="color: red">${layout[0]}</label></td>	
+					<td><label style="color: red">${layout.showName()}</label></td>	
 					<td>
-						<aui:input label="" name="rate" value="${listPages.get(layout)[1]}"  cssClass="poids" 
+						<aui:input label="" name="rate" value="${layout.weight}"  cssClass="poids" 
 										onChange="showPoids()" >
 							<aui:validator name="number"/>
 						</aui:input>
