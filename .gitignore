@@ -9,3 +9,4 @@
 */target/**
 liferay-plugins-sdk-gatling/build.*.properties
 liferay-plugins-sdk-gatling/.ivy/*
+liferay-plugins-sdk-gatling/dist/gatling-liferay-portlet-6.2.10.1.war
