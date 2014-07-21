@@ -336,7 +336,7 @@ public class GatlingPortlet extends MVCPortlet {
 	}
 
 	/**
-	 *  	Remove scenario from database
+	 * Remove scenario from database
 	 * @param request
 	 * @param response
 	 * @throws Exception

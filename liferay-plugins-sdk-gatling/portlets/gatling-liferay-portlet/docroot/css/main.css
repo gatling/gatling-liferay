@@ -2,6 +2,10 @@
 	width:70px !important;
 }
 
+.table-scenario .control-group {
+	margin-bottom:0px !important;
+}
+
 .margin-left {
 	margin-left: 40px !important;
 }

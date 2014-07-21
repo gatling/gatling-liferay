@@ -1,0 +1,17 @@
+/bin
+
+docroot/WEB-INF/src/service.properties
+../../dist/gatling-liferay-portlet-6.2.10.1.war
+.checkstyle
+build.xml
+docroot/WEB-INF/lib/
+docroot/WEB-INF/service/com/liferay/sample/model/
+docroot/WEB-INF/service/com/liferay/sample/service/
+docroot/WEB-INF/sql/tables.sql
+docroot/WEB-INF/src/META-INF/portlet-hbm.xml
+docroot/WEB-INF/src/META-INF/portlet-model-hints.xml
+docroot/WEB-INF/src/META-INF/portlet-orm.xml
+docroot/WEB-INF/src/com/liferay/sample/model/
+docroot/WEB-INF/src/com/liferay/sample/service/base/
+docroot/WEB-INF/src/com/liferay/sample/service/persistence/
+docroot/WEB-INF/src/service.properties

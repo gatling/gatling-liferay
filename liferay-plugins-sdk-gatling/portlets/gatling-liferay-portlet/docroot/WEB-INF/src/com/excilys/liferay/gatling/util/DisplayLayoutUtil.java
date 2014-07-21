@@ -77,6 +77,12 @@ public class DisplayLayoutUtil {
 
 		// Indent
 		indentDisplayLayout(result);
+		//display test 
+		for (DisplayLayout dl : result) {
+			if(dl.getState() != RequestState.DEFAULT) {
+				log.info(dl.getName());
+			}
+		}
 		//return
 		return result;
 	}
