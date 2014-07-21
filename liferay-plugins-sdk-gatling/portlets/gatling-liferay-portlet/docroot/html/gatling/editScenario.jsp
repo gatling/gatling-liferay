@@ -29,60 +29,59 @@
 				<th><liferay-ui:message key="scenario-edit-table-header-percentage" /></th>
 			</tr>
 			
-			<c:forEach var="layout" items='${ listPages.keySet() }' varStatus="status">
+			<c:forEach var="layout" items='${ listPages }' varStatus="status">
 				<tr>
 				
 				<!--  Cas ou page existe et requête aussi -->
-				<c:if test='${listPages.get(layout)[0] == 1.0}'>
-					
+				<c:if test="${layout.state == 'DEFAULT'}">
 					<td>
 					<!-- checked ou pas en fonction de la requête -->
 					<c:choose>
-						<c:when test="${listPages.get(layout)[2] == 1.0}">
-							<aui:input type="checkbox" name="${listPages.get(layout)[3]}"  cssClass='activate url${listPages.get(layout)[3]}' checked="true" onChange="showPoids()"/>
+						<c:when test="${layout.checked}">
+							<aui:input type="checkbox" name="${status.index}"  cssClass='activate url${status.index}' checked="true" onChange="showPoids()"/>
 						</c:when>
 						<c:otherwise>
-							<aui:input type="checkbox" name="${listPages.get(layout)[3]}"  cssClass='activate url${listPages.get(layout)[3]}' checked="false" onChange="showPoids()"/>
+							<aui:input type="checkbox" name="${status.index}"  cssClass='activate url${status.index}' checked="false" onChange="showPoids()"/>
 						</c:otherwise>		
 					</c:choose>
 					</td>
 					
-					<td>${layout[0]}</td>	
+					<td>${layout.showName()}</td>	
 					
 					<td>
-						<aui:input label="" name="rate${listPages.get(layout)[3]}"  cssClass="poids" value="${listPages.get(layout)[1]}" onChange="showPoids()">
+						<aui:input label="" name="weight${status.index}"  cssClass="poids" value="${layout.weight}" onChange="showPoids()">
 							<aui:validator name="number"/>
 						</aui:input>
 					</td>
-					<td><span class='url${listPages.get(layout)[3]} percentage'>0%</span></td>
+					<td><span class='percentage'>0%</span></td>
 				</c:if>
 				
 				<!-- Cas où la page est nouvellement créé -->
-				<c:if test='${listPages.get(layout)[0] == 2.0}'>
+				<c:if test="${layout.state == 'NEW_REQUEST'}">
 					<%-- Affichage request pas enregistrée --%>
-					<td><aui:input type="checkbox" name="${listPages.get(layout)[3]}" cssClass='activate' onChange="showPoids()"/></td>
-					<td><label style="color: green">${layout[0]} (new Page)</label></td>	
+					<td><aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' onChange="showPoids()"/></td>
+					<td><label style="color: green">${layout.showName()} (new Page)</label></td>	
 					<td>
-						<aui:input label="" name="rate${listPages.get(layout)[3]}"  cssClass="poids" 
+						<aui:input label="" name="weight${status.index}"  cssClass="poids" 
 										onChange="showPoids()" value="0">
 							<aui:validator name="number"/>
 						</aui:input>
 					</td>
-					<td><span class='url${listPages.get(layout)[3]} percentage'>0%</span></td>
+					<td><span class='percentage'>0%</span></td>
 				</c:if>
 				
 				<!-- Cas ou la page a été supprimée -->
-				<c:if test='${listPages.get(layout)[0] == 0.0}'>
+				<c:if test="${layout.state == 'OLD_REQUEST'}">
 					<%-- Affichage request pas enregistrée --%>
 					<td>
 						<portlet:actionURL var="deleteRequestURL" name="removeRequest">
-								<portlet:param name="requestId" value="${listPages.get(layout)[4]}" />
+								<portlet:param name="requestId" value="${layout.requestId}" />
 						</portlet:actionURL>
 						<liferay-ui:icon-delete url="${deleteRequestURL}" />
 					</td>
-					<td><label style="color: red">${layout[0]}</label></td>	
+					<td><label style="color: red">${layout.showName()}</label></td>	
 					<td>
-						<aui:input label="" name="rate" value="${listPages.get(layout)[1]}"  cssClass="poids" 
+						<aui:input label="" name="weight${status.index}" value="${layout.weight}"  cssClass="poids" 
 										onChange="showPoids()" >
 							<aui:validator name="number"/>
 						</aui:input>
