@@ -41,7 +41,6 @@
 						<c:forEach var="layout" items='${ listPages }' varStatus="status">
 						<c:choose>
 							<c:when test="${layout.state == 'NEW_REQUEST'}">
-			
 							<%-- Cas où la page est nouvellement créé --%>
 							<tr class="success">
 								<%-- Affichage request pas enregistrée --%>
@@ -53,15 +52,14 @@
 										<aui:validator name="number"/>
 									</aui:input> 
 									<c:if test="${not empty hierachy[layout.displayLayoutId]}">
-										<c:set var="arraySubPage" value="[" />
+										<c:set var="arraySubPage" value="" />
 										<c:forEach var="i" items="${hierachy[layout.displayLayoutId]}" varStatus="info">
 											<c:set var="arraySubPage" value="${arraySubPage}'${i}'" />
 											<c:if test="${not info.last}">
 												<c:set var="arraySubPage" value="${arraySubPage}," />
 											</c:if>
 										</c:forEach>
-										<c:set var="arraySubPage" value="${arraySubPage}]" />
-										<aui:button cssClass="force-weight-childs" data-childs="${arraySubPage}" value="Force the weight to the sub-pages"/>
+										<aui:button cssClass="force-weight-childs" data-childs="${arraySubPage}" value="Force-the-weight-to-the-sub-pages"/>
 									</c:if>
 								</td>
 								<td><span class='percentage'>0%</span></td>
@@ -119,7 +117,7 @@
 												<c:set var="arraySubPage" value="${arraySubPage}," />
 											</c:if>
 										</c:forEach>
-										<aui:button cssClass="force-weight-childs" data-childs="${arraySubPage}" value="Force the weight to the sub-pages"/>
+										<aui:button cssClass="force-weight-childs" data-childs="${arraySubPage}" value="Force-the-weight-to-the-sub-pages"/>
 									</c:if>
 								</td>
 								<td><span class='percentage'>0%</span></td>
