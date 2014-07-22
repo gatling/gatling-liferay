@@ -472,7 +472,7 @@ public class GatlingPortlet extends MVCPortlet {
 				//on récupère la liste des layout
 				long groupId = scenario.getGroup_id();
 				List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId,false,0);
-				String siteName = listLayouts.get(0).getGroup().getName();
+				String siteName = GroupLocalServiceUtil.getGroup(groupId).getName();
 				// Puis les privates
 				List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
 				
