@@ -52,7 +52,7 @@
 								</c:if>
 							</c:forEach>
 							<c:set var="arraySubPage" value="${arraySubPage}]" />
-							<aui:button cssClass="force-weight-childs" data-childs="${arraySubPage}" value="Force the weight to the sub-pages"/>
+							<aui:button cssClass="force-weight-childs" data-childs="${arraySubPage}" value="Force-the-weight-to-the-sub-pages"/>
 						</c:if>
 					</td>
 					<td><span class='percentage'>0%</span></td>
@@ -110,7 +110,7 @@
 									<c:set var="arraySubPage" value="${arraySubPage}," />
 								</c:if>
 							</c:forEach>
-							<aui:button cssClass="force-weight-childs" data-childs="${arraySubPage}" value="Force the weight to the sub-pages"/>
+							<aui:button cssClass="force-weight-childs" data-childs="${arraySubPage}" value="Force-the-weight-to-the-sub-pages"/>
 						</c:if>
 					</td>
 					<td><span class='percentage'>0%</span></td>
