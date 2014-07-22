@@ -9,11 +9,7 @@
 	<portlet:param name="simulationId" value="${scenario.simulation_id }" />
 </portlet:renderURL>
 
-
 <liferay-ui:header title="${scenario.name } : ${siteName}" backURL="${backURL }" />
-
-
-
 
 <div id="myTab">
 	<ul class="nav nav-tabs">
@@ -27,125 +23,123 @@
 
 		<div id="tab-1">
 			<portlet:actionURL name="editScenario" var="editScenarioURL" windowState="normal" />
-
-<aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario" id="formulaireScenario">
-	<aui:fieldset>
-		<aui:input type="hidden" name="scenarioId" value='${empty scenario ? "" : scenario.scenario_id }'/>	
-		<aui:input type="hidden" name="groupId" value='${scenario.group_id}'/>	
-		<table class="table table-bordered table-scenario">		
-			<tr>
-				<th><input type="checkbox" id="checkAll" /> <liferay-ui:message key="scenario-edit-table-header-activate" /></th>
-				<th><liferay-ui:message key="scenario-edit-table-header-page" /></th>
-				<th><liferay-ui:message key="scenario-edit-table-header-weight" />
-					<input type="text" name="poidForce" id="<portlet:namespace/>poidForce" class="margin-left"/>
-					<aui:button type="button" value="scenario-edit-force-weight-btn" onClick="<%=renderResponse.getNamespace() +\"forcePoids()\" %>"/>
-				</th>
-				<th><liferay-ui:message key="scenario-edit-table-header-percentage" /></th>
-			</tr>
+			<aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario" id="formulaireScenario">
+				<aui:fieldset>
+					<aui:input type="hidden" name="scenarioId" value='${empty scenario ? "" : scenario.scenario_id }'/>	
+					<aui:input type="hidden" name="groupId" value='${scenario.group_id}'/>	
+					<table class="table table-bordered table-scenario">		
+						<tr>
+							<th><input type="checkbox" id="checkAll" /> <liferay-ui:message key="scenario-edit-table-header-activate" /></th>
+							<th><liferay-ui:message key="scenario-edit-table-header-page" /></th>
+							<th><liferay-ui:message key="scenario-edit-table-header-weight" />
+								<input type="text" name="poidForce" id="<portlet:namespace/>poidForce" class="margin-left"/>
+								<aui:button type="button" value="scenario-edit-force-weight-btn" onClick="<%=renderResponse.getNamespace() +\"forcePoids()\" %>"/>
+							</th>
+							<th><liferay-ui:message key="scenario-edit-table-header-percentage" /></th>
+						</tr>
+						
+						<c:forEach var="layout" items='${ listPages }' varStatus="status">
+						<c:choose>
+							<c:when test="${layout.state == 'NEW_REQUEST'}">
 			
-			<c:forEach var="layout" items='${ listPages }' varStatus="status">
-			<c:choose>
-				<c:when test="${layout.state == 'NEW_REQUEST'}">
-
-				<%-- Cas où la page est nouvellement créé --%>
-				<tr class="success">
-					<%-- Affichage request pas enregistrée --%>
-					<td><aui:input type="checkbox" name="${status.index}" cssClass='activate' onChange="showPoids()"/></td>
-					<td>${layout.showName()} ${layout.displayLayoutId}</td>	
-					<td>
-						<aui:input label="" name="weight${status.index}"  cssClass="poids ${layout.displayLayoutId}"
-										onChange="showPoids()" value="${layout.weight}">
-							<aui:validator name="number"/>
-						</aui:input> 
-						<c:if test="${not empty hierachy[layout.displayLayoutId]}">
-							<c:set var="arraySubPage" value="[" />
-							<c:forEach var="i" items="${hierachy[layout.displayLayoutId]}" varStatus="info">
-								<c:set var="arraySubPage" value="${arraySubPage}'${i}'" />
-								<c:if test="${not info.last}">
-									<c:set var="arraySubPage" value="${arraySubPage}," />
-								</c:if>
-							</c:forEach>
-							<c:set var="arraySubPage" value="${arraySubPage}]" />
-							<aui:button cssClass="force-weight-childs" data-childs="${arraySubPage}" value="Force the weight to the sub-pages"/>
+							<%-- Cas où la page est nouvellement créé --%>
+							<tr class="success">
+								<%-- Affichage request pas enregistrée --%>
+								<td><aui:input type="checkbox" name="${status.index}" cssClass='activate' onChange="showPoids()"/></td>
+								<td>${layout.showName()}</td>	
+								<td>
+									<aui:input label="" name="weight${status.index}"  cssClass="poids ${layout.displayLayoutId}"
+													onChange="showPoids()" value="${layout.weight}">
+										<aui:validator name="number"/>
+									</aui:input> 
+									<c:if test="${not empty hierachy[layout.displayLayoutId]}">
+										<c:set var="arraySubPage" value="[" />
+										<c:forEach var="i" items="${hierachy[layout.displayLayoutId]}" varStatus="info">
+											<c:set var="arraySubPage" value="${arraySubPage}'${i}'" />
+											<c:if test="${not info.last}">
+												<c:set var="arraySubPage" value="${arraySubPage}," />
+											</c:if>
+										</c:forEach>
+										<c:set var="arraySubPage" value="${arraySubPage}]" />
+										<aui:button cssClass="force-weight-childs" data-childs="${arraySubPage}" value="Force the weight to the sub-pages"/>
+									</c:if>
+								</td>
+								<td><span class='percentage'>0%</span></td>
+							</tr>
+							</c:when>
+							<c:when test="${layout.state == 'OLD_REQUEST'}">
+							<%-- Cas ou la page a été supprimée --%>
+							<tr class="error">
+								<%-- Affichage request pas enregistrée --%>
+								<aui:input name="delete${layout.requestId}" type="hidden" value="${layout.requestId}"></aui:input>
+								<td>
+									<portlet:actionURL var="deleteRequestURL" name="removeRequest">
+											<portlet:param name="requestId" value="${layout.requestId}" />
+									</portlet:actionURL>
+									<liferay-ui:icon-delete url="${deleteRequestURL}" /> 
+								</td>
+								<td>${layout.showName()}</td>	
+								<td>
+									<aui:input label=""  name="weight${layout.requestId}" value="${layout.weight}"  cssClass="poids deleted" 
+													onChange="showPoids()" >
+										<aui:validator name="number"/>
+									</aui:input>
+								</td>
+								<td><span class='percentage'>0%</span></td>
+							</tr>	
+							</c:when>
+							<c:otherwise>
+							<%--  Cas ou page existe et requête aussi --%>
+							<tr>
+								<td>
+								<%-- checked ou pas en fonction de la requête --%>
+								<c:choose>
+									<c:when test="${layout.checked}">
+										<aui:input type="checkbox" name="${status.index}"  cssClass='activate url${status.index}' checked="true" onChange="showPoids()"/>
+									</c:when>
+									<c:otherwise>
+										<aui:input type="checkbox" name="${status.index}"  cssClass='activate url${status.index}' checked="false" onChange="showPoids()"/>
+									</c:otherwise>		
+								</c:choose>
+								</td>
+								
+								<td>${layout.showName()}</td>
+								
+								<td>
+									<aui:input label="" name="weight${status.index}"  cssClass="poids ${layout.displayLayoutId}" inlineField="true"
+									 value="${layout.weight}" onChange="showPoids()">
+										<aui:validator name="number"/>
+									</aui:input>
+									<c:if test="${not empty hierachy[layout.displayLayoutId]}">
+										<%--reset value --%>
+										<c:set var="arraySubPage" value="" />
+										<c:forEach var="i" items="${hierachy[layout.displayLayoutId]}" varStatus="info">
+											<c:set var="arraySubPage" value="${arraySubPage}${i}" />
+											<c:if test="${not info.last}">
+												<c:set var="arraySubPage" value="${arraySubPage}," />
+											</c:if>
+										</c:forEach>
+										<aui:button cssClass="force-weight-childs" data-childs="${arraySubPage}" value="Force the weight to the sub-pages"/>
+									</c:if>
+								</td>
+								<td><span class='percentage'>0%</span></td>
+							</tr>
+							</c:otherwise>
+						</c:choose>
+						<%--Add a variable to know if we need to ask the user about upgrading its scenario --%>
+						<c:if test="${empty confirmUpgrade && (layout.state == 'NEW_REQUEST' || layout.state == 'OLD_REQUEST') }">
+							<c:set var="confirmUpgrade" value="confirmUpgrade"/>
 						</c:if>
-					</td>
-					<td><span class='percentage'>0%</span></td>
-				</tr>
-				</c:when>
-				<c:when test="${layout.state == 'OLD_REQUEST'}">
-				<%-- Cas ou la page a été supprimée --%>
-				<tr class="error">
-					<%-- Affichage request pas enregistrée --%>
-					<aui:input name="delete${layout.requestId}" type="hidden" value="${layout.requestId}"></aui:input>
-					<td>
-						<portlet:actionURL var="deleteRequestURL" name="removeRequest">
-								<portlet:param name="requestId" value="${layout.requestId}" />
-						</portlet:actionURL>
-						<liferay-ui:icon-delete url="${deleteRequestURL}" /> 
-					</td>
-					<td>${layout.showName()} ${layout.displayLayoutId}</td>	
-					<td>
-						<aui:input label=""  name="weight${layout.requestId}" value="${layout.weight}"  cssClass="poids deleted" 
-										onChange="showPoids()" >
-							<aui:validator name="number"/>
-						</aui:input>
-					</td>
-					<td><span class='percentage'>0%</span></td>
-				</tr>	
-				</c:when>
-				<c:otherwise>
-				<%--  Cas ou page existe et requête aussi --%>
-				<tr>
-					<td>
-					<%-- checked ou pas en fonction de la requête --%>
-					<c:choose>
-						<c:when test="${layout.checked}">
-							<aui:input type="checkbox" name="${status.index}"  cssClass='activate url${status.index}' checked="true" onChange="showPoids()"/>
-						</c:when>
-						<c:otherwise>
-							<aui:input type="checkbox" name="${status.index}"  cssClass='activate url${status.index}' checked="false" onChange="showPoids()"/>
-						</c:otherwise>		
-					</c:choose>
-					</td>
-					
-					<td>${layout.showName()} ${layout.displayLayoutId}</td>
-					
-					<td>
-						<aui:input label="" name="weight${status.index}"  cssClass="poids ${layout.displayLayoutId}" inlineField="true"
-						 value="${layout.weight}" onChange="showPoids()">
-							<aui:validator name="number"/>
-						</aui:input>
-						<c:if test="${not empty hierachy[layout.displayLayoutId]}">
-							<%--reset value --%>
-							<c:set var="arraySubPage" value="" />
-							<c:forEach var="i" items="${hierachy[layout.displayLayoutId]}" varStatus="info">
-								<c:set var="arraySubPage" value="${arraySubPage}${i}" />
-								<c:if test="${not info.last}">
-									<c:set var="arraySubPage" value="${arraySubPage}," />
-								</c:if>
-							</c:forEach>
-							<aui:button cssClass="force-weight-childs" data-childs="${arraySubPage}" value="Force the weight to the sub-pages"/>
-						</c:if>
-					</td>
-					<td><span class='percentage'>0%</span></td>
-				</tr>
-				</c:otherwise>
-			</c:choose>
-			<%--Add a variable to know if we need to ask the user about upgrading its scenario --%>
-			<c:if test="${empty confirmUpgrade && (layout.state == 'NEW_REQUEST' || layout.state == 'OLD_REQUEST') }">
-				<c:set var="confirmUpgrade" value="confirmUpgrade"/>
-			</c:if>
-			</c:forEach>
-		</table> 
-	</aui:fieldset>
-	
-
-	<aui:button-row>
-		<aui:button type="submit" onClick="confirmSubmit();return false;" />
-		<aui:button type="cancel" href="${backURL}" />
-	</aui:button-row>
-</aui:form>
+						</c:forEach>
+					</table> 
+				</aui:fieldset>
+				
 			
+				<aui:button-row>
+					<aui:button type="submit" onClick="confirmSubmit();return false;" />
+					<aui:button type="cancel" href="${backURL}" />
+				</aui:button-row>
+			</aui:form>
 		</div>
 		<!-- 
 		
@@ -183,6 +177,7 @@
 
 
 <c:if test="${not empty confirmUpgrade }">
+<%--Upgrade scenario confirmation dialog box --%>
 <script type="text/javascript">
 	function confirmSubmit() {
 		AUI().use(
@@ -261,6 +256,9 @@ YUI().use(
 			}
 			else {
 				A.all(".activate").set("checked",false);
+			}
+			showPoids();
+		});
 			
 
 		A.all(".activate").each(function() {
@@ -329,28 +327,6 @@ YUI().use(
 		});
 	}
 	showPoids();
-	
-	function confirmDelete(){
-		AUI().use('aui-base', function(A) {
-			if(A.one(".deleted") != null){
-				console.log("il y'a des pages supprimées "+A.all(".deleted"));
-				var result = confirm('This request will update all scenario (delete all request of page)');
-				if(result == true){
-					console.log("suppression confirmé");
-					document.<portlet:namespace />formulaireScenario.submit();
-					
-				}
-				else{
-					console.log("suppression annulé");
-					location.reload() ; 
-				}
-			}
-			else{
-				console.log("pas de page suprimé donc envoi du form");
-				document.<portlet:namespace />formulaireScenario.submit();
-			}
-		});
-	}
 </script>
 
 
