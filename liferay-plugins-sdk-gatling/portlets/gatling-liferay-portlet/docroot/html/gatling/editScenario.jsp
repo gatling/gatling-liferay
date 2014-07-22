@@ -186,8 +186,10 @@
 		      this.on('click',function(event) {
 					var childs = this.getData("childs").split(',');
 					var value = this.ancestor("td").one("input").val();
-					for (var i = 0; i < childs.length; i++) {
-						changeValueSubPage(childs[i],value);
+					if(!isNaN(value)) {
+						for (var i = 0; i < childs.length; i++) {
+							changeValueSubPage(childs[i],value);
+						}
 					}
 				});
 			});
@@ -222,9 +224,12 @@
 		AUI().use('aui-base', function(A) {
 			var i = '.'+page;
 			A.one('.'+page).val(value);
-			var childs = A.one('.'+page).ancestor("td").one("button").getData("childs").split(",");
-			for (var i = 0; i < childs.length; i++) {
-				changeValueSubPage(childs[i], value);
+			var node = A.one('.'+page).ancestor("td").one("button");
+			if(node != null) {
+				var childs = node.getData("childs").split(",");
+				for (var i = 0; i < childs.length; i++) {
+					changeValueSubPage(childs[i], value);
+				}
 			}
 	    });
 	}
