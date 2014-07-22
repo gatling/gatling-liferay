@@ -284,8 +284,9 @@ public class GatlingPortlet extends MVCPortlet {
 						}
 						
 						// ajout de nouvelles requêtes correspondants aux nouvelles pages
-						else if(! lstRequestToEdit.containsKey(url.trim())){		
+						else if(! lstRequestToEdit.containsKey(url.trim())){
 							Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.getDisplayLayoutId().isPrivatePage(), displayLayout.getDisplayLayoutId().getLayoutId());
+
 							addRequest(layout, weight, idScenario, true);
 							log.info("request created and added succefully ");
 						}				
@@ -295,6 +296,7 @@ public class GatlingPortlet extends MVCPortlet {
 					else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox")) && (!key.contains("/")) ){
 						int layoutId = (int) Double.parseDouble(key);
 						DisplayLayout displayLayout = displayLayoutList.get(layoutId);
+
 						Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.getDisplayLayoutId().isPrivatePage(), displayLayout.getDisplayLayoutId().getLayoutId());
 						String url = layout.getFriendlyURL();
 							
@@ -527,6 +529,7 @@ public class GatlingPortlet extends MVCPortlet {
 	}
 
 
+
 	public void editScenarioDetails(ActionRequest request, ActionResponse response)
 			throws Exception {
 
@@ -552,8 +555,10 @@ public class GatlingPortlet extends MVCPortlet {
 
 	}
 
+
 	private String generateSimulation(Long simulationId)
 			throws Exception { 
+
 
 
 		Date date =new Date();

@@ -2,7 +2,7 @@
 
 <%
 	ResultRow row = (ResultRow) request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
-	Simulation simulation = (Simulation) row.getObject();
+	Simulation simulation = (Simulation) row.getObject(); 
 
 	long simulationId = simulation.getSimulation_id();
 
@@ -17,7 +17,6 @@
 	</portlet:renderURL>
 
 	<liferay-ui:icon image="edit" url="${editSimulationURL}" />
-	
 
 	
  <portlet:resourceURL var="resourceUrl" >
