@@ -222,7 +222,7 @@
 
 <script type="text/javascript">
 
-YUI().use(
+	YUI().use(
 		  'aui-tabview',
 		  function(A) {
 		    new A.TabView(
@@ -231,7 +231,7 @@ YUI().use(
 		      }
 		    ).render();
 		  }
-		);
+	);
 
 
 	AUI().use('aui-base', function(A) {
@@ -249,12 +249,12 @@ YUI().use(
 		
 		
 		A.one("#checkAll").on('click',function(event) {
-			if(this.get('checked')) {
-				A.all(".activate").set("checked",true);		
-			}
-			else {
-				A.all(".activate").set("checked",false);
-			}
+			var allCheck = this.get('checked');
+			A.all(".activate").each(function() {
+				this.set("checked",allCheck);	
+				this.ancestor("label").one("input").val(allCheck);
+			});
+			
 			showPoids();
 		});
 			
