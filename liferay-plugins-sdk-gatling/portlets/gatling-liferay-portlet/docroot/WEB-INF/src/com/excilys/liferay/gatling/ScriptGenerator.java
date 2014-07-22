@@ -27,42 +27,49 @@ public class ScriptGenerator {
 
 	static public void generateClass(StringBuilder sb, Long simulationId) throws Exception {
 
+		//list of the scenario
+		List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
 
-		
-			//list of the scenario
-			List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
-
-			for (Scenario scenario : listScenario) {
-				generateScenario(sb, scenario);
-
-			}
+		generateVar(sb, listScenario);
+		generateSetUp(sb, listScenario);
 	}
-	
-	static private void generateScenario(StringBuilder sb, Scenario scenario) throws Exception {
-		//declare un nouveau scenario
-		sb.append("val ")
-		.append(scenario.getName())
-		.append(" = scenario(\"")
-		.append(scenario.getName())
-		.append("\") ");
 
-		List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
-		for (Request request : listRequest) {
-			generateRequest(sb, request, scenario);
+	private static void generateSetUp(StringBuilder sb, List<Scenario> listScenario) {
+
+		sb.append("setUp(");
+
+		for (Scenario scenario : listScenario) {
+			sb.append("\n\t\t")
+			.append(scenario.getName())
+			.append(".users(")
+			.append(scenario.getUsers_per_seconds())
+			.append(").ramp(")
+			.append(scenario.getDuration())
+			.append(")");
 		}
-		sb.append("\n");
 
-		sb.append("setUp(\n\t")
-		.append(scenario.getName())
-		.append(".users(")
-		.append(scenario.getUsers_per_seconds())
-		.append(").ramp(")
-		.append(scenario.getDuration())
-		.append("))\n");
-		log.info("generateScenario : " +sb);
-		
+		sb.append(")\n");
+
 	}
-	
+
+	static private void generateVar(StringBuilder sb, List<Scenario> listScenario) throws Exception {
+		for (Scenario scenario : listScenario) {
+			//declare un nouveau scenario
+			sb.append("val ")
+			.append(scenario.getName())
+			.append(" = scenario(\"")
+			.append(scenario.getName())
+			.append("\") ");
+
+			List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
+			for (Request request : listRequest) {
+				generateRequest(sb, request, scenario);
+			}
+			sb.append("\n");
+		}
+
+	}
+
 	static private void generateRequest(StringBuilder sb, Request request, Scenario scenario) throws Exception {
 
 		sb.append("\n\t.exec( http(\"")
