@@ -63,6 +63,7 @@ public class ScriptGenerator {
 
 			List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
 			for (Request request : listRequest) {
+				//if checked in the jsp 
 				if(request.getChecked() == true ){
 					generateRequest(sb, request, scenario);
 				}
@@ -73,12 +74,19 @@ public class ScriptGenerator {
 	}
 
 	static private void generateRequest(StringBuilder sb, Request request, Scenario scenario) throws Exception {
-
+		
+		String site = scenario.getUrl_site();
+		if(request.isPrivatePage()){
+			//String is a f****** immutable classe ;(
+			site = site.replace("/web/", "/group/");
+		}
+		
 		sb.append("\n\t\t.exec( http(\"")
 		.append(request.getName())
 		.append("\").get(\"")
-		.append(scenario.getUrl_site())
+		.append(site)
 		.append(request.getUrl())
 		.append("\"))");
+
 	}
 }
