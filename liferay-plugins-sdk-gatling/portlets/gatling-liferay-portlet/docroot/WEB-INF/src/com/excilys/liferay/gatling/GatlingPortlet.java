@@ -237,7 +237,8 @@ public class GatlingPortlet extends MVCPortlet {
 	 * @throws Exception
 	 */
 	public void editScenario(ActionRequest request, ActionResponse response) {
-
+		
+		log.info("edit scenario controler");
 		Long idScenario = ParamUtil.getLong(request, "scenarioId");
 		Map<String, String[]> parameters = request.getParameterMap();
 		Map<String, Request> lstRequestToEdit =new HashMap<String, Request>();
@@ -314,9 +315,16 @@ public class GatlingPortlet extends MVCPortlet {
 							if(requestToDelete.isChecked()){
 								requestToDelete.setChecked(false);
 								RequestLocalServiceUtil.updateRequest(requestToDelete);
-								log.info("request check apdated succefully ");
+								log.info("request check apdated successfully ");
 							}
 						}
+					}
+					
+					//Cas de supression de requêtes qui correspondent aux pages supprimées 
+					else if(key.contains("delete") ){
+						long requestId =  Long.parseLong(StringUtil.merge(parameters.get(key)));
+						RequestLocalServiceUtil.deleteRequest(requestId);
+						log.info("request deleted successfully ");
 					}
 				}
 				

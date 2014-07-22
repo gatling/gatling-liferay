@@ -14,7 +14,7 @@
 <portlet:actionURL name="editScenario"  var="editScenarioURL" windowState="normal"/>
 
 	
-<aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario">
+<aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario" id="formulaireScenario">
 	<aui:fieldset>
 		<aui:input type="hidden" name="scenarioId" value='${empty scenario ? "" : scenario.scenario_id }'/>	
 		<aui:input type="hidden" name="groupId" value='${scenario.group_id}'/>	
@@ -50,6 +50,7 @@
 				<%-- Cas ou la page a été supprimée --%>
 				<tr class="error">
 					<%-- Affichage request pas enregistrée --%>
+					<aui:input name="delete${layout.requestId}" type="hidden" value="${layout.requestId}"></aui:input>
 					<td>
 						<portlet:actionURL var="deleteRequestURL" name="removeRequest">
 								<portlet:param name="requestId" value="${layout.requestId}" />
@@ -58,7 +59,7 @@
 					</td>
 					<td>${layout.showName()}</td>	
 					<td>
-						<aui:input label="" name="weight${layout.requestId}" value="${layout.weight}"  cssClass="poids" 
+						<aui:input label=""  name="weight${layout.requestId}" value="${layout.weight}"  cssClass="poids deleted" 
 										onChange="showPoids()" >
 							<aui:validator name="number"/>
 						</aui:input>
@@ -98,7 +99,7 @@
 	
 	
 	<aui:button-row>
-		<aui:button type="submit" />
+		<aui:button type="submit" onClick="confirmDelete()"/>
 		<aui:button type="cancel" href="${backURL}" />
 	</aui:button-row>
 </aui:form>
@@ -173,4 +174,26 @@
 	    });
 	}
 	showPoids();
+	
+	function confirmDelete(){
+		AUI().use('aui-base', function(A) {
+			if(A.one(".deleted") != null){
+				console.log("il y'a des pages supprimées "+A.all(".deleted"));
+				var result = confirm('This request will update all scenario (delete all request of page)');
+				if(result == true){
+					console.log("suppression confirmé");
+					document.<portlet:namespace />formulaireScenario.submit();
+					
+				}
+				else{
+					console.log("suppression annulé");
+					location.reload() ; 
+				}
+			}
+			else{
+				console.log("pas de page suprimé donc envoi du form");
+				document.<portlet:namespace />formulaireScenario.submit();
+			}
+		});
+	}
 </script>
