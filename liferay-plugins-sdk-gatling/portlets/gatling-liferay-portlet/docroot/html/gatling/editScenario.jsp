@@ -37,12 +37,23 @@
 				<tr class="success">
 					<%-- Affichage request pas enregistrée --%>
 					<td><aui:input type="checkbox" name="${status.index}" cssClass='activate' onChange="showPoids()"/></td>
-					<td>${layout.showName()}</td>	
+					<td>${layout.showName()} ${layout.displayLayoutId}</td>	
 					<td>
-						<aui:input label="" name="weight${status.index}"  cssClass="poids" 
-										onChange="showPoids()" value="0">
+						<aui:input label="" name="weight${status.index}"  cssClass="poids ${layout.displayLayoutId}"
+										onChange="showPoids()" value="${layout.weight}">
 							<aui:validator name="number"/>
 						</aui:input> 
+						<c:if test="${not empty hierachy[layout.displayLayoutId]}">
+							<c:set var="arraySubPage" value="[" />
+							<c:forEach var="i" items="${hierachy[layout.displayLayoutId]}" varStatus="info">
+								<c:set var="arraySubPage" value="${arraySubPage}'${i}'" />
+								<c:if test="${not info.last}">
+									<c:set var="arraySubPage" value="${arraySubPage}," />
+								</c:if>
+							</c:forEach>
+							<c:set var="arraySubPage" value="${arraySubPage}]" />
+							<aui:button cssClass="force-weight-childs" data-childs="${arraySubPage}" value="Force the weight to the sub-pages"/>
+						</c:if>
 					</td>
 					<td><span class='percentage'>0%</span></td>
 				</tr>
@@ -55,12 +66,12 @@
 						<portlet:actionURL var="deleteRequestURL" name="removeRequest">
 								<portlet:param name="requestId" value="${layout.requestId}" />
 						</portlet:actionURL>
-						<liferay-ui:icon-delete url="${deleteRequestURL}" />
+						<liferay-ui:icon-delete url="${deleteRequestURL}" /> 
 					</td>
-					<td>${layout.showName()}</td>	
+					<td>${layout.showName()} ${layout.displayLayoutId}</td>	
 					<td>
-						<aui:input label="" name="weight${layout.requestId}" value="${layout.weight}"  cssClass="poids" 
-										onChange="showPoids()" >
+						<aui:input label="" name="weight${layout.requestId}" value="${layout.weight}"
+						cssClass="poids" onChange="showPoids()" > 
 							<aui:validator name="number"/>
 						</aui:input>
 					</td>
@@ -82,12 +93,24 @@
 					</c:choose>
 					</td>
 					
-					<td>${layout.showName()}</td>	
+					<td>${layout.showName()} ${layout.displayLayoutId}</td>
 					
 					<td>
-						<aui:input label="" name="weight${status.index}"  cssClass="poids" value="${layout.weight}" onChange="showPoids()">
+						<aui:input label="" name="weight${status.index}"  cssClass="poids ${layout.displayLayoutId}" inlineField="true"
+						 value="${layout.weight}" onChange="showPoids()">
 							<aui:validator name="number"/>
 						</aui:input>
+						<c:if test="${not empty hierachy[layout.displayLayoutId]}">
+							<%--reset value --%>
+							<c:set var="arraySubPage" value="" />
+							<c:forEach var="i" items="${hierachy[layout.displayLayoutId]}" varStatus="info">
+								<c:set var="arraySubPage" value="${arraySubPage}${i}" />
+								<c:if test="${not info.last}">
+									<c:set var="arraySubPage" value="${arraySubPage}," />
+								</c:if>
+							</c:forEach>
+							<aui:button cssClass="force-weight-childs" data-childs="${arraySubPage}" value="Force the weight to the sub-pages"/>
+						</c:if>
 					</td>
 					<td><span class='percentage'>0%</span></td>
 				</tr>
@@ -155,7 +178,20 @@
 
 <script type="text/javascript">
 
+
+
 	AUI().use('aui-base', function(A) {
+		A.all('.force-weight-childs').each(function() {
+		      this.on('click',function(event) {
+					var childs = this.getData("childs").split(',');
+					var value = this.ancestor("td").one("input").val();
+					for (var i = 0; i < childs.length; i++) {
+						changeValueSubPage(childs[i],value);
+					}
+				});
+			});
+		
+		
 		A.one("#checkAll").on('click',function(event) {
 			if(this.get('checked')) {
 				A.all(".activate").set("checked",true);		
@@ -181,7 +217,16 @@
 			A.one("#checkAll").set("checked",true);
 	});
 	
-	
+	function changeValueSubPage(page, value) {
+		AUI().use('aui-base', function(A) {
+			var i = '.'+page;
+			A.one('.'+page).val(value);
+			var childs = A.one('.'+page).ancestor("td").one("button").getData("childs").split(",");
+			for (var i = 0; i < childs.length; i++) {
+				changeValueSubPage(childs[i], value);
+			}
+	    });
+	}
 	
 	function <portlet:namespace/>forcePoids()
 	{		

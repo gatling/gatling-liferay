@@ -11,6 +11,9 @@ public class DisplayLayout {
 	public enum RequestState {
 		OLD_REQUEST, DEFAULT, NEW_REQUEST;
 	}
+	// displayLayoutId
+	private IdDisplayLayout displayLayoutId;
+
 	// field for comparaison
 	private RequestState state;
 
@@ -19,13 +22,11 @@ public class DisplayLayout {
 	
 	// field of Request table
 	private boolean checked;
-	private boolean privatePage;
 	private long requestId;
 	private long scenarioId;
 	private String name;
 	private String url;
 	private double weight;
-	private long layoutId;
 	private long parentLayoutId;
 	
 	// Common initialization
@@ -36,37 +37,34 @@ public class DisplayLayout {
 	
 	public DisplayLayout(Layout layout) {
 		
-		layoutId = layout.getLayoutId();
+		displayLayoutId = new IdDisplayLayout(layout.isPrivateLayout(), layout.getLayoutId());
 		parentLayoutId = layout.getParentLayoutId();
 		name = layout.getName(LocaleUtil.getDefault());
 		checked=false;
-		privatePage=layout.isPrivateLayout();
 		url = layout.getFriendlyURL();
 		weight=0.0;
 	}
 	
 	public DisplayLayout(Request request){
-		layoutId = request.getLayoutId();
+		displayLayoutId = new IdDisplayLayout(request.isPrivatePage(), request.getLayoutId());
 		requestId = request.getRequest_id();
 		parentLayoutId = request.getParentLayoutId();
 		checked=request.isChecked();
-		privatePage=request.isPrivatePage();
 		name = request.getName();
 		url = request.getUrl();
 		weight = request.getWeight();
 	}
 	
+
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (layoutId ^ (layoutId >>> 32));
-		result = prime * result + (privatePage ? 1231 : 1237);
+		result = prime * result + ((displayLayoutId == null) ? 0 : displayLayoutId.hashCode());
 		result = prime * result + ((url == null) ? 0 : url.hashCode());
 		return result;
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -77,7 +75,10 @@ public class DisplayLayout {
 		if (getClass() != obj.getClass())
 			return false;
 		DisplayLayout other = (DisplayLayout) obj;
-		if (privatePage != other.privatePage)
+		if (displayLayoutId == null) {
+			if (other.displayLayoutId != null)
+				return false;
+		} else if (!displayLayoutId.equals(other.displayLayoutId))
 			return false;
 		if (url == null) {
 			if (other.url != null)
@@ -86,10 +87,10 @@ public class DisplayLayout {
 			return false;
 		return true;
 	}
-	
+
 	public String showName() {
 		StringBuffer sb = new StringBuffer();
-		for(int i = 0; i< numberOfSpace-1; i++) {
+		for(int i = 0; i< numberOfSpace; i++) {
 			sb.append(INDENT);
 		}
 		sb.append(" ").append(name);
@@ -99,6 +100,15 @@ public class DisplayLayout {
 	/*
 	 * Getters and Setters
 	 */
+	
+	public IdDisplayLayout getDisplayLayoutId() {
+		return displayLayoutId;
+	}
+
+	public void setDisplayLayoutId(IdDisplayLayout displayLayoutId) {
+		this.displayLayoutId = displayLayoutId;
+	}
+	
 	public RequestState getState() {
 		return state;
 	}
@@ -110,12 +120,6 @@ public class DisplayLayout {
 	}
 	public void setChecked(boolean checked) {
 		this.checked = checked;
-	}
-	public boolean isPrivatePage() {
-		return privatePage;
-	}
-	public void setPrivatePage(boolean privatePage) {
-		this.privatePage = privatePage;
 	}
 	public long getRequestId() {
 		return requestId;
@@ -154,14 +158,6 @@ public class DisplayLayout {
 
 	public void setParentLayoutId(long parentLayoutId) {
 		this.parentLayoutId = parentLayoutId;
-	}
-
-	public long getLayoutId() {
-		return layoutId;
-	}
-
-	public void setLayoutId(long layoutId) {
-		this.layoutId = layoutId;
 	}
 
 	public String getName() {

@@ -12,12 +12,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class DisplayLayoutUtil {
 
 	private final static transient Log log = LogFactoryUtil.getLog(DisplayLayoutUtil.class.getName());
 
 	/**
-	 * Add to sorted layout list
+	 * 
+	 * @param displayLayoutList
+	 * @param listLayouts
 	 */
 	public static void addLayoutToDisplayLayoutList(List<DisplayLayout> displayLayoutList, List<Layout> listLayouts) {
 		for(Layout l : listLayouts) {
@@ -33,6 +36,12 @@ public class DisplayLayoutUtil {
 		}
 	}
 
+	/**
+	 * first version of this algorithm
+	 * @param displayLayoutList
+	 * @param listRequests
+	 * @return
+	 */
 	public static List<DisplayLayout> addRequestToDisplayLayoutList(List<DisplayLayout> displayLayoutList, List<Request> listRequests) {
 		List<DisplayLayout> result = new ArrayList<DisplayLayout>();
 		List<DisplayLayout> requestToDisplayLayout = new ArrayList<DisplayLayout>();
@@ -58,7 +67,7 @@ public class DisplayLayoutUtil {
 			//change the object (add weight, checked ...)
 			int index = result.indexOf(dlr);
 			// if in layout
-			if(index > 0) {
+			if(index >= 0) {
 				// put in on the "old" object place
 				result.add(index, dlr);
 				// remove the replaced object
@@ -67,7 +76,7 @@ public class DisplayLayoutUtil {
 			// if not in layoutList add after its parent or at the end
 			else {
 				int parentIndex = findParentPosition(result,dlr.getParentLayoutId());
-				if(parentIndex > 0) {
+				if(parentIndex >= 0) {
 					// put in on the "old" object place
 					result.add(parentIndex+1, dlr);
 				}
@@ -77,20 +86,20 @@ public class DisplayLayoutUtil {
 
 		// Indent
 		indentDisplayLayout(result);
-		//display test 
-		for (DisplayLayout dl : result) {
-			if(dl.getState() != RequestState.DEFAULT) {
-				log.info(dl.getName());
-			}
-		}
 		//return
 		return result;
 	}
-	
+
+	/**
+	 * max iteration result.size()
+	 * @param result
+	 * @param parentLayoutId
+	 * @return
+	 */
 	private static int findParentPosition(List<DisplayLayout> result, long parentLayoutId) {
 		for (int i = 0; i < result.size(); i++) {
 			DisplayLayout dl = result.get(i);
-			if(dl.getLayoutId() == parentLayoutId) {
+			if(dl.getDisplayLayoutId().getLayoutId() == parentLayoutId) {
 				return i;
 			}
 		}
@@ -98,12 +107,28 @@ public class DisplayLayoutUtil {
 	}
 
 	public static void indentDisplayLayout(List<DisplayLayout> list) {
-		Map<Long, Integer> indentTab = new HashMap<Long, Integer>();
+		Map<IdDisplayLayout, Integer> indentTab = new HashMap<IdDisplayLayout, Integer>();
 		for(DisplayLayout dl : list) {
-			if(indentTab.containsKey(dl.getParentLayoutId())) {
-				dl.setNumberOfSpace(dl.getNumberOfSpace()+indentTab.get(dl.getParentLayoutId()));
+			IdDisplayLayout idl = new IdDisplayLayout(dl.getDisplayLayoutId().isPrivatePage(),dl.getParentLayoutId());
+			if(indentTab.containsKey(idl)) {
+				dl.setNumberOfSpace(dl.getNumberOfSpace()+indentTab.get(idl));
 			}
-			indentTab.put(dl.getLayoutId(), dl.getNumberOfSpace()+1);
+			indentTab.put(dl.getDisplayLayoutId(), dl.getNumberOfSpace()+1);
+		}
+	}
+
+	public static void mapHierachy(List<DisplayLayout> list, Map<IdDisplayLayout, List<IdDisplayLayout>> mappage) {
+		for(DisplayLayout dl : list) {
+			if(dl.getParentLayoutId() !=0) {
+				IdDisplayLayout idl = new IdDisplayLayout(dl.getDisplayLayoutId().isPrivatePage(),dl.getParentLayoutId());
+				List<IdDisplayLayout> childs = mappage.get(idl);
+				//if not exits
+				if(childs == null) {
+					childs = new ArrayList<IdDisplayLayout>();
+				}
+				childs.add(dl.getDisplayLayoutId());
+				mappage.put(idl, childs);
+			}
 		}
 	}
 }
