@@ -1,4 +1,12 @@
 <%@include file="/html/gatling/header.jsp"%>
-<h1 style="text-align: center;">How to use Gatling Portlet?</h1>
 
 <liferay-ui:message key="help_content"  />
+
+
+
+<portlet:renderURL var="backURL">
+	<portlet:param name="page" value="/html/gatling/view.jsp"/>
+</portlet:renderURL>
+<aui:button-row>
+		<aui:button type="submit" href="${backURL}" value="help-ret-button-name"/>
+</aui:button-row>

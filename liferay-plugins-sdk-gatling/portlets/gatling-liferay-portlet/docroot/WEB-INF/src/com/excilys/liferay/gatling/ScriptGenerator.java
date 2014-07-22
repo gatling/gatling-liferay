@@ -70,6 +70,6 @@ public class ScriptGenerator {
 		.append("\").get(\"")
 		.append(scenario.getUrl_site())
 		.append(request.getUrl())
-		.append("\")");
+		.append("\"))");
 	}
 }

@@ -2,6 +2,7 @@ package com.excilys.liferay.gatling;
 
 import com.excilys.liferay.gatling.util.DisplayLayout;
 import com.excilys.liferay.gatling.util.DisplayLayoutUtil;
+import com.excilys.liferay.gatling.util.IdDisplayLayout;
 import com.excilys.liferay.gatling.validator.RequestValidator;
 import com.excilys.liferay.gatling.validator.ScenarioValidator;
 import com.excilys.liferay.gatling.validator.SimulationValidator;
@@ -32,15 +33,12 @@ import com.liferay.sample.service.ScenarioLocalServiceUtil;
 import com.liferay.sample.service.SimulationLocalServiceUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -107,12 +105,11 @@ public class GatlingPortlet extends MVCPortlet {
 				SessionErrors.add(request, error);
 			}
 		}
-
+		
 	}
-
+	
 	public void editSimulation(ActionRequest request, ActionResponse response) throws Exception{
 	}
-
 
 	public void removeSimulation(ActionRequest request, ActionResponse response)
 			throws Exception {
@@ -133,10 +130,10 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	public void addFirstScenario(ActionRequest request, ActionResponse response)
 			throws Exception {
-
+		
 		ThemeDisplay themeDisplay =
 				(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-
+		
 		//create scenario
 		long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
 		Scenario scenario = ScenarioLocalServiceUtil.createScenario(primaryKey);
@@ -148,7 +145,7 @@ public class GatlingPortlet extends MVCPortlet {
 		urlSite = urlSite.split("/")[0]+"//"+urlSite.split("/")[2]+"/web"+GroupLocalServiceUtil.fetchGroup(ParamUtil.getLong(request, "sites")).getFriendlyURL();
 		log.info(urlSite);
 		scenario.setUrl_site(urlSite);
-
+				
 		// Saving ...
 		List<String> errors = new ArrayList<String>();
 		if(ScenarioValidator.validateScenario(scenario, errors)) {
@@ -158,7 +155,7 @@ public class GatlingPortlet extends MVCPortlet {
 			List<Layout> listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), false));
 			List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), true);
 			listLayouts.addAll(listLayoutsPrivate);
-
+			
 			for(Layout layout: listLayouts){
 				addRequest(layout, 0, scenario.getScenario_id(),false);
 			}
@@ -181,10 +178,10 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	public void addScenario(ActionRequest request, ActionResponse response)
 			throws Exception {
-
+		
 		ThemeDisplay themeDisplay =
 				(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-
+		
 		//create scenario
 		long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
 		Scenario scenario = ScenarioLocalServiceUtil.createScenario(primaryKey);
@@ -204,7 +201,7 @@ public class GatlingPortlet extends MVCPortlet {
 			List<Layout> listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), false));
 			List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), true);
 			listLayouts.addAll(listLayoutsPrivate);
-
+			
 			for(Layout layout: listLayouts){
 				addRequest(layout, 0, scenario.getScenario_id(),false);
 			}
@@ -214,7 +211,7 @@ public class GatlingPortlet extends MVCPortlet {
 				SessionErrors.add(request, error);
 			}
 		}
-
+			
 		response.setRenderParameter("simulationId", Long.toString(scenario.getSimulation_id()));
 		response.setRenderParameter("page", jspEditSimulation); 
 	}
@@ -228,35 +225,48 @@ public class GatlingPortlet extends MVCPortlet {
 	 * @throws Exception
 	 */
 	public void editScenario(ActionRequest request, ActionResponse response) {
-
+		
+		log.info("edit scenario controler");
 		Long idScenario = ParamUtil.getLong(request, "scenarioId");
 		Map<String, String[]> parameters = request.getParameterMap();
 		Map<String, Request> lstRequestToEdit =new HashMap<String, Request>();
-
+		
 		if(idScenario !=null){
 
 			long groupId =ParamUtil.getLong(request, "groupId");
-			List<Layout> listLayouts;
-
+			
 			try {
-				//on récupère la liste de layout
-				listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(groupId, false));
-				List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true);
-				listLayouts.addAll(listLayoutsPrivate);
-
+				
+				List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId,false,0);
+				String siteName = listLayouts.get(0).getGroup().getName();
+				// Puis les privates
+				List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
+				
+				List<DisplayLayout> displayLayoutList = new ArrayList<DisplayLayout>();
+				//On va trier les layout dans l'ordre de parent
+				DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listLayouts);
+				DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listLayoutsPrivate);
+				
+				//On recupère la liste des requêtes dans la base
+				List<Request> listRequests = RequestLocalServiceUtil.findByScenarioId(idScenario);
+				//Merge Layout and Request in DisplayLayout List
+				displayLayoutList = DisplayLayoutUtil.addRequestToDisplayLayoutList(displayLayoutList, listRequests);
+				
 				//on récupère la liste de requête
 				for(Request r :RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(request, "scenarioId",0))){
 					lstRequestToEdit.put(r.getUrl().trim(),  r);
 				}
-
+				
 				//on met à jour les données
 				for (String key : parameters.keySet()){
+					//Cas de case coché
 					if((StringUtil.merge(parameters.get(key)).equals("true")) && (!key.contains("Checkbox")) ){
-						int requestNumber = (int) Double.parseDouble(key);
+						int layoutId = (int) Double.parseDouble(key);
 						double weight  =   Double.parseDouble(StringUtil.merge(parameters.get("weight"+key)));
-						String url = listLayouts.get(requestNumber).getFriendlyURL();
-
-						if((lstRequestToEdit.containsKey(url.trim())) && ((lstRequestToEdit.get(url).getWeight() != weight) || (!lstRequestToEdit.get(url).isChecked()))){
+						DisplayLayout displayLayout = displayLayoutList.get(layoutId);
+						String url = displayLayout.getUrl();
+						//Si la requête exist déja donc l'éditer
+						if(( lstRequestToEdit.containsKey(url.trim()) ) && ((lstRequestToEdit.get(url).getWeight() != weight) || (!lstRequestToEdit.get(url).isChecked()))){
 							Request updatedRequest = lstRequestToEdit.get(url);
 							updatedRequest.setWeight(weight);
 							updatedRequest.setChecked(true);
@@ -272,29 +282,40 @@ public class GatlingPortlet extends MVCPortlet {
 								}
 							}
 						}
-
+						
 						// ajout de nouvelles requêtes correspondants aux nouvelles pages
-						else if(! lstRequestToEdit.containsKey(url.trim())){					
-							addRequest(listLayouts.get(requestNumber), weight, idScenario, true);
+						else if(! lstRequestToEdit.containsKey(url.trim())){		
+							Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.getDisplayLayoutId().isPrivatePage(), displayLayout.getDisplayLayoutId().getLayoutId());
+							addRequest(layout, weight, idScenario, true);
 							log.info("request created and added succefully ");
 						}				
 					}
-
+					
+					//Cas de suppression de requête dans le scenario --> case pas coché en bd update
 					else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox")) && (!key.contains("/")) ){
-						int requestNumber = (int) Double.parseDouble(key);
-						String url = listLayouts.get(requestNumber).getFriendlyURL();
-						//Cas de suppression de requête dans le scenario	
+						int layoutId = (int) Double.parseDouble(key);
+						DisplayLayout displayLayout = displayLayoutList.get(layoutId);
+						Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.getDisplayLayoutId().isPrivatePage(), displayLayout.getDisplayLayoutId().getLayoutId());
+						String url = layout.getFriendlyURL();
+							
 						if(lstRequestToEdit.containsKey(url.trim())){
 							Request requestToDelete = lstRequestToEdit.get(url);
-							if(requestToDelete.getChecked()){
+							if(requestToDelete.isChecked()){
 								requestToDelete.setChecked(false);
 								RequestLocalServiceUtil.updateRequest(requestToDelete);
-								log.info("request check apdated succefully ");
+								log.info("request check apdated successfully ");
 							}
 						}
 					}
+					
+					//Cas de supression de requêtes qui correspondent aux pages supprimées 
+					else if(key.contains("delete") ){
+						long requestId =  Long.parseLong(StringUtil.merge(parameters.get(key)));
+						RequestLocalServiceUtil.deleteRequest(requestId);
+						log.info("request deleted successfully ");
+					}
 				}
-
+				
 				Scenario scenario = ScenarioLocalServiceUtil.getScenario(idScenario);
 				response.setRenderParameter("simulationId", Long.toString(scenario.getSimulation_id()));
 				response.setRenderParameter("page", jspEditSimulation);
@@ -304,36 +325,10 @@ public class GatlingPortlet extends MVCPortlet {
 				log.info("pbm with ScenarioLocalServiceUtil.getScenario "+ e.getMessage());
 			} 
 		}
-
-	}
-
-	public void editScenarioDetails(ActionRequest request, ActionResponse response)
-			throws Exception {
-
-
-
-		Long idScenario = ParamUtil.getLong(request, "scenarioId");
-		Scenario scenario = ScenarioLocalServiceUtil.getScenario(idScenario);
-		Long usersSimulation = ParamUtil.getLong(request, "scenarioUsers");
-		Long durationSimulation = ParamUtil.getLong(request, "scenarioDuration");
-		scenario.setUsers_per_seconds(usersSimulation);
-		scenario.setDuration(durationSimulation);
-		List<String> errors = new ArrayList<String>();
-		if(ScenarioValidator.validateEditScenarioDetails(scenario, errors)) {
-			ScenarioLocalServiceUtil.updateScenario(scenario);			
-		}
-		else {
-			for(String error : errors) {
-				SessionErrors.add(request, error);
-			}
-		}
-		response.setRenderParameter("scenarioId", Long.toString(scenario.getScenario_id()));
-		response.setRenderParameter("page", jspEditScenario);
-
 	}
 
 	/**
-	 *  	Remove scenario from database
+	 * Remove scenario from database
 	 * @param request
 	 * @param response
 	 * @throws Exception
@@ -386,9 +381,9 @@ public class GatlingPortlet extends MVCPortlet {
 		} catch (SystemException e) {
 			log.info("pbm with addRequestMethod "+e.getMessage());
 		}
-
+		
 	}
-
+	
 	/**
 	 *  Remove request from database
 	 * @param request
@@ -402,10 +397,10 @@ public class GatlingPortlet extends MVCPortlet {
 		} catch (PortalException | SystemException e) {
 			log.info("fail to delete request: "+e.getMessage());
 		}
-
-
+		
+		
 	}
-
+	
 	/**
 	 * ici en fonction de la page demandée, on effectue différentes actions pour envoyer <br/>
 	 * les informations nécessaire à la construction de la page
@@ -429,10 +424,10 @@ public class GatlingPortlet extends MVCPortlet {
 			}
 			renderRequest.setAttribute("listSimulation", list);
 		} else if(page.equals(jspHelp)) {
-
-
-
-
+			
+			
+			
+			
 		} else if(page.equals(jspEditSimulation) || page.equals(jspFormFirstScenario)) {
 			/*
 			 * Edition d'une simulation, liste des scénarios
@@ -446,14 +441,14 @@ public class GatlingPortlet extends MVCPortlet {
 				renderRequest.setAttribute("simulation", simulation);
 				// List of Scénarios
 				List<Scenario> ls = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
-
+				
 				//map <scenario, number of requests>
 				Map<Scenario, Integer> scenariosMap = new HashMap<Scenario, Integer>();
 				for(Scenario scena : ls){
 					List<Request> lsR = RequestLocalServiceUtil.findByScenarioId(scena.getScenario_id());
 					scenariosMap.put(scena, lsR.size());
 				}
-
+				
 				renderRequest.setAttribute("listScenario", ls);	
 				renderRequest.setAttribute("MapScenario", scenariosMap);	
 			} catch (PortalException | SystemException e1) {
@@ -472,27 +467,31 @@ public class GatlingPortlet extends MVCPortlet {
 			try {
 				//récupération du scénario
 				Scenario scenario = ScenarioLocalServiceUtil.getScenario(ParamUtil.getLong(renderRequest, "scenarioId"));
-
+				
 				//on récupère la liste des layout
 				long groupId = scenario.getGroup_id();
 				List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId,false,0);
 				String siteName = listLayouts.get(0).getGroup().getName();
 				// Puis les privates
 				List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
-
+				
 				List<DisplayLayout> displayLayoutList = new ArrayList<DisplayLayout>();
 				//On va trier les layout dans l'ordre de parent
 				DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listLayouts);
 				DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listLayoutsPrivate);
-
+				// Get Hierachy (use to add a button if a row is a parent
+				Map<IdDisplayLayout, List<IdDisplayLayout>> hierachy = new LinkedHashMap<IdDisplayLayout, List<IdDisplayLayout>>();
+				DisplayLayoutUtil.mapHierachy(displayLayoutList, hierachy);
+				
 				//On recupère la liste des requêtes dans la base
 				List<Request> listRequests = RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(renderRequest, "scenarioId",0));
 				//Merge Layout and Request in DisplayLayout List
 				displayLayoutList = DisplayLayoutUtil.addRequestToDisplayLayoutList(displayLayoutList, listRequests);
-
+				
 				//ajout des paramètres dans la requête
 				renderRequest.setAttribute("scenario", scenario);
-				renderRequest.setAttribute("listPages", displayLayoutList);	
+				renderRequest.setAttribute("listPages", displayLayoutList);
+				renderRequest.setAttribute("hierachy", hierachy);
 				renderRequest.setAttribute("siteName", siteName);
 			} catch (SystemException e) {
 				log.info("pbm avec récupération des layout "+e.getMessage());
@@ -504,7 +503,7 @@ public class GatlingPortlet extends MVCPortlet {
 		/* on redirige sur la jsp de page */
 		include(page, renderRequest, renderResponse);	
 	}
-
+	
 	/**
 	 * Récupère la liste des sites du portail
 	 * @return list des sites
@@ -524,6 +523,32 @@ public class GatlingPortlet extends MVCPortlet {
 		}
 
 		return listGroups;
+
+	}
+
+
+	public void editScenarioDetails(ActionRequest request, ActionResponse response)
+			throws Exception {
+
+
+
+		Long idScenario = ParamUtil.getLong(request, "scenarioId");
+		Scenario scenario = ScenarioLocalServiceUtil.getScenario(idScenario);
+		Long usersSimulation = ParamUtil.getLong(request, "scenarioUsers");
+		Long durationSimulation = ParamUtil.getLong(request, "scenarioDuration");
+		scenario.setUsers_per_seconds(usersSimulation);
+		scenario.setDuration(durationSimulation);
+		List<String> errors = new ArrayList<String>();
+		if(ScenarioValidator.validateEditScenarioDetails(scenario, errors)) {
+			ScenarioLocalServiceUtil.updateScenario(scenario);			
+		}
+		else {
+			for(String error : errors) {
+				SessionErrors.add(request, error);
+			}
+		}
+		response.setRenderParameter("scenarioId", Long.toString(scenario.getScenario_id()));
+		response.setRenderParameter("page", jspEditScenario);
 
 	}
 
