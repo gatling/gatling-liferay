@@ -2,6 +2,7 @@ package com.excilys.liferay.gatling;
 
 import com.excilys.liferay.gatling.util.DisplayLayout;
 import com.excilys.liferay.gatling.util.DisplayLayoutUtil;
+import com.excilys.liferay.gatling.util.IdDisplayLayout;
 import com.excilys.liferay.gatling.validator.RequestValidator;
 import com.excilys.liferay.gatling.validator.ScenarioValidator;
 import com.excilys.liferay.gatling.validator.SimulationValidator;
@@ -34,6 +35,7 @@ import com.liferay.util.bridges.mvc.MVCPortlet;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -297,7 +299,7 @@ public class GatlingPortlet extends MVCPortlet {
 						
 						// ajout de nouvelles requêtes correspondants aux nouvelles pages
 						else if(! lstRequestToEdit.containsKey(url.trim())){		
-							Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.isPrivatePage(), displayLayout.getLayoutId());
+							Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.getDisplayLayoutId().isPrivatePage(), displayLayout.getDisplayLayoutId().getLayoutId());
 							addRequest(layout, weight, idScenario, true);
 							log.info("request created and added succefully ");
 						}				
@@ -307,7 +309,7 @@ public class GatlingPortlet extends MVCPortlet {
 					else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox")) && (!key.contains("/")) ){
 						int layoutId = (int) Double.parseDouble(key);
 						DisplayLayout displayLayout = displayLayoutList.get(layoutId);
-						Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.isPrivatePage(), displayLayout.getLayoutId());
+						Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.getDisplayLayoutId().isPrivatePage(), displayLayout.getDisplayLayoutId().getLayoutId());
 						String url = layout.getFriendlyURL();
 							
 						if(lstRequestToEdit.containsKey(url.trim())){
@@ -491,6 +493,9 @@ public class GatlingPortlet extends MVCPortlet {
 				//On va trier les layout dans l'ordre de parent
 				DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listLayouts);
 				DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listLayoutsPrivate);
+				// Get Hierachy (use to add a button if a row is a parent
+				Map<IdDisplayLayout, List<IdDisplayLayout>> hierachy = new LinkedHashMap<IdDisplayLayout, List<IdDisplayLayout>>();
+				DisplayLayoutUtil.mapHierachy(displayLayoutList, hierachy);
 				
 				//On recupère la liste des requêtes dans la base
 				List<Request> listRequests = RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(renderRequest, "scenarioId",0));
@@ -499,7 +504,8 @@ public class GatlingPortlet extends MVCPortlet {
 				
 				//ajout des paramètres dans la requête
 				renderRequest.setAttribute("scenario", scenario);
-				renderRequest.setAttribute("listPages", displayLayoutList);	
+				renderRequest.setAttribute("listPages", displayLayoutList);
+				renderRequest.setAttribute("hierachy", hierachy);
 				renderRequest.setAttribute("siteName", siteName);
 			} catch (SystemException e) {
 				log.info("pbm avec récupération des layout "+e.getMessage());
