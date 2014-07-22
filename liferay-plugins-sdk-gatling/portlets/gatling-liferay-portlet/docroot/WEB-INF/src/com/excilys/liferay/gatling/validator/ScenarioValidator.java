@@ -4,6 +4,7 @@ package com.excilys.liferay.gatling.validator;
 
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.sample.model.Scenario;
+import com.liferay.sample.model.Simulation;
 
 import java.util.List;
 
@@ -35,6 +36,22 @@ public class ScenarioValidator {
 			valid = false;
 		}
 		
+		
+		return valid;
+	}
+	
+	public static boolean validateEditScenarioDetails(Scenario scenario, List<String> errors) {
+		boolean valid = true;
+		
+		if( Validator.isNull(scenario.getDuration())) {
+			errors.add("scenario-duration-required");
+			valid = false;			
+		}
+		
+		if( Validator.isNull(scenario.getUsers_per_seconds())) {
+			errors.add("scenario-users_per_seconds-required");
+			valid = false;			
+		}
 		
 		return valid;
 	}

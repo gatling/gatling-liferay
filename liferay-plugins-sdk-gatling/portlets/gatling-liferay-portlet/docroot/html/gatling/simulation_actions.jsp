@@ -18,10 +18,12 @@
 
 	<liferay-ui:icon image="edit" url="${editSimulationURL}" />
 	
-	<portlet:renderURL var="GenerateSimulationURL">
-	</portlet:renderURL>
 
-	<liferay-ui:icon image="submit" url="${GenerateSimulationURL}" message="Generate Simulation"/>
+	
+ <portlet:resourceURL var="resourceUrl" >
+	<portlet:param name="simulationId" value="<%=String.valueOf(simulationId)%>" />
+	</portlet:resourceURL>
+	<liferay-ui:icon image="submit" url="${resourceUrl}" message="Generate Simulation"/>
 
 	<portlet:actionURL var="deleteSimulationURL" name="removeSimulation">
 		<portlet:param name="simulationId"
@@ -34,5 +36,5 @@
 		<portlet:param name="page" value="/html/gatling/help.jsp" />
 	</portlet:renderURL>
 
-	<liferay-ui:icon image="submit" url="${helpURL}" message="help-button-name"/>
+	<liferay-ui:icon image="submit" url="${helpURL}" message="Help"/>
 </liferay-ui:icon-menu>

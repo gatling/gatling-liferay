@@ -1,19 +1,33 @@
-<%@include file="/html/gatling/header.jsp" %>
+<%@include file="/html/gatling/header.jsp"%>
 
 <%--session errors --%>
-<liferay-ui:error key="request-weight-required" message="request-weight-required"/>
-<liferay-ui:error key="request-scenarioid-required" message="request-scenarioid-required"/>
+<liferay-ui:error key="request-weight-required" message="request-weight-required" />
+<liferay-ui:error key="request-scenarioid-required" message="request-scenarioid-required" />
 
 <portlet:renderURL var="backURL">
-	<portlet:param name="page" value="/html/gatling/editSimulation.jsp"/>
-	<portlet:param name="simulationId" value="${scenario.simulation_id }"/>		
+	<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
+	<portlet:param name="simulationId" value="${scenario.simulation_id }" />
 </portlet:renderURL>
 
-<liferay-ui:header title="${scenario.name } : ${siteName}" backURL="${backURL }"/>
 
-<portlet:actionURL name="editScenario"  var="editScenarioURL" windowState="normal"/>
+<liferay-ui:header title="${scenario.name } : ${siteName}" backURL="${backURL }" />
 
-	
+
+
+
+<div id="myTab">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#tab-1"><liferay-ui:message key="scenario" /></a></li>
+		<li><a href="#tab-2"><liferay-ui:message key="scenario-edit-details" /></a></li>
+	</ul>
+
+	<div class="tab-content">
+
+
+
+		<div id="tab-1">
+			<portlet:actionURL name="editScenario" var="editScenarioURL" windowState="normal" />
+
 <aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario" id="formulaireScenario">
 	<aui:fieldset>
 		<aui:input type="hidden" name="scenarioId" value='${empty scenario ? "" : scenario.scenario_id }'/>	
@@ -131,6 +145,42 @@
 		<aui:button type="cancel" href="${backURL}" />
 	</aui:button-row>
 </aui:form>
+			
+		</div>
+		<!-- 
+		
+		=== Tab details === 
+		
+		-->
+
+
+		<div id="tab-2" class="tab-pane">
+			<!-- redirect to editScenarioDetails -->
+			<portlet:actionURL name="editScenarioDetails" var="editScenarioDetailsURL">
+				<portlet:param name="scenarioId" value="${scenario.scenario_id}" />
+			</portlet:actionURL>
+			<div id="details">
+				<aui:form action="${editScenarioDetailsURL}" name="scenario_details" id="scenario_details">
+					<h3>
+						<liferay-ui:message key="scenario-edit-details" />
+					</h3>
+
+					<aui:input label="scenario-edit-nb-users-per-second" name="scenarioUsers" value="${scenario.users_per_seconds}">
+						<aui:validator name="number"></aui:validator>
+					</aui:input>
+
+					<aui:input label="scenario-edit-duration" name="scenarioDuration" value="${scenario.duration}">
+						<aui:validator name="number"></aui:validator>
+					</aui:input>
+
+					<aui:button name="details-scenario" type="submit"></aui:button>
+				</aui:form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 
 <c:if test="${not empty confirmUpgrade }">
 <script type="text/javascript">
@@ -179,6 +229,16 @@
 
 <script type="text/javascript">
 
+YUI().use(
+		  'aui-tabview',
+		  function(A) {
+		    new A.TabView(
+		      {
+		        srcNode: '#myTab'
+		      }
+		    ).render();
+		  }
+		);
 
 
 	AUI().use('aui-base', function(A) {
@@ -201,24 +261,22 @@
 			}
 			else {
 				A.all(".activate").set("checked",false);
-			}
-			showPoids();
-		});
-		
+			
+
 		A.all(".activate").each(function() {
-		      this.on('click',function(event) {
-				if(this.get('checked')) {
-					if(A.all(".activate:checked").size() === A.all(".activate").size())
-						A.one("#checkAll").set("checked",true);
-				}
-				else {
-					A.one("#checkAll").set("checked",false);
+			this.on('click', function(event) {
+				if (this.get('checked')) {
+					if (A.all(".activate:checked").size() === A.all(".activate").size())
+						A.one("#checkAll").set("checked", true);
+				} else {
+					A.one("#checkAll").set("checked", false);
 				}
 			});
 		});
-		if(A.all(".activate:checked").size() === A.all(".activate").size())
-			A.one("#checkAll").set("checked",true);
+		if (A.all(".activate:checked").size() === A.all(".activate").size())
+			A.one("#checkAll").set("checked", true);
 	});
+
 	
 	function changeValueSubPage(page, value) {
 		AUI().use('aui-base', function(A) {
@@ -238,39 +296,37 @@
 	{		
 		AUI().use('aui-base', function(A) {
 			var newVal = A.one('#<portlet:namespace/>poidForce').val();
-			if((newVal!=null) && (!isNaN(newVal))){
+			if ((newVal != null) && (!isNaN(newVal))) {
 				A.all('.poids').val(newVal);
 				showPoids();
-			}				
-	    });
+			}
+		});
 	}
-	function showPoids()
-	{		
+	function showPoids() {
 		AUI().use('aui-base', function(A) {
 			var totalRate = parseInt(0);
-			A.all('.poids').each(
-				function() {
-					if(this.ancestor("tr").one(".activate:checked"))
-						if(!(this.val() == "" || isNaN(this.val()))) {
-							totalRate += parseFloat(this.val());	
-						}
+			A.all('.poids').each(function() {
+				if (this.ancestor("tr").one(".activate:checked"))
+					if (!(this.val() == "" || isNaN(this.val()))) {
+						totalRate += parseFloat(this.val());
+					}
 			});
 			var total = totalRate / 100;
 
-			A.all('.poids').each(
-				function() {
-					if(this.ancestor("tr").one(".activate:checked")) {
-						if(!(this.val() == "" || isNaN(this.val()))) {
-							var perc = (this.val() / totalRate) * 100;
-							//cas du 0/0
-							if(isNaN(perc))
-								this.ancestor("tr").one(".percentage").text("0.00 %");
-							else this.ancestor("tr").one(".percentage").text(perc.toFixed(2)+" %");
-						}
+			A.all('.poids').each(function() {
+				if (this.ancestor("tr").one(".activate:checked")) {
+					if (!(this.val() == "" || isNaN(this.val()))) {
+						var perc = (this.val() / totalRate) * 100;
+						//cas du 0/0
+						if (isNaN(perc))
+							this.ancestor("tr").one(".percentage").text("0.00 %");
+						else
+							this.ancestor("tr").one(".percentage").text(perc.toFixed(2) + " %");
 					}
-					else this.ancestor("tr").one(".percentage").text("0.00 %");
+				} else
+					this.ancestor("tr").one(".percentage").text("0.00 %");
 			});
-	    });
+		});
 	}
 	showPoids();
 	
@@ -296,3 +352,5 @@
 		});
 	}
 </script>
+
+

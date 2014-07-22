@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -33,7 +34,9 @@ import com.liferay.sample.service.SimulationLocalServiceUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -44,6 +47,8 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 
 /**
  * Portlet implementation class GatlingPortlet
@@ -104,25 +109,6 @@ public class GatlingPortlet extends MVCPortlet {
 	}
 	
 	public void editSimulation(ActionRequest request, ActionResponse response) throws Exception{
-
-		Long idSimulation = ParamUtil.getLong(request, "simulationId");
-		Simulation simulation = SimulationLocalServiceUtil.getSimulation(idSimulation);
-		Long usersSimulation = ParamUtil.getLong(request, "simulationUsers");
-		Long durationSimulation = ParamUtil.getLong(request, "simulationDuration");
-		simulation.setUsers_per_seconds(usersSimulation);
-		simulation.setDuration(durationSimulation);
-		List<String> errors = new ArrayList<String>();
-		if(SimulationValidator.validateSimulation(simulation, errors)) {
-			SimulationLocalServiceUtil.updateSimulation(simulation);			
-		}
-		else {
-			for(String error : errors) {
-				SessionErrors.add(request, error);
-			}
-		}
-		response.setRenderParameter("simulationId", Long.toString(simulation.getSimulation_id()));
-		response.setRenderParameter("page", jspEditSimulation);
-
 	}
 
 	public void removeSimulation(ActionRequest request, ActionResponse response)
@@ -538,6 +524,86 @@ public class GatlingPortlet extends MVCPortlet {
 
 		return listGroups;
 
+	}
+
+
+	public void editScenarioDetails(ActionRequest request, ActionResponse response)
+			throws Exception {
+
+
+
+		Long idScenario = ParamUtil.getLong(request, "scenarioId");
+		Scenario scenario = ScenarioLocalServiceUtil.getScenario(idScenario);
+		Long usersSimulation = ParamUtil.getLong(request, "scenarioUsers");
+		Long durationSimulation = ParamUtil.getLong(request, "scenarioDuration");
+		scenario.setUsers_per_seconds(usersSimulation);
+		scenario.setDuration(durationSimulation);
+		List<String> errors = new ArrayList<String>();
+		if(ScenarioValidator.validateEditScenarioDetails(scenario, errors)) {
+			ScenarioLocalServiceUtil.updateScenario(scenario);			
+		}
+		else {
+			for(String error : errors) {
+				SessionErrors.add(request, error);
+			}
+		}
+		response.setRenderParameter("scenarioId", Long.toString(scenario.getScenario_id()));
+		response.setRenderParameter("page", jspEditScenario);
+
+	}
+
+	private String generateSimulation(Long simulationId)
+			throws Exception { 
+
+
+		Date date =new Date();
+		//		File simulationFile = new File("/home/pif/Documents/SimulationsGatling/Simulation"  + SimulationLocalServiceUtil.getSimulation(simulationId).getName()  + date.getTime() + ".scala");
+		//		simulationFile.createNewFile();
+
+		StringBuilder sb = new StringBuilder();
+
+		ScriptGenerator.generateImports(sb);
+		sb.append("\nclass Simulation" + SimulationLocalServiceUtil.getSimulation(simulationId).getName() + " extends Simulation {\n");
+		ScriptGenerator.generateClass(sb, simulationId);
+		sb.append("\n}");
+		//		simulationFile.setWritable(true);
+		//		
+		//		FileWriter fw = new FileWriter(simulationFile);
+		//		BufferedWriter bw = new BufferedWriter(fw);
+		//		bw.write(sb.toString());
+		//		bw.close();
+
+		return sb.toString();
+	}
+
+
+	@Override
+	public void serveResource(ResourceRequest request, ResourceResponse response) {
+
+		Long simulationId = ParamUtil.getLong(request, "simulationId");
+		log.info("serveResource : " + simulationId);
+		Simulation simu;
+		try {
+			simu = SimulationLocalServiceUtil.getSimulation(simulationId);
+			if(simulationId!=null && simu!=null){
+				response.setContentType("application/x-wais-source");
+				response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
+
+				byte[] fileByte;
+				Date date =new Date();
+				try {
+					response.addProperty("Content-Disposition", "attachment; filename=Simulation"  + SimulationLocalServiceUtil.getSimulation(simulationId).getName()  + date.getTime() + ".scala");
+				} catch (PortalException e1) {	e1.printStackTrace();} catch (SystemException e1) {	e1.printStackTrace();}
+				
+				try {
+					fileByte = generateSimulation(simulationId).getBytes();
+					OutputStream out = response.getPortletOutputStream();
+					out.write(fileByte);
+					out.flush();
+					out.close();
+				} catch (Exception e) {	e.printStackTrace();}
+			}
+		} catch (PortalException e2) {	e2.printStackTrace();} catch (SystemException e2) {	e2.printStackTrace();}
 	}
 
 }
