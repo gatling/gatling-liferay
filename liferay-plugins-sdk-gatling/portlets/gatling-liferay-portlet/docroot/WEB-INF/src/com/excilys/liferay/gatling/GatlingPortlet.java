@@ -444,15 +444,22 @@ public class GatlingPortlet extends MVCPortlet {
 				List<Scenario> ls = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
 				
 				//map <scenario, number of requests>
-				Map<Scenario, Integer> scenariosMap = new HashMap<Scenario, Integer>();
+				Map<Scenario, Integer[]> scenariosMap = new HashMap<Scenario, Integer[]>();
 				for(Scenario scena : ls){
 					List<Request> lsR = RequestLocalServiceUtil.findByScenarioId(scena.getScenario_id());
+					Integer[] info = new Integer[4];
 					int count=0;
+					int count2 =0;
 					for(Request r : lsR){
+						count2 ++;
 						if(r.isChecked())
 							count ++;
 					}
-					scenariosMap.put(scena, count);
+					info[0] = count;
+					info[1] = count2;
+					info[2] = (int) scena.getDuration();
+					info[3] = (int) scena.getUsers_per_seconds();
+					scenariosMap.put(scena, info);
 				}
 				
 				renderRequest.setAttribute("listScenario", ls);	
