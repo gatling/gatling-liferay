@@ -37,7 +37,9 @@
 							</th>
 							<th><liferay-ui:message key="scenario-edit-table-header-percentage" /></th>
 						</tr>
-						
+						<c:if test="${ listPages.size() ==0 }">
+							<tr><td><label style="color: green"> <liferay-ui:message key="no-page" /> </td> </label></tr>
+						</c:if>
 						<c:forEach var="layout" items='${ listPages }' varStatus="status">
 						<c:choose>
 							<c:when test="${layout.state == 'NEW_REQUEST'}">

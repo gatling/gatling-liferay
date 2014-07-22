@@ -447,7 +447,12 @@ public class GatlingPortlet extends MVCPortlet {
 				Map<Scenario, Integer> scenariosMap = new HashMap<Scenario, Integer>();
 				for(Scenario scena : ls){
 					List<Request> lsR = RequestLocalServiceUtil.findByScenarioId(scena.getScenario_id());
-					scenariosMap.put(scena, lsR.size());
+					int count=0;
+					for(Request r : lsR){
+						if(r.isChecked())
+							count ++;
+					}
+					scenariosMap.put(scena, count);
 				}
 				
 				renderRequest.setAttribute("listScenario", ls);	
@@ -472,7 +477,7 @@ public class GatlingPortlet extends MVCPortlet {
 				//on récupère la liste des layout
 				long groupId = scenario.getGroup_id();
 				List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId,false,0);
-				String siteName = listLayouts.get(0).getGroup().getName();
+				String siteName = GroupLocalServiceUtil.getGroup(groupId).getName();
 				// Puis les privates
 				List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
 				
