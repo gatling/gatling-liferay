@@ -7,13 +7,32 @@
 <c:set var="entete">
 	<liferay-ui:message key="simulation-edit-header" arguments="${simulation.name}" />
 </c:set>
-<%--session errors --%>
+<%--
+	lien vers la FAQ 
+--%>
+<div class="well well-small">
+	<a target="blank" href="https://github.com/excilys/gatling/wiki/Getting-Started">
+		<span class="label label-warning"><liferay-ui:message key="help-faq-gatling"/></span>
+	</a>
+	<a target="blank" href="#">
+	<span class="label"><liferay-ui:message key="help-how-to-use-portlet"/></span>
+	</a>
+	<a target="blank" href="#">
+	<span class="label label-info"><liferay-ui:message key="help-what-scenario"/></span>
+	</a>
+</div>
+
+<%--
+	session errors 
+--%>
 <liferay-ui:error key="scenario-name-required" message="scenario-name-required" />
 <liferay-ui:error key="simulation-duration-required" message="simulation-duration-required" />
 <liferay-ui:error key="simulation-users_per_seconds-required" message="simulation-users_per_seconds-required" />
 <liferay-ui:header title="${entete}" backURL="${backURL}" />
+<%--
+	Contenu page 
 
-
+ --%>
 <div>
 	<%--Search container (tableau) --%>
 	<liferay-ui:search-container emptyResultsMessage="scenario-list-empty">
