@@ -354,7 +354,6 @@ public class GatlingPortlet extends MVCPortlet {
 
 	/**
 	 * Add a new Request to the database
-<<<<<<< HEAD
 	 * @param parentLayoutId 
 	 * 
 	 */
