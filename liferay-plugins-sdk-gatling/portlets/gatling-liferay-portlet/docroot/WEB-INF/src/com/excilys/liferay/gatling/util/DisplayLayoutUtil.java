@@ -8,7 +8,9 @@ import com.liferay.portal.model.Layout;
 import com.liferay.sample.model.Request;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DisplayLayoutUtil {
 
@@ -52,23 +54,56 @@ public class DisplayLayoutUtil {
 			// if in ListRequests but not in DisplayLayoutList it's a old request
 			if(!result.contains(dlr)) {
 				dlr.setState(RequestState.OLD_REQUEST);
-				result.add(dlr);
+			}
+			//change the object (add weight, checked ...)
+			int index = result.indexOf(dlr);
+			// if in layout
+			if(index >= 0) {
+				// put in on the "old" object place
+				result.add(index, dlr);
+				// remove the replaced object
+				result.remove(index+1);
+			}
+			// if not in layoutList add after its parent or at the end
+			else {
+				int parentIndex = findParentPosition(result,dlr.getParentLayoutId());
+				if(parentIndex >= 0) {
+					// put in on the "old" object place
+					result.add(parentIndex+1, dlr);
+				}
+				else result.add(dlr);
 			}
 		}
 
 		// Indent
 		indentDisplayLayout(result);
+		//display test 
+		for (DisplayLayout dl : result) {
+			if(dl.getState() != RequestState.DEFAULT) {
+				log.info(dl.getName());
+			}
+		}
 		//return
 		return result;
 	}
 	
-	public static void indentDisplayLayout(List<DisplayLayout> list) {
-		List<Long> indentTab = new ArrayList<Long>();
-		for(DisplayLayout dl : list) {
-			if(indentTab.contains(dl.getParentLayoutId())) {
-				dl.setNumberOfSpace(dl.getNumberOfSpace()+indentTab.indexOf(dl.getParentLayoutId()));
+	private static int findParentPosition(List<DisplayLayout> result, long parentLayoutId) {
+		for (int i = 0; i < result.size(); i++) {
+			DisplayLayout dl = result.get(i);
+			if(dl.getLayoutId() == parentLayoutId) {
+				return i;
 			}
-			indentTab.add(dl.getLayoutId());
+		}
+		return -1;
+	}
+
+	public static void indentDisplayLayout(List<DisplayLayout> list) {
+		Map<Long, Integer> indentTab = new HashMap<Long, Integer>();
+		for(DisplayLayout dl : list) {
+			if(indentTab.containsKey(dl.getParentLayoutId())) {
+				dl.setNumberOfSpace(dl.getNumberOfSpace()+indentTab.get(dl.getParentLayoutId()));
+			}
+			indentTab.put(dl.getLayoutId(), dl.getNumberOfSpace()+1);
 		}
 	}
 }

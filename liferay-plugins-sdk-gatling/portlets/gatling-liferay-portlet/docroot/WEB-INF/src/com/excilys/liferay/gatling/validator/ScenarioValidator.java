@@ -26,6 +26,7 @@ public class ScenarioValidator {
 			errors.add("scenario-name-required");
 			valid = false;
 		}
+
 		if(Validator.isNull(scenario.getGroup_id())) {
 			errors.add("scenario-groupid-missing");
 			valid = false;
@@ -34,7 +35,8 @@ public class ScenarioValidator {
 			errors.add("scenario-simulationid-missing");
 			valid = false;
 		}
-
+		
+		
 		return valid;
 	}
 	

@@ -1,11 +1,12 @@
 package com.excilys.liferay.gatling.util;
 
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.model.Layout;
 import com.liferay.sample.model.Request;
 
 public class DisplayLayout {
 	
-	private static final String INDENT = "&#8213;";
+	private static final String INDENT = "&emsp;&emsp;"; //tab
 	
 	public enum RequestState {
 		OLD_REQUEST, DEFAULT, NEW_REQUEST;
@@ -13,15 +14,14 @@ public class DisplayLayout {
 	// field for comparaison
 	private RequestState state;
 
-	
 	// field for space
 	private int numberOfSpace;
 	
 	// field of Request table
 	private boolean checked;
 	private boolean privatePage;
-	private int requestId;
-	private int scenarioId;
+	private long requestId;
+	private long scenarioId;
 	private String name;
 	private String url;
 	private double weight;
@@ -31,14 +31,14 @@ public class DisplayLayout {
 	// Common initialization
 	{
 		state = RequestState.DEFAULT;
-		numberOfSpace=1;
+		numberOfSpace=0;
 	}
 	
 	public DisplayLayout(Layout layout) {
 		
 		layoutId = layout.getLayoutId();
 		parentLayoutId = layout.getParentLayoutId();
-		name = layout.getName();
+		name = layout.getName(LocaleUtil.getDefault());
 		checked=false;
 		privatePage=layout.isPrivateLayout();
 		url = layout.getFriendlyURL();
@@ -46,6 +46,8 @@ public class DisplayLayout {
 	}
 	
 	public DisplayLayout(Request request){
+		layoutId = request.getLayoutId();
+		requestId = request.getRequest_id();
 		parentLayoutId = request.getParentLayoutId();
 		checked=request.isChecked();
 		privatePage=request.isPrivatePage();
@@ -87,7 +89,7 @@ public class DisplayLayout {
 	
 	public String showName() {
 		StringBuffer sb = new StringBuffer();
-		for(int i = 0; i< numberOfSpace - 1; i++) {
+		for(int i = 0; i< numberOfSpace-1; i++) {
 			sb.append(INDENT);
 		}
 		sb.append(" ").append(name);
@@ -115,16 +117,16 @@ public class DisplayLayout {
 	public void setPrivatePage(boolean privatePage) {
 		this.privatePage = privatePage;
 	}
-	public int getRequestId() {
+	public long getRequestId() {
 		return requestId;
 	}
-	public void setRequestId(int requestId) {
+	public void setRequestId(long requestId) {
 		this.requestId = requestId;
 	}
-	public int getScenarioId() {
+	public long getScenarioId() {
 		return scenarioId;
 	}
-	public void setScenarioId(int scenarioId) {
+	public void setScenarioId(long scenarioId) {
 		this.scenarioId = scenarioId;
 	}
 	public String getUrl() {
