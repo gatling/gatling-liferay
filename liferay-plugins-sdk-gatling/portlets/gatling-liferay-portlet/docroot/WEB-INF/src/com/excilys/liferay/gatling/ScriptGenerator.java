@@ -36,7 +36,7 @@ public class ScriptGenerator {
 
 	private static void generateSetUp(StringBuilder sb, List<Scenario> listScenario) {
 
-		sb.append("setUp(");
+		sb.append("\tsetUp(");
 
 		for (Scenario scenario : listScenario) {
 			sb.append("\n\t\t")
@@ -48,14 +48,14 @@ public class ScriptGenerator {
 			.append(")");
 		}
 
-		sb.append(")\n");
+		sb.append(")\n\n");
 
 	}
 
 	static private void generateVar(StringBuilder sb, List<Scenario> listScenario) throws Exception {
 		for (Scenario scenario : listScenario) {
 			//declare un nouveau scenario
-			sb.append("val ")
+			sb.append("\tval ")
 			.append(scenario.getName())
 			.append(" = scenario(\"")
 			.append(scenario.getName())
@@ -63,17 +63,19 @@ public class ScriptGenerator {
 
 			List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
 			for (Request request : listRequest) {
-				generateRequest(sb, request, scenario);
+				if(request.getChecked() == true ){
+					generateRequest(sb, request, scenario);
+				}
 			}
-			sb.append("\n");
+			sb.append("\n\n");
 		}
 
 	}
 
 	static private void generateRequest(StringBuilder sb, Request request, Scenario scenario) throws Exception {
 
-		sb.append("\n\t.exec( http(\"")
-		.append(request.getUrl())
+		sb.append("\n\t\t.exec( http(\"")
+		.append(request.getName())
 		.append("\").get(\"")
 		.append(scenario.getUrl_site())
 		.append(request.getUrl())
