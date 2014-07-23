@@ -37,10 +37,9 @@
 <%--
 	Search container (tableau) 
 --%>
-<liferay-ui:search-container emptyResultsMessage="simulation-list-empty">
+<liferay-ui:search-container emptyResultsMessage="simulation-list-empty" >
 	<%--Liste sur laquelle on travail --%>
-	<liferay-ui:search-container-results results="${listSimulation }"
-		total="${listSimulation.size() }" />
+	<liferay-ui:search-container-results results="${listSimulation }" total="${listSimulation.size() }" />
 	<%--itération des colonnes --%>
 	<liferay-ui:search-container-row
 		className="com.liferay.sample.model.Simulation"
@@ -59,7 +58,7 @@
 			path="/html/gatling/simulation_actions.jsp" />
 	</liferay-ui:search-container-row>
 	<%--itere et affiche la liste --%>
-	<liferay-ui:search-iterator />
+	<liferay-ui:search-iterator paginate="false" />
 </liferay-ui:search-container>
 
 <aui:button id="newSimulation"

@@ -68,7 +68,7 @@
 			<liferay-ui:search-container-column-jsp align="right" path="/html/gatling/scenario_actions.jsp" />
 		</liferay-ui:search-container-row>
 		<%--itere et affiche la liste --%>
-		<liferay-ui:search-iterator />
+		<liferay-ui:search-iterator paginate="false" />
 	</liferay-ui:search-container>
 </div>
 
