@@ -43,12 +43,12 @@ public class ScenarioValidator {
 	public static boolean validateEditScenarioDetails(Scenario scenario, List<String> errors) {
 		boolean valid = true;
 		
-		if( Validator.isNull(scenario.getDuration())) {
+		if( !Validator.isNumber(Long.toString(scenario.getDuration()))) {
 			errors.add("scenario-duration-required");
 			valid = false;			
 		}
 		
-		if( Validator.isNull(scenario.getUsers_per_seconds())) {
+		if( !Validator.isNumber(Long.toString(scenario.getUsers_per_seconds()))) {
 			errors.add("scenario-users_per_seconds-required");
 			valid = false;			
 		}
