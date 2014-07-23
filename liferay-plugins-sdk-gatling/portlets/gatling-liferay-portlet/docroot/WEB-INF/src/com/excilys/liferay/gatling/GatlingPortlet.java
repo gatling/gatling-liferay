@@ -604,7 +604,7 @@ public class GatlingPortlet extends MVCPortlet {
 	}
 
 
-	@Override
+	@Override 
 	public void serveResource(ResourceRequest request, ResourceResponse response) {
 
 		Long simulationId = ParamUtil.getLong(request, "simulationId");

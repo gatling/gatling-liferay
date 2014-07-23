@@ -42,7 +42,7 @@ public class ScriptGenerator {
 
 		for (Scenario scenario : listScenario) {
 			sb.append("\n\t\t")
-			.append(scenario.getName())
+			.append(scenario.getVariableName())
 			.append(".users(")
 			.append(scenario.getUsers_per_seconds())
 			.append(").ramp(")
@@ -58,9 +58,9 @@ public class ScriptGenerator {
 		for (Scenario scenario : listScenario) {
 			//declare un nouveau scenario
 			sb.append("\tval ")
-			.append(scenario.getName())
+			.append(scenario.getVariableName())
 			.append(" = scenario(\"")
-			.append(scenario.getName())
+			.append(scenario.getVariableName())
 			.append("\") ");
 
 			List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
@@ -99,7 +99,7 @@ public class ScriptGenerator {
 		StringBuilder sb = new StringBuilder();
 
 		generateImports2(sb);
-		sb.append("\nclass Simulation" + SimulationLocalServiceUtil.getSimulation(simulationId).getName() + " extends Simulation {\n");
+		sb.append("\nclass " + SimulationLocalServiceUtil.getSimulation(simulationId).getVariableName() + " extends Simulation {\n");
 		generateClass2(sb, simulationId);
 		sb.append("\n}");
 		
@@ -132,7 +132,7 @@ public class ScriptGenerator {
 
 		for (Scenario scenario : listScenario) {
 			sb.append("\n\t\t")
-			.append(scenario.getName())
+			.append(scenario.getVariableName())
 			.append(".inject(ramp(")
 			.append(scenario.getUsers_per_seconds())
 			.append(" users ) over (")
