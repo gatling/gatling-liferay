@@ -8,6 +8,7 @@
 	<liferay-ui:message key="simulation-edit-header" arguments="${simulation.name}" />
 </c:set>
 <liferay-ui:header title="${entete}" backURL="${backURL}" />
+
 <%--
 	lien vers la FAQ 
 --%>
@@ -49,7 +50,8 @@
 				<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
 			</portlet:renderURL>
 			<%--un champs texte --%>
-			<liferay-ui:search-container-column-text name="simulation-edit-table-header-name" value="${scenario.name } (${MapScenario.get(scenario)[0] != null ? MapScenario.get(scenario)[0] : 0 }/${MapScenario.get(scenario)[1]} requests, duration: ${MapScenario.get(scenario)[2] != null ? MapScenario.get(scenario)[2] : 0} secondes, ${MapScenario.get(scenario)[3] != null ? MapScenario.get(scenario)[3] : 0} users/s)"
+			<liferay-ui:search-container-column-text name="simulation-edit-table-header-name" 
+				value="${scenario.name } (${MapScenario.get(scenario)[0] != null ? MapScenario.get(scenario)[0] : 0 }/${MapScenario.get(scenario)[1]} requests, duration: ${MapScenario.get(scenario)[2] != null ? MapScenario.get(scenario)[2] : 0} secondes, ${MapScenario.get(scenario)[3] != null ? MapScenario.get(scenario)[3] : 0} users/s)"
 				href="${editScenarioURL}" />
 			<%--menu action --%>
 			<liferay-ui:search-container-column-jsp align="right" path="/html/gatling/scenario_actions.jsp" />
@@ -70,7 +72,10 @@
 <div id="newFormScenario" hidden="true">
 	<liferay-ui:icon-help message="About this page" ><liferay-ui:message key="create-scenario-help" /></liferay-ui:icon-help>
 	<aui:form action="${addScenarioURL}" name="scenario_fm" id="scenario_fm">
-		<aui:input label="simulation-edit-form-nom-scenario" name="scenarioName">
+		<aui:input label="simulation-edit-form-nom-scenario" name="scenarioName" id="scenarioName">
+			<aui:validator name="required"></aui:validator>
+		</aui:input>
+		<aui:input label="simulation-list-form-variable-name" name="variableName" id="variableName" prefix="scenario" readonly="readonly">
 			<aui:validator name="required"></aui:validator>
 		</aui:input>
 		<aui:fieldset>
@@ -87,7 +92,7 @@
 
 
 
-<aui:script>
+<script type="text/javascript">
 YUI().use(
   'aui-modal',
   function(Y) {
@@ -99,8 +104,7 @@ YUI().use(
         modal: true,
         resizable: false,
         visible: false,
-        zIndex: 100,
-        width: 450
+        zIndex: 100
       }
     ).render();
     
@@ -112,4 +116,14 @@ YUI().use(
     );
   }
 );
-</aui:script>
+
+AUI().use(
+		'aui-base',
+		'event',
+		function(A) {
+			A.one("#<portlet:namespace />scenarioName").on("keyup", function(e) {
+				A.one("#<portlet:namespace />variableName").val(this.val().replace(/\W/g, ''));
+			});
+		}
+	);
+</script>

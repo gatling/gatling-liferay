@@ -15,9 +15,15 @@
 package com.liferay.sample.service.impl;
 
 import com.liferay.portal.NoSuchModelException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.sample.model.Simulation;
 import com.liferay.sample.service.ScenarioLocalServiceUtil;
 import com.liferay.sample.service.base.SimulationLocalServiceBaseImpl;
+
+import java.util.List;
 
 /**
  * The implementation of the simulation local service.
@@ -47,5 +53,19 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		} catch (NoSuchModelException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean isNameUnique(String name) {
+		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Simulation.class)
+				.add(PropertyFactoryUtil.forName("name").eq(name));
+
+		List<?> result;
+		try {
+			result = simulationPersistence.findWithDynamicQuery(dq);
+			return result.isEmpty();
+		} catch (SystemException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

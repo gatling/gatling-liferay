@@ -1,6 +1,7 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 <liferay-ui:header title="simulation-list-header"></liferay-ui:header>
+
 <%--
 	lien vers la FAQ 
 --%>
@@ -59,15 +60,19 @@
 	<liferay-ui:icon-help message="About this page" ><liferay-ui:message key="create-simulation-help" /></liferay-ui:icon-help>
 	<aui:form action="${addSimulationURL}" name="simulation_fm"
 		id="simulation_fm">
-		<aui:input label="simulation-list-form-nom-simulation"
-			name="simulationName">
+		<aui:input label="simulation-list-form-nom-simulation" name="simulationName" id="simulationName">
+			<aui:validator name="required"></aui:validator>
+			<aui:validator name="alphanum"></aui:validator>
+			
+		</aui:input>
+		<aui:input label="simulation-list-form-variable-name" name="variableName" id="variableName" prefix="simulation" readonly="readonly">
 			<aui:validator name="required"></aui:validator>
 		</aui:input>
 		<aui:button type="submit"></aui:button>
 	</aui:form>
 </div>
 
-<aui:script>
+<script type="text/javascript">
 YUI().use(
   'aui-modal',
   function(Y) {
@@ -92,4 +97,14 @@ YUI().use(
     );
   }
 );
-</aui:script>
+
+AUI().use(
+	'aui-base',
+	'event',
+	function(A) {
+		A.one("#<portlet:namespace />simulationName").on("keyup", function(e) {
+			A.one("#<portlet:namespace />variableName").val(this.val().replace(/\W/g, ''));
+		});
+	}
+);
+</script>
