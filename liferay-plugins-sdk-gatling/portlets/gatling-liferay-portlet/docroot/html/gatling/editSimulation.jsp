@@ -58,8 +58,11 @@
 				<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
 			</portlet:renderURL>
 			<%--un champs texte --%>
+			<c:set var="scenarioName">
+				<liferay-ui:message key="simulation-edit-table-scenario-details" arguments="${MapScenario.get(scenario)}"/>
+			</c:set>
 			<liferay-ui:search-container-column-text name="simulation-edit-table-header-name" 
-				value="${scenario.name } (${MapScenario.get(scenario)[0] != null ? MapScenario.get(scenario)[0] : 0 }/${MapScenario.get(scenario)[1]} requests, duration: ${MapScenario.get(scenario)[2] != null ? MapScenario.get(scenario)[2] : 0} secondes, ${MapScenario.get(scenario)[3] != null ? MapScenario.get(scenario)[3] : 0} users/s)"
+				value="${scenario.name } ${scenarioName}"
 				href="${editScenarioURL}" />
 			<%--menu action --%>
 			<liferay-ui:search-container-column-jsp align="right" path="/html/gatling/scenario_actions.jsp" />
