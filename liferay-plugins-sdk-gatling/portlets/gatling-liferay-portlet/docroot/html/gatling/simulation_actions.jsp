@@ -1,32 +1,23 @@
 <%@include file="/html/gatling/header.jsp"%>
-
-<%
-	ResultRow row = (ResultRow) request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
-	Simulation simulation = (Simulation) row.getObject(); 
-
-	long simulationId = simulation.getSimulation_id();
-
-	String redirect = PortalUtil.getCurrentURL(renderRequest);
-%>
+<c:set var="row" value="${requestScope.SEARCH_CONTAINER_RESULT_ROW}" />
+<c:set var="simulation" value="${row.object}" />
 
 <liferay-ui:icon-menu>
 	<portlet:renderURL var="editSimulationURL">
 		<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
 		<portlet:param name="simulationId"
-			value="<%=String.valueOf(simulationId)%>" />
+			value="${simulation.simulation_id }" />
 	</portlet:renderURL>
-
 	<liferay-ui:icon image="edit" url="${editSimulationURL}" />
-
 	
- <portlet:resourceURL var="resourceUrl" >
-	<portlet:param name="simulationId" value="<%=String.valueOf(simulationId)%>" />
+ 	<portlet:resourceURL var="resourceUrl" >
+		<portlet:param name="simulationId" value="${simulation.simulation_id }" />
 	</portlet:resourceURL>
 	<liferay-ui:icon image="submit" url="${resourceUrl}" message="Generate Simulation"/>
 
 	<portlet:actionURL var="deleteSimulationURL" name="removeSimulation">
 		<portlet:param name="simulationId"
-			value="<%=String.valueOf(simulationId)%>" />
+			value="${simulation.simulation_id }>" />
 	</portlet:actionURL>
 
 	<liferay-ui:icon-delete url="${deleteSimulationURL}" />

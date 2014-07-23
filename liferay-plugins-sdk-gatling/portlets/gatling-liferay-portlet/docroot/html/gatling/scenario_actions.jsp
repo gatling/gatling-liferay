@@ -15,7 +15,5 @@
 		<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
 		<portlet:param name="simulationId" value="${scenario.simulation_id }" />
 	</portlet:actionURL>
-
 	<liferay-ui:icon-delete url="${deleteScenarioURL}" />
-	
 </liferay-ui:icon-menu>
