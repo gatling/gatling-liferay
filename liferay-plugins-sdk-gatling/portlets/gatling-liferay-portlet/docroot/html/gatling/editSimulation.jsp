@@ -20,6 +20,10 @@
 	<a target="blank" href="#">
 	<span class="label label-info"><liferay-ui:message key="help-what-scenario"/></span>
 	</a>
+	
+	<!-- Affichage du message d'info -->
+	<liferay-ui:icon-help message="About this page" ><liferay-ui:message key="simulation-edit-help" /></liferay-ui:icon-help>
+
 </div>
 
 <%--
@@ -64,6 +68,7 @@
 </portlet:actionURL>
 <%--Formulaire d'ajout --%>
 <div id="newFormScenario" hidden="true">
+	<liferay-ui:icon-help message="About this page" ><liferay-ui:message key="create-scenario-help" /></liferay-ui:icon-help>
 	<aui:form action="${addScenarioURL}" name="scenario_fm" id="scenario_fm">
 		<aui:input label="simulation-edit-form-nom-scenario" name="scenarioName">
 			<aui:validator name="required"></aui:validator>

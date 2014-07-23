@@ -11,6 +11,12 @@
 
 <liferay-ui:header title="${scenario.name } : ${siteName}" backURL="${backURL }" />
 
+<!-- Affichage du message d'info -->
+<div class="well well-small">
+	<liferay-ui:icon-help message="About this page" ><liferay-ui:message key="scenario-edit-help" /></liferay-ui:icon-help>
+</div>
+
+
 <div id="myTab">
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="#tab-1"><liferay-ui:message key="scenario" /></a></li>

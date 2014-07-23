@@ -56,6 +56,7 @@
 	windowState="normal" />
 <%--Formulaire d'ajout --%>
 <div id="newFormSimulation" hidden="true">
+	<liferay-ui:icon-help message="About this page" ><liferay-ui:message key="create-simulation-help" /></liferay-ui:icon-help>
 	<aui:form action="${addSimulationURL}" name="simulation_fm"
 		id="simulation_fm">
 		<aui:input label="simulation-list-form-nom-simulation"
@@ -74,9 +75,7 @@ YUI().use(
       {
         bodyContent: AUI().one("#newFormSimulation").html(),
         centered: true,
-        headerContent: '<h3>
-		<liferay-ui:message key="simulation-list-form-header" />
-	</h3>',
+        headerContent: '<h3><liferay-ui:message key="simulation-list-form-header" /></h3>',
         modal: true,
         resizable: false,
         visible: false,
