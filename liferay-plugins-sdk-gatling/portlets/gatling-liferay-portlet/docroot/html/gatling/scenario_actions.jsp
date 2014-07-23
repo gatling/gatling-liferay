@@ -24,9 +24,4 @@
 
 	<liferay-ui:icon-delete url="${deleteScenarioURL}" />
 	
-	<portlet:renderURL var="helpURL">
-		<portlet:param name="page" value="/html/gatling/help.jsp" />
-	</portlet:renderURL>
-
-	<liferay-ui:icon image="submit" url="${helpURL}" message="help-button-name"/>
 </liferay-ui:icon-menu>
