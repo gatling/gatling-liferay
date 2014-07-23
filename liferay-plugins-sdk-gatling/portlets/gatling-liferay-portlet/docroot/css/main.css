@@ -13,3 +13,15 @@
 .portlet-topper-toolbar {
 	display:none !important;
 }
+
+.help-text {
+	margin-top:20px !important;
+}
+
+.help-content-display {
+	display:block !important;
+}
+
+.help-content-hidden {
+	display:none !important;
+}

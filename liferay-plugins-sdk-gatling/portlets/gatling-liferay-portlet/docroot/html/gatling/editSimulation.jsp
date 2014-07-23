@@ -30,17 +30,17 @@
 	<a target="blank" href="https://github.com/excilys/gatling/wiki/Getting-Started">
 		<span class="label label-warning"><liferay-ui:message key="help-faq-gatling"/></span>
 	</a>
-	<a target="blank" href="${helpURL}#howToUse">
-	<span class="label"><liferay-ui:message key="help-how-to-use-portlet"/></span>
+	<a href="${helpURL}">
+		<span class="label"><liferay-ui:message key="help-how-to-use-portlet"/></span>
 	</a>
-	<a target="blank" href="${helpURL}#scenario">
-	<span class="label label-info"><liferay-ui:message key="help-what-scenario"/></span>
+	<a href="#" class="toggle" data-content="help-scenario">
+		<span class="label label-info"><liferay-ui:message key="help-what-scenario"/></span>
 	</a>
-	<hr/>
-	<!-- Affichage du message d'info -->
-	<p><liferay-ui:icon-help message="About this page" ><liferay-ui:message key="simulation-edit-help" /></liferay-ui:icon-help><p>
-
+	<p id="help-scenario" class="help-text help-content-hidden text-info" >
+		What is a scenario help text ....
+	</p>
 </div>
+
 
 <%--
 	Contenu page 
@@ -133,6 +133,24 @@ AUI().use(
 		function(A) {
 			A.one("#<portlet:namespace />scenarioName").on("keyup", function(e) {
 				A.one("#<portlet:namespace />variableName").val(this.val().replace(/\W/g, ''));
+			});
+			
+			A.all(".toggle").each(function() {
+				this.on('click',function(event) {
+					var contentId = this.getData("content");
+					console.log('#'+contentId);
+					var texts = A.all(".help-content-display");
+					texts.replaceClass("help-content-display","help-content-hidden");
+					var helpText = A.one("#"+contentId);
+					if(this.hasClass('help-content-selected')) {
+						helpText.replaceClass("help-content-display","help-content-hidden");
+						this.removeClass("help-content-selected");
+					} else {
+						console.log('display');
+						helpText.replaceClass("help-content-hidden","help-content-display");
+						this.addClass("help-content-selected");
+					}
+				});
 			});
 		}
 	);

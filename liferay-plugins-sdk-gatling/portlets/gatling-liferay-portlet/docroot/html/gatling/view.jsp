@@ -22,12 +22,15 @@
 	<a target="blank" href="https://github.com/excilys/gatling/wiki/Getting-Started">
 		<span class="label label-warning"><liferay-ui:message key="help-faq-gatling"/></span>
 	</a>
-	<a target="blank" href="${helpURL}#howToUse">
-	<span class="label"><liferay-ui:message key="help-how-to-use-portlet"/></span>
+	<a href="${helpURL}">
+		<span class="label"><liferay-ui:message key="help-how-to-use-portlet"/></span>
 	</a>
-	<a target="blank" href="${helpURL}#simulation">
-	<span class="label label-info"><liferay-ui:message key="help-what-simulation"/></span>
+	<a href="#" class="toggle" data-content="help-simulation">
+		<span class="label label-info"><liferay-ui:message key="help-what-simulation"/></span>
 	</a>
+	<p id="help-simulation" class="help-text help-content-hidden text-info" >
+		What is a simulation help text ....
+	</p>
 </div>
 
 
@@ -85,38 +88,57 @@
 </div>
 
 <script type="text/javascript">
-YUI().use(
-  'aui-modal',
-  function(Y) {
-    var modal = new Y.Modal(
-      {
-        bodyContent: AUI().one("#newFormSimulation").html(),
-        centered: true,
-        headerContent: '<h3><liferay-ui:message key="simulation-list-form-header" /></h3>',
-        modal: true,
-        resizable: false,
-        visible: false,
-        zIndex: 100,
-        width: 450
-      }
-    ).render();
-    
-    Y.one('#newSimulation').on(
-      'click',
-      function() {
-        modal.show();
-      }
-    );
-  }
-);
-
-AUI().use(
-	'aui-base',
-	'event',
-	function(A) {
-		A.one("#<portlet:namespace />simulationName").on("keyup", function(e) {
-			A.one("#<portlet:namespace />variableName").val(this.val().replace(/\W/g, ''));
-		});
-	}
-);
+	YUI().use(
+	  'aui-modal',
+	  function(Y) {
+	    var modal = new Y.Modal(
+	      {
+	        bodyContent: AUI().one("#newFormSimulation").html(),
+	        centered: true,
+	        headerContent: '<h3><liferay-ui:message key="simulation-list-form-header" /></h3>',
+	        modal: true,
+	        resizable: false,
+	        visible: false,
+	        zIndex: 100,
+	        width: 450
+	      }
+	    ).render();
+	    
+	    Y.one('#newSimulation').on(
+	      'click',
+	      function() {
+	        modal.show();
+	      }
+	    );
+	  }
+	);
+	
+	AUI().use(
+		'aui-base',
+		'event',
+		function(A) {
+			A.one("#<portlet:namespace />simulationName").on("keyup", function(e) {
+				A.one("#<portlet:namespace />variableName").val(this.val().replace(/\W/g, ''));
+			});
+			
+			A.all(".toggle").each(function() {
+				this.on('click',function(event) {
+					var contentId = this.getData("content");
+					console.log('#'+contentId);
+					var texts = A.all(".help-content-display");
+					texts.replaceClass("help-content-display","help-content-hidden");
+					var helpText = A.one("#"+contentId);
+					if(this.hasClass('help-content-selected')) {
+						helpText.replaceClass("help-content-display","help-content-hidden");
+						this.removeClass("help-content-selected");
+					} else {
+						console.log('display');
+						helpText.replaceClass("help-content-hidden","help-content-display");
+						this.addClass("help-content-selected");
+					}
+				});
+			});
+		}
+	);
+	
 </script>
