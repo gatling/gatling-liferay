@@ -29,7 +29,7 @@
 		<span class="label label-info"><liferay-ui:message key="help-what-simulation"/></span>
 	</a>
 	<p id="help-simulation" class="help-text help-content-hidden text-info" >
-		What is a simulation help text ....
+		<liferay-ui:message key="simulation-explanation" />
 	</p>
 </div>
 
