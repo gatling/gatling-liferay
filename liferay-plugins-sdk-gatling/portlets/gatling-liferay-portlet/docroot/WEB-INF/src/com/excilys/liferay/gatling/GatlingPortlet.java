@@ -86,6 +86,7 @@ public class GatlingPortlet extends MVCPortlet {
 			throws Exception {
 		long primaryKey = CounterLocalServiceUtil.increment(Simulation.class.getName());	
 		Simulation simulation = SimulationLocalServiceUtil.createSimulation(primaryKey);
+		simulation.setVariableName(createVariableName("simulation", ParamUtil.getString(request, "variableName")));
 		simulation.setName(ParamUtil.getString(request, "simulationName"));
 		List<String> errors = new ArrayList<String>();
 		if(SimulationValidator.validateSimulation(simulation, errors)) {
@@ -138,6 +139,8 @@ public class GatlingPortlet extends MVCPortlet {
 		long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
 		Scenario scenario = ScenarioLocalServiceUtil.createScenario(primaryKey);
 		scenario.setName(ParamUtil.getString(request, "scenarioName"));
+		// Set Variable Name
+		scenario.setVariableName(createVariableName("scenario", ParamUtil.getString(request, "variableName")));
 		scenario.setSimulation_id(ParamUtil.getLong(request, "simulationId"));
 		scenario.setGroup_id(ParamUtil.getLong(request, "sites"));
 		//ajout de l'url du site à revoir marche pas pour les private pages
@@ -185,6 +188,8 @@ public class GatlingPortlet extends MVCPortlet {
 		//create scenario
 		long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
 		Scenario scenario = ScenarioLocalServiceUtil.createScenario(primaryKey);
+		// Set Variable Name
+		scenario.setVariableName(createVariableName("scenario", ParamUtil.getString(request, "variableName")));
 		scenario.setName(ParamUtil.getString(request, "scenarioName"));
 		scenario.setSimulation_id(ParamUtil.getLong(request, "simulationId"));
 		scenario.setGroup_id(ParamUtil.getLong(request, "sites"));
@@ -537,6 +542,11 @@ public class GatlingPortlet extends MVCPortlet {
 
 		return listGroups;
 
+	}
+	
+	private String createVariableName(String prefix, String name) {
+		// Create variable name
+		return prefix.concat(StringUtil.upperCaseFirstLetter(name));
 	}
 
 
