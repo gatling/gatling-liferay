@@ -1,5 +1,11 @@
 <%@include file="/html/gatling/header.jsp"%>
 
+<portlet:renderURL var="backURL">
+	<portlet:param name="page" value="/html/gatling/view.jsp"/>
+</portlet:renderURL>
+
+
+<liferay-ui:header title="help_content1" backURL="${backURL}" />
 
 
 
@@ -9,11 +15,6 @@
 
 
 
-
-
-
-
-<h3><liferay-ui:message key="help_content1"  /></h3>
 
 <liferay-ui:message key="help_content2"  />
 
@@ -31,9 +32,6 @@
 <li><liferay-ui:message key="help_content13"  /></li>
 </ul>
 
-<portlet:renderURL var="backURL">
-	<portlet:param name="page" value="/html/gatling/view.jsp"/>
-</portlet:renderURL>
 <aui:button-row>
 		<aui:button type="submit" href="${backURL}" value="help-ret-button-name"/>
 </aui:button-row>
