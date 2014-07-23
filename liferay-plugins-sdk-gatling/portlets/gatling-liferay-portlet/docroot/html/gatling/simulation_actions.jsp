@@ -16,8 +16,7 @@
 	<liferay-ui:icon image="submit" url="${resourceUrl}" message="Generate Simulation"/>
 
 	<portlet:actionURL var="deleteSimulationURL" name="removeSimulation">
-		<portlet:param name="simulationId"
-			value="${simulation.simulation_id }>" />
+		<portlet:param name="simulationId" value="${simulation.simulation_id }" />
 	</portlet:actionURL>
 
 	<liferay-ui:icon-delete url="${deleteSimulationURL}" />
