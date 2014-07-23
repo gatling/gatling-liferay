@@ -259,6 +259,7 @@ public class GatlingPortlet extends MVCPortlet {
 				
 				//on met à jour les données
 				for (String key : parameters.keySet()){
+					log.info(key+" : "+StringUtil.merge(parameters.get(key)));
 					//Cas de case coché
 					if((StringUtil.merge(parameters.get(key)).equals("true")) && (!key.contains("Checkbox")) ){
 						int layoutId = (int) Double.parseDouble(key);

@@ -21,7 +21,7 @@
 	<a target="blank" href="#">
 	<span class="label label-info"><liferay-ui:message key="help-what-scenario"/></span>
 	</a>
-	
+	<br/>
 	<!-- Affichage du message d'info -->
 	<liferay-ui:icon-help message="About this page" ><liferay-ui:message key="simulation-edit-help" /></liferay-ui:icon-help>
 
