@@ -15,14 +15,17 @@
 <%--
 	lien vers la FAQ 
 --%>
+<portlet:renderURL var="helpURL">
+	<portlet:param name="page" value="/html/gatling/help.jsp" />
+</portlet:renderURL>
 <div class="well well-small">
 	<a target="blank" href="https://github.com/excilys/gatling/wiki/Getting-Started">
 		<span class="label label-warning"><liferay-ui:message key="help-faq-gatling"/></span>
 	</a>
-	<a target="blank" href="#">
+	<a target="blank" href="${helpURL}#howToUse">
 	<span class="label"><liferay-ui:message key="help-how-to-use-portlet"/></span>
 	</a>
-	<a target="blank" href="#">
+	<a target="blank" href="${helpURL}#simulation">
 	<span class="label label-info"><liferay-ui:message key="help-what-simulation"/></span>
 	</a>
 </div>
