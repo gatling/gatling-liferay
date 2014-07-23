@@ -212,7 +212,9 @@
 								    	          }
 							    	        }
 							    	      ]);
-			  			} 
+			  			} else {
+			  				Y.one("#<portlet:namespace />formulaireScenario").submit();
+			  			}
 			  	});	
 	}
 			  	
