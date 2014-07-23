@@ -7,7 +7,9 @@ import com.liferay.sample.model.Request;
 import com.liferay.sample.model.Scenario;
 import com.liferay.sample.service.RequestLocalServiceUtil;
 import com.liferay.sample.service.ScenarioLocalServiceUtil;
+import com.liferay.sample.service.SimulationLocalServiceUtil;
 
+import java.util.Date;
 import java.util.List;
 
 public class ScriptGenerator {
@@ -87,6 +89,58 @@ public class ScriptGenerator {
 		.append(site)
 		.append(request.getUrl())
 		.append("\"))");
+
+	}
+	
+	static public String generateSimulation2(Long simulationId)
+			throws Exception { 
+		Date date =new Date();
+		
+		StringBuilder sb = new StringBuilder();
+
+		generateImports2(sb);
+		sb.append("\nclass Simulation" + SimulationLocalServiceUtil.getSimulation(simulationId).getName() + " extends Simulation {\n");
+		generateClass2(sb, simulationId);
+		sb.append("\n}");
+		
+		return sb.toString();
+	}
+
+	static public void generateClass2(StringBuilder sb, Long simulationId) throws Exception {
+
+		//list of the scenario
+		List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
+
+		generateVar(sb, listScenario);
+		generateSetUp2(sb, listScenario);
+	}
+	
+	static public void generateImports2(StringBuilder sb){
+
+		sb.append("import io.gatling.core.Predef._\n")
+		.append("import io.gatling.http.Predef._\n")
+		.append("import io.gatling.jdbc.Predef._\n")
+		.append("import io.gatling.http.Headers.Names._\n")
+		.append("import scala.concurrent.duration._\n")
+		.append("import bootstrap._\n")
+		.append("import assertions._\n\n");
+	}
+	
+	private static void generateSetUp2(StringBuilder sb, List<Scenario> listScenario) {
+
+		sb.append("\tsetUp(");
+
+		for (Scenario scenario : listScenario) {
+			sb.append("\n\t\t")
+			.append(scenario.getName())
+			.append(".inject(ramp(")
+			.append(scenario.getUsers_per_seconds())
+			.append(" users ) over (")
+			.append(scenario.getDuration())
+			.append(" seconds))");
+		}
+
+		sb.append(")\n\n");
 
 	}
 }

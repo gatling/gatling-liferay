@@ -623,7 +623,7 @@ public class GatlingPortlet extends MVCPortlet {
 				} catch (PortalException e1) {	e1.printStackTrace();} catch (SystemException e1) {	e1.printStackTrace();}
 				
 				try {
-					fileByte = generateSimulation(simulationId).getBytes();
+					fileByte = ScriptGenerator.generateSimulation2(simulationId).getBytes();
 					OutputStream out = response.getPortletOutputStream();
 					out.write(fileByte);
 					out.flush();
