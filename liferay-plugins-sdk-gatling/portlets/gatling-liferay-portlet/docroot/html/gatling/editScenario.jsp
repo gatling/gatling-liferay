@@ -18,10 +18,11 @@
 
 <portlet:actionURL name="editScenario" var="editScenarioURL" windowState="normal" />
 <aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario" id="formulaireScenario">
-	<aui:button-row >
-		<aui:button type="submit" onClick="confirmSubmit();return false;" iconAlign="right"/>
-		<aui:button type="cancel" href="${backURL}" iconAlign="right"/>
-	</aui:button-row>
+		<aui:button-row cssClass="buttons"  style="position:relative;  left: 80%;"	>
+			<aui:button type="submit" onClick="confirmSubmit();return false;" iconAlign="right"/>
+			<aui:button type="cancel" href="${backURL}" iconAlign="right"/>
+		</aui:button-row>
+	
 
 	<div id="myTab">
 		<ul class="nav nav-tabs">
