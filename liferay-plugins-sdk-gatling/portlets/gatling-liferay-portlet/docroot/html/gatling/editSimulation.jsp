@@ -1,9 +1,20 @@
 <%@include file="/html/gatling/header.jsp"%>
 
+<%--
+	session errors 
+--%>
+<liferay-ui:error key="scenario-name-required" message="scenario-name-required" />
+<liferay-ui:error key="scenario-name-already-used" message="scenario-name-already-used"/>
+<liferay-ui:error key="scenario-groupid-missing" message="scenario-groupid-missing" />
+<liferay-ui:error key="scenario-simulationid-missing" message="scenario-simulationid-missing" />
+<liferay-ui:error key="scenario-variable-required" message="scenario-variable-required" />
+<%--
+	header
+--%>
 <portlet:renderURL var="backURL">
 	<portlet:param name="page" value="/html/gatling/view.jsp" />
 </portlet:renderURL>
-<%--entete --%>
+
 <c:set var="entete">
 	<liferay-ui:message key="simulation-edit-header" arguments="${simulation.name}" />
 </c:set>
@@ -22,18 +33,12 @@
 	<a target="blank" href="#">
 	<span class="label label-info"><liferay-ui:message key="help-what-scenario"/></span>
 	</a>
-	<br/>
+	<hr/>
 	<!-- Affichage du message d'info -->
-	<liferay-ui:icon-help message="About this page" ><liferay-ui:message key="simulation-edit-help" /></liferay-ui:icon-help>
+	<p><liferay-ui:icon-help message="About this page" ><liferay-ui:message key="simulation-edit-help" /></liferay-ui:icon-help><p>
 
 </div>
 
-<%--
-	session errors 
---%>
-<liferay-ui:error key="scenario-name-required" message="scenario-name-required" />
-<liferay-ui:error key="simulation-duration-required" message="simulation-duration-required" />
-<liferay-ui:error key="simulation-users_per_seconds-required" message="simulation-users_per_seconds-required" />
 <%--
 	Contenu page 
 
@@ -70,7 +75,9 @@
 </portlet:actionURL>
 <%--Formulaire d'ajout --%>
 <div id="newFormScenario" hidden="true">
-	<liferay-ui:icon-help message="About this page" ><liferay-ui:message key="create-scenario-help" /></liferay-ui:icon-help>
+	<div class="well well-small">
+		<p><liferay-ui:icon-help message="About this page" ><liferay-ui:message key="create-scenario-help" /></liferay-ui:icon-help></p>
+	</div>
 	<aui:form action="${addScenarioURL}" name="scenario_fm" id="scenario_fm">
 		<aui:input label="simulation-edit-form-nom-scenario" name="scenarioName" id="scenarioName">
 			<aui:validator name="required"></aui:validator>

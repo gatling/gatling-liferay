@@ -1,5 +1,15 @@
 <%@include file="/html/gatling/header.jsp"%>
 
+<%--
+	session errors
+--%>
+<liferay-ui:error key="simulation-name-required" message="simulation-name-required" />
+<liferay-ui:error key="simulation-name-already-used" message="simulation-name-already-used" />
+<liferay-ui:error key="simulation-variable-required" message="simulation-variable-required" />
+<liferay-ui:error key="simulation-variable-syntaxe" message="simulation-variable-syntaxe" />
+<%--
+	Header
+ --%>
 <liferay-ui:header title="simulation-list-header"></liferay-ui:header>
 
 <%--
@@ -16,11 +26,8 @@
 	<span class="label label-info"><liferay-ui:message key="help-what-simulation"/></span>
 	</a>
 </div>
-<%--
-	session errors
---%>
-<liferay-ui:error key="simulation-name-required"
-	message="simulation-name-required" />
+
+
 <%--
 	Search container (tableau) 
 --%>
@@ -57,7 +64,9 @@
 	windowState="normal" />
 <%--Formulaire d'ajout --%>
 <div id="newFormSimulation" hidden="true">
-	<liferay-ui:icon-help message="About this page" ><liferay-ui:message key="create-simulation-help" /></liferay-ui:icon-help>
+	<div class="well well-small">
+		<p><liferay-ui:icon-help message="About this page" ><liferay-ui:message key="create-simulation-help" /></liferay-ui:icon-help></p>
+	</div>
 	<aui:form action="${addSimulationURL}" name="simulation_fm"
 		id="simulation_fm">
 		<aui:input label="simulation-list-form-nom-simulation" name="simulationName" id="simulationName">
