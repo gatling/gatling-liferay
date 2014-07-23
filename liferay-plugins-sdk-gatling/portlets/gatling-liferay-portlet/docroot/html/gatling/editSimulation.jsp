@@ -37,7 +37,7 @@
 		<span class="label label-info"><liferay-ui:message key="help-what-scenario"/></span>
 	</a>
 	<p id="help-scenario" class="help-text help-content-hidden text-info" >
-		What is a scenario help text ....
+		<liferay-ui:message key="scenario-explanation" />
 	</p>
 </div>
 
