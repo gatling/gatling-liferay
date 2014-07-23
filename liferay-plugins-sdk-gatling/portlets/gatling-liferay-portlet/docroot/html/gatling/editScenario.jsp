@@ -206,15 +206,25 @@
 							    	          label: 'Yes',
 							    	          on: {
 								    	            click: function() {
-								    	            	AUI().one('#<portlet:namespace/>formulaireScenario').submit();
+								    	            	confirmDialog.hide();
+								    	            	popUpUpgrade();
 								    	            }
 								    	          }
 							    	        }
-							    	      ]
-							    	    );	
-			  		}
-			  		//if confirm upgrade
-				  	if(Y.one("#<portlet:namespace/>confirmUpgrade") !==null)
+							    	      ]);
+			  			} else {
+			  				Y.one("#<portlet:namespace />formulaireScenario").submit();
+			  			}
+			  	});	
+	}
+			  	
+	function popUpUpgrade() {
+		AUI().use(
+			  	'aui-base',
+			 	'aui-modal',
+			 	function(Y) {
+					//if confirm upgrade
+			  		if(Y.one("#<portlet:namespace/>confirmUpgrade") !==null)
 					{
 					    var confirmUpgradeDialog = new Y.Modal(
 					      {
@@ -241,15 +251,17 @@
 					    	          label: 'Upgrade',
 					    	          on: {
 						    	            click: function() {
-						    	            	AUI().one('#<portlet:namespace/>formulaireScenario').submit();
+						    	            	Y.one("#<portlet:namespace />formulaireScenario").submit();
 						    	            }
 						    	          }
 					    	        }
 					    	      ]
 					    	    );
 						}
-				  	}
-			);
+			  		else {
+			  			Y.one("#<portlet:namespace />formulaireScenario").submit();
+			  		}
+			  	});
 	}
 
 	YUI().use(
