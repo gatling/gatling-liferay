@@ -507,6 +507,18 @@ public class GatlingPortlet extends MVCPortlet {
 				//Merge Layout and Request in DisplayLayout List
 				displayLayoutList = DisplayLayoutUtil.addRequestToDisplayLayoutList(displayLayoutList, listRequests);
 				
+				
+				//navigation form: declaration of the variables
+				String[] categoryNames = {"scenario-edit"};
+				String[] category1 = {"scenario", "scenario-edit-details"};
+
+				// Number of categorySections should equal number of categories
+				String[][] categorySections = {category1};
+				
+				renderRequest.setAttribute("categoryNames", categoryNames);
+				renderRequest.setAttribute("categorySections", categorySections);
+				
+				
 				//ajout des paramètres dans la requête
 				renderRequest.setAttribute("scenario", scenario);
 				renderRequest.setAttribute("listPages", displayLayoutList);
@@ -580,15 +592,10 @@ public class GatlingPortlet extends MVCPortlet {
 
 	private String generateSimulation(Long simulationId)
 			throws Exception { 
-
-
-
 		Date date =new Date();
 		//		File simulationFile = new File("/home/pif/Documents/SimulationsGatling/Simulation"  + SimulationLocalServiceUtil.getSimulation(simulationId).getName()  + date.getTime() + ".scala");
 		//		simulationFile.createNewFile();
-
 		StringBuilder sb = new StringBuilder();
-
 		ScriptGenerator.generateImports(sb);
 		sb.append("\nclass Simulation" + SimulationLocalServiceUtil.getSimulation(simulationId).getName() + " extends Simulation {\n");
 		ScriptGenerator.generateClass(sb, simulationId);
@@ -599,7 +606,6 @@ public class GatlingPortlet extends MVCPortlet {
 		//		BufferedWriter bw = new BufferedWriter(fw);
 		//		bw.write(sb.toString());
 		//		bw.close();
-
 		return sb.toString();
 	}
 
