@@ -1,5 +1,5 @@
 <%@include file="/html/gatling/header.jsp"%>
-<liferay-ui:error-marker key="errorSection" value="details" />
+<liferay-ui:error-marker key="errorSection" value="scenario-edit-details" />
 <h3>
 	<liferay-ui:message key="scenario-edit-details" />
 </h3>

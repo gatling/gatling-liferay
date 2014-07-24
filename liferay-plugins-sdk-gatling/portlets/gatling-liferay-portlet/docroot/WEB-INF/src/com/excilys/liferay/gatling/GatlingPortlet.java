@@ -541,7 +541,7 @@ public class GatlingPortlet extends MVCPortlet {
 				
 				//navigation form: declaration of the variables
 				String[] categoryNames = {"scenario-edit"};
-				String[] category1 = {"scenario", "scenario-edit-details"};
+				String[] category1 = {"scenario", "details"};
 
 				// Number of categorySections should equal number of categories
 				String[][] categorySections = {category1};

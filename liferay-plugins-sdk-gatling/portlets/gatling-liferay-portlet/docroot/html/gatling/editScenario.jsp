@@ -17,28 +17,23 @@
 
 <portlet:actionURL name="editScenario" var="editScenarioURL" windowState="normal" />
 <aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario" id="formulaireScenario">
-
-<%-- 	
-	<aui:button-row cssClass="pull-right">
+	<liferay-util:buffer var="htmlBottom">
+	<aui:button-row >
 		<aui:button type="submit" onClick="confirmSubmit();return false;" iconAlign="right"/>
 		<aui:button type="cancel" href="${backURL}" iconAlign="right"/>
-	</aui:button-row> --%>
+	</aui:button-row>
+	</liferay-util:buffer>
 	
 
-	
-	
-	
 	<liferay-ui:form-navigator
     backURL="${ backURL} "
     categoryNames="${ categoryNames}"
     categorySections="${ categorySections}"
-    formName="form"
+    formName="formulaireScenario"
     htmlTop="${scenario.name } : ${siteName}"
-    htmlBottom="${ htmlBottom} "
+    htmlBottom="${htmlBottom} "
     jspPath="/html/gatling/sectionsEditScenario/" 
-    showButtons="true"
-    
-    />
+    showButtons="false" />
 
 
 
@@ -138,18 +133,6 @@
 			  		}
 			  	});
 	}
-
-	YUI().use(
-		  'aui-tabview',
-		  function(A) {
-		    new A.TabView(
-		      {
-		        srcNode: '#myTab'
-		      }
-		    ).render();
-		  }
-	);
-
 
 	AUI().use('aui-base', function(A) {
 		A.all('.force-weight-childs').each(function() {
