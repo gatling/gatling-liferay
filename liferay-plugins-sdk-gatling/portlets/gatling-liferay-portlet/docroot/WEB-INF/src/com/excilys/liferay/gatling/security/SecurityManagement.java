@@ -12,21 +12,21 @@ public class SecurityManagement extends BaseControlPanelEntry {
 	public boolean hasAccessPermission(PermissionChecker arg0, Group arg1,
 			Portlet arg2) throws Exception {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isVisible(PermissionChecker arg0, Portlet arg1)
 			throws Exception {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isVisible(Portlet arg0, String arg1, ThemeDisplay arg2)
 			throws Exception {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

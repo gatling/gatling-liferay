@@ -7,6 +7,8 @@
 		boolean hasConfigurePermission = permissionChecker.hasPermission(
 			scopeGroupId, "com.liferay.sample.model.Simulation", scopeGroupId,
 			ActionKeys.PERMISSIONS);
+		
+		hasAddPermission = hasConfigurePermission = true;
  %>
 
 
