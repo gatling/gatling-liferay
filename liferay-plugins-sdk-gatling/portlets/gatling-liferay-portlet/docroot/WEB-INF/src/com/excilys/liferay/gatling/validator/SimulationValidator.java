@@ -27,22 +27,26 @@ public class SimulationValidator {
 			errors.add("simulation-name-required");
 			valid = false;
 		}
-		
+
 		if (!SimulationLocalServiceUtil.isNameUnique(simulation.getName())) {
 			errors.add("simulation-name-already-used");
 			valid = false;
 		}
-		
+
 		if ( Validator.isNull(simulation.getVariableName().substring(PREFIX.length()))) {
 			errors.add("simulation-variable-required");
 			valid = false;
 		}
-		
-		if ( ! Validator.isAlphanumericName(simulation.getVariableName())) {
+		else if ( ! Validator.isAlphanumericName(simulation.getVariableName())) {
 			errors.add("simulation-variable-syntaxe");
 			valid = false;
 		}
-		
+		else {
+			List<Simulation> listVar = SimulationLocalServiceUtil.findByVariableName(simulation.getVariableName());
+			if(!listVar.isEmpty() ) {
+				simulation.setVariableName(simulation.getVariableName()+listVar.size());
+			}
+		}
 		return valid;
 	}
 

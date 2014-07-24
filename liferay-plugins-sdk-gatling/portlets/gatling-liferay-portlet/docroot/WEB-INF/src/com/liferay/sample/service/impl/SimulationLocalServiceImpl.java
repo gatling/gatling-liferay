@@ -23,6 +23,7 @@ import com.liferay.sample.model.Simulation;
 import com.liferay.sample.service.ScenarioLocalServiceUtil;
 import com.liferay.sample.service.base.SimulationLocalServiceBaseImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,5 +68,19 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	public List<Simulation> findByVariableName(String variableName) {
+		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Simulation.class)
+				.add(PropertyFactoryUtil.forName("variableName").like(variableName+"%"));
+
+		List<Simulation> result = new ArrayList<Simulation>();
+		try {
+			result = simulationPersistence.findWithDynamicQuery(dq);
+			return result;
+		} catch (SystemException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

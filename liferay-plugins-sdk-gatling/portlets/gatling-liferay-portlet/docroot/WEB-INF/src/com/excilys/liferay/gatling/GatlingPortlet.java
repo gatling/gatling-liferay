@@ -86,7 +86,13 @@ public class GatlingPortlet extends MVCPortlet {
 			throws Exception {
 		long primaryKey = CounterLocalServiceUtil.increment(Simulation.class.getName());	
 		Simulation simulation = SimulationLocalServiceUtil.createSimulation(primaryKey);
-		simulation.setVariableName(createVariableName("simulation", ParamUtil.getString(request, "variableName")));
+		// Set Variable Name
+		String variableName = createVariableName("simulation", ParamUtil.getString(request, "variableName"));
+		List<Simulation> listVar = SimulationLocalServiceUtil.findByVariableName(variableName);
+		if(!listVar.isEmpty() ) {
+			variableName = variableName.concat(Integer.toString(listVar.size()));
+		}
+		simulation.setVariableName(variableName);
 		simulation.setName(ParamUtil.getString(request, "simulationName"));
 		List<String> errors = new ArrayList<String>();
 		if(SimulationValidator.validateSimulation(simulation, errors)) {
@@ -139,9 +145,15 @@ public class GatlingPortlet extends MVCPortlet {
 		long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
 		Scenario scenario = ScenarioLocalServiceUtil.createScenario(primaryKey);
 		scenario.setName(ParamUtil.getString(request, "scenarioName"));
-		// Set Variable Name
-		scenario.setVariableName(createVariableName("scenario", ParamUtil.getString(request, "variableName")));
 		scenario.setSimulation_id(ParamUtil.getLong(request, "simulationId"));
+		// Set Variable Name
+		String variableName = createVariableName("scenario", ParamUtil.getString(request, "variableName"));
+		List<Scenario> listVar = ScenarioLocalServiceUtil.findByVariableName(variableName, scenario.getSimulation_id());
+		if(!listVar.isEmpty() ) {
+			variableName = variableName.concat(Integer.toString(listVar.size()));
+		}
+		scenario.setVariableName(variableName);
+
 		scenario.setGroup_id(ParamUtil.getLong(request, "sites"));
 		//ajout de l'url du site à revoir marche pas pour les private pages
 		String urlSite = GroupLocalServiceUtil.fetchGroup(ParamUtil.getLong(request, "sites")).getIconURL(themeDisplay);	
@@ -188,10 +200,15 @@ public class GatlingPortlet extends MVCPortlet {
 		//create scenario
 		long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
 		Scenario scenario = ScenarioLocalServiceUtil.createScenario(primaryKey);
-		// Set Variable Name
-		scenario.setVariableName(createVariableName("scenario", ParamUtil.getString(request, "variableName")));
-		scenario.setName(ParamUtil.getString(request, "scenarioName"));
 		scenario.setSimulation_id(ParamUtil.getLong(request, "simulationId"));
+		// Set Variable Name
+		String variableName = createVariableName("scenario", ParamUtil.getString(request, "variableName"));
+		List<Scenario> listVar = ScenarioLocalServiceUtil.findByVariableName(variableName, scenario.getSimulation_id());
+		if(!listVar.isEmpty() ) {
+			variableName = variableName.concat(Integer.toString(listVar.size()));
+		}
+		scenario.setVariableName(variableName);
+		scenario.setName(ParamUtil.getString(request, "scenarioName"));
 		scenario.setGroup_id(ParamUtil.getLong(request, "sites"));
 		//ajout de l'url du site
 		String urlSite = GroupLocalServiceUtil.fetchGroup(ParamUtil.getLong(request, "sites")).getIconURL(themeDisplay);	

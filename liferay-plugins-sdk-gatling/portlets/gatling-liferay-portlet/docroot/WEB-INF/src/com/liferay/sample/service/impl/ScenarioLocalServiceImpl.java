@@ -24,6 +24,7 @@ import com.liferay.sample.service.RequestLocalServiceUtil;
 import com.liferay.sample.service.ScenarioLocalServiceUtil;
 import com.liferay.sample.service.base.ScenarioLocalServiceBaseImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -73,6 +74,10 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		}
 	}
 	
+	/**
+	 * Check if display name is unique
+	 * true if unique else false
+	 */
 	public boolean isNameUnique(String name, long idSimulation) {
 		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Scenario.class)
 				.add(PropertyFactoryUtil.forName("name").eq(name))
@@ -86,5 +91,20 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	public List<Scenario> findByVariableName(String variableName, long idSimulation) {
+		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Scenario.class)
+				.add(PropertyFactoryUtil.forName("variableName").like(variableName+"%"))
+				.add(PropertyFactoryUtil.forName("simulation_id").eq(idSimulation));
+
+		List<Scenario> result = new ArrayList<Scenario>();
+		try {
+			result = scenarioPersistence.findWithDynamicQuery(dq);
+			return result;
+		} catch (SystemException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }
