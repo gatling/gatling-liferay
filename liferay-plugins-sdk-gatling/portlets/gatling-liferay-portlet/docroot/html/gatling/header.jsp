@@ -30,12 +30,12 @@
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
 <%@ page import="com.liferay.portal.util.PortalUtil" %>
 
-<%@ page import="com.liferay.sample.model.Request"%>
-<%@ page import="com.liferay.sample.model.Scenario"%>
-<%@ page import="com.liferay.sample.model.Simulation"%>
-<%@ page import="com.liferay.sample.service.RequestLocalServiceUtil"%>
-<%@ page import="com.liferay.sample.service.ScenarioLocalServiceUtil"%>
-<%@ page import="com.liferay.sample.service.SimulationLocalServiceUtil"%>
+<%@ page import="com.excilys.liferay.gatling.model.Request"%>
+<%@ page import="com.excilys.liferay.gatling.model.Scenario"%>
+<%@ page import="com.excilys.liferay.gatling.model.Simulation"%>
+<%@ page import="com.excilys.liferay.gatling.service.RequestLocalServiceUtil"%>
+<%@ page import="com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil"%>
+<%@ page import="com.excilys.liferay.gatling.service.SimulationLocalServiceUtil"%>
 
 <liferay-theme:defineObjects />
 

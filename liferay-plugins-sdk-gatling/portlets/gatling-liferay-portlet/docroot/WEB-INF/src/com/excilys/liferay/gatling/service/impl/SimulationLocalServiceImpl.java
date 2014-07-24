@@ -12,19 +12,30 @@
  *
  */
 
-package com.liferay.sample.service.impl;
+package com.excilys.liferay.gatling.service.impl;
 
+import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
+import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
+import com.excilys.liferay.gatling.service.base.SimulationLocalServiceBaseImpl;
+import com.excilys.liferay.gatling.util.GatlingUtil;
+import com.excilys.liferay.gatling.validator.SimulationValidator;
+import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.sample.model.Simulation;
-import com.liferay.sample.service.ScenarioLocalServiceUtil;
-import com.liferay.sample.service.base.SimulationLocalServiceBaseImpl;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.theme.ThemeDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 
 /**
  * The implementation of the simulation local service.
@@ -36,7 +47,6 @@ import java.util.List;
  * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
  * </p>
  *
- * @author sana
  * @see com.liferay.sample.service.base.SimulationLocalServiceBaseImpl
  * @see com.liferay.sample.service.SimulationLocalServiceUtil
  */
@@ -82,5 +92,49 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	/**
+	 * Add a scenario from request
+	 * @param request
+	 * @param response
+	 * @return Simulation if added, else null
+	 * @throws SystemException
+	 */
+	public Simulation addSimulationFromRequest(ActionRequest request, ActionResponse response) throws SystemException {
+		/*
+		 * Create simulation
+		 */
+		long primaryKey = CounterLocalServiceUtil.increment(Simulation.class.getName());	
+		Simulation simulation = SimulationLocalServiceUtil.createSimulation(primaryKey);
+		simulation.setName(ParamUtil.getString(request, "simulationName"));
+		/*
+		 *  Set Variable Name
+		 */
+		String variableName = GatlingUtil.createVariableName("simulation", ParamUtil.getString(request, "variableName"));
+		List<Simulation> listVar = SimulationLocalServiceUtil.findByVariableName(variableName);
+		// Test if the variable name already exists
+		if(!listVar.isEmpty() ) {
+			variableName = variableName.concat(Integer.toString(listVar.size()));
+		}
+		simulation.setVariableName(variableName);
+		/*
+		 *  Validator Simulation Fields
+		 */
+		List<String> errors = new ArrayList<String>();
+		if(SimulationValidator.validateSimulation(simulation, errors)) {
+			ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+			Long userId = themeDisplay.getUserId();
+			// Add scenario
+			return SimulationLocalServiceUtil.addSimulation(simulation);
+			
+		}
+		else {
+			for(String error : errors) {
+				SessionErrors.add(request, error);
+			}
+		}
+		return null;
+		
 	}
 }

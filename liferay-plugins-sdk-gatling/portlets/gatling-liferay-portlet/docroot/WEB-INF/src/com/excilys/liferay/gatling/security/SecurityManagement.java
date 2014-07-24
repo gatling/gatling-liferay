@@ -38,6 +38,7 @@ public class SecurityManagement extends BaseControlPanelEntry {
 			return true;
 		}
 		return false;
+
 	}
 
 	@Override

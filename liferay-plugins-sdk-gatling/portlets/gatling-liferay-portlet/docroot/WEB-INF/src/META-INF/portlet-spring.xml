@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-	<bean id="com.liferay.sample.service.RequestLocalService" class="com.liferay.sample.service.impl.RequestLocalServiceImpl" />
-	<bean id="com.liferay.sample.service.persistence.RequestPersistence" class="com.liferay.sample.service.persistence.RequestPersistenceImpl" parent="basePersistence" />
-	<bean id="com.liferay.sample.service.ScenarioLocalService" class="com.liferay.sample.service.impl.ScenarioLocalServiceImpl" />
-	<bean id="com.liferay.sample.service.persistence.ScenarioPersistence" class="com.liferay.sample.service.persistence.ScenarioPersistenceImpl" parent="basePersistence" />
-	<bean id="com.liferay.sample.service.SimulationLocalService" class="com.liferay.sample.service.impl.SimulationLocalServiceImpl" />
-	<bean id="com.liferay.sample.service.persistence.SimulationPersistence" class="com.liferay.sample.service.persistence.SimulationPersistenceImpl" parent="basePersistence" />
+	<bean id="com.excilys.liferay.gatling.service.RequestLocalService" class="com.excilys.liferay.gatling.service.impl.RequestLocalServiceImpl" />
+	<bean id="com.excilys.liferay.gatling.service.persistence.RequestPersistence" class="com.excilys.liferay.gatling.service.persistence.RequestPersistenceImpl" parent="basePersistence" />
+	<bean id="com.excilys.liferay.gatling.service.ScenarioLocalService" class="com.excilys.liferay.gatling.service.impl.ScenarioLocalServiceImpl" />
+	<bean id="com.excilys.liferay.gatling.service.persistence.ScenarioPersistence" class="com.excilys.liferay.gatling.service.persistence.ScenarioPersistenceImpl" parent="basePersistence" />
+	<bean id="com.excilys.liferay.gatling.service.SimulationLocalService" class="com.excilys.liferay.gatling.service.impl.SimulationLocalServiceImpl" />
+	<bean id="com.excilys.liferay.gatling.service.persistence.SimulationPersistence" class="com.excilys.liferay.gatling.service.persistence.SimulationPersistenceImpl" parent="basePersistence" />
 </beans>

@@ -2,8 +2,8 @@ package com.excilys.liferay.gatling.validator;
 
 
 
+import com.excilys.liferay.gatling.model.Request;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.sample.model.Request;
 
 import java.util.List;
 
