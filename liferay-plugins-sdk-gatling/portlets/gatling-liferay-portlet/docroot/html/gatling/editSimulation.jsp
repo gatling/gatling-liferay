@@ -1,13 +1,13 @@
 <%@include file="/html/gatling/header.jsp"%>
 
-<%
-	boolean hasAddPermission = permissionChecker.hasPermission(
-	scopeGroupId, "com.excilys.liferay.gatling.model.Scenario",
-	scopeGroupId, "ADD_SCENARIO");
-		boolean hasConfigurePermission = permissionChecker.hasPermission(
-	scopeGroupId, "com.excilys.liferay.gatling.model.Scenario", scopeGroupId,
-	ActionKeys.PERMISSIONS);
-%>
+<%-- <% --%>
+<!-- // 	boolean hasAddPermission = permissionChecker.hasPermission( -->
+<!-- // 	scopeGroupId, "com.excilys.liferay.gatling.model.Scenario", -->
+<!-- // 	scopeGroupId, "ADD_SCENARIO"); -->
+<!-- // 		boolean hasConfigurePermission = permissionChecker.hasPermission( -->
+<!-- // 	scopeGroupId, "com.excilys.liferay.gatling.model.Scenario", scopeGroupId, -->
+<!-- // 	ActionKeys.PERMISSIONS); -->
+<%-- %> --%>
 
 <%--
 	session errors 

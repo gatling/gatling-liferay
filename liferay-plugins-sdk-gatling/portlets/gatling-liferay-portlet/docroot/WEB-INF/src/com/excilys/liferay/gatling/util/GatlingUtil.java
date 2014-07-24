@@ -52,9 +52,9 @@ public class GatlingUtil {
 	public static void createRole(long companyId, long userId){
 			
 			try {
-				for(Role r : RoleLocalServiceUtil.getRoles(companyId)){
-					log.info(r);
-				}
+//				for(Role r : RoleLocalServiceUtil.getRoles(companyId)){
+//					log.info(r);
+//				}
 				
 				DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Role.class)
 						.add(PropertyFactoryUtil.forName("name").eq("gatling"));

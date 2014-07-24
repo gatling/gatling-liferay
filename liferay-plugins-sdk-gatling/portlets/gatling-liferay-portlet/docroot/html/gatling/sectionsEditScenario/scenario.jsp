@@ -6,11 +6,12 @@
 	<aui:input type="hidden" name="groupId" value='${scenario.group_id}' />
 	<table class="table table-bordered table-scenario">
 		<tr>
-			<th><input type="checkbox" id="checkAll" /> <liferay-ui:message key="scenario-edit-table-header-activate" /></th>
-			<th><liferay-ui:message key="scenario-edit-table-header-page" /></th>
-			<th><liferay-ui:message key="scenario-edit-table-header-weight" /> <input type="text" name="poidForce" id="<portlet:namespace/>poidForce"
-				class="margin-left" /> <aui:button type="button" value="scenario-edit-force-weight-btn" onClick="<%=renderResponse.getNamespace() +\"forcePoids()\" %>" /></th>
-			<th><liferay-ui:message key="scenario-edit-table-header-percentage" /></th>
+			<th><input type="checkbox" id="checkAll" /> </th>
+			<th><liferay-ui:message key="scenario-edit-table-header-page" /><liferay-ui:icon-help message="name-info-help"/></th>
+			<th><liferay-ui:message key="scenario-edit-table-header-weight" /> <liferay-ui:icon-help message="weight-info-help"></liferay-ui:icon-help>
+			<input type="text" name="poidForce" id="<portlet:namespace/>poidForce"
+				class="margin-left" /> <aui:button type="button" value="scenario-edit-force-weight-btn" onClick="<%=renderResponse.getNamespace() +\"forcePoids()\" %>" /><liferay-ui:icon-help message="weight2-info-help"/></th>
+			<th><liferay-ui:message key="scenario-edit-table-header-percentage" /><liferay-ui:icon-help message="percentage-info-help"/></th>
 		</tr>
 		<c:if test="${ listPages.size() ==0 }">
 			<tr>
