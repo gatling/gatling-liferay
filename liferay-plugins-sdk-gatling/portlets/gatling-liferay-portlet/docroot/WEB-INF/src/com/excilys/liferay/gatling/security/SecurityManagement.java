@@ -25,10 +25,6 @@ public class SecurityManagement extends BaseControlPanelEntry {
 		
 		List<Role> roles = RoleLocalServiceUtil.dynamicQuery(dq);
 		Role role = roles.get(0);
-//		role.setUserId(userId);
-//		role.setCompanyId(companyId);
-//		role.setDescription("gatling role pour utiliser la portlet stressTool");
-//		RoleLocalServiceUtil.updateRole(role);
 		if(permission.getUser().getRoles().contains(role)){
 			return true;
 		}
