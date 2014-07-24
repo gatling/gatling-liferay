@@ -18,8 +18,12 @@ import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
+
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
+
+import com.liferay.portal.util.PortalUtil;
+
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
 import java.io.IOException;
@@ -62,8 +66,13 @@ public class GatlingPortlet extends MVCPortlet {
 		jspFormFirstScenario = getInitParameter("form-first-scenario-jsp");
 		jspHelp = getInitParameter("help-jsp");
 
-		//création du role Gatling
-		GatlingUtil.createRole();
+		//création du role Gatling		
+		//ThemeDisplay themeDisplay ;
+//		String portletName = super.getPortletConfig().getPortletName();
+//		Portlet portlet = PortletLocalServiceUtil.getPortletById(portletName);
+		long companyId = PortalUtil.getDefaultCompanyId();
+		long userId = 10437; //10161
+		GatlingUtil.createRole(companyId,userId);
 		super.init();
 	}
 

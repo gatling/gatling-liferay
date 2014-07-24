@@ -1,9 +1,9 @@
 package com.excilys.liferay.gatling.util;
 
-import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -14,7 +14,10 @@ import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.RoleLocalServiceUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class GatlingUtil {
 	
@@ -46,30 +49,40 @@ public class GatlingUtil {
 		return listGroups;
 	}
 	
-	public static void createRole(){
-
-		try {
-
-			DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Role.class)
-					.add(PropertyFactoryUtil.forName("name").eq("gatling"));
-
-			List<Role> roles = RoleLocalServiceUtil.dynamicQuery(dq);
-			if((roles ==null)|| roles.isEmpty() ){
-				long roleId = CounterLocalServiceUtil.increment(Role.class.getName());
-				Role role = RoleLocalServiceUtil.createRole(roleId);
-				role.setName("gatling");
-				Role objRole= RoleLocalServiceUtil.addRole(role);
-				if(objRole!=null){
-					log.info("gatling role was added successfuly") ;
-				}else{
-					log.info("failed to add gatling role");
+	public static void createRole(long companyId, long userId){
+			
+			try {
+				for(Role r : RoleLocalServiceUtil.getRoles(companyId)){
+					log.info(r);
 				}
+				
+				DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Role.class)
+						.add(PropertyFactoryUtil.forName("name").eq("gatling"));
+				
+				List<Role> roles = RoleLocalServiceUtil.dynamicQuery(dq);
+				if((roles ==null)|| roles.isEmpty() ){
+	//				long roleId = CounterLocalServiceUtil.increment(Role.class.getName());
+	//				Role role = RoleLocalServiceUtil.createRole(roleId);
+	//				role.setName("gatling");
+	//				Role objRole= RoleLocalServiceUtil.addRole(role);
+					Locale locale=new Locale("English");
+					Map<Locale,String> titleMap=new HashMap<Locale,String>();
+					titleMap.put(locale,"English");
+					Role objRole=RoleLocalServiceUtil.addRole(userId, companyId,"gatling",titleMap, null, 1);
+					if(objRole!=null){
+						log.info("gatling role was added successfuly") ;
+					}else{
+						log.info("failed to add gatling role");
+					}
+				}
+				else{
+					log.info("The role gatling already exists "+ roles.get(0));
+//					RoleLocalServiceUtil.deleteRole(roles.get(0));
+				}
+			} catch (SystemException e) {
+				log.error("unable de add gatling role : "+e.getMessage());
+			} catch (PortalException e) {
+				log.error("enable to create role "+e.getMessage());
 			}
-			else{
-				log.info("The role gatling already exists ");
-			}
-		} catch (SystemException e1) {
-			log.error("unable de add gatling role :");
 		}
 	}
-}
