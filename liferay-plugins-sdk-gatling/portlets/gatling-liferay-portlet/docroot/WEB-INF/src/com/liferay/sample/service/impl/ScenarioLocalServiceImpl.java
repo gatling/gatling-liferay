@@ -14,6 +14,9 @@
 
 package com.liferay.sample.service.impl;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.sample.NoSuchScenarioException;
 import com.liferay.sample.model.Scenario;
@@ -21,6 +24,7 @@ import com.liferay.sample.service.RequestLocalServiceUtil;
 import com.liferay.sample.service.ScenarioLocalServiceUtil;
 import com.liferay.sample.service.base.ScenarioLocalServiceBaseImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +35,7 @@ import java.util.List;
  *
  * <p>
  * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
- * </p>
+ * </p> 
  *
  * @author sana
  * @see com.liferay.sample.service.base.ScenarioLocalServiceBaseImpl
@@ -68,5 +72,39 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		} catch (NoSuchScenarioException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Check if display name is unique
+	 * true if unique else false
+	 */
+	public boolean isNameUnique(String name, long idSimulation) {
+		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Scenario.class)
+				.add(PropertyFactoryUtil.forName("name").eq(name))
+				.add(PropertyFactoryUtil.forName("simulation_id").eq(idSimulation));
+
+		List<?> result;
+		try {
+			result = scenarioPersistence.findWithDynamicQuery(dq);
+			return result.isEmpty();
+		} catch (SystemException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public List<Scenario> findByVariableName(String variableName, long idSimulation) {
+		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Scenario.class)
+				.add(PropertyFactoryUtil.forName("variableName").like(variableName+"%"))
+				.add(PropertyFactoryUtil.forName("simulation_id").eq(idSimulation));
+
+		List<Scenario> result = new ArrayList<Scenario>();
+		try {
+			result = scenarioPersistence.findWithDynamicQuery(dq);
+			return result;
+		} catch (SystemException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

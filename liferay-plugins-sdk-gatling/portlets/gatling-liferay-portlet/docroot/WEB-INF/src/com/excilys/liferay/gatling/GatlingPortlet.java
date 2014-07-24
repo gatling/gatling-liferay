@@ -88,6 +88,13 @@ public class GatlingPortlet extends MVCPortlet {
 		ResourceLocalService resourceLocalService;
 		long primaryKey = CounterLocalServiceUtil.increment(Simulation.class.getName());	
 		Simulation simulation = SimulationLocalServiceUtil.createSimulation(primaryKey);
+		// Set Variable Name
+		String variableName = createVariableName("simulation", ParamUtil.getString(request, "variableName"));
+		List<Simulation> listVar = SimulationLocalServiceUtil.findByVariableName(variableName);
+		if(!listVar.isEmpty() ) {
+			variableName = variableName.concat(Integer.toString(listVar.size()));
+		}
+		simulation.setVariableName(variableName);
 		simulation.setName(ParamUtil.getString(request, "simulationName"));
 		List<String> errors = new ArrayList<String>();
 		if(SimulationValidator.validateSimulation(simulation, errors)) {
@@ -147,6 +154,14 @@ public class GatlingPortlet extends MVCPortlet {
 		Scenario scenario = ScenarioLocalServiceUtil.createScenario(primaryKey);
 		scenario.setName(ParamUtil.getString(request, "scenarioName"));
 		scenario.setSimulation_id(ParamUtil.getLong(request, "simulationId"));
+		// Set Variable Name
+		String variableName = createVariableName("scenario", ParamUtil.getString(request, "variableName"));
+		List<Scenario> listVar = ScenarioLocalServiceUtil.findByVariableName(variableName, scenario.getSimulation_id());
+		if(!listVar.isEmpty() ) {
+			variableName = variableName.concat(Integer.toString(listVar.size()));
+		}
+		scenario.setVariableName(variableName);
+
 		scenario.setGroup_id(ParamUtil.getLong(request, "sites"));
 		//ajout de l'url du site à revoir marche pas pour les private pages
 		String urlSite = GroupLocalServiceUtil.fetchGroup(ParamUtil.getLong(request, "sites")).getIconURL(themeDisplay);	
@@ -193,8 +208,15 @@ public class GatlingPortlet extends MVCPortlet {
 		//create scenario
 		long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
 		Scenario scenario = ScenarioLocalServiceUtil.createScenario(primaryKey);
-		scenario.setName(ParamUtil.getString(request, "scenarioName"));
 		scenario.setSimulation_id(ParamUtil.getLong(request, "simulationId"));
+		// Set Variable Name
+		String variableName = createVariableName("scenario", ParamUtil.getString(request, "variableName"));
+		List<Scenario> listVar = ScenarioLocalServiceUtil.findByVariableName(variableName, scenario.getSimulation_id());
+		if(!listVar.isEmpty() ) {
+			variableName = variableName.concat(Integer.toString(listVar.size()));
+		}
+		scenario.setVariableName(variableName);
+		scenario.setName(ParamUtil.getString(request, "scenarioName"));
 		scenario.setGroup_id(ParamUtil.getLong(request, "sites"));
 		//ajout de l'url du site
 		String urlSite = GroupLocalServiceUtil.fetchGroup(ParamUtil.getLong(request, "sites")).getIconURL(themeDisplay);	
@@ -459,10 +481,10 @@ public class GatlingPortlet extends MVCPortlet {
 				List<Scenario> ls = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
 				
 				//map <scenario, number of requests>
-				Map<Scenario, Integer[]> scenariosMap = new HashMap<Scenario, Integer[]>();
+				Map<Scenario, Number[]> scenariosMap = new HashMap<Scenario, Number[]>();
 				for(Scenario scena : ls){
 					List<Request> lsR = RequestLocalServiceUtil.findByScenarioId(scena.getScenario_id());
-					Integer[] info = new Integer[4];
+					Number[] info = new Number[4];
 					int count=0;
 					int count2 =0;
 					for(Request r : lsR){
@@ -472,8 +494,8 @@ public class GatlingPortlet extends MVCPortlet {
 					}
 					info[0] = count;
 					info[1] = count2;
-					info[2] = (int) scena.getDuration();
-					info[3] = (int) scena.getUsers_per_seconds();
+					info[2] = scena.getDuration();
+					info[3] = scena.getUsers_per_seconds();
 					scenariosMap.put(scena, info);
 				}
 				
@@ -553,6 +575,11 @@ public class GatlingPortlet extends MVCPortlet {
 		return listGroups;
 
 	}
+	
+	private String createVariableName(String prefix, String name) {
+		// Create variable name
+		return prefix.concat(StringUtil.upperCaseFirstLetter(name));
+	}
 
 
 
@@ -608,7 +635,7 @@ public class GatlingPortlet extends MVCPortlet {
 	}
 
 
-	@Override
+	@Override 
 	public void serveResource(ResourceRequest request, ResourceResponse response) {
 
 		Long simulationId = ParamUtil.getLong(request, "simulationId");
@@ -627,7 +654,7 @@ public class GatlingPortlet extends MVCPortlet {
 				} catch (PortalException e1) {	e1.printStackTrace();} catch (SystemException e1) {	e1.printStackTrace();}
 				
 				try {
-					fileByte = generateSimulation(simulationId).getBytes();
+					fileByte = ScriptGenerator.generateSimulation2(simulationId).getBytes();
 					OutputStream out = response.getPortletOutputStream();
 					out.write(fileByte);
 					out.flush();
