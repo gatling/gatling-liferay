@@ -58,6 +58,7 @@
 							changeValueSubPage(childs[i],value);
 						}
 					}
+					showPoids();
 				});
 			});
 		
