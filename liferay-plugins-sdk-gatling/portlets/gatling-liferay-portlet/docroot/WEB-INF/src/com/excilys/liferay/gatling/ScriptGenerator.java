@@ -1,13 +1,12 @@
 package com.excilys.liferay.gatling;
 
-import com.liferay.portal.kernel.exception.SystemException;
+import com.excilys.liferay.gatling.model.Request;
+import com.excilys.liferay.gatling.model.Scenario;
+import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
+import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
+import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.sample.model.Request;
-import com.liferay.sample.model.Scenario;
-import com.liferay.sample.service.RequestLocalServiceUtil;
-import com.liferay.sample.service.ScenarioLocalServiceUtil;
-import com.liferay.sample.service.SimulationLocalServiceUtil;
 
 import java.util.Date;
 import java.util.List;

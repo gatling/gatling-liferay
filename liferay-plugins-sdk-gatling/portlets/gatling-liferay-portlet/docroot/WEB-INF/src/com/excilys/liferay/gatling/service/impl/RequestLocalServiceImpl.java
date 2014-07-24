@@ -12,16 +12,16 @@
  *
  */
 
-package com.liferay.sample.service.impl;
+package com.excilys.liferay.gatling.service.impl;
 
+import com.excilys.liferay.gatling.model.Request;
+import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
+import com.excilys.liferay.gatling.service.base.RequestLocalServiceBaseImpl;
 import com.excilys.liferay.gatling.validator.RequestValidator;
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.model.Layout;
-import com.liferay.sample.model.Request;
-import com.liferay.sample.service.RequestLocalServiceUtil;
-import com.liferay.sample.service.base.RequestLocalServiceBaseImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,6 @@ import java.util.List;
  * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
  * </p>
  *
- * @author sana
  * @see com.liferay.sample.service.base.RequestLocalServiceBaseImpl
  * @see com.liferay.sample.service.RequestLocalServiceUtil
  */

@@ -2,10 +2,10 @@
 
 <%
 		boolean hasAddPermission = permissionChecker.hasPermission(
-			scopeGroupId, "com.liferay.sample.model.Simulation",
+			scopeGroupId, "com.excilys.liferay.gatling.model.Simulation",
 			scopeGroupId, "ADD_SIMULATION");
 		boolean hasConfigurePermission = permissionChecker.hasPermission(
-			scopeGroupId, "com.liferay.sample.model.Simulation", scopeGroupId,
+			scopeGroupId, "com.excilys.liferay.gatling.model.Simulation", scopeGroupId,
 			ActionKeys.PERMISSIONS);
 		
 		hasAddPermission = hasConfigurePermission = true;
@@ -55,7 +55,7 @@
 	<liferay-ui:search-container-results results="${listSimulation }" total="${listSimulation.size() }" />
 	<%--itération des colonnes --%>
 	<liferay-ui:search-container-row
-		className="com.liferay.sample.model.Simulation"
+		className="com.excilys.liferay.gatling.model.Simulation"
 		keyProperty="simulation_id" modelVar="simulation">
 		<portlet:renderURL var="editSimulationURL">
 			<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />

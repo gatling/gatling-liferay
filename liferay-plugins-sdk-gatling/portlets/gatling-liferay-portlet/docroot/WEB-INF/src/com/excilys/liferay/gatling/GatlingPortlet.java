@@ -1,5 +1,11 @@
 package com.excilys.liferay.gatling;
 
+import com.excilys.liferay.gatling.model.Request;
+import com.excilys.liferay.gatling.model.Scenario;
+import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
+import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
+import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.util.DisplayLayout;
 import com.excilys.liferay.gatling.util.DisplayLayoutUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
@@ -14,12 +20,6 @@ import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
-import com.liferay.sample.model.Request;
-import com.liferay.sample.model.Scenario;
-import com.liferay.sample.model.Simulation;
-import com.liferay.sample.service.RequestLocalServiceUtil;
-import com.liferay.sample.service.ScenarioLocalServiceUtil;
-import com.liferay.sample.service.SimulationLocalServiceUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
 import java.io.IOException;

@@ -12,8 +12,14 @@
  *
  */
 
-package com.liferay.sample.service.impl;
+package com.excilys.liferay.gatling.service.impl;
 
+import com.excilys.liferay.gatling.NoSuchScenarioException;
+import com.excilys.liferay.gatling.model.Request;
+import com.excilys.liferay.gatling.model.Scenario;
+import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
+import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
+import com.excilys.liferay.gatling.service.base.ScenarioLocalServiceBaseImpl;
 import com.excilys.liferay.gatling.util.DisplayLayout;
 import com.excilys.liferay.gatling.util.DisplayLayoutUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
@@ -35,12 +41,6 @@ import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.sample.NoSuchScenarioException;
-import com.liferay.sample.model.Request;
-import com.liferay.sample.model.Scenario;
-import com.liferay.sample.service.RequestLocalServiceUtil;
-import com.liferay.sample.service.ScenarioLocalServiceUtil;
-import com.liferay.sample.service.base.ScenarioLocalServiceBaseImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,7 +60,6 @@ import javax.portlet.ActionResponse;
  * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
  * </p> 
  *
- * @author sana
  * @see com.liferay.sample.service.base.ScenarioLocalServiceBaseImpl
  * @see com.liferay.sample.service.ScenarioLocalServiceUtil
  */

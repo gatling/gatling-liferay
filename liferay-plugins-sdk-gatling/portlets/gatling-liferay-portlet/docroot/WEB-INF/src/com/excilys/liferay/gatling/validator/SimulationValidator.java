@@ -2,9 +2,9 @@ package com.excilys.liferay.gatling.validator;
 
 
 
+import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.sample.model.Simulation;
-import com.liferay.sample.service.SimulationLocalServiceUtil;
 
 import java.util.List;
 

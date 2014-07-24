@@ -1,8 +1,8 @@
 package com.excilys.liferay.gatling.util;
 
+import com.excilys.liferay.gatling.model.Request;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.model.Layout;
-import com.liferay.sample.model.Request;
 
 public class DisplayLayout {
 	

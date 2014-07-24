@@ -2,10 +2,10 @@
 
 <%
 		boolean hasAddPermission = permissionChecker.hasPermission(
-			scopeGroupId, "com.liferay.sample.model.Scenario",
+			scopeGroupId, "com.excilys.liferay.gatling.model.Scenario",
 			scopeGroupId, "ADD_SCENARIO");
 		boolean hasConfigurePermission = permissionChecker.hasPermission(
-			scopeGroupId, "com.liferay.sample.model.Scenario", scopeGroupId,
+			scopeGroupId, "com.excilys.liferay.gatling.model.Scenario", scopeGroupId,
 			ActionKeys.PERMISSIONS);
  %>
 
@@ -63,7 +63,7 @@
 		<%--Liste sur laquelle on travail --%>
 		<liferay-ui:search-container-results results="${listScenario }" total="${listScenario.size() }" />
 		<%--itération des colonnes --%>
-		<liferay-ui:search-container-row className="com.liferay.sample.model.Scenario" keyProperty="scenario_id" modelVar="scenario">
+		<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Scenario" keyProperty="scenario_id" modelVar="scenario">
 			<portlet:renderURL var="editScenarioURL">
 				<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
 				<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
