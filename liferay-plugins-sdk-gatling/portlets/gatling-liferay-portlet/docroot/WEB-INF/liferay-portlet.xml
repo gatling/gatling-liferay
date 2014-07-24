@@ -8,8 +8,12 @@
 		<icon>/icon.png</icon>
 		<control-panel-entry-category>
 			configuration
-		</control-panel-entry-category>
+		</control-panel-entry-category>		
 		<control-panel-entry-weight>1.5</control-panel-entry-weight>
+		
+		<!-- Pour personaliser les permissions à une portlet dans control panel -->
+		<control-panel-entry-class>com.excilys.liferay.gatling.security.SecurityManagement</control-panel-entry-class>
+		
 		<!-- evite de double post d'action -->
 		<action-url-redirect>true</action-url-redirect>
 		<header-portlet-css>/css/main.css</header-portlet-css>
@@ -17,21 +21,10 @@
 			/js/main.js
 		</footer-portlet-javascript>
 		<css-class-wrapper>gatling-portlet</css-class-wrapper>
+		
 	</portlet>
 	<role-mapper>
-		<role-name>administrator</role-name>
-		<role-link>Administrator</role-link>
-	</role-mapper>
-	<role-mapper>
-		<role-name>guest</role-name>
-		<role-link>Guest</role-link>
-	</role-mapper>
-	<role-mapper>
-		<role-name>power-user</role-name>
-		<role-link>Power User</role-link>
-	</role-mapper>
-	<role-mapper>
-		<role-name>user</role-name>
-		<role-link>User</role-link>
+		<role-name>gatling</role-name>
+		<role-link>Gatling</role-link>
 	</role-mapper>
 </liferay-portlet-app>
