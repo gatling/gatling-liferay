@@ -46,9 +46,10 @@
 		class="label label-info"><liferay-ui:message
 				key="help-what-simulation" /></span>
 	</a>
-	<p id="help-simulation" class="help-text help-content-hidden text-info">
-		<liferay-ui:message key="simulation-explanation" />
-	</p>
+</div>
+
+<div id="help-simulation" class="alert alert-info help-text help-content-hidden">
+	<liferay-ui:message key="simulation-explanation" />
 </div>
 
 
@@ -137,7 +138,6 @@
 		A.all(".toggle").each(function() {
 			this.on('click', function(event) {
 				var contentId = this.getData("content");
-				console.log('#' + contentId);
 				var texts = A.all(".help-content-display");
 				texts.replaceClass("help-content-display", "help-content-hidden");
 				var helpText = A.one("#" + contentId);
@@ -145,7 +145,6 @@
 					helpText.replaceClass("help-content-display", "help-content-hidden");
 					this.removeClass("help-content-selected");
 				} else {
-					console.log('display');
 					helpText.replaceClass("help-content-hidden", "help-content-display");
 					this.addClass("help-content-selected");
 				}
