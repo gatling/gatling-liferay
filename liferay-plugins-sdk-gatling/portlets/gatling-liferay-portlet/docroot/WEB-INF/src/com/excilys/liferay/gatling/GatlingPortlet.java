@@ -24,6 +24,7 @@ import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
+import com.liferay.portal.service.ResourceLocalService;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.sample.model.Request;
 import com.liferay.sample.model.Scenario;
@@ -84,11 +85,17 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	public void addSimulation(ActionRequest request, ActionResponse response)
 			throws Exception {
+		ResourceLocalService resourceLocalService;
 		long primaryKey = CounterLocalServiceUtil.increment(Simulation.class.getName());	
 		Simulation simulation = SimulationLocalServiceUtil.createSimulation(primaryKey);
 		simulation.setName(ParamUtil.getString(request, "simulationName"));
 		List<String> errors = new ArrayList<String>();
 		if(SimulationValidator.validateSimulation(simulation, errors)) {
+			ThemeDisplay themeDisplay =
+					(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+			
+			Long userId = themeDisplay.getUserId();
+			
 			simulation = SimulationLocalServiceUtil.addSimulation(simulation);
 			List<Scenario> list = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
 			if(list.isEmpty()) {
@@ -134,6 +141,7 @@ public class GatlingPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay =
 				(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		
+		Long userId = themeDisplay.getUserId();
 		//create scenario
 		long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
 		Scenario scenario = ScenarioLocalServiceUtil.createScenario(primaryKey);
@@ -157,7 +165,7 @@ public class GatlingPortlet extends MVCPortlet {
 			listLayouts.addAll(listLayoutsPrivate);
 			
 			for(Layout layout: listLayouts){
-				addRequest(layout, 0, scenario.getScenario_id(),false);
+				addRequest(layout, 0, scenario.getScenario_id(),false, userId);
 			}
 			// redirect to editScenario
 			response.setRenderParameter("scenarioId", Long.toString(scenario.getScenario_id()));
@@ -181,7 +189,7 @@ public class GatlingPortlet extends MVCPortlet {
 		
 		ThemeDisplay themeDisplay =
 				(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-		
+		Long userId = themeDisplay.getUserId();
 		//create scenario
 		long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
 		Scenario scenario = ScenarioLocalServiceUtil.createScenario(primaryKey);
@@ -203,7 +211,7 @@ public class GatlingPortlet extends MVCPortlet {
 			listLayouts.addAll(listLayoutsPrivate);
 			
 			for(Layout layout: listLayouts){
-				addRequest(layout, 0, scenario.getScenario_id(),false);
+				addRequest(layout, 0, scenario.getScenario_id(),false, userId );
 			}
 		}
 		else {
@@ -226,10 +234,16 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	public void editScenario(ActionRequest request, ActionResponse response) {
 		
+		
 		log.info("edit scenario controler");
 		Long idScenario = ParamUtil.getLong(request, "scenarioId");
 		Map<String, String[]> parameters = request.getParameterMap();
 		Map<String, Request> lstRequestToEdit =new HashMap<String, Request>();
+		
+		//security
+		ThemeDisplay themeDisplay =
+				(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+		Long userId = themeDisplay.getUserId();
 		
 		if(idScenario !=null){
 
@@ -288,7 +302,7 @@ public class GatlingPortlet extends MVCPortlet {
 						else if(! lstRequestToEdit.containsKey(url.trim())){
 							Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.getDisplayLayoutId().isPrivatePage(), displayLayout.getDisplayLayoutId().getLayoutId());
 
-							addRequest(layout, weight, idScenario, true);
+							addRequest(layout, weight, idScenario, true, userId );
 							log.info("request created and added succefully ");
 						}				
 					}
@@ -360,7 +374,7 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 
 
-	public void addRequest(Layout layout, double weight, long idScenario, boolean checked) {
+	public void addRequest(Layout layout, double weight, long idScenario, boolean checked, long userId ) {
 		log.info("addRequest contrôleur");
 		//create request
 		long primaryKey;

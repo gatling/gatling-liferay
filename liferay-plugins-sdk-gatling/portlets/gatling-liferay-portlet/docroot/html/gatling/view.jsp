@@ -1,5 +1,12 @@
 <%@include file="/html/gatling/header.jsp"%>
-
+<%
+		boolean hasAddPermission = permissionChecker.hasPermission(
+			scopeGroupId, "com.liferay.sample.model.Simulation",
+			scopeGroupId, "ADD_SIMULATION");
+		boolean hasConfigurePermission = permissionChecker.hasPermission(
+			scopeGroupId, "com.liferay.sample.model.Simulation", scopeGroupId,
+			ActionKeys.PERMISSIONS);
+ %>
 <liferay-ui:header title="simulation-list-header"></liferay-ui:header>
 <%--
 	lien vers la FAQ 
@@ -47,9 +54,10 @@
 	<%--itere et affiche la liste --%>
 	<liferay-ui:search-iterator />
 </liferay-ui:search-container>
+<c:if test="<%= hasAddPermission %>">
+	<aui:button id="newSimulation" 	value="simulation-list-btn-add-simulation"></aui:button>
 
-<aui:button id="newSimulation"
-	value="simulation-list-btn-add-simulation"></aui:button>
+</c:if>
 
 <%--submit to addSimulation --%>
 <portlet:actionURL name="addSimulation" var="addSimulationURL"

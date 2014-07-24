@@ -1,5 +1,12 @@
 <%@include file="/html/gatling/header.jsp"%>
-
+<%
+		boolean hasAddPermission = permissionChecker.hasPermission(
+			scopeGroupId, "com.liferay.sample.model.Scenario",
+			scopeGroupId, "ADD_SCENARIO");
+		boolean hasConfigurePermission = permissionChecker.hasPermission(
+			scopeGroupId, "com.liferay.sample.model.Scenario", scopeGroupId,
+			ActionKeys.PERMISSIONS);
+ %>
 <portlet:renderURL var="backURL">
 	<portlet:param name="page" value="/html/gatling/view.jsp" />
 </portlet:renderURL>
