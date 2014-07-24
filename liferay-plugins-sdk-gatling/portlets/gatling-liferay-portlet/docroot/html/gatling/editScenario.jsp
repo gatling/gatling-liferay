@@ -1,5 +1,4 @@
 <%@include file="/html/gatling/header.jsp"%>
-
 <%--session errors --%>
 <liferay-ui:error key="request-weight-required" message="request-weight-required" />
 <liferay-ui:error key="request-scenarioid-required" message="request-scenarioid-required" />
@@ -18,9 +17,11 @@
 
 <portlet:actionURL name="editScenario" var="editScenarioURL" windowState="normal" />
 <aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario" id="formulaireScenario">
-	<aui:button-row cssClass="pull-right">
-		<aui:button type="submit" onClick="confirmSubmit();return false;" iconAlign="right"/>
-		<aui:button type="cancel" href="${backURL}" iconAlign="right"/>
+
+	
+	<aui:button-row cssClass="pull-right"  	>
+		<aui:button type="submit" onClick="confirmSubmit();return false;" />
+		<aui:button type="cancel" href="${backURL}" />
 	</aui:button-row>
 
 	<div id="myTab">
