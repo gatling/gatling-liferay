@@ -22,12 +22,15 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
+import com.liferay.portal.model.Portlet;
 import com.liferay.portal.model.Role;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
+import com.liferay.portal.service.PortletLocalServiceUtil;
 import com.liferay.portal.service.ResourceLocalService;
 import com.liferay.portal.service.RoleLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.util.PortalUtil;
 import com.liferay.sample.model.Request;
 import com.liferay.sample.model.Scenario;
 import com.liferay.sample.model.Simulation;
@@ -43,7 +46,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.portlet.ActionRequest;
@@ -78,11 +80,19 @@ public class GatlingPortlet extends MVCPortlet {
 		jspHelp = getInitParameter("help-jsp");
 		
 		//création du role Gatling
-		createRole();
+		
+		//ThemeDisplay themeDisplay ;
+//		this.getPortletContext().getRequestDispatcher(arg0)
+		
+		String portletName = super.getPortletConfig().getPortletName();
+		Portlet portlet = PortletLocalServiceUtil.getPortletById(portletName);
+		long companyId = PortalUtil.getDefaultCompanyId();
+		long userId = 10437;
+		createRole(companyId,userId);
 		super.init();
 	}
 	
-	public void createRole(){
+	public void createRole(long companyId, long userId){
 		
 		try {
 			
@@ -91,10 +101,11 @@ public class GatlingPortlet extends MVCPortlet {
 			
 			List<Role> roles = RoleLocalServiceUtil.dynamicQuery(dq);
 			if((roles ==null)|| roles.isEmpty() ){
-				long roleId = CounterLocalServiceUtil.increment(Role.class.getName());
-				Role role = RoleLocalServiceUtil.createRole(roleId);
-				role.setName("gatling");
-				Role objRole= RoleLocalServiceUtil.addRole(role);
+//				long roleId = CounterLocalServiceUtil.increment(Role.class.getName());
+//				Role role = RoleLocalServiceUtil.createRole(roleId);
+//				role.setName("gatling");
+//				Role objRole= RoleLocalServiceUtil.addRole(role);
+				Role objRole=RoleLocalServiceUtil.addRole(userId, companyId,"gatling",null, null, 0);
 				if(objRole!=null){
 					log.info("gatling role was added successfuly") ;
 				}else{
@@ -102,10 +113,12 @@ public class GatlingPortlet extends MVCPortlet {
 				}
 			}
 			else{
-				log.info("The role gatling already exists ");
+				log.info("The role gatling already exists "+ roles.get(0));
 			}
-		} catch (SystemException e1) {
-			log.error("unable de add gatling role :");
+		} catch (SystemException e) {
+			log.error("unable de add gatling role : "+e.getMessage());
+		} catch (PortalException e) {
+			log.error("enable to create role "+e.getMessage());
 		}
 	}
 
