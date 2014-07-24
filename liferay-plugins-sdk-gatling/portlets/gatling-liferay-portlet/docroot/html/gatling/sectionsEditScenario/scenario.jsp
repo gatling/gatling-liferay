@@ -18,10 +18,19 @@
 				</label></td>
 			</tr>
 		</c:if>
+		<%--
+		
+		FOR EACH
+		
+		 --%>
 		<c:forEach var="layout" items='${ listPages }' varStatus="status">
 			<c:choose>
 				<c:when test="${layout.state == 'NEW_REQUEST'}">
-					<%-- Cas où la page est nouvellement créé --%>
+					<%-- 
+					
+					If the layout doesn't exists in db
+					
+					 --%>
 					<tr class="success">
 						<%-- Affichage request pas enregistrée --%>
 						<td><aui:input type="checkbox" name="${status.index}" cssClass='activate' onChange="showPoids()" /></td>
@@ -43,7 +52,11 @@
 					</tr>
 				</c:when>
 				<c:when test="${layout.state == 'OLD_REQUEST'}">
-					<%-- Cas ou la page a été supprimée --%>
+					<%-- 
+					
+					When the layout is in DB but not in the site
+					
+					--%>
 					<tr class="error">
 						<%-- Affichage request pas enregistrée --%>
 						<aui:input name="delete${layout.requestId}" type="hidden" value="${layout.requestId}"></aui:input>
@@ -58,7 +71,11 @@
 					</tr>
 				</c:when>
 				<c:otherwise>
-					<%--  Cas ou page existe et requête aussi --%>
+					<%--  
+					
+					Exists in both
+					
+					 --%>
 					<tr>
 						<td>
 							<%-- checked ou pas en fonction de la requête --%> <c:choose>
@@ -96,5 +113,8 @@
 				<c:set var="confirmUpgrade" value="confirmUpgrade" />
 			</c:if>
 		</c:forEach>
+		<%--
+			END FOR EACH
+		 --%>
 	</table>
 </aui:fieldset>

@@ -31,7 +31,3 @@
 <li><liferay-ui:message key="help_content12"  /></li>
 <li><liferay-ui:message key="help_content13"  /></li>
 </ul>
-
-<aui:button-row>
-		<aui:button type="submit" href="${backURL}" value="help-ret-button-name"/>
-</aui:button-row>

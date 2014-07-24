@@ -1,50 +1,92 @@
 <%@include file="/html/gatling/header.jsp"%>
 <%--session errors --%>
-<liferay-ui:error key="request-weight-required" message="request-weight-required" />
-<liferay-ui:error key="request-scenarioid-required" message="request-scenarioid-required" />
+<liferay-ui:error key="request-weight-required"
+	message="request-weight-required" />
+<liferay-ui:error key="request-scenarioid-required"
+	message="request-scenarioid-required" />
 
 <portlet:renderURL var="backURL">
 	<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
 	<portlet:param name="simulationId" value="${scenario.simulation_id }" />
 </portlet:renderURL>
 
-<liferay-ui:header title="${scenario.name } : ${siteName}" backURL="${backURL }" />
+<liferay-ui:header title="${scenario.name } : ${siteName}"
+	backURL="${backURL }" />
 
 <!-- Affichage du message d'info -->
 <div class="well well-small">
-	<liferay-ui:icon-help message="About this page" ><liferay-ui:message key="scenario-edit-help" /></liferay-ui:icon-help>
+	<liferay-ui:icon-help message="About this page">
+		<liferay-ui:message key="scenario-edit-help" />
+	</liferay-ui:icon-help>
 </div>
 
-<portlet:actionURL name="editScenario" var="editScenarioURL" windowState="normal" />
-<aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario" id="formulaireScenario">
+<portlet:actionURL name="editScenario" var="editScenarioURL"
+	windowState="normal" />
+<aui:form action="${editScenarioURL}" method="POST"
+	name="formulaireScenario" id="formulaireScenario">
 	<liferay-util:buffer var="htmlBottom">
-	<aui:button-row >
-		<aui:button type="submit" onClick="confirmSubmit();return false;" iconAlign="right"/>
-		<aui:button type="cancel" href="${backURL}" iconAlign="right"/>
-	</aui:button-row>
+		<aui:button-row>
+			<aui:button type="submit" onClick="confirmSubmit();return false;"
+				iconAlign="right" />
+			<aui:button type="cancel" href="${backURL}" iconAlign="right" />
+		</aui:button-row>
 	</liferay-util:buffer>
-	
-
-	<liferay-ui:form-navigator
-    backURL="${ backURL} "
-    categoryNames="${ categoryNames}"
-    categorySections="${ categorySections}"
-    formName="formulaireScenario"
-    htmlTop="${scenario.name } : ${siteName}"
-    htmlBottom="${htmlBottom} "
-    jspPath="/html/gatling/sectionsEditScenario/" 
-    showButtons="false" />
 
 
+	<liferay-ui:form-navigator backURL="${ backURL} "
+		categoryNames="${ categoryNames}"
+		categorySections="${ categorySections}" formName="formulaireScenario"
+		htmlTop="${scenario.name } : ${siteName}" htmlBottom="${htmlBottom} "
+		jspPath="/html/gatling/sectionsEditScenario/" showButtons="false" />
 
 </aui:form>
 <c:if test="${not empty confirmUpgrade }">
-<aui:input type="hidden" id="confirmUpgrade" value="confirmUpgrade" name="confirmUpgrade"/>
+	<aui:input type="hidden" id="confirmUpgrade" value="confirmUpgrade"
+		name="confirmUpgrade" />
 </c:if>
 
 
 <%--Upgrade scenario confirmation dialog box --%>
 <script type="text/javascript">
+	AUI().use('aui-base', function(A) {
+		A.all('.force-weight-childs').each(function() {
+		      this.on('click',function(event) {
+					var childs = this.getData("childs").split(',');
+					var value = this.ancestor("td").one("input").val();
+					if(!isNaN(value)) {
+						for (var i = 0; i < childs.length; i++) {
+							changeValueSubPage(childs[i],value);
+						}
+					}
+				});
+			});
+		
+		
+		A.one("#checkAll").on('click',function(event) {
+			var allCheck = this.get('checked');
+			A.all(".activate").each(function() {
+				this.set("checked",allCheck);	
+				this.ancestor("label").one("input").val(allCheck);
+			});
+			
+			showPoids();
+		});
+			
+
+		A.all(".activate").each(function() {
+			this.on('click', function(event) {
+				if (this.get('checked')) {
+					if (A.all(".activate:checked").size() === A.all(".activate").size())
+						A.one("#checkAll").set("checked", true);
+				} else {
+					A.one("#checkAll").set("checked", false);
+				}
+			});
+		});
+		if (A.all(".activate:checked").size() === A.all(".activate").size())
+			A.one("#checkAll").set("checked", true);
+	});
+
 	function confirmSubmit() {
 		AUI().use(
 			  	'aui-base',
@@ -133,46 +175,6 @@
 			  		}
 			  	});
 	}
-
-	AUI().use('aui-base', function(A) {
-		A.all('.force-weight-childs').each(function() {
-		      this.on('click',function(event) {
-					var childs = this.getData("childs").split(',');
-					var value = this.ancestor("td").one("input").val();
-					if(!isNaN(value)) {
-						for (var i = 0; i < childs.length; i++) {
-							changeValueSubPage(childs[i],value);
-						}
-					}
-				});
-			});
-		
-		
-		A.one("#checkAll").on('click',function(event) {
-			var allCheck = this.get('checked');
-			A.all(".activate").each(function() {
-				this.set("checked",allCheck);	
-				this.ancestor("label").one("input").val(allCheck);
-			});
-			
-			showPoids();
-		});
-			
-
-		A.all(".activate").each(function() {
-			this.on('click', function(event) {
-				if (this.get('checked')) {
-					if (A.all(".activate:checked").size() === A.all(".activate").size())
-						A.one("#checkAll").set("checked", true);
-				} else {
-					A.one("#checkAll").set("checked", false);
-				}
-			});
-		});
-		if (A.all(".activate:checked").size() === A.all(".activate").size())
-			A.one("#checkAll").set("checked", true);
-	});
-
 	
 	function changeValueSubPage(page, value) {
 		AUI().use('aui-base', function(A) {

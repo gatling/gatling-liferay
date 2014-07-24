@@ -1,23 +1,27 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 <%
-		boolean hasAddPermission = permissionChecker.hasPermission(
-			scopeGroupId, "com.excilys.liferay.gatling.model.Scenario",
-			scopeGroupId, "ADD_SCENARIO");
+	boolean hasAddPermission = permissionChecker.hasPermission(
+	scopeGroupId, "com.excilys.liferay.gatling.model.Scenario",
+	scopeGroupId, "ADD_SCENARIO");
 		boolean hasConfigurePermission = permissionChecker.hasPermission(
-			scopeGroupId, "com.excilys.liferay.gatling.model.Scenario", scopeGroupId,
-			ActionKeys.PERMISSIONS);
- %>
-
+	scopeGroupId, "com.excilys.liferay.gatling.model.Scenario", scopeGroupId,
+	ActionKeys.PERMISSIONS);
+%>
 
 <%--
 	session errors 
 --%>
-<liferay-ui:error key="scenario-name-required" message="scenario-name-required" />
-<liferay-ui:error key="scenario-name-already-used" message="scenario-name-already-used"/>
-<liferay-ui:error key="scenario-groupid-missing" message="scenario-groupid-missing" />
-<liferay-ui:error key="scenario-simulationid-missing" message="scenario-simulationid-missing" />
-<liferay-ui:error key="scenario-variable-required" message="scenario-variable-required" />
+<liferay-ui:error key="scenario-name-required"
+	message="scenario-name-required" />
+<liferay-ui:error key="scenario-name-already-used"
+	message="scenario-name-already-used" />
+<liferay-ui:error key="scenario-groupid-missing"
+	message="scenario-groupid-missing" />
+<liferay-ui:error key="scenario-simulationid-missing"
+	message="scenario-simulationid-missing" />
+<liferay-ui:error key="scenario-variable-required"
+	message="scenario-variable-required" />
 <%--
 	header
 --%>
@@ -27,7 +31,8 @@
 </portlet:renderURL>
 
 <c:set var="entete">
-	<liferay-ui:message key="simulation-edit-header" arguments="${simulation.name}" />
+	<liferay-ui:message key="simulation-edit-header"
+		arguments="${simulation.name}" />
 </c:set>
 <liferay-ui:header title="${entete}" backURL="${backURL}" />
 
@@ -38,16 +43,17 @@
 	<portlet:param name="page" value="/html/gatling/help.jsp" />
 </portlet:renderURL>
 <div class="well well-small">
-	<a target="blank" href="https://github.com/excilys/gatling/wiki/Getting-Started">
-		<span class="label label-warning"><liferay-ui:message key="help-faq-gatling"/></span>
+	<a target="blank"
+		href="https://github.com/excilys/gatling/wiki/Getting-Started"> <span
+		class="label label-warning"><liferay-ui:message
+				key="help-faq-gatling" /></span>
+	</a> <a href="${helpURL}"> <span class="label"><liferay-ui:message
+				key="help-how-to-use-portlet" /></span>
+	</a> <a href="#" class="toggle" data-content="help-scenario"> <span
+		class="label label-info"><liferay-ui:message
+				key="help-what-scenario" /></span>
 	</a>
-	<a href="${helpURL}">
-		<span class="label"><liferay-ui:message key="help-how-to-use-portlet"/></span>
-	</a>
-	<a href="#" class="toggle" data-content="help-scenario">
-		<span class="label label-info"><liferay-ui:message key="help-what-scenario"/></span>
-	</a>
-	<p id="help-scenario" class="help-text help-content-hidden text-info" >
+	<p id="help-scenario" class="help-text help-content-hidden text-info">
 		<liferay-ui:message key="scenario-explanation" />
 	</p>
 </div>
@@ -61,22 +67,27 @@
 	<%--Search container (tableau) --%>
 	<liferay-ui:search-container emptyResultsMessage="scenario-list-empty">
 		<%--Liste sur laquelle on travail --%>
-		<liferay-ui:search-container-results results="${listScenario }" total="${listScenario.size() }" />
+		<liferay-ui:search-container-results results="${listScenario }"
+			total="${listScenario.size() }" />
 		<%--itération des colonnes --%>
-		<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Scenario" keyProperty="scenario_id" modelVar="scenario">
+		<liferay-ui:search-container-row
+			className="com.excilys.liferay.gatling.model.Scenario"
+			keyProperty="scenario_id" modelVar="scenario">
 			<portlet:renderURL var="editScenarioURL">
 				<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
 				<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
 			</portlet:renderURL>
 			<%--un champs texte --%>
 			<c:set var="scenarioName">
-				<liferay-ui:message key="simulation-edit-table-scenario-details" arguments="${MapScenario.get(scenario)}"/>
+				<liferay-ui:message key="simulation-edit-table-scenario-details"
+					arguments="${MapScenario.get(scenario)}" />
 			</c:set>
-			<liferay-ui:search-container-column-text name="simulation-edit-table-header-name" 
-				value="${scenario.name } ${scenarioName}"
-				href="${editScenarioURL}" />
+			<liferay-ui:search-container-column-text
+				name="simulation-edit-table-header-name"
+				value="${scenario.name } ${scenarioName}" href="${editScenarioURL}" />
 			<%--menu action --%>
-			<liferay-ui:search-container-column-jsp align="right" path="/html/gatling/scenario_actions.jsp" />
+			<liferay-ui:search-container-column-jsp align="right"
+				path="/html/gatling/scenario_actions.jsp" />
 		</liferay-ui:search-container-row>
 		<%--itere et affiche la liste --%>
 		<liferay-ui:search-iterator paginate="false" />
@@ -93,17 +104,26 @@
 <%--Formulaire d'ajout --%>
 <div id="newFormScenario" hidden="true">
 	<div class="well well-small">
-		<p><liferay-ui:icon-help message="About this page" ><liferay-ui:message key="create-scenario-help" /></liferay-ui:icon-help></p>
+		<p>
+			<liferay-ui:icon-help message="About this page">
+				<liferay-ui:message key="create-scenario-help" />
+			</liferay-ui:icon-help>
+		</p>
 	</div>
-	<aui:form action="${addScenarioURL}" name="scenario_fm" id="scenario_fm">
-		<aui:input label="simulation-edit-form-nom-scenario" name="scenarioName" id="scenarioName">
+	<aui:form action="${addScenarioURL}" name="scenario_fm"
+		id="scenario_fm">
+		<aui:input label="simulation-edit-form-nom-scenario"
+			name="scenarioName" id="scenarioName">
 			<aui:validator name="required"></aui:validator>
 		</aui:input>
-		<aui:input label="simulation-list-form-variable-name" name="variableName" id="variableName" prefix="scenario" readonly="readonly">
+		<aui:input label="simulation-list-form-variable-name"
+			name="variableName" id="variableName" prefix="scenario"
+			readonly="readonly">
 			<aui:validator name="required"></aui:validator>
 		</aui:input>
 		<aui:fieldset>
-			<aui:select label="simulation-edit-form-sites" name="sites" showEmptyOption="true">
+			<aui:select label="simulation-edit-form-sites" name="sites"
+				showEmptyOption="true">
 				<c:forEach var="group" items="${listGroup}">
 					<aui:option label="${group.name}" value="${group.groupId}" />
 				</c:forEach>
@@ -117,55 +137,40 @@
 
 
 <script type="text/javascript">
-YUI().use(
-  'aui-modal',
-  function(Y) {
-    var modal = new Y.Modal(
-      {
-        bodyContent: AUI().one("#newFormScenario").html(),
-        centered: true,
-        headerContent: '<h3><liferay-ui:message key="simulation-edit-form-header" /></h3>',
-        modal: true,
-        resizable: false,
-        visible: false,
-        zIndex: 100
-      }
-    ).render();
-    
-    Y.one('#newScenario').on(
-      'click',
-      function() {
-        modal.show();
-      }
-    );
-  }
-);
+	AUI().use('aui-base', 'event', 'aui-modal', function(A) {
+		var modal = new A.Modal({
+			bodyContent : A.one("#newFormScenario").html(),
+			centered : true,
+			headerContent : '<h3><liferay-ui:message key="simulation-edit-form-header" /></h3>',
+			modal : true,
+			resizable : false,
+			visible : false,
+			zIndex : 100
+		}).render();
 
-AUI().use(
-		'aui-base',
-		'event',
-		function(A) {
-			A.one("#<portlet:namespace />scenarioName").on("keyup", function(e) {
-				A.one("#<portlet:namespace />variableName").val(this.val().replace(/\W/g, ''));
+		A.one('#newScenario').on('click', function() {
+			modal.show();
+		});
+		A.one("#<portlet:namespace />scenarioName").on("keyup", function(e) {
+			A.one("#<portlet:namespace />variableName").val(this.val().replace(/\W/g, ''));
+		});
+
+		A.all(".toggle").each(function() {
+			this.on('click', function(event) {
+				var contentId = this.getData("content");
+				console.log('#' + contentId);
+				var texts = A.all(".help-content-display");
+				texts.replaceClass("help-content-display", "help-content-hidden");
+				var helpText = A.one("#" + contentId);
+				if (this.hasClass('help-content-selected')) {
+					helpText.replaceClass("help-content-display", "help-content-hidden");
+					this.removeClass("help-content-selected");
+				} else {
+					console.log('display');
+					helpText.replaceClass("help-content-hidden", "help-content-display");
+					this.addClass("help-content-selected");
+				}
 			});
-			
-			A.all(".toggle").each(function() {
-				this.on('click',function(event) {
-					var contentId = this.getData("content");
-					console.log('#'+contentId);
-					var texts = A.all(".help-content-display");
-					texts.replaceClass("help-content-display","help-content-hidden");
-					var helpText = A.one("#"+contentId);
-					if(this.hasClass('help-content-selected')) {
-						helpText.replaceClass("help-content-display","help-content-hidden");
-						this.removeClass("help-content-selected");
-					} else {
-						console.log('display');
-						helpText.replaceClass("help-content-hidden","help-content-display");
-						this.addClass("help-content-selected");
-					}
-				});
-			});
-		}
-	);
+		});
+	});
 </script>
