@@ -22,9 +22,11 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
+import com.liferay.portal.model.Role;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.service.ResourceLocalService;
+import com.liferay.portal.service.RoleLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.sample.model.Request;
 import com.liferay.sample.model.Scenario;
@@ -41,6 +43,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.portlet.ActionRequest;
@@ -73,7 +76,37 @@ public class GatlingPortlet extends MVCPortlet {
 		jspEditScenario = getInitParameter("edit-scenario-jsp");
 		jspFormFirstScenario = getInitParameter("form-first-scenario-jsp");
 		jspHelp = getInitParameter("help-jsp");
+		
+		//création du role Gatling
+		createRole();
 		super.init();
+	}
+	
+	public void createRole(){
+		
+		try {
+			
+			DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Role.class)
+					.add(PropertyFactoryUtil.forName("name").eq("gatling"));
+			
+			List<Role> roles = RoleLocalServiceUtil.dynamicQuery(dq);
+			if((roles ==null)|| roles.isEmpty() ){
+				long roleId = CounterLocalServiceUtil.increment(Role.class.getName());
+				Role role = RoleLocalServiceUtil.createRole(roleId);
+				role.setName("gatling");
+				Role objRole= RoleLocalServiceUtil.addRole(role);
+				if(objRole!=null){
+					log.info("gatling role was added successfuly") ;
+				}else{
+					log.info("failed to add gatling role");
+				}
+			}
+			else{
+				log.info("The role gatling already exists ");
+			}
+		} catch (SystemException e1) {
+			log.error("unable de add gatling role :");
+		}
 	}
 
 	/*

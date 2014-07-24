@@ -79,7 +79,7 @@
 				<action-key>UPDATE_SIMULATION</action-key>
 			</supports>
 			<site-member-defaults > 
-<!-- 				<action-key>ADD_SIMULATION</action-key> -->
+				<action-key>ADD_SIMULATION</action-key>
 				<action-key>VIEW_SIMULATION</action-key>
 				<action-key>DELETE_SIMULATION</action-key>
 				<action-key>UPDATE_SIMULATION</action-key>	
