@@ -39,4 +39,4 @@
 
 <liferay-theme:defineObjects />
 
-<portlet:defineObjects />
+<portlet:defineObjects /> 

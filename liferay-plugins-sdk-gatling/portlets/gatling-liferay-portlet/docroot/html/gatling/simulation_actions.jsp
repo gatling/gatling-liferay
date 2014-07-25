@@ -10,11 +10,13 @@
 	</portlet:renderURL>
 	<liferay-ui:icon image="edit" url="${editSimulationURL}" />
 	
- 	<portlet:resourceURL var="resourceUrl" >
-		<portlet:param name="simulationId" value="${simulation.simulation_id }" />
-	</portlet:resourceURL>
-	<liferay-ui:icon image="submit" url="${resourceUrl}" message="Generate Simulation"/>
-
+	<c:if test="${MapSimulation.get(simulation)[1] == 2}">
+		<portlet:resourceURL var="resourceUrl" >
+			<portlet:param name="simulationId" value="${simulation.simulation_id }" />
+		</portlet:resourceURL>
+		<liferay-ui:icon image="submit" url="${resourceUrl}" message="Generate Simulation"/>
+	</c:if>
+ 	
 	<portlet:actionURL var="deleteSimulationURL" name="removeSimulation">
 		<portlet:param name="simulationId" value="${simulation.simulation_id }" />
 	</portlet:actionURL>

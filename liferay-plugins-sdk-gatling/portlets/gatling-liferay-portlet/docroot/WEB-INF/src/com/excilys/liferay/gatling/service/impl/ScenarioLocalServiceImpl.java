@@ -197,7 +197,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			/*
 			 * Update Details
 			 */
-			log.info("editScenarioDetails");
+			if(log.isDebugEnabled()) log.debug("editScenarioDetails");
 			Scenario scenario = ScenarioLocalServiceUtil.getScenario(idScenario);
 			String scenarioName= ParamUtil.getString(request, "scenarioName");
 			Long scenarioUsers = ParamUtil.getLong(request, "scenarioUsers");
@@ -236,7 +236,6 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			 *  update data
 			 */
 			for (String key : parameters.keySet()){
-				log.info(key+" : "+StringUtil.merge(parameters.get(key)));
 				// if checked
 				if((StringUtil.merge(parameters.get(key)).equals("true")) && (!key.contains("Checkbox")) ){
 					int layoutId = (int) Double.parseDouble(key);
@@ -252,7 +251,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 						List<String> errors = new ArrayList<String>();
 						if(RequestValidator.validateRequest(updatedRequest, errors)) {
 							RequestLocalServiceUtil.updateRequest(updatedRequest);
-							log.info("request updated succefully");
+							if(log.isDebugEnabled()) log.debug("request updated succefully");
 						}
 						else {
 							for(String error : errors) {
@@ -266,7 +265,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 						Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.getDisplayLayoutId().isPrivatePage(), displayLayout.getDisplayLayoutId().getLayoutId());
 
 						RequestLocalServiceUtil.addRequestFromLayout(layout, weight, idScenario, true, userId );
-						log.info("request created and added succefully ");
+						if(log.isDebugEnabled()) log.debug("request created and added succefully ");
 					}				
 				}
 
