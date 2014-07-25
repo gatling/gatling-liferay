@@ -5,6 +5,7 @@ import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
@@ -60,34 +61,48 @@ public class ScriptGenerator {
 			.append(scenario.getVariableName())
 			.append(" = scenario(\"")
 			.append(scenario.getVariableName())
-			.append("\") ");
-
+			.append("\")\n\t\t.randomSwitch( ");
+			double totalWeight = getTotalWeight(scenario);
 			List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
 			for (Request request : listRequest) {
 				//if checked in the jsp 
 				if(request.getChecked() == true ){
-					generateRequest(sb, request, scenario);
+					generateRequest(sb, request, scenario, totalWeight);
 				}
 			}
-			sb.append("\n\n");
+			//remove at the last line the coma
+			sb.deleteCharAt(sb.length()-1);
+			sb.append(")\n\n");
 		}
 
 	}
+	
+	static private int getTotalWeight(Scenario scenario) throws SystemException {
+		List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
+		int weight = 0;
+		for (Request request : listRequest) {
+			if(request.isChecked()) weight += request.getWeight();
+		}
+		return weight;
+	}
 
-	static private void generateRequest(StringBuilder sb, Request request, Scenario scenario) throws Exception {
+	static private void generateRequest(StringBuilder sb, Request request, Scenario scenario, double totalWeight) throws Exception {
 		
 		String site = scenario.getUrl_site();
 		if(request.isPrivatePage()){
 			//String is a f****** immutable classe ;(
 			site = site.replace("/web/", "/group/");
 		}
-		
-		sb.append("\n\t\t.exec( http(\"")
+		int weight = (int) (request.getWeight()*100/totalWeight );
+		System.out.println(weight);
+		sb.append("\n\t\t")
+		.append(weight)
+		.append(" -> exec( http(\"")
 		.append(request.getName())
 		.append("\").get(\"")
 		.append(site)
 		.append(request.getUrl())
-		.append("\"))");
+		.append("\")),");
 
 	}
 	
