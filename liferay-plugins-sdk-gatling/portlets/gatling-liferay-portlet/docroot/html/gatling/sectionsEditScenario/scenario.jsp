@@ -35,7 +35,15 @@
 					<tr class="success">
 						<%-- Affichage request pas enregistrée --%>
 						<td><aui:input type="checkbox" name="${status.index}" cssClass='activate' onChange="showPoids()" /></td>
-						<td><a href="${layout.url}" title="${layout.url}" target="_blank" >${layout.showName()}</a></td>
+						<c:choose>
+							<c:when test="${layout.privateLayout}">
+								<td><a href="${privateURL}${layout.url}" title="${layout.url}" target="_blank" >${layout.showName()}</a></td>
+							</c:when>
+							<c:otherwise>
+								<td><a href="${publicURL}${layout.url}" title="${layout.url}" target="_blank" >${layout.showName()}</a></td>
+							</c:otherwise>
+						</c:choose>
+						
 						<td><aui:input label="" name="weight${status.index}" cssClass="poids ${layout.displayLayoutId}" inlineField="true" onChange="showPoids()"
 								value="${layout.weight}">
 								<aui:validator name="number" />
@@ -64,7 +72,7 @@
 						<td><portlet:actionURL var="deleteRequestURL" name="removeRequest">
 								<portlet:param name="requestId" value="${layout.requestId}" />
 							</portlet:actionURL> <liferay-ui:icon-delete url="${deleteRequestURL}" /></td>
-						<td><a href="${layout.url}" title="${layout.url}" target="_blank">${layout.showName()}</a></td>
+						<td><a href="#" title="${layout.url}" target="_blank">${layout.showName()}</a></td>
 						<td><aui:input label="" name="weight${layout.requestId}" value="${layout.weight}" cssClass="poids deleted" onChange="showPoids()">
 								<aui:validator name="number" />
 							</aui:input></td>
@@ -89,7 +97,14 @@
 							</c:choose>
 						</td>
 
-						<td><a href="${layout.url}" title="${layout.url}" target="_blank">${layout.showName()}</a></td>
+						<c:choose>
+							<c:when test="${layout.privateLayout}">
+								<td><a href="${privateURL}${layout.url}" title="${layout.url}" target="_blank" >${layout.showName()}</a></td>
+							</c:when>
+							<c:otherwise>
+								<td><a href="${publicURL}${layout.url}" title="${layout.url}" target="_blank" >${layout.showName()}</a></td>
+							</c:otherwise>
+						</c:choose>
 
 						<td><aui:input label="" name="weight${status.index}" cssClass="poids ${layout.displayLayoutId}" inlineField="true" value="${layout.weight}"
 								onChange="showPoids()">

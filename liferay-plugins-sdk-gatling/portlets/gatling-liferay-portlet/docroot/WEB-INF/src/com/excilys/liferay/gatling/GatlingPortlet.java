@@ -68,7 +68,7 @@ public class GatlingPortlet extends MVCPortlet {
 		//		String portletName = super.getPortletConfig().getPortletName();
 		//		Portlet portlet = PortletLocalServiceUtil.getPortletById(portletName);
 		long companyId = PortalUtil.getDefaultCompanyId();
-		long userId = 10437; //10161
+		long userId = 10161;
 		GatlingUtil.createRole(companyId,userId);
 		super.init();
 	}
@@ -391,9 +391,17 @@ public class GatlingPortlet extends MVCPortlet {
 
 				renderRequest.setAttribute("categoryNames", categoryNames);
 				renderRequest.setAttribute("categorySections", categorySections);
+				// Get list of used names
 				List<Scenario> listScenario = ScenarioLocalServiceUtil.getScenarios(0, ScenarioLocalServiceUtil.getScenariosCount());
 				String JSListName = GatlingUtil.createJSListOfScenarioName(listScenario);
 				renderRequest.setAttribute("listOfScenarioName", JSListName);
+				//add private and public url of site
+				String privateURL = scenario.getUrl_site().replace("web", "group");
+				String publicURL = scenario.getUrl_site();
+				
+				renderRequest.setAttribute("privateURL", privateURL);
+				renderRequest.setAttribute("publicURL", publicURL);
+				
 				//ajout des paramètres dans la requête
 				renderRequest.setAttribute("scenario", scenario);
 				renderRequest.setAttribute("listPages", displayLayoutList);
