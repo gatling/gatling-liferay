@@ -64,12 +64,16 @@
 	Contenu page 
  --%>
 <%--Simulation Name --%>
-<portlet:actionURL var="editSimulationURL" name="editSimulation"/>
-<aui:form action="${editSimulationURL}" name="fm_simulation" >
-	<aui:input name="simulationId" type="hidden" value="${simulation.simulation_id }" />
-	<aui:input label="simulation-edit-name-simulation" name="simulationName" inlineLabel="true" inlineField="true" value="${simulation.name }">
+<portlet:actionURL var="editSimulationURL" name="editSimulation" />
+<aui:form action="${editSimulationURL}" name="fm_simulation">
+	<aui:input name="simulationId" type="hidden"
+		value="${simulation.simulation_id }" />
+	<aui:input label="simulation-edit-name-simulation"
+		name="simulationName" inlineLabel="true" inlineField="true"
+		value="${simulation.name }">
 		<aui:validator name="alphanum" />
-		<aui:validator name="custom" errorMessage="simulation-name-already-used">
+		<aui:validator name="custom"
+			errorMessage="simulation-name-already-used">
 		 		function (val, fieldNode, ruleValue) {
 				var result = false;
 				var list = ${listOfSimulationName};
@@ -81,8 +85,7 @@
 		</aui:validator>
 	</aui:input>
 	<aui:input label="" inlineField="true" inlineLabel="true"
-		name="variableSimulationName" prefix="simulation"
-		readonly="readonly">
+		name="variableSimulationName" prefix="simulation" readonly="readonly">
 	</aui:input>
 	<aui:button type="submit" />
 </aui:form>
@@ -105,32 +108,41 @@
 				arguments="${MapScenario.get(scenario)}" />
 		</c:set>
 		<liferay-ui:search-container-column-text
-			name="simulation-edit-table-header-name"
-			value="${scenario.name}" href="${editScenarioURL}" />
+			name="simulation-edit-table-header-name" value="${scenario.name}"
+			href="${editScenarioURL}" />
 		<liferay-ui:search-container-column-text
 			name="simulation-edit-table-header-requests"
-			value="${MapScenario.get(scenario)[0]}/${MapScenario.get(scenario)[1]}"  />
+			value="${MapScenario.get(scenario)[0]}/${MapScenario.get(scenario)[1]}" />
 		<liferay-ui:search-container-column-text
 			name="simulation-edit-table-header-duration"
 			value="${scenario.duration }" />
 		<liferay-ui:search-container-column-text
 			name="simulation-edit-table-header-users"
 			value="${scenario.getUsers_per_seconds() }" />
-			<liferay-ui:search-container-column-text
-			name="simulation-edit-table-header-state" >
-				<c:choose>
-					<c:when test="${MapScenario.get(scenario)[2] == 2}">
-						<span class="label label-success"> <liferay-ui:message key="message-success-state-scenario"/></span><liferay-ui:icon-help message="message-help-info-state-scenario-success"/>
-					</c:when>
-					<c:when test="${MapScenario.get(scenario)[2] == 1}">
-						<span class="label label-warning"><liferay-ui:message key="message-warning-state-scenario"/></span><liferay-ui:icon-help message="message-help-info-state-scenario-warning"/>
-					</c:when>
-					<c:otherwise>
-						<span class="label label-important"><liferay-ui:message key="message-important-state-scenario"/></span> <liferay-ui:icon-help message="message-help-info-state-scenario-important"/>
-					</c:otherwise>
-				</c:choose>
-				
-			</liferay-ui:search-container-column-text> 
+		<liferay-ui:search-container-column-text
+			name="simulation-edit-table-header-state">
+			<c:choose>
+				<c:when test="${MapScenario.get(scenario)[2] == 2}">
+					<span class="label label-success"> <liferay-ui:message
+							key="message-success-state-scenario" /></span>
+					<liferay-ui:icon-help
+						message="message-help-info-state-scenario-success" />
+				</c:when>
+				<c:when test="${MapScenario.get(scenario)[2] == 1}">
+					<span class="label label-warning"><liferay-ui:message
+							key="message-warning-state-scenario" /></span>
+					<liferay-ui:icon-help
+						message="message-help-info-state-scenario-warning" />
+				</c:when>
+				<c:otherwise>
+					<span class="label label-important"><liferay-ui:message
+							key="message-important-state-scenario" /></span>
+					<liferay-ui:icon-help
+						message="message-help-info-state-scenario-important" />
+				</c:otherwise>
+			</c:choose>
+
+		</liferay-ui:search-container-column-text>
 		<%--menu action --%>
 		<liferay-ui:search-container-column-jsp align="right"
 			path="/html/gatling/scenario_actions.jsp" />
@@ -148,52 +160,16 @@
 </portlet:actionURL>
 <%--Formulaire d'ajout --%>
 <div id="newFormScenario" hidden="true">
-	<aui:form action="${addScenarioURL}" name="fm" id="fm">
-		<div class="well well-small">
-			<p>
-				<liferay-ui:icon-help message="About this page">
-					<liferay-ui:message key="create-scenario-help" />
-				</liferay-ui:icon-help>
-			</p>
-		</div>
-		<aui:fieldset>
-			<aui:input label="simulation-edit-form-name-scenario" name="scenarioName">
-				<aui:validator name="required" />
-				<aui:validator name="alphanum" />
-				<aui:validator name="custom" errorMessage="simulation-name-already-used">
-			 		function (val, fieldNode, ruleValue) {
-						var result = false;
-						var list = ${listOfScenarioName};
-						if (list.indexOf(val) == -1) {
-							result = true;
-						}
-						return result;
-					}
-				</aui:validator>
-			</aui:input>
-			<aui:input label="simulation-list-form-variable-name"
-				name="variableScenarioName" prefix="scenario"
-				readonly="readonly" >
-			</aui:input>
-			<aui:select label="simulation-edit-form-sites" name="sites" required="true">
-				<c:forEach var="group" items="${listGroup}">
-					<aui:option label="${group.name}" value="${group.groupId}" />
-				</c:forEach>
-			</aui:select>
-		</aui:fieldset>
-
-		<aui:button name="ajouter-scenario" type="submit"></aui:button>
-	</aui:form>
+	<%@include file="/html/gatling/template/formNewScenario.jsp"%>
 </div>
 
 
 
-<script type="text/javascript">
-	AUI().use('aui-base', 'event', 'aui-modal', function(A) {
+<aui:script use="aui-base,event,aui-modal">
 		var modal = new A.Modal({
 			bodyContent : A.one("#newFormScenario").html(),
 			centered : true,
-			headerContent : '<h3><liferay-ui:message key="simulation-edit-form-header" /></h3>',
+			headerContent : "<h3><liferay-ui:message key="simulation-edit-form-header" /></h3>",
 			modal : true,
 			resizable : false,
 			visible : false,
@@ -230,5 +206,4 @@
 				}
 			});
 		});
-	});
-</script>
+</aui:script>
