@@ -4,7 +4,7 @@
 	<liferay-ui:message key="scenario-edit-details" />
 </h3>
 
-<aui:input label="scenario-edit-name" name="scenarioName" value="${scenario.name}">
+<aui:input label="simulation-edit-form-name-scenario" name="scenarioName" value="${scenario.name}">
 	<aui:validator name="required" />
 	<aui:validator name="alphanum" />
 	<aui:validator name="custom" errorMessage="scenario-name-already-used">
