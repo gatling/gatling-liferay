@@ -23,13 +23,3 @@
 	<li><liferay-ui:message key="help_content13" /></li>
 </ul>
 
-<aui:form name="fm">
-	<aui:input label="simulation-list-form-nom-simulation"
-		name="simulationName">
-		<aui:validator name="alphanum" />
-	</aui:input>
-	<aui:input name="firstName" value='' label="Name">
-		<aui:validator name="required" />
-		<aui:validator name="alpha" />
-	</aui:input>
-</aui:form>

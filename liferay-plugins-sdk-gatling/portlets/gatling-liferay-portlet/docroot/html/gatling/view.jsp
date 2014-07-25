@@ -137,11 +137,12 @@
 	</aui:form>
 </div>
 
-<aui:script use="aui-base,event,aui-modal">
+<script type="text/javascript">
+	AUI().use('aui-modal', 'aui-base', 'event', function(A) {
 		var modal = new A.Modal({
 			bodyContent : A.one("#newFormSimulation").html(),
 			centered : true,
-			headerContent : "<h3><liferay-ui:message key="simulation-list-form-header" /></h3>",
+			headerContent : '<h3><liferay-ui:message key="simulation-list-form-header" /></h3>',
 			modal : true,
 			resizable : false,
 			visible : false,
@@ -173,4 +174,5 @@
 				}
 			});
 		});
-</aui:script>
+	});
+</script>
