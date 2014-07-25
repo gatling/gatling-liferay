@@ -48,11 +48,10 @@
 	</a>
 </div>
 
-<div id="help-simulation" class="alert alert-info help-text help-content-hidden">
+<div id="help-simulation"
+	class="alert alert-info help-text help-content-hidden">
 	<liferay-ui:message key="simulation-explanation" />
 </div>
-
-
 <%--
 	Search container (tableau) 
 --%>
@@ -82,33 +81,39 @@
 </liferay-ui:search-container>
 <%-- If user has permission --%>
 <c:if test="<%=hasAddPermission%>">
-	<aui:button id="newSimulation"
-		value="simulation-list-btn-add-simulation"></aui:button>
+	<aui:button id="newSimulation" value="simulation-list-btn-add-simulation"></aui:button>
 </c:if>
-
 <%--submit to addSimulation --%>
 <portlet:actionURL name="addSimulation" var="addSimulationURL"
 	windowState="normal" />
 <%-- add simulation form --%>
-<div id="newFormSimulation" hidden="true">
-	<div class="well well-small">
-		<p>
-			<liferay-ui:icon-help message="About this page">
-				<liferay-ui:message key="create-simulation-help" />
-			</liferay-ui:icon-help>
-		</p>
-	</div>
-	<aui:form action="${addSimulationURL}" name="simulation_fm"
-		id="simulation_fm">
-		<aui:input label="simulation-list-form-nom-simulation"
-			name="simulationName" id="simulationName">
-			<aui:validator name="required"></aui:validator>
-			<aui:validator name="alphanum"></aui:validator>
+<div id="newFormSimulation" >
+	<aui:form action="${addSimulationURL}" name="fm" >
+		<div class="well well-small">
+			<p>
+				<liferay-ui:icon-help message="About this page">
+					<liferay-ui:message key="create-simulation-help" />
+				</liferay-ui:icon-help>
+			</p>
+		</div>
+		<aui:input label="simulation-list-form-name-simulation"
+			name="simulationName">
+			<aui:validator name="required" />
+			<aui:validator name="alphanum" />
+			<aui:validator name="custom" errorMessage="simulation-name-used">
+			 		function (val, fieldNode, ruleValue) {
+					var result = false;
+					var list = ${listOfSimulationName};
+					if (list.indexOf(val) == -1) {
+						result = true;
+					}
+					return result;
+				}
+			</aui:validator>
 		</aui:input>
 		<aui:input label="simulation-list-form-variable-name"
-			name="variableName" id="variableName" prefix="simulation"
+			name="variableName" prefix="simulation"
 			readonly="readonly">
-			<aui:validator name="required"></aui:validator>
 		</aui:input>
 		<aui:button type="submit"></aui:button>
 	</aui:form>
@@ -124,8 +129,9 @@
 			resizable : false,
 			visible : false,
 			zIndex : 100,
-			width : 450
 		}).render();
+		//Remove the form template (no duplication otherwise it will never validate the pop-up)
+		A.one("#newFormSimulation").empty();
 
 		A.one('#newSimulation').on('click', function() {
 			modal.show();

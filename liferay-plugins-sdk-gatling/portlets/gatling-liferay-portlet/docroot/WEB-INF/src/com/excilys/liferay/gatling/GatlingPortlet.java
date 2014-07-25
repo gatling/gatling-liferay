@@ -18,12 +18,9 @@ import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
-
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
-
 import com.liferay.portal.util.PortalUtil;
-
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
 import java.io.IOException;
@@ -68,8 +65,8 @@ public class GatlingPortlet extends MVCPortlet {
 
 		//création du role Gatling		
 		//ThemeDisplay themeDisplay ;
-//		String portletName = super.getPortletConfig().getPortletName();
-//		Portlet portlet = PortletLocalServiceUtil.getPortletById(portletName);
+		//		String portletName = super.getPortletConfig().getPortletName();
+		//		Portlet portlet = PortletLocalServiceUtil.getPortletById(portletName);
 		long companyId = PortalUtil.getDefaultCompanyId();
 		long userId = 10437; //10161
 		GatlingUtil.createRole(companyId,userId);
@@ -145,10 +142,13 @@ public class GatlingPortlet extends MVCPortlet {
 	public void addScenario(ActionRequest request, ActionResponse response) throws Exception {
 		Scenario scenario = ScenarioLocalServiceUtil.addScenarioFromRequest(request,response);
 		if(scenario != null) {
+			// redirect to editScenario
+			response.setRenderParameter("scenarioId", Long.toString(scenario.getScenario_id()));
+			response.setRenderParameter("page", jspEditScenario);
+		} else {
 			response.setRenderParameter("simulationId", Long.toString(ParamUtil.getLong(request, "simulationId")));
 			response.setRenderParameter("page", jspEditSimulation); 
 		}
-
 	}
 
 
@@ -229,9 +229,12 @@ public class GatlingPortlet extends MVCPortlet {
 			List<Simulation> list = new ArrayList<Simulation>();
 			try {
 				list = SimulationLocalServiceUtil.getSimulations(0, SimulationLocalServiceUtil.getSimulationsCount());
+				
 			} catch (SystemException e) {
 				e.printStackTrace();
 			}
+			String JSListName = GatlingUtil.createJSListOfSimulationName(list);
+			renderRequest.setAttribute("listOfSimulationName", JSListName);
 			renderRequest.setAttribute("listSimulation", list);
 		} else if(page.equals(jspEditSimulation) || page.equals(jspFormFirstScenario)) {
 			/*
@@ -265,7 +268,8 @@ public class GatlingPortlet extends MVCPortlet {
 					info[3] = scena.getUsers_per_seconds();
 					scenariosMap.put(scena, info);
 				}
-
+				String JSListName = GatlingUtil.createJSListOfScenarioName(ls);
+				renderRequest.setAttribute("listOfScenarioName", JSListName);
 				renderRequest.setAttribute("listScenario", ls);	
 				renderRequest.setAttribute("MapScenario", scenariosMap);	
 			} catch (PortalException | SystemException e1) {

@@ -1,5 +1,7 @@
 package com.excilys.liferay.gatling.util;
 
+import com.excilys.liferay.gatling.model.Scenario;
+import com.excilys.liferay.gatling.model.Simulation;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -15,6 +17,7 @@ import com.liferay.portal.service.RoleLocalServiceUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -26,6 +29,30 @@ public class GatlingUtil {
 	public static String createVariableName(String prefix, String name) {
 		// Create variable name
 		return prefix.concat(StringUtil.upperCaseFirstLetter(name));
+	}
+	
+	public static String createJSListOfSimulationName(List<Simulation> list)  {
+		StringBuilder sb = new StringBuilder("[");
+		for (Iterator<Simulation> iterator = list.iterator(); iterator.hasNext();) {
+			Simulation simulation = iterator.next();
+			sb.append("'").append(simulation.getName()).append("'");
+			if(iterator.hasNext()) {
+				sb.append(",");
+			}
+		}
+		return sb.append("]").toString();
+	}
+	
+	public static String createJSListOfScenarioName(List<Scenario> list) {
+		StringBuilder sb = new StringBuilder("[");
+		for (Iterator<Scenario> iterator = list.iterator(); iterator.hasNext();) {
+			Scenario scenario = iterator.next();
+			sb.append("'").append(scenario.getName()).append("'");
+			if(iterator.hasNext()) {
+				sb.append(",");
+			}
+		}
+		return sb.append("]").toString();
 	}
 	
 	/**
@@ -52,9 +79,9 @@ public class GatlingUtil {
 	public static void createRole(long companyId, long userId){
 			
 			try {
-				for(Role r : RoleLocalServiceUtil.getRoles(companyId)){
-					log.info(r);
-				}
+//				for(Role r : RoleLocalServiceUtil.getRoles(companyId)){
+//					log.info(r);
+//				}
 				
 				DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Role.class)
 						.add(PropertyFactoryUtil.forName("name").eq("gatling"));
@@ -77,7 +104,7 @@ public class GatlingUtil {
 				}
 				else{
 					log.info("The role gatling already exists "+ roles.get(0));
-//					RoleLocalServiceUtil.deleteRole(roles.get(0));
+					//RoleLocalServiceUtil.deleteRole(roles.get(0));
 				}
 			} catch (SystemException e) {
 				log.error("unable de add gatling role : "+e.getMessage());
@@ -85,4 +112,5 @@ public class GatlingUtil {
 				log.error("enable to create role "+e.getMessage());
 			}
 		}
+
 	}
