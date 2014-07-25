@@ -21,7 +21,6 @@
 			/js/main.js
 		</footer-portlet-javascript>
 		<css-class-wrapper>gatling-portlet</css-class-wrapper>
-		
 	</portlet>
 	<role-mapper>
 		<role-name>gatling</role-name>

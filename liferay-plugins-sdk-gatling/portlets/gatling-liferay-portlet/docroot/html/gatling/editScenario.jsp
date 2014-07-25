@@ -22,12 +22,10 @@
 
 <portlet:actionURL name="editScenario" var="editScenarioURL"
 	windowState="normal" />
-<aui:form action="${editScenarioURL}" method="POST"
-	name="formulaireScenario" id="formulaireScenario">
+<aui:form action="${editScenarioURL}" method="POST" onSubmit="confirmSubmit();return false;" name="formulaireScenario" id="formulaireScenario" >
 	<liferay-util:buffer var="htmlBottom">
 		<aui:button-row>
-			<aui:button type="submit" onClick="confirmSubmit();return false;"
-				iconAlign="right" />
+			<aui:button type="submit" iconAlign="right" />
 			<aui:button type="cancel" href="${backURL}" iconAlign="right" />
 		</aui:button-row>
 	</liferay-util:buffer>

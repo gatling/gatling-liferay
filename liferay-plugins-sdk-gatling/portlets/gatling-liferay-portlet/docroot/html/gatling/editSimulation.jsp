@@ -55,7 +55,8 @@
 	</a>
 </div>
 
-<div id="help-scenario" class="alert alert-info help-text help-content-hidden">
+<div id="help-scenario"
+	class="alert alert-info help-text help-content-hidden">
 	<liferay-ui:message key="scenario-explanation" />
 </div>
 
@@ -103,27 +104,35 @@
 </portlet:actionURL>
 <%--Formulaire d'ajout --%>
 <div id="newFormScenario" hidden="true">
-	<div class="well well-small">
-		<p>
-			<liferay-ui:icon-help message="About this page">
-				<liferay-ui:message key="create-scenario-help" />
-			</liferay-ui:icon-help>
-		</p>
-	</div>
-	<aui:form action="${addScenarioURL}" name="scenario_fm"
-		id="scenario_fm">
-		<aui:input label="simulation-edit-form-nom-scenario"
-			name="scenarioName" id="scenarioName">
-			<aui:validator name="required"></aui:validator>
-		</aui:input>
-		<aui:input label="simulation-list-form-variable-name"
-			name="variableName" id="variableName" prefix="scenario"
-			readonly="readonly">
-			<aui:validator name="required"></aui:validator>
-		</aui:input>
+	<aui:form action="${addScenarioURL}" name="fm" id="fm">
+		<div class="well well-small">
+			<p>
+				<liferay-ui:icon-help message="About this page">
+					<liferay-ui:message key="create-scenario-help" />
+				</liferay-ui:icon-help>
+			</p>
+		</div>
 		<aui:fieldset>
+			<aui:input label="simulation-edit-form-name-scenario" name="scenarioName" id="scenarioName">
+				<aui:validator name="required" />
+				<aui:validator name="alphanum" />
+				<aui:validator name="custom" errorMessage="simulation-name-used">
+			 		function (val, fieldNode, ruleValue) {
+						var result = false;
+						var list = ${listOfScenarioName};
+						if (list.indexOf(val) == -1) {
+							result = true;
+						}
+						return result;
+					}
+				</aui:validator>
+			</aui:input>
+			<aui:input label="simulation-list-form-variable-name"
+				name="variableName" id="variableName" prefix="scenario"
+				readonly="readonly">
+			</aui:input>
 			<aui:select label="simulation-edit-form-sites" name="sites"
-				showEmptyOption="true">
+				showEmptyOption="true" showRequiredLabel="true">
 				<c:forEach var="group" items="${listGroup}">
 					<aui:option label="${group.name}" value="${group.groupId}" />
 				</c:forEach>
@@ -147,6 +156,8 @@
 			visible : false,
 			zIndex : 100
 		}).render();
+		//Remove the form template (no duplication otherwise it will never validate the pop-up)
+		A.one("#newFormScenario").empty();
 
 		A.one('#newScenario').on('click', function() {
 			modal.show();
