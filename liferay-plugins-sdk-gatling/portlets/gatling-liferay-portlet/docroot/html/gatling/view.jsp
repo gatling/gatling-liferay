@@ -30,7 +30,7 @@
 <liferay-ui:header title="simulation-list-header"></liferay-ui:header>
 
 <%--
-	lien vers la FAQ 
+	FAQ link
 --%>
 <portlet:renderURL var="helpURL">
 	<portlet:param name="page" value="/html/gatling/help.jsp" />
@@ -53,13 +53,13 @@
 	<liferay-ui:message key="simulation-explanation" />
 </div>
 <%--
-	Search container (tableau) 
+	Search container (table) 
 --%>
 <liferay-ui:search-container emptyResultsMessage="simulation-list-empty">
-	<%--Liste sur laquelle on travail --%>
+	<%--List of data to display --%>
 	<liferay-ui:search-container-results results="${listSimulation }"
 		total="${listSimulation.size() }" />
-	<%--itération des colonnes --%>
+	<%--for each  column --%>
 	<liferay-ui:search-container-row
 		className="com.excilys.liferay.gatling.model.Simulation"
 		keyProperty="simulation_id" modelVar="simulation">
@@ -68,7 +68,6 @@
 			<portlet:param name="simulationId"
 				value="${simulation.simulation_id }" />
 		</portlet:renderURL>
-		<%--un champs texte --%>
 		<liferay-ui:search-container-column-text
 			name="simulation-list-table-header-name" value="${simulation.name }"
 			href="${editSimulationURL}" />
@@ -89,11 +88,11 @@
 			</c:choose>
 		</liferay-ui:search-container-column-text>
 			
-		<%--menu action --%>
+		<%--action menu --%>
 		<liferay-ui:search-container-column-jsp align="right"
 			path="/html/gatling/simulation_actions.jsp" />
 	</liferay-ui:search-container-row>
-	<%--itere et affiche la liste --%>
+	<%--iterate and display the list --%>
 	<liferay-ui:search-iterator paginate="false" />
 </liferay-ui:search-container>
 <%-- If user has permission --%>

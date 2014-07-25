@@ -13,7 +13,6 @@
 <liferay-ui:header title="${scenario.name } : ${siteName}"
 	backURL="${backURL }" />
 
-<!-- Affichage du message d'info -->
 <div class="well well-small">
 	<liferay-ui:icon-help message="About this page">
 		<liferay-ui:message key="scenario-edit-help" />

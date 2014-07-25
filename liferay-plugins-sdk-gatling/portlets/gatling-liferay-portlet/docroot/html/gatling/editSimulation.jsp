@@ -37,7 +37,7 @@
 <liferay-ui:header title="${entete}" backURL="${backURL}" />
 
 <%--
-	lien vers la FAQ 
+	 FAQ link
 --%>
 <portlet:renderURL var="helpURL">
 	<portlet:param name="page" value="/html/gatling/help.jsp" />
@@ -61,7 +61,7 @@
 </div>
 
 <%--
-	Contenu page 
+	Page content
  --%>
 <%--Simulation Name --%>
 <portlet:actionURL var="editSimulationURL" name="editSimulation" />
@@ -89,12 +89,13 @@
 	</aui:input>
 	<aui:button type="submit" />
 </aui:form>
-<%--Search container (tableau) --%>
+
+<%--Search container (table) --%>
 <liferay-ui:search-container emptyResultsMessage="scenario-list-empty">
-	<%--Liste sur laquelle on travail --%>
+	<%--Liste of data to display --%>
 	<liferay-ui:search-container-results results="${listScenario }"
 		total="${listScenario.size() }" />
-	<%--itération des colonnes --%>
+	<%--for each column --%>
 	<liferay-ui:search-container-row
 		className="com.excilys.liferay.gatling.model.Scenario"
 		keyProperty="scenario_id" modelVar="scenario">
@@ -102,7 +103,6 @@
 			<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
 			<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
 		</portlet:renderURL>
-		<%--un champs texte --%>
 		<c:set var="scenarioRequestInfo">
 			<liferay-ui:message key="simulation-edit-table-header-requests"
 				arguments="${MapScenario.get(scenario)}" />
@@ -143,11 +143,11 @@
 			</c:choose>
 
 		</liferay-ui:search-container-column-text>
-		<%--menu action --%>
+		<%--action menu --%>
 		<liferay-ui:search-container-column-jsp align="right"
 			path="/html/gatling/scenario_actions.jsp" />
 	</liferay-ui:search-container-row>
-	<%--itere et affiche la liste --%>
+	<%--iterate and show list of data --%>
 	<liferay-ui:search-iterator paginate="false" />
 </liferay-ui:search-container>
 
@@ -158,7 +158,7 @@
 	<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
 	<portlet:param name="simulationId" value="${simulation.simulation_id}" />
 </portlet:actionURL>
-<%--Formulaire d'ajout --%>
+<%-- Add Form --%>
 <div id="newFormScenario" hidden="true">
 	<%@include file="/html/gatling/template/formNewScenario.jsp"%>
 </div>

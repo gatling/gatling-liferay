@@ -7,7 +7,6 @@
 <c:set var="entete"><liferay-ui:message key="simulation-edit-form-header" /></c:set>
 <liferay-ui:header title="simulation-edit-form-header"/>
 
-<!-- Affichage du message d'info -->
 <div class="well well-small">
 	<liferay-ui:icon-help message="About this page" ><liferay-ui:message key="create-first-scenario-help" /></liferay-ui:icon-help>
 </div>

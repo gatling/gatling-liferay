@@ -21,7 +21,7 @@
 		</c:if>
 		<%--
 		
-		FOR EACH
+		FOR EACH Display
 		
 		 --%>
 		<c:forEach var="layout" items='${ listPages }' varStatus="status">

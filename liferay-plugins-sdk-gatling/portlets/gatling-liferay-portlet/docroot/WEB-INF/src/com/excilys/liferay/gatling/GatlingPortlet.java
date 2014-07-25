@@ -53,7 +53,7 @@ public class GatlingPortlet extends MVCPortlet {
 
 
 	/**
-	 * récupérer les noms de toutes les pages
+	 * get all name page and create the role 'gatling'
 	 */
 	@Override
 	public void init() throws PortletException {
@@ -63,10 +63,7 @@ public class GatlingPortlet extends MVCPortlet {
 		jspFormFirstScenario = getInitParameter("form-first-scenario-jsp");
 		jspHelp = getInitParameter("help-jsp");
 
-		//création du role Gatling		
-		//ThemeDisplay themeDisplay ;
-		//		String portletName = super.getPortletConfig().getPortletName();
-		//		Portlet portlet = PortletLocalServiceUtil.getPortletById(portletName);
+		//create the role Gatling		
 		long companyId = PortalUtil.getDefaultCompanyId();
 		long userId = 10161;
 		GatlingUtil.createRole(companyId,userId);
@@ -117,8 +114,7 @@ public class GatlingPortlet extends MVCPortlet {
 		if(log.isDebugEnabled()) {
 			log.debug("remove Simulation with id : "+ simulationId);
 		}
-		// Etape 1
-		// -> Suppression des tables
+		
 		SimulationLocalServiceUtil.removeSimulationCascade(simulationId);
 		response.setRenderParameter("page", jspListSimulation);
 	}	
@@ -188,11 +184,9 @@ public class GatlingPortlet extends MVCPortlet {
 	public void removeScenario(ActionRequest request, ActionResponse response)
 			throws Exception {
 		long scenarioId = ParamUtil.getLong(request, "scenarioId");
-		//Pour le retour
 		long simulationId = ParamUtil.getLong(request, "simulationId");
 		if(log.isDebugEnabled()) log.debug("remove Scenario with id : "+ scenarioId);
-		// Etape 1
-		// -> Suppression des tables
+		// cascade delete
 		ScenarioLocalServiceUtil.removeByIdCascade(scenarioId);
 		response.setRenderParameter("simulationId", Long.toString(simulationId));
 		response.setRenderParameter("page", jspEditSimulation); 
@@ -216,6 +210,11 @@ public class GatlingPortlet extends MVCPortlet {
 
 	}
 	
+	/**
+	 * get the scenario state, if completed or not yet
+	 * @param scenario
+	 * @return
+	 */
 	public int ScenarioState(Scenario scenario) {
 		List<Request> lsR;
 		try {
@@ -225,12 +224,15 @@ public class GatlingPortlet extends MVCPortlet {
 				if(r.isChecked())
 					count ++;
 			}
+			//completed scenario = case if all minimal information are completed 
 			if((count != 0) && (scenario.getDuration() != 0) && (scenario.getUsers_per_seconds()!=0)){
 				return 2;
 			}
+			//incomplete scenario = case if one or more information detail of scenario are not completed but there is request selected
 			else if((count != 0) && ((scenario.getDuration() == 0) || (scenario.getUsers_per_seconds()==0))){
 				return 1;
 			}
+			//case if not request selected to that scenario = empty scenario
 			else if((count == 0)){
 				return 0;
 			}
@@ -242,6 +244,11 @@ public class GatlingPortlet extends MVCPortlet {
 		
 	}
 
+	/**
+	 * get the simulation state, if all scenario are completed or not yet
+	 * @param simulation
+	 * @return
+	 */
 	public int simulationState(Simulation simulation){
 		try {
 			List<Scenario> scenariosList = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
@@ -251,12 +258,15 @@ public class GatlingPortlet extends MVCPortlet {
 					checkNumberCompleted++;
 				}
 			}
+			//if all scenario completed = simulation complited
 			if(checkNumberCompleted == scenariosList.size()){
 				return 2;
 			}
+			//if no one scenario is completed = simulation empty
 			else if(checkNumberCompleted == 0){
 				return 0;
 			}
+			//other case = simulation incompleted
 			else{
 				return 1;
 			}
@@ -265,14 +275,14 @@ public class GatlingPortlet extends MVCPortlet {
 			return 0;
 		}
 	}
+	
 	/**
-	 * ici en fonction de la page demandée, on effectue différentes actions pour envoyer <br/>
-	 * les informations nécessaire à la construction de la page
+	 * View method : redirect to requested page and send necessary parameters
 	 */
 
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
-		/* récupération du chemin de la prochaine jsp ou par défaut jspListSimulation */
+		/* get the path  for next jsp or by  default jspListSimulation */
 		String page = ParamUtil.get(renderRequest, "page", jspListSimulation); 
 		
 		//view.jsp => list of the simulations
@@ -298,7 +308,7 @@ public class GatlingPortlet extends MVCPortlet {
 			renderRequest.setAttribute("MapSimulation", listSimulation);
 		} else if(page.equals(jspEditSimulation) || page.equals(jspFormFirstScenario)) {
 			/*
-			 * Edition d'une simulation, liste des scénarios
+			 * Edit simulation, get and send scenarios list to jsp page
 			 */
 			if(log.isDebugEnabled()) log.debug("DoView : Edit Simulation");
 			Long id = (Long) ParamUtil.getLong(renderRequest, "simulationId");
@@ -307,14 +317,14 @@ public class GatlingPortlet extends MVCPortlet {
 			try {
 				simulation = SimulationLocalServiceUtil.getSimulation(id);
 				renderRequest.setAttribute("simulation", simulation);
-				// List of Scénarios
+				// List of Scenarios
 				List<Scenario> ls = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
 
 				//map <scenario, number of requests>
 				Map<Scenario, Number[]> scenariosMap = new HashMap<Scenario, Number[]>();
-				for(Scenario scena : ls){
+				for(Scenario scenario : ls){
 					
-					List<Request> lsR = RequestLocalServiceUtil.findByScenarioId(scena.getScenario_id());
+					List<Request> lsR = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
 					Number[] info = new Number[3];
 					int count=0;
 					int count2 =0;
@@ -323,19 +333,11 @@ public class GatlingPortlet extends MVCPortlet {
 						if(r.isChecked())
 							count ++;
 					}
-					if((count != 0) && (scena.getDuration() != 0) && (scena.getUsers_per_seconds()!=0)){
-						info[2] = 2;
-					}
-					else if((count != 0) && ((scena.getDuration() == 0) || (scena.getUsers_per_seconds()==0))){
-						info[2] = 1;
-					}
-					else if((count == 0)){
-						info[2] = 0;
-					}
 					
+					info[2] = ScenarioState(scenario);
 					info[0] = count;
 					info[1] = count2;
-					scenariosMap.put(scena, info);
+					scenariosMap.put(scenario, info);
 				}
 				String JSListName = GatlingUtil.createJSListOfScenarioName(ls);
 				renderRequest.setAttribute("listOfScenarioName", JSListName);
@@ -358,18 +360,18 @@ public class GatlingPortlet extends MVCPortlet {
 		}
 		else if(page.equals(jspEditScenario)){
 			/*
-			 * Edition d'un scénario -> liste des requêtes
+			 * Edit scenario -> request list send to jsp page
 			 */
 			if(log.isDebugEnabled()) log.debug("DoView : Edit Scenario");
 			try {
-				//récupération du scénario
+				//get scenario
 				Scenario scenario = ScenarioLocalServiceUtil.getScenario(ParamUtil.getLong(renderRequest, "scenarioId"));
 
-				//on récupère la liste des layout
+				//get layout list
 				long groupId = scenario.getGroup_id();
 				List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId,false,0);
 				String siteName = GroupLocalServiceUtil.getGroup(groupId).getName();
-				// Puis les privates
+				// and private layouts
 				List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
 
 				List<DisplayLayout> displayLayoutList = new ArrayList<DisplayLayout>();
@@ -389,8 +391,7 @@ public class GatlingPortlet extends MVCPortlet {
 				String[] category1 = {"scenario", "details"};
 				String[][] categorySections = {category1};
 
-				renderRequest.setAttribute("categoryNames", categoryNames);
-				renderRequest.setAttribute("categorySections", categorySections);
+				
 				// Get list of used names
 				List<Scenario> listScenario = ScenarioLocalServiceUtil.getScenarios(0, ScenarioLocalServiceUtil.getScenariosCount());
 				String JSListName = GatlingUtil.createJSListOfScenarioName(listScenario);
@@ -399,14 +400,16 @@ public class GatlingPortlet extends MVCPortlet {
 				String privateURL = scenario.getUrl_site().replace("web", "group");
 				String publicURL = scenario.getUrl_site();
 				
-				renderRequest.setAttribute("privateURL", privateURL);
-				renderRequest.setAttribute("publicURL", publicURL);
-				
-				//ajout des paramètres dans la requête
+				//add request parameters 
 				renderRequest.setAttribute("scenario", scenario);
 				renderRequest.setAttribute("listPages", displayLayoutList);
 				renderRequest.setAttribute("hierachy", hierachy);
 				renderRequest.setAttribute("siteName", siteName);
+				renderRequest.setAttribute("privateURL", privateURL);
+				renderRequest.setAttribute("publicURL", publicURL);
+				renderRequest.setAttribute("categoryNames", categoryNames);
+				renderRequest.setAttribute("categorySections", categorySections);
+				
 			} catch (SystemException e) {
 				if(log.isDebugEnabled()) {
 					log.debug("pbm avec récupération des layout "+e.getMessage());
@@ -418,7 +421,7 @@ public class GatlingPortlet extends MVCPortlet {
 			} 
 		}
 
-		/* on redirige sur la jsp de page */
+		/* redirect to jsp page */
 		include(page, renderRequest, renderResponse);	
 	}
 
