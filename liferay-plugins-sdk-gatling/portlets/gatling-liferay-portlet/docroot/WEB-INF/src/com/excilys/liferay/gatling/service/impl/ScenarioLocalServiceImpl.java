@@ -269,7 +269,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 					}				
 				}
 
-				// Cas de suppression de requête dans le scenario --> case pas coché en bd update
+				// Case delete request from scenario --> case not checked in bd update
 				else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox")) && (!key.contains("/")) ){
 					int layoutId = (int) Double.parseDouble(key);
 					DisplayLayout displayLayout = displayLayoutList.get(layoutId);
