@@ -72,6 +72,23 @@
 		<liferay-ui:search-container-column-text
 			name="simulation-list-table-header-name" value="${simulation.name }"
 			href="${editSimulationURL}" />
+		<liferay-ui:search-container-column-text
+			name="simulation-list-table-header-scenarionb" value="${MapSimulation.get(simulation)[0] }" />
+		<liferay-ui:search-container-column-text
+			name="simulation-list-table-header-state" > 
+			<c:choose>
+				<c:when test="${MapSimulation.get(simulation)[1] == 2}">
+					<span class="label label-success"> <liferay-ui:message key="message-success-state-simulation"/></span><liferay-ui:icon-help message="message-help-info-state-simulation-success"/>
+				</c:when>
+				<c:when test="${MapSimulation.get(simulation)[1] == 1}">
+					<span class="label label-warning"><liferay-ui:message key="message-warning-state-simulation"/></span><liferay-ui:icon-help message="message-help-info-state-simulation-warning"/>
+				</c:when>
+				<c:otherwise>
+					<span class="label label-important"><liferay-ui:message key="message-important-state-simulation"/></span> <liferay-ui:icon-help message="message-help-info-state-simulation-important"/>
+				</c:otherwise>
+			</c:choose>
+		</liferay-ui:search-container-column-text>
+			
 		<%--menu action --%>
 		<liferay-ui:search-container-column-jsp align="right"
 			path="/html/gatling/simulation_actions.jsp" />

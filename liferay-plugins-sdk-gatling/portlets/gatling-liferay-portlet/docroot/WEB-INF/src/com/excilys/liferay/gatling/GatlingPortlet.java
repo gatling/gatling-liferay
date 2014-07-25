@@ -210,7 +210,56 @@ public class GatlingPortlet extends MVCPortlet {
 
 
 	}
+	
+	public int ScenarioState(Scenario scenario) {
+		List<Request> lsR;
+		try {
+			lsR = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
+			int count=0;
+			for(Request r : lsR){
+				if(r.isChecked())
+					count ++;
+			}
+			if((count != 0) && (scenario.getDuration() != 0) && (scenario.getUsers_per_seconds()!=0)){
+				return 2;
+			}
+			else if((count != 0) && ((scenario.getDuration() == 0) || (scenario.getUsers_per_seconds()==0))){
+				return 1;
+			}
+			else if((count == 0)){
+				return 0;
+			}
+			return 0;	
+		} catch (SystemException e) {
+			log.error("enable to determine Scenario state "+e.getMessage());
+			return 0;	
+		}
+		
+	}
 
+	public int simulationState(Simulation simulation){
+		try {
+			List<Scenario> scenariosList = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
+			int checkNumberCompleted=0;
+			for(Scenario scenario : scenariosList){
+				if(ScenarioState(scenario) ==2){
+					checkNumberCompleted++;
+				}
+			}
+			if(checkNumberCompleted == scenariosList.size()){
+				return 2;
+			}
+			else if(checkNumberCompleted == 0){
+				return 0;
+			}
+			else{
+				return 1;
+			}
+		} catch (SystemException e) {
+			log.error("enable to determine Simulation state "+e.getMessage());
+			return 0;
+		}
+	}
 	/**
 	 * ici en fonction de la page demandée, on effectue différentes actions pour envoyer <br/>
 	 * les informations nécessaire à la construction de la page
@@ -227,15 +276,23 @@ public class GatlingPortlet extends MVCPortlet {
 			 */
 			log.info("DoView : List Simulation");
 			List<Simulation> list = new ArrayList<Simulation>();
+			Map<Simulation, Integer[]> listSimulation = new HashMap<Simulation,Integer[]>();
 			try {
 				list = SimulationLocalServiceUtil.getSimulations(0, SimulationLocalServiceUtil.getSimulationsCount());
-				
+				for(Simulation s : list){
+					Integer[] res = new Integer[2];
+					List<Scenario> ls = ScenarioLocalServiceUtil.findBySimulationId(s.getSimulation_id());
+					res[0] = ls.size();
+					res[1] = simulationState(s);
+					listSimulation.put(s, res );
+				}
 			} catch (SystemException e) {
 				e.printStackTrace();
 			}
 			String JSListName = GatlingUtil.createJSListOfSimulationName(list);
 			renderRequest.setAttribute("listOfSimulationName", JSListName);
 			renderRequest.setAttribute("listSimulation", list);
+			renderRequest.setAttribute("MapSimulation", listSimulation);
 		} else if(page.equals(jspEditSimulation) || page.equals(jspFormFirstScenario)) {
 			/*
 			 * Edition d'une simulation, liste des scénarios
