@@ -62,62 +62,82 @@
 
 <%--
 	Contenu page 
-
  --%>
-<div>
-	<%--Search container (tableau) --%>
-	<liferay-ui:search-container emptyResultsMessage="scenario-list-empty">
-		<%--Liste sur laquelle on travail --%>
-		<liferay-ui:search-container-results results="${listScenario }"
-			total="${listScenario.size() }" />
-		<%--itération des colonnes --%>
-		<liferay-ui:search-container-row
-			className="com.excilys.liferay.gatling.model.Scenario"
-			keyProperty="scenario_id" modelVar="scenario">
-			<portlet:renderURL var="editScenarioURL">
-				<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
-				<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
-			</portlet:renderURL>
-			<%--un champs texte --%>
-			<c:set var="scenarioRequestInfo">
-				<liferay-ui:message key="simulation-edit-table-header-requests"
-					arguments="${MapScenario.get(scenario)}" />
-			</c:set>
+<%--Simulation Name --%>
+<portlet:actionURL var="editSimulationURL" name="editSimulation"/>
+<aui:form action="${editSimulationURL}" name="fm_simulation" >
+	<aui:input name="simulationId" type="hidden" value="${simulation.simulation_id }" />
+	<aui:input label="simulation-edit-name-simulation" name="simulationName" inlineLabel="true" inlineField="true" value="${simulation.name }">
+		<aui:validator name="alphanum" />
+		<aui:validator name="custom" errorMessage="simulation-name-already-used">
+		 		function (val, fieldNode, ruleValue) {
+				var result = false;
+				var list = ${listOfSimulationName};
+				if (list.indexOf(val) == -1 || val == "${simulation.name}") {
+					result = true;
+				}
+				return result;
+			}
+		</aui:validator>
+	</aui:input>
+	<aui:input label="" inlineField="true" inlineLabel="true"
+		name="variableSimulationName" prefix="simulation"
+		readonly="readonly">
+	</aui:input>
+	<aui:button type="submit" />
+</aui:form>
+<%--Search container (tableau) --%>
+<liferay-ui:search-container emptyResultsMessage="scenario-list-empty">
+	<%--Liste sur laquelle on travail --%>
+	<liferay-ui:search-container-results results="${listScenario }"
+		total="${listScenario.size() }" />
+	<%--itération des colonnes --%>
+	<liferay-ui:search-container-row
+		className="com.excilys.liferay.gatling.model.Scenario"
+		keyProperty="scenario_id" modelVar="scenario">
+		<portlet:renderURL var="editScenarioURL">
+			<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
+			<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
+		</portlet:renderURL>
+		<%--un champs texte --%>
+		<c:set var="scenarioRequestInfo">
+			<liferay-ui:message key="simulation-edit-table-header-requests"
+				arguments="${MapScenario.get(scenario)}" />
+		</c:set>
+		<liferay-ui:search-container-column-text
+			name="simulation-edit-table-header-name"
+			value="${scenario.name}" href="${editScenarioURL}" />
+		<liferay-ui:search-container-column-text
+			name="simulation-edit-table-header-requests"
+			value="${MapScenario.get(scenario)[0]}/${MapScenario.get(scenario)[1]}"  />
+		<liferay-ui:search-container-column-text
+			name="simulation-edit-table-header-duration"
+			value="${scenario.duration }" />
+		<liferay-ui:search-container-column-text
+			name="simulation-edit-table-header-users"
+			value="${scenario.getUsers_per_seconds() }" />
 			<liferay-ui:search-container-column-text
-				name="simulation-edit-table-header-name"
-				value="${scenario.name}" href="${editScenarioURL}" />
-			<liferay-ui:search-container-column-text
-				name="simulation-edit-table-header-requests"
-				value="${MapScenario.get(scenario)[0]}/${MapScenario.get(scenario)[1]}"  />
-			<liferay-ui:search-container-column-text
-				name="simulation-edit-table-header-duration"
-				value="${scenario.duration }" />
-			<liferay-ui:search-container-column-text
-				name="simulation-edit-table-header-users"
-				value="${scenario.getUsers_per_seconds() }" />
-				<liferay-ui:search-container-column-text
-				name="simulation-edit-table-header-state" >
-					<c:choose>
-						<c:when test="${MapScenario.get(scenario)[2] == 2}">
-							<span class="label label-success"> <liferay-ui:message key="message-success-state-scenario"/></span><liferay-ui:icon-help message="message-help-info-state-scenario-success"/>
-						</c:when>
-						<c:when test="${MapScenario.get(scenario)[2] == 1}">
-							<span class="label label-warning"><liferay-ui:message key="message-warning-state-scenario"/></span><liferay-ui:icon-help message="message-help-info-state-scenario-warning"/>
-						</c:when>
-						<c:otherwise>
-							<span class="label label-important"><liferay-ui:message key="message-important-state-scenario"/></span> <liferay-ui:icon-help message="message-help-info-state-scenario-important"/>
-						</c:otherwise>
-					</c:choose>
-					
-				</liferay-ui:search-container-column-text> 
-			<%--menu action --%>
-			<liferay-ui:search-container-column-jsp align="right"
-				path="/html/gatling/scenario_actions.jsp" />
-		</liferay-ui:search-container-row>
-		<%--itere et affiche la liste --%>
-		<liferay-ui:search-iterator paginate="false" />
-	</liferay-ui:search-container>
-</div>
+			name="simulation-edit-table-header-state" >
+				<c:choose>
+					<c:when test="${MapScenario.get(scenario)[2] == 2}">
+						<span class="label label-success"> <liferay-ui:message key="message-success-state-scenario"/></span><liferay-ui:icon-help message="message-help-info-state-scenario-success"/>
+					</c:when>
+					<c:when test="${MapScenario.get(scenario)[2] == 1}">
+						<span class="label label-warning"><liferay-ui:message key="message-warning-state-scenario"/></span><liferay-ui:icon-help message="message-help-info-state-scenario-warning"/>
+					</c:when>
+					<c:otherwise>
+						<span class="label label-important"><liferay-ui:message key="message-important-state-scenario"/></span> <liferay-ui:icon-help message="message-help-info-state-scenario-important"/>
+					</c:otherwise>
+				</c:choose>
+				
+			</liferay-ui:search-container-column-text> 
+		<%--menu action --%>
+		<liferay-ui:search-container-column-jsp align="right"
+			path="/html/gatling/scenario_actions.jsp" />
+	</liferay-ui:search-container-row>
+	<%--itere et affiche la liste --%>
+	<liferay-ui:search-iterator paginate="false" />
+</liferay-ui:search-container>
 
 <aui:button id="newScenario" value="simulation-edit-btn-add-scenario"></aui:button>
 
@@ -137,10 +157,10 @@
 			</p>
 		</div>
 		<aui:fieldset>
-			<aui:input label="simulation-edit-form-name-scenario" name="scenarioName" id="scenarioName">
+			<aui:input label="simulation-edit-form-name-scenario" name="scenarioName">
 				<aui:validator name="required" />
 				<aui:validator name="alphanum" />
-				<aui:validator name="custom" errorMessage="simulation-name-used">
+				<aui:validator name="custom" errorMessage="simulation-name-already-used">
 			 		function (val, fieldNode, ruleValue) {
 						var result = false;
 						var list = ${listOfScenarioName};
@@ -152,11 +172,10 @@
 				</aui:validator>
 			</aui:input>
 			<aui:input label="simulation-list-form-variable-name"
-				name="variableName" id="variableName" prefix="scenario"
-				readonly="readonly">
+				name="variableScenarioName" prefix="scenario"
+				readonly="readonly" >
 			</aui:input>
-			<aui:select label="simulation-edit-form-sites" name="sites"
-				showEmptyOption="true" showRequiredLabel="true">
+			<aui:select label="simulation-edit-form-sites" name="sites" required="true">
 				<c:forEach var="group" items="${listGroup}">
 					<aui:option label="${group.name}" value="${group.groupId}" />
 				</c:forEach>
@@ -182,12 +201,18 @@
 		}).render();
 		//Remove the form template (no duplication otherwise it will never validate the pop-up)
 		A.one("#newFormScenario").empty();
+		// Put variableName 
+		A.one("#<portlet:namespace />variableSimulationName").val(A.one("#<portlet:namespace />simulationName").val().replace(/\W/g, ''));
 
 		A.one('#newScenario').on('click', function() {
 			modal.show();
 		});
 		A.one("#<portlet:namespace />scenarioName").on("keyup", function(e) {
-			A.one("#<portlet:namespace />variableName").val(this.val().replace(/\W/g, ''));
+			A.one("#<portlet:namespace />variableScenarioName").val(this.val().replace(/\W/g, ''));
+		});
+		
+		A.one("#<portlet:namespace />simulationName").on("keyup", function(e) {
+			A.one("#<portlet:namespace />variableSimulationName").val(this.val().replace(/\W/g, ''));
 		});
 
 		A.all(".toggle").each(function() {

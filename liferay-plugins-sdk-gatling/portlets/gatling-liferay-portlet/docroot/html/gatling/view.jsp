@@ -101,7 +101,7 @@
 			name="simulationName">
 			<aui:validator name="required" />
 			<aui:validator name="alphanum" />
-			<aui:validator name="custom" errorMessage="simulation-name-used">
+			<aui:validator name="custom" errorMessage="simulation-name-already-used">
 			 		function (val, fieldNode, ruleValue) {
 					var result = false;
 					var list = ${listOfSimulationName};

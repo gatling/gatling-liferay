@@ -20,12 +20,11 @@
 	</liferay-ui:icon-help>
 </div>
 
-<portlet:actionURL name="editScenario" var="editScenarioURL"
-	windowState="normal" />
-<aui:form action="${editScenarioURL}" method="POST" onSubmit="confirmSubmit();return false;" name="formulaireScenario" id="formulaireScenario" >
+<portlet:actionURL name="editScenario" var="editScenarioURL" windowState="normal" />
+<aui:form action="${editScenarioURL}" method="POST"  name="formulaireScenario" id="formulaireScenario" >
 	<liferay-util:buffer var="htmlBottom">
 		<aui:button-row>
-			<aui:button type="submit" iconAlign="right" />
+			<aui:button type="submit" iconAlign="right" onClick="confirmSubmit();return false;"/>
 			<aui:button type="cancel" href="${backURL}" iconAlign="right" />
 		</aui:button-row>
 	</liferay-util:buffer>
@@ -86,6 +85,8 @@
 			A.one("#checkAll").set("checked", true);
 	});
 
+	A.one("#<portlet:namespace />variableScenarioName").val(A.one("#<portlet:namespace />scenarioName").val().replace(/\W/g, ''));
+	
 	function confirmSubmit() {
 		AUI().use(
 			  	'aui-base',

@@ -103,9 +103,18 @@ public class GatlingPortlet extends MVCPortlet {
 		}
 
 	}
+	
+	public void editSimulation(ActionRequest request, ActionResponse response) throws Exception {
+		long simulationId = ParamUtil.getLong(request, "simulationId");
+		log.info("edit Simulation with id : "+ simulationId);
+		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
+		simulation.setName(ParamUtil.getString(request,"simulationName"));
+		SimulationLocalServiceUtil.updateSimulation(simulation);
+		response.setRenderParameter("simulationId", Long.toString(simulationId));
+		response.setRenderParameter("page", jspEditSimulation);
+	}
 
-	public void removeSimulation(ActionRequest request, ActionResponse response)
-			throws Exception {
+	public void removeSimulation(ActionRequest request, ActionResponse response) throws Exception {
 		long simulationId = ParamUtil.getLong(request, "simulationId");
 		log.info("remove Simulation with id : "+ simulationId);
 		// Etape 1
@@ -278,6 +287,13 @@ public class GatlingPortlet extends MVCPortlet {
 				}
 				String JSListName = GatlingUtil.createJSListOfScenarioName(ls);
 				renderRequest.setAttribute("listOfScenarioName", JSListName);
+				/*
+				 * get list of simulation (for edit name)
+				 */
+				List<Simulation> listSimulations = SimulationLocalServiceUtil.getSimulations(0, SimulationLocalServiceUtil.getSimulationsCount());
+				String JSListSimName = GatlingUtil.createJSListOfSimulationName(listSimulations);
+				renderRequest.setAttribute("listOfSimulationName", JSListSimName);
+				
 				renderRequest.setAttribute("listScenario", ls);	
 				renderRequest.setAttribute("MapScenario", scenariosMap);	
 			} catch (PortalException | SystemException e1) {
@@ -328,7 +344,9 @@ public class GatlingPortlet extends MVCPortlet {
 				renderRequest.setAttribute("categoryNames", categoryNames);
 				renderRequest.setAttribute("categorySections", categorySections);
 
-
+				List<Scenario> listScenario = ScenarioLocalServiceUtil.getScenarios(0, ScenarioLocalServiceUtil.getScenariosCount());
+				String JSListName = GatlingUtil.createJSListOfScenarioName(listScenario);
+				renderRequest.setAttribute("listOfScenarioName", JSListName);
 				//ajout des paramètres dans la requête
 				renderRequest.setAttribute("scenario", scenario);
 				renderRequest.setAttribute("listPages", displayLayoutList);

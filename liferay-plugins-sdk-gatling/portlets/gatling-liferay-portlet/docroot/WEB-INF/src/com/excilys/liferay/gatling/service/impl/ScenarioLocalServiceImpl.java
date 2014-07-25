@@ -199,10 +199,12 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			 */
 			log.info("editScenarioDetails");
 			Scenario scenario = ScenarioLocalServiceUtil.getScenario(idScenario);
-			Long usersSimulation = ParamUtil.getLong(request, "scenarioUsers");
-			Long durationSimulation = ParamUtil.getLong(request, "scenarioDuration");
-			scenario.setUsers_per_seconds(usersSimulation);
-			scenario.setDuration(durationSimulation);
+			String scenarioName= ParamUtil.getString(request, "scenarioName");
+			Long scenarioUsers = ParamUtil.getLong(request, "scenarioUsers");
+			Long scenarioDuration = ParamUtil.getLong(request, "scenarioDuration");
+			scenario.setName(scenarioName);
+			scenario.setUsers_per_seconds(scenarioUsers);
+			scenario.setDuration(scenarioDuration);
 			scenarioPersistence.update(scenario);
 			/*
 			 * Then update requests
