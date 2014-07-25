@@ -11,7 +11,7 @@
 			<th><liferay-ui:message key="scenario-edit-table-header-weight" /> <liferay-ui:icon-help message="weight-info-help"></liferay-ui:icon-help>
 			<input type="text" name="poidForce" id="<portlet:namespace/>poidForce"
 				class="margin-left" /> <aui:button type="button" value="scenario-edit-force-weight-btn" onClick="<%=renderResponse.getNamespace() +\"forcePoids()\" %>" /><liferay-ui:icon-help message="weight2-info-help"/></th>
-			<th><liferay-ui:message key="scenario-edit-table-header-percentage" /><liferay-ui:icon-help message="percentage-info-help"/></th>
+			<th><liferay-ui:icon-help message="percentage-info-help"/></th>
 		</tr>
 		<c:if test="${ listPages.size() ==0 }">
 			<tr>
