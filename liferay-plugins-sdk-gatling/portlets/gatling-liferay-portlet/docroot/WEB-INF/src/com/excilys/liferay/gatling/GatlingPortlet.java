@@ -251,7 +251,7 @@ public class GatlingPortlet extends MVCPortlet {
 				Map<Scenario, Number[]> scenariosMap = new HashMap<Scenario, Number[]>();
 				for(Scenario scena : ls){
 					List<Request> lsR = RequestLocalServiceUtil.findByScenarioId(scena.getScenario_id());
-					Number[] info = new Number[4];
+					Number[] info = new Number[3];
 					int count=0;
 					int count2 =0;
 					for(Request r : lsR){
@@ -259,10 +259,18 @@ public class GatlingPortlet extends MVCPortlet {
 						if(r.isChecked())
 							count ++;
 					}
+					if((count != 0) && (scena.getDuration() != 0) && (scena.getUsers_per_seconds()!=0)){
+						info[2] = 2;
+					}
+					else if((count != 0) && ((scena.getDuration() == 0) || (scena.getUsers_per_seconds()==0))){
+						info[2] = 1;
+					}
+					else if((count == 0)){
+						info[2] = 0;
+					}
+					
 					info[0] = count;
 					info[1] = count2;
-					info[2] = scena.getDuration();
-					info[3] = scena.getUsers_per_seconds();
 					scenariosMap.put(scena, info);
 				}
 

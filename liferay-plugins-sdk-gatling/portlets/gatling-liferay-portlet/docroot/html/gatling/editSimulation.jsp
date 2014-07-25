@@ -78,13 +78,37 @@
 				<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
 			</portlet:renderURL>
 			<%--un champs texte --%>
-			<c:set var="scenarioName">
-				<liferay-ui:message key="simulation-edit-table-scenario-details"
+			<c:set var="scenarioRequestInfo">
+				<liferay-ui:message key="simulation-edit-table-header-requests"
 					arguments="${MapScenario.get(scenario)}" />
 			</c:set>
 			<liferay-ui:search-container-column-text
 				name="simulation-edit-table-header-name"
-				value="${scenario.name } ${scenarioName}" href="${editScenarioURL}" />
+				value="${scenario.name}" href="${editScenarioURL}" />
+			<liferay-ui:search-container-column-text
+				name="simulation-edit-table-header-requests"
+				value="${MapScenario.get(scenario)[0]}/${MapScenario.get(scenario)[1]}"  />
+			<liferay-ui:search-container-column-text
+				name="simulation-edit-table-header-duration"
+				value="${scenario.duration }" />
+			<liferay-ui:search-container-column-text
+				name="simulation-edit-table-header-users"
+				value="${scenario.getUsers_per_seconds() }" />
+				<liferay-ui:search-container-column-text
+				name="simulation-edit-table-header-state" >
+					<c:choose>
+						<c:when test="${MapScenario.get(scenario)[2] == 2}">
+							<span class="label label-success"> <liferay-ui:message key="message-success-state-scenario"/></span><liferay-ui:icon-help message="message-help-info-state-scenario-success"/>
+						</c:when>
+						<c:when test="${MapScenario.get(scenario)[2] == 1}">
+							<span class="label label-warning"><liferay-ui:message key="message-warning-state-scenario"/></span><liferay-ui:icon-help message="message-help-info-state-scenario-warning"/>
+						</c:when>
+						<c:otherwise>
+							<span class="label label-important"><liferay-ui:message key="message-important-state-scenario"/></span> <liferay-ui:icon-help message="message-help-info-state-scenario-important"/>
+						</c:otherwise>
+					</c:choose>
+					
+				</liferay-ui:search-container-column-text> 
 			<%--menu action --%>
 			<liferay-ui:search-container-column-jsp align="right"
 				path="/html/gatling/scenario_actions.jsp" />
