@@ -105,7 +105,7 @@
 <portlet:actionURL name="addSimulation" var="addSimulationURL"
 	windowState="normal" />
 <%-- add simulation form --%>
-<div id="newFormSimulation" >
+<div id="newFormSimulation" hidden="true">
 	<aui:form action="${addSimulationURL}" name="fm" >
 		<div class="well well-small">
 			<p>
@@ -118,7 +118,7 @@
 			name="simulationName">
 			<aui:validator name="required" />
 			<aui:validator name="alphanum" />
-			<aui:validator name="custom" errorMessage="simulation-name-used">
+			<aui:validator name="custom" errorMessage="simulation-name-already-used">
 			 		function (val, fieldNode, ruleValue) {
 					var result = false;
 					var list = ${listOfSimulationName};
@@ -137,12 +137,11 @@
 	</aui:form>
 </div>
 
-<script type="text/javascript">
-	AUI().use('aui-modal', 'aui-base', 'event', function(A) {
+<aui:script use="aui-base,event,aui-modal">
 		var modal = new A.Modal({
 			bodyContent : A.one("#newFormSimulation").html(),
 			centered : true,
-			headerContent : '<h3><liferay-ui:message key="simulation-list-form-header" /></h3>',
+			headerContent : "<h3><liferay-ui:message key="simulation-list-form-header" /></h3>",
 			modal : true,
 			resizable : false,
 			visible : false,
@@ -174,5 +173,4 @@
 				}
 			});
 		});
-	});
-</script>
+</aui:script>

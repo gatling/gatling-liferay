@@ -4,10 +4,36 @@
 	<liferay-ui:message key="scenario-edit-details" />
 </h3>
 
-<liferay-ui:icon-help message="nbuser-info-help"/><aui:input label="scenario-edit-nb-users-per-second" name="scenarioUsers" value="${scenario.users_per_seconds}">
+<aui:input label="scenario-edit-name" name="scenarioName" value="${scenario.name}">
+	<aui:validator name="required" />
+	<aui:validator name="alphanum" />
+	<aui:validator name="custom" errorMessage="scenario-name-already-used">
+	 		function (val, fieldNode, ruleValue) {
+			var result = false;
+			var list = ${listOfScenarioName};
+			if (list.indexOf(val) == -1 || val == "${scenario.name}") {
+				result = true;
+			}
+			return result;
+		}
+	</aui:validator>
+</aui:input>
+<aui:input label="" name="variableScenarioName" prefix="scenario" value="${scenario.variableName }"
+	readonly="readonly">
+</aui:input>
+
+<liferay-ui:icon-help message="nbuser-info-help"/>
+<aui:input label="scenario-edit-nb-users-per-second" name="scenarioUsers" value="${scenario.users_per_seconds}">
 	<aui:validator name="number"></aui:validator>
 </aui:input>
 
-<liferay-ui:icon-help message="duration-info-help"/><aui:input label="scenario-edit-duration" name="scenarioDuration" value="${scenario.duration}">
+<liferay-ui:icon-help message="duration-info-help"/>
+<aui:input label="scenario-edit-duration" name="scenarioDuration" value="${scenario.duration}">
 	<aui:validator name="number"></aui:validator>
 </aui:input>
+
+<aui:script use="aui-base">
+	A.one("#<portlet:namespace />scenarioName").on("keyup", function(e) {
+		A.one("#<portlet:namespace />variableScenarioName").val(this.val().replace(/\W/g, ''));
+	});
+</aui:script>
