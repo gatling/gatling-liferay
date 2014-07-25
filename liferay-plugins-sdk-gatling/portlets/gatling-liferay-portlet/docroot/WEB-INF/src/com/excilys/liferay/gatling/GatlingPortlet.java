@@ -68,7 +68,7 @@ public class GatlingPortlet extends MVCPortlet {
 		//		String portletName = super.getPortletConfig().getPortletName();
 		//		Portlet portlet = PortletLocalServiceUtil.getPortletById(portletName);
 		long companyId = PortalUtil.getDefaultCompanyId();
-		long userId = 10437; //10161
+		long userId = 10161;
 		GatlingUtil.createRole(companyId,userId);
 		super.init();
 	}
