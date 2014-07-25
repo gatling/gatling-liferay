@@ -21,9 +21,12 @@
 
 <portlet:actionURL name="editScenario" var="editScenarioURL" windowState="normal" />
 <aui:form action="${editScenarioURL}" method="POST"  name="formulaireScenario" id="formulaireScenario" >
+	<liferay-util:buffer var="htmlTop">
+		<h5>${scenario.name } : ${siteName}</h5>
+	</liferay-util:buffer>
 	<liferay-util:buffer var="htmlBottom">
 		<aui:button-row>
-			<aui:button type="submit" iconAlign="right" onClick="confirmSubmit();return false;"/>
+			<aui:button type="submit" iconAlign="right" onClick="confirmSubmit();"/>
 			<aui:button type="cancel" href="${backURL}" iconAlign="right" />
 		</aui:button-row>
 	</liferay-util:buffer>
@@ -32,7 +35,7 @@
 	<liferay-ui:form-navigator backURL="${ backURL} "
 		categoryNames="${ categoryNames}"
 		categorySections="${ categorySections}" formName="formulaireScenario"
-		htmlTop="${scenario.name } : ${siteName}" htmlBottom="${htmlBottom} "
+		htmlTop="${htmlTop }" htmlBottom="${htmlBottom} "
 		jspPath="/html/gatling/sectionsEditScenario/" showButtons="false" />
 
 </aui:form>
@@ -89,6 +92,11 @@
 
 	
 	function confirmSubmit() {
+		checkEmpty();
+		return false;
+	}
+	
+	function checkEmpty() {
 		AUI().use(
 			  	'aui-base',
 			 	'aui-modal',
@@ -120,18 +128,19 @@
 							    	          on: {
 								    	            click: function() {
 								    	            	confirmDialog.hide();
-								    	            	popUpUpgrade();
+								    	            	checkUpgrade();
 								    	            }
 								    	          }
 							    	        }
 							    	      ]);
-			  			} else {
-			  				Y.one("#<portlet:namespace />formulaireScenario").submit();
 			  			}
+			  		else {
+			  			return true;
+			  		}
 			  	});	
 	}
 			  	
-	function popUpUpgrade() {
+	function checkUpgrade() {
 		AUI().use(
 			  	'aui-base',
 			 	'aui-modal',
