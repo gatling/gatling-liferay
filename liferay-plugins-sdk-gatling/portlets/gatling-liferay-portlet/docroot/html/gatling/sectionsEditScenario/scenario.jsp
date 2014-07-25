@@ -35,7 +35,7 @@
 					<tr class="success">
 						<%-- Affichage request pas enregistrée --%>
 						<td><aui:input type="checkbox" name="${status.index}" cssClass='activate' onChange="showPoids()" /></td>
-						<td>${layout.showName()}</td>
+						<td><a href="${layout.url}" title="${layout.url}" target="_blank" >${layout.showName()}</a></td>
 						<td><aui:input label="" name="weight${status.index}" cssClass="poids ${layout.displayLayoutId}" inlineField="true" onChange="showPoids()"
 								value="${layout.weight}">
 								<aui:validator name="number" />
@@ -64,7 +64,7 @@
 						<td><portlet:actionURL var="deleteRequestURL" name="removeRequest">
 								<portlet:param name="requestId" value="${layout.requestId}" />
 							</portlet:actionURL> <liferay-ui:icon-delete url="${deleteRequestURL}" /></td>
-						<td>${layout.showName()}</td>
+						<td><a href="${layout.url}" title="${layout.url}" target="_blank">${layout.showName()}</a></td>
 						<td><aui:input label="" name="weight${layout.requestId}" value="${layout.weight}" cssClass="poids deleted" onChange="showPoids()">
 								<aui:validator name="number" />
 							</aui:input></td>
@@ -89,7 +89,7 @@
 							</c:choose>
 						</td>
 
-						<td>${layout.showName()}</td>
+						<td><a href="${layout.url}" title="${layout.url}" target="_blank">${layout.showName()}</a></td>
 
 						<td><aui:input label="" name="weight${status.index}" cssClass="poids ${layout.displayLayoutId}" inlineField="true" value="${layout.weight}"
 								onChange="showPoids()">
