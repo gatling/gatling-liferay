@@ -1,15 +1,15 @@
 <%@include file="/html/gatling/header.jsp"%>
 
-<%
-	boolean hasAddPermission = permissionChecker.hasPermission(
-	scopeGroupId, "com.excilys.liferay.gatling.model.Simulation",
-	scopeGroupId, "ADD_SIMULATION");
-		boolean hasConfigurePermission = permissionChecker.hasPermission(
-	scopeGroupId, "com.excilys.liferay.gatling.model.Simulation", scopeGroupId,
-	ActionKeys.PERMISSIONS);
+<%-- <% --%>
+<!-- // 	boolean hasAddPermission = permissionChecker.hasPermission( -->
+<!-- // 	scopeGroupId, "com.excilys.liferay.gatling.model.Simulation", -->
+<!-- // 	scopeGroupId, "ADD_SIMULATION"); -->
+<!-- // 		boolean hasConfigurePermission = permissionChecker.hasPermission( -->
+<!-- // 	scopeGroupId, "com.excilys.liferay.gatling.model.Simulation", scopeGroupId, -->
+<!-- // 	ActionKeys.PERMISSIONS); -->
 		
-		hasAddPermission = hasConfigurePermission = true;
-%>
+<!-- // 		hasAddPermission = hasConfigurePermission = true; -->
+<%-- %> --%>
 
 
 <%--
@@ -81,10 +81,10 @@
 	<liferay-ui:search-iterator paginate="false" />
 </liferay-ui:search-container>
 <%-- If user has permission --%>
-<c:if test="<%=hasAddPermission%>">
+<%-- <c:if test="<%=hasAddPermission%>"> --%>
 	<aui:button id="newSimulation"
 		value="simulation-list-btn-add-simulation"></aui:button>
-</c:if>
+<%-- </c:if> --%>
 
 <%--submit to addSimulation --%>
 <portlet:actionURL name="addSimulation" var="addSimulationURL"

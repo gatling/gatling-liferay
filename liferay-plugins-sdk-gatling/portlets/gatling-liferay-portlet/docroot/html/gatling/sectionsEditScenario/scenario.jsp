@@ -6,11 +6,12 @@
 	<aui:input type="hidden" name="groupId" value='${scenario.group_id}' />
 	<table class="table table-bordered table-scenario">
 		<tr>
-			<th><input type="checkbox" id="checkAll" /> <liferay-ui:message key="scenario-edit-table-header-activate" /></th>
-			<th><liferay-ui:message key="scenario-edit-table-header-page" /></th>
-			<th><liferay-ui:message key="scenario-edit-table-header-weight" /> <input type="text" name="poidForce" id="<portlet:namespace/>poidForce"
-				class="margin-left" /> <aui:button type="button" value="scenario-edit-force-weight-btn" onClick="<%=renderResponse.getNamespace() +\"forcePoids()\" %>" /></th>
-			<th><liferay-ui:message key="scenario-edit-table-header-percentage" /></th>
+			<th><input type="checkbox" id="checkAll" /> </th>
+			<th><liferay-ui:message key="scenario-edit-table-header-page" /><liferay-ui:icon-help message="name-info-help"/></th>
+			<th><liferay-ui:message key="scenario-edit-table-header-weight" /> <liferay-ui:icon-help message="weight-info-help"></liferay-ui:icon-help>
+			<input type="text" name="poidForce" id="<portlet:namespace/>poidForce"
+				class="margin-left" /> <aui:button type="button" value="scenario-edit-force-weight-btn" onClick="<%=renderResponse.getNamespace() +\"forcePoids()\" %>" /><liferay-ui:icon-help message="weight2-info-help"/></th>
+			<th><liferay-ui:message key="scenario-edit-table-header-percentage" /><liferay-ui:icon-help message="percentage-info-help"/></th>
 		</tr>
 		<c:if test="${ listPages.size() ==0 }">
 			<tr>
@@ -34,7 +35,7 @@
 					<tr class="success">
 						<%-- Affichage request pas enregistrée --%>
 						<td><aui:input type="checkbox" name="${status.index}" cssClass='activate' onChange="showPoids()" /></td>
-						<td>${layout.showName()}</td>
+						<td><a href="${layout.url}" title="${layout.url}" target="_blank" >${layout.showName()}</a></td>
 						<td><aui:input label="" name="weight${status.index}" cssClass="poids ${layout.displayLayoutId}" inlineField="true" onChange="showPoids()"
 								value="${layout.weight}">
 								<aui:validator name="number" />
@@ -63,7 +64,7 @@
 						<td><portlet:actionURL var="deleteRequestURL" name="removeRequest">
 								<portlet:param name="requestId" value="${layout.requestId}" />
 							</portlet:actionURL> <liferay-ui:icon-delete url="${deleteRequestURL}" /></td>
-						<td>${layout.showName()}</td>
+						<td><a href="${layout.url}" title="${layout.url}" target="_blank">${layout.showName()}</a></td>
 						<td><aui:input label="" name="weight${layout.requestId}" value="${layout.weight}" cssClass="poids deleted" onChange="showPoids()">
 								<aui:validator name="number" />
 							</aui:input></td>
@@ -88,7 +89,7 @@
 							</c:choose>
 						</td>
 
-						<td>${layout.showName()}</td>
+						<td><a href="${layout.url}" title="${layout.url}" target="_blank">${layout.showName()}</a></td>
 
 						<td><aui:input label="" name="weight${status.index}" cssClass="poids ${layout.displayLayoutId}" inlineField="true" value="${layout.weight}"
 								onChange="showPoids()">
