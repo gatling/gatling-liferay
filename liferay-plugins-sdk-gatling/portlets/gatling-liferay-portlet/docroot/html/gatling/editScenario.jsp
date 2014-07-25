@@ -29,6 +29,7 @@
 			<aui:button type="submit" iconAlign="right" onClick="confirmSubmit();"/>
 			<aui:button type="cancel" href="${backURL}" iconAlign="right" />
 		</aui:button-row>
+		<p class="muted"><liferay-ui:message key="scenario-edit-check-details"/></p>
 	</liferay-util:buffer>
 
 
