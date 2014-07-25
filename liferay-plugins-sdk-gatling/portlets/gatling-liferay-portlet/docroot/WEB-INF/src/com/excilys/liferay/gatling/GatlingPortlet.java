@@ -106,6 +106,7 @@ public class GatlingPortlet extends MVCPortlet {
 		log.info("edit Simulation with id : "+ simulationId);
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
 		simulation.setName(ParamUtil.getString(request,"simulationName"));
+		simulation.setVariableName(ParamUtil.getString(request, "variableSimulationName"));
 		SimulationLocalServiceUtil.updateSimulation(simulation);
 		response.setRenderParameter("simulationId", Long.toString(simulationId));
 		response.setRenderParameter("page", jspEditSimulation);

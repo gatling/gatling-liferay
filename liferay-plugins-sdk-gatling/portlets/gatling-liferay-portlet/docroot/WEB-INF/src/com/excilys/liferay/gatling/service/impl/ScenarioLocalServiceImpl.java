@@ -144,7 +144,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		/*
 		 *  Set Variable Name
 		 */
-		String variableName = GatlingUtil.createVariableName("scenario", ParamUtil.getString(request, "variableName"));
+		String variableName = GatlingUtil.createVariableName("scenario", ParamUtil.getString(request, "variableScenarioName"));
 		List<Scenario> listVar = ScenarioLocalServiceUtil.findByVariableName(variableName, scenario.getSimulation_id());
 		if(!listVar.isEmpty() ) {
 			variableName = variableName.concat(Integer.toString(listVar.size()));
