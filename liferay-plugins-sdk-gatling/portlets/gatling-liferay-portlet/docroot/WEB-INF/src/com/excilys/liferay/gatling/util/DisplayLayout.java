@@ -36,6 +36,10 @@ public class DisplayLayout {
 		numberOfSpace=0;
 	}
 	
+	/**
+	 * create DisplayLayout from a liferay Layout
+	 * @param layout
+	 */
 	public DisplayLayout(Layout layout) {
 		
 		displayLayoutId = new IdDisplayLayout(layout.isPrivateLayout(), layout.getLayoutId());
@@ -47,6 +51,10 @@ public class DisplayLayout {
 		setPrivateLayout(layout.isPrivateLayout());
 	}
 	
+	/**
+	 * create DisplayLayout from a scenario request
+	 * @param request
+	 */
 	public DisplayLayout(Request request){
 		displayLayoutId = new IdDisplayLayout(request.isPrivatePage(), request.getLayoutId());
 		requestId = request.getRequest_id();
@@ -91,6 +99,10 @@ public class DisplayLayout {
 		return true;
 	}
 
+	/**
+	 * 
+	 * @return the name of page with adequat indent if hierarchy
+	 */
 	public String showName() {
 		StringBuffer sb = new StringBuffer();
 		for(int i = 0; i< numberOfSpace; i++) {

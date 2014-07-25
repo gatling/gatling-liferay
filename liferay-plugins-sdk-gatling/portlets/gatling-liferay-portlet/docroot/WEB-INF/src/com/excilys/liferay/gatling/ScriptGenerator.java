@@ -14,8 +14,13 @@ import java.util.List;
 
 public class ScriptGenerator {
 
+	
 	private static Log log = LogFactoryUtil.getLog(GatlingPortlet.class);
 
+	/**
+	 * 
+	 * @param sb
+	 */
 	static public void generateImports(StringBuilder sb){
 
 		sb.append("import com.excilys.ebi.gatling.core.Predef._\n")
@@ -27,15 +32,26 @@ public class ScriptGenerator {
 		.append("import assertions._\n\n");
 	}
 
+	/**
+	 * 
+	 * @param sb
+	 * @param simulationId
+	 * @throws Exception
+	 */
 	static public void generateClass(StringBuilder sb, Long simulationId) throws Exception {
 
-		//list of the scenario
+		//list of scenario
 		List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
 
 		generateVar(sb, listScenario);
 		generateSetUp(sb, listScenario);
 	}
 
+	/**
+	 * 
+	 * @param sb
+	 * @param listScenario
+	 */
 	private static void generateSetUp(StringBuilder sb, List<Scenario> listScenario) {
 
 		sb.append("\tsetUp(");
@@ -54,9 +70,15 @@ public class ScriptGenerator {
 
 	}
 
+	/**
+	 * 
+	 * @param sb
+	 * @param listScenario
+	 * @throws Exception
+	 */
 	static private void generateVar(StringBuilder sb, List<Scenario> listScenario) throws Exception {
 		for (Scenario scenario : listScenario) {
-			//declare un nouveau scenario
+			//declare new scenario
 			sb.append("\tval ")
 			.append(scenario.getVariableName())
 			.append(" = scenario(\"")
@@ -77,6 +99,12 @@ public class ScriptGenerator {
 
 	}
 	
+	/**
+	 * 
+	 * @param scenario
+	 * @return
+	 * @throws SystemException
+	 */
 	static private int getTotalWeight(Scenario scenario) throws SystemException {
 		List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
 		int weight = 0;
@@ -86,6 +114,14 @@ public class ScriptGenerator {
 		return weight;
 	}
 
+	/**
+	 * 
+	 * @param sb
+	 * @param request
+	 * @param scenario
+	 * @param totalWeight
+	 * @throws Exception
+	 */
 	static private void generateRequest(StringBuilder sb, Request request, Scenario scenario, double totalWeight) throws Exception {
 		
 		String site = scenario.getUrl_site();
@@ -106,6 +142,12 @@ public class ScriptGenerator {
 
 	}
 	
+	/**
+	 * 
+	 * @param simulationId
+	 * @return
+	 * @throws Exception
+	 */
 	static public String generateSimulation2(Long simulationId)
 			throws Exception { 
 		Date date =new Date();
@@ -120,9 +162,15 @@ public class ScriptGenerator {
 		return sb.toString();
 	}
 
+	/**
+	 * 
+	 * @param sb
+	 * @param simulationId
+	 * @throws Exception
+	 */
 	static public void generateClass2(StringBuilder sb, Long simulationId) throws Exception {
 
-		//list of the scenario
+		//list of scenario
 		List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
 
 		generateVar(sb, listScenario);

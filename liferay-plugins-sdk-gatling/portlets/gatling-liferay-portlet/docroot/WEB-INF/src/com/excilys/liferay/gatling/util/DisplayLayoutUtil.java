@@ -106,6 +106,10 @@ public class DisplayLayoutUtil {
 		return -1;
 	}
 
+	/**
+	 * 
+	 * @param list
+	 */
 	public static void indentDisplayLayout(List<DisplayLayout> list) {
 		Map<IdDisplayLayout, Integer> indentTab = new HashMap<IdDisplayLayout, Integer>();
 		for(DisplayLayout dl : list) {
@@ -117,6 +121,11 @@ public class DisplayLayoutUtil {
 		}
 	}
 
+	/**
+	 * 
+	 * @param list
+	 * @param mappage
+	 */
 	public static void mapHierachy(List<DisplayLayout> list, Map<IdDisplayLayout, List<IdDisplayLayout>> mappage) {
 		for(DisplayLayout dl : list) {
 			if(dl.getParentLayoutId() !=0) {

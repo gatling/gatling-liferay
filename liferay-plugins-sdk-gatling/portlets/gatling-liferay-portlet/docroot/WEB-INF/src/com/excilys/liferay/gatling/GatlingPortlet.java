@@ -48,12 +48,14 @@ public class GatlingPortlet extends MVCPortlet {
 
 	private static Log log = LogFactoryUtil.getLog(GatlingPortlet.class);
 
-
+	/**
+	 * pages of portlet
+	 */
 	protected String jspListSimulation, jspEditSimulation, jspEditScenario, jspFormFirstScenario, jspHelp;
 
 
 	/**
-	 * get all name page and create the role 'gatling'
+	 * get all name page and create the role 'gatling' on init portlet
 	 */
 	@Override
 	public void init() throws PortletException {
@@ -70,9 +72,12 @@ public class GatlingPortlet extends MVCPortlet {
 		super.init();
 	}
 
+
 	/**
 	 * Adds a new Simulation to the database.
-	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
 	 */
 	public void addSimulation(ActionRequest request, ActionResponse response)
 			throws Exception {
@@ -98,6 +103,12 @@ public class GatlingPortlet extends MVCPortlet {
 
 	}
 	
+	/**
+	 * edit simulation method
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	public void editSimulation(ActionRequest request, ActionResponse response) throws Exception {
 		long simulationId = ParamUtil.getLong(request, "simulationId");
 		log.info("edit Simulation with id : "+ simulationId);
@@ -109,6 +120,12 @@ public class GatlingPortlet extends MVCPortlet {
 		response.setRenderParameter("page", jspEditSimulation);
 	}
 
+	/**
+	 * remove simulation method
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	public void removeSimulation(ActionRequest request, ActionResponse response) throws Exception {
 		long simulationId = ParamUtil.getLong(request, "simulationId");
 		if(log.isDebugEnabled()) {
@@ -425,7 +442,9 @@ public class GatlingPortlet extends MVCPortlet {
 		include(page, renderRequest, renderResponse);	
 	}
 
-
+	/**
+	 * 
+	 */
 	@Override 
 	public void serveResource(ResourceRequest request, ResourceResponse response) {
 

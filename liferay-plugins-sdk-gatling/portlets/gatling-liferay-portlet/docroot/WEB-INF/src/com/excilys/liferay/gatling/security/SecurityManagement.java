@@ -15,11 +15,13 @@ import java.util.List;
 
 public class SecurityManagement extends BaseControlPanelEntry {
 
+	/**
+	 * determine if user has gatling role then he or she can access the portlet
+	 */
 	@Override
 	public boolean hasAccessPermission(PermissionChecker permission, Group group,
 			Portlet portlet) throws Exception {
-		long userId = portlet.getUserId();
-		long companyId= portlet.getCompanyId();
+		
 		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Role.class)
 				.add(PropertyFactoryUtil.forName("name").eq("gatling"));
 		
