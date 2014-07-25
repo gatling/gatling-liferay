@@ -28,6 +28,7 @@ public class DisplayLayout {
 	private String url;
 	private double weight;
 	private long parentLayoutId;
+	private boolean privateLayout;
 	
 	// Common initialization
 	{
@@ -43,6 +44,7 @@ public class DisplayLayout {
 		checked=false;
 		url = layout.getFriendlyURL();
 		weight=0.0;
+		setPrivateLayout(layout.isPrivateLayout());
 	}
 	
 	public DisplayLayout(Request request){
@@ -53,6 +55,7 @@ public class DisplayLayout {
 		name = request.getName();
 		url = request.getUrl();
 		weight = request.getWeight();
+		setPrivateLayout(request.isPrivatePage());
 	}
 	
 
@@ -166,6 +169,14 @@ public class DisplayLayout {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean isPrivateLayout() {
+		return privateLayout;
+	}
+
+	public void setPrivateLayout(boolean privateLayout) {
+		this.privateLayout = privateLayout;
 	}
 }
 	

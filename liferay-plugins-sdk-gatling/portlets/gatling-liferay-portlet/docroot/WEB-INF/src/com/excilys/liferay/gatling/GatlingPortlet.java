@@ -385,7 +385,14 @@ public class GatlingPortlet extends MVCPortlet {
 				renderRequest.setAttribute("categoryNames", categoryNames);
 				renderRequest.setAttribute("categorySections", categorySections);
 
-
+				//add private and public url of site
+				String privateURL = scenario.getUrl_site().replace("web", "group");
+				String publicURL = scenario.getUrl_site();
+				
+				log.info("URLS : "+privateURL+"  ,  "+publicURL);
+				renderRequest.setAttribute("privateURL", privateURL);
+				renderRequest.setAttribute("publicURL", publicURL);
+				
 				//ajout des paramètres dans la requête
 				renderRequest.setAttribute("scenario", scenario);
 				renderRequest.setAttribute("listPages", displayLayoutList);
