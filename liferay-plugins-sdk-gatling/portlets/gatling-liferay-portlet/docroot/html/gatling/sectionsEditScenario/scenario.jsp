@@ -57,7 +57,7 @@
 								</c:forEach>
 								<aui:button cssClass="force-weight-childs" data-childs="${arraySubPage}" value="Force-the-weight-to-the-sub-pages" />
 							</c:if></td>
-						<td><span class='percentage'>0%</span></td>
+						<td><span class='percentage'>0.00%</span></td>
 					</tr>
 				</c:when>
 				<c:when test="${layout.state == 'OLD_REQUEST'}">
@@ -76,7 +76,7 @@
 						<td><aui:input label="" name="weight${layout.requestId}" value="${layout.weight}" cssClass="poids deleted" onChange="showPoids()">
 								<aui:validator name="number" />
 							</aui:input></td>
-						<td><span class='percentage'>0%</span></td>
+						<td><span class='percentage'>0.00%</span></td>
 					</tr>
 				</c:when>
 				<c:otherwise>
@@ -109,7 +109,8 @@
 						<td><aui:input label="" name="weight${status.index}" cssClass="poids ${layout.displayLayoutId}" inlineField="true" value="${layout.weight}"
 								onChange="showPoids()">
 								<aui:validator name="number" />
-							</aui:input> <c:if test="${not empty hierachy[layout.displayLayoutId]}">
+							</aui:input>
+							<c:if test="${not empty hierachy[layout.displayLayoutId]}">
 								<%--reset value --%>
 								<c:set var="arraySubPage" value="" />
 								<c:forEach var="i" items="${hierachy[layout.displayLayoutId]}" varStatus="info">
@@ -119,8 +120,9 @@
 									</c:if>
 								</c:forEach>
 								<aui:button cssClass="force-weight-childs" data-childs="${arraySubPage}" value="Force-the-weight-to-the-sub-pages" />
-							</c:if></td>
-						<td><span class='percentage'>0%</span></td>
+							</c:if>
+						</td>
+						<td><span class='percentage'>0.00%</span></td>
 					</tr>
 				</c:otherwise>
 			</c:choose>

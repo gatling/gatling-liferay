@@ -165,8 +165,9 @@
 
 
 
-<aui:script use="aui-base,event,aui-modal">
-		var modal = new A.Modal({
+<script type="text/javascript">
+	AUI().use('aui-base','event','aui-modal', function(A) {
+ 		var modal = new A.Modal({
 			bodyContent : A.one("#newFormScenario").html(),
 			centered : true,
 			headerContent : "<h3><liferay-ui:message key="simulation-edit-form-header" /></h3>",
@@ -206,4 +207,5 @@
 				}
 			});
 		});
-</aui:script>
+	});
+</script>
