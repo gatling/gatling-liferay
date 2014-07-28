@@ -1,9 +1,9 @@
 .table-scenario input[type="text"] {
-	width:70px !important;
+	width: 70px !important;
 }
 
 .table-scenario .control-group {
-	margin-bottom:0px !important;
+	margin-bottom: 0px !important;
 }
 
 .margin-left {
@@ -11,17 +11,18 @@
 }
 
 .portlet-topper-toolbar {
-	display:none !important;
+	display: none !important;
 }
 
 .help-text {
-	margin-top:20px !important;
+	margin-top: 20px !important;
 }
 
 .help-content-display {
-	display:block !important;
+	display: block !important;
 }
 
 .help-content-hidden {
-	display:none !important;
+	display: none !important;
 }
+

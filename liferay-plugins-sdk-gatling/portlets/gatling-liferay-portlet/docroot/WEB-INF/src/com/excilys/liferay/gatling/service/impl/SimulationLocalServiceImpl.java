@@ -111,7 +111,7 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		/*
 		 *  Set Variable Name
 		 */
-		String variableName = GatlingUtil.createVariableName("simulation", ParamUtil.getString(request, "variableName"));
+		String variableName = GatlingUtil.createVariableName("Simulation", ParamUtil.getString(request, "variableName"));
 		List<Simulation> listVar = SimulationLocalServiceUtil.findByVariableName(variableName);
 		// Test if the variable name already exists
 		if(!listVar.isEmpty() ) {
