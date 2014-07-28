@@ -35,7 +35,7 @@
 	<h4 id="scenario"><liferay-ui:message key="help-what-scenario" /></h4>
 	<p><liferay-ui:message key="scenario-explanation" /></p>
 	<h4 id="gatling"><liferay-ui:message key="help-more-gatling" /></h4>
-	<p>Gatling website : <a target="_blank" href="http://gatling-tool.org/">Official website</a></p>
-	<p>Gatling's GitHub : <a target="blank" href="https://github.com/excilys/gatling/">https://github.com/excilys/gatling/</a></p>
-	<p>Wiki : <a target="blank" href="https://github.com/excilys/gatling/wiki/Getting-Started">here</a></p>
+	<p><liferay-ui:message key="help-gatling-website"/> : <a target="_blank" href="http://gatling-tool.org/">http://gatling-tool.org/</a></p>
+	<p><liferay-ui:message key="help-gatling-github"/> : <a target="blank" href="https://github.com/excilys/gatling/">https://github.com/excilys/gatling/</a></p>
+	<p><liferay-ui:message key="help-gatling-wiki"/> : <a target="blank" href="https://github.com/excilys/gatling/wiki/Getting-Started">https://github.com/excilys/gatling/wiki/Getting-Started</a></p>
 
