@@ -37,10 +37,10 @@
 						<td><aui:input type="checkbox" name="${status.index}" cssClass='activate' onChange="showPoids()" /></td>
 						<c:choose>
 							<c:when test="${layout.privateLayout}">
-								<td><a href="${privateURL}${layout.url}" title="${layout.url}" target="_blank" >${layout.showName()}</a></td>
+								<td>${layout.showName()}<a href="${privateURL}${layout.url}" title="${layout.url}" target="_blank" > <i class="icon-share"></i></a></td>
 							</c:when>
 							<c:otherwise>
-								<td><a href="${publicURL}${layout.url}" title="${layout.url}" target="_blank" >${layout.showName()}</a></td>
+								<td>${layout.showName()}<a href="${publicURL}${layout.url}" title="${layout.url}" target="_blank" > <i class="icon-share"></i></a></td>
 							</c:otherwise>
 						</c:choose>
 						
@@ -99,10 +99,10 @@
 
 						<c:choose>
 							<c:when test="${layout.privateLayout}">
-								<td><a href="${privateURL}${layout.url}" title="${layout.url}" target="_blank" >${layout.showName()}</a></td>
+								<td>${layout.showName()}<a href="${privateURL}${layout.url}" title="${layout.url}" target="_blank" > <i class="icon-share"></i></a></td>
 							</c:when>
 							<c:otherwise>
-								<td><a href="${publicURL}${layout.url}" title="${layout.url}" target="_blank" >${layout.showName()}</a></td>
+								<td>${layout.showName()}<a href="${publicURL}${layout.url}" title="${layout.url}" target="_blank" > <i class="icon-share"></i></a></td>
 							</c:otherwise>
 						</c:choose>
 
