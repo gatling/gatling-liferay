@@ -45,7 +45,6 @@
 		name="confirmUpgrade" />
 </c:if>
 
-
 <%--Upgrade scenario confirmation dialog box --%>
 <script type="text/javascript">
 	AUI().use('aui-base', function(A) {
@@ -93,9 +92,11 @@
 
 	
 	function confirmSubmit() {
+		checkDetails();
 		checkEmpty();
 		return false;
 	}
+	
 	
 	function checkEmpty() {
 		AUI().use(
@@ -105,9 +106,9 @@
 			  		if(Y.all(".activate:checked").size() == 0) {
 			  			var confirmDialog = new Y.Modal(
 							      {
-							        bodyContent: 'You have not select any page to activate. Are you sure ?',
+							        bodyContent: '<liferay-ui:message key="scenario-edit-empty-selection" />',
 							        centered: true,
-							        headerContent: '<h3>Empty selection</h3>',
+							        headerContent: '<h3><liferay-ui:message key="scenario-edit-empty-selection-title" /></h3>',
 							        modal: true,
 							        resizable: false,
 							        zIndex: 100
@@ -151,9 +152,9 @@
 					{
 					    var confirmUpgradeDialog = new Y.Modal(
 					      {
-					        bodyContent: 'This will upgrade your scenario\'s schema to the last version of your site',
+					        bodyContent: '<liferay-ui:message key="scenario-edit-upgrade"/>',
 					        centered: true,
-					        headerContent: '<h3>Upgrade Scenario</h3>',
+					        headerContent: '<h3><liferay-ui:message key="scenario-edit-upgrade-title"/></h3>',
 					        modal: true,
 					        resizable: false,
 					        zIndex: 100

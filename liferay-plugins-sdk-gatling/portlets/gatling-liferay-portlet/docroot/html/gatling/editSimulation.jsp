@@ -43,20 +43,18 @@
 	<portlet:param name="page" value="/html/gatling/help.jsp" />
 </portlet:renderURL>
 <div class="well well-small">
-	<a target="blank"
-		href="https://github.com/excilys/gatling/wiki/Getting-Started"> <span
-		class="label label-warning"><liferay-ui:message
-				key="help-faq-gatling" /></span>
-	</a> <a href="${helpURL}"> <span class="label"><liferay-ui:message
-				key="help-how-to-use-portlet" /></span>
-	</a> <a href="#" class="toggle" data-content="help-scenario"> <span
-		class="label label-info"><liferay-ui:message
-				key="help-what-scenario" /></span>
+	<a target="_blank" href="https://github.com/excilys/gatling/wiki/Getting-Started"> 
+		<span class="label label-warning"><liferay-ui:message key="help-faq-gatling" /></span>
+	</a>
+	<a href="${helpURL}"> 
+		<span class="label"><liferay-ui:message key="help-how-to-use-portlet" /></span>
+	</a> 
+	<a href="#" class="toggle" data-content="help-scenario"> 
+		<span class="label label-info"><liferay-ui:message key="help-what-scenario" /></span>
 	</a>
 </div>
 
-<div id="help-scenario"
-	class="alert alert-info help-text help-content-hidden">
+<div id="help-scenario" class="alert alert-info help-text help-content-hidden">
 	<liferay-ui:message key="scenario-explanation" />
 </div>
 
@@ -66,11 +64,8 @@
 <%--Simulation Name --%>
 <portlet:actionURL var="editSimulationURL" name="editSimulation" />
 <aui:form action="${editSimulationURL}" name="fm_simulation">
-	<aui:input name="simulationId" type="hidden"
-		value="${simulation.simulation_id }" />
-	<aui:input label="simulation-edit-name-simulation"
-		name="simulationName" inlineLabel="true" inlineField="true"
-		value="${simulation.name }">
+	<aui:input name="simulationId" type="hidden" value="${simulation.simulation_id }" />
+	<aui:input label="simulation-edit-name-simulation" name="simulationName" inlineLabel="true" inlineField="true" value="${simulation.name }">
 		<aui:validator name="alphanum" />
 		<aui:validator name="custom"
 			errorMessage="simulation-name-already-used">
@@ -84,9 +79,7 @@
 			}
 		</aui:validator>
 	</aui:input>
-	<aui:input label="" inlineField="true" inlineLabel="true"
-		name="variableSimulationName" prefix="simulation" readonly="readonly">
-	</aui:input>
+	<aui:input label="" inlineField="true" inlineLabel="true" name="variableSimulationName" prefix="simulation-variable" readonly="readonly" />
 	<aui:button type="submit" />
 </aui:form>
 
@@ -123,29 +116,22 @@
 			name="simulation-edit-table-header-state">
 			<c:choose>
 				<c:when test="${MapScenario.get(scenario)[2] == 2}">
-					<span class="label label-success"> <liferay-ui:message
-							key="message-success-state-scenario" /></span>
-					<liferay-ui:icon-help
-						message="message-help-info-state-scenario-success" />
+					<span class="label label-success"><liferay-ui:message key="message-success-state-scenario" /></span>
+					<liferay-ui:icon-help message="message-help-info-state-scenario-success" />
 				</c:when>
 				<c:when test="${MapScenario.get(scenario)[2] == 1}">
-					<span class="label label-warning"><liferay-ui:message
-							key="message-warning-state-scenario" /></span>
-					<liferay-ui:icon-help
-						message="message-help-info-state-scenario-warning" />
+					<span class="label label-warning"><liferay-ui:message key="message-warning-state-scenario" /></span>
+					<liferay-ui:icon-help message="message-help-info-state-scenario-warning" />
 				</c:when>
 				<c:otherwise>
-					<span class="label label-important"><liferay-ui:message
-							key="message-important-state-scenario" /></span>
-					<liferay-ui:icon-help
-						message="message-help-info-state-scenario-important" />
+					<span class="label label-important"><liferay-ui:message key="message-important-state-scenario" /></span>
+					<liferay-ui:icon-help message="message-help-info-state-scenario-important" />
 				</c:otherwise>
 			</c:choose>
 
 		</liferay-ui:search-container-column-text>
 		<%--action menu --%>
-		<liferay-ui:search-container-column-jsp align="right"
-			path="/html/gatling/scenario_actions.jsp" />
+		<liferay-ui:search-container-column-jsp align="right" path="/html/gatling/scenario_actions.jsp" />
 	</liferay-ui:search-container-row>
 	<%--iterate and show list of data --%>
 	<liferay-ui:search-iterator paginate="false" />

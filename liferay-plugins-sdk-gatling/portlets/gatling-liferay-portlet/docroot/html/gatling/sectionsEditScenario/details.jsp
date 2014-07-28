@@ -1,7 +1,7 @@
 <%@include file="/html/gatling/header.jsp"%>
 <liferay-ui:error-marker key="errorSection" value="details" />
 <h3>
-	<liferay-ui:message key="scenario-edit-details" />
+	<liferay-ui:message key="details" />
 </h3>
 
 <aui:input label="simulation-edit-form-name-scenario" name="scenarioName" value="${scenario.name}">

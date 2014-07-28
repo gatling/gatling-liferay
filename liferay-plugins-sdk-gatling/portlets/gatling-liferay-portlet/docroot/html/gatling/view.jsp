@@ -36,20 +36,18 @@
 	<portlet:param name="page" value="/html/gatling/help.jsp" />
 </portlet:renderURL>
 <div class="well well-small">
-	<a target="blank"
-		href="https://github.com/excilys/gatling/wiki/Getting-Started"> <span
-		class="label label-warning"><liferay-ui:message
-				key="help-faq-gatling" /></span>
-	</a> <a href="${helpURL}"> <span class="label"><liferay-ui:message
-				key="help-how-to-use-portlet" /></span>
-	</a> <a href="#" class="toggle" data-content="help-simulation"> <span
-		class="label label-info"><liferay-ui:message
-				key="help-what-simulation" /></span>
+	<a target="blank" href="https://github.com/excilys/gatling/wiki/Getting-Started">
+		<span class="label label-warning"><liferay-ui:message key="help-faq-gatling" /></span>
+	</a> 
+	<a href="${helpURL}">
+		<span class="label"><liferay-ui:message key="help-how-to-use-portlet" /></span>
+	</a> 
+	<a href="#" class="toggle" data-content="help-simulation">
+		<span class="label label-info"><liferay-ui:message key="help-what-simulation" /></span>
 	</a>
 </div>
 
-<div id="help-simulation"
-	class="alert alert-info help-text help-content-hidden">
+<div id="help-simulation" class="alert alert-info help-text help-content-hidden">
 	<liferay-ui:message key="simulation-explanation" />
 </div>
 <%--
@@ -77,20 +75,22 @@
 			name="simulation-list-table-header-state" > 
 			<c:choose>
 				<c:when test="${MapSimulation.get(simulation)[1] == 2}">
-					<span class="label label-success"> <liferay-ui:message key="message-success-state-simulation"/></span><liferay-ui:icon-help message="message-help-info-state-simulation-success"/>
+					<span class="label label-success"> <liferay-ui:message key="message-success-state-simulation"/></span>
+					<liferay-ui:icon-help message="message-help-info-state-simulation-success"/>
 				</c:when>
 				<c:when test="${MapSimulation.get(simulation)[1] == 1}">
-					<span class="label label-warning"><liferay-ui:message key="message-warning-state-simulation"/></span><liferay-ui:icon-help message="message-help-info-state-simulation-warning"/>
+					<span class="label label-warning"><liferay-ui:message key="message-warning-state-simulation"/></span>
+					<liferay-ui:icon-help message="message-help-info-state-simulation-warning"/>
 				</c:when>
 				<c:otherwise>
-					<span class="label label-important"><liferay-ui:message key="message-important-state-simulation"/></span> <liferay-ui:icon-help message="message-help-info-state-simulation-important"/>
+					<span class="label label-important"><liferay-ui:message key="message-important-state-simulation"/></span>
+					<liferay-ui:icon-help message="message-help-info-state-simulation-important"/>
 				</c:otherwise>
 			</c:choose>
 		</liferay-ui:search-container-column-text>
 			
 		<%--action menu --%>
-		<liferay-ui:search-container-column-jsp align="right"
-			path="/html/gatling/simulation_actions.jsp" />
+		<liferay-ui:search-container-column-jsp align="right" path="/html/gatling/simulation_actions.jsp" />
 	</liferay-ui:search-container-row>
 	<%--iterate and display the list --%>
 	<liferay-ui:search-iterator paginate="false" />
@@ -129,10 +129,9 @@
 			</aui:validator>
 		</aui:input>
 		<aui:input label="simulation-list-form-variable-name"
-			name="variableName" prefix="simulation"
-			readonly="readonly">
-		</aui:input>
-		<aui:button type="submit"></aui:button>
+			name="variableName" prefix="simulation-variable"
+			readonly="readonly" />
+		<aui:button type="submit"/>
 	</aui:form>
 </div>
 

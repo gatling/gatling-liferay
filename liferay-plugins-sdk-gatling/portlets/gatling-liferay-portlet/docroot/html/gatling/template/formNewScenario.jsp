@@ -24,15 +24,14 @@
 				</aui:validator>
 		</aui:input>
 		<aui:input label="simulation-list-form-variable-name"
-			name="variableScenarioName" prefix="scenario" readonly="readonly">
+			name="variableScenarioName" prefix="scenario-variable" readonly="readonly">
 		</aui:input>
-		<aui:select label="simulation-edit-form-sites" name="sites"
-			required="true">
+		<aui:select label="simulation-edit-form-sites" name="sites" required="true">
 			<c:forEach var="group" items="${listGroup}">
 				<aui:option label="${group.name}" value="${group.groupId}" />
 			</c:forEach>
 		</aui:select>
 	</aui:fieldset>
 
-	<aui:button name="ajouter-scenario" type="submit"></aui:button>
+	<aui:button name="ajouter-scenario" type="submit"/>
 </aui:form>

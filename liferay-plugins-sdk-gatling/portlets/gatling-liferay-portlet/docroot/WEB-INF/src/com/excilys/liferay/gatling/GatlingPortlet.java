@@ -232,7 +232,7 @@ public class GatlingPortlet extends MVCPortlet {
 	 * @param scenario
 	 * @return
 	 */
-	public int ScenarioState(Scenario scenario) {
+	private int scenarioState(Scenario scenario) {
 		List<Request> lsR;
 		try {
 			lsR = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
@@ -271,7 +271,7 @@ public class GatlingPortlet extends MVCPortlet {
 			List<Scenario> scenariosList = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
 			int checkNumberCompleted=0;
 			for(Scenario scenario : scenariosList){
-				if(ScenarioState(scenario) ==2){
+				if(scenarioState(scenario) ==2){
 					checkNumberCompleted++;
 				}
 			}
@@ -351,7 +351,7 @@ public class GatlingPortlet extends MVCPortlet {
 							count ++;
 					}
 					
-					info[2] = ScenarioState(scenario);
+					info[2] = scenarioState(scenario);
 					info[0] = count;
 					info[1] = count2;
 					scenariosMap.put(scenario, info);
