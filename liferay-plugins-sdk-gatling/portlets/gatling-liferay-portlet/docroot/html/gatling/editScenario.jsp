@@ -90,102 +90,74 @@
 	});
 
 
-	
+	// TODO: refacto
 	function confirmSubmit() {
-		checkDetails();
-		checkEmpty();
+		AUI().use('aui-base',
+			function(Y) {
+			var message = "";
+			// Check details
+			if( !validateNumber(Y.one("#<portlet:namespace />scenarioDuration").val()) 
+					|| !validateNumber(Y.one("#<portlet:namespace />scenarioDuration").val())) {
+				message += "<li><liferay-ui:message key='scenario-edit-empty-details' /></li>";
+			}
+			// Check Empty
+			if(Y.all(".activate:checked").size() == 0) {
+				// Add message
+				message += "<li><liferay-ui:message key='scenario-edit-empty-selection' /></li>";
+			}
+			//if confirm upgrade
+	  		if(Y.one("#<portlet:namespace/>confirmUpgrade") !==null) {
+	  			// Add message
+	  			message += "<li><liferay-ui:message key='scenario-edit-upgrade'/></li>";
+			}
+			// Create popup
+			createModal(message);
+		});
 		return false;
 	}
 	
-	
-	function checkEmpty() {
-		AUI().use(
-			  	'aui-base',
-			 	'aui-modal',
-			 	function(Y) {
-			  		if(Y.all(".activate:checked").size() == 0) {
-			  			var confirmDialog = new Y.Modal(
-							      {
-							        bodyContent: '<liferay-ui:message key="scenario-edit-empty-selection" />',
-							        centered: true,
-							        headerContent: '<h3><liferay-ui:message key="scenario-edit-empty-selection-title" /></h3>',
-							        modal: true,
-							        resizable: false,
-							        zIndex: 100
-							      }
-							    ).render();
-							    
-							    confirmDialog.addToolbar(
-							    	      [
-							    	        {
-							    	          label: 'No',
-							    	          on: {
-							    	            click: function() {
-							    	            	confirmDialog.hide();
-							    	            }
-							    	          }
-							    	        },
-							    	        {
-							    	          label: 'Yes',
-							    	          on: {
-								    	            click: function() {
-								    	            	confirmDialog.hide();
-								    	            	checkUpgrade();
-								    	            }
-								    	          }
-							    	        }
-							    	      ]);
-			  			}
-			  		else {
-			  			return true;
-			  		}
-			  	});	
+	function validateNumber(val) {
+		return !isNaN(val) && val > 0;
 	}
-			  	
-	function checkUpgrade() {
+	
+	function createModal(message) {
 		AUI().use(
 			  	'aui-base',
 			 	'aui-modal',
 			 	function(Y) {
-					//if confirm upgrade
-			  		if(Y.one("#<portlet:namespace/>confirmUpgrade") !==null)
-					{
-					    var confirmUpgradeDialog = new Y.Modal(
-					      {
-					        bodyContent: '<liferay-ui:message key="scenario-edit-upgrade"/>',
-					        centered: true,
-					        headerContent: '<h3><liferay-ui:message key="scenario-edit-upgrade-title"/></h3>',
-					        modal: true,
-					        resizable: false,
-					        zIndex: 100
-					      }
-					    ).render();
-					    
-					    confirmUpgradeDialog.addToolbar(
-					    	      [
-					    	        {
-					    	          label: 'Cancel',
-					    	          on: {
-					    	            click: function() {
-					    	            	confirmUpgradeDialog.hide();
-					    	            }
-					    	          }
-					    	        },
-					    	        {
-					    	          label: 'Upgrade',
-					    	          on: {
+		  			var confirmDialog = new Y.Modal(
+						      {
+						        bodyContent: '<liferay-ui:message key="scenario-edit-warning-text" /><ul>'+message+'</ul>',
+						        centered: true,
+						        headerContent: '<h3><liferay-ui:message key="scenario-edit-warning-submit" /></h3>',
+						        modal: true,
+						        resizable: false,
+						        zIndex: 100
+						      }
+						    ).render();
+						    
+						    confirmDialog.addToolbar(
+						    	      [
+						    	        {
+						    	          label: '<liferay-ui:message key="cancel" />',
+						    	          on: {
 						    	            click: function() {
-						    	            	Y.one("#<portlet:namespace />formulaireScenario").submit();
+						    	            	confirmDialog.hide();
 						    	            }
 						    	          }
-					    	        }
-					    	      ]
-					    	    );
-						}
-			  		else {
-			  			Y.one("#<portlet:namespace />formulaireScenario").submit();
-			  		}
-			  	});
+						    	        },
+						    	        {
+						    	          label: '<liferay-ui:message key="submit-anyway" />',
+						    	          cssClass: "btn-primary",
+						    	          on: {
+							    	            click: function() {
+							    	            	confirmDialog.hide();
+							    	            	Y.one("#<portlet:namespace/>formulaireScenario").submit();
+							    	            }
+							    	          }
+						    	        }
+						    	      ]);
+			  	});	
 	}
 	
 	function changeValueSubPage(page, value) {
