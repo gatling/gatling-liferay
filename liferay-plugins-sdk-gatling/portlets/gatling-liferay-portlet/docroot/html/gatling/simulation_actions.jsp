@@ -1,5 +1,6 @@
 <%@include file="/html/gatling/header.jsp"%>
-<c:set var="row" value="${requestScope.SEARCH_CONTAINER_RESULT_ROW}" />
+
+<c:set var="row" value="${requestScope[com.liferay.portal.kernel.util.WebKeys.SEARCH_CONTAINER_RESULT_ROW]}" />
 <c:set var="simulation" value="${row.object}" />
 
 <liferay-ui:icon-menu>
@@ -9,7 +10,6 @@
 			value="${simulation.simulation_id }" />
 	</portlet:renderURL>
 	<liferay-ui:icon image="edit" url="${editSimulationURL}" />
-	
 	<c:if test="${MapSimulation.get(simulation)[1] == 2}">
 		<portlet:resourceURL var="resourceUrl" >
 			<portlet:param name="simulationId" value="${simulation.simulation_id }" />
