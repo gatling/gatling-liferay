@@ -95,23 +95,29 @@
 		AUI().use('aui-base',
 			function(Y) {
 			var message = "";
+			var show = false;
 			// Check details
 			if( !validateNumber(Y.one("#<portlet:namespace />scenarioDuration").val()) 
 					|| !validateNumber(Y.one("#<portlet:namespace />scenarioDuration").val())) {
 				message += "<li><liferay-ui:message key='scenario-edit-empty-details' /></li>";
+				show = true;
 			}
 			// Check Empty
 			if(Y.all(".activate:checked").size() == 0) {
 				// Add message
 				message += "<li><liferay-ui:message key='scenario-edit-empty-selection' /></li>";
+				show = true;
 			}
 			//if confirm upgrade
 	  		if(Y.one("#<portlet:namespace/>confirmUpgrade") !==null) {
 	  			// Add message
 	  			message += "<li><liferay-ui:message key='scenario-edit-upgrade'/></li>";
+	  			show = true;
 			}
-			// Create popup
-			createModal(message);
+			if(show) {
+				// Create popup
+				createModal(message);
+			}
 		});
 		return false;
 	}
