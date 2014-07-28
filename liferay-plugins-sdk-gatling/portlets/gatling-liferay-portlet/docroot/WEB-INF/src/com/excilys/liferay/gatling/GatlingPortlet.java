@@ -10,6 +10,9 @@ import com.excilys.liferay.gatling.util.DisplayLayout;
 import com.excilys.liferay.gatling.util.DisplayLayoutUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.excilys.liferay.gatling.util.IdDisplayLayout;
+import com.github.mustachejava.DefaultMustacheFactory;
+import com.github.mustachejava.Mustache;
+import com.github.mustachejava.MustacheFactory;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -23,8 +26,11 @@ import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,6 +52,8 @@ import javax.portlet.ResourceResponse;
 public class GatlingPortlet extends MVCPortlet {
 
 
+	MustacheFactory mf = new DefaultMustacheFactory();
+	
 	private static Log log = LogFactoryUtil.getLog(GatlingPortlet.class);
 
 	/**
@@ -67,11 +75,10 @@ public class GatlingPortlet extends MVCPortlet {
 
 		//create the role Gatling		
 		long companyId = PortalUtil.getDefaultCompanyId();
-		long userId = 10161;
+		long userId = 10161; //10437
 		GatlingUtil.createRole(companyId,userId);
 		super.init();
 	}
-
 
 	/**
 	 * Adds a new Simulation to the database.
@@ -292,7 +299,6 @@ public class GatlingPortlet extends MVCPortlet {
 			return 0;
 		}
 	}
-	
 	/**
 	 * View method : redirect to requested page and send necessary parameters
 	 */
@@ -464,10 +470,10 @@ public class GatlingPortlet extends MVCPortlet {
 				} catch (PortalException e1) {	e1.printStackTrace();} catch (SystemException e1) {	e1.printStackTrace();}
 
 				try {
-					fileByte = ScriptGenerator.generateSimulation2(simulationId).getBytes();
-					OutputStream out = response.getPortletOutputStream();
-					out.write(fileByte);
-					out.flush();
+					
+					Mustache mustache = mf.compile("resources/template.mustache");
+					OutputStream out = response.getPortletOutputStream();					
+					mustache.execute(new PrintWriter(out), new ScriptGeneratorMustache(simulationId)).flush();
 					out.close();
 				} catch (Exception e) {	e.printStackTrace();}
 			}
