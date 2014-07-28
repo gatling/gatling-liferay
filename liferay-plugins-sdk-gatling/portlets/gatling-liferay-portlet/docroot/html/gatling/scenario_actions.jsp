@@ -1,6 +1,6 @@
 <%@include file="/html/gatling/header.jsp"%>
 
-<c:set var="row" value="${requestScope[com.liferay.portal.kernel.util.WebKeys.SEARCH_CONTAINER_RESULT_ROW]}" />
+<c:set var="row" value="${requestScope.WebKeys.SEARCH_CONTAINER_RESULT_ROW}" />
 <c:set var="scenario" value="${row.object}" />
 <liferay-ui:icon-menu>
 	<portlet:renderURL var="editScenarioURL">
