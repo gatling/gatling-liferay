@@ -10,7 +10,7 @@
 	<table class="table table-bordered table-scenario">
 		<tr>
 			<liferay-util:buffer var="checkAll">
-				<i class='icon-arrow-down'></i> <liferay-ui:message key="select-all" />
+				<i class='icon-circle-arrow-down'></i> <liferay-ui:message key="select-all" />
 			</liferay-util:buffer>
 			<th><aui:input type="checkbox" name="checkAll" label="${checkAll}" /></th>
 			<th><liferay-ui:message key="scenario-edit-table-header-page" /><liferay-ui:icon-help message="name-info-help"/></th>
@@ -38,7 +38,7 @@
 		 	<c:set var="arraySubPage"  />
 			<c:if test="${not empty hierachy[layout.displayLayoutId]}">
 				<c:forEach var="i" items="${hierachy[layout.displayLayoutId]}" varStatus="info">
-					<c:set var="arraySubPage" value="${arraySubPage}'${i}'" />
+					<c:set var="arraySubPage" value="${arraySubPage}${i}" />
 					<c:if test="${not info.last}">
 						<c:set var="arraySubPage" value="${arraySubPage}," />
 					</c:if>
@@ -64,14 +64,16 @@
 			<c:choose>
 				<c:when test="${layout.state == 'NEW_REQUEST'}">
 					<%-- 
+					
 					If the layout doesn't exists in db
+					
 					 --%>
-					<tr class="success ${color }">
+					<tr class="success ${layout.displayLayoutId} ${color }">
 						<%-- Affichage request pas enregistrée --%>
 						<td>
 							<aui:input type="checkbox" label="" name="${status.index}" cssClass='activate' inlineField="true"/> 
 							<c:if test="${not empty arraySubPage}">
-									<i class="icon-arrow-down" data-children="${arraySubPage }"></i>
+								<i class="force-weight-children  icon-circle-arrow-down margin-left-5" data-children="${arraySubPage }" ></i>
 							</c:if>
 						</td>
 						<td><i class="icon-plus-sign"></i> ${layout.showName()}
@@ -80,7 +82,7 @@
 							</a>
 						</td>
 
-						<td><aui:input label="" name="weight${status.index}" cssClass="weight ${layout.displayLayoutId}" inlineField="true" onChange="showWeight()"
+						<td><aui:input label="" name="weight${status.index}" cssClass="weight " inlineField="true" onChange="showWeight()"
 								value="${layout.weight}">
 								<aui:validator name="number" />
 							</aui:input>
@@ -91,7 +93,9 @@
 				</c:when>
 				<c:when test="${layout.state == 'OLD_REQUEST'}">
 					<%-- 
+					
 					When the layout is in DB but not in the site
+					
 					--%>
 					<tr class="error">
 						<%-- Affichage request pas enregistrée --%>
@@ -112,18 +116,20 @@
 				</c:when>
 				<c:otherwise>
 					<%--  
+					
 					Exists in both
+					
 					 --%>
-					<tr class="${color}">
+					<tr class="${layout.displayLayoutId} ${color}">
 						<td>
 							<aui:input type="checkbox" label="" name="${status.index}" cssClass='activate' inlineField="true"/>
 							<c:if test="${not empty arraySubPage}">
-								<i class="icon-arrow-down" data-children="${arraySubPage }"></i>
+								<i class="force-weight-children  icon-circle-arrow-down margin-left-5" data-children="${arraySubPage }" ></i>
 							</c:if>
 						</td>
 						<td>${layout.showName()}<a href="${url}" title="${layout.url}" target="_blank" > <i class="icon-share"></i></a></td>
 
-						<td><aui:input label="" name="weight${status.index}" cssClass="weight ${layout.displayLayoutId}" inlineField="true" value="${layout.weight}"
+						<td><aui:input label="" name="weight${status.index}" cssClass="weight" inlineField="true" value="${layout.weight}"
 								onChange="showWeight()">
 								<aui:validator name="number" />
 							</aui:input>

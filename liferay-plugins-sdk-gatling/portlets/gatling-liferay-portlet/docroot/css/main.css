@@ -10,6 +10,10 @@
 	margin-left: 40px !important;
 }
 
+.margin-left-5 {
+	margin-left: 5px !important;
+}
+
 .portlet-topper-toolbar {
 	display: none !important;
 }
@@ -32,4 +36,8 @@
 
 .inline-button {
 	margin-bottom: 7px !important;
+}
+
+.force-weight-children:hover {
+	cursor: pointer;
 }

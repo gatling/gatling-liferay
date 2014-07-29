@@ -48,17 +48,18 @@
 <%--Upgrade scenario confirmation dialog box --%>
 <script type="text/javascript">
 	AUI().use('aui-base', function(A) {
-		//TO REDO :D
 		A.all('.force-weight-children').each(function() {
 		      this.on('click',function(event) {
 					var children = this.getData("children").split(',');
-					var value = this.ancestor("td").one("input").val();
-					if(!isNaN(value)) {
-						for (var i = 0; i < childs.length; i++) {
-							changeValueSubPage(children[i],value);
-						}
+					var node = this.ancestor("tr").one(".activate");
+					var checked=true;
+					if(node.get("checked")) {
+					 	checked=false;	
 					}
-					showWeight();
+					node.set("checked",checked);
+					for (var i = 0; i < children.length; i++) {
+						selectSubPage(children[i], checked);
+					}
 				});
 			});
 		
@@ -79,12 +80,12 @@
 					if (A.all(".activate:checked").size() === A.all(".activate").size())
 						A.one("#<portlet:namespace/>checkAllCheckbox").set("checked", true);
 				} else {
-					A.one("#<portlet:namespace/>checkAllCheckBox").set("checked", false);
+					A.one("#<portlet:namespace/>checkAllCheckbox").set("checked", false);
 				}
 			});
 		});
 		if (A.all(".activate:checked").size() === A.all(".activate").size())
-			A.one("#<portlet:namespace/>checkAllCheckBox").set("checked", true);
+			A.one("#<portlet:namespace/>checkAllCheckbox").set("checked", true);
 		
 		A.one("#<portlet:namespace />variableScenarioName").val(A.one("#<portlet:namespace />scenarioName").val().replace(/\W/g, ''));
 	});
@@ -165,15 +166,15 @@
 			  	});	
 	}
 	
-	//TO REDO ?
-	function changeValueSubPage(page, value) {
+	function selectSubPage(page, checked) {
 		AUI().use('aui-base', function(A) {
-			A.one('.'+page).val(value);
-			var node = A.one('.'+page).ancestor("td").one("button");
+			var node = A.one('.'+page);
+			node.one(".activate").set("checked",checked);
+			console.log(node);
 			if(node != null) {
-				var children = node.getData("children").split(",");
-				for (var i = 0; i < childs.length; i++) {
-					changeValueSubPage(children[i], value);
+				var children = node.one(".force-weight-children").getData("children").split(",");
+				for (var i = 0; i < children.length; i++) {
+					selectSubPage(children[i], checked);
 				}
 			}
 	    });
