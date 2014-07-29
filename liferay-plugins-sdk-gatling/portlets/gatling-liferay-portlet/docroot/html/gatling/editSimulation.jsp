@@ -63,7 +63,7 @@
  --%>
 <%--Simulation Name --%>
 <portlet:actionURL var="editSimulationURL" name="editSimulation" />
-<aui:form action="${editSimulationURL}" name="fm_simulation">
+<aui:form action="${editSimulationURL}" name="fm_simulation" cssClass="form-inline" inlineLabels="true">
 	<aui:input name="simulationId" type="hidden" value="${simulation.simulation_id }" />
 	<aui:input label="simulation-edit-name-simulation" name="simulationName" inlineLabel="true" inlineField="true" value="${simulation.name }">
 		<aui:validator name="alphanum" />
@@ -82,6 +82,8 @@
 	<aui:input label="" inlineField="true" inlineLabel="true" name="variableSimulationName" prefix="simulation-variable" readonly="readonly" />
 	<aui:button type="submit" />
 </aui:form>
+
+<aui:button id="newScenario" value="simulation-edit-btn-add-scenario" />
 
 <%--Search container (table) --%>
 <liferay-ui:search-container emptyResultsMessage="scenario-list-empty">
@@ -136,8 +138,6 @@
 	<%--iterate and show list of data --%>
 	<liferay-ui:search-iterator paginate="false" />
 </liferay-ui:search-container>
-
-<aui:button id="newScenario" value="simulation-edit-btn-add-scenario"></aui:button>
 
 <%--redirect to addSimulation --%>
 <portlet:actionURL name="addScenario" var="addScenarioURL">

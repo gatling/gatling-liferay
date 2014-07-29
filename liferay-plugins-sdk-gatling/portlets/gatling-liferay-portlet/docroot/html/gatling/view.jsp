@@ -50,6 +50,10 @@
 <div id="help-simulation" class="alert alert-info help-text help-content-hidden">
 	<liferay-ui:message key="simulation-explanation" />
 </div>
+<%-- If user has permission --%>
+<%-- <c:if test="<%=hasAddPermission%>"> --%>
+<aui:button id="newSimulation" value="simulation-list-btn-add-simulation" />
+<%-- </c:if> --%>
 <%--
 	Search container (table) 
 --%>
@@ -95,11 +99,6 @@
 	<%--iterate and display the list --%>
 	<liferay-ui:search-iterator paginate="false" />
 </liferay-ui:search-container>
-<%-- If user has permission --%>
-<%-- <c:if test="<%=hasAddPermission%>"> --%>
-	<aui:button id="newSimulation"
-		value="simulation-list-btn-add-simulation"></aui:button>
-<%-- </c:if> --%>
 <%--submit to addSimulation --%>
 <portlet:actionURL name="addSimulation" var="addSimulationURL"
 	windowState="normal" />
