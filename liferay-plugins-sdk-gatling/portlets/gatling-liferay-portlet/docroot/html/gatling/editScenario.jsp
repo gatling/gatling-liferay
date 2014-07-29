@@ -63,11 +63,10 @@
 			});
 		
 		
-		A.one("#checkAll").on('click',function(event) {
-			var allCheck = this.get('checked');
+		A.one("#<portlet:namespace/>checkAllCheckbox").on('click',function(event) {
+			var checked=this.get("checked");
 			A.all(".activate").each(function() {
-				this.set("checked",allCheck);	
-				this.ancestor("label").one("input").val(allCheck);
+				this.set("checked", checked);
 			});
 			
 			showWeight();
@@ -78,14 +77,14 @@
 			this.on('click', function(event) {
 				if (this.get('checked')) {
 					if (A.all(".activate:checked").size() === A.all(".activate").size())
-						A.one("#checkAll").set("checked", true);
+						A.one("#<portlet:namespace/>checkAllCheckbox").set("checked", true);
 				} else {
-					A.one("#checkAll").set("checked", false);
+					A.one("#<portlet:namespace/>checkAllCheckBox").set("checked", false);
 				}
 			});
 		});
 		if (A.all(".activate:checked").size() === A.all(".activate").size())
-			A.one("#checkAll").set("checked", true);
+			A.one("#<portlet:namespace/>checkAllCheckBox").set("checked", true);
 		
 		A.one("#<portlet:namespace />variableScenarioName").val(A.one("#<portlet:namespace />scenarioName").val().replace(/\W/g, ''));
 	});

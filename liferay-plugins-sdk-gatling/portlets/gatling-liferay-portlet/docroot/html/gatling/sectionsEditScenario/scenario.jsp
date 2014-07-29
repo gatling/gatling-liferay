@@ -9,7 +9,10 @@
 	<aui:button value="scenario-edit-force-weight-btn" cssClass="inline-button" onClick="forceWeight();"/>
 	<table class="table table-bordered table-scenario">
 		<tr>
-			<th><input type="checkbox" id="checkAll" /> </th>
+			<liferay-util:buffer var="checkAll">
+				<i class='icon-arrow-down'></i> <liferay-ui:message key="select-all" />
+			</liferay-util:buffer>
+			<th><aui:input type="checkbox" name="checkAll" label="${checkAll}" /></th>
 			<th><liferay-ui:message key="scenario-edit-table-header-page" /><liferay-ui:icon-help message="name-info-help"/></th>
 			<th><liferay-ui:message key="scenario-edit-table-header-weight" /> <liferay-ui:icon-help message="weight-info-help"/></th>
 			<th><liferay-ui:icon-help message="percentage-info-help"/></th>
@@ -55,7 +58,7 @@
 					<tr class="success ${color }">
 						<%-- Affichage request pas enregistrée --%>
 						<td>
-						<aui:input type="checkbox" label="" name="${status.index}" cssClass='activate' />
+							<aui:input type="checkbox" label="" name="${status.index}" cssClass='activate' />
 						</td>
 						<c:choose>
 							<c:when test="${layout.privateLayout}">
@@ -82,7 +85,9 @@
 					--%>
 					<tr class="error">
 						<%-- Affichage request pas enregistrée --%>
-						<aui:input name="delete${layout.requestId}" type="hidden" value="${layout.requestId}"></aui:input>
+						<td>
+							<aui:input name="delete${layout.requestId}" type="hidden" value="${layout.requestId}"></aui:input>
+						</td>						
 						<td>
 							<portlet:actionURL var="deleteRequestURL" name="removeRequest">
 								<portlet:param name="requestId" value="${layout.requestId}" />
@@ -101,15 +106,7 @@
 					 --%>
 					<tr class="${color}">
 						<td>
-							<%-- checked ou pas en fonction de la requête --%> <c:choose>
-								<c:when test="${layout.checked}">
-									<aui:input type="checkbox" label="" name="${status.index}" 
-										cssClass='activate url${status.index}' checked="true" />
-								</c:when>
-								<c:otherwise>
-									<aui:input type="checkbox" name="${status.index}" cssClass='activate url${status.index}' checked="false" onChange="showWeight()" />
-								</c:otherwise>
-							</c:choose>
+							<aui:input type="checkbox" label="" name="${status.index}" cssClass='activate url${status.index}' />
 						</td>
 						<c:choose>
 							<c:when test="${layout.privateLayout}">
