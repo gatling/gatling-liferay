@@ -52,7 +52,19 @@
 </div>
 <%-- If user has permission --%>
 <%-- <c:if test="<%=hasAddPermission%>"> --%>
-<aui:button id="newSimulation" value="simulation-list-btn-add-simulation" />
+<%--NavBar --%>
+<div class="navbar">
+	<div class="navbar-inner">
+		<ul class="nav">
+			<li>
+				<a id="newSimulation" href="#">
+					<i class="icon-plus"></i>
+					<liferay-ui:message key="simulation-list-btn-add-simulation" />
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
 <%-- </c:if> --%>
 <%--
 	Search container (table) 

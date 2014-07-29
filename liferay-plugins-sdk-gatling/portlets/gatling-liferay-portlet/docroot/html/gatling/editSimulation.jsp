@@ -58,6 +58,18 @@
 	<liferay-ui:message key="scenario-explanation" />
 </div>
 
+<div class="navbar">
+	<div class="navbar-inner">
+		<ul class="nav">
+			<li>
+				<a id="newScenario" href="#">
+					<i class="icon-plus"></i>
+					<liferay-ui:message key="simulation-edit-btn-add-scenario" />
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
 <%--
 	Page content
  --%>
@@ -82,8 +94,6 @@
 	<aui:input label="" inlineField="true" inlineLabel="true" name="variableSimulationName" prefix="simulation-variable" readonly="readonly" />
 	<aui:button type="submit" />
 </aui:form>
-
-<aui:button id="newScenario" value="simulation-edit-btn-add-scenario" />
 
 <%--Search container (table) --%>
 <liferay-ui:search-container emptyResultsMessage="scenario-list-empty">
