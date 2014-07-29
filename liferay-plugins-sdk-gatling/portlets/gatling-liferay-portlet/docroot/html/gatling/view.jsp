@@ -1,17 +1,5 @@
 <%@include file="/html/gatling/header.jsp"%>
 
-<%-- <% --%>
-<!-- // 	boolean hasAddPermission = permissionChecker.hasPermission( -->
-<!-- // 	scopeGroupId, "com.excilys.liferay.gatling.model.Simulation", -->
-<!-- // 	scopeGroupId, "ADD_SIMULATION"); -->
-<!-- // 		boolean hasConfigurePermission = permissionChecker.hasPermission( -->
-<!-- // 	scopeGroupId, "com.excilys.liferay.gatling.model.Simulation", scopeGroupId, -->
-<!-- // 	ActionKeys.PERMISSIONS); -->
-		
-<!-- // 		hasAddPermission = hasConfigurePermission = true; -->
-<%-- %> --%>
-
-
 <%--
 	session errors
 --%>
@@ -51,7 +39,6 @@
 	<liferay-ui:message key="simulation-explanation" />
 </div>
 <%-- If user has permission --%>
-<%-- <c:if test="<%=hasAddPermission%>"> --%>
 <%--NavBar --%>
 <div class="navbar">
 	<div class="navbar-inner">
@@ -65,7 +52,6 @@
 		</ul>
 	</div>
 </div>
-<%-- </c:if> --%>
 <%--
 	Search container (table) 
 --%>
