@@ -19,3 +19,4 @@ liferay-plugins-sdk-gatling/portlets/gatling-liferay-portlet/docroot/WEB-INF/ser
 liferay-plugins-sdk-gatling/portlets/gatling-liferay-portlet/docroot/WEB-INF/src/com/excilys/liferay/gatling/model/
 liferay-plugins-sdk-gatling/portlets/gatling-liferay-portlet/docroot/WEB-INF/src/com/excilys/liferay/gatling/service/base/
 liferay-plugins-sdk-gatling/portlets/gatling-liferay-portlet/docroot/WEB-INF/src/com/excilys/liferay/gatling/service/persistence/
+liferay-plugins-sdk-gatling/portlets/backup/

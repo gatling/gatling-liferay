@@ -12,12 +12,12 @@ import java.util.List;
 
 public class ScriptGeneratorMustache {
 
-	String simuName = "avant";
+	String simulationName = "avant";
 	Long simulationId = 0L;
 
 	public ScriptGeneratorMustache(Long simulationId) throws Exception{
 		super();
-		this.simuName = SimulationLocalServiceUtil.getSimulation(simulationId).getVariableName();
+		this.simulationName = SimulationLocalServiceUtil.getSimulation(simulationId).getVariableName();
 		this.simulationId = simulationId;
 	}
 
@@ -25,34 +25,33 @@ public class ScriptGeneratorMustache {
 	List<MustacheScenario> mustacheScenario() throws Exception{
 
 		List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
-		List<MustacheScenario> list = new ArrayList<MustacheScenario>();
+		List<MustacheScenario> mustacheScenarioList = new ArrayList<MustacheScenario>();
 		if(!listScenario.isEmpty()){
-			for (Scenario sc : listScenario) {
+			for (Scenario scenario : listScenario) {
 
 				List<MustacheRequest> mustacheRequests = new ArrayList<MustacheRequest>();
-				List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId( sc.getScenario_id());
-				double totalWeight = getTotalWeight(sc);
+				List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId( scenario.getScenario_id());
+				double totalWeight = getTotalWeight(scenario);
 				for (Request rq : listRequest) {
 					if(rq.isChecked() && (rq.getWeight() > 0)) {
-						String site = sc.getUrl_site();
+						String site = scenario.getUrl_site();
 						if(rq.isPrivatePage()){
-							//String is a f****** immutable class ;(
 							site = site.replace("/web/", "/group/");
 						}
 						MustacheRequest mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), (rq.getWeight()*100/totalWeight), ",");
 						mustacheRequests.add(mr);
 					}
 				}
-				MustacheScenario ms = new MustacheScenario(sc.getName(),sc.getUsers_per_seconds(), sc.getDuration(), ",", mustacheRequests);
-				list.add(ms);
+				MustacheScenario ms = new MustacheScenario(scenario.getName(),scenario.getUsers_per_seconds(), scenario.getDuration(), ",", mustacheRequests);
+				mustacheScenarioList.add(ms);
 			}
 
-			list.get(list.size()-1).removeComma();
-			for (MustacheScenario mustacheScenario : list) {
+			mustacheScenarioList.get(mustacheScenarioList.size()-1).removeComma();
+			for (MustacheScenario mustacheScenario : mustacheScenarioList) {
 				mustacheScenario.removeCommaRequest();
 			}
 		}
-		return list;
+		return mustacheScenarioList;
 	}
 
 

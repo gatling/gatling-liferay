@@ -50,7 +50,7 @@ import javax.portlet.ResourceResponse;
 public class GatlingPortlet extends MVCPortlet {
 
 
-	MustacheFactory mf = new DefaultMustacheFactory();
+	MustacheFactory mustacheFactory = new DefaultMustacheFactory();
 	
 	private static Log log = LogFactoryUtil.getLog(GatlingPortlet.class);
 
@@ -73,7 +73,7 @@ public class GatlingPortlet extends MVCPortlet {
 
 		//create the role Gatling		
 		long companyId = PortalUtil.getDefaultCompanyId();
-		long userId = 10161; //10437
+		long userId = 10161; 
 		GatlingUtil.createRole(companyId,userId);
 		super.init();
 	}
@@ -297,6 +297,7 @@ public class GatlingPortlet extends MVCPortlet {
 			return 0;
 		}
 	}
+	
 	/**
 	 * View method : redirect to requested page and send necessary parameters
 	 */
@@ -338,29 +339,29 @@ public class GatlingPortlet extends MVCPortlet {
 			try {
 				simulation = SimulationLocalServiceUtil.getSimulation(id);
 				renderRequest.setAttribute("simulation", simulation);
-				// List of Scenarios
-				List<Scenario> ls = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
+				// List of Scenario
+				List<Scenario> scenarioList = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
 
-				//map <scenario, number of requests>
+				//map <scenario, scenarioInfo>
 				Map<Scenario, Number[]> scenariosMap = new HashMap<Scenario, Number[]>();
-				for(Scenario scenario : ls){
+				for(Scenario scenario : scenarioList){
 					
 					List<Request> lsR = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
 					Number[] info = new Number[3];
-					int count=0;
-					int count2 =0;
+					int numberRequestAdded=0;
+					int numberRequest =0;
 					for(Request r : lsR){
-						count2 ++;
+						numberRequest ++;
 						if(r.isChecked())
-							count ++;
+							numberRequestAdded ++;
 					}
 					
 					info[2] = scenarioState(scenario);
-					info[0] = count;
-					info[1] = count2;
+					info[0] = numberRequestAdded;
+					info[1] = numberRequest;
 					scenariosMap.put(scenario, info);
 				}
-				String JSListName = GatlingUtil.createJSListOfScenarioName(ls);
+				String JSListName = GatlingUtil.createJSListOfScenarioName(scenarioList);
 				renderRequest.setAttribute("listOfScenarioName", JSListName);
 				/*
 				 * get list of simulation (for edit name)
@@ -369,15 +370,15 @@ public class GatlingPortlet extends MVCPortlet {
 				String JSListSimName = GatlingUtil.createJSListOfSimulationName(listSimulations);
 				renderRequest.setAttribute("listOfSimulationName", JSListSimName);
 				
-				renderRequest.setAttribute("listScenario", ls);	
+				renderRequest.setAttribute("listScenario", scenarioList);	
 				renderRequest.setAttribute("MapScenario", scenariosMap);	
 			} catch (PortalException | SystemException e1) {
 				e1.printStackTrace();
 			}
 
 			// List of Sites
-			List<Group> liGroups = GatlingUtil.getListOfSites();
-			renderRequest.setAttribute("listGroup", liGroups);
+			List<Group> listGroups = GatlingUtil.getListOfSites();
+			renderRequest.setAttribute("listGroup", listGroups);
 		}
 		else if(page.equals(jspEditScenario)){
 			/*
@@ -433,11 +434,11 @@ public class GatlingPortlet extends MVCPortlet {
 				
 			} catch (SystemException e) {
 				if(log.isDebugEnabled()) {
-					log.debug("pbm avec récupération des layout "+e.getMessage());
+					log.debug("connot get layout list: "+e.getMessage());
 				}
 			} catch (PortalException e) {
 				if(log.isDebugEnabled()) {
-					log.debug("pbm avec récupération des layout "+e.getMessage());
+					log.debug("connot get layout list: "+e.getMessage());
 				}
 			} 
 		}
@@ -468,7 +469,7 @@ public class GatlingPortlet extends MVCPortlet {
 
 				try {
 					
-					Mustache mustache = mf.compile("resources/template.mustache");
+					Mustache mustache = mustacheFactory.compile("resources/template.mustache");
 					OutputStream out = response.getPortletOutputStream();					
 					mustache.execute(new PrintWriter(out), new ScriptGeneratorMustache(simulationId)).flush();
 					out.close();

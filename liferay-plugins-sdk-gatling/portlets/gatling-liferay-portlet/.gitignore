@@ -15,3 +15,6 @@ docroot/WEB-INF/src/com/liferay/sample/model/
 docroot/WEB-INF/src/com/liferay/sample/service/base/
 docroot/WEB-INF/src/com/liferay/sample/service/persistence/
 docroot/WEB-INF/src/service.properties
+help.txt
+help.txt~
+liferay-plugins-sdk-gatling/portlets/backup/
