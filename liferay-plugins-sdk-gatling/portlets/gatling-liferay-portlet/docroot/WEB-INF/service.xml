@@ -28,7 +28,6 @@
 		<column name="name" type="String"></column>
 		<column name="url" type="String"></column>
 		<column name="weight" type="double"></column>
-		<column name="checked" type="boolean"></column>
 		<column name="privatePage" type="boolean"></column>
 		<column name="parentLayoutId" type="long"></column>
 		<column name="layoutId" type="long"></column>

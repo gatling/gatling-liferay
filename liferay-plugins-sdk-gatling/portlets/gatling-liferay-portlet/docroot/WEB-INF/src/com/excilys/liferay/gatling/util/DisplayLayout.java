@@ -45,7 +45,6 @@ public class DisplayLayout {
 		displayLayoutId = new IdDisplayLayout(layout.isPrivateLayout(), layout.getLayoutId());
 		parentLayoutId = layout.getParentLayoutId();
 		name = layout.getName(LocaleUtil.getDefault());
-		checked=false;
 		url = layout.getFriendlyURL();
 		weight=0.0;
 		setPrivateLayout(layout.isPrivateLayout());
@@ -59,13 +58,15 @@ public class DisplayLayout {
 		displayLayoutId = new IdDisplayLayout(request.isPrivatePage(), request.getLayoutId());
 		requestId = request.getRequest_id();
 		parentLayoutId = request.getParentLayoutId();
-		checked=request.isChecked();
 		name = request.getName();
 		url = request.getUrl();
 		weight = request.getWeight();
 		setPrivateLayout(request.isPrivatePage());
 	}
 	
+	public boolean isUsed() {
+		return (weight > 0);
+	}
 
 	
 	@Override

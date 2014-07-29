@@ -67,7 +67,6 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 		newRequest.setUrl(layout.getFriendlyURL());
 		newRequest.setWeight(weight);
 		newRequest.setScenario_id(idScenario);
-		newRequest.setChecked(checked);
 		newRequest.setPrivatePage(layout.isPrivateLayout());
 		newRequest.setParentLayoutId(layout.getParentLayoutId());
 		// Saving ...

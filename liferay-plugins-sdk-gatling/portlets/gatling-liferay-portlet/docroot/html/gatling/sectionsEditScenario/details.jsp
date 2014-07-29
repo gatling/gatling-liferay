@@ -18,7 +18,7 @@
 		}
 	</aui:validator>
 </aui:input>
-<aui:input label="" name="variableScenarioName" prefix="scenario" value="${scenario.variableName }"
+<aui:input label="" name="variableScenarioName" prefix="scenario-variable" value="${scenario.variableName }"
 	readonly="readonly">
 </aui:input>
 

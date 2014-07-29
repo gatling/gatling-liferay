@@ -202,7 +202,9 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			String scenarioName= ParamUtil.getString(request, "scenarioName");
 			Long scenarioUsers = ParamUtil.getLong(request, "scenarioUsers");
 			Long scenarioDuration = ParamUtil.getLong(request, "scenarioDuration");
+			String variableName = GatlingUtil.createVariableName("scenario", ParamUtil.getString(request, "variableScenarioName"));
 			scenario.setName(scenarioName);
+			scenario.setVariableName(variableName);
 			scenario.setUsers_per_seconds(scenarioUsers);
 			scenario.setDuration(scenarioDuration);
 			scenarioPersistence.update(scenario);
@@ -243,10 +245,10 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 					DisplayLayout displayLayout = displayLayoutList.get(layoutId);
 					String url = displayLayout.getUrl();
 					// if already exists in DB
-					if(( lstRequestToEdit.containsKey(url.trim()) ) && ((lstRequestToEdit.get(url).getWeight() != weight) || (!lstRequestToEdit.get(url).isChecked()))){
+					if(( lstRequestToEdit.containsKey(url.trim()) ) 
+							&& ((lstRequestToEdit.get(url).getWeight() != weight) || (!lstRequestToEdit.get(url).isUsed()))){
 						Request updatedRequest = lstRequestToEdit.get(url);
 						updatedRequest.setWeight(weight);
-						updatedRequest.setChecked(true);
 						// Saving ...
 						List<String> errors = new ArrayList<String>();
 						if(RequestValidator.validateRequest(updatedRequest, errors)) {
@@ -279,10 +281,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 
 					if(lstRequestToEdit.containsKey(url.trim())){
 						Request requestToDelete = lstRequestToEdit.get(url);
-						if(requestToDelete.isChecked()){
-							requestToDelete.setChecked(false);
-							RequestLocalServiceUtil.updateRequest(requestToDelete);
-						}
+						requestToDelete.persist();;
 					}
 				}
 

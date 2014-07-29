@@ -34,7 +34,9 @@
 					 --%>
 					<tr class="success">
 						<%-- Affichage request pas enregistrée --%>
-						<td><aui:input type="checkbox" name="${status.index}" cssClass='activate' onChange="showPoids()" /></td>
+						<td>
+						<aui:input type="checkbox" name="${status.index}" cssClass='activate' onChange="showPoids()" />
+						</td>
 						<c:choose>
 							<c:when test="${layout.privateLayout}">
 								<td>${layout.showName()}<a href="${privateURL}${layout.url}" title="${layout.url}" target="_blank" > <i class="icon-share"></i></a></td>
@@ -69,9 +71,11 @@
 					<tr class="error">
 						<%-- Affichage request pas enregistrée --%>
 						<aui:input name="delete${layout.requestId}" type="hidden" value="${layout.requestId}"></aui:input>
-						<td><portlet:actionURL var="deleteRequestURL" name="removeRequest">
+						<td>
+							<portlet:actionURL var="deleteRequestURL" name="removeRequest">
 								<portlet:param name="requestId" value="${layout.requestId}" />
-							</portlet:actionURL> <liferay-ui:icon-delete url="${deleteRequestURL}" /></td>
+							</portlet:actionURL> <liferay-ui:icon-delete url="${deleteRequestURL}" />
+						</td>
 						<td><a href="#" title="${layout.url}" target="_blank">${layout.showName()}</a></td>
 						<td><aui:input label="" name="weight${layout.requestId}" value="${layout.weight}" cssClass="poids deleted" onChange="showPoids()">
 								<aui:validator name="number" />
