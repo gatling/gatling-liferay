@@ -49,13 +49,13 @@
 <script type="text/javascript">
 	AUI().use('aui-base', function(A) {
 		//TO REDO :D
-		A.all('.force-weight-childs').each(function() {
+		A.all('.force-weight-children').each(function() {
 		      this.on('click',function(event) {
-					var childs = this.getData("childs").split(',');
+					var children = this.getData("children").split(',');
 					var value = this.ancestor("td").one("input").val();
 					if(!isNaN(value)) {
 						for (var i = 0; i < childs.length; i++) {
-							changeValueSubPage(childs[i],value);
+							changeValueSubPage(children[i],value);
 						}
 					}
 					showWeight();
@@ -90,7 +90,6 @@
 	});
 
 
-	// TODO: refacto
 	function confirmSubmit() {
 		AUI().use('aui-base',
 			function(Y) {
@@ -172,9 +171,9 @@
 			A.one('.'+page).val(value);
 			var node = A.one('.'+page).ancestor("td").one("button");
 			if(node != null) {
-				var childs = node.getData("childs").split(",");
+				var children = node.getData("children").split(",");
 				for (var i = 0; i < childs.length; i++) {
-					changeValueSubPage(childs[i], value);
+					changeValueSubPage(children[i], value);
 				}
 			}
 	    });

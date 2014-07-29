@@ -35,8 +35,8 @@
 				<c:set var="confirmUpgrade" value="confirmUpgrade" />
 			</c:if>
 		 	<%--subpages --%>
+		 	<c:set var="arraySubPage"  />
 			<c:if test="${not empty hierachy[layout.displayLayoutId]}">
-				<c:set var="arraySubPage" value="" />
 				<c:forEach var="i" items="${hierachy[layout.displayLayoutId]}" varStatus="info">
 					<c:set var="arraySubPage" value="${arraySubPage}'${i}'" />
 					<c:if test="${not info.last}">
@@ -49,7 +49,18 @@
 			<c:if test="${not layout.isUsed() }" >
 				<c:set var="color" value="empty-weight-color"/>
 			</c:if>
-		
+			<%--private or public url --%>
+			<c:choose>
+				<c:when test="${layout.privateLayout}">
+					<c:set var="url" value="${privateURL}${layout.url}"/>
+				</c:when>
+				<c:otherwise>
+					<c:set var="url" value="${publicURL}${layout.url}"/>
+				</c:otherwise>
+			</c:choose>
+			<%--
+				DISPLAY
+			 --%>
 			<c:choose>
 				<c:when test="${layout.state == 'NEW_REQUEST'}">
 					<%-- 
@@ -58,18 +69,17 @@
 					<tr class="success ${color }">
 						<%-- Affichage request pas enregistrée --%>
 						<td>
-							<aui:input type="checkbox" label="" name="${status.index}" cssClass='activate' />
+							<aui:input type="checkbox" label="" name="${status.index}" cssClass='activate' inlineField="true"/> 
+							<c:if test="${not empty arraySubPage}">
+									<i class="icon-arrow-down" data-children="${arraySubPage }"></i>
+							</c:if>
 						</td>
-						<c:choose>
-							<c:when test="${layout.privateLayout}">
-								<c:set var="url" value="${privateURL}${layout.url}"/>
-							</c:when>
-							<c:otherwise>
-								<c:set var="url" value="${publicURL}${layout.url}"/>
-							</c:otherwise>
-						</c:choose>
-						<td><i class="icon-plus-sign"></i> ${layout.showName()}<a href="${url}" title="${layout.url}" target="_blank" > <i class="icon-share"></i></a></td>
-						
+						<td><i class="icon-plus-sign"></i> ${layout.showName()}
+							<a href="${url}" title="${layout.url}" target="_blank"> 
+								<i class="icon-share"></i>
+							</a>
+						</td>
+
 						<td><aui:input label="" name="weight${status.index}" cssClass="weight ${layout.displayLayoutId}" inlineField="true" onChange="showWeight()"
 								value="${layout.weight}">
 								<aui:validator name="number" />
@@ -106,16 +116,11 @@
 					 --%>
 					<tr class="${color}">
 						<td>
-							<aui:input type="checkbox" label="" name="${status.index}" cssClass='activate url${status.index}' />
+							<aui:input type="checkbox" label="" name="${status.index}" cssClass='activate' inlineField="true"/>
+							<c:if test="${not empty arraySubPage}">
+								<i class="icon-arrow-down" data-children="${arraySubPage }"></i>
+							</c:if>
 						</td>
-						<c:choose>
-							<c:when test="${layout.privateLayout}">
-								<c:set var="url" value="${privateURL}${layout.url}"/>
-							</c:when>
-							<c:otherwise>
-								<c:set var="url" value="${publicURL}${layout.url}"/>
-							</c:otherwise>
-						</c:choose>
 						<td>${layout.showName()}<a href="${url}" title="${layout.url}" target="_blank" > <i class="icon-share"></i></a></td>
 
 						<td><aui:input label="" name="weight${status.index}" cssClass="weight ${layout.displayLayoutId}" inlineField="true" value="${layout.weight}"
