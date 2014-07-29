@@ -26,11 +26,9 @@ import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -463,7 +461,6 @@ public class GatlingPortlet extends MVCPortlet {
 				response.setContentType("application/x-wais-source");
 				response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 
-				byte[] fileByte;
 				Date date =new Date();
 				try {
 					response.addProperty("Content-Disposition", "attachment; filename=Simulation"  + SimulationLocalServiceUtil.getSimulation(simulationId).getName()  + date.getTime() + ".scala");

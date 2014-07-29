@@ -5,12 +5,8 @@ import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
-import com.github.mustachejava.DefaultMustacheFactory;
-import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
 import com.liferay.portal.kernel.exception.SystemException;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,17 +102,6 @@ public class ScriptGeneratorMustache {
 
 		String name, url, virgule;
 		double pourcentage;
-	}
-
-
-
-	public static String generateSimulation(Long simulationId) throws Exception {
-
-		MustacheFactory mf = new DefaultMustacheFactory();
-		Mustache mustache = mf.compile("resources/template.mustache");
-		return mustache.execute(new PrintWriter(System.out), new ScriptGeneratorMustache(simulationId)).toString();
-
-
 	}
 
 
