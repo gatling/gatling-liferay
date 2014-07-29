@@ -48,6 +48,7 @@
 <%--Upgrade scenario confirmation dialog box --%>
 <script type="text/javascript">
 	AUI().use('aui-base', function(A) {
+		//TO REDO :D
 		A.all('.force-weight-childs').each(function() {
 		      this.on('click',function(event) {
 					var childs = this.getData("childs").split(',');
@@ -57,7 +58,7 @@
 							changeValueSubPage(childs[i],value);
 						}
 					}
-					showPoids();
+					showWeight();
 				});
 			});
 		
@@ -69,7 +70,7 @@
 				this.ancestor("label").one("input").val(allCheck);
 			});
 			
-			showPoids();
+			showWeight();
 		});
 			
 
@@ -166,6 +167,7 @@
 			  	});	
 	}
 	
+	//TO REDO ?
 	function changeValueSubPage(page, value) {
 		AUI().use('aui-base', function(A) {
 			A.one('.'+page).val(value);
@@ -179,42 +181,45 @@
 	    });
 	}
 	
-	function <portlet:namespace/>forcePoids()
+	function forceWeight()
 	{		
 		AUI().use('aui-base', function(A) {
-			var newVal = A.one('#<portlet:namespace/>poidForce').val();
+			var newVal = A.one('#<portlet:namespace/>forceWeight').val();
 			if ((newVal != null) && (!isNaN(newVal))) {
-				A.all('.poids').val(newVal);
-				showPoids();
+				A.all('.activate:checked').each(function() {
+					this.ancestor("tr").one(".weight").val(newVal);
+				});
+				showWeight();
 			}
 		});
 	}
-	function showPoids() {
+	function showWeight() {
 		AUI().use('aui-base', function(A) {
 			var totalRate = parseInt(0);
-			A.all('.poids').each(function() {
-				if (this.ancestor("tr").one(".activate:checked"))
-					if (!(this.val() == "" || isNaN(this.val()))) {
-						totalRate += parseFloat(this.val());
-					}
+			A.all('.weight').each(function() {
+				if (!(this.val() == "" || isNaN(this.val())) && this.val() > 0) {
+					totalRate += parseFloat(this.val());
+					this.ancestor("tr").removeClass("empty-weight-color");
+				}
+				else {
+					this.val("0.0");
+					this.ancestor("tr").addClass("empty-weight-color");
+				}
 			});
 
-			A.all('.poids').each(function() {
-				if (this.ancestor("tr").one(".activate:checked")) {
-					if (!(this.val() == "" || isNaN(this.val()))) {
-						var perc = (this.val() / totalRate) * 100;
-						//cas du 0/0
-						if (isNaN(perc))
-							this.ancestor("tr").one(".percentage").text("0.00 %");
-						else
-							this.ancestor("tr").one(".percentage").text(perc.toFixed(2) + " %");
-					}
-				} else
-					this.ancestor("tr").one(".percentage").text("0.00 %");
+			A.all('.weight').each(function() {
+				if (!(this.val() == "" || isNaN(this.val()))) {
+					var perc = (this.val() / totalRate) * 100;
+					//cas du 0/0
+					if (isNaN(perc))
+						this.ancestor("tr").one(".percentage").text("0.00 %");
+					else
+						this.ancestor("tr").one(".percentage").text(perc.toFixed(2) + " %");
+				}
 			});
 		});
 	}
-	showPoids();
+	showWeight();
 </script>
 
 
