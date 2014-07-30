@@ -71,7 +71,7 @@
 					<tr class="success ${layout.displayLayoutId} ${color }">
 						<%-- Affichage request pas enregistrée --%>
 						<td>
-							<aui:input type="checkbox" label="" name="${status.index}" cssClass='checkbox' inlineField="true"/> 
+							<aui:input type="checkbox" label="" name="${status.index}" cssClass='checkLine' inlineField="true"/> 
 							<c:if test="${not empty arraySubPage}">
 								<i class="force-weight-children  icon-circle-arrow-down margin-left-5" data-children="${arraySubPage }" ></i>
 							</c:if>
@@ -122,7 +122,7 @@
 					 --%>
 					<tr class="${layout.displayLayoutId} ${color}">
 						<td>
-							<aui:input type="checkbox" label="" name="${status.index}" cssClass='checkbox' inlineField="true"/>
+							<aui:input type="checkbox" label="" name="${status.index}" cssClass='checkLine' inlineField="true"/>
 							<c:if test="${not empty arraySubPage}">
 								<i class="force-weight-children  icon-circle-arrow-down margin-left-5" data-children="${arraySubPage }" ></i>
 							</c:if>
