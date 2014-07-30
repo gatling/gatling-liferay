@@ -99,15 +99,13 @@
 					--%>
 					<tr class="error">
 						<%-- Affichage request pas enregistrée --%>
-						<td>
-							<aui:input name="delete${layout.requestId}" type="hidden" value="${layout.requestId}"></aui:input>
-						</td>						
+						<aui:input name="delete${layout.requestId}" type="hidden" value="${layout.requestId}"></aui:input>
 						<td>
 							<portlet:actionURL var="deleteRequestURL" name="removeRequest">
 								<portlet:param name="requestId" value="${layout.requestId}" />
 							</portlet:actionURL> <liferay-ui:icon-delete url="${deleteRequestURL}" />
 						</td>
-						<td><i class="icon-exclamation-sign"></i> <a href="#" title="${layout.url}" target="_blank">${layout.showName()}</a></td>
+						<td><i class="icon-exclamation-sign"></i> ${layout.showName()}</td>
 						<td><aui:input label="" name="weight${layout.requestId}" value="${layout.weight}" cssClass="weight deleted" onChange="showWeight()">
 								<aui:validator name="number" />
 							</aui:input></td>

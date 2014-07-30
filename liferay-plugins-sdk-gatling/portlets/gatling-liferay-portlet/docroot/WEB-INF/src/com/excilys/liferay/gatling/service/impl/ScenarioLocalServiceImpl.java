@@ -238,53 +238,48 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			 *  update data
 			 */
 			for (String key : parameters.keySet()){
-				// if checked
-				if((StringUtil.merge(parameters.get(key)).equals("true")) && (!key.contains("Checkbox")) && (!key.contains("checkAll")) ){
-					int layoutId = (int) Double.parseDouble(key);
-					double weight  =   Double.parseDouble(StringUtil.merge(parameters.get("weight"+key)));
-					DisplayLayout displayLayout = displayLayoutList.get(layoutId);
+				
+				if ((key.contains("weight"))) {
+					int layoutId = Integer
+							.parseInt(key.substring(key.length() - 1));
+					double weight = Double.parseDouble(StringUtil.merge(parameters.get(key)));
+					DisplayLayout displayLayout = displayLayoutList
+							.get(layoutId);
 					String url = displayLayout.getUrl();
+
 					// if already exists in DB
-					if(( lstRequestToEdit.containsKey(url.trim()) ) 
-							&& ((lstRequestToEdit.get(url).getWeight() != weight) || (!lstRequestToEdit.get(url).isUsed()))){
+					if ((lstRequestToEdit.containsKey(url.trim()))
+							&& ((lstRequestToEdit.get(url).getWeight() != weight) )) {
 						Request updatedRequest = lstRequestToEdit.get(url);
 						updatedRequest.setWeight(weight);
 						// Saving ...
 						List<String> errors = new ArrayList<String>();
-						if(RequestValidator.validateRequest(updatedRequest, errors)) {
-							RequestLocalServiceUtil.updateRequest(updatedRequest);
-							if(log.isDebugEnabled()) log.debug("request updated succefully");
-						}
-						else {
-							for(String error : errors) {
+						if (RequestValidator.validateRequest(updatedRequest,
+								errors)) {
+							RequestLocalServiceUtil
+									.updateRequest(updatedRequest);
+							if (log.isDebugEnabled())
+								log.debug("request updated succefully");
+						} else {
+							for (String error : errors) {
 								SessionErrors.add(request, error);
 							}
 						}
 					}
 
 					// else Add new page
-					else if(! lstRequestToEdit.containsKey(url.trim())){
-						Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.getDisplayLayoutId().isPrivatePage(), displayLayout.getDisplayLayoutId().getLayoutId());
+					else if (!lstRequestToEdit.containsKey(url.trim())) {
+						Layout layout = LayoutLocalServiceUtil.getLayout(
+								groupId, displayLayout.getDisplayLayoutId()
+										.isPrivatePage(), displayLayout
+										.getDisplayLayoutId().getLayoutId());
 
-						RequestLocalServiceUtil.addRequestFromLayout(layout, weight, idScenario, true, userId );
-						if(log.isDebugEnabled()) log.debug("request created and added succefully ");
-					}				
+						RequestLocalServiceUtil.addRequestFromLayout(layout,
+								weight, idScenario, true, userId);
+						if (log.isDebugEnabled())
+							log.debug("request created and added succefully ");
+					}	
 				}
-
-				// Case delete request from scenario --> case not checked in bd update
-				else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox")) && (!key.contains("checkAll")) && (!key.contains("/")) ){
-					int layoutId = (int) Double.parseDouble(key);
-					DisplayLayout displayLayout = displayLayoutList.get(layoutId);
-
-					Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.getDisplayLayoutId().isPrivatePage(), displayLayout.getDisplayLayoutId().getLayoutId());
-					String url = layout.getFriendlyURL();
-
-					if(lstRequestToEdit.containsKey(url.trim())){
-						Request requestToDelete = lstRequestToEdit.get(url);
-						requestToDelete.persist();;
-					}
-				}
-
 				// if layout doesn't exist anymore
 				else if(key.contains("delete") ){
 					long requestId =  Long.parseLong(StringUtil.merge(parameters.get(key)));
