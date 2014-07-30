@@ -1,0 +1,28 @@
+import com.excilys.ebi.gatling.core.Predef._
+import com.excilys.ebi.gatling.http.Predef._
+import com.excilys.ebi.gatling.jdbc.Predef._
+import Headers._
+import akka.util.duration._
+import bootstrap._
+import assertions._
+
+
+class {{simuName}} extends Simulation {
+
+{{#mustacheScenario}}
+  var {{name}} = scenario("{{name}}")
+  .randomSwitch(
+		{{#mustacheRequests}}
+    {{pourcentage}} -> exec(http("{{name}}").get("{{url}}")){{virgule}}
+{{/mustacheRequests}}	
+  )
+	{{/mustacheScenario}}
+	
+		
+  setUp(
+{{#mustacheScenario}}
+    {{name}}.inject( ramp( {{users}} users ) over ( {{duration}} seconds)){{virgule}}
+{{/mustacheScenario}}
+  )
+
+}

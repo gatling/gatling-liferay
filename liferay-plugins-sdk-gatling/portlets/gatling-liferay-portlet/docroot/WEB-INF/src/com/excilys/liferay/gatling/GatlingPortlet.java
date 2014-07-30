@@ -35,6 +35,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -50,7 +52,7 @@ import javax.portlet.ResourceResponse;
 public class GatlingPortlet extends MVCPortlet {
 
 
-	MustacheFactory mustacheFactory = new DefaultMustacheFactory();
+	MustacheFactory mf = new DefaultMustacheFactory();
 	
 	private static Log log = LogFactoryUtil.getLog(GatlingPortlet.class);
 
@@ -73,7 +75,7 @@ public class GatlingPortlet extends MVCPortlet {
 
 		//create the role Gatling		
 		long companyId = PortalUtil.getDefaultCompanyId();
-		long userId = 10161; 
+		long userId = 10161; //10437
 		GatlingUtil.createRole(companyId,userId);
 		super.init();
 	}
@@ -226,7 +228,9 @@ public class GatlingPortlet extends MVCPortlet {
 		try {
 			RequestLocalServiceUtil.deleteRequest(requestId);
 			if(log.isDebugEnabled()) log.debug("request deleted succefully ");
-		} catch (PortalException | SystemException e) {
+		} catch (PortalException e) {
+			if(log.isDebugEnabled()) log.debug("fail to delete request: "+e.getMessage());
+		}catch (SystemException  e) {
 			if(log.isDebugEnabled()) log.debug("fail to delete request: "+e.getMessage());
 		}
 
@@ -298,7 +302,6 @@ public class GatlingPortlet extends MVCPortlet {
 			return 0;
 		}
 	}
-	
 	/**
 	 * View method : redirect to requested page and send necessary parameters
 	 */
@@ -455,29 +458,65 @@ public class GatlingPortlet extends MVCPortlet {
 	public void serveResource(ResourceRequest request, ResourceResponse response) {
 
 		Long simulationId = ParamUtil.getLong(request, "simulationId");
+		Long[] simulationsIds = {simulationId, simulationId};
 		if(log.isDebugEnabled()) log.debug("serveResource : " + simulationId);
-		Simulation simu;
+		response.setContentType("application/zip");
+		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
+		response.addProperty("Content-Disposition", "attachment; filename = multiSimulations.zip");
+
 		try {
-			simu = SimulationLocalServiceUtil.getSimulation(simulationId);
-			if(simulationId!=null && simu!=null){
-				response.setContentType("application/x-wais-source");
-				response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
+								
+			ZipOutputStream zipOutputStream = new ZipOutputStream(response.getPortletOutputStream());
+			for (Long long1 : simulationsIds) {
 
-				Date date =new Date();
-				try {
-					response.addProperty("Content-Disposition", "attachment; filename=Simulation"  + SimulationLocalServiceUtil.getSimulation(simulationId).getName()  + date.getTime() + ".scala");
-				} catch (PortalException e1) {	e1.printStackTrace();} catch (SystemException e1) {	e1.printStackTrace();}
+				Simulation simu;
 
-				try {
-					
-					Mustache mustache = mustacheFactory.compile("resources/template.mustache");
-					OutputStream out = response.getPortletOutputStream();					
-					mustache.execute(new PrintWriter(out), new ScriptGeneratorMustache(simulationId)).flush();
-					out.close();
-				} catch (Exception e) {	e.printStackTrace();}
+				simu = SimulationLocalServiceUtil.getSimulation(simulationId);
+				if(simulationId!=null && simu!=null){
+
+					Date date =new Date();
+					zipOutputStream.putNextEntry(new ZipEntry("Simulation"  + SimulationLocalServiceUtil.getSimulation(long1).getName()  + date.getTime() + ".scala"));
+
+					Mustache mustache = mf.compile("resources/templateGatling1.5.mustache");
+					mustache.execute(new PrintWriter(zipOutputStream), new ScriptGeneratorMustache(simulationId)).flush();
+					zipOutputStream.closeEntry();
+				}
 			}
-		} catch (PortalException e2) {	e2.printStackTrace();} catch (SystemException e2) {	e2.printStackTrace();}
+			zipOutputStream.close();
+			
+		}
+		catch (Exception e2) {	e2.printStackTrace();} 
+
+
+
 	}
 	
-
+//	
+//    @Override
+//    public void serveResource(ResourceRequest request, ResourceResponse response) {
+//
+//        Long simulationId = ParamUtil.getLong(request, "simulationId");
+//        if(log.isDebugEnabled()) log.debug("serveResource : " + simulationId);
+//        Simulation simu;
+//        try {
+//            simu = SimulationLocalServiceUtil.getSimulation(simulationId);
+//            if(simulationId!=null && simu!=null){
+//                response.setContentType("application/x-wais-source");
+//                response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
+//
+//                Date date =new Date();
+//                try {
+//                    response.addProperty("Content-Disposition", "attachment; filename=Simulation"  + SimulationLocalServiceUtil.getSimulation(simulationId).getName()  + date.getTime() + ".scala");
+//                } catch (PortalException e1) {    e1.printStackTrace();} catch (SystemException e1) {    e1.printStackTrace();}
+//
+//                try {
+//                   
+//                    Mustache mustache = mustacheFactory.compile("resources/template.mustache");
+//                    OutputStream out = response.getPortletOutputStream();                   
+//                    mustache.execute(new PrintWriter(out), new ScriptGeneratorMustache(simulationId)).flush();
+//                    out.close();
+//                } catch (Exception e) {    e.printStackTrace();}
+//            }
+//        } catch (PortalException e2) {    e2.printStackTrace();} catch (SystemException e2) {    e2.printStackTrace();}
+//    
 }
