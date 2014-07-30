@@ -10,7 +10,8 @@
 	<portlet:param name="simulationId" value="${scenario.simulation_id }" />
 </portlet:renderURL>
 
-<liferay-ui:header title="${scenario.name } : ${siteName}" backURL="${backURL }" />
+<liferay-ui:header title="${scenario.name } : ${siteName}"
+	backURL="${backURL }" />
 
 <div class="well well-small">
 	<liferay-ui:icon-help message="About this page">
@@ -18,17 +19,22 @@
 	</liferay-ui:icon-help>
 </div>
 
-<portlet:actionURL name="editScenario" var="editScenarioURL" windowState="normal" />
-<aui:form action="${editScenarioURL}" method="POST"  name="formulaireScenario" id="formulaireScenario" >
+<portlet:actionURL name="editScenario" var="editScenarioURL"
+	windowState="normal" />
+<aui:form action="${editScenarioURL}" method="POST"
+	name="formulaireScenario" id="formulaireScenario">
 	<liferay-util:buffer var="htmlTop">
-		<h5>${scenario.name } : ${siteName}</h5>
+		<h5>${scenario.name }: ${siteName}</h5>
 	</liferay-util:buffer>
 	<liferay-util:buffer var="htmlBottom">
 		<aui:button-row>
-			<aui:button type="submit" iconAlign="right" onClick="confirmSubmit();return false"/>
+			<aui:button type="submit" iconAlign="right"
+				onClick="confirmSubmit();return false" />
 			<aui:button type="cancel" href="${backURL}" iconAlign="right" />
 		</aui:button-row>
-		<p class="muted"><liferay-ui:message key="scenario-edit-check-details"/></p>
+		<p class="muted">
+			<liferay-ui:message key="scenario-edit-check-details" />
+		</p>
 	</liferay-util:buffer>
 
 
@@ -195,9 +201,14 @@
 			var node = A.one('.'+page);
 			if(node != null) {
 				node.one(".checkLine").set("checked",checked);
-				var children = node.one(".force-weight-children").getData("children").split(",");
-				for (var i = 0; i < children.length; i++) {
-					selectSubPage(children[i], checked);
+				var nodeList = node.one(".force-weight-children");
+				if(nodeList != null) {
+					var children = nodeList.getData("children").split(",");
+					console.log("list "+node.one(".force-weight-children").getData("children"));
+					for (var i = 0; i < children.length; i++) {
+						console.log("->"+children[i]);
+						selectSubPage(children[i], checked);
+					}
 				}
 			}
 	    });
