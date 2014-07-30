@@ -34,6 +34,14 @@
 	background-color: #E5F5FC;
 }
 
+.success > td {
+	background-color: #F1FBD1 !important;
+}
+
+.error > td {
+	background-color: #FEE5E2 !important;
+}
+
 .inline-button {
 	margin-bottom: 7px !important;
 }
@@ -41,3 +49,4 @@
 .force-weight-children:hover {
 	cursor: pointer;
 }
+

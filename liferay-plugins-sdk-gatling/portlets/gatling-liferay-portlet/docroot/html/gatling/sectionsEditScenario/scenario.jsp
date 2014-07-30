@@ -72,9 +72,10 @@
 							<input type="checkbox" name="${status.index}" class='checkLine' /> 
 							<c:if test="${not empty arraySubPage}">
 								<i class="force-weight-children  icon-circle-arrow-down margin-left-5" data-children="${arraySubPage }" ></i>
-							</c:if>
+							</c:if> 
+							<i class="icon-plus-sign"></i>
 						</td>
-						<td><i class="icon-plus-sign"></i> ${layout.showName()}
+						<td>${layout.showName()}
 							<a href="${url}" title="${layout.url}" target="_blank"> 
 								<i class="icon-share"></i>
 							</a>
@@ -98,12 +99,13 @@
 					<tr class="error">
 						<%-- Affichage request pas enregistrée --%>
 						<td>
-							<aui:input name="delete${layout.requestId}" type="hidden" value="${layout.requestId}" />
+							<input name="delete${layout.requestId}" type="hidden" value="${layout.requestId}" /> 
+							<i class="icon-exclamation-sign"></i> 
 							<portlet:actionURL var="deleteRequestURL" name="removeRequest">
 								<portlet:param name="requestId" value="${layout.requestId}" />
 							</portlet:actionURL> <liferay-ui:icon-delete url="${deleteRequestURL}" />
 						</td>
-						<td><i class="icon-exclamation-sign"></i> ${layout.showName()}</td>
+						<td>${layout.showName()}</td>
 						<td><aui:input label="" name="weight${layout.requestId}" value="${layout.weight}" cssClass="weight deleted" onChange="showWeight()">
 								<aui:validator name="number" />
 							</aui:input></td>
