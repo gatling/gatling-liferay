@@ -106,12 +106,13 @@
 
 		</liferay-ui:search-container-column-text>
 		<%--delete button --%>
-		<liferay-ui:search-container-column-text name="delete" />
+		<liferay-ui:search-container-column-text name="delete" align="center">
 		<portlet:actionURL var="deleteScenarioURL" name="removeScenario">
 			<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
 			<portlet:param name="simulationId" value="${scenario.simulation_id }" />
 		</portlet:actionURL>
 		<liferay-ui:icon-delete url="${deleteScenarioURL}" />
+		</liferay-ui:search-container-column-text>
 	</liferay-ui:search-container-row>
 	<%--iterate and show list of data --%>
 	<liferay-ui:search-iterator paginate="false" />

@@ -3,6 +3,7 @@ package com.excilys.liferay.gatling;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.model.impl.RequestImpl;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
@@ -376,9 +377,11 @@ public class GatlingPortlet extends MVCPortlet {
 				
 				renderRequest.setAttribute("listScenario", scenarioList);	
 				renderRequest.setAttribute("MapScenario", scenariosMap);	
-			} catch (PortalException e ){
-				e.printStackTrace();
-			}catch( SystemException e1){
+
+			} catch (PortalException  e1) {
+				e1.printStackTrace();
+			} catch (SystemException  e1) {
+
 				e1.printStackTrace();
 			}
 

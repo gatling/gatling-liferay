@@ -20,7 +20,6 @@
 	<portlet:param name="page" value="/html/gatling/help.jsp" />
 </portlet:renderURL>
 <div class="well well-small">
-<<<<<<< HEAD
 	<a target="blank" href='<%= PortletProps.get("gatling-faq") %>'>
 		<span class="label label-warning"><liferay-ui:message key="help-faq-gatling" /></span>
 	</a> 
@@ -29,12 +28,7 @@
 	</a> 
 	<a href="#" class="toggle" data-content="help-simulation">
 		<span class="label label-info"><liferay-ui:message key="help-what-simulation" /></span>
-=======
-	<a target="blank" href="https://github.com/excilys/gatling/wiki/Getting-Started"> <span class="label label-warning"><liferay-ui:message
-				key="help-faq-gatling" /></span>
-	</a> <a href="${helpURL}"> <span class="label"><liferay-ui:message key="help-how-to-use-portlet" /></span>
-	</a> <a href="#" class="toggle" data-content="help-simulation"> <span class="label label-info"><liferay-ui:message key="help-what-simulation" /></span>
->>>>>>> delete button instead of actions
+
 	</a>
 </div>
 
@@ -83,12 +77,13 @@
 		</liferay-ui:search-container-column-text>
 
 		<%--delete button --%>
-		<liferay-ui:search-container-column-text name="delete" />
+		<liferay-ui:search-container-column-text name="delete" >
 		<portlet:actionURL var="deleteSimulationURL" name="removeSimulation">
 			<portlet:param name="simulationId" value="${simulation.simulation_id }" />
 		</portlet:actionURL>
 
 		<liferay-ui:icon-delete url="${deleteSimulationURL}" />
+		</liferay-ui:search-container-column-text>
 	</liferay-ui:search-container-row>
 	<%--iterate and display the list --%>
 	<liferay-ui:search-iterator paginate="false" />
