@@ -3,7 +3,6 @@ package com.excilys.liferay.gatling;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
-import com.excilys.liferay.gatling.model.impl.RequestImpl;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
@@ -54,7 +53,7 @@ public class GatlingPortlet extends MVCPortlet {
 
 
 	MustacheFactory mf = new DefaultMustacheFactory();
-	
+
 	private static Log log = LogFactoryUtil.getLog(GatlingPortlet.class);
 
 	/**
@@ -90,7 +89,7 @@ public class GatlingPortlet extends MVCPortlet {
 	public void addSimulation(ActionRequest request, ActionResponse response)
 			throws Exception {
 		Simulation simulation = SimulationLocalServiceUtil.addSimulationFromRequest(request, response);
-		
+
 		if(simulation != null) {
 			List<Scenario> list = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
 			response.setRenderParameter("simulationId", Long.toString(simulation.getSimulation_id()));
@@ -103,14 +102,14 @@ public class GatlingPortlet extends MVCPortlet {
 			}
 		}
 		else {
-				if(log.isDebugEnabled()) {
-					log.debug("Simulation fails to add");
-				}
+			if(log.isDebugEnabled()) {
+				log.debug("Simulation fails to add");
+			}
 			response.setRenderParameter("page", jspListSimulation);
 		}
 
 	}
-	
+
 	/**
 	 * edit simulation method
 	 * @param request
@@ -140,7 +139,7 @@ public class GatlingPortlet extends MVCPortlet {
 		if(log.isDebugEnabled()) {
 			log.debug("remove Simulation with id : "+ simulationId);
 		}
-		
+
 		SimulationLocalServiceUtil.removeSimulationCascade(simulationId);
 		response.setRenderParameter("page", jspListSimulation);
 	}	
@@ -237,7 +236,7 @@ public class GatlingPortlet extends MVCPortlet {
 
 
 	}
-	
+
 	/**
 	 * get the scenario state, if completed or not yet
 	 * @param scenario
@@ -269,7 +268,7 @@ public class GatlingPortlet extends MVCPortlet {
 			log.error("enable to determine Scenario state "+e.getMessage());
 			return 0;	
 		}
-		
+
 	}
 
 	/**
@@ -312,7 +311,7 @@ public class GatlingPortlet extends MVCPortlet {
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
 		/* get the path  for next jsp or by  default jspListSimulation */
 		String page = ParamUtil.get(renderRequest, "page", jspListSimulation); 
-		
+
 		//view.jsp => list of the simulations
 		if(page.equals(jspListSimulation)) {
 			if(log.isDebugEnabled()) log.debug("DoView : List Simulation");
@@ -351,7 +350,7 @@ public class GatlingPortlet extends MVCPortlet {
 				//map <scenario, scenarioInfo>
 				Map<Scenario, Number[]> scenariosMap = new HashMap<Scenario, Number[]>();
 				for(Scenario scenario : scenarioList){
-					
+
 					List<Request> lsR = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
 					Number[] info = new Number[3];
 					int numberRequestAdded=0;
@@ -361,7 +360,7 @@ public class GatlingPortlet extends MVCPortlet {
 						if(r.isUsed())
 							numberRequestAdded ++;
 					}
-					
+
 					info[2] = scenarioState(scenario);
 					info[0] = numberRequestAdded;
 					info[1] = numberRequest;
@@ -375,14 +374,12 @@ public class GatlingPortlet extends MVCPortlet {
 				List<Simulation> listSimulations = SimulationLocalServiceUtil.getSimulations(0, SimulationLocalServiceUtil.getSimulationsCount());
 				String JSListSimName = GatlingUtil.createJSListOfSimulationName(listSimulations);
 				renderRequest.setAttribute("listOfSimulationName", JSListSimName);
-				
+
 				renderRequest.setAttribute("listScenario", scenarioList);	
 				renderRequest.setAttribute("MapScenario", scenariosMap);	
-
 			} catch (PortalException  e1) {
 				e1.printStackTrace();
 			} catch (SystemException  e1) {
-
 				e1.printStackTrace();
 			}
 
@@ -423,7 +420,7 @@ public class GatlingPortlet extends MVCPortlet {
 				String[] category1 = {"scenario", "details"};
 				String[][] categorySections = {category1};
 
-				
+
 				// Get list of used names
 				List<Scenario> listScenario = ScenarioLocalServiceUtil.getScenarios(0, ScenarioLocalServiceUtil.getScenariosCount());
 				String JSListName = GatlingUtil.createJSListOfScenarioName(listScenario);
@@ -431,7 +428,7 @@ public class GatlingPortlet extends MVCPortlet {
 				//add private and public url of site
 				String privateURL = scenario.getUrl_site().replace("web", "group");
 				String publicURL = scenario.getUrl_site();
-				
+
 				//add request parameters 
 				renderRequest.setAttribute("scenario", scenario);
 				renderRequest.setAttribute("listPages", displayLayoutList);
@@ -441,7 +438,7 @@ public class GatlingPortlet extends MVCPortlet {
 				renderRequest.setAttribute("publicURL", publicURL);
 				renderRequest.setAttribute("categoryNames", categoryNames);
 				renderRequest.setAttribute("categorySections", categorySections);
-				
+
 			} catch (SystemException e) {
 				if(log.isDebugEnabled()) {
 					log.debug("connot get layout list: "+e.getMessage());
@@ -462,67 +459,65 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	@Override 
 	public void serveResource(ResourceRequest request, ResourceResponse response) {
-
-		Long simulationId = ParamUtil.getLong(request, "simulationId");
-		Long[] simulationsIds = {simulationId, simulationId};
-		if(log.isDebugEnabled()) log.debug("serveResource : " + simulationId);
-		response.setContentType("application/zip");
-		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
-		response.addProperty("Content-Disposition", "attachment; filename = multiSimulations.zip");
-
-		try {
-								
-			ZipOutputStream zipOutputStream = new ZipOutputStream(response.getPortletOutputStream());
-			for (Long long1 : simulationsIds) {
-
-				Simulation simu;
-
-				simu = SimulationLocalServiceUtil.getSimulation(simulationId);
-				if(simulationId!=null && simu!=null){
-
-					Date date =new Date();
-					zipOutputStream.putNextEntry(new ZipEntry("Simulation"  + SimulationLocalServiceUtil.getSimulation(long1).getName()  + date.getTime() + ".scala"));
-
-					Mustache mustache = mf.compile("resources/templateGatling1.5.mustache");
-					mustache.execute(new PrintWriter(zipOutputStream), new ScriptGeneratorMustache(simulationId)).flush();
-					zipOutputStream.closeEntry();
-				}
-			}
-			zipOutputStream.close();
-			
+		/*
+		 * Get template from version
+		 */
+		int gatlingVersion = ParamUtil.getInteger(request, "gatlingVersion");
+		String template;
+		switch (gatlingVersion) {
+		case 1:
+			template = "resources/templateGatling1.5.mustache";
+			break;
+		case 2:
+			template = "resources/templateGatling2.0.mustache";
+			break;
+		default:
+			template = "resources/templateGatling2.0.mustache";
+			break;
 		}
-		catch (Exception e2) {	e2.printStackTrace();} 
+		/*
+		 * Get simulations ids
+		 */
+		long[] simulationsIds = ParamUtil.getLongValues(request, "export");
+		Simulation simulation;
+		if(simulationsIds.length > 1) {
+			response.setContentType("application/zip");
+			response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
+			response.addProperty("Content-Disposition", "attachment; filename = multiSimulations.zip");
 
+			try {					
+				ZipOutputStream zipOutputStream = new ZipOutputStream(response.getPortletOutputStream());
+				for (long id : simulationsIds) {
+					if(id  > 0) {
+						simulation = SimulationLocalServiceUtil.getSimulation(id);
+						Date date =new Date();
+						zipOutputStream.putNextEntry(new ZipEntry("Simulation"  + simulation.getName()  + date.getTime() + ".scala"));
+						Mustache mustache = mf.compile(template);
+						mustache.execute(new PrintWriter(zipOutputStream), new ScriptGeneratorGatling2(id)).flush();
+						zipOutputStream.closeEntry();
+					}
+				}
+				zipOutputStream.close();
+			}
+			catch (Exception e2) {
+				e2.printStackTrace();
+			} 
 
+		} else if(simulationsIds.length == 1 && simulationsIds[0] > 0) {	
+			response.setContentType("application/x-wais-source");
+			response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 
+			Date date =new Date();
+			try {
+				simulation = SimulationLocalServiceUtil.getSimulation(simulationsIds[0]);
+				response.addProperty("Content-Disposition", "attachment; filename=Simulation"  + simulation.getName()  + date.getTime() + ".scala");
+				Mustache mustache = mf.compile(template);
+				OutputStream out = response.getPortletOutputStream();                   
+				mustache.execute(new PrintWriter(out), new ScriptGeneratorGatling2(simulation.getSimulation_id())).flush();
+				out.close();
+			} catch (Exception e) { 
+				e.printStackTrace();
+			}
+		}
 	}
-	
-//	
-//    @Override
-//    public void serveResource(ResourceRequest request, ResourceResponse response) {
-//
-//        Long simulationId = ParamUtil.getLong(request, "simulationId");
-//        if(log.isDebugEnabled()) log.debug("serveResource : " + simulationId);
-//        Simulation simu;
-//        try {
-//            simu = SimulationLocalServiceUtil.getSimulation(simulationId);
-//            if(simulationId!=null && simu!=null){
-//                response.setContentType("application/x-wais-source");
-//                response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
-//
-//                Date date =new Date();
-//                try {
-//                    response.addProperty("Content-Disposition", "attachment; filename=Simulation"  + SimulationLocalServiceUtil.getSimulation(simulationId).getName()  + date.getTime() + ".scala");
-//                } catch (PortalException e1) {    e1.printStackTrace();} catch (SystemException e1) {    e1.printStackTrace();}
-//
-//                try {
-//                   
-//                    Mustache mustache = mustacheFactory.compile("resources/template.mustache");
-//                    OutputStream out = response.getPortletOutputStream();                   
-//                    mustache.execute(new PrintWriter(out), new ScriptGeneratorMustache(simulationId)).flush();
-//                    out.close();
-//                } catch (Exception e) {    e.printStackTrace();}
-//            }
-//        } catch (PortalException e2) {    e2.printStackTrace();} catch (SystemException e2) {    e2.printStackTrace();}
-//    
 }

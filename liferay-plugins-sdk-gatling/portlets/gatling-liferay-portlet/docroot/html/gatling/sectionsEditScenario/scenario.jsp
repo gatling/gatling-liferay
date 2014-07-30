@@ -9,10 +9,8 @@
 	<aui:button value="scenario-edit-force-weight-btn" cssClass="inline-button" onClick="forceWeight();"/>
 	<table class="table table-bordered table-scenario">
 		<tr>
-			<liferay-util:buffer var="checkAll">
-				<i class='icon-circle-arrow-down'></i> <liferay-ui:message key="select-all" />
-			</liferay-util:buffer>
-			<th><aui:input type="checkbox" name="checkAll" label="${checkAll}" /></th>
+			<th><input type="checkbox" id="checkAll" />
+				<i class='icon-circle-arrow-down'></i> <liferay-ui:message key="select-all" /></th>
 			<th><liferay-ui:message key="scenario-edit-table-header-page" /><liferay-ui:icon-help message="name-info-help"/></th>
 			<th><liferay-ui:message key="scenario-edit-table-header-weight" /> <liferay-ui:icon-help message="weight-info-help"/></th>
 			<th><liferay-ui:icon-help message="percentage-info-help"/></th>
@@ -71,7 +69,7 @@
 					<tr class="success ${layout.displayLayoutId} ${color }">
 						<%-- Affichage request pas enregistrée --%>
 						<td>
-							<aui:input type="checkbox" label="" name="${status.index}" cssClass='checkLine' inlineField="true"/> 
+							<input type="checkbox" name="${status.index}" class='checkLine' /> 
 							<c:if test="${not empty arraySubPage}">
 								<i class="force-weight-children  icon-circle-arrow-down margin-left-5" data-children="${arraySubPage }" ></i>
 							</c:if>
@@ -99,7 +97,9 @@
 					--%>
 					<tr class="error">
 						<%-- Affichage request pas enregistrée --%>
-						<aui:input name="delete${layout.requestId}" type="hidden" value="${layout.requestId}"></aui:input>
+						<td>
+							<input name="delete${layout.requestId}" type="hidden" value="${layout.requestId}" />
+						</td>
 						<td>
 							<portlet:actionURL var="deleteRequestURL" name="removeRequest">
 								<portlet:param name="requestId" value="${layout.requestId}" />
@@ -120,7 +120,7 @@
 					 --%>
 					<tr class="${layout.displayLayoutId} ${color}">
 						<td>
-							<aui:input type="checkbox" label="" name="${status.index}" cssClass='checkLine' inlineField="true"/>
+							<input type="checkbox"  name="${status.index}" class='checkLine'/>
 							<c:if test="${not empty arraySubPage}">
 								<i class="force-weight-children  icon-circle-arrow-down margin-left-5" data-children="${arraySubPage }" ></i>
 							</c:if>

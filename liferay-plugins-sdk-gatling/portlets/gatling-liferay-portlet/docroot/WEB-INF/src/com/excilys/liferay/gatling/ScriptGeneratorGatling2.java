@@ -10,12 +10,12 @@ import com.liferay.portal.kernel.exception.SystemException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScriptGeneratorMustache {
+public class ScriptGeneratorGatling2 {
 
 	String simuName = "avant";
 	Long simulationId = 0L;       
 
-	public ScriptGeneratorMustache(Long simulationId) throws Exception{
+	public ScriptGeneratorGatling2(Long simulationId) throws Exception{
 		super();
 		this.simuName = SimulationLocalServiceUtil.getSimulation(simulationId).getVariableName();
 		this.simulationId = simulationId;
@@ -31,23 +31,25 @@ public class ScriptGeneratorMustache {
 
 				List<MustacheRequest> mustacheRequests = new ArrayList<MustacheRequest>();
 				List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId( sc.getScenario_id());
-				double totalWeight = getTotalWeight(sc);
-				double currentSumWeight = 0;
-				double weight = 0;
-				for (Request rq : listRequest) {
-					if(rq.getWeight() > 0) {
-						String site = sc.getUrl_site();
-						if(rq.isPrivatePage()){
-							//String is a f****** immutable class ;(
-							site = site.replace("/web/", "/group/");
+				if(!listRequest.isEmpty()) { 
+					double totalWeight = getTotalWeight(sc);
+					double currentSumWeight = 0;
+					double weight = 0;
+					for (Request rq : listRequest) {
+						if(rq.getWeight() > 0) {
+							String site = sc.getUrl_site();
+							if(rq.isPrivatePage()){
+								//String is a f****** immutable class ;(
+								site = site.replace("/web/", "/group/");
+							}
+							weight = (double) ((int)((int) rq.getWeight()*10000/totalWeight))/100;
+							currentSumWeight += weight;
+							MustacheRequest mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , ",");
+							mustacheRequests.add(mr);
 						}
-						weight = (double) ((int)((int) rq.getWeight()*10000/totalWeight))/100;
-						currentSumWeight += weight;
-						MustacheRequest mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , ",");
-						mustacheRequests.add(mr);
 					}
+					mustacheRequests.get(mustacheRequests.size()-1).setWeight(100-((currentSumWeight-weight)));
 				}
-				mustacheRequests.get(mustacheRequests.size()-1).setWeight(100-((currentSumWeight-weight)));
 				MustacheScenario ms = new MustacheScenario(sc.getVariableName(),sc.getUsers_per_seconds(), sc.getDuration(), ",", mustacheRequests);
 				list.add(ms);
 			}

@@ -45,49 +45,70 @@
 		</ul>
 	</div>
 </div>
-<%--
-	Search container (table) 
---%>
-<liferay-ui:search-container emptyResultsMessage="simulation-list-empty">
-	<%--List of data to display --%>
-	<liferay-ui:search-container-results results="${listSimulation }" total="${listSimulation.size() }" />
-	<%--for each  column --%>
-	<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Simulation" keyProperty="simulation_id" modelVar="simulation">
-		<portlet:renderURL var="editSimulationURL">
-			<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
-			<portlet:param name="simulationId" value="${simulation.simulation_id }" />
-		</portlet:renderURL>
-		<liferay-ui:search-container-column-text name="simulation-list-table-header-name" value="${simulation.name }" href="${editSimulationURL}" />
-		<liferay-ui:search-container-column-text name="simulation-list-table-header-scenarionb" value="${MapSimulation.get(simulation)[0] }" />
-		<liferay-ui:search-container-column-text name="simulation-list-table-header-state">
-			<c:choose>
-				<c:when test="${MapSimulation.get(simulation)[1] == 2}">
-					<span class="badge badge-success"><i class=" icon-ok"></i></span>
-					<liferay-ui:icon-help message="message-help-info-state-simulation-success"/>
-				</c:when>
-				<c:when test="${MapSimulation.get(simulation)[1] == 1}">
-					<span class="badge badge-warning"><i class="icon-pencil"></i></span>
-					<liferay-ui:icon-help message="message-help-info-state-simulation-warning"/>
-				</c:when>
-				<c:otherwise>
-					<span class="badge badge-important"><i class="icon-ban-circle"></i></span>
-					<liferay-ui:icon-help message="message-help-info-state-simulation-important"/>
-				</c:otherwise>
-			</c:choose>
-		</liferay-ui:search-container-column-text>
 
-		<%--delete button --%>
-		<liferay-ui:search-container-column-text name="delete" >
-		<portlet:actionURL var="deleteSimulationURL" name="removeSimulation">
-			<portlet:param name="simulationId" value="${simulation.simulation_id }" />
-		</portlet:actionURL>
-
-		<liferay-ui:icon-delete url="${deleteSimulationURL}" />
-		</liferay-ui:search-container-column-text>
-	</liferay-ui:search-container-row>
-	<%--iterate and display the list --%>
-	<liferay-ui:search-iterator paginate="false" />
-</liferay-ui:search-container>
+<portlet:resourceURL var="resourceUrl" />
+<aui:form action="${resourceUrl}" method="post">
+	<h5><liferay-ui:message key="simulation-list-export" /></h5>
+	<aui:select label="simulation-list-version-choice" name="gatlingVersion" inlineField="true">
+		<aui:option value="1">Gatling 1.5</aui:option>
+		<aui:option value="2">Gatling 2.0 M3</aui:option>
+	</aui:select>
+	<liferay-util:buffer var="textExport">
+		<i class="icon-print"></i>
+		<liferay-ui:message key="simulation-list-export-btn" />
+	</liferay-util:buffer>
+	<aui:button cssClass="inline-button" type="submit" value="${textExport }" />
+	<%--
+		Search container (table) 
+	--%>
+	<liferay-ui:search-container emptyResultsMessage="simulation-list-empty">
+		<%--List of data to display --%>
+		<liferay-ui:search-container-results results="${listSimulation }" total="${listSimulation.size() }" />
+		<%--for each  column --%>
+		<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Simulation" keyProperty="simulation_id" modelVar="simulation">
+			<liferay-ui:search-container-column-text>
+				<c:if test="${MapSimulation.get(simulation)[1] == 2}">
+					<input type="checkbox" class="checkLine"
+						name="<portlet:namespace/>export" id="<portlet:namespace/>checkAll"
+						value="${simulation.simulation_id}" />
+				</c:if>
+			</liferay-ui:search-container-column-text>
+			<portlet:renderURL var="editSimulationURL">
+				<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
+				<portlet:param name="simulationId" value="${simulation.simulation_id }" />
+			</portlet:renderURL>
+			<liferay-ui:search-container-column-text name="simulation-list-table-header-name" value="${simulation.name }" href="${editSimulationURL}" />
+			<liferay-ui:search-container-column-text name="simulation-list-table-header-scenarionb" value="${MapSimulation.get(simulation)[0] }" />
+			<liferay-ui:search-container-column-text name="simulation-list-table-header-state">
+				<c:choose>
+					<c:when test="${MapSimulation.get(simulation)[1] == 2}">
+						<span class="badge badge-success"><i class=" icon-ok"></i></span>
+						<liferay-ui:icon-help message="message-help-info-state-simulation-success"/>
+					</c:when>
+					<c:when test="${MapSimulation.get(simulation)[1] == 1}">
+						<span class="badge badge-warning"><i class="icon-pencil"></i></span>
+						<liferay-ui:icon-help message="message-help-info-state-simulation-warning"/>
+					</c:when>
+					<c:otherwise>
+						<span class="badge badge-important"><i class="icon-ban-circle"></i></span>
+						<liferay-ui:icon-help message="message-help-info-state-simulation-important"/>
+					</c:otherwise>
+				</c:choose>
+			</liferay-ui:search-container-column-text>
+	
+			<%--delete button --%>
+			<liferay-ui:search-container-column-text name="delete" >
+			<portlet:actionURL var="deleteSimulationURL" name="removeSimulation">
+				<portlet:param name="simulationId" value="${simulation.simulation_id }" />
+			</portlet:actionURL>
+	
+			<liferay-ui:icon-delete url="${deleteSimulationURL}" />
+			</liferay-ui:search-container-column-text>
+		</liferay-ui:search-container-row>
+		<%--iterate and display the list --%>
+		<liferay-ui:search-iterator paginate="false" />
+	</liferay-ui:search-container>
+</aui:form>
 <%--submit to addSimulation --%>
 <portlet:actionURL name="addSimulation" var="addSimulationURL" windowState="normal" />
 <%-- add simulation form --%>
@@ -156,5 +177,27 @@
 				}
 			});
 		});
+		/*
+		 * Multi select
+		 */
+		var lastChecked = null;
+        var checkboxes = A.all(".checkLine");
+        checkboxes.each(function() {
+        		this.on('click', function(event) {
+	                if(!lastChecked) {
+	                    lastChecked = this;
+	                    return;
+	                }
+	
+	                if(event.shiftKey) {
+	                    var start = checkboxes.indexOf(this);
+	                    var end = checkboxes.indexOf(lastChecked);
+	
+	                    checkboxes.slice(Math.min(start,end), Math.max(start,end)+ 1).attr('checked', lastChecked.get("checked"));
+	
+	                }
+	                lastChecked = this;
+        		});
+        });
 	});
 </script>
