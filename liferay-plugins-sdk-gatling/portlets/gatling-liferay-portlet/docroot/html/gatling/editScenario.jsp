@@ -86,7 +86,7 @@
 			});
 		
 		
-		A.one("#<portlet:namespace/>checkAllCheckbox").on('click',function(event) {
+		A.one("#checkAll").on('click',function(event) {
 			var checked=this.get("checked");
 			A.all(".checkLine").each(function() {
 				this.set("checked", checked);
@@ -99,14 +99,14 @@
 		A.all(".checkLine").each(function() {
 			this.on('click', function(event) {
 				if (A.all(".checkLine:checked").size() === A.all(".checkLine").size()) {
-					A.one("#<portlet:namespace/>checkAllCheckbox").set("checked", true);
+					A.one("#checkAll").set("checked", true);
 				} else {
-					A.one("#<portlet:namespace/>checkAllCheckbox").set("checked", false);
+					A.one("#checkAll").set("checked", false);
 				}
 			});
 		});
 		if (A.all(".checkLine:checked").size() === A.all(".checkLine").size())
-			A.one("#<portlet:namespace/>checkAllCheckbox").set("checked", true);
+			A.one("#checkAll").set("checked", true);
 		
 		A.one("#<portlet:namespace />variableScenarioName").val(A.one("#<portlet:namespace />scenarioName").val().replace(/\W/g, ''));
 	});
