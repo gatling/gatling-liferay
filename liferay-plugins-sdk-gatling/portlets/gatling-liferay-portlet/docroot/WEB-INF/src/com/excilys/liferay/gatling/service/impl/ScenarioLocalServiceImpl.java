@@ -217,7 +217,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			 */
 			// Get non private pages
 			List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId,false,0);
-			String siteName = listLayouts.get(0).getGroup().getName();
+			String siteName = GroupLocalServiceUtil.getGroup(groupId).getName();
 			// then the private
 			List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
 			List<DisplayLayout> displayLayoutList = new ArrayList<DisplayLayout>();

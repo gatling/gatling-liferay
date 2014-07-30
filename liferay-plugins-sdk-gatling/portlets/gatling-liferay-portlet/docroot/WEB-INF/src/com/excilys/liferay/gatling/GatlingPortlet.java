@@ -286,13 +286,14 @@ public class GatlingPortlet extends MVCPortlet {
 					checkNumberCompleted++;
 				}
 			}
-			//if all scenario completed = simulation complited
-			if(checkNumberCompleted == scenariosList.size()){
-				return 2;
-			}
+			
 			//if no one scenario is completed = simulation empty
-			else if(checkNumberCompleted == 0){
+			if((checkNumberCompleted == 0) || (scenariosList.size() ==0)){
 				return 0;
+			}
+			//if all scenario completed = simulation complited
+			else if(checkNumberCompleted == scenariosList.size()){
+				return 2;
 			}
 			//other case = simulation incompleted
 			else{
