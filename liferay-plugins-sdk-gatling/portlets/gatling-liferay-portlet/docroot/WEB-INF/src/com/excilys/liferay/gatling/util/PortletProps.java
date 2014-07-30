@@ -1,7 +1,5 @@
 package com.excilys.liferay.gatling.util;
 
-import com.germinus.easyconf.ComponentProperties;
-
 import java.util.Properties;
 
 /**
