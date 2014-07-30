@@ -3,16 +3,11 @@
 <%--
 	session errors 
 --%>
-<liferay-ui:error key="scenario-name-required"
-	message="scenario-name-required" />
-<liferay-ui:error key="scenario-name-already-used"
-	message="scenario-name-already-used" />
-<liferay-ui:error key="scenario-groupid-missing"
-	message="scenario-groupid-missing" />
-<liferay-ui:error key="scenario-simulationid-missing"
-	message="scenario-simulationid-missing" />
-<liferay-ui:error key="scenario-variable-required"
-	message="scenario-variable-required" />
+<liferay-ui:error key="scenario-name-required" message="scenario-name-required" />
+<liferay-ui:error key="scenario-name-already-used" message="scenario-name-already-used" />
+<liferay-ui:error key="scenario-groupid-missing" message="scenario-groupid-missing" />
+<liferay-ui:error key="scenario-simulationid-missing" message="scenario-simulationid-missing" />
+<liferay-ui:error key="scenario-variable-required" message="scenario-variable-required" />
 <%--
 	header
 --%>
@@ -22,8 +17,7 @@
 </portlet:renderURL>
 
 <c:set var="entete">
-	<liferay-ui:message key="simulation-edit-header"
-		arguments="${simulation.name}" />
+	<liferay-ui:message key="simulation-edit-header" arguments="${simulation.name}" />
 </c:set>
 <liferay-ui:header title="${entete}" backURL="${backURL}" />
 
@@ -34,14 +28,10 @@
 	<portlet:param name="page" value="/html/gatling/help.jsp" />
 </portlet:renderURL>
 <div class="well well-small">
-	<a target="_blank" href="https://github.com/excilys/gatling/wiki/Getting-Started"> 
-		<span class="label label-warning"><liferay-ui:message key="help-faq-gatling" /></span>
-	</a>
-	<a href="${helpURL}"> 
-		<span class="label"><liferay-ui:message key="help-how-to-use-portlet" /></span>
-	</a> 
-	<a href="#" class="toggle" data-content="help-scenario"> 
-		<span class="label label-info"><liferay-ui:message key="help-what-scenario" /></span>
+	<a target="_blank" href="https://github.com/excilys/gatling/wiki/Getting-Started"> <span class="label label-warning"><liferay-ui:message
+				key="help-faq-gatling" /></span>
+	</a> <a href="${helpURL}"> <span class="label"><liferay-ui:message key="help-how-to-use-portlet" /></span>
+	</a> <a href="#" class="toggle" data-content="help-scenario"> <span class="label label-info"><liferay-ui:message key="help-what-scenario" /></span>
 	</a>
 </div>
 
@@ -52,12 +42,8 @@
 <div class="navbar">
 	<div class="navbar-inner">
 		<ul class="nav">
-			<li>
-				<a id="newScenario" href="#">
-					<i class="icon-plus"></i>
-					<liferay-ui:message key="simulation-edit-btn-add-scenario" />
-				</a>
-			</li>
+			<li><a id="newScenario" href="#"> <i class="icon-plus"></i> <liferay-ui:message key="simulation-edit-btn-add-scenario" />
+			</a></li>
 		</ul>
 	</div>
 </div>
@@ -70,8 +56,7 @@
 	<aui:input name="simulationId" type="hidden" value="${simulation.simulation_id }" />
 	<aui:input label="simulation-edit-name-simulation" name="simulationName" inlineLabel="true" inlineField="true" value="${simulation.name }">
 		<aui:validator name="alphanum" />
-		<aui:validator name="custom"
-			errorMessage="simulation-name-already-used">
+		<aui:validator name="custom" errorMessage="simulation-name-already-used">
 		 		function (val, fieldNode, ruleValue) {
 				var result = false;
 				var list = ${listOfSimulationName};
@@ -89,34 +74,21 @@
 <%--Search container (table) --%>
 <liferay-ui:search-container emptyResultsMessage="scenario-list-empty">
 	<%--Liste of data to display --%>
-	<liferay-ui:search-container-results results="${listScenario }"
-		total="${listScenario.size() }" />
+	<liferay-ui:search-container-results results="${listScenario }" total="${listScenario.size() }" />
 	<%--for each column --%>
-	<liferay-ui:search-container-row
-		className="com.excilys.liferay.gatling.model.Scenario"
-		keyProperty="scenario_id" modelVar="scenario">
+	<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Scenario" keyProperty="scenario_id" modelVar="scenario">
 		<portlet:renderURL var="editScenarioURL">
 			<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
 			<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
 		</portlet:renderURL>
 		<c:set var="scenarioRequestInfo">
-			<liferay-ui:message key="simulation-edit-table-header-requests"
-				arguments="${MapScenario.get(scenario)}" />
+			<liferay-ui:message key="simulation-edit-table-header-requests" arguments="${MapScenario.get(scenario)}" />
 		</c:set>
-		<liferay-ui:search-container-column-text
-			name="simulation-edit-table-header-name" value="${scenario.name}"
-			href="${editScenarioURL}" />
-		<liferay-ui:search-container-column-text
-			name="simulation-edit-table-header-requests"
-			value="${MapScenario.get(scenario)[0]}/${MapScenario.get(scenario)[1]}" />
-		<liferay-ui:search-container-column-text
-			name="simulation-edit-table-header-duration"
-			value="${scenario.duration }" />
-		<liferay-ui:search-container-column-text
-			name="simulation-edit-table-header-users"
-			value="${scenario.getUsers_per_seconds() }" />
-		<liferay-ui:search-container-column-text
-			name="simulation-edit-table-header-state">
+		<liferay-ui:search-container-column-text name="simulation-edit-table-header-name" value="${scenario.name}" href="${editScenarioURL}" />
+		<liferay-ui:search-container-column-text name="simulation-edit-table-header-requests" value="${MapScenario.get(scenario)[0]}/${MapScenario.get(scenario)[1]}" />
+		<liferay-ui:search-container-column-text name="simulation-edit-table-header-duration" value="${scenario.duration }" />
+		<liferay-ui:search-container-column-text name="simulation-edit-table-header-users" value="${scenario.getUsers_per_seconds() }" />
+		<liferay-ui:search-container-column-text name="simulation-edit-table-header-state">
 			<c:choose>
 				<c:when test="${MapScenario.get(scenario)[2] == 2}">
 					<span class="label label-success"><liferay-ui:message key="message-success-state-scenario" /></span>
@@ -133,8 +105,13 @@
 			</c:choose>
 
 		</liferay-ui:search-container-column-text>
-		<%--action menu --%>
-		<liferay-ui:search-container-column-jsp align="right" path="/html/gatling/scenario_actions.jsp" />
+		<%--delete button --%>
+		<liferay-ui:search-container-column-text name="delete" />
+		<portlet:actionURL var="deleteScenarioURL" name="removeScenario">
+			<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
+			<portlet:param name="simulationId" value="${scenario.simulation_id }" />
+		</portlet:actionURL>
+		<liferay-ui:icon-delete url="${deleteScenarioURL}" />
 	</liferay-ui:search-container-row>
 	<%--iterate and show list of data --%>
 	<liferay-ui:search-iterator paginate="false" />

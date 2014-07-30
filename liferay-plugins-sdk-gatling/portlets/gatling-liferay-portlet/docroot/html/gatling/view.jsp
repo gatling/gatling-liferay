@@ -3,14 +3,10 @@
 <%--
 	session errors
 --%>
-<liferay-ui:error key="simulation-name-required"
-	message="simulation-name-required" />
-<liferay-ui:error key="simulation-name-already-used"
-	message="simulation-name-already-used" />
-<liferay-ui:error key="simulation-variable-required"
-	message="simulation-variable-required" />
-<liferay-ui:error key="simulation-variable-syntaxe"
-	message="simulation-variable-syntaxe" />
+<liferay-ui:error key="simulation-name-required" message="simulation-name-required" />
+<liferay-ui:error key="simulation-name-already-used" message="simulation-name-already-used" />
+<liferay-ui:error key="simulation-variable-required" message="simulation-variable-required" />
+<liferay-ui:error key="simulation-variable-syntaxe" message="simulation-variable-syntaxe" />
 <%--
 	Header
  --%>
@@ -24,6 +20,7 @@
 	<portlet:param name="page" value="/html/gatling/help.jsp" />
 </portlet:renderURL>
 <div class="well well-small">
+<<<<<<< HEAD
 	<a target="blank" href='<%= PortletProps.get("gatling-faq") %>'>
 		<span class="label label-warning"><liferay-ui:message key="help-faq-gatling" /></span>
 	</a> 
@@ -32,6 +29,12 @@
 	</a> 
 	<a href="#" class="toggle" data-content="help-simulation">
 		<span class="label label-info"><liferay-ui:message key="help-what-simulation" /></span>
+=======
+	<a target="blank" href="https://github.com/excilys/gatling/wiki/Getting-Started"> <span class="label label-warning"><liferay-ui:message
+				key="help-faq-gatling" /></span>
+	</a> <a href="${helpURL}"> <span class="label"><liferay-ui:message key="help-how-to-use-portlet" /></span>
+	</a> <a href="#" class="toggle" data-content="help-simulation"> <span class="label label-info"><liferay-ui:message key="help-what-simulation" /></span>
+>>>>>>> delete button instead of actions
 	</a>
 </div>
 
@@ -43,12 +46,8 @@
 <div class="navbar">
 	<div class="navbar-inner">
 		<ul class="nav">
-			<li>
-				<a id="newSimulation" href="#">
-					<i class="icon-plus"></i>
-					<liferay-ui:message key="simulation-list-btn-add-simulation" />
-				</a>
-			</li>
+			<li><a id="newSimulation" href="#"> <i class="icon-plus"></i> <liferay-ui:message key="simulation-list-btn-add-simulation" />
+			</a></li>
 		</ul>
 	</div>
 </div>
@@ -57,52 +56,48 @@
 --%>
 <liferay-ui:search-container emptyResultsMessage="simulation-list-empty">
 	<%--List of data to display --%>
-	<liferay-ui:search-container-results results="${listSimulation }"
-		total="${listSimulation.size() }" />
+	<liferay-ui:search-container-results results="${listSimulation }" total="${listSimulation.size() }" />
 	<%--for each  column --%>
-	<liferay-ui:search-container-row
-		className="com.excilys.liferay.gatling.model.Simulation"
-		keyProperty="simulation_id" modelVar="simulation">
+	<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Simulation" keyProperty="simulation_id" modelVar="simulation">
 		<portlet:renderURL var="editSimulationURL">
 			<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
-			<portlet:param name="simulationId"
-				value="${simulation.simulation_id }" />
+			<portlet:param name="simulationId" value="${simulation.simulation_id }" />
 		</portlet:renderURL>
-		<liferay-ui:search-container-column-text
-			name="simulation-list-table-header-name" value="${simulation.name }"
-			href="${editSimulationURL}" />
-		<liferay-ui:search-container-column-text
-			name="simulation-list-table-header-scenarionb" value="${MapSimulation.get(simulation)[0] }" />
-		<liferay-ui:search-container-column-text
-			name="simulation-list-table-header-state" > 
+		<liferay-ui:search-container-column-text name="simulation-list-table-header-name" value="${simulation.name }" href="${editSimulationURL}" />
+		<liferay-ui:search-container-column-text name="simulation-list-table-header-scenarionb" value="${MapSimulation.get(simulation)[0] }" />
+		<liferay-ui:search-container-column-text name="simulation-list-table-header-state">
 			<c:choose>
 				<c:when test="${MapSimulation.get(simulation)[1] == 2}">
-					<span class="label label-success"> <liferay-ui:message key="message-success-state-simulation"/></span>
-					<liferay-ui:icon-help message="message-help-info-state-simulation-success"/>
+					<span class="label label-success"> <liferay-ui:message key="message-success-state-simulation" /></span>
+					<liferay-ui:icon-help message="message-help-info-state-simulation-success" />
 				</c:when>
 				<c:when test="${MapSimulation.get(simulation)[1] == 1}">
-					<span class="label label-warning"><liferay-ui:message key="message-warning-state-simulation"/></span>
-					<liferay-ui:icon-help message="message-help-info-state-simulation-warning"/>
+					<span class="label label-warning"><liferay-ui:message key="message-warning-state-simulation" /></span>
+					<liferay-ui:icon-help message="message-help-info-state-simulation-warning" />
 				</c:when>
 				<c:otherwise>
-					<span class="label label-important"><liferay-ui:message key="message-important-state-simulation"/></span>
-					<liferay-ui:icon-help message="message-help-info-state-simulation-important"/>
+					<span class="label label-important"><liferay-ui:message key="message-important-state-simulation" /></span>
+					<liferay-ui:icon-help message="message-help-info-state-simulation-important" />
 				</c:otherwise>
 			</c:choose>
 		</liferay-ui:search-container-column-text>
-			
-		<%--action menu --%>
-		<liferay-ui:search-container-column-jsp align="right" path="/html/gatling/simulation_actions.jsp" />
+
+		<%--delete button --%>
+		<liferay-ui:search-container-column-text name="delete" />
+		<portlet:actionURL var="deleteSimulationURL" name="removeSimulation">
+			<portlet:param name="simulationId" value="${simulation.simulation_id }" />
+		</portlet:actionURL>
+
+		<liferay-ui:icon-delete url="${deleteSimulationURL}" />
 	</liferay-ui:search-container-row>
 	<%--iterate and display the list --%>
 	<liferay-ui:search-iterator paginate="false" />
 </liferay-ui:search-container>
 <%--submit to addSimulation --%>
-<portlet:actionURL name="addSimulation" var="addSimulationURL"
-	windowState="normal" />
+<portlet:actionURL name="addSimulation" var="addSimulationURL" windowState="normal" />
 <%-- add simulation form --%>
 <div id="newFormSimulation" hidden="true">
-	<aui:form action="${addSimulationURL}" name="fm" >
+	<aui:form action="${addSimulationURL}" name="fm">
 		<div class="well well-small">
 			<p>
 				<liferay-ui:icon-help message="About this page">
@@ -110,8 +105,7 @@
 				</liferay-ui:icon-help>
 			</p>
 		</div>
-		<aui:input label="simulation-list-form-name-simulation"
-			name="simulationName">
+		<aui:input label="simulation-list-form-name-simulation" name="simulationName">
 			<aui:validator name="required" />
 			<aui:validator name="alphanum" />
 			<aui:validator name="custom" errorMessage="simulation-name-already-used">
@@ -125,10 +119,8 @@
 				}
 			</aui:validator>
 		</aui:input>
-		<aui:input label="simulation-list-form-variable-name"
-			name="variableName" prefix="simulation-variable"
-			readonly="readonly" />
-		<aui:button type="submit"/>
+		<aui:input label="simulation-list-form-variable-name" name="variableName" prefix="simulation-variable" readonly="readonly" />
+		<aui:button type="submit" />
 	</aui:form>
 </div>
 
