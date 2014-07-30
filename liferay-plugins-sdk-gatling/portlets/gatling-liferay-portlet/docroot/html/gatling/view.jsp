@@ -68,16 +68,16 @@
 		<liferay-ui:search-container-column-text name="simulation-list-table-header-state">
 			<c:choose>
 				<c:when test="${MapSimulation.get(simulation)[1] == 2}">
-					<span class="label label-success"> <liferay-ui:message key="message-success-state-simulation" /></span>
-					<liferay-ui:icon-help message="message-help-info-state-simulation-success" />
+					<span class="badge badge-success"><i class=" icon-ok"></i></span>
+					<liferay-ui:icon-help message="message-help-info-state-simulation-success"/>
 				</c:when>
 				<c:when test="${MapSimulation.get(simulation)[1] == 1}">
-					<span class="label label-warning"><liferay-ui:message key="message-warning-state-simulation" /></span>
-					<liferay-ui:icon-help message="message-help-info-state-simulation-warning" />
+					<span class="badge badge-warning"><i class="icon-pencil"></i></span>
+					<liferay-ui:icon-help message="message-help-info-state-simulation-warning"/>
 				</c:when>
 				<c:otherwise>
-					<span class="label label-important"><liferay-ui:message key="message-important-state-simulation" /></span>
-					<liferay-ui:icon-help message="message-help-info-state-simulation-important" />
+					<span class="badge badge-important"><i class="icon-ban-circle"></i></span>
+					<liferay-ui:icon-help message="message-help-info-state-simulation-important"/>
 				</c:otherwise>
 			</c:choose>
 		</liferay-ui:search-container-column-text>

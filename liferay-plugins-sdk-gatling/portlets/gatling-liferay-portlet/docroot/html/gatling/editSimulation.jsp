@@ -91,15 +91,15 @@
 		<liferay-ui:search-container-column-text name="simulation-edit-table-header-state">
 			<c:choose>
 				<c:when test="${MapScenario.get(scenario)[2] == 2}">
-					<span class="label label-success"><liferay-ui:message key="message-success-state-scenario" /></span>
+					<span class="badge badge-success"><i class=" icon-ok"></i></span>
 					<liferay-ui:icon-help message="message-help-info-state-scenario-success" />
 				</c:when>
 				<c:when test="${MapScenario.get(scenario)[2] == 1}">
-					<span class="label label-warning"><liferay-ui:message key="message-warning-state-scenario" /></span>
+					<span class="badge badge-warning"><i class="icon-pencil"></i></span>
 					<liferay-ui:icon-help message="message-help-info-state-scenario-warning" />
 				</c:when>
 				<c:otherwise>
-					<span class="label label-important"><liferay-ui:message key="message-important-state-scenario" /></span>
+					<span class="badge badge-important"><i class="icon-ban-circle"></i></span>
 					<liferay-ui:icon-help message="message-help-info-state-scenario-important" />
 				</c:otherwise>
 			</c:choose>

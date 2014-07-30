@@ -376,7 +376,9 @@ public class GatlingPortlet extends MVCPortlet {
 				
 				renderRequest.setAttribute("listScenario", scenarioList);	
 				renderRequest.setAttribute("MapScenario", scenariosMap);	
-			} catch (PortalException | SystemException e1) {
+			} catch (PortalException e ){
+				e.printStackTrace();
+			}catch( SystemException e1){
 				e1.printStackTrace();
 			}
 

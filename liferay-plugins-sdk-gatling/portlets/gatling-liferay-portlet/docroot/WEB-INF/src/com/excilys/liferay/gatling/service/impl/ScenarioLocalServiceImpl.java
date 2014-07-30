@@ -239,7 +239,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			 */
 			for (String key : parameters.keySet()){
 				// if checked
-				if((StringUtil.merge(parameters.get(key)).equals("true")) && (!key.contains("Checkbox")) ){
+				if((StringUtil.merge(parameters.get(key)).equals("true")) && (!key.contains("Checkbox")) && (!key.contains("checkAll")) ){
 					int layoutId = (int) Double.parseDouble(key);
 					double weight  =   Double.parseDouble(StringUtil.merge(parameters.get("weight"+key)));
 					DisplayLayout displayLayout = displayLayoutList.get(layoutId);
@@ -272,7 +272,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 				}
 
 				// Case delete request from scenario --> case not checked in bd update
-				else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox")) && (!key.contains("/")) ){
+				else if((StringUtil.merge(parameters.get(key)).equals("false")) && (!key.contains("Checkbox")) && (!key.contains("checkAll")) && (!key.contains("/")) ){
 					int layoutId = (int) Double.parseDouble(key);
 					DisplayLayout displayLayout = displayLayoutList.get(layoutId);
 
