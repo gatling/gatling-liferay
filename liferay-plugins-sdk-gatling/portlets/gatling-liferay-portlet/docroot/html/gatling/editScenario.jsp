@@ -48,10 +48,32 @@
 <%--Upgrade scenario confirmation dialog box --%>
 <script type="text/javascript">
 	AUI().use('aui-base', function(A) {
+		
+		var lastChecked = null;
+		//multiselect
+        var checkboxes = A.all(".checkbox");
+        checkboxes.each(function() {
+        		this.on('click', function(event) {
+	                if(!lastChecked) {
+	                    lastChecked = this;
+	                    return;
+	                }
+	
+	                if(event.shiftKey) {
+	                    var start = checkboxes.indexOf(this);
+	                    var end = checkboxes.indexOf(lastChecked);
+	
+	                    checkboxes.slice(Math.min(start,end), Math.max(start,end)+ 1).attr('checked', lastChecked.get("checked"));
+	
+	                }
+	                lastChecked = this;
+        		});
+        });
+		
 		A.all('.force-weight-children').each(function() {
 		      this.on('click',function(event) {
 					var children = this.getData("children").split(',');
-					var node = this.ancestor("tr").one(".activate");
+					var node = this.ancestor("tr").one(".checkbox");
 					var checked=true;
 					if(node.get("checked")) {
 					 	checked=false;	
@@ -66,7 +88,7 @@
 		
 		A.one("#<portlet:namespace/>checkAllCheckbox").on('click',function(event) {
 			var checked=this.get("checked");
-			A.all(".activate").each(function() {
+			A.all(".checkbox").each(function() {
 				this.set("checked", checked);
 			});
 			
@@ -74,17 +96,17 @@
 		});
 			
 
-		A.all(".activate").each(function() {
+		A.all(".checkbox").each(function() {
 			this.on('click', function(event) {
 				if (this.get('checked')) {
-					if (A.all(".activate:checked").size() === A.all(".activate").size())
+					if (A.all(".checkbox:checked").size() === A.all(".checkbox").size())
 						A.one("#<portlet:namespace/>checkAllCheckbox").set("checked", true);
 				} else {
 					A.one("#<portlet:namespace/>checkAllCheckbox").set("checked", false);
 				}
 			});
 		});
-		if (A.all(".activate:checked").size() === A.all(".activate").size())
+		if (A.all(".checkbox:checked").size() === A.all(".checkbox").size())
 			A.one("#<portlet:namespace/>checkAllCheckbox").set("checked", true);
 		
 		A.one("#<portlet:namespace />variableScenarioName").val(A.one("#<portlet:namespace />scenarioName").val().replace(/\W/g, ''));
@@ -103,7 +125,7 @@
 				show = true;
 			}
 			// Check Empty
-			if(Y.all(".activate:checked").size() == 0) {
+			if(Y.all(".checkbox:checked").size() == 0) {
 				// Add message
 				message += "<li><liferay-ui:message key='scenario-edit-empty-selection' /></li>";
 				show = true;
@@ -169,9 +191,8 @@
 	function selectSubPage(page, checked) {
 		AUI().use('aui-base', function(A) {
 			var node = A.one('.'+page);
-			node.one(".activate").set("checked",checked);
-			console.log(node);
 			if(node != null) {
+				node.one(".checkbox").set("checked",checked);
 				var children = node.one(".force-weight-children").getData("children").split(",");
 				for (var i = 0; i < children.length; i++) {
 					selectSubPage(children[i], checked);
@@ -185,7 +206,7 @@
 		AUI().use('aui-base', function(A) {
 			var newVal = A.one('#<portlet:namespace/>forceWeight').val();
 			if ((newVal != null) && (!isNaN(newVal))) {
-				A.all('.activate:checked').each(function() {
+				A.all('.checkbox:checked').each(function() {
 					this.ancestor("tr").one(".weight").val(newVal);
 				});
 				showWeight();
