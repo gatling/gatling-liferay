@@ -282,6 +282,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 				}
 				// if layout doesn't exist anymore
 				else if(key.contains("delete") ){
+					log.info("delete request: "+key);
 					long requestId =  Long.parseLong(StringUtil.merge(parameters.get(key)));
 					RequestLocalServiceUtil.deleteRequest(requestId);
 				}

@@ -98,7 +98,7 @@
 					<tr class="error">
 						<%-- Affichage request pas enregistrée --%>
 						<td>
-							<input name="delete${layout.requestId}" type="hidden" value="${layout.requestId}" />
+							<aui:input name="delete${layout.requestId}" type="hidden" value="${layout.requestId}" />
 							<portlet:actionURL var="deleteRequestURL" name="removeRequest">
 								<portlet:param name="requestId" value="${layout.requestId}" />
 							</portlet:actionURL> <liferay-ui:icon-delete url="${deleteRequestURL}" />
