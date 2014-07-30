@@ -41,6 +41,7 @@ import java.util.zip.ZipOutputStream;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
@@ -518,6 +519,10 @@ public class GatlingPortlet extends MVCPortlet {
 			} catch (Exception e) { 
 				e.printStackTrace();
 			}
+		} else {
+			PortletURL render = response.createRenderURL();
+			//render.setParameter("page", jspListSimulation);
+			response.addProperty("Location", render.toString());
 		}
 	}
 }

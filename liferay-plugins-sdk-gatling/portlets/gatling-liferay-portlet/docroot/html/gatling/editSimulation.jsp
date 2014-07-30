@@ -28,10 +28,20 @@
 	<portlet:param name="page" value="/html/gatling/help.jsp" />
 </portlet:renderURL>
 <div class="well well-small">
-	<a target="_blank" href="https://github.com/excilys/gatling/wiki/Getting-Started"> <span class="label label-warning"><liferay-ui:message
-				key="help-faq-gatling" /></span>
-	</a> <a href="${helpURL}"> <span class="label"><liferay-ui:message key="help-how-to-use-portlet" /></span>
-	</a> <a href="#" class="toggle" data-content="help-scenario"> <span class="label label-info"><liferay-ui:message key="help-what-scenario" /></span>
+	<a target="_blank" href="https://github.com/excilys/gatling/wiki/Getting-Started"> 
+		<span class="label label-warning">
+			<liferay-ui:message key="help-faq-gatling" />
+		</span>
+	</a> 
+	<a href="${helpURL}">
+		<span class="label">
+			<liferay-ui:message key="help-how-to-use-portlet" />
+		</span>
+	</a> 
+	<a href="#" class="toggle" data-content="help-scenario">
+		<span class="label label-info">
+			<liferay-ui:message key="help-what-scenario" />
+		</span>
 	</a>
 </div>
 
@@ -68,7 +78,7 @@
 		</aui:validator>
 	</aui:input>
 	<aui:input label="" inlineField="true" inlineLabel="true" name="variableSimulationName" prefix="simulation-variable" readonly="readonly" />
-	<aui:button type="submit" />
+	<aui:button type="submit" cssClass="inline-button" />
 </aui:form>
 
 <%--Search container (table) --%>
