@@ -137,6 +137,10 @@
 			if(show) {
 				// Create popup
 				createModal(message);
+				return false;
+			}
+			else {
+				return true;
 			}
 		});
 		return false;
