@@ -3,6 +3,9 @@ package com.excilys.liferay.gatling;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
+import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling1_5;
+import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling2;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
@@ -465,14 +468,18 @@ public class GatlingPortlet extends MVCPortlet {
 		 */
 		int gatlingVersion = ParamUtil.getInteger(request, "gatlingVersion");
 		String template;
+		ScriptGeneratorGatling sgg;
 		switch (gatlingVersion) {
 		case 1:
+			sgg = new ScriptGeneratorGatling1_5();
 			template = "resources/templateGatling1.5.mustache";
 			break;
 		case 2:
+			sgg = new ScriptGeneratorGatling2();
 			template = "resources/templateGatling2.0.mustache";
 			break;
 		default:
+			sgg = new ScriptGeneratorGatling2();
 			template = "resources/templateGatling2.0.mustache";
 			break;
 		}
@@ -493,8 +500,9 @@ public class GatlingPortlet extends MVCPortlet {
 						simulation = SimulationLocalServiceUtil.getSimulation(id);
 						Date date =new Date();
 						zipOutputStream.putNextEntry(new ZipEntry("Simulation"  + simulation.getName()  + date.getTime() + ".scala"));
-						Mustache mustache = mf.compile(template);
-						mustache.execute(new PrintWriter(zipOutputStream), new ScriptGeneratorGatling2(id)).flush();
+						Mustache mustache = mf.compile(template);           
+						sgg.setId(simulationsIds[0]);
+						mustache.execute(new PrintWriter(zipOutputStream), sgg).flush();
 						zipOutputStream.closeEntry();
 					}
 				}
@@ -513,8 +521,9 @@ public class GatlingPortlet extends MVCPortlet {
 				simulation = SimulationLocalServiceUtil.getSimulation(simulationsIds[0]);
 				response.addProperty("Content-Disposition", "attachment; filename=Simulation"  + simulation.getName()  + date.getTime() + ".scala");
 				Mustache mustache = mf.compile(template);
-				OutputStream out = response.getPortletOutputStream();                   
-				mustache.execute(new PrintWriter(out), new ScriptGeneratorGatling2(simulation.getSimulation_id())).flush();
+				OutputStream out = response.getPortletOutputStream();            
+				sgg.setId(simulationsIds[0]);
+				mustache.execute(new PrintWriter(out), sgg).flush();
 				out.close();
 			} catch (Exception e) { 
 				e.printStackTrace();

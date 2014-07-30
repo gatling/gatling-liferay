@@ -1,4 +1,4 @@
-package com.excilys.liferay.gatling;
+package com.excilys.liferay.gatling.mustache;
 
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
@@ -10,10 +10,15 @@ import com.liferay.portal.kernel.exception.SystemException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScriptGeneratorGatling2 {
+public class ScriptGeneratorGatling2 implements ScriptGeneratorGatling {
 
 	String simuName = "avant";
-	Long simulationId = 0L;       
+	Long simulationId = 0L;      
+
+
+	public ScriptGeneratorGatling2() {
+		super();
+	}
 
 	public ScriptGeneratorGatling2(Long simulationId) throws Exception{
 		super();
@@ -22,7 +27,7 @@ public class ScriptGeneratorGatling2 {
 	}
 
 
-	List<MustacheScenario> mustacheScenario() throws Exception{
+	public List<MustacheScenario> mustacheScenario() throws Exception{
 
 		List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
 		List<MustacheScenario> list = new ArrayList<MustacheScenario>();
@@ -44,13 +49,13 @@ public class ScriptGeneratorGatling2 {
 							}
 							weight = (double) ((int)((int) rq.getWeight()*10000/totalWeight))/100;
 							currentSumWeight += weight;
-							MustacheRequest mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , ",");
+							MustacheRequest mr = new MustacheRequest2(rq.getName(), site + rq.getUrl(), weight , ",");
 							mustacheRequests.add(mr);
 						}
 					}
-					mustacheRequests.get(mustacheRequests.size()-1).setWeight(100-((currentSumWeight-weight)));
+					mustacheRequests.get(mustacheRequests.size()-1).setWeight(100-currentSumWeight+weight);
 				}
-				MustacheScenario ms = new MustacheScenario(sc.getVariableName(),sc.getUsers_per_seconds(), sc.getDuration(), ",", mustacheRequests);
+				MustacheScenario ms = new MustacheScenario2(sc.getVariableName(),sc.getUsers_per_seconds(), sc.getDuration(), ",", mustacheRequests);
 				list.add(ms);
 			}
 
@@ -73,47 +78,12 @@ public class ScriptGeneratorGatling2 {
 	}
 
 
-
-	static class MustacheScenario {
-		MustacheScenario(String name,long l,long m, String virgule, List<MustacheRequest> mustacheRequests) {
-			this.name = name;
-			this.virgule = virgule;
-			this.mustacheRequests = mustacheRequests;
-			this.users = l;
-			this.duration = m;
-		}
-		public void removeComma(){
-			virgule = "";
-		}public void removeCommaRequest(){
-			if(!mustacheRequests.isEmpty()){
-				mustacheRequests.get(mustacheRequests.size()-1).removeComma();
-			}
-		}
-
-
-		String name, virgule;
-		long users, duration;
-		List<MustacheRequest> mustacheRequests;
+	@Override
+	public void setId(long id) throws Exception {
+		this.simulationId = id;
+		this.simuName = SimulationLocalServiceUtil.getSimulation(id).getVariableName();		
+		
 	}
-
-	static class MustacheRequest {
-		MustacheRequest(String name, String url, double d, String virgule) {
-			this.url = url;
-			this.name = name;
-			this.pourcentage = d;
-			this.virgule = virgule;
-		}
-		public void setWeight(double i) {
-			this.pourcentage = i;
-		}
-		public void removeComma(){
-			virgule = "";
-		}
-
-		String name, url, virgule;
-		double pourcentage;
-	}
-
 
 
 }
