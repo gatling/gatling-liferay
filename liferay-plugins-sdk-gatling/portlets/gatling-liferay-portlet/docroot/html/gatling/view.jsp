@@ -45,6 +45,19 @@
 		</ul>
 	</div>
 </div>
+
+<aui:form action="">
+	<h5><liferay-ui:message key="simulation-list-export" /></h5>
+	<aui:select label="" name="gatlingVersion" inlineField="true">
+		<aui:option value="1.5">Gatling 1.5</aui:option>
+		<aui:option value="2M3">Gatling 2.0 M3</aui:option>
+	</aui:select>
+	<liferay-util:buffer var="textExport">
+		<i class="icon-print"></i>
+		<liferay-ui:message key="simulation-list-export-btn" />
+	</liferay-util:buffer>
+	<aui:button type="submit" value="${textExport }" />
+</aui:form>
 <%--
 	Search container (table) 
 --%>
@@ -53,6 +66,9 @@
 	<liferay-ui:search-container-results results="${listSimulation }" total="${listSimulation.size() }" />
 	<%--for each  column --%>
 	<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Simulation" keyProperty="simulation_id" modelVar="simulation">
+		<liferay-ui:search-container-column-text>
+			<input type="checkbox" id="<portlet:namespace/>checkAll" />
+		</liferay-ui:search-container-column-text>
 		<portlet:renderURL var="editSimulationURL">
 			<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
 			<portlet:param name="simulationId" value="${simulation.simulation_id }" />
