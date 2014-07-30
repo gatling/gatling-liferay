@@ -67,9 +67,6 @@
 		<%--for each  column --%>
 		<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Simulation" keyProperty="simulation_id" modelVar="simulation">
 			<liferay-ui:search-container-column-text>
-				<input type="checkbox" id="<portlet:namespace/>checkAll" />
-			</liferay-ui:search-container-column-text>
-			<liferay-ui:search-container-column-text>
 				<c:if test="${MapSimulation.get(simulation)[1] == 2}">
 					<input type="checkbox" class="checkLine"
 						name="<portlet:namespace/>export" id="<portlet:namespace/>checkAll"
