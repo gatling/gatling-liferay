@@ -15,7 +15,7 @@
 
 <%--
 	FAQ link
---%>
+--%> 
 <portlet:renderURL var="helpURL">
 	<portlet:param name="page" value="/html/gatling/help.jsp" />
 </portlet:renderURL>

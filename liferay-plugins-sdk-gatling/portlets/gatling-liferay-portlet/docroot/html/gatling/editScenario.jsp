@@ -10,8 +10,7 @@
 	<portlet:param name="simulationId" value="${scenario.simulation_id }" />
 </portlet:renderURL>
 
-<liferay-ui:header title="${scenario.name } : ${siteName}"
-	backURL="${backURL }" />
+<liferay-ui:header title="${scenario.name } : ${siteName}" backURL="${backURL }" />
 
 <div class="well well-small">
 	<liferay-ui:icon-help message="About this page">
@@ -138,6 +137,10 @@
 			if(show) {
 				// Create popup
 				createModal(message);
+				return false;
+			}
+			else {
+				return true;
 			}
 		});
 		return false;
