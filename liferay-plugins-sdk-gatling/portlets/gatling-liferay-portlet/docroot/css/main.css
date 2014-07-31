@@ -50,3 +50,11 @@
 	cursor: pointer;
 }
 
+.small-column {
+	max-width: 75px;
+}
+
+.inline-label {
+	display:inline !important;
+}
+

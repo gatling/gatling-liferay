@@ -417,13 +417,6 @@ public class GatlingPortlet extends MVCPortlet {
 				//Merge Layout and Request in DisplayLayout List
 				displayLayoutList = DisplayLayoutUtil.addRequestToDisplayLayoutList(displayLayoutList, listRequests);
 
-
-				//navigation form: declaration of the variables
-				String[] categoryNames = {"scenario-edit"};
-				String[] category1 = {"scenario", "details"};
-				String[][] categorySections = {category1};
-
-
 				// Get list of used names
 				List<Scenario> listScenario = ScenarioLocalServiceUtil.getScenarios(0, ScenarioLocalServiceUtil.getScenariosCount());
 				String JSListName = GatlingUtil.createJSListOfScenarioName(listScenario);
@@ -439,8 +432,6 @@ public class GatlingPortlet extends MVCPortlet {
 				renderRequest.setAttribute("siteName", siteName);
 				renderRequest.setAttribute("privateURL", privateURL);
 				renderRequest.setAttribute("publicURL", publicURL);
-				renderRequest.setAttribute("categoryNames", categoryNames);
-				renderRequest.setAttribute("categorySections", categorySections);
 
 			} catch (SystemException e) {
 				if(log.isDebugEnabled()) {

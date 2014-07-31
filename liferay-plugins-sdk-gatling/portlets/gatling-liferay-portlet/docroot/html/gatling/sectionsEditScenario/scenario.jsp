@@ -1,16 +1,18 @@
 <%@include file="/html/gatling/header.jsp"%>
 <liferay-ui:error-marker key="errorSection" value="scenario" />
 
-<aui:fieldset>
+<aui:fieldset label="scenario">
 	<aui:input type="hidden" name="scenarioId" value='${empty scenario ? "" : scenario.scenario_id }' />
 	<aui:input type="hidden" name="groupId" value='${scenario.group_id}' />
-	
-	<aui:input label="scenario-edit-force-weight" name="forceWeight" inlineField="true" />
-	<aui:button value="scenario-edit-force-weight-btn" cssClass="inline-button" onClick="forceWeight();"/>
 	<table class="table table-bordered table-scenario">
 		<tr>
-			<th><input type="checkbox" id="checkAll" />
-				<i class='icon-circle-arrow-down'></i> <liferay-ui:message key="select-all" /></th>
+			<th class="small-column">
+				<input type="checkbox" id="checkAll" />
+				<label for="checkAll" class="inline-label"><i class='icon-circle-arrow-down'></i></label>
+				<%--Force weight button --%>
+				<aui:input label="" name="forceWeight" inlineField="true" cssClass="margin-left-5"/>
+				<aui:button value="scenario-edit-force-weight" cssClass="inline-button" onClick="forceWeight();"/>
+			</th>
 			<th><liferay-ui:message key="scenario-edit-table-header-page" /><liferay-ui:icon-help message="name-info-help"/></th>
 			<th><liferay-ui:message key="scenario-edit-table-header-weight" /> <liferay-ui:icon-help message="weight-info-help"/></th>
 			<th><liferay-ui:icon-help message="percentage-info-help"/></th>

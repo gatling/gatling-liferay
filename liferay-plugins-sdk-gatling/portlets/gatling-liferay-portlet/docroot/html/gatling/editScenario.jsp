@@ -22,25 +22,14 @@
 <portlet:actionURL name="editScenario" var="editScenarioURL"
 	windowState="normal" />
 <aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario">
-	<liferay-util:buffer var="htmlTop">
-		<h5>${scenario.name }: ${siteName}</h5>
-	</liferay-util:buffer>
-	<liferay-util:buffer var="htmlBottom">
-		<aui:button-row>
-			<aui:button type="submit" iconAlign="right" onClick="confirmSubmit();" />
-			<aui:button type="cancel" href="${backURL}" iconAlign="right" />
-		</aui:button-row>
-		<p class="muted">
-			<liferay-ui:message key="scenario-edit-check-details" />
-		</p>
-	</liferay-util:buffer>
 
-
-	<liferay-ui:form-navigator backURL="${ backURL} "
-		categoryNames="${ categoryNames}"
-		categorySections="${ categorySections}" formName="formulaireScenario"
-		htmlTop="${htmlTop }" htmlBottom="${htmlBottom} "
-		jspPath="/html/gatling/sectionsEditScenario/" showButtons="false" />
+	<%@include file="/html/gatling/sectionsEditScenario/details.jsp" %>
+	<%@include file="/html/gatling/sectionsEditScenario/scenario.jsp" %> 
+	
+	<aui:button-row>
+		<aui:button type="submit" iconAlign="right" onClick="confirmSubmit();return false;" />
+		<aui:button type="cancel" href="${backURL}" iconAlign="right" />
+	</aui:button-row>
 
 </aui:form>
 <c:if test="${not empty confirmUpgrade }">
