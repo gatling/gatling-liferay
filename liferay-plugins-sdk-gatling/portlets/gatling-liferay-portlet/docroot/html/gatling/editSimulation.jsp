@@ -30,7 +30,7 @@
 <div class="well well-small">
 	<a target="_blank" href="https://github.com/excilys/gatling/wiki/Getting-Started"> 
 		<span class="label label-warning">
-			<liferay-ui:message key="help-faq-gatling" />
+			<liferay-ui:message key="help-gatling-wiki" />
 		</span>
 	</a> 
 	<a href="${helpURL}">

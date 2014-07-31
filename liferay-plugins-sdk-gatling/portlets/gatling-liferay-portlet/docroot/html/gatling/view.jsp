@@ -21,7 +21,7 @@
 </portlet:renderURL>
 <div class="well well-small">
 	<a target="blank" href='<%= PortletProps.get("gatling-faq") %>'>
-		<span class="label label-warning"><liferay-ui:message key="help-faq-gatling" /></span>
+		<span class="label label-warning"><liferay-ui:message key="help-gatling-wiki" /></span>
 	</a> 
 	<a href="${helpURL}">
 		<span class="label"><liferay-ui:message key="help-how-to-use-portlet" /></span>
