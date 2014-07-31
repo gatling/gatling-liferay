@@ -2,7 +2,6 @@ package com.excilys.liferay.gatling.util;
 
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
-import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -35,7 +34,7 @@ public class GatlingUtil {
 	 */
 	public static String createVariableName(String prefix, String name) {
 		// Create variable name
-		return prefix.concat(StringUtil.upperCaseFirstLetter(name));
+		return prefix.concat(StringUtil.upperCaseFirstLetter(name.replaceAll("\\P{Alnum}", "")));
 	}
 	
 	/**

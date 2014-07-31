@@ -111,7 +111,6 @@
 		if (A.all(".checkLine:checked").size() === A.all(".checkLine").size())
 			A.one("#checkAll").set("checked", true);
 		
-		A.one("#<portlet:namespace />variableScenarioName").val(A.one("#<portlet:namespace />scenarioName").val().replace(/\W/g, ''));
 	});
 
 

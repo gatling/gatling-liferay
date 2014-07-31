@@ -77,7 +77,6 @@
 			}
 		</aui:validator>
 	</aui:input>
-	<aui:input label="" inlineField="true" inlineLabel="true" name="variableSimulationName" prefix="simulation-variable" readonly="readonly" />
 	<aui:button type="submit" cssClass="inline-button" />
 </aui:form>
 
@@ -153,18 +152,9 @@
 		}).render();
 		//Remove the form template (no duplication otherwise it will never validate the pop-up)
 		A.one("#newFormScenario").empty();
-		// Put variableName 
-		A.one("#<portlet:namespace />variableSimulationName").val(A.one("#<portlet:namespace />simulationName").val().replace(/\W/g, ''));
 
 		A.one('#newScenario').on('click', function() {
 			modal.show();
-		});
-		A.one("#<portlet:namespace />scenarioName").on("keyup", function(e) {
-			A.one("#<portlet:namespace />variableScenarioName").val(this.val().replace(/\W/g, ''));
-		});
-		
-		A.one("#<portlet:namespace />simulationName").on("keyup", function(e) {
-			A.one("#<portlet:namespace />variableSimulationName").val(this.val().replace(/\W/g, ''));
 		});
 
 		A.all(".toggle").each(function() {

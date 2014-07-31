@@ -135,7 +135,6 @@
 				}
 			</aui:validator>
 		</aui:input>
-		<aui:input label="simulation-list-form-variable-name" name="variableName" prefix="simulation-variable" readonly="readonly" />
 		<aui:button type="submit" />
 	</aui:form>
 </div>
@@ -156,10 +155,6 @@
 
 		A.one('#newSimulation').on('click', function() {
 			modal.show();
-		});
-
-		A.one("#<portlet:namespace />simulationName").on("keyup", function(e) {
-			A.one("#<portlet:namespace />variableName").val(this.val().replace(/\W/g, ''));
 		});
 
 		A.all(".toggle").each(function() {

@@ -28,7 +28,7 @@
 		
 		 --%>
 		<c:forEach var="layout" items='${ listPages }' varStatus="status">
-			<%-- Add a variable to know if we need to ask the user about upgrading its scenario --%>
+			<%-- Add a variable to know if we need to ask the user about upgrading the scenario --%>
 			<c:if test="${empty confirmUpgrade && (layout.state == 'NEW_REQUEST' || layout.state == 'OLD_REQUEST') }">
 				<c:set var="confirmUpgrade" value="confirmUpgrade" />
 			</c:if>

@@ -18,9 +18,6 @@
 		}
 	</aui:validator>
 </aui:input>
-<aui:input label="" name="variableScenarioName" prefix="scenario-variable" value="${scenario.variableName }"
-	readonly="readonly">
-</aui:input>
 
 <liferay-ui:icon-help message="nbuser-info-help"/>
 <aui:input label="scenario-edit-nb-users-per-second" name="scenarioUsers" value="${scenario.users_per_seconds}">
