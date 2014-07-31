@@ -10,7 +10,7 @@
 	<table class="table table-bordered table-scenario">
 		<tr>
 			<th class="small-column">
-				<input type="checkbox" id="checkAll" />
+				<input type="checkbox" id="checkAll" /> 
 				<label for="checkAll" class="inline"><i class='icon-circle-arrow-down'></i></label>
 				<%--Force weight button --%>
 
