@@ -40,24 +40,19 @@
 <div class="navbar">
 	<div class="navbar-inner">
 		<ul class="nav">
-			<li><a id="newSimulation" href="#"> <i class="icon-plus"></i> <liferay-ui:message key="simulation-list-btn-add-simulation" />
-			</a></li>
+			<li>
+				<a id="newSimulation" href="#"> <i class="icon-plus"></i> <liferay-ui:message key="simulation-list-btn-add-simulation" /></a>
+			</li>
+			<li>
+				<a id="exportToggle" href="#"><i class="icon-print"></i> <liferay-ui:message key="simulation-list-export" /></a>
+			</li>
 		</ul>
 	</div>
 </div>
 
 <portlet:resourceURL var="resourceUrl" />
-<aui:form action="${resourceUrl}" method="post">
-	<h5><liferay-ui:message key="simulation-list-export" /></h5>
-	<aui:select label="simulation-list-version-choice" name="gatlingVersion" inlineField="true">
-		<aui:option value="2">Gatling 2.0 M3</aui:option>
-		<aui:option value="1">Gatling 1.5</aui:option>
-	</aui:select>
-	<liferay-util:buffer var="textExport">
-		<i class="icon-print"></i>
-		<liferay-ui:message key="simulation-list-export-btn" />
-	</liferay-util:buffer>
-	<aui:button cssClass="inline-button" type="submit" value="${textExport }" />
+<aui:form action="${resourceUrl}" method="post" name="fmExport">
+	<aui:input type="hidden" name="gatlingVersion"/>
 	<%--
 		Search container (table) 
 	--%>
@@ -109,6 +104,19 @@
 		<liferay-ui:search-iterator paginate="false" />
 	</liferay-ui:search-container>
 </aui:form>
+
+<div id="exportModalTemplate" hidden="true">
+	<h5><liferay-ui:message key="simulation-list-export" /></h5>
+	<aui:select label="simulation-list-version-choice" name="gatlingVersionSelect">
+		<aui:option value="2">Gatling 2.0 M3</aui:option>
+		<aui:option value="1">Gatling 1.5</aui:option>
+	</aui:select>
+	<liferay-util:buffer var="textExport">
+		<i class="icon-print"></i>
+		<liferay-ui:message key="simulation-list-export-btn" />
+	</liferay-util:buffer>
+</div>
+
 <%--submit to addSimulation --%>
 <portlet:actionURL name="addSimulation" var="addSimulationURL" windowState="normal" />
 <%-- add simulation form --%>
@@ -155,6 +163,48 @@
 
 		A.one('#newSimulation').on('click', function() {
 			modal.show();
+		});
+		
+		A.one('#exportToggle').on('click', function() {
+			console.log("in");
+			if(A.all(".checkLine:checked").size() > 0) {	
+				var modalExport = new A.Modal({
+					bodyContent : A.one("#exportModalTemplate").html(),
+					centered : true,
+					headerContent : '<h3><liferay-ui:message key="simulation-list-export" /></h3>',
+					modal : true,
+					resizable : false,
+					zIndex : 100,
+				}).render();
+				
+				modalExport.addToolbar(
+			    	      [
+			    	        {
+			    	          label: '<liferay-ui:message key="cancel" />',
+			    	          on: {
+			    	            click: function() {
+			    	            	modalExport.hide();
+			    	            }
+			    	          }
+			    	        },
+			    	        {
+			    	          label: '<liferay-ui:message key="export" />',
+			    	          cssClass: "btn-primary",
+			    	          on: {
+				    	            click: function() {
+				    	            	modalExport.hide();
+				    	            	var version = A.one("#<portlet:namespace/>gatlingVersionSelect").val();
+				    	            	A.one("#<portlet:namespace/>gatlingVersion").val(version);
+				    	            	A.one("#<portlet:namespace/>fmExport").submit();
+				    	            }
+				    	          }
+			    	        }
+			    	      ])
+			}
+			else {
+				console.log("no selection");
+				alert("<liferay-ui:message key='no-selected-simulation' />");
+			}
 		});
 
 		A.all(".toggle").each(function() {
