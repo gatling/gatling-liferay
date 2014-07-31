@@ -11,10 +11,10 @@
 		<tr>
 			<th class="small-column">
 				<input type="checkbox" id="checkAll" />
-				<label for="checkAll" class="inline-label"><i class='icon-circle-arrow-down'></i></label>
+				<label for="checkAll" class="inline"><i class='icon-circle-arrow-down'></i></label>
 				<%--Force weight button --%>
 
-				<div Class="forceinput" style="display:inline-block">
+				<div class="forceinput inline" >
 					<aui:input label="" name="forceWeight" cssClass="forceinput" inlineField="true" />
 					<aui:button value="scenario-edit-force-weight" cssClass="inline-button" id="force" onClick="forceWeight();" />
 				</div>
