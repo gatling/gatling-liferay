@@ -241,9 +241,8 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			for (String key : parameters.keySet()){
 				
 				if ((key.contains("weight"))) {
-					log.info(key+" : "+StringUtil.merge(parameters.get(key)));
 					int layoutId = Integer
-							.parseInt(key.substring(key.length() - 1));
+							.parseInt(key.replace("weight",""));
 					double weight = Double.parseDouble(StringUtil.merge(parameters.get(key)));
 					DisplayLayout displayLayout = displayLayoutList
 							.get(layoutId);
@@ -254,6 +253,8 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 						// if already exists in DB
 						if ((lstRequestToEdit.containsKey(url.trim()))
 								&& ((lstRequestToEdit.get(url).getWeight() != weight) )) {
+							
+							log.info("update request "+key+" : "+StringUtil.merge(parameters.get(key)));
 							Request updatedRequest = lstRequestToEdit.get(url);
 							updatedRequest.setWeight(weight);
 							// Saving ...
@@ -273,7 +274,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 
 						// else Add new page
 						else if (!lstRequestToEdit.containsKey(url.trim())) {
-							log.info("add new request "+key);
+							log.info("add new request "+key+" : "+StringUtil.merge(parameters.get(key)));
 							Layout layout = LayoutLocalServiceUtil.getLayout(
 									groupId, displayLayout.getDisplayLayoutId()
 											.isPrivatePage(), displayLayout
@@ -288,7 +289,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 					
 					// if layout doesn't exist anymore
 					else {
-						log.info("delete request: "+key);
+						log.info("delete request: "+key+" : "+StringUtil.merge(parameters.get(key)));
 						long requestId =  displayLayout.getRequestId();
 						RequestLocalServiceUtil.deleteRequest(requestId);
 					}
