@@ -21,15 +21,13 @@
 
 <portlet:actionURL name="editScenario" var="editScenarioURL"
 	windowState="normal" />
-<aui:form action="${editScenarioURL}" method="POST"
-	name="formulaireScenario" id="formulaireScenario">
+<aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario">
 	<liferay-util:buffer var="htmlTop">
 		<h5>${scenario.name }: ${siteName}</h5>
 	</liferay-util:buffer>
 	<liferay-util:buffer var="htmlBottom">
 		<aui:button-row>
-			<aui:button type="submit" iconAlign="right"
-				onClick="confirmSubmit();return false" />
+			<aui:button type="submit" iconAlign="right" onClick="confirmSubmit();" />
 			<aui:button type="cancel" href="${backURL}" iconAlign="right" />
 		</aui:button-row>
 		<p class="muted">
@@ -143,10 +141,8 @@
 			if(show) {
 				// Create popup
 				createModal(message);
-				return false;
-			}
-			else {
-				return true;
+			} else {
+				Y.one("#<portlet:namespace/>formulaireScenario").submit();
 			}
 		});
 		return false;
@@ -204,9 +200,7 @@
 				var nodeList = node.one(".force-weight-children");
 				if(nodeList != null) {
 					var children = nodeList.getData("children").split(",");
-					console.log("list "+node.one(".force-weight-children").getData("children"));
 					for (var i = 0; i < children.length; i++) {
-						console.log("->"+children[i]);
 						selectSubPage(children[i], checked);
 					}
 				}

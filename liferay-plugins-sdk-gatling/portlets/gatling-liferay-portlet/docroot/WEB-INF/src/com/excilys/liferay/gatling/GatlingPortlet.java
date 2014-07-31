@@ -26,7 +26,6 @@ import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
 import java.io.IOException;
@@ -77,10 +76,10 @@ public class GatlingPortlet extends MVCPortlet {
 		jspFormFirstScenario = getInitParameter("form-first-scenario-jsp");
 		jspHelp = getInitParameter("help-jsp");
 
-		//create the role Gatling		
-		long companyId = PortalUtil.getDefaultCompanyId();
-		long userId = 10161; //10437
-		GatlingUtil.createRole(companyId,userId);
+//		//create the role Gatling		
+//		long companyId = PortalUtil.getDefaultCompanyId();
+//		long userId = 10437;
+//		GatlingUtil.createRole(companyId,userId);
 		super.init();
 	}
 
