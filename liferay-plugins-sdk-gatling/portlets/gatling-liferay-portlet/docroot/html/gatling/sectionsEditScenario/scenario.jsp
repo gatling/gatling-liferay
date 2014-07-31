@@ -116,7 +116,6 @@
 						</td>
 
 						<td>${layout.showName()}</td>
-
 						<td><i class="icon-exclamation-sign"></i> ${layout.showName()}</td>
 						<td><aui:input label="" name="weight${status.index}" value="${layout.weight}" cssClass="weight deleted" onChange="showWeight()">
 								<aui:validator name="number" />

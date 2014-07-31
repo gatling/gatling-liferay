@@ -85,6 +85,14 @@
 			});
 			
 			showWeight();
+			if (A.all(".checkLine:checked").size()==0){
+				A.one("#force").hide(true);
+				A.one("div.forceinput").hide(true);
+			}
+			else{
+				A.one("div.forceinput").show(true);
+				A.one("#force").show(true);
+			}
 		});
 			
 
@@ -108,7 +116,6 @@
 		if (A.all(".checkLine:checked").size() === A.all(".checkLine").size())
 			A.one("#checkAll").set("checked", true);
 
-		A.one("#<portlet:namespace />variableScenarioName").val(A.one("#<portlet:namespace />scenarioName").val().replace(/\W/g, ''));
 		
 		if (A.all(".checkLine:checked").size()==0){
 			A.one("#force").hide(true);
@@ -132,18 +139,42 @@
 				message += "<li><liferay-ui:message key='scenario-edit-empty-details' /></li>";
 				show = true;
 			}
-			// Check Empty
-			if(Y.all(".checkLine:checked").size() == 0) {
-				// Add message
-				message += "<li><liferay-ui:message key='scenario-edit-empty-selection' /></li>";
-				show = true;
-			}
+// 			// Check Empty
+// 			if(Y.all(".checkLine:checked").size() == 0) {
+// 				// Add message
+// 				message += "<li><liferay-ui:message key='scenario-edit-empty-selection' /></li>";
+// 				show = true;
+// 			}
 			//if confirm upgrade
 	  		if(Y.one("#<portlet:namespace/>confirmUpgrade") !==null) {
 	  			// Add message
 	  			message += "<li><liferay-ui:message key='scenario-edit-upgrade'/></li>";
 	  			show = true;
 			}
+			
+			//If all weight == 0.0 = no request for scenario
+			if(!show){
+				show = true;
+				message += "<li><liferay-ui:message key='scenario-edit-weight-null'/></li>";
+				Y.all(".weight").each(function() {
+					if(this.val() != 0.0){
+			  			show = false;
+					}
+				});
+			}
+			
+			else{
+				var test = true;
+				Y.all(".weight").each(function() {
+					if(this.val() != 0.0){
+						test = false;
+					}
+				});
+				if(test){
+					message += "<li><liferay-ui:message key='scenario-edit-weight-null'/></li>";
+				}
+			}
+	  		
 			if(show) {
 				// Create popup
 				createModal(message);
