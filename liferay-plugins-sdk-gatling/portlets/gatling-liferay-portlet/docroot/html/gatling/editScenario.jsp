@@ -74,6 +74,14 @@
 					for (var i = 0; i < children.length; i++) {
 						selectSubPage(children[i], checked);
 					}
+					if (A.all(".checkLine:checked").size()==0){
+						A.one("#force").set('disabled', true);
+						A.one(".forceinput").set('disabled', true);
+					}
+					else{
+						A.one(".forceinput").set('disabled', false);
+						A.one("#force").set('disabled', false);
+					}
 				});
 			});
 		
