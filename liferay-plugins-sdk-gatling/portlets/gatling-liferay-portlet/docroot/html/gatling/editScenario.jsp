@@ -86,12 +86,12 @@
 			
 			showWeight();
 			if (A.all(".checkLine:checked").size()==0){
-				A.one("#force").hide(true);
-				A.one("div.forceinput").hide(true);
+				A.one("#force").hide();
+				A.one("div.forceinput").hide();
 			}
 			else{
-				A.one("div.forceinput").show(true);
-				A.one("#force").show(true);
+				A.one("div.forceinput").show();
+				A.one("#force").show();
 			}
 		});
 			
@@ -104,12 +104,12 @@
 					A.one("#checkAll").set("checked", false);
 				}
 				if (A.all(".checkLine:checked").size()==0){
-					A.one("#force").hide(true);
-					A.one("div.forceinput").hide(true);
+					A.one("#force").hide();
+					A.one("div.forceinput").hide();
 				}
 				else{
-					A.one("div.forceinput").show(true);
-					A.one("#force").show(true);
+					A.one("div.forceinput").show();
+					A.one("#force").show();
 				}
 			});
 		});
@@ -118,12 +118,12 @@
 
 		
 		if (A.all(".checkLine:checked").size()==0){
-			A.one("#force").hide(true);
-			A.one("div.forceinput").hide(true);
+			A.one("#force").hide();
+			A.one("div.forceinput").hide();
 		}
 		else{
-			A.one("div.forceinput").show(true);
-			A.one("#force").show(true);
+			A.one("div.forceinput").show();
+			A.one("#force").show();
 		}
 	});
 

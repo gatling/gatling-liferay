@@ -89,8 +89,8 @@
 								<i class="icon-share"></i>
 							</a>
 						</td>
-
-						<td><aui:input label="" name="weight${status.index}" cssClass="weight " inlineField="true" onChange="showWeight()"
+						<td>
+							<aui:input label="" name="weight${status.index}" cssClass="weight " inlineField="true" onChange="showWeight()"
 								value="${layout.weight}">
 								<aui:validator name="number" />
 							</aui:input>
