@@ -53,7 +53,8 @@ public class ScriptGeneratorGatling2 implements ScriptGeneratorGatling {
 							mustacheRequests.add(mr);
 						}
 					}
-					mustacheRequests.get(mustacheRequests.size()-1).setWeight(100-currentSumWeight+weight);
+					double lastWeight = (double) (int)( (100-currentSumWeight+weight)*10000)/10000;
+					mustacheRequests.get(mustacheRequests.size()-1).setWeight(lastWeight);
 				}
 				MustacheScenario ms = new MustacheScenario2(sc.getVariableName(),sc.getUsers_per_seconds(), sc.getDuration(), ",", mustacheRequests);
 				list.add(ms);

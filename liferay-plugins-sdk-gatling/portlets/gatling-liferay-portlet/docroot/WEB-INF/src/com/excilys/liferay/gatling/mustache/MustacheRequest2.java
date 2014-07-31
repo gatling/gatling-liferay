@@ -11,6 +11,7 @@ public class MustacheRequest2 implements MustacheRequest {
 
 	@Override
 	public void setWeight(Object i) {
+		System.out.println(i);
 		this.pourcentage = (Double) i;
 	}
 
