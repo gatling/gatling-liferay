@@ -50,8 +50,8 @@
 <aui:form action="${resourceUrl}" method="post">
 	<h5><liferay-ui:message key="simulation-list-export" /></h5>
 	<aui:select label="simulation-list-version-choice" name="gatlingVersion" inlineField="true">
-		<aui:option value="1">Gatling 1.5</aui:option>
 		<aui:option value="2">Gatling 2.0 M3</aui:option>
+		<aui:option value="1">Gatling 1.5</aui:option>
 	</aui:select>
 	<liferay-util:buffer var="textExport">
 		<i class="icon-print"></i>
