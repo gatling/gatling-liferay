@@ -57,8 +57,7 @@ import javax.portlet.ValidatorException;
 public class GatlingPortlet extends MVCPortlet {
 
 
-	MustacheFactory mf = new DefaultMustacheFactory();
-
+	private MustacheFactory mf = new DefaultMustacheFactory();
 	private static Log log = LogFactoryUtil.getLog(GatlingPortlet.class);
 
 	/**
@@ -96,13 +95,12 @@ public class GatlingPortlet extends MVCPortlet {
 		Simulation simulation = SimulationLocalServiceUtil.addSimulationFromRequest(request, response);
 
 		if(simulation != null) {
-			List<Scenario> list = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
+			int list = ScenarioLocalServiceUtil.countBySimulationId(simulation.getSimulation_id());
 			response.setRenderParameter("simulationId", Long.toString(simulation.getSimulation_id()));
 			// If new, add First scenario
-			if(list.isEmpty()) {
+			if(list == 0) {
 				response.setRenderParameter("page", jspFormFirstScenario);
-			}
-			else {
+			}	else {
 				response.setRenderParameter("page", jspEditSimulation);
 			}
 		}
@@ -248,14 +246,8 @@ public class GatlingPortlet extends MVCPortlet {
 	 * @return
 	 */
 	private int scenarioState(Scenario scenario) {
-		List<Request> lsR;
 		try {
-			lsR = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
-			int count=0;
-			for(Request r : lsR){
-				if(r.isUsed())
-					count ++;
-			}
+			int count = RequestLocalServiceUtil.countByScenarioIdAndUsed(scenario.getScenario_id());
 			//completed scenario = case if all minimal information are completed 
 			if((count != 0) && (scenario.getDuration() != 0) && (scenario.getUsers_per_seconds()!=0)){
 				return 2;
@@ -265,9 +257,6 @@ public class GatlingPortlet extends MVCPortlet {
 				return 1;
 			}
 			//case if not request selected to that scenario = empty scenario
-			else if((count == 0)){
-				return 0;
-			}
 			return 0;	
 		} catch (SystemException e) {
 			log.error("enable to determine Scenario state "+e.getMessage());
@@ -283,20 +272,21 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	public int simulationState(Simulation simulation){
 		try {
+			int sizeScenario = ScenarioLocalServiceUtil.countBySimulationId(simulation.getSimulation_id());
 			List<Scenario> scenariosList = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
 			int checkNumberCompleted=0;
 			for(Scenario scenario : scenariosList){
-				if(scenarioState(scenario) ==2){
+				if(scenarioState(scenario) == 2){
 					checkNumberCompleted++;
 				}
 			}
 			
 			//if no one scenario is completed = simulation empty
-			if((checkNumberCompleted == 0) || (scenariosList.size() ==0)){
+			if((checkNumberCompleted == 0) || (sizeScenario == 0)){
 				return 0;
 			}
 			//if all scenario completed = simulation complited
-			else if(checkNumberCompleted == scenariosList.size()){
+			else if(checkNumberCompleted == sizeScenario ){
 				return 2;
 			}
 			//other case = simulation incompleted
@@ -326,8 +316,7 @@ public class GatlingPortlet extends MVCPortlet {
 				list = SimulationLocalServiceUtil.getSimulations(0, SimulationLocalServiceUtil.getSimulationsCount());
 				for(Simulation s : list){
 					Integer[] res = new Integer[2];
-					List<Scenario> ls = ScenarioLocalServiceUtil.findBySimulationId(s.getSimulation_id());
-					res[0] = ls.size();
+					res[0] = ScenarioLocalServiceUtil.countBySimulationId(s.getSimulation_id());
 					res[1] = simulationState(s);
 					listSimulation.put(s, res );
 				}
@@ -360,20 +349,10 @@ public class GatlingPortlet extends MVCPortlet {
 				//map <scenario, scenarioInfo>
 				Map<Scenario, Number[]> scenariosMap = new HashMap<Scenario, Number[]>();
 				for(Scenario scenario : scenarioList){
-
-					List<Request> lsR = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
 					Number[] info = new Number[3];
-					int numberRequestAdded=0;
-					int numberRequest =0;
-					for(Request r : lsR){
-						numberRequest ++;
-						if(r.isUsed())
-							numberRequestAdded ++;
-					}
-
 					info[2] = scenarioState(scenario);
-					info[0] = numberRequestAdded;
-					info[1] = numberRequest;
+					info[0] = RequestLocalServiceUtil.countByScenarioIdAndUsed(scenario.getScenario_id());
+					info[1] = RequestLocalServiceUtil.countByScenarioId(scenario.getScenario_id());
 					scenariosMap.put(scenario, info);
 				}
 				String JSListName = GatlingUtil.createJSListOfScenarioName(scenarioList);
@@ -498,19 +477,18 @@ public class GatlingPortlet extends MVCPortlet {
 		 */
 		long[] simulationsIds = ParamUtil.getLongValues(request, "export");
 		Simulation simulation;
+		Date date =new Date();
+		Mustache mustache = mf.compile(template);           
 		if(simulationsIds.length > 1) {
 			response.setContentType("application/zip");
-			response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
-			response.addProperty("Content-Disposition", "attachment; filename = multiSimulations.zip");
+			response.addProperty("Content-Disposition", "attachment; filename = GatlingSimulations" + date.getTime() + ".zip");
 
 			try {					
 				ZipOutputStream zipOutputStream = new ZipOutputStream(response.getPortletOutputStream());
 				for (long id : simulationsIds) {
 					if(id  > 0) {
 						simulation = SimulationLocalServiceUtil.getSimulation(id);
-						Date date =new Date();
 						zipOutputStream.putNextEntry(new ZipEntry("Simulation"  + simulation.getName()  + date.getTime() + ".scala"));
-						Mustache mustache = mf.compile(template);           
 						sgg.setId(simulationsIds[0]);
 						mustache.execute(new PrintWriter(zipOutputStream), sgg).flush();
 						zipOutputStream.closeEntry();
@@ -524,13 +502,10 @@ public class GatlingPortlet extends MVCPortlet {
 
 		} else if(simulationsIds.length == 1 && simulationsIds[0] > 0) {	
 			response.setContentType("application/x-wais-source");
-			response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 
-			Date date =new Date();
 			try {
 				simulation = SimulationLocalServiceUtil.getSimulation(simulationsIds[0]);
 				response.addProperty("Content-Disposition", "attachment; filename=Simulation"  + simulation.getName()  + date.getTime() + ".scala");
-				Mustache mustache = mf.compile(template);
 				OutputStream out = response.getPortletOutputStream();            
 				sgg.setId(simulationsIds[0]);
 				mustache.execute(new PrintWriter(out), sgg).flush();
@@ -539,5 +514,6 @@ public class GatlingPortlet extends MVCPortlet {
 				e.printStackTrace();
 			}
 		}
+		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 	}
 }

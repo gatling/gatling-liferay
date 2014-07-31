@@ -72,6 +72,12 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	 */
 	private static Log log = LogFactoryUtil.getLog(ScenarioLocalServiceImpl.class);
 
+
+	@Override
+	public int countBySimulationId(long simulationId) throws SystemException{
+		return scenarioPersistence.countBySimulationId(simulationId);
+	}
+	
 	@Override
 	public List<Scenario> findBySimulationId(long simulationId) throws SystemException {
 		return scenarioPersistence.findBySimulationId(simulationId);
@@ -116,6 +122,21 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		return false;
 	}
 
+	public int countByVariableName(String variableName, long idSimulation) {
+		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Scenario.class)
+				.add(PropertyFactoryUtil.forName("variableName").like(variableName+"%"))
+				.add(PropertyFactoryUtil.forName("simulation_id").eq(idSimulation));
+
+		int result = 0;
+		try {
+			result = (int) scenarioPersistence.countWithDynamicQuery(dq);
+			return result;
+		} catch (SystemException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 	public List<Scenario> findByVariableName(String variableName, long idSimulation) {
 		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Scenario.class)
 				.add(PropertyFactoryUtil.forName("variableName").like(variableName+"%"))
@@ -146,9 +167,9 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		 *  Set Variable Name
 		 */
 		String variableName = GatlingUtil.createVariableName("scenario", ParamUtil.getString(request, "scenarioName"));
-		List<Scenario> listVar = ScenarioLocalServiceUtil.findByVariableName(variableName, scenario.getSimulation_id());
-		if(!listVar.isEmpty() ) {
-			variableName = variableName.concat(Integer.toString(listVar.size()));
+		int sizeVar = ScenarioLocalServiceUtil.countByVariableName(variableName, scenario.getSimulation_id());
+		if(sizeVar !=0 ) {
+			variableName = variableName.concat(Integer.toString(sizeVar));
 		}
 		scenario.setVariableName(variableName);
 
@@ -219,7 +240,6 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			 */
 			// Get non private pages
 			List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId,false,0);
-			String siteName = GroupLocalServiceUtil.getGroup(groupId).getName();
 			// then the private
 			List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
 			List<DisplayLayout> displayLayoutList = new ArrayList<DisplayLayout>();
