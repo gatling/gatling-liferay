@@ -14,10 +14,10 @@
 				<label for="checkAll" class="inline"><i class='icon-circle-arrow-down'></i></label>
 				<%--Force weight button --%>
 
-				<div class="forceinput inline" >
-					<aui:input label="" name="forceWeight" cssClass="forceinput" inlineField="true" />
-					<aui:button value="scenario-edit-force-weight" cssClass="inline-button" id="force" onClick="forceWeight();" />
-				</div>
+				
+				<aui:input label="" name="forceWeight" cssClass="forceinput" inlineField="true" />
+				<aui:button value="scenario-edit-force-weight" cssClass="inline-button" id="force" onClick="forceWeight();" />
+			
 			</th>
 			<th><liferay-ui:message key="scenario-edit-table-header-page" /><liferay-ui:icon-help message="name-info-help"/></th>
 			<th><liferay-ui:message key="scenario-edit-table-header-weight" /> <liferay-ui:icon-help message="weight-info-help"/></th>
