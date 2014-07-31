@@ -21,6 +21,7 @@ import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.ScenarioLocalServiceBaseImpl;
 import com.excilys.liferay.gatling.util.DisplayLayout;
+import com.excilys.liferay.gatling.util.DisplayLayout.RequestState;
 import com.excilys.liferay.gatling.util.DisplayLayoutUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.excilys.liferay.gatling.validator.RequestValidator;
@@ -247,45 +248,51 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 					DisplayLayout displayLayout = displayLayoutList
 							.get(layoutId);
 					String url = displayLayout.getUrl();
-
-					// if already exists in DB
-					if ((lstRequestToEdit.containsKey(url.trim()))
-							&& ((lstRequestToEdit.get(url).getWeight() != weight) )) {
-						Request updatedRequest = lstRequestToEdit.get(url);
-						updatedRequest.setWeight(weight);
-						// Saving ...
-						List<String> errors = new ArrayList<String>();
-						if (RequestValidator.validateRequest(updatedRequest,
-								errors)) {
-							RequestLocalServiceUtil
-									.updateRequest(updatedRequest);
-							if (log.isDebugEnabled())
-								log.debug("request updated succefully");
-						} else {
-							for (String error : errors) {
-								SessionErrors.add(request, error);
+					RequestState status = displayLayout.getState();
+					
+					if(!(status == RequestState.OLD_REQUEST)){
+						// if already exists in DB
+						if ((lstRequestToEdit.containsKey(url.trim()))
+								&& ((lstRequestToEdit.get(url).getWeight() != weight) )) {
+							Request updatedRequest = lstRequestToEdit.get(url);
+							updatedRequest.setWeight(weight);
+							// Saving ...
+							List<String> errors = new ArrayList<String>();
+							if (RequestValidator.validateRequest(updatedRequest,
+									errors)) {
+								RequestLocalServiceUtil
+										.updateRequest(updatedRequest);
+								if (log.isDebugEnabled())
+									log.debug("request updated succefully");
+							} else {
+								for (String error : errors) {
+									SessionErrors.add(request, error);
+								}
 							}
 						}
+
+						// else Add new page
+						else if (!lstRequestToEdit.containsKey(url.trim())) {
+							log.info("add new request "+key);
+							Layout layout = LayoutLocalServiceUtil.getLayout(
+									groupId, displayLayout.getDisplayLayoutId()
+											.isPrivatePage(), displayLayout
+											.getDisplayLayoutId().getLayoutId());
+
+							RequestLocalServiceUtil.addRequestFromLayout(layout,
+									weight, idScenario, true, userId);
+							if (log.isDebugEnabled())
+								log.debug("request created and added succefully ");
+						}	
 					}
-
-					// else Add new page
-					else if (!lstRequestToEdit.containsKey(url.trim())) {
-						Layout layout = LayoutLocalServiceUtil.getLayout(
-								groupId, displayLayout.getDisplayLayoutId()
-										.isPrivatePage(), displayLayout
-										.getDisplayLayoutId().getLayoutId());
-
-						RequestLocalServiceUtil.addRequestFromLayout(layout,
-								weight, idScenario, true, userId);
-						if (log.isDebugEnabled())
-							log.debug("request created and added succefully ");
-					}	
-				}
-				// if layout doesn't exist anymore
-				else if(key.contains("delete") ){
-					log.info("delete request: "+key);
-					long requestId =  Long.parseLong(StringUtil.merge(parameters.get(key)));
-					RequestLocalServiceUtil.deleteRequest(requestId);
+					
+					// if layout doesn't exist anymore
+					else {
+						log.info("delete request: "+key);
+						long requestId =  displayLayout.getRequestId();
+						RequestLocalServiceUtil.deleteRequest(requestId);
+					}
+					
 				}
 			}
 

@@ -114,8 +114,11 @@
 								<portlet:param name="requestId" value="${layout.requestId}" />
 							</portlet:actionURL> <liferay-ui:icon-delete url="${deleteRequestURL}" />
 						</td>
+
 						<td>${layout.showName()}</td>
-						<td><aui:input label="" name="weight${layout.requestId}" value="${layout.weight}" cssClass="weight deleted" onChange="showWeight()">
+
+						<td><i class="icon-exclamation-sign"></i> ${layout.showName()}</td>
+						<td><aui:input label="" name="weight${status.index}" value="${layout.weight}" cssClass="weight deleted" onChange="showWeight()">
 								<aui:validator name="number" />
 							</aui:input></td>
 						<td><span class='percentage'>0.00%</span></td>
