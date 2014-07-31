@@ -134,17 +134,11 @@
 			var message = "";
 			var show = false;
 			// Check details
-			if( !validateNumber(Y.one("#<portlet:namespace />scenarioDuration").val()) 
-					|| !validateNumber(Y.one("#<portlet:namespace />scenarioDuration").val())) {
+			if( !validateNumber(Y.one("#<portlet:namespace />scenarioDuration").val()) || !validateNumber(Y.one("#<portlet:namespace />scenarioDuration").val()) ) {
 				message += "<li><liferay-ui:message key='scenario-edit-empty-details' /></li>";
 				show = true;
 			}
-// 			// Check Empty
-// 			if(Y.all(".checkLine:checked").size() == 0) {
-// 				// Add message
-// 				message += "<li><liferay-ui:message key='scenario-edit-empty-selection' /></li>";
-// 				show = true;
-// 			}
+
 			//if confirm upgrade
 	  		if(Y.one("#<portlet:namespace/>confirmUpgrade") !==null) {
 	  			// Add message
