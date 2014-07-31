@@ -43,11 +43,13 @@ import java.util.zip.ZipOutputStream;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
-import javax.portlet.PortletURL;
+import javax.portlet.PortletPreferences;
+import javax.portlet.ReadOnlyException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+import javax.portlet.ValidatorException;
 
 /**
  * Portlet implementation class GatlingPortlet
@@ -333,6 +335,11 @@ public class GatlingPortlet extends MVCPortlet {
 				e.printStackTrace();
 			}
 			String JSListName = GatlingUtil.createJSListOfSimulationName(list);
+			
+			final PortletPreferences prefs = renderRequest.getPreferences();
+			String gatlingVersionString;
+			gatlingVersionString = prefs.getValue("gatlingVersion", null);
+			renderRequest.setAttribute("gatlingVersion", gatlingVersionString);
 			renderRequest.setAttribute("listOfSimulationName", JSListName);
 			renderRequest.setAttribute("listSimulation", list);
 			renderRequest.setAttribute("MapSimulation", listSimulation);
@@ -457,6 +464,19 @@ public class GatlingPortlet extends MVCPortlet {
 		 * Get template from version
 		 */
 		int gatlingVersion = ParamUtil.getInteger(request, "gatlingVersion");
+		final PortletPreferences prefs = request.getPreferences();
+		try {
+			prefs.setValue("gatlingVersion", Integer.toString(gatlingVersion));
+			prefs.store();
+		} catch (ReadOnlyException e1) {
+			e1.printStackTrace();
+		} catch (ValidatorException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		
 		String template;
 		ScriptGeneratorGatling sgg;
 		switch (gatlingVersion) {
@@ -518,10 +538,6 @@ public class GatlingPortlet extends MVCPortlet {
 			} catch (Exception e) { 
 				e.printStackTrace();
 			}
-		} else {
-			PortletURL render = response.createRenderURL();
-			//render.setParameter("page", jspListSimulation);
-			response.addProperty("Location", render.toString());
 		}
 	}
 }

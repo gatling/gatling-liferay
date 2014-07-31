@@ -107,9 +107,17 @@
 
 <div id="exportModalTemplate" hidden="true">
 	<h5><liferay-ui:message key="simulation-list-export" /></h5>
-	<aui:select label="simulation-list-version-choice" name="gatlingVersionSelect">
-		<aui:option value="2">Gatling 2.0 M3</aui:option>
-		<aui:option value="1">Gatling 1.5</aui:option>
+	<aui:select label="simulation-list-version-choice" name="gatlingVersionSelect" >
+		<c:choose>
+			<c:when test="${gatlingVersion == 1}">
+				<c:set var="selected1" value="true"/>
+			</c:when>
+			<c:otherwise>
+				<c:set var="selected2" value="true"/>
+			</c:otherwise>
+		</c:choose>
+		<aui:option value="2" selected="${selected2 }" >Gatling 2.0 M3</aui:option>
+		<aui:option value="1" selected="${selected1 }" >Gatling 1.5</aui:option>
 	</aui:select>
 	<liferay-util:buffer var="textExport">
 		<i class="icon-print"></i>
