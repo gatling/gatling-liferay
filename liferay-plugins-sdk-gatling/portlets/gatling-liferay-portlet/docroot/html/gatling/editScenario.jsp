@@ -13,23 +13,24 @@
 <liferay-ui:header title="${scenario.name } : ${siteName}"
 	backURL="${backURL }" />
 
-<div class="well well-small">
-	<liferay-ui:icon-help message="About this page">
-		<liferay-ui:message key="scenario-edit-help" />
-	</liferay-ui:icon-help>
-</div>
-
 <portlet:actionURL name="editScenario" var="editScenarioURL"
 	windowState="normal" />
 <aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario">
+	<div class="well well-small">
+		<liferay-ui:icon-help message="About this page">
+			<liferay-ui:message key="scenario-edit-help" />
+		</liferay-ui:icon-help>
+	</div>
+	<div class="pull-right">
+		<aui:button type="submit" iconAlign="right" onClick="confirmSubmit();return false;" />
+		<aui:button type="cancel" href="${backURL}" iconAlign="right" />
+	</div>
+	<div class="clearfix"></div>
+
 
 	<%@include file="/html/gatling/sectionsEditScenario/details.jsp" %>
 	<%@include file="/html/gatling/sectionsEditScenario/scenario.jsp" %> 
 	
-	<aui:button-row>
-		<aui:button type="submit" iconAlign="right" onClick="confirmSubmit();return false;" />
-		<aui:button type="cancel" href="${backURL}" iconAlign="right" />
-	</aui:button-row>
 
 </aui:form>
 <c:if test="${not empty confirmUpgrade }">
