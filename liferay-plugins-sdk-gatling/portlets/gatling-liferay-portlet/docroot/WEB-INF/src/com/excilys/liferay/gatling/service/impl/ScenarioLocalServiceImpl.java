@@ -240,6 +240,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			for (String key : parameters.keySet()){
 				
 				if ((key.contains("weight"))) {
+					log.info(key+" : "+StringUtil.merge(parameters.get(key)));
 					int layoutId = Integer
 							.parseInt(key.substring(key.length() - 1));
 					double weight = Double.parseDouble(StringUtil.merge(parameters.get(key)));

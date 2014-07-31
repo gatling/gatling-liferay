@@ -3,9 +3,7 @@ package com.excilys.liferay.gatling.util;
 import java.util.Properties;
 
 /**
- * <a href="PortletProps.java.html"><b><i>View Source</i></b></a>
- *
- * @author Scott Lee
+ *class used to add proprties file in resources
  *
  */
 public class PortletProps {
@@ -29,13 +27,4 @@ public class PortletProps {
 	public static Properties getProperties() {
 		return com.liferay.util.portlet.PortletProps.getProperties();
 	}
-
-//	public static ComponentProperties getComponentProperties() {
-//		return com.liferay.util.portlet.PortletProps.getComponentProperties();
-//	}
-
-//	private static ExtPropertiesLoader _getInstance() {
-//		return ExtPropertiesLoader.getInstance("mail-portlet");
-//	}
-
 }

@@ -95,11 +95,29 @@
 				} else {
 					A.one("#checkAll").set("checked", false);
 				}
+				if (A.all(".checkLine:checked").size()==0){
+					A.one("#force").hide(true);
+					A.one("div.forceinput").hide(true);
+				}
+				else{
+					A.one("div.forceinput").show(true);
+					A.one("#force").show(true);
+				}
 			});
 		});
 		if (A.all(".checkLine:checked").size() === A.all(".checkLine").size())
 			A.one("#checkAll").set("checked", true);
+
+		A.one("#<portlet:namespace />variableScenarioName").val(A.one("#<portlet:namespace />scenarioName").val().replace(/\W/g, ''));
 		
+		if (A.all(".checkLine:checked").size()==0){
+			A.one("#force").hide(true);
+			A.one("div.forceinput").hide(true);
+		}
+		else{
+			A.one("div.forceinput").show(true);
+			A.one("#force").show(true);
+		}
 	});
 
 

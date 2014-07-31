@@ -4,6 +4,13 @@
 <aui:fieldset label="scenario">
 	<aui:input type="hidden" name="scenarioId" value='${empty scenario ? "" : scenario.scenario_id }' />
 	<aui:input type="hidden" name="groupId" value='${scenario.group_id}' />
+
+	
+	<div Class="forceinput">
+		<aui:input label="scenario-edit-force-weight" name="forceWeight"  cssClass="forceinput" inlineField="true" />
+		<aui:button value="scenario-edit-force-weight-btn" cssClass="inline-button" id="force" onClick="forceWeight();"/>
+	</div>
+	
 	<table class="table table-bordered table-scenario">
 		<tr>
 			<th class="small-column">
