@@ -186,7 +186,8 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	public Scenario editScenarioFromRequest(ActionRequest request, ActionResponse response) throws PortalException, SystemException  {
 		Long idScenario = ParamUtil.getLong(request, "scenarioId");
 		Map<String, String[]> parameters = request.getParameterMap();
-		Map<String, Request> lstRequestToEdit =new HashMap<String, Request>();
+		Map<String, Request> lstPrivateRequestToEdit =new HashMap<String, Request>();
+		Map<String, Request> lstPublicRequestToEdit =new HashMap<String, Request>();
 
 		//security
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
@@ -232,7 +233,13 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 
 			// get List request
 			for(Request r :RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(request, "scenarioId",0))){
-				lstRequestToEdit.put(r.getUrl().trim(),  r);
+				if(r.isPrivatePage()){
+					lstPrivateRequestToEdit.put(r.getUrl().trim(),  r);
+				}
+				else{
+					lstPublicRequestToEdit.put(r.getUrl().trim(),  r);
+				}
+				
 			}
 
 			/*
@@ -248,14 +255,25 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 							.get(layoutId);
 					String url = displayLayout.getUrl();
 					RequestState status = displayLayout.getState();
-					
+					//Request requestToedit = lstRequestToEdit.get(url)
 					if(!(status == RequestState.OLD_REQUEST)){
 						// if already exists in DB
-						if ((lstRequestToEdit.containsKey(url.trim()))
-								&& ((lstRequestToEdit.get(url).getWeight() != weight) )) {
+						boolean alreadyExists =false;
+						Request updatedRequest = null;
+						if(displayLayout.isPrivateLayout()){
+							alreadyExists = lstPrivateRequestToEdit.containsKey(url.trim());
+							if(alreadyExists)
+								updatedRequest = lstPrivateRequestToEdit.get(url);
+						}
+						else{
+							alreadyExists = lstPublicRequestToEdit.containsKey(url.trim());
+							if(alreadyExists)
+								updatedRequest = lstPublicRequestToEdit.get(url);
+						}
+						
+						if (alreadyExists && (updatedRequest.getWeight() != weight)){
 							
 							log.info("update request "+key+" : "+StringUtil.merge(parameters.get(key)));
-							Request updatedRequest = lstRequestToEdit.get(url);
 							updatedRequest.setWeight(weight);
 							// Saving ...
 							List<String> errors = new ArrayList<String>();
@@ -273,7 +291,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 						}
 
 						// else Add new page
-						else if (!lstRequestToEdit.containsKey(url.trim())) {
+						else if (!alreadyExists) {
 							log.info("add new request "+key+" : "+StringUtil.merge(parameters.get(key)));
 							Layout layout = LayoutLocalServiceUtil.getLayout(
 									groupId, displayLayout.getDisplayLayoutId()
