@@ -220,7 +220,9 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			/*
 			 * Update Details
 			 */
-			if(log.isDebugEnabled()) log.debug("editScenarioDetails");
+			if(log.isDebugEnabled()) {
+				log.debug("editScenarioDetails");
+			}
 			Scenario scenario = ScenarioLocalServiceUtil.getScenario(idScenario);
 			String scenarioName= ParamUtil.getString(request, "scenarioName");
 			Long scenarioUsers = ParamUtil.getLong(request, "scenarioUsers");
@@ -252,7 +254,8 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			displayLayoutList = DisplayLayoutUtil.addRequestToDisplayLayoutList(displayLayoutList, listRequests);
 
 			// get List request
-			for(Request r :RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(request, "scenarioId",0))){
+			List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(request, "scenarioId",0));
+			for(Request r : listRequest){
 				if(r.isPrivatePage()){
 					lstPrivateRequestToEdit.put(r.getUrl().trim(),  r);
 				}
@@ -268,11 +271,9 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			for (String key : parameters.keySet()){
 				
 				if ((key.contains("weight"))) {
-					int layoutId = Integer
-							.parseInt(key.replace("weight",""));
+					int layoutId = Integer.parseInt(key.replace("weight",""));
 					double weight = Double.parseDouble(StringUtil.merge(parameters.get(key)));
-					DisplayLayout displayLayout = displayLayoutList
-							.get(layoutId);
+					DisplayLayout displayLayout = displayLayoutList.get(layoutId);
 					String url = displayLayout.getUrl();
 					RequestState status = displayLayout.getState();
 					//Request requestToedit = lstRequestToEdit.get(url)
@@ -282,27 +283,27 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 						Request updatedRequest = null;
 						if(displayLayout.isPrivateLayout()){
 							alreadyExists = lstPrivateRequestToEdit.containsKey(url.trim());
-							if(alreadyExists)
+							if(alreadyExists){
 								updatedRequest = lstPrivateRequestToEdit.get(url);
+							}
 						}
 						else{
 							alreadyExists = lstPublicRequestToEdit.containsKey(url.trim());
-							if(alreadyExists)
-								updatedRequest = lstPublicRequestToEdit.get(url);
+							if(alreadyExists) {
+								updatedRequest = lstPublicRequestToEdit.get(url);								
+							}
 						}
 						
 						if (alreadyExists && (updatedRequest.getWeight() != weight)){
 							
-							log.info("update request "+key+" : "+StringUtil.merge(parameters.get(key)));
 							updatedRequest.setWeight(weight);
 							// Saving ...
 							List<String> errors = new ArrayList<String>();
-							if (RequestValidator.validateRequest(updatedRequest,
-									errors)) {
-								RequestLocalServiceUtil
-										.updateRequest(updatedRequest);
-								if (log.isDebugEnabled())
-									log.debug("request updated succefully");
+							if (RequestValidator.validateRequest(updatedRequest,errors)) {
+								RequestLocalServiceUtil.updateRequest(updatedRequest);
+								if (log.isDebugEnabled()){
+									log.debug("request updated succefully");									
+								}
 							} else {
 								for (String error : errors) {
 									SessionErrors.add(request, error);
@@ -313,15 +314,14 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 						// else Add new page
 						else if (!alreadyExists) {
 							log.info("add new request "+key+" : "+StringUtil.merge(parameters.get(key)));
-							Layout layout = LayoutLocalServiceUtil.getLayout(
-									groupId, displayLayout.getDisplayLayoutId()
-											.isPrivatePage(), displayLayout
-											.getDisplayLayoutId().getLayoutId());
+							Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.getDisplayLayoutId().isPrivatePage(), 
+									displayLayout.getDisplayLayoutId().getLayoutId());
 
 							RequestLocalServiceUtil.addRequestFromLayout(layout,
 									weight, idScenario, true, userId);
-							if (log.isDebugEnabled())
+							if (log.isDebugEnabled()){
 								log.debug("request created and added succefully ");
+							}
 						}	
 					}
 					
