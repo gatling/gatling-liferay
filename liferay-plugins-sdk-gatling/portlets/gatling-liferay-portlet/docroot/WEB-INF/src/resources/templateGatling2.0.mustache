@@ -13,7 +13,7 @@ class {{simuName}} extends Simulation {
   var {{name}} = scenario("{{name}}")
   .randomSwitch(
 		{{#mustacheRequests}}
-    {{pourcentage}} -> exec(http("{{name}}").get("{{url}}")){{virgule}}
+    {{pourcentage}} -> exec(http("{{name}}").get("{{url}}")){{^last}},{{/last}}
 {{/mustacheRequests}}	
   )
 	{{/mustacheScenario}}
@@ -21,7 +21,7 @@ class {{simuName}} extends Simulation {
 		
   setUp(
 {{#mustacheScenario}}
-    {{name}}.inject( ramp( {{users}} users ) over ( {{duration}} seconds)){{virgule}}
+    {{name}}.inject( ramp( {{users}} users ) over ( {{duration}} seconds)){{^last}},{{/last}}
 {{/mustacheScenario}}
   )
 

@@ -11,7 +11,7 @@ class {{simuName}} extends Simulation {
   var {{name}} = scenario("{{name}}")
   .randomSwitch(
 		{{#mustacheRequests}}
-    {{pourcentage}} -> exec(http("{{name}}").get("{{url}}")){{virgule}}
+    {{truncate}} -> exec(http("{{name}}").get("{{url}}")){{^last}},{{/last}}
 {{/mustacheRequests}}	
   )
 	{{/mustacheScenario}}

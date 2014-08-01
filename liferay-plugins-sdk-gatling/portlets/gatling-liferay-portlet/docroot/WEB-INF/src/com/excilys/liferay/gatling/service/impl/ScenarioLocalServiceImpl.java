@@ -51,6 +51,7 @@ import java.util.Map;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 
+
 /**
  * The implementation of the scenario local service.
  *
@@ -204,6 +205,10 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	 */
 	public Scenario editScenarioFromRequest(ActionRequest request, ActionResponse response) throws PortalException, SystemException  {
 		final Long idScenario = ParamUtil.getLong(request, "scenarioId");
+
+		if (idScenario == null)
+			throw new NullPointerException("idScenario");
+
 		final Map<String, String[]> parameters = request.getParameterMap();
 		final Map<String, Request> mapPrivateRequestToEdit =new HashMap<String, Request>();
 		final Map<String, Request> mapPublicRequestToEdit =new HashMap<String, Request>();

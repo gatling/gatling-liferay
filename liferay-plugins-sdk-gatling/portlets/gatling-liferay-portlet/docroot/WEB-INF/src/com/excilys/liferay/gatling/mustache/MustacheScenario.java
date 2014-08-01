@@ -1,9 +1,24 @@
 package com.excilys.liferay.gatling.mustache;
 
-public interface MustacheScenario {		
+import java.util.List;
 
-	public void removeComma();
-	public void removeCommaRequest();
+public class MustacheScenario {		
+
+	
+	MustacheScenario(String name,long l,long m, boolean last, List<MustacheRequest> mustacheRequests) {
+		this.name = name;
+		this.last = last;
+		this.mustacheRequests = mustacheRequests;
+		this.users = l;
+		this.duration = m;
+	}
+	
+
+
+	String name;
+	long users, duration;
+	List<MustacheRequest> mustacheRequests;
+	boolean last;
 
 
 }
