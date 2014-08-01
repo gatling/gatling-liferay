@@ -11,8 +11,9 @@
 	<liferay-ui:icon-help message="About this page" ><liferay-ui:message key="create-first-scenario-help" /></liferay-ui:icon-help>
 </div>
 
-<portlet:actionURL name="addFirstScenario" var="addScenarioURL">
+<portlet:actionURL name="addScenario" var="addScenarioURL">
 	<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
+	<portlet:param name="first" value="true" />
 	<portlet:param name="simulationId" value="${simulation.simulation_id}" />
 </portlet:actionURL>
 <%--
