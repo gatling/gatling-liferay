@@ -83,6 +83,9 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		return scenarioPersistence.findBySimulationId(simulationId);
 	}
 
+	/**
+	 * Remove all {@link Scenario} (and children) for a given simulationId 
+	 */
 	@Override
 	public	void removeBySimulationIdCascade(long simulationId) throws SystemException {
 		final List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
@@ -93,6 +96,9 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		scenarioPersistence.removeBySimulationId(simulationId);
 	}
 
+	/**
+	 * Remove all {@link Request} for a scenarioId
+	 */
 	@Override
 	public	void removeByIdCascade(long scenarioId) throws SystemException, NoSuchScenarioException {
 		RequestLocalServiceUtil.removeByScenarioId(scenarioId);
@@ -100,8 +106,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Check if display name is unique
-	 * true if unique else false
+	 * Check if name is unique for {@link Scenario}
 	 */
 	public boolean isNameUnique(String name, long idSimulation) throws SystemException {
 		final DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Scenario.class)
@@ -110,7 +115,10 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		int result = (int) scenarioPersistence.countWithDynamicQuery(dq);
 		return (result == 0);
 	}
-
+	
+	/**
+	 * Count how many {@link Scenario} have this variableName
+	 */
 	public int countByVariableName(String variableName, long idSimulation) throws SystemException {
 		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Scenario.class)
 				.add(PropertyFactoryUtil.forName("variableName").like(variableName+"%"))
@@ -119,6 +127,9 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		return (int) scenarioPersistence.countWithDynamicQuery(dq);
 	}
 
+	/**
+	 * get {@link Scenario} have this variableName
+	 */
 	public List<Scenario> findByVariableName(String variableName, long idSimulation)  throws SystemException {
 		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Scenario.class)
 				.add(PropertyFactoryUtil.forName("variableName").like(variableName+"%"))
@@ -126,7 +137,14 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 
 		return scenarioPersistence.findWithDynamicQuery(dq);
 	}
-
+	
+	/**
+	 * Add a {@link Scenario} from an {@link ActionRequest}
+	 * @param {@link ActionRequest} request
+	 * @param {@link ActionResponse} response
+	 * @return {@link Scenario} if added, else null
+	 * @throws SystemException
+	 */
 	public Scenario addScenarioFromRequest(ActionRequest request, ActionResponse response) throws SystemException {
 		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		final Long userId = themeDisplay.getUserId();
@@ -177,7 +195,13 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		return null;
 	} 
 
-
+	/**
+	 * Edit a {@link Scenario} from an {@link ActionRequest}
+	 * @param {@link ActionRequest} request
+	 * @param {@link ActionResponse} response
+	 * @return {@link Scenario} if added, else null
+	 * @throws SystemException
+	 */
 	public Scenario editScenarioFromRequest(ActionRequest request, ActionResponse response) throws PortalException, SystemException  {
 		final Long idScenario = ParamUtil.getLong(request, "scenarioId");
 		final Map<String, String[]> parameters = request.getParameterMap();

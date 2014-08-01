@@ -6,6 +6,8 @@ import com.liferay.portal.model.Layout;
 
 /**
  * DisplayLayout is used in editScenario.jsp to display both layout and request
+ * 
+ * use of {@link IdDisplayLayout} as field for identity
  *
  */
 public class DisplayLayout {

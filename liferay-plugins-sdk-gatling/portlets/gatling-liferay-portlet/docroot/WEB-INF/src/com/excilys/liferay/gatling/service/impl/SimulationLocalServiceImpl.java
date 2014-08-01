@@ -14,6 +14,7 @@
 
 package com.excilys.liferay.gatling.service.impl;
 
+import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
@@ -54,11 +55,17 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	 * Never reference this interface directly. Always use {@link com.liferay.sample.service.SimulationLocalServiceUtil} to access the simulation local service.
 	 */
 	
+	/**
+	 * remove all {@link Scenario} linked to a simulationId and the simulation
+	 */
 	public void removeSimulationCascade(Long simulationId) throws SystemException, NoSuchModelException {
 		ScenarioLocalServiceUtil.removeBySimulationIdCascade(simulationId);
 		simulationPersistence.remove(simulationId);
 	}
 	
+	/**
+	 * Check if name is unique for {@link Simulation}
+	 */
 	public boolean isNameUnique(String name) throws SystemException {
 		final DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Simulation.class)
 				.add(PropertyFactoryUtil.forName("name").eq(name));
@@ -67,7 +74,10 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		return result.isEmpty();
 	}
 	
-	public int findByVariableName(String variableName) throws SystemException {
+	/**
+	 * Count how many {@link Simulation} have this variableName
+	 */
+	public int countByVariableName(String variableName) throws SystemException {
 		final DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Simulation.class)
 				.add(PropertyFactoryUtil.forName("variableName").like(variableName+"%"));
 
@@ -75,10 +85,10 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	}
 	
 	/**
-	 * Add a scenario from request
-	 * @param request
-	 * @param response
-	 * @return Simulation if added, else null
+	 * Add a {@link Simulation} from an {@link ActionRequest}
+	 * @param {@link ActionRequest} request
+	 * @param {@link ActionResponse} response
+	 * @return {@link Simulation} if added, else null
 	 * @throws SystemException
 	 */
 	public Simulation addSimulationFromRequest(ActionRequest request, ActionResponse response) throws SystemException {
@@ -92,7 +102,7 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		 *  Set Variable Name
 		 */
 		String variableName = GatlingUtil.createVariableName("Simulation", ParamUtil.getString(request, "simulationName"));
-		final int count = SimulationLocalServiceUtil.findByVariableName(variableName);
+		final int count = SimulationLocalServiceUtil.countByVariableName(variableName);
 		// Test if the variable name already exists
 		if(count != 0) {
 			// Add a number at the end to make it unique

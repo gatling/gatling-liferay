@@ -12,8 +12,8 @@ public class RequestValidator {
 
 	/**
 	 * Validate {@link Request} 
-	 * @param request
-	 * @return list of error
+	 * @param {@link Request} request
+	 * @return {@link List} errors
 	 */
 	public static List<String> validateRequest(Request request) {
 		List<String> errors = new ArrayList<String>();

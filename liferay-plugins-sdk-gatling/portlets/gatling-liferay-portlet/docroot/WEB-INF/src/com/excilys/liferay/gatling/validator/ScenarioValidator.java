@@ -12,17 +12,14 @@ import java.util.List;
 
 public class ScenarioValidator {
 
-	/**
-	 * Validate Scenario
-	 * 
-	 * @param simulation
-	 *            to be validated
-	 * @param errors
-	 *            to populate with any errors
-	 */
-
 	private static final String PREFIX = "scenario";
 
+	/**
+	 * Validate a {@link Scenario}
+	 * @param {@link Scenario} scenario 
+	 * @return {@link List} errors
+	 * @throws SystemException
+	 */
 	public static List<String> validateScenario(Scenario scenario) throws SystemException {
 		List<String> errors = new ArrayList<String>();
 

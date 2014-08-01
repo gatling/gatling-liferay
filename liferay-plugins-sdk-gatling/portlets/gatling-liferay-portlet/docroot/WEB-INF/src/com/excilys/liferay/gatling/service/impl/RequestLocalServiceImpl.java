@@ -68,6 +68,9 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 		requestPersistence.removeByScenarioId(scenarioId);
 	}
 
+	/**
+	 * Store a {@link Request} with given values
+	 */
 	public void addRequestFromLayout(Layout layout, double weight, long idScenario, boolean checked, long userId) throws SystemException {
 		//create request
 		final long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());

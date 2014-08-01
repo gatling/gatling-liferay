@@ -1,7 +1,7 @@
 package com.excilys.liferay.gatling.util;
 
 /**
- * Id of a displayLayout (composed of privatePage and LayoutId)
+ * Id of a {@link DisplayLayout}
  * Used to compare DisplayLayouts
  *
  */

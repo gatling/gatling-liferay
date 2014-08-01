@@ -15,9 +15,10 @@ public class SimulationValidator {
 	
 	private static final String PREFIX = "simulation";
 	/**
+	 * Validate a {@link Simulation}
 	 * 
-	 * @param simulation
-	 * @return error list
+	 * @param {@link Simulation} simulation
+	 * @return {@link List} errors
 	 * @throws SystemException
 	 */
 	public static List<String> validateSimulation(Simulation simulation) throws SystemException {
