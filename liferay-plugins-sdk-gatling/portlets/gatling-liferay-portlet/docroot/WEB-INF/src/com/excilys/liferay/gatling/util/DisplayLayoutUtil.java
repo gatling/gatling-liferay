@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class DisplayLayoutUtil {
 
-	private final static transient Log log = LogFactoryUtil.getLog(DisplayLayoutUtil.class.getName());
+	private final static transient Log LOG = LogFactoryUtil.getLog(DisplayLayoutUtil.class.getName());
 
 	/**
 	 * 
@@ -31,7 +31,7 @@ public class DisplayLayoutUtil {
 				if(!l.getChildren().isEmpty())
 					addLayoutToDisplayLayoutList(displayLayoutList, l.getChildren());
 			} catch (SystemException e) {
-				e.printStackTrace();
+				LOG.error("Can't get children : "+e.getMessage());
 			}	
 		}
 	}
@@ -53,7 +53,7 @@ public class DisplayLayoutUtil {
 		result.addAll(displayLayoutList);
 		// New
 		for(DisplayLayout dl : result) {
-			// if in result(here ie displayLayoutList) but not in listRequests it's a new request
+			// if in result(here displayLayoutList) but not in listRequests it's a new request
 			if(!requestToDisplayLayout.contains(dl)) {
 				dl.setState(RequestState.NEW_REQUEST);
 			}

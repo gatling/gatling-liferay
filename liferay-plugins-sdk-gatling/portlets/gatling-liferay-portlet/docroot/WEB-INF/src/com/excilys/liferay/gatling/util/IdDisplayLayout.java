@@ -10,7 +10,6 @@ public class IdDisplayLayout {
 	private long layoutId;
 	
 	public IdDisplayLayout(boolean privatePage, long layoutId) {
-		super();
 		this.privatePage = privatePage;
 		this.layoutId = layoutId;
 	}

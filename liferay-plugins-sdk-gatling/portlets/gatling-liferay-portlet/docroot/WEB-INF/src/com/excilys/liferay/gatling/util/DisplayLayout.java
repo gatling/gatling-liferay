@@ -33,7 +33,6 @@ public class DisplayLayout {
 	// Common initialization
 	{
 		state = RequestState.DEFAULT;
-		numberOfSpace=0;
 	}
 	
 	/**
@@ -46,7 +45,6 @@ public class DisplayLayout {
 		parentLayoutId = layout.getParentLayoutId();
 		name = layout.getName(LocaleUtil.getDefault());
 		url = layout.getFriendlyURL();
-		weight=0.0;
 		setPrivateLayout(layout.isPrivateLayout());
 	}
 	
