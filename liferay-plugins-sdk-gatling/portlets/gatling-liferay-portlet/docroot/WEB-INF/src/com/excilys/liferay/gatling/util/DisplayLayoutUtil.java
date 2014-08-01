@@ -18,7 +18,7 @@ public class DisplayLayoutUtil {
 	private final static transient Log LOG = LogFactoryUtil.getLog(DisplayLayoutUtil.class.getName());
 
 	/**
-	 * 
+	 * Add {@link Layout} list the {@link DisplayLayout} list
 	 * @param displayLayoutList
 	 * @param listLayouts
 	 */
@@ -37,10 +37,12 @@ public class DisplayLayoutUtil {
 	}
 
 	/**
-	 * first version of this algorithm
+	 * Add {@link Request} list to a {@link DisplayLayout} list
+	 * <br>
+	 * This will add requests in the proper order (by hierachy)
 	 * @param displayLayoutList
 	 * @param listRequests
-	 * @return
+	 * @return the new list sorted and indent
 	 */
 	public static List<DisplayLayout> addRequestToDisplayLayoutList(List<DisplayLayout> displayLayoutList, List<Request> listRequests) {
 		List<DisplayLayout> result = new ArrayList<DisplayLayout>();
@@ -107,7 +109,7 @@ public class DisplayLayoutUtil {
 	}
 
 	/**
-	 * 
+	 * Indent a {@link DisplayLayout} List
 	 * @param list
 	 */
 	public static void indentDisplayLayout(List<DisplayLayout> list) {
@@ -122,9 +124,9 @@ public class DisplayLayoutUtil {
 	}
 
 	/**
-	 * 
+	 * Create the Hierachy map from {@link DisplayLayout} List
 	 * @param list
-	 * @param mappage
+	 * @param The result
 	 */
 	public static void mapHierachy(List<DisplayLayout> list, Map<IdDisplayLayout, List<IdDisplayLayout>> mappage) {
 		for(DisplayLayout dl : list) {

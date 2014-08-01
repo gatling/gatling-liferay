@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class GatlingUtil {
 	
-	private static Log log = LogFactoryUtil.getLog(GatlingUtil.class);
+	private static Log LOG = LogFactoryUtil.getLog(GatlingUtil.class);
 	
 	/**
 	 * create variable name for gatling scenario
@@ -110,14 +110,14 @@ public class GatlingUtil {
 				titleMap.put(locale,"English");
 				Role objRole=RoleLocalServiceUtil.addRole(userId, companyId,"gatling",titleMap, null, 1);
 				if(objRole!=null){
-					log.info("gatling role was added successfuly") ;
+					LOG.info("gatling role was added successfuly") ;
 				}else{
-					log.info("failed to add gatling role");
+					LOG.info("failed to add gatling role");
 				}
 			}
 			else{
-				if(log.isInfoEnabled()) {
-					log.info("The role gatling already exists "+ roles.get(0));
+				if(LOG.isInfoEnabled()) {
+					LOG.info("The role gatling already exists "+ roles.get(0));
 				}
 			}
 	}

@@ -4,6 +4,10 @@ import com.excilys.liferay.gatling.model.Request;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.model.Layout;
 
+/**
+ * DisplayLayout is used in editScenario.jsp to display both layout and request
+ *
+ */
 public class DisplayLayout {
 	
 	private static final String INDENT = "&emsp;&emsp;"; //tab
