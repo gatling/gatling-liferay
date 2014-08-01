@@ -12,8 +12,8 @@ import java.util.List;
 
 public class ScriptGeneratorGatling {
 
-	String simuName = "avant";
-	Long simulationId = 0L;      
+	private String simuName = "avant";
+	private Long simulationId = 0L;      
 
 
 	public ScriptGeneratorGatling() {
@@ -27,62 +27,61 @@ public class ScriptGeneratorGatling {
 
 	public List<MustacheScenario> mustacheScenario() throws Exception{
 
-		List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
-		List<MustacheScenario> list = new ArrayList<MustacheScenario>();
-		if(!listScenario.isEmpty()){
-			for (int i = 0; i < listScenario.size(); i++) {
-				
-				Scenario sc = listScenario.get(i);
-				List<MustacheRequest> mustacheRequests = new ArrayList<MustacheRequest>();
-				List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId( sc.getScenario_id());
-				if(!listRequest.isEmpty()) { 
-					double totalWeight = getTotalWeight(sc);
-					double currentSumWeight = 0;
-					double weight = 0;
-					for (int j = 0; j < listRequest.size(); j++) {
-						Request rq = listRequest.get(j);
-						if(rq.getWeight() > 0) {
-							String site = sc.getUrl_site();
-							if(rq.isPrivatePage()){
-								site = site.replace("/web/", "/group/");
-							}
-							weight = (double) ((int)((int) rq.getWeight()*10000/totalWeight))/100;
-							currentSumWeight += weight;
-							MustacheRequest mr = null;
-							if((j+1) == listRequest.size()){
-								mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , true);
-								mr.setScenarioId(sc.getScenario_id());
-							}  else {
-								mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , false);
-							}
-							mustacheRequests.add(mr);
-						}
+		final List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
+		final List<MustacheScenario> list = new ArrayList<MustacheScenario>();
+		for (int i = 0; i < listScenario.size(); i++) {
+
+			final Scenario sc = listScenario.get(i);
+			final List<MustacheRequest> mustacheRequests = new ArrayList<MustacheRequest>();
+			final List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId( sc.getScenario_id());
+			double totalWeight = getTotalWeight(sc);
+			double currentSumWeight = 0;
+			double weight = 0;
+			for (int j = 0; j < listRequest.size(); j++) {
+				final Request rq = listRequest.get(j);
+				if(rq.getWeight() > 0) {
+					String site = sc.getUrl_site();
+					if(rq.isPrivatePage()){
+						site = site.replace("/web/", "/group/");
 					}
-					double lastWeight = (double) (int)( (100-currentSumWeight+weight)*100)/100;
-					mustacheRequests.get(mustacheRequests.size()-1).setWeight(lastWeight);
+					weight = (double) ((int)((int) rq.getWeight()*10000/totalWeight))/100;
+					currentSumWeight += weight;
+					MustacheRequest mr = null;
+					if((j+1) == listRequest.size()){
+						mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , true);
+						mr.setScenarioId(sc.getScenario_id());
+					}  else {
+						mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , false);
+					}
+					mustacheRequests.add(mr);
 				}
-				MustacheScenario ms = new MustacheScenario(sc.getVariableName(),sc.getUsers_per_seconds(), sc.getDuration(), (i+1) == listScenario.size() ? true : false, mustacheRequests);
-				list.add(ms);
 			}
+			final double lastWeight = (double) (int)( (100-currentSumWeight+weight)*100)/100;
+			mustacheRequests.get(mustacheRequests.size()-1).setWeight(lastWeight);
+			final MustacheScenario ms = new MustacheScenario(sc.getVariableName(),sc.getUsers_per_seconds(), sc.getDuration(), (i+1) == listScenario.size() ? true : false, mustacheRequests);
+			list.add(ms);
 		}
+
 		return list;
 	}
 
 
-	private double getTotalWeight(Scenario scenario) throws SystemException {
-		List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
+	private double getTotalWeight(final Scenario scenario) throws SystemException {
+		final List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
 		double weight = 0;
-		for (Request request : listRequest) {
-			if(request.getWeight() > 0) weight += request.getWeight();
+		for (final Request request : listRequest) {
+			if(request.getWeight() > 0) {
+				weight += request.getWeight();
+			}
 		}
 		return weight;
 	}
 
 
-	public void setId(long id) throws Exception {
+	public void setId(final long id) throws Exception {
 		this.simulationId = id;
 		this.simuName = SimulationLocalServiceUtil.getSimulation(id).getVariableName();		
-		
+
 	}
 
 
