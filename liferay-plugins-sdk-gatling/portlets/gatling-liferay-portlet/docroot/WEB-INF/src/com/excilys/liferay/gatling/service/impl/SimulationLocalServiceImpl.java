@@ -28,10 +28,7 @@ import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.theme.ThemeDisplay;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -57,40 +54,24 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	 * Never reference this interface directly. Always use {@link com.liferay.sample.service.SimulationLocalServiceUtil} to access the simulation local service.
 	 */
 	
-	public void removeSimulationCascade(Long simulationId) throws SystemException {
+	public void removeSimulationCascade(Long simulationId) throws SystemException, NoSuchModelException {
 		ScenarioLocalServiceUtil.removeBySimulationIdCascade(simulationId);
-		try {
-			simulationPersistence.remove(simulationId);
-		} catch (NoSuchModelException e) {
-			e.printStackTrace();
-		}
+		simulationPersistence.remove(simulationId);
 	}
 	
-	public boolean isNameUnique(String name) {
+	public boolean isNameUnique(String name) throws SystemException {
 		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Simulation.class)
 				.add(PropertyFactoryUtil.forName("name").eq(name));
 
-		List<?> result;
-		try {
-			result = simulationPersistence.findWithDynamicQuery(dq);
-			return result.isEmpty();
-		} catch (SystemException e) {
-			e.printStackTrace();
-		}
-		return false;
+		List<?> result = simulationPersistence.findWithDynamicQuery(dq);
+		return result.isEmpty();
 	}
 	
-	public List<Simulation> findByVariableName(String variableName) {
+	public List<Simulation> findByVariableName(String variableName) throws SystemException {
 		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Simulation.class)
 				.add(PropertyFactoryUtil.forName("variableName").like(variableName+"%"));
 
-		List<Simulation> result = new ArrayList<Simulation>();
-		try {
-			result = simulationPersistence.findWithDynamicQuery(dq);
-			return result;
-		} catch (SystemException e) {
-			e.printStackTrace();
-		}
+		List<Simulation> result = simulationPersistence.findWithDynamicQuery(dq);
 		return result;
 	}
 	
@@ -116,24 +97,22 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		List<Simulation> listVar = SimulationLocalServiceUtil.findByVariableName(variableName);
 		// Test if the variable name already exists
 		if(!listVar.isEmpty() ) {
+			// Add a number at the end to make it unique
 			variableName = variableName.concat(Integer.toString(listVar.size()));
 		}
 		simulation.setVariableName(variableName);
 		/*
 		 *  Validator Simulation Fields
 		 */
-		List<String> errors = new ArrayList<String>();
-		if(SimulationValidator.validateSimulation(simulation, errors)) {
-			ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-			Long userId = themeDisplay.getUserId();
-			// Add scenario
-			return SimulationLocalServiceUtil.addSimulation(simulation);
-			
-		}
-		else {
+		List<String> errors = SimulationValidator.validateSimulation(simulation);
+		if(errors.isEmpty()) {
 			for(String error : errors) {
 				SessionErrors.add(request, error);
 			}
+		}
+		else {
+			// Add scenario
+			return SimulationLocalServiceUtil.addSimulation(simulation);
 		}
 		return null;
 		

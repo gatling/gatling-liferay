@@ -23,7 +23,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.model.Layout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,7 +45,7 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 	 * Never reference this interface directly. Always use {@link com.liferay.sample.service.RequestLocalServiceUtil} to access the request local service.
 	 */
 
-
+ 
 
 	@Override
 	public List<Request> findByScenarioId(long scenarioId) throws SystemException{
@@ -82,8 +81,8 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 		newRequest.setPrivatePage(layout.isPrivateLayout());
 		newRequest.setParentLayoutId(layout.getParentLayoutId());
 		// Saving ...
-		List<String> errors = new ArrayList<String>();
-		if(RequestValidator.validateRequest(newRequest, errors)) {
+		List<String> errors = RequestValidator.validateRequest(newRequest);
+		if(!errors.isEmpty()) {
 			newRequest = RequestLocalServiceUtil.addRequest(newRequest);
 		}
 	} 
