@@ -84,7 +84,8 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 				"value.object.column.bitmask.enabled.com.excilys.liferay.gatling.model.Request"),
 			true);
 	public static long SCENARIO_ID_COLUMN_BITMASK = 1L;
-	public static long REQUEST_ID_COLUMN_BITMASK = 2L;
+	public static long WEIGHT_COLUMN_BITMASK = 2L;
+	public static long REQUEST_ID_COLUMN_BITMASK = 4L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.excilys.liferay.gatling.model.Request"));
 
@@ -257,7 +258,19 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
 	@Override
 	public void setWeight(double weight) {
+		_columnBitmask |= WEIGHT_COLUMN_BITMASK;
+
+		if (!_setOriginalWeight) {
+			_setOriginalWeight = true;
+
+			_originalWeight = _weight;
+		}
+
 		_weight = weight;
+	}
+
+	public double getOriginalWeight() {
+		return _originalWeight;
 	}
 
 	@Override
@@ -390,6 +403,10 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
 		requestModelImpl._setOriginalScenario_id = false;
 
+		requestModelImpl._originalWeight = requestModelImpl._weight;
+
+		requestModelImpl._setOriginalWeight = false;
+
 		requestModelImpl._columnBitmask = 0;
 	}
 
@@ -510,6 +527,8 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 	private String _name;
 	private String _url;
 	private double _weight;
+	private double _originalWeight;
+	private boolean _setOriginalWeight;
 	private boolean _privatePage;
 	private long _parentLayoutId;
 	private long _layoutId;

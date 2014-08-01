@@ -23,7 +23,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.model.Layout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,10 +45,22 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 	 * Never reference this interface directly. Always use {@link com.liferay.sample.service.RequestLocalServiceUtil} to access the request local service.
 	 */
 
+ 
 
 	@Override
 	public List<Request> findByScenarioId(long scenarioId) throws SystemException{
 		return requestPersistence.findByScenarioId(scenarioId);
+	}
+	
+
+	@Override
+	public int countByScenarioId(long scenarioId) throws SystemException{
+		return requestPersistence.countByScenarioId(scenarioId);
+	}
+	
+	@Override
+	public int countByScenarioIdAndUsed(long scenarioId) throws SystemException{
+		return requestPersistence.countByScenarioIdAndUsed(scenarioId, 0);
 	}
 
 	@Override
@@ -57,11 +68,13 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 		requestPersistence.removeByScenarioId(scenarioId);
 	}
 
+	/**
+	 * Store a {@link Request} with given values
+	 */
 	public void addRequestFromLayout(Layout layout, double weight, long idScenario, boolean checked, long userId) throws SystemException {
 		//create request
-		long primaryKey;
-		primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
-		Request newRequest = RequestLocalServiceUtil.createRequest(primaryKey);
+		final long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
+		final Request newRequest = RequestLocalServiceUtil.createRequest(primaryKey);
 		newRequest.setLayoutId(layout.getLayoutId());
 		newRequest.setName(layout.getName(LocaleUtil.getDefault()));
 		newRequest.setUrl(layout.getFriendlyURL());
@@ -70,9 +83,9 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 		newRequest.setPrivatePage(layout.isPrivateLayout());
 		newRequest.setParentLayoutId(layout.getParentLayoutId());
 		// Saving ...
-		List<String> errors = new ArrayList<String>();
-		if(RequestValidator.validateRequest(newRequest, errors)) {
-			newRequest = RequestLocalServiceUtil.addRequest(newRequest);
+		final List<String> errors = RequestValidator.validateRequest(newRequest);
+		if(!errors.isEmpty()) {
+			RequestLocalServiceUtil.addRequest(newRequest);
 		}
 	} 
 }

@@ -97,10 +97,10 @@ public class GatlingPortlet extends MVCPortlet {
 		Simulation simulation = SimulationLocalServiceUtil.addSimulationFromRequest(request, response);
 
 		if (simulation != null) {
-			List<Scenario> scenarioList = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
+			int scenarioListSize = ScenarioLocalServiceUtil.countBySimulationId(simulation.getSimulation_id());
 			response.setRenderParameter("simulationId", Long.toString(simulation.getSimulation_id()));
 			// If new simulation the redirect to add First scenario page else edit simulation page
-			response.setRenderParameter("page", scenarioList.isEmpty() ? jspFormFirstScenario : jspEditSimulation); 
+			response.setRenderParameter("page", scenarioListSize == 0 ? jspFormFirstScenario : jspEditSimulation); 
 			} else {
 			log.debug("Simulation fails to add");
 			response.setRenderParameter("page", jspListSimulation);
@@ -218,18 +218,11 @@ public class GatlingPortlet extends MVCPortlet {
 	 * @param scenario
 	 * @return
 	 */
-	private int scenarioState(final Scenario scenario) {
-		List<Request> listRequest;
+	private int scenarioState(Scenario scenario) {
 		try {
-			listRequest = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
-			int count = 0;
-			for (Request r : listRequest) {
-				if (r.isUsed()){
-					count ++;
-				}
-			}
-			if ((count != 0) && (scenario.getDuration() != 0) && (scenario.getUsers_per_seconds() != 0)) {
-				//completed scenario = case if all minimal information are completed 
+			int count = RequestLocalServiceUtil.countByScenarioIdAndUsed(scenario.getScenario_id());
+			//completed scenario = case if all minimal information are completed 
+			if((count != 0) && (scenario.getDuration() != 0) && (scenario.getUsers_per_seconds() != 0)) {
 				return 2;
 			} else if ((count != 0) && ((scenario.getDuration() == 0) || (scenario.getUsers_per_seconds() == 0))) {
 				//incomplete scenario = case if one or more information detail of scenario are not completed but there is request selected
@@ -238,7 +231,8 @@ public class GatlingPortlet extends MVCPortlet {
 				//case if not request selected to that scenario = empty scenario
 				return 0;
 			}
-			return 0;
+			//case if not request selected to that scenario = empty scenario
+			return 0;	
 		} catch (SystemException e) {
 			if (log.isErrorEnabled()){
 				log.error("enable to determine Scenario state " + e.getMessage());
@@ -333,21 +327,10 @@ public class GatlingPortlet extends MVCPortlet {
 				//map <scenario, scenarioInfo>
 				Map<Scenario, Number[]> scenariosMap = new HashMap<Scenario, Number[]>();
 				for (Scenario scenario : scenarioList) {
-
-					List<Request> requestList = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
 					Number[] info = new Number[3];
-					int numberRequestAdded = 0;
-					int numberRequest = 0;
-					for (Request r : requestList) {
-						numberRequest ++;
-						if (r.isUsed()){
-							numberRequestAdded ++;
-						}
-					}
-
 					info[2] = scenarioState(scenario);
-					info[0] = numberRequestAdded;
-					info[1] = numberRequest;
+					info[0] = RequestLocalServiceUtil.countByScenarioIdAndUsed(scenario.getScenario_id());
+					info[1] = RequestLocalServiceUtil.countByScenarioId(scenario.getScenario_id());
 					scenariosMap.put(scenario, info);
 				}
 				String JSListName = GatlingUtil.createJSListOfScenarioName(scenarioList);
@@ -494,20 +477,18 @@ public class GatlingPortlet extends MVCPortlet {
 		 */
 		long[] simulationsIds = ParamUtil.getLongValues(request, "export");
 		Simulation simulation;
-		if (simulationsIds.length > 1) {
-			//create zip with scenarios script for 2 or more simulation
+		Date date =new Date();
+		Mustache mustache = mf.compile(template);           
+		if(simulationsIds.length > 1) {
 			response.setContentType("application/zip");
-			response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
-			response.addProperty("Content-Disposition", "attachment; filename = multiSimulations.zip");
+			response.addProperty("Content-Disposition", "attachment; filename = GatlingSimulations" + date.getTime() + ".zip");
 
 			try {
 				ZipOutputStream zipOutputStream = new ZipOutputStream(response.getPortletOutputStream());
 				for (long id : simulationsIds) {
 					if (id  > 0) {
 						simulation = SimulationLocalServiceUtil.getSimulation(id);
-						Date date = new Date();
 						zipOutputStream.putNextEntry(new ZipEntry("Simulation"  + simulation.getName()  + date.getTime() + ".scala"));
-						Mustache mustache = mf.compile(template);
 						sgg.setId(simulationsIds[0]);
 						mustache.execute(new PrintWriter(zipOutputStream), sgg).flush();
 						zipOutputStream.closeEntry();
@@ -523,14 +504,11 @@ public class GatlingPortlet extends MVCPortlet {
 		} else if (simulationsIds.length == 1 && simulationsIds[0] > 0) {
 			//create and export only one file with scenario script for this simulation id
 			response.setContentType("application/x-wais-source");
-			response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
-
-			Date date = new Date();
 			try {
 				simulation = SimulationLocalServiceUtil.getSimulation(simulationsIds[0]);
 				response.addProperty("Content-Disposition", "attachment; filename=Simulation"  + simulation.getName()  + date.getTime() + ".scala");
-				Mustache mustache = mf.compile(template);
 				OutputStream out = response.getPortletOutputStream();
+
 				sgg.setId(simulationsIds[0]);
 				mustache.execute(new PrintWriter(out), sgg).flush();
 				out.close();
@@ -543,5 +521,6 @@ public class GatlingPortlet extends MVCPortlet {
 			//if no one valide simulation id received then error
 			throw new NullPointerException("nothing to export");
 		}
+		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 	}
 }

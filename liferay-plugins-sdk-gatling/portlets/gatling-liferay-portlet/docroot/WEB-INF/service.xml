@@ -35,6 +35,13 @@
 		<finder name="ScenarioId" return-type="Collection">
 			<finder-column name="scenario_id" />
 		</finder>
+		
+		
+		<finder name="ScenarioIdAndUsed" return-type="Collection">
+			<finder-column name="scenario_id" />
+			<finder-column name="weight" comparator=">" />
+		</finder>
+		
 	</entity>
 
 </service-builder>

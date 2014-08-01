@@ -15,10 +15,10 @@ import java.util.Map;
 
 public class DisplayLayoutUtil {
 
-	private final static transient Log log = LogFactoryUtil.getLog(DisplayLayoutUtil.class.getName());
+	private final static transient Log LOG = LogFactoryUtil.getLog(DisplayLayoutUtil.class.getName());
 
 	/**
-	 * 
+	 * Add {@link Layout} list the {@link DisplayLayout} list
 	 * @param displayLayoutList
 	 * @param listLayouts
 	 */
@@ -31,16 +31,18 @@ public class DisplayLayoutUtil {
 				if(!l.getChildren().isEmpty())
 					addLayoutToDisplayLayoutList(displayLayoutList, l.getChildren());
 			} catch (SystemException e) {
-				e.printStackTrace();
+				LOG.error("Can't get children : "+e.getMessage());
 			}	
 		}
 	}
 
 	/**
-	 * first version of this algorithm
+	 * Add {@link Request} list to a {@link DisplayLayout} list
+	 * <br>
+	 * This will add requests in the proper order (by hierachy)
 	 * @param displayLayoutList
 	 * @param listRequests
-	 * @return
+	 * @return the new list sorted and indent
 	 */
 	public static List<DisplayLayout> addRequestToDisplayLayoutList(List<DisplayLayout> displayLayoutList, List<Request> listRequests) {
 		List<DisplayLayout> result = new ArrayList<DisplayLayout>();
@@ -53,7 +55,7 @@ public class DisplayLayoutUtil {
 		result.addAll(displayLayoutList);
 		// New
 		for(DisplayLayout dl : result) {
-			// if in result(here ie displayLayoutList) but not in listRequests it's a new request
+			// if in result(here displayLayoutList) but not in listRequests it's a new request
 			if(!requestToDisplayLayout.contains(dl)) {
 				dl.setState(RequestState.NEW_REQUEST);
 			}
@@ -107,7 +109,7 @@ public class DisplayLayoutUtil {
 	}
 
 	/**
-	 * 
+	 * Indent a {@link DisplayLayout} List
 	 * @param list
 	 */
 	public static void indentDisplayLayout(List<DisplayLayout> list) {
@@ -122,9 +124,9 @@ public class DisplayLayoutUtil {
 	}
 
 	/**
-	 * 
+	 * Create the Hierachy map from {@link DisplayLayout} List
 	 * @param list
-	 * @param mappage
+	 * @param The result
 	 */
 	public static void mapHierachy(List<DisplayLayout> list, Map<IdDisplayLayout, List<IdDisplayLayout>> mappage) {
 		for(DisplayLayout dl : list) {

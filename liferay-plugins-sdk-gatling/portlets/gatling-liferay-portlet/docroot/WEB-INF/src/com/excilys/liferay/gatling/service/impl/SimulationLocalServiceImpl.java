@@ -14,6 +14,7 @@
 
 package com.excilys.liferay.gatling.service.impl;
 
+import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
@@ -28,10 +29,7 @@ import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.theme.ThemeDisplay;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -57,83 +55,72 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	 * Never reference this interface directly. Always use {@link com.liferay.sample.service.SimulationLocalServiceUtil} to access the simulation local service.
 	 */
 	
-	public void removeSimulationCascade(Long simulationId) throws SystemException {
+	/**
+	 * remove all {@link Scenario} linked to a simulationId and the simulation
+	 */
+	public void removeSimulationCascade(Long simulationId) throws SystemException, NoSuchModelException {
 		ScenarioLocalServiceUtil.removeBySimulationIdCascade(simulationId);
-		try {
-			simulationPersistence.remove(simulationId);
-		} catch (NoSuchModelException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public boolean isNameUnique(String name) {
-		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Simulation.class)
-				.add(PropertyFactoryUtil.forName("name").eq(name));
-
-		List<?> result;
-		try {
-			result = simulationPersistence.findWithDynamicQuery(dq);
-			return result.isEmpty();
-		} catch (SystemException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-	
-	public List<Simulation> findByVariableName(String variableName) {
-		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Simulation.class)
-				.add(PropertyFactoryUtil.forName("variableName").like(variableName+"%"));
-
-		List<Simulation> result = new ArrayList<Simulation>();
-		try {
-			result = simulationPersistence.findWithDynamicQuery(dq);
-			return result;
-		} catch (SystemException e) {
-			e.printStackTrace();
-		}
-		return result;
+		simulationPersistence.remove(simulationId);
 	}
 	
 	/**
-	 * Add a scenario from request
-	 * @param request
-	 * @param response
-	 * @return Simulation if added, else null
+	 * Check if name is unique for {@link Simulation}
+	 */
+	public boolean isNameUnique(String name) throws SystemException {
+		final DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Simulation.class)
+				.add(PropertyFactoryUtil.forName("name").eq(name));
+
+		final List<?> result = simulationPersistence.findWithDynamicQuery(dq);
+		return result.isEmpty();
+	}
+	
+	/**
+	 * Count how many {@link Simulation} have this variableName
+	 */
+	public int countByVariableName(String variableName) throws SystemException {
+		final DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Simulation.class)
+				.add(PropertyFactoryUtil.forName("variableName").like(variableName+"%"));
+
+		return (int) simulationPersistence.countWithDynamicQuery(dq);
+	}
+	
+	/**
+	 * Add a {@link Simulation} from an {@link ActionRequest}
+	 * @param {@link ActionRequest} request
+	 * @param {@link ActionResponse} response
+	 * @return {@link Simulation} if added, else null
 	 * @throws SystemException
 	 */
 	public Simulation addSimulationFromRequest(ActionRequest request, ActionResponse response) throws SystemException {
 		/*
 		 * Create simulation
 		 */
-		long primaryKey = CounterLocalServiceUtil.increment(Simulation.class.getName());	
-		Simulation simulation = SimulationLocalServiceUtil.createSimulation(primaryKey);
+		final long primaryKey = CounterLocalServiceUtil.increment(Simulation.class.getName());	
+		final Simulation simulation = SimulationLocalServiceUtil.createSimulation(primaryKey);
 		simulation.setName(ParamUtil.getString(request, "simulationName"));
 		/*
 		 *  Set Variable Name
 		 */
 		String variableName = GatlingUtil.createVariableName("Simulation", ParamUtil.getString(request, "simulationName"));
-		System.out.println(variableName);
-		List<Simulation> listVar = SimulationLocalServiceUtil.findByVariableName(variableName);
+		final int count = SimulationLocalServiceUtil.countByVariableName(variableName);
 		// Test if the variable name already exists
-		if(!listVar.isEmpty() ) {
-			variableName = variableName.concat(Integer.toString(listVar.size()));
+		if(count != 0) {
+			// Add a number at the end to make it unique
+			variableName = variableName.concat(Integer.toString(count));
 		}
 		simulation.setVariableName(variableName);
 		/*
 		 *  Validator Simulation Fields
 		 */
-		List<String> errors = new ArrayList<String>();
-		if(SimulationValidator.validateSimulation(simulation, errors)) {
-			ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-			Long userId = themeDisplay.getUserId();
-			// Add scenario
-			return SimulationLocalServiceUtil.addSimulation(simulation);
-			
-		}
-		else {
+		List<String> errors = SimulationValidator.validateSimulation(simulation);
+		if(errors.isEmpty()) {
 			for(String error : errors) {
 				SessionErrors.add(request, error);
 			}
+		}
+		else {
+			// Add scenario
+			return SimulationLocalServiceUtil.addSimulation(simulation);
 		}
 		return null;
 		

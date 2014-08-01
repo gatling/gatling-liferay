@@ -4,6 +4,12 @@ import com.excilys.liferay.gatling.model.Request;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.model.Layout;
 
+/**
+ * DisplayLayout is used in editScenario.jsp to display both layout and request
+ * 
+ * use of {@link IdDisplayLayout} as field for identity
+ *
+ */
 public class DisplayLayout {
 	
 	private static final String INDENT = "&emsp;&emsp;"; //tab
@@ -33,7 +39,6 @@ public class DisplayLayout {
 	// Common initialization
 	{
 		state = RequestState.DEFAULT;
-		numberOfSpace=0;
 	}
 	
 	/**
@@ -46,7 +51,6 @@ public class DisplayLayout {
 		parentLayoutId = layout.getParentLayoutId();
 		name = layout.getName(LocaleUtil.getDefault());
 		url = layout.getFriendlyURL();
-		weight=0.0;
 		setPrivateLayout(layout.isPrivateLayout());
 	}
 	

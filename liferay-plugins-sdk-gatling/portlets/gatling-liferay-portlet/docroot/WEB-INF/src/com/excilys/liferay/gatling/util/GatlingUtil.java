@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class GatlingUtil {
 	
-	private static Log log = LogFactoryUtil.getLog(GatlingUtil.class);
+	private static Log LOG = LogFactoryUtil.getLog(GatlingUtil.class);
 	
 	/**
 	 * create variable name for gatling scenario
@@ -72,8 +72,8 @@ public class GatlingUtil {
 	}
 	
 	/**
-	 * Récupère la liste des sites du portail
-	 * @return list des sites
+	 * Retrieve list of active sites
+	 * @return list
 	 */
 	public static List<Group> getListOfSites()  {
 		/*get sites list*/			
@@ -97,35 +97,28 @@ public class GatlingUtil {
 	 * @param companyId
 	 * @param userId
 	 */
-	public static void createRole(long companyId, long userId){
-			
-			try {
-				
-				DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Role.class)
-						.add(PropertyFactoryUtil.forName("name").eq("gatling"));
-				
-				List<Role> roles = RoleLocalServiceUtil.dynamicQuery(dq);
-				if((roles ==null)|| roles.isEmpty() ){
-					
-					Locale locale=new Locale("English");
-					Map<Locale,String> titleMap=new HashMap<Locale,String>();
-					titleMap.put(locale,"English");
-					Role objRole=RoleLocalServiceUtil.addRole(userId, companyId,"gatling",titleMap, null, 1);
-					if(objRole!=null){
-						log.info("gatling role was added successfuly") ;
-					}else{
-						log.info("failed to add gatling role");
-					}
-				}
-				else{
-					log.info("The role gatling already exists "+ roles.get(0));
-//					RoleLocalServiceUtil.deleteRole(roles.get(0));
-				}
-			} catch (SystemException e) {
-				log.error("unable de add gatling role : "+e.getMessage());
-			} catch (PortalException e) {
-				log.error("enable to create role "+e.getMessage());
-			}
-		}
+	public static void createRole(long companyId, long userId) throws SystemException, PortalException {
 
+			DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Role.class)
+					.add(PropertyFactoryUtil.forName("name").eq("gatling"));
+			
+			List<Role> roles = RoleLocalServiceUtil.dynamicQuery(dq);
+			if((roles ==null)|| roles.isEmpty() ){
+				
+				Locale locale=new Locale("English");
+				Map<Locale,String> titleMap=new HashMap<Locale,String>();
+				titleMap.put(locale,"English");
+				Role objRole=RoleLocalServiceUtil.addRole(userId, companyId,"gatling",titleMap, null, 1);
+				if(objRole!=null){
+					LOG.info("gatling role was added successfuly") ;
+				}else{
+					LOG.info("failed to add gatling role");
+				}
+			}
+			else{
+				if(LOG.isInfoEnabled()) {
+					LOG.info("The role gatling already exists "+ roles.get(0));
+				}
+			}
 	}
+}

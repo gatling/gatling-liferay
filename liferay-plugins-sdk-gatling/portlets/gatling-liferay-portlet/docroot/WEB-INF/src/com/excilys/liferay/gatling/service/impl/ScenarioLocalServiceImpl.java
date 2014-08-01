@@ -70,74 +70,88 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.liferay.sample.service.ScenarioLocalServiceUtil} to access the scenario local service.
 	 */
-	private static Log log = LogFactoryUtil.getLog(ScenarioLocalServiceImpl.class);
+	private static final Log LOG = LogFactoryUtil.getLog(ScenarioLocalServiceImpl.class);
 
+
+	@Override
+	public int countBySimulationId(long simulationId) throws SystemException{
+		return scenarioPersistence.countBySimulationId(simulationId);
+	}
+	
 	@Override
 	public List<Scenario> findBySimulationId(long simulationId) throws SystemException {
 		return scenarioPersistence.findBySimulationId(simulationId);
 	}
 
+	/**
+	 * Remove all {@link Scenario} (and children) for a given simulationId 
+	 */
 	@Override
 	public	void removeBySimulationIdCascade(long simulationId) throws SystemException {
-		List<Scenario> listRequests = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
-		//Demande de suppression des requetes associées
-		for(Scenario scenario : listRequests) {
+		final List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
+		//Remove its requests
+		for(Scenario scenario : listScenario) {
 			RequestLocalServiceUtil.removeByScenarioId(scenario.getScenario_id());
 		}
 		scenarioPersistence.removeBySimulationId(simulationId);
 	}
 
+	/**
+	 * Remove all {@link Request} for a scenarioId
+	 */
 	@Override
-	public	void removeByIdCascade(long scenarioId) throws SystemException {
+	public	void removeByIdCascade(long scenarioId) throws SystemException, NoSuchScenarioException {
 		RequestLocalServiceUtil.removeByScenarioId(scenarioId);
-		try {
-			scenarioPersistence.remove(scenarioId);
-		} catch (NoSuchScenarioException e) {
-			e.printStackTrace();
-		}
+		scenarioPersistence.remove(scenarioId);
 	}
 
 	/**
-	 * Check if display name is unique
-	 * true if unique else false
+	 * Check if name is unique for {@link Scenario}
 	 */
-	public boolean isNameUnique(String name, long idSimulation) {
-		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Scenario.class)
+	public boolean isNameUnique(String name, long idSimulation) throws SystemException {
+		final DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Scenario.class)
 				.add(PropertyFactoryUtil.forName("name").eq(name))
 				.add(PropertyFactoryUtil.forName("simulation_id").eq(idSimulation));
-
-		List<?> result;
-		try {
-			result = scenarioPersistence.findWithDynamicQuery(dq);
-			return result.isEmpty();
-		} catch (SystemException e) {
-			e.printStackTrace();
-		}
-		return false;
+		int result = (int) scenarioPersistence.countWithDynamicQuery(dq);
+		return (result == 0);
 	}
-
-	public List<Scenario> findByVariableName(String variableName, long idSimulation) {
+	
+	/**
+	 * Count how many {@link Scenario} have this variableName
+	 */
+	public int countByVariableName(String variableName, long idSimulation) throws SystemException {
 		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Scenario.class)
 				.add(PropertyFactoryUtil.forName("variableName").like(variableName+"%"))
 				.add(PropertyFactoryUtil.forName("simulation_id").eq(idSimulation));
 
-		List<Scenario> result = new ArrayList<Scenario>();
-		try {
-			result = scenarioPersistence.findWithDynamicQuery(dq);
-			return result;
-		} catch (SystemException e) {
-			e.printStackTrace();
-		}
-		return result;
+		return (int) scenarioPersistence.countWithDynamicQuery(dq);
 	}
 
+	/**
+	 * get {@link Scenario} have this variableName
+	 */
+	public List<Scenario> findByVariableName(String variableName, long idSimulation)  throws SystemException {
+		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Scenario.class)
+				.add(PropertyFactoryUtil.forName("variableName").like(variableName+"%"))
+				.add(PropertyFactoryUtil.forName("simulation_id").eq(idSimulation));
+
+		return scenarioPersistence.findWithDynamicQuery(dq);
+	}
+	
+	/**
+	 * Add a {@link Scenario} from an {@link ActionRequest}
+	 * @param {@link ActionRequest} request
+	 * @param {@link ActionResponse} response
+	 * @return {@link Scenario} if added, else null
+	 * @throws SystemException
+	 */
 	public Scenario addScenarioFromRequest(ActionRequest request, ActionResponse response) throws SystemException {
-		ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-		Long userId = themeDisplay.getUserId();
+		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+		final Long userId = themeDisplay.getUserId();
 		/*
 		 * Create a scenario
 		 */
-		long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
+		final long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
 		Scenario scenario = ScenarioLocalServiceUtil.createScenario(primaryKey);
 		scenario.setName(ParamUtil.getString(request, "scenarioName"));
 		scenario.setSimulation_id(ParamUtil.getLong(request, "simulationId"));
@@ -146,12 +160,11 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		 *  Set Variable Name
 		 */
 		String variableName = GatlingUtil.createVariableName("scenario", ParamUtil.getString(request, "scenarioName"));
-		List<Scenario> listVar = ScenarioLocalServiceUtil.findByVariableName(variableName, scenario.getSimulation_id());
-		if(!listVar.isEmpty() ) {
-			variableName = variableName.concat(Integer.toString(listVar.size()));
+		final int sizeVar = ScenarioLocalServiceUtil.countByVariableName(variableName, scenario.getSimulation_id());
+		if(sizeVar !=0 ) {
+			variableName = variableName.concat(Integer.toString(sizeVar));
 		}
 		scenario.setVariableName(variableName);
-
 		/*
 		 * Add base url
 		 */
@@ -160,12 +173,12 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		scenario.setUrl_site(urlSite);
 
 		// Saving ...
-		List<String> errors = new ArrayList<String>();
-		if(ScenarioValidator.validateScenario(scenario, errors)) {
+		final List<String> errors = ScenarioValidator.validateScenario(scenario);
+		if(!errors.isEmpty()) {
 			scenario = ScenarioLocalServiceUtil.addScenario(scenario);
 			//add Requests
-			List<Layout> listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), false));
-			List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), true);
+			final List<Layout> listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), false));
+			final List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), true);
 			listLayouts.addAll(listLayoutsPrivate);
 
 			for(Layout layout: listLayouts){
@@ -180,145 +193,146 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		}
 
 		return null;
-	}
+	} 
 
-
+	/**
+	 * Edit a {@link Scenario} from an {@link ActionRequest}
+	 * @param {@link ActionRequest} request
+	 * @param {@link ActionResponse} response
+	 * @return {@link Scenario} if added, else null
+	 * @throws SystemException
+	 */
 	public Scenario editScenarioFromRequest(ActionRequest request, ActionResponse response) throws PortalException, SystemException  {
-		Long idScenario = ParamUtil.getLong(request, "scenarioId");
-		Map<String, String[]> parameters = request.getParameterMap();
-		Map<String, Request> lstPrivateRequestToEdit =new HashMap<String, Request>();
-		Map<String, Request> lstPublicRequestToEdit =new HashMap<String, Request>();
+		final Long idScenario = ParamUtil.getLong(request, "scenarioId");
+		final Map<String, String[]> parameters = request.getParameterMap();
+		final Map<String, Request> mapPrivateRequestToEdit =new HashMap<String, Request>();
+		final Map<String, Request> mapPublicRequestToEdit =new HashMap<String, Request>();
 
 		//security
-		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-		Long userId = themeDisplay.getUserId();
+		final ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+		final Long userId = themeDisplay.getUserId();
+		
+		Scenario scenarioToReturn = null;
 
-		if(idScenario !=null){
+		/*
+		 * Update Details
+		 */
+		LOG.debug("editScenarioDetails");
+		
+		Scenario scenario = ScenarioLocalServiceUtil.getScenario(idScenario);
+		String scenarioName= ParamUtil.getString(request, "scenarioName");
+		scenario.setName(scenarioName);
+		scenario.setVariableName(GatlingUtil.createVariableName("scenario", scenarioName));
+		scenario.setUsers_per_seconds(ParamUtil.getLong(request, "scenarioUsers"));
+		scenario.setDuration(ParamUtil.getLong(request, "scenarioDuration"));
+		scenarioToReturn = scenarioPersistence.update(scenario);
+		/*
+		 * Then update requests
+		 * 
+		 */
+		/*
+		 * Layout
+		 */
+		final long groupId =ParamUtil.getLong(request, "groupId");
+		// Get non private pages
+		final List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId,false,0);
+		// then the private
+		final List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
+		List<DisplayLayout> displayLayoutList = new ArrayList<DisplayLayout>();
+		// Sorting layout
+		DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listLayouts);
+		DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listLayoutsPrivate);
+		// Retrieve Request from DB
+		final List<Request> listRequests = RequestLocalServiceUtil.findByScenarioId(idScenario);
+		// Merge Layout and Request in DisplayLayout List
+		displayLayoutList = DisplayLayoutUtil.addRequestToDisplayLayoutList(displayLayoutList, listRequests);
 
-			long groupId =ParamUtil.getLong(request, "groupId");
-			/*
-			 * Update Details
-			 */
-			if(log.isDebugEnabled()) log.debug("editScenarioDetails");
-			Scenario scenario = ScenarioLocalServiceUtil.getScenario(idScenario);
-			String scenarioName= ParamUtil.getString(request, "scenarioName");
-			Long scenarioUsers = ParamUtil.getLong(request, "scenarioUsers");
-			Long scenarioDuration = ParamUtil.getLong(request, "scenarioDuration");
-			String variableName = GatlingUtil.createVariableName("scenario", scenarioName);
-			scenario.setName(scenarioName);
-			scenario.setVariableName(variableName);
-			scenario.setUsers_per_seconds(scenarioUsers);
-			scenario.setDuration(scenarioDuration);
-			scenarioPersistence.update(scenario);
-			/*
-			 * Then update requests
-			 * 
-			 */
-			/*
-			 * Layout
-			 */
-			// Get non private pages
-			List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId,false,0);
-			String siteName = GroupLocalServiceUtil.getGroup(groupId).getName();
-			// then the private
-			List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
-			List<DisplayLayout> displayLayoutList = new ArrayList<DisplayLayout>();
-			// Sorting layout
-			DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listLayouts);
-			DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listLayoutsPrivate);
-			// Retrieve Request from DB
-			List<Request> listRequests = RequestLocalServiceUtil.findByScenarioId(idScenario);
-			// Merge Layout and Request in DisplayLayout List
-			displayLayoutList = DisplayLayoutUtil.addRequestToDisplayLayoutList(displayLayoutList, listRequests);
-
-			// get List request
-			for(Request r :RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(request, "scenarioId",0))){
-				if(r.isPrivatePage()){
-					lstPrivateRequestToEdit.put(r.getUrl().trim(),  r);
-				}
-				else{
-					lstPublicRequestToEdit.put(r.getUrl().trim(),  r);
-				}
-				
+		// get List request
+		final List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(request, "scenarioId",0));
+		for(Request r : listRequest){
+			if(r.isPrivatePage()){
+				mapPrivateRequestToEdit.put(r.getUrl().trim(),  r);
 			}
-
-			/*
-			 *  update data
-			 */
-			for (String key : parameters.keySet()){
-				
-				if ((key.contains("weight"))) {
-					int layoutId = Integer
-							.parseInt(key.replace("weight",""));
-					double weight = Double.parseDouble(StringUtil.merge(parameters.get(key)));
-					DisplayLayout displayLayout = displayLayoutList
-							.get(layoutId);
-					String url = displayLayout.getUrl();
-					RequestState status = displayLayout.getState();
-					//Request requestToedit = lstRequestToEdit.get(url)
-					if(!(status == RequestState.OLD_REQUEST)){
-						// if already exists in DB
-						boolean alreadyExists =false;
-						Request updatedRequest = null;
-						if(displayLayout.isPrivateLayout()){
-							alreadyExists = lstPrivateRequestToEdit.containsKey(url.trim());
-							if(alreadyExists)
-								updatedRequest = lstPrivateRequestToEdit.get(url);
-						}
-						else{
-							alreadyExists = lstPublicRequestToEdit.containsKey(url.trim());
-							if(alreadyExists)
-								updatedRequest = lstPublicRequestToEdit.get(url);
-						}
-						
-						if (alreadyExists && (updatedRequest.getWeight() != weight)){
-							
-							log.info("update request "+key+" : "+StringUtil.merge(parameters.get(key)));
-							updatedRequest.setWeight(weight);
-							// Saving ...
-							List<String> errors = new ArrayList<String>();
-							if (RequestValidator.validateRequest(updatedRequest,
-									errors)) {
-								RequestLocalServiceUtil
-										.updateRequest(updatedRequest);
-								if (log.isDebugEnabled())
-									log.debug("request updated succefully");
-							} else {
-								for (String error : errors) {
-									SessionErrors.add(request, error);
-								}
-							}
-						}
-
-						// else Add new page
-						else if (!alreadyExists) {
-							log.info("add new request "+key+" : "+StringUtil.merge(parameters.get(key)));
-							Layout layout = LayoutLocalServiceUtil.getLayout(
-									groupId, displayLayout.getDisplayLayoutId()
-											.isPrivatePage(), displayLayout
-											.getDisplayLayoutId().getLayoutId());
-
-							RequestLocalServiceUtil.addRequestFromLayout(layout,
-									weight, idScenario, true, userId);
-							if (log.isDebugEnabled())
-								log.debug("request created and added succefully ");
-						}	
-					}
-					
-					// if layout doesn't exist anymore
-					else {
-						log.info("delete request: "+key+" : "+StringUtil.merge(parameters.get(key)));
-						long requestId =  displayLayout.getRequestId();
-						RequestLocalServiceUtil.deleteRequest(requestId);
-					}
-					
-				}
+			else{
+				mapPublicRequestToEdit.put(r.getUrl().trim(),  r);
 			}
-
-			return ScenarioLocalServiceUtil.getScenario(idScenario);
-
+			
 		}
-		return null;
+
+		/*
+		 *  update data
+		 */
+		int layoutId = 0;
+		double weight = 0.0d;
+		DisplayLayout displayLayout = null;
+		String url = null;
+		RequestState status = null;
+		for (String key : parameters.keySet()){
+			
+			if (key.contains("weight")) {
+				layoutId = Integer.parseInt(key.replace("weight",""));
+				weight = Double.parseDouble(StringUtil.merge(parameters.get(key)));
+				displayLayout = displayLayoutList.get(layoutId);
+				url = displayLayout.getUrl();
+				status = displayLayout.getState();
+				//Request requestToedit = lstRequestToEdit.get(url)
+				if(status != RequestState.OLD_REQUEST){
+					// if already exists in DB
+					boolean alreadyExists = false;
+					Request updatedRequest = null;
+					if(displayLayout.isPrivateLayout()){
+						alreadyExists = mapPrivateRequestToEdit.containsKey(url.trim());
+						if(alreadyExists){
+							updatedRequest = mapPrivateRequestToEdit.get(url);
+						}
+					}
+					else{
+						alreadyExists = mapPublicRequestToEdit.containsKey(url.trim());
+						if(alreadyExists) {
+							updatedRequest = mapPublicRequestToEdit.get(url);								
+						}
+					}
+					
+					if (alreadyExists && (updatedRequest.getWeight() != weight)){
+						
+						updatedRequest.setWeight(weight);
+						// Saving ...
+						final List<String> errors = RequestValidator.validateRequest(updatedRequest);
+						if (errors.isEmpty()) {
+							for (String error : errors) {
+								SessionErrors.add(request, error);
+							}
+						} else {
+							RequestLocalServiceUtil.updateRequest(updatedRequest);
+							LOG.debug("request updated succefully");									
+						}
+					}
+
+					// else Add new page
+					else if (!alreadyExists) {
+						if (LOG.isInfoEnabled()){
+							LOG.info("add new request "+key+" : "+StringUtil.merge(parameters.get(key)));
+						}
+						final Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.getDisplayLayoutId().isPrivatePage(), 
+								displayLayout.getDisplayLayoutId().getLayoutId());
+
+						RequestLocalServiceUtil.addRequestFromLayout(layout, weight, idScenario, true, userId);
+						LOG.debug("request created and added succefully ");
+					}	
+				}
+				
+				// if layout doesn't exist anymore
+				else {
+					if (LOG.isInfoEnabled()){
+						LOG.info("delete request: "+key+" : "+StringUtil.merge(parameters.get(key)));
+					}
+					final long requestId =  displayLayout.getRequestId();
+					RequestLocalServiceUtil.deleteRequest(requestId);
+				}
+				
+			}
+		}
+		return scenarioToReturn;
 	}
 
 }

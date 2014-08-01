@@ -4,50 +4,41 @@ package com.excilys.liferay.gatling.validator;
 
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.Validator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SimulationValidator {
 
-	/**
-	 * Validate Simulation
-	 * 
-	 * @param simulation
-	 *            to be validated
-	 * @param errors
-	 *            to populate with any errors
-	 */
+	
 	private static final String PREFIX = "simulation";
-
-	public static boolean validateSimulation(Simulation simulation, List<String> errors) {
-		boolean valid = true;
+	/**
+	 * Validate a {@link Simulation}
+	 * 
+	 * @param {@link Simulation} simulation
+	 * @return {@link List} errors
+	 * @throws SystemException
+	 */
+	public static List<String> validateSimulation(Simulation simulation) throws SystemException {
+		List<String> errors = new ArrayList<String>();
 
 		if (Validator.isNull(simulation.getName())) {
 			errors.add("simulation-name-required");
-			valid = false;
 		}
 
 		if (!SimulationLocalServiceUtil.isNameUnique(simulation.getName())) {
 			errors.add("simulation-name-already-used");
-			valid = false;
 		}
 
 		if ( Validator.isNull(simulation.getVariableName().substring(PREFIX.length()))) {
 			errors.add("simulation-variable-required");
-			valid = false;
 		}
 		else if ( ! Validator.isAlphanumericName(simulation.getVariableName())) {
 			errors.add("simulation-variable-syntaxe");
-			valid = false;
 		}
-		else {
-			List<Simulation> listVar = SimulationLocalServiceUtil.findByVariableName(simulation.getVariableName());
-			if(!listVar.isEmpty() ) {
-				simulation.setVariableName(simulation.getVariableName()+listVar.size());
-			}
-		}
-		return valid;
+		return errors;
 	}
 
 }

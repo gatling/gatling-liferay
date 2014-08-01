@@ -1,8 +1,8 @@
 package com.excilys.liferay.gatling.util;
 
 /**
- * Id of a displayLayout (composed of privatePage and LayoutId)
- * @author benoit
+ * Id of a {@link DisplayLayout}
+ * Used to compare DisplayLayouts
  *
  */
 public class IdDisplayLayout {
@@ -10,7 +10,6 @@ public class IdDisplayLayout {
 	private long layoutId;
 	
 	public IdDisplayLayout(boolean privatePage, long layoutId) {
-		super();
 		this.privatePage = privatePage;
 		this.layoutId = layoutId;
 	}
