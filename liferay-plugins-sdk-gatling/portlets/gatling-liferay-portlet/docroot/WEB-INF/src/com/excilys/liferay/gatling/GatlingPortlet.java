@@ -4,8 +4,6 @@ import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
-import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling1_5;
-import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling2;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
@@ -56,9 +54,11 @@ import javax.portlet.ValidatorException;
  */
 public class GatlingPortlet extends MVCPortlet {
 
+
 	/**
 	 * attribute mustacheFoctory.
 	 */
+
 	private MustacheFactory mf = new DefaultMustacheFactory();
 
 	/**
@@ -70,7 +70,6 @@ public class GatlingPortlet extends MVCPortlet {
 	 * pages of portlet.
 	 */
 	protected String jspListSimulation, jspEditSimulation, jspEditScenario, jspFormFirstScenario, jspHelp;
-
 
 	/**
 	 * get all name page and create the role 'gatling' on init portlet.
@@ -88,6 +87,7 @@ public class GatlingPortlet extends MVCPortlet {
 
 	/**
 	 * Adds a new Simulation to the database.
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws Exception
@@ -104,19 +104,19 @@ public class GatlingPortlet extends MVCPortlet {
 			} else {
 			log.debug("Simulation fails to add");
 			response.setRenderParameter("page", jspListSimulation);
-			}
-
+		}
 	}
 
 	/**
 	 * edit simulation method
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws Exception
 	 */
 	public void editSimulation(ActionRequest request, ActionResponse response) throws Exception {
 		long simulationId = ParamUtil.getLong(request, "simulationId");
-		log.info("edit Simulation with id : "+ simulationId);
+		log.info("edit Simulation with id : " + simulationId);
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
 		simulation.setName(ParamUtil.getString(request, "simulationName"));
 		String variable = GatlingUtil.createVariableName("Simulation", ParamUtil.getString(request, "variableSimulationName"));
@@ -127,7 +127,8 @@ public class GatlingPortlet extends MVCPortlet {
 	}
 
 	/**
-	 * remove simulation method.
+	 * remove simulation method
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws Exception
@@ -159,12 +160,13 @@ public class GatlingPortlet extends MVCPortlet {
 		} else {
 			response.setRenderParameter("simulationId", Long.toString(ParamUtil.getLong(request, "simulationId")));
 			response.setRenderParameter("page", !first.equals("") ? jspFormFirstScenario : jspEditSimulation);
+			response.setRenderParameter("page", jspEditSimulation);
 		}
 	}
 
-
 	/**
 	 * edit scenario.
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws SystemException
@@ -221,23 +223,25 @@ public class GatlingPortlet extends MVCPortlet {
 	private int scenarioState(Scenario scenario) {
 		try {
 			int count = RequestLocalServiceUtil.countByScenarioIdAndUsed(scenario.getScenario_id());
-			//completed scenario = case if all minimal information are completed 
-			if((count != 0) && (scenario.getDuration() != 0) && (scenario.getUsers_per_seconds() != 0)) {
+			if (count != 0 && scenario.getDuration() != 0 && scenario.getUsers_per_seconds() != 0) {
+				// completed scenario = case if all minimal information are
+				// completed
 				return 2;
-			} else if ((count != 0) && ((scenario.getDuration() == 0) || (scenario.getUsers_per_seconds() == 0))) {
-				//incomplete scenario = case if one or more information detail of scenario are not completed but there is request selected
+			} else if (count != 0 && (scenario.getDuration() == 0 || scenario.getUsers_per_seconds() == 0)) {
+				// incomplete scenario = case if one or more information detail of
+				// scenario are not completed but there is request selected
 				return 1;
 			} else if ((count == 0)) {
 				//case if not request selected to that scenario = empty scenario
 				return 0;
 			}
-			//case if not request selected to that scenario = empty scenario
-			return 0;	
+			// case if not request selected to that scenario = empty scenario
+			return 0;
 		} catch (SystemException e) {
 			if (log.isErrorEnabled()){
 				log.error("enable to determine Scenario state " + e.getMessage());
 			}
-			return 4;
+			return 0;
 		}
 	}
 
@@ -269,9 +273,10 @@ public class GatlingPortlet extends MVCPortlet {
 			if (log.isErrorEnabled()) {
 				log.error("enable to determine Simulation state " + e.getMessage());
 			}
-			return 4;
+			return 0;
 		}
 	}
+
 	/**
 	 * View method : redirect to requested page and send necessary parameters.
 	 */
@@ -324,7 +329,7 @@ public class GatlingPortlet extends MVCPortlet {
 				// List of Scenario
 				List<Scenario> scenarioList = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
 
-				//map <scenario, scenarioInfo>
+				// map <scenario, scenarioInfo>
 				Map<Scenario, Number[]> scenariosMap = new HashMap<Scenario, Number[]>();
 				for (Scenario scenario : scenarioList) {
 					Number[] info = new Number[3];
@@ -338,7 +343,8 @@ public class GatlingPortlet extends MVCPortlet {
 				/*
 				 * get list of simulation (for edit name)
 				 */
-				List<Simulation> listSimulations = SimulationLocalServiceUtil.getSimulations(0, SimulationLocalServiceUtil.getSimulationsCount());
+				List<Simulation> listSimulations = SimulationLocalServiceUtil.getSimulations(0,
+						SimulationLocalServiceUtil.getSimulationsCount());
 				String JSListSimName = GatlingUtil.createJSListOfSimulationName(listSimulations);
 				renderRequest.setAttribute("listOfSimulationName", JSListSimName);
 
@@ -366,13 +372,12 @@ public class GatlingPortlet extends MVCPortlet {
 				throw new NullPointerException("scenario id is null");
 			}
 			try {
-				//get scenario
+				// get scenario
 				Scenario scenario = ScenarioLocalServiceUtil.getScenario(ParamUtil.getLong(renderRequest, "scenarioId"));
 
 				//get public layout list
 				long groupId = scenario.getGroup_id();
 				List<Layout> listPublicLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false, 0);
-				
 				// and private layouts
 				List<Layout> listPrivateLayouts = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
 				
@@ -454,21 +459,16 @@ public class GatlingPortlet extends MVCPortlet {
 				log.error("connot add user preferences for gatling version " + e.getMessage());
 			}
 		}
-
 		//scripting Gatling
 		String template;
-		ScriptGeneratorGatling sgg;
 		switch (gatlingVersion) {
 		case 1:
-			sgg = new ScriptGeneratorGatling1_5();
 			template = "resources/templateGatling1.5.mustache";
 			break;
 		case 2:
-			sgg = new ScriptGeneratorGatling2();
 			template = "resources/templateGatling2.0.mustache";
 			break;
 		default:
-			sgg = new ScriptGeneratorGatling2();
 			template = "resources/templateGatling2.0.mustache";
 			break;
 		}
@@ -477,9 +477,9 @@ public class GatlingPortlet extends MVCPortlet {
 		 */
 		long[] simulationsIds = ParamUtil.getLongValues(request, "export");
 		Simulation simulation;
-		Date date =new Date();
-		Mustache mustache = mf.compile(template);           
-		if(simulationsIds.length > 1) {
+		Date date = new Date();
+		Mustache mustache = mf.compile(template);
+		if (simulationsIds.length > 1) {
 			response.setContentType("application/zip");
 			response.addProperty("Content-Disposition", "attachment; filename = GatlingSimulations" + date.getTime() + ".zip");
 
@@ -488,9 +488,8 @@ public class GatlingPortlet extends MVCPortlet {
 				for (long id : simulationsIds) {
 					if (id  > 0) {
 						simulation = SimulationLocalServiceUtil.getSimulation(id);
-						zipOutputStream.putNextEntry(new ZipEntry("Simulation"  + simulation.getName()  + date.getTime() + ".scala"));
-						sgg.setId(simulationsIds[0]);
-						mustache.execute(new PrintWriter(zipOutputStream), sgg).flush();
+						zipOutputStream.putNextEntry(new ZipEntry("Simulation" + simulation.getName() + date.getTime() + ".scala"));
+						mustache.execute(new PrintWriter(zipOutputStream), new ScriptGeneratorGatling(id)).flush();
 						zipOutputStream.closeEntry();
 					}
 				}
@@ -509,8 +508,7 @@ public class GatlingPortlet extends MVCPortlet {
 				response.addProperty("Content-Disposition", "attachment; filename=Simulation"  + simulation.getName()  + date.getTime() + ".scala");
 				OutputStream out = response.getPortletOutputStream();
 
-				sgg.setId(simulationsIds[0]);
-				mustache.execute(new PrintWriter(out), sgg).flush();
+				mustache.execute(new PrintWriter(out), new ScriptGeneratorGatling(simulationsIds[0])).flush();
 				out.close();
 			} catch (Exception e) {
 				if (log.isErrorEnabled()) {
