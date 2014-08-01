@@ -60,19 +60,18 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	}
 	
 	public boolean isNameUnique(String name) throws SystemException {
-		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Simulation.class)
+		final DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Simulation.class)
 				.add(PropertyFactoryUtil.forName("name").eq(name));
 
-		List<?> result = simulationPersistence.findWithDynamicQuery(dq);
+		final List<?> result = simulationPersistence.findWithDynamicQuery(dq);
 		return result.isEmpty();
 	}
 	
-	public List<Simulation> findByVariableName(String variableName) throws SystemException {
-		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Simulation.class)
+	public int findByVariableName(String variableName) throws SystemException {
+		final DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Simulation.class)
 				.add(PropertyFactoryUtil.forName("variableName").like(variableName+"%"));
 
-		List<Simulation> result = simulationPersistence.findWithDynamicQuery(dq);
-		return result;
+		return (int) simulationPersistence.countWithDynamicQuery(dq);
 	}
 	
 	/**
@@ -86,19 +85,18 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		/*
 		 * Create simulation
 		 */
-		long primaryKey = CounterLocalServiceUtil.increment(Simulation.class.getName());	
-		Simulation simulation = SimulationLocalServiceUtil.createSimulation(primaryKey);
+		final long primaryKey = CounterLocalServiceUtil.increment(Simulation.class.getName());	
+		final Simulation simulation = SimulationLocalServiceUtil.createSimulation(primaryKey);
 		simulation.setName(ParamUtil.getString(request, "simulationName"));
 		/*
 		 *  Set Variable Name
 		 */
 		String variableName = GatlingUtil.createVariableName("Simulation", ParamUtil.getString(request, "simulationName"));
-		System.out.println(variableName);
-		List<Simulation> listVar = SimulationLocalServiceUtil.findByVariableName(variableName);
+		final int count = SimulationLocalServiceUtil.findByVariableName(variableName);
 		// Test if the variable name already exists
-		if(!listVar.isEmpty() ) {
+		if(count != 0) {
 			// Add a number at the end to make it unique
-			variableName = variableName.concat(Integer.toString(listVar.size()));
+			variableName = variableName.concat(Integer.toString(count));
 		}
 		simulation.setVariableName(variableName);
 		/*

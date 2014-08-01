@@ -70,9 +70,8 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 
 	public void addRequestFromLayout(Layout layout, double weight, long idScenario, boolean checked, long userId) throws SystemException {
 		//create request
-		long primaryKey;
-		primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
-		Request newRequest = RequestLocalServiceUtil.createRequest(primaryKey);
+		final long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
+		final Request newRequest = RequestLocalServiceUtil.createRequest(primaryKey);
 		newRequest.setLayoutId(layout.getLayoutId());
 		newRequest.setName(layout.getName(LocaleUtil.getDefault()));
 		newRequest.setUrl(layout.getFriendlyURL());
@@ -81,9 +80,9 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 		newRequest.setPrivatePage(layout.isPrivateLayout());
 		newRequest.setParentLayoutId(layout.getParentLayoutId());
 		// Saving ...
-		List<String> errors = RequestValidator.validateRequest(newRequest);
+		final List<String> errors = RequestValidator.validateRequest(newRequest);
 		if(!errors.isEmpty()) {
-			newRequest = RequestLocalServiceUtil.addRequest(newRequest);
+			RequestLocalServiceUtil.addRequest(newRequest);
 		}
 	} 
 }
