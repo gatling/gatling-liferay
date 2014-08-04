@@ -27,6 +27,8 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
 
@@ -54,7 +56,8 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.liferay.sample.service.SimulationLocalServiceUtil} to access the simulation local service.
 	 */
-	
+	private static final Log LOG = LogFactoryUtil.getLog(SimulationLocalServiceUtil.class);
+
 	/**
 	 * remove all {@link Scenario} linked to a simulationId and the simulation
 	 */
@@ -62,7 +65,7 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		ScenarioLocalServiceUtil.removeBySimulationIdCascade(simulationId);
 		simulationPersistence.remove(simulationId);
 	}
-	
+
 	/**
 	 * Check if name is unique for {@link Simulation}
 	 */
@@ -70,10 +73,10 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		final DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Simulation.class)
 				.add(PropertyFactoryUtil.forName("name").eq(name));
 
-		final List<?> result = simulationPersistence.findWithDynamicQuery(dq);
-		return result.isEmpty();
+		final long count = simulationPersistence.countWithDynamicQuery(dq);
+		return (count == 0);
 	}
-	
+
 	/**
 	 * Count how many {@link Simulation} have this variableName
 	 */
@@ -83,7 +86,7 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 
 		return (int) simulationPersistence.countWithDynamicQuery(dq);
 	}
-	
+
 	/**
 	 * Add a {@link Simulation} from an {@link ActionRequest}
 	 * @param {@link ActionRequest} request
@@ -91,12 +94,12 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	 * @return {@link Simulation} if added, else null
 	 * @throws SystemException
 	 */
-	public Simulation addSimulationFromRequest(ActionRequest request, ActionResponse response) throws SystemException {
+	public Simulation addSimulationFromRequest(ActionRequest request, ActionResponse response) throws SystemException  {
 		/*
 		 * Create simulation
 		 */
-		final long primaryKey = CounterLocalServiceUtil.increment(Simulation.class.getName());	
-		final Simulation simulation = SimulationLocalServiceUtil.createSimulation(primaryKey);
+		long primaryKey = CounterLocalServiceUtil.increment(Simulation.class.getName());
+		Simulation simulation = SimulationLocalServiceUtil.createSimulation(primaryKey);
 		simulation.setName(ParamUtil.getString(request, "simulationName"));
 		/*
 		 *  Set Variable Name
@@ -114,15 +117,17 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		 */
 		List<String> errors = SimulationValidator.validateSimulation(simulation);
 		if(errors.isEmpty()) {
+			// Add scenario
+			simulation = SimulationLocalServiceUtil.addSimulation(simulation);
+			LOG.info(simulation);
+			return simulation;
+		}
+		else {
 			for(String error : errors) {
 				SessionErrors.add(request, error);
 			}
 		}
-		else {
-			// Add scenario
-			return SimulationLocalServiceUtil.addSimulation(simulation);
-		}
 		return null;
-		
+
 	}
 }

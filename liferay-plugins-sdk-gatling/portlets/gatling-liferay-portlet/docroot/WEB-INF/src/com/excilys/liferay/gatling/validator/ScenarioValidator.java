@@ -50,10 +50,6 @@ public class ScenarioValidator {
 		if ( Validator.isNull(scenario.getVariableName().substring(PREFIX.length()))) {
 			errors.add("scenario-variable-required");
 		}
-		
-		else if ( ! Validator.isAlphanumericName(scenario.getVariableName())) {
-			errors.add("scenario-variable-syntaxe");
-		}
 
 		return errors;
 	}

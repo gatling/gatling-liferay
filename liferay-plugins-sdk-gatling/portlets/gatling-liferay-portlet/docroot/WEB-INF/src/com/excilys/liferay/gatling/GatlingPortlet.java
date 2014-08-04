@@ -64,7 +64,7 @@ public class GatlingPortlet extends MVCPortlet {
 	/**
 	 * logging.
 	 */
-	private static Log log = LogFactoryUtil.getLog(GatlingPortlet.class);
+	private static final Log LOG = LogFactoryUtil.getLog(GatlingPortlet.class);
 
 	/**
 	 * pages of portlet.
@@ -92,17 +92,17 @@ public class GatlingPortlet extends MVCPortlet {
 	 * @param response
 	 * @throws Exception
 	 */
-	public void addSimulation(final ActionRequest request, final ActionResponse response)
-			throws Exception {
+	public void addSimulation(final ActionRequest request, final ActionResponse response) throws Exception {
 		Simulation simulation = SimulationLocalServiceUtil.addSimulationFromRequest(request, response);
 
 		if (simulation != null) {
 			int scenarioListSize = ScenarioLocalServiceUtil.countBySimulationId(simulation.getSimulation_id());
 			response.setRenderParameter("simulationId", Long.toString(simulation.getSimulation_id()));
 			// If new simulation the redirect to add First scenario page else edit simulation page
+			LOG.info("Simulation added");
 			response.setRenderParameter("page", scenarioListSize == 0 ? jspFormFirstScenario : jspEditSimulation); 
 		} else {
-			log.debug("Simulation fails to add");
+			LOG.debug("Simulation fails to add");
 			response.setRenderParameter("page", jspListSimulation);
 		}
 	}
@@ -116,7 +116,7 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	public void editSimulation(ActionRequest request, ActionResponse response) throws Exception {
 		long simulationId = ParamUtil.getLong(request, "simulationId");
-		log.info("edit Simulation with id : " + simulationId);
+		LOG.info("edit Simulation with id : " + simulationId);
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
 		simulation.setName(ParamUtil.getString(request, "simulationName"));
 		String variable = GatlingUtil.createVariableName("Simulation", ParamUtil.getString(request, "variableSimulationName"));
@@ -135,8 +135,8 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	public void removeSimulation(ActionRequest request, ActionResponse response) throws Exception {
 		long simulationId = ParamUtil.getLong(request, "simulationId");
-		if (log.isDebugEnabled()) {
-			log.debug("remove Simulation with id : " + simulationId);
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("remove Simulation with id : " + simulationId);
 		}
 
 		SimulationLocalServiceUtil.removeSimulationCascade(simulationId);
@@ -173,7 +173,7 @@ public class GatlingPortlet extends MVCPortlet {
 	 * @throws PortalException
 	 */
 	public void editScenario(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException {
-		log.debug("edit scenario controler");
+		LOG.debug("edit scenario controler");
 		Scenario scenario = ScenarioLocalServiceUtil.editScenarioFromRequest(request, response);
 		response.setRenderParameter("page", scenario != null ? jspEditSimulation : jspListSimulation);
 		if (scenario != null) {
@@ -192,8 +192,8 @@ public class GatlingPortlet extends MVCPortlet {
 			throws PortalException, SystemException {
 		long scenarioId = ParamUtil.getLong(request, "scenarioId");
 		long simulationId = ParamUtil.getLong(request, "simulationId");
-		if (log.isDebugEnabled()){
-			log.debug("remove Scenario with id : " + scenarioId);
+		if (LOG.isDebugEnabled()){
+			LOG.debug("remove Scenario with id : " + scenarioId);
 		}
 		// cascade delete
 		ScenarioLocalServiceUtil.removeByIdCascade(scenarioId);
@@ -212,7 +212,7 @@ public class GatlingPortlet extends MVCPortlet {
 	public void removeRequest(final ActionRequest request, final ActionResponse response) throws PortalException, SystemException {
 		long requestId = Long.parseLong(request.getParameter("requestId"));
 		RequestLocalServiceUtil.deleteRequest(requestId);
-		log.debug("request deleted succefully ");
+		LOG.debug("request deleted succefully ");
 	}
 
 	/**
@@ -238,8 +238,8 @@ public class GatlingPortlet extends MVCPortlet {
 			// case if not request selected to that scenario = empty scenario
 			return 0;
 		} catch (SystemException e) {
-			if (log.isErrorEnabled()){
-				log.error("enable to determine Scenario state " + e.getMessage());
+			if (LOG.isErrorEnabled()){
+				LOG.error("enable to determine Scenario state " + e.getMessage());
 			}
 			return 0;
 		}
@@ -270,8 +270,8 @@ public class GatlingPortlet extends MVCPortlet {
 				return 1;
 			}
 		} catch (SystemException e) {
-			if (log.isErrorEnabled()) {
-				log.error("enable to determine Simulation state " + e.getMessage());
+			if (LOG.isErrorEnabled()) {
+				LOG.error("enable to determine Simulation state " + e.getMessage());
 			}
 			return 0;
 		}
@@ -288,7 +288,7 @@ public class GatlingPortlet extends MVCPortlet {
 
 		//view.jsp => list of the simulations
 		if (page.equals(jspListSimulation)) {
-			log.debug("DoView : List Simulation");
+			LOG.debug("DoView : List Simulation");
 			List<Simulation> simulationList = new ArrayList<Simulation>();
 			Map<Simulation, Integer[]> simulationMap = new HashMap<Simulation, Integer[]>();
 			try {
@@ -315,7 +315,7 @@ public class GatlingPortlet extends MVCPortlet {
 			/*
 			 * Edit simulation, get and send scenarios list to jsp page
 			 */
-			log.debug("DoView : Edit Simulation");
+			LOG.debug("DoView : Edit Simulation");
 			Long id = (Long) ParamUtil.getLong(renderRequest, "simulationId");
 			if(id==null)
 				throw new NullPointerException("simulation id is null");
@@ -352,6 +352,7 @@ public class GatlingPortlet extends MVCPortlet {
 				throw new RuntimeException("error with get scenario list with localServiceUtil " + e.getMessage());
 			} catch (PortalException  e) {
 				throw new RuntimeException("error with get scenario list with localServiceUtil " + e.getMessage());
+
 			}
 
 			// List of Sites
@@ -361,7 +362,7 @@ public class GatlingPortlet extends MVCPortlet {
 			/*
 			 * Edit scenario -> request list send to jsp page
 			 */
-			log.debug("DoView : Edit Scenario");
+			LOG.debug("DoView : Edit Scenario");
 			if (ParamUtil.getLong(renderRequest, "scenarioId") == 0) {
 				throw new NullPointerException("scenario id is null");
 			}

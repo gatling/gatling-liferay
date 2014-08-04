@@ -84,7 +84,7 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 		newRequest.setParentLayoutId(layout.getParentLayoutId());
 		// Saving ...
 		final List<String> errors = RequestValidator.validateRequest(newRequest);
-		if(!errors.isEmpty()) {
+		if(errors.isEmpty()) {
 			RequestLocalServiceUtil.addRequest(newRequest);
 		}
 	} 

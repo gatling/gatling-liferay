@@ -28,7 +28,7 @@
 	<portlet:param name="page" value="/html/gatling/help.jsp" />
 </portlet:renderURL>
 <div class="well well-small">
-	<a target="_blank" href="https://github.com/excilys/gatling/wiki/Getting-Started"> 
+	<a target="_blank" href="<%= PortletProps.get("gatling-wiki") %>"> 
 		<span class="label label-warning">
 			<liferay-ui:message key="help-gatling-wiki" />
 		</span>

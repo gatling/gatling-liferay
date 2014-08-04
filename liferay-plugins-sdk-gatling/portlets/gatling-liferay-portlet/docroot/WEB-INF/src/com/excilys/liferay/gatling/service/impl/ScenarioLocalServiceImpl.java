@@ -175,7 +175,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 
 		// Saving ...
 		final List<String> errors = ScenarioValidator.validateScenario(scenario);
-		if(!errors.isEmpty()) {
+		if(errors.isEmpty()) {
 			scenario = ScenarioLocalServiceUtil.addScenario(scenario);
 			//add Requests
 			final List<Layout> listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), false));
@@ -304,12 +304,12 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 						// Saving ...
 						final List<String> errors = RequestValidator.validateRequest(updatedRequest);
 						if (errors.isEmpty()) {
+							RequestLocalServiceUtil.updateRequest(updatedRequest);
+							LOG.debug("request updated succefully");	
+						} else {
 							for (String error : errors) {
 								SessionErrors.add(request, error);
 							}
-						} else {
-							RequestLocalServiceUtil.updateRequest(updatedRequest);
-							LOG.debug("request updated succefully");									
 						}
 					}
 
