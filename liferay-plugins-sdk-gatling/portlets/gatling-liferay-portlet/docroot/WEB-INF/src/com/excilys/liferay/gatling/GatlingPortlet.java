@@ -101,7 +101,7 @@ public class GatlingPortlet extends MVCPortlet {
 			response.setRenderParameter("simulationId", Long.toString(simulation.getSimulation_id()));
 			// If new simulation the redirect to add First scenario page else edit simulation page
 			response.setRenderParameter("page", scenarioListSize == 0 ? jspFormFirstScenario : jspEditSimulation); 
-			} else {
+		} else {
 			log.debug("Simulation fails to add");
 			response.setRenderParameter("page", jspListSimulation);
 		}
@@ -202,13 +202,13 @@ public class GatlingPortlet extends MVCPortlet {
 	}
 
 
-/**
- * Remove request from database.
- * @param request
- * @param response
- * @throws PortalException
- * @throws SystemException
- */
+	/**
+	 * Remove request from database.
+	 * @param request
+	 * @param response
+	 * @throws PortalException
+	 * @throws SystemException
+	 */
 	public void removeRequest(final ActionRequest request, final ActionResponse response) throws PortalException, SystemException {
 		long requestId = Long.parseLong(request.getParameter("requestId"));
 		RequestLocalServiceUtil.deleteRequest(requestId);
@@ -301,9 +301,7 @@ public class GatlingPortlet extends MVCPortlet {
 					simulationMap.put(simulation, simulationInfos);
 				}
 			} catch (SystemException e) {
-				if (log.isErrorEnabled()) {
-					log.error("error with getSimulation with localServiceUtil " + e.getMessage());
-				}
+				throw new RuntimeException("error with getSimulation with localServiceUtil " + e.getMessage());
 			}
 			String JSListName = GatlingUtil.createJSListOfSimulationName(simulationList);
 			final PortletPreferences prefs = renderRequest.getPreferences();
@@ -351,13 +349,9 @@ public class GatlingPortlet extends MVCPortlet {
 				renderRequest.setAttribute("listScenario", scenarioList);
 				renderRequest.setAttribute("MapScenario", scenariosMap);
 			} catch (SystemException e) {
-				if (log.isErrorEnabled()) {
-					log.error("error with get scenario list with localServiceUtil " + e.getMessage());
-				}
+				throw new RuntimeException("error with get scenario list with localServiceUtil " + e.getMessage());
 			} catch (PortalException  e) {
-				if (log.isErrorEnabled()) {
-					log.error("error with get scenario list with localServiceUtil " + e.getMessage());
-				}
+				throw new RuntimeException("error with get scenario list with localServiceUtil " + e.getMessage());
 			}
 
 			// List of Sites
@@ -380,7 +374,7 @@ public class GatlingPortlet extends MVCPortlet {
 				List<Layout> listPublicLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false, 0);
 				// and private layouts
 				List<Layout> listPrivateLayouts = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
-				
+
 				//get site name
 				String siteName = GroupLocalServiceUtil.getGroup(groupId).getName();
 
@@ -388,7 +382,7 @@ public class GatlingPortlet extends MVCPortlet {
 				List<DisplayLayout> displayLayoutList = new ArrayList<DisplayLayout>();
 				DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listPublicLayouts);
 				DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listPrivateLayouts);
-				
+
 				// Get Hierachy (used to add a button if a row is a parent)
 				Map<IdDisplayLayout, List<IdDisplayLayout>> hierachy = new LinkedHashMap<IdDisplayLayout, List<IdDisplayLayout>>();
 				DisplayLayoutUtil.mapHierachy(displayLayoutList, hierachy);
@@ -401,7 +395,7 @@ public class GatlingPortlet extends MVCPortlet {
 				// Get list of used names
 				List<Scenario> scenariolist = ScenarioLocalServiceUtil.getScenarios(0, ScenarioLocalServiceUtil.getScenariosCount());
 				String JSListName = GatlingUtil.createJSListOfScenarioName(scenariolist);
-				
+
 				//add private and public url of site
 				String privateURL = scenario.getUrl_site().replace("web", "group");
 				String publicURL = scenario.getUrl_site();
@@ -416,13 +410,9 @@ public class GatlingPortlet extends MVCPortlet {
 				renderRequest.setAttribute("listOfScenarioName", JSListName);
 
 			} catch (SystemException e) {
-				if (log.isErrorEnabled()) {
-					log.error("connot get layout list: " + e.getMessage());
-				}
+				throw new RuntimeException("connot get layout list: " + e.getMessage());
 			} catch (PortalException e) {
-				if (log.isErrorEnabled()) {
-					log.error("connot get layout list: " + e .getMessage());
-				}
+				throw new RuntimeException("connot get layout list: " + e .getMessage());
 			}
 		}
 
@@ -439,25 +429,18 @@ public class GatlingPortlet extends MVCPortlet {
 		 * Get template from version
 		 */
 		int gatlingVersion = ParamUtil.getInteger(request, "gatlingVersion");
-		
+
 		//add user preference
 		final PortletPreferences prefs = request.getPreferences();
 		try {
 			prefs.setValue("gatlingVersion", Integer.toString(gatlingVersion));
 			prefs.store();
 		} catch (ReadOnlyException e) {
-			if (log.isErrorEnabled()) {
-				log.error("connot add user preferences for gatling version " + e.getMessage());
-			}
-			
+			throw new RuntimeException("connot add user preferences for gatling version " + e.getMessage());
 		} catch (ValidatorException e) {
-			if (log.isErrorEnabled()) {
-				log.error("connot add user preferences for gatling version " + e.getMessage());
-			}
+			throw new RuntimeException("connot add user preferences for gatling version " + e.getMessage());
 		} catch (IOException e) {
-			if (log.isErrorEnabled()) {
-				log.error("connot add user preferences for gatling version " + e.getMessage());
-			}
+			throw new RuntimeException("connot add user preferences for gatling version " + e.getMessage());
 		}
 		//scripting Gatling
 		String template;
@@ -495,9 +478,7 @@ public class GatlingPortlet extends MVCPortlet {
 				}
 				zipOutputStream.close();
 			} catch (Exception e) {
-				if (log.isErrorEnabled()) {
-					log.error("connot export zip for scenario(s) " + e.getMessage());
-				}
+				throw new RuntimeException("connot export zip for scenario(s) " + e.getMessage());
 			}
 
 		} else if (simulationsIds.length == 1 && simulationsIds[0] > 0) {
@@ -511,9 +492,7 @@ public class GatlingPortlet extends MVCPortlet {
 				mustache.execute(new PrintWriter(out), new ScriptGeneratorGatling(simulationsIds[0])).flush();
 				out.close();
 			} catch (Exception e) {
-				if (log.isErrorEnabled()) {
-					log.error("connot export script file " + e.getMessage());
-				}
+				throw new RuntimeException("connot export script file " + e.getMessage());
 			}
 		} else {
 			//if no one valide simulation id received then error
