@@ -10,11 +10,10 @@
 			configuration
 		</control-panel-entry-category>		
 		<control-panel-entry-weight>1.5</control-panel-entry-weight>
-		
-		<!-- Pour personaliser les permissions à une portlet dans control panel -->
-		<control-panel-entry-class>com.excilys.liferay.gatling.security.SecurityManagement</control-panel-entry-class>
-		
-		<!-- evite de double post d'action -->
+		 
+		<!-- Custom permission control panel -->
+		<control-panel-entry-class>com.excilys.liferay.gatling.security.SecurityManagement</control-panel-entry-class> 
+		<!-- avoid double post -->
 		<action-url-redirect>true</action-url-redirect>
 		<header-portlet-css>/css/main.css</header-portlet-css>
 		<footer-portlet-javascript>
