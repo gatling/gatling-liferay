@@ -11,9 +11,12 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.model.Group;
+import com.liferay.portal.model.LayoutTypePortlet;
 import com.liferay.portal.model.Role;
 import com.liferay.portal.service.GroupLocalServiceUtil;
+import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.service.RoleLocalServiceUtil;
+import com.liferay.portal.util.LayoutTypePortletFactoryUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -120,5 +123,23 @@ public class GatlingUtil {
 					LOG.info("The role gatling already exists "+ roles.get(0));
 				}
 			}
+	}
+	
+	
+	/**
+	 * 
+	 * @param groupId
+	 * @param isPrivate
+	 * @param freindlyUrl
+	 */
+	public static void getFavoritePortlet(long groupId, boolean isPrivate ,String freindlyUrl){
+		LayoutTypePortlet layoutTypePortlet;
+		try {
+			layoutTypePortlet = LayoutTypePortletFactoryUtil.create(LayoutLocalServiceUtil.getFriendlyURLLayout(groupId, isPrivate, freindlyUrl));
+			List<String> portletIdList = layoutTypePortlet.getPortletIds();
+//			layoutTypePortlet.getPortalPreferences().
+		} catch (PortalException | SystemException e) {
+			LOG.error("enable to get portlet list of this site: "+e.getMessage());
+		}
 	}
 }

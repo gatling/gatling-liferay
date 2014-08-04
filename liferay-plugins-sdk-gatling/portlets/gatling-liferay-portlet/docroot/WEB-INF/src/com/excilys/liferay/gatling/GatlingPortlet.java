@@ -20,10 +20,12 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
+import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
 import java.io.IOException;
@@ -366,6 +368,19 @@ public class GatlingPortlet extends MVCPortlet {
 				// get scenario
 				Scenario scenario = ScenarioLocalServiceUtil.getScenario(ParamUtil.getLong(renderRequest, "scenarioId"));
 				Simulation simulation = SimulationLocalServiceUtil.getSimulation(scenario.getSimulation_id());
+				
+				//update freindlyUrl of site if changed
+				String oldFreindlyURL = scenario.getUrl_site();
+				final ThemeDisplay themeDisplay =	(ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+				String currentFreindlyURL = GroupLocalServiceUtil.fetchGroup(scenario.getGroup_id()).getIconURL(themeDisplay);	
+				currentFreindlyURL = currentFreindlyURL.split("/")[0]+"//"+currentFreindlyURL.split("/")[2]+"/web"+GroupLocalServiceUtil.fetchGroup(scenario.getGroup_id()).getFriendlyURL();
+
+				if (! oldFreindlyURL.equals(currentFreindlyURL)) {
+					//update site url 
+					scenario.setUrl_site(currentFreindlyURL);
+					ScenarioLocalServiceUtil.updateScenario(scenario);
+				}
+				
 				//get public layout list
 				long groupId = scenario.getGroup_id();
 				List<Layout> listPublicLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false, 0);
