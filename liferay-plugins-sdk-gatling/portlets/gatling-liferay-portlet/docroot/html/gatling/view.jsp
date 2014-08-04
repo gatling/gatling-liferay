@@ -20,15 +20,17 @@
 	<portlet:param name="page" value="/html/gatling/help.jsp" />
 </portlet:renderURL>
 <div class="well well-small">
-	<a target="blank" href='<%= PortletProps.get("gatling-wiki") %>'>
-		<span class="label label-warning"><liferay-ui:message key="help-gatling-wiki" /></span>
+	<a target="blank" href='<%=PortletProps.get("gatling-wiki") %>' class="label label-warning">
+		<i class="icon-plus-sign"></i> 
+		<liferay-ui:message key="help-gatling-wiki" />
 	</a> 
-	<a href="${helpURL}">
-		<span class="label"><liferay-ui:message key="help-how-to-use-portlet" /></span>
+	<a href="${helpURL}" class="label">
+		<i class="icon-question-sign"></i> 
+		<liferay-ui:message key="help-how-to-use-portlet" />
 	</a> 
-	<a href="#" class="toggle" data-content="help-simulation">
-		<span class="label label-info"><liferay-ui:message key="help-what-simulation" /></span>
-
+	<a href="#" class="toggle label label-info" data-content="help-simulation">
+		<i class="icon-info-sign"></i> 
+		<liferay-ui:message key="help-what-simulation" />
 	</a>
 </div>
 
@@ -43,9 +45,11 @@
 			<li>
 				<a id="newSimulation" href="#"> <i class="icon-plus"></i> <liferay-ui:message key="simulation-list-btn-add-simulation" /></a>
 			</li>
+			<c:if test="${not empty listSimulation }">
 			<li>
 				<a id="exportToggle" href="#"><i class="icon-print"></i> <liferay-ui:message key="simulation-list-export" /></a>
 			</li>
+			</c:if>
 		</ul>
 	</div>
 </div>
@@ -119,10 +123,6 @@
 		<aui:option value="2" selected="${selected2 }" >Gatling 2.0 M3</aui:option>
 		<aui:option value="1" selected="${selected1 }" >Gatling 1.5</aui:option>
 	</aui:select>
-	<liferay-util:buffer var="textExport">
-		<i class="icon-print"></i>
-		<liferay-ui:message key="simulation-list-export-btn" />
-	</liferay-util:buffer>
 </div>
 
 <%--submit to addSimulation --%>
@@ -174,7 +174,6 @@
 		});
 		
 		A.one('#exportToggle').on('click', function() {
-			console.log("in");
 			if(A.all(".checkLine:checked").size() > 0) {	
 				var modalExport = new A.Modal({
 					bodyContent : A.one("#exportModalTemplate").html(),

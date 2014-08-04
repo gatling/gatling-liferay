@@ -28,20 +28,17 @@
 	<portlet:param name="page" value="/html/gatling/help.jsp" />
 </portlet:renderURL>
 <div class="well well-small">
-	<a target="_blank" href="<%= PortletProps.get("gatling-wiki") %>"> 
-		<span class="label label-warning">
-			<liferay-ui:message key="help-gatling-wiki" />
-		</span>
+	<a target="_blank" href="<%= PortletProps.get("gatling-wiki") %>" class="label label-warning">
+		<i class="icon-plus-sign"></i> 
+		<liferay-ui:message key="help-gatling-wiki" />
 	</a> 
-	<a href="${helpURL}">
-		<span class="label">
-			<liferay-ui:message key="help-how-to-use-portlet" />
-		</span>
+	<a href="${helpURL}" class="label">
+		<i class="icon-question-sign"></i> 
+		<liferay-ui:message key="help-how-to-use-portlet" />
 	</a> 
-	<a href="#" class="toggle" data-content="help-scenario">
-		<span class="label label-info">
-			<liferay-ui:message key="help-what-scenario" />
-		</span>
+	<a href="#" class="toggle label label-info" data-content="help-scenario">
+		<i class="icon-info-sign"></i> 
+		<liferay-ui:message key="help-what-scenario" />
 	</a>
 </div>
 
@@ -52,8 +49,12 @@
 <div class="navbar">
 	<div class="navbar-inner">
 		<ul class="nav">
-			<li><a id="newScenario" href="#"> <i class="icon-plus"></i> <liferay-ui:message key="simulation-edit-btn-add-scenario" />
-			</a></li>
+			<li>
+				<a id="newScenario" href="#"> <i class="icon-plus"></i> <liferay-ui:message key="simulation-edit-btn-add-scenario" /></a>
+			</li>
+			<li>
+				<a id="exportToggle" href="#"><i class="icon-print"></i> <liferay-ui:message key="simulation-list-export-one" /></a>
+			</li>
 		</ul>
 	</div>
 </div>
@@ -79,7 +80,9 @@
 	</aui:input>
 	<aui:button type="submit" cssClass="inline-button" />
 </aui:form>
-
+<c:if test="${not empty listScenario }">
+<c:set var="export" value="true" />
+</c:if>
 <%--Search container (table) --%>
 <liferay-ui:search-container emptyResultsMessage="scenario-list-empty">
 	<%--Liste of data to display --%>
@@ -90,7 +93,7 @@
 			<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
 			<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
 		</portlet:renderURL>
-		<c:set var="scenarioRequestInfo">
+		<c:set var="scenarioRequestInfo"> 
 			<liferay-ui:message key="simulation-edit-table-header-requests" arguments="${MapScenario.get(scenario)}" />
 		</c:set>
 		<liferay-ui:search-container-column-text name="simulation-edit-table-header-name" value="${scenario.name}" href="${editScenarioURL}" />
@@ -106,13 +109,14 @@
 				<c:when test="${MapScenario.get(scenario)[2] == 1}">
 					<span class="badge badge-warning"><i class="icon-pencil"></i></span>
 					<liferay-ui:icon-help message="message-help-info-state-scenario-warning" />
+					<c:set var="export" value="false"/>
 				</c:when>
 				<c:otherwise>
 					<span class="badge badge-important"><i class="icon-ban-circle"></i></span>
 					<liferay-ui:icon-help message="message-help-info-state-scenario-important" />
+					<c:set var="export" value="false"/>
 				</c:otherwise>
 			</c:choose>
-
 		</liferay-ui:search-container-column-text>
 		<%--delete button --%>
 		<liferay-ui:search-container-column-text name="delete" align="center">
@@ -136,8 +140,28 @@
 <div id="newFormScenario" hidden="true">
 	<%@include file="/html/gatling/template/formNewScenario.jsp"%>
 </div>
-
-
+<c:if test="${export}">
+<%--Export Simulation --%>
+<div id="exportModalTemplate" hidden="true">
+	<portlet:resourceURL var="resourceUrl" />
+	<aui:form action="${resourceUrl}" method="post" name="fmExport">
+		<h5><liferay-ui:message key="simulation-list-export" /></h5>
+		<aui:input name="export" value="${simulation.simulation_id }" type="hidden" />
+		<aui:select label="simulation-list-version-choice" name="gatlingVersionSelect" >
+			<c:choose>
+				<c:when test="${gatlingVersion == 1}">
+					<c:set var="selected1" value="true"/>
+				</c:when>
+				<c:otherwise>
+					<c:set var="selected2" value="true"/>
+				</c:otherwise>
+			</c:choose>
+			<aui:option value="2" selected="${selected2 }" >Gatling 2.0 M3</aui:option>
+			<aui:option value="1" selected="${selected1 }" >Gatling 1.5</aui:option>
+		</aui:select>
+	</aui:form>
+</div>
+</c:if>
 
 <script type="text/javascript">
 	AUI().use('aui-base','event','aui-modal', function(A) {
@@ -171,6 +195,44 @@
 					this.addClass("help-content-selected");
 				}
 			});
+		});
+		
+		A.one('#exportToggle').on('click', function() {
+			if(A.one("#exportModalTemplate") != null) {
+				var modalExport = new A.Modal({
+					bodyContent : A.one("#exportModalTemplate").html(),
+					centered : true,
+					headerContent : '<h3><liferay-ui:message key="simulation-list-export" /></h3>',
+					modal : true,
+					resizable : false,
+					zIndex : 100,
+				}).render();
+				
+				modalExport.addToolbar(
+			    	      [
+			    	        {
+			    	          label: '<liferay-ui:message key="cancel" />',
+			    	          on: {
+			    	            click: function() {
+			    	            	modalExport.hide();
+			    	            }
+			    	          }
+			    	        },
+			    	        {
+			    	          label: '<liferay-ui:message key="export" />',
+			    	          cssClass: "btn-primary",
+			    	          on: {
+				    	            click: function() {
+				    	            	modalExport.hide();
+				    	            	A.one("#<portlet:namespace/>fmExport").submit();
+				    	            }
+				    	          }
+			    	        }
+			    	      ]);
+				A.one("#exportModalTemplate").empty();
+			} else {
+				alert("<liferay-ui:message key="message-help-info-state-simulation-important" />");
+			}
 		});
 	});
 </script>
