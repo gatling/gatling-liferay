@@ -365,7 +365,7 @@ public class GatlingPortlet extends MVCPortlet {
 			try {
 				// get scenario
 				Scenario scenario = ScenarioLocalServiceUtil.getScenario(ParamUtil.getLong(renderRequest, "scenarioId"));
-
+				Simulation simulation = SimulationLocalServiceUtil.getSimulation(scenario.getSimulation_id());
 				//get public layout list
 				long groupId = scenario.getGroup_id();
 				List<Layout> listPublicLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false, 0);
@@ -398,6 +398,7 @@ public class GatlingPortlet extends MVCPortlet {
 				String publicURL = scenario.getUrl_site();
 
 				//add request parameters
+				renderRequest.setAttribute("simulationName", simulation.getName());
 				renderRequest.setAttribute("scenario", scenario);
 				renderRequest.setAttribute("listPages", displayLayoutList);
 				renderRequest.setAttribute("hierachy", hierachy);

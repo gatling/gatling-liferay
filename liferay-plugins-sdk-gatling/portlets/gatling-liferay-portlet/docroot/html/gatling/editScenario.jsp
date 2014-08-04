@@ -10,8 +10,7 @@
 	<portlet:param name="simulationId" value="${scenario.simulation_id }" />
 </portlet:renderURL>
 
-<liferay-ui:header title="${scenario.name } : ${siteName}"
-	backURL="${backURL }" />
+<liferay-ui:header title="${simulationName} / ${scenario.name } (${siteName})" backURL="${backURL }" />
 
 <portlet:actionURL name="editScenario" var="editScenarioURL"
 	windowState="normal" />

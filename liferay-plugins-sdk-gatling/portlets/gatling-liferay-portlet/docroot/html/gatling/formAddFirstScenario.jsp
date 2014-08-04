@@ -4,8 +4,10 @@
 <liferay-ui:error key="scenario-name-required" message="scenario-name-required"/>
 
 <%--This page is called only to add the first scenario --%>
-<c:set var="entete"><liferay-ui:message key="simulation-edit-form-header" /></c:set>
-<liferay-ui:header title="simulation-edit-form-header"/>
+<c:set var="entete">
+	<liferay-ui:message key="simulation-edit-form-header" arguments="${simulation.name }" />
+</c:set>
+<liferay-ui:header title="${entete}"/>
 
 <div class="well well-small">
 	<liferay-ui:icon-help message="About this page" ><liferay-ui:message key="create-first-scenario-help" /></liferay-ui:icon-help>
