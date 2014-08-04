@@ -348,13 +348,9 @@ public class GatlingPortlet extends MVCPortlet {
 
 				renderRequest.setAttribute("listScenario", scenarioList);
 				renderRequest.setAttribute("MapScenario", scenariosMap);
-			} catch (SystemException e) {
+			} catch (SystemException  | PortalException  e) {
 				throw new RuntimeException("error with get scenario list with localServiceUtil " + e.getMessage());
-			} catch (PortalException  e) {
-				throw new RuntimeException("error with get scenario list with localServiceUtil " + e.getMessage());
-
 			}
-
 			// List of Sites
 			List<Group> listGroups = GatlingUtil.getListOfSites();
 			renderRequest.setAttribute("listGroup", listGroups);
@@ -410,11 +406,9 @@ public class GatlingPortlet extends MVCPortlet {
 				renderRequest.setAttribute("publicURL", publicURL);
 				renderRequest.setAttribute("listOfScenarioName", JSListName);
 
-			} catch (SystemException e) {
+			} catch (SystemException  | PortalException e) {
 				throw new RuntimeException("connot get layout list: " + e.getMessage());
-			} catch (PortalException e) {
-				throw new RuntimeException("connot get layout list: " + e .getMessage());
-			}
+			} 
 		}
 
 		/* redirect to jsp page */
@@ -436,13 +430,9 @@ public class GatlingPortlet extends MVCPortlet {
 		try {
 			prefs.setValue("gatlingVersion", Integer.toString(gatlingVersion));
 			prefs.store();
-		} catch (ReadOnlyException e) {
+		} catch (ReadOnlyException | ValidatorException |  IOException e) {
 			throw new RuntimeException("connot add user preferences for gatling version " + e.getMessage());
-		} catch (ValidatorException e) {
-			throw new RuntimeException("connot add user preferences for gatling version " + e.getMessage());
-		} catch (IOException e) {
-			throw new RuntimeException("connot add user preferences for gatling version " + e.getMessage());
-		}
+		} 
 		//scripting Gatling
 		String template;
 		switch (gatlingVersion) {
