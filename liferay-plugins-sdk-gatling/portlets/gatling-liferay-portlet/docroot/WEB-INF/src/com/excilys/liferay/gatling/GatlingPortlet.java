@@ -1,5 +1,6 @@
 package com.excilys.liferay.gatling;
 
+import com.excilys.liferay.gatling.exception.EmptySimulation;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
@@ -98,11 +99,10 @@ public class GatlingPortlet extends MVCPortlet {
 		Simulation simulation = SimulationLocalServiceUtil.addSimulationFromRequest(request, response);
 
 		if (simulation != null) {
-			int scenarioListSize = ScenarioLocalServiceUtil.countBySimulationId(simulation.getSimulation_id());
 			response.setRenderParameter("simulationId", Long.toString(simulation.getSimulation_id()));
 			// If new simulation the redirect to add First scenario page else edit simulation page
 			LOG.info("Simulation added");
-			response.setRenderParameter("page", scenarioListSize == 0 ? jspFormFirstScenario : jspEditSimulation); 
+			response.setRenderParameter("page", jspEditSimulation); 
 		} else {
 			LOG.debug("Simulation fails to add");
 			response.setRenderParameter("page", jspListSimulation);
@@ -318,14 +318,20 @@ public class GatlingPortlet extends MVCPortlet {
 			 * Edit simulation, get and send scenarios list to jsp page
 			 */
 			LOG.debug("DoView : Edit Simulation");
+			
 			Long id = (Long) ParamUtil.getLong(renderRequest, "simulationId");
 			if(id==null)
 				throw new NullPointerException("simulation id is null");
 
-			Simulation simulation;
+			Simulation simulation;		
+			
 			try {
 				simulation = SimulationLocalServiceUtil.getSimulation(id);
+				int scenarioListSize = ScenarioLocalServiceUtil.countBySimulationId(simulation.getSimulation_id());
 				renderRequest.setAttribute("simulation", simulation);
+				// If empty go to form first scenario
+				if(scenarioListSize == 0)
+					throw new EmptySimulation();
 				// List of Scenario
 				List<Scenario> scenarioList = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
 
@@ -352,6 +358,9 @@ public class GatlingPortlet extends MVCPortlet {
 				renderRequest.setAttribute("MapScenario", scenariosMap);
 			} catch (SystemException  | PortalException  e) {
 				throw new RuntimeException("error with get scenario list with localServiceUtil " + e.getMessage());
+			} catch (EmptySimulation e) {
+				LOG.info("Empty simulation ... redirect");
+				page = jspFormFirstScenario;
 			}
 			// List of Sites
 			List<Group> listGroups = GatlingUtil.getListOfSites();
