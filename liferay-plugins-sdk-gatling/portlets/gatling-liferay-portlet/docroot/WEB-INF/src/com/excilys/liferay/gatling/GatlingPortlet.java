@@ -456,10 +456,13 @@ public class GatlingPortlet extends MVCPortlet {
 			template = "resources/templateGatling1.5.mustache";
 			break;
 		case 2:
-			template = "resources/templateGatling2.0.mustache";
+			template = "resources/templateGatling2.0.M3a.mustache";
+			break;
+		case 3:
+			template = "resources/templateGatling2.0.RC1.mustache";
 			break;
 		default:
-			template = "resources/templateGatling2.0.mustache";
+			template = "resources/templateGatling2.0.RC1.mustache";
 			break;
 		}
 		/*
