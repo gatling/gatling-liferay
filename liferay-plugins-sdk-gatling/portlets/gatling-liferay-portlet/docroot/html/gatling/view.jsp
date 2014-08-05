@@ -21,7 +21,7 @@
 </portlet:renderURL>
 <div class="well well-small">
 	<a target="blank" href='<%=PortletProps.get("gatling-wiki") %>' class="label label-warning">
-		<i class="icon-plus-sign"></i> 
+		<i class="icon-share"></i> 
 		<liferay-ui:message key="help-gatling-wiki" />
 	</a> 
 	<a href="${helpURL}" class="label">
@@ -164,7 +164,7 @@
 			modal.show();
 		});
 		
-		A.one('#exportToggle').on('click', function() {
+		A.all('#exportToggle').on('click', function() {
 			if(A.all(".checkLine:checked").size() > 0) {	
 				var modalExport = new A.Modal({
 					bodyContent : A.one("#exportModalTemplate").html(),
@@ -219,6 +219,7 @@
 				}
 			});
 		});
+		
 		/*
 		 * Multi select
 		 */

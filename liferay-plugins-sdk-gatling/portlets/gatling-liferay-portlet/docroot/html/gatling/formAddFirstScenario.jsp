@@ -22,9 +22,3 @@
 	Form scenario
  --%>
 <%@ include file="/html/gatling/template/formNewScenario.jsp" %>
-
-<aui:script use="aui-base,event">
-	A.one("#<portlet:namespace />scenarioName").on("keyup", function(e) {
-		A.one("#<portlet:namespace />variableScenarioName").val(this.val().replace(/\W/g, ''));
-	});
-</aui:script>
