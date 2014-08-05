@@ -1,5 +1,4 @@
 <%@include file="/html/gatling/header.jsp"%>
-
 <%--
 	session errors 
 --%>
@@ -97,6 +96,13 @@
 			<liferay-ui:message key="simulation-edit-table-header-requests" arguments="${MapScenario.get(scenario)}" />
 		</c:set>
 		<liferay-ui:search-container-column-text name="simulation-edit-table-header-name" value="${scenario.name}" href="${editScenarioURL}" />
+		<liferay-ui:search-container-column-text name="simulation-edit-table-header-site">
+			<c:forEach var="site" items="${listGroup}">
+				<c:if test="${site.groupId eq scenario.group_id}">
+					${site.name}
+				</c:if>
+			</c:forEach>
+		</liferay-ui:search-container-column-text>
 		<liferay-ui:search-container-column-text name="simulation-edit-table-header-requests" value="${MapScenario.get(scenario)[0]}/${MapScenario.get(scenario)[1]}" />
 		<liferay-ui:search-container-column-text name="simulation-edit-table-header-duration" value="${scenario.duration }" />
 		<liferay-ui:search-container-column-text name="simulation-edit-table-header-users" value="${scenario.getUsers_per_seconds() }" />
