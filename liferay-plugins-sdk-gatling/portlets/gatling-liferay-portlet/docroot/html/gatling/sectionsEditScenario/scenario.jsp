@@ -5,8 +5,15 @@
 	<aui:input type="hidden" name="scenarioId" value='${empty scenario ? "" : scenario.scenario_id }' />
 	<aui:input type="hidden" name="groupId" value='${scenario.group_id}' />
 
+	<portlet:renderURL var="helpURL">
+		<portlet:param name="page" value="/html/gatling/help.jsp" />
+	</portlet:renderURL>
 	<div class="well well-small">
-		<liferay-ui:message key="scenario-edit-help-scenario" />
+		<liferay-ui:message key="scenario-edit-help-scenario" /> 
+		<a href="${helpURL}#use-scenario" class="label">
+		<i class="icon-question-sign"></i> 
+		<liferay-ui:message key="help-use-scenario" />
+	</a> 
 	</div>
 	
 	<table class="table table-bordered table-scenario">

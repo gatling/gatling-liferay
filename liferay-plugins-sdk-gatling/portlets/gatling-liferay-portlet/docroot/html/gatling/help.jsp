@@ -35,6 +35,7 @@
 	<fieldset>
 		<legend id="use-scenario"><liferay-ui:message key="help-use-scenario" /></legend>
 		<p><liferay-ui:message key="help-use-scenario-info" /></p>
+		<p><liferay-ui:message key="help-use-scenario-empty" /></p>
 		<p><liferay-ui:message key="help-use-scenario-colors" /></p>
 		<ul>
 			<li><liferay-ui:message key="help-use-scenario-green" /></li>
