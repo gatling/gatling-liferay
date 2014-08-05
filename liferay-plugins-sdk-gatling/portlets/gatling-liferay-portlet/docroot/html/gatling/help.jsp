@@ -54,6 +54,7 @@
 	<fieldset>
 		<legend id="gatling"><liferay-ui:message key="help-more-gatling" /></legend>
 		<p><liferay-ui:message key="help-gatling-intro" /></p>
+		<p><liferay-ui:message key="help-gatling-download" /></p>
 		<p><liferay-ui:message key="help-gatling-website"/> : <a target="_blank" href='<%= PortletProps.get("gatling-website") %>'><%= PortletProps.get("gatling-website") %></a></p>
 		<p><liferay-ui:message key="help-gatling-github"/> : <a target="blank" href='<%= PortletProps.get("gatling-github") %>'><%= PortletProps.get("gatling-github") %></a></p>
 		<p><liferay-ui:message key="help-gatling-wiki"/> : <a target="blank" href='<%= PortletProps.get("gatling-wiki") %>'><%= PortletProps.get("gatling-wiki") %></a></p>
