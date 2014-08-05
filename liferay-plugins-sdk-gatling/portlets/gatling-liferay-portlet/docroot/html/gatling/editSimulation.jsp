@@ -153,7 +153,7 @@
 	<aui:form action="${resourceUrl}" method="post" name="fmExport">
 		<h5><liferay-ui:message key="simulation-list-export" /></h5>
 		<aui:input name="export" value="${simulation.simulation_id }" type="hidden" />
-		<aui:select label="simulation-list-version-choice" name="gatlingVersionSelect" >
+		<aui:select label="simulation-list-version-choice" name="gatlingVersion" >
 			<c:choose>
 				<c:when test="${gatlingVersion == 1}">
 					<c:set var="selected1" value="true"/>
@@ -182,6 +182,38 @@
 		}).render();
 		//Remove the form template (no duplication otherwise it will never validate the pop-up)
 		A.one("#newFormScenario").empty();
+		
+		var modalExport = new A.Modal({
+			bodyContent : A.one("#exportModalTemplate").html(),
+			centered : true,
+			headerContent : '<h3><liferay-ui:message key="simulation-list-export" /></h3>',
+			modal : true,
+			resizable : false,
+			visible : false,
+			zIndex : 100,
+		}).render();
+		modalExport.addToolbar(
+	    	      [
+	    	        {
+	    	          label: '<liferay-ui:message key="cancel" />',
+	    	          on: {
+	    	            click: function() {
+	    	            	modalExport.hide();
+	    	            }
+	    	          }
+	    	        },
+	    	        {
+	    	          label: '<liferay-ui:message key="export" />',
+	    	          cssClass: "btn-primary",
+	    	          on: {
+		    	            click: function() {
+		    	            	modalExport.hide();
+		    	            	A.one("#<portlet:namespace/>fmExport").submit();
+		    	            }
+		    	          }
+	    	        }
+	    	      ]);
+		A.one("#exportModalTemplate").empty();
 
 		A.one('#newScenario').on('click', function() {
 			modal.show();
@@ -205,37 +237,8 @@
 		
 		A.one('#exportToggle').on('click', function() {
 			if(A.one("#exportModalTemplate") != null) {
-				var modalExport = new A.Modal({
-					bodyContent : A.one("#exportModalTemplate").html(),
-					centered : true,
-					headerContent : '<h3><liferay-ui:message key="simulation-list-export" /></h3>',
-					modal : true,
-					resizable : false,
-					zIndex : 100,
-				}).render();
-				
-				modalExport.addToolbar(
-			    	      [
-			    	        {
-			    	          label: '<liferay-ui:message key="cancel" />',
-			    	          on: {
-			    	            click: function() {
-			    	            	modalExport.hide();
-			    	            }
-			    	          }
-			    	        },
-			    	        {
-			    	          label: '<liferay-ui:message key="export" />',
-			    	          cssClass: "btn-primary",
-			    	          on: {
-				    	            click: function() {
-				    	            	modalExport.hide();
-				    	            	A.one("#<portlet:namespace/>fmExport").submit();
-				    	            }
-				    	          }
-			    	        }
-			    	      ]);
-				A.one("#exportModalTemplate").empty();
+
+				modalExport.show();
 			} else {
 				alert("<liferay-ui:message key="message-help-info-state-simulation-important" />");
 			}
