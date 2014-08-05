@@ -219,7 +219,6 @@
 						    	        },
 						    	        {
 						    	          label: '<liferay-ui:message key="submit-anyway" />',
-						    	          cssClass: "btn-primary",
 						    	          on: {
 							    	            click: function() {
 							    	            	confirmDialog.hide();
