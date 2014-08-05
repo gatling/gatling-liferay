@@ -21,7 +21,6 @@ public class ScriptGeneratorGatling {
 
 	public ScriptGeneratorGatling(Long simulationId) throws Exception{
 		this.simuName = SimulationLocalServiceUtil.getSimulation(simulationId).getVariableName();
-		System.out.println(this.simuName);
 		this.simulationId = simulationId;
 	}
 
