@@ -172,7 +172,6 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		String urlSite = GroupLocalServiceUtil.fetchGroup(ParamUtil.getLong(request, "sites")).getIconURL(themeDisplay);	
 		urlSite = urlSite.split("/")[0]+"//"+urlSite.split("/")[2]+"/web"+GroupLocalServiceUtil.fetchGroup(ParamUtil.getLong(request, "sites")).getFriendlyURL();
 		scenario.setUrl_site(urlSite);
-
 		// Saving ...
 		final List<String> errors = ScenarioValidator.validateScenario(scenario);
 		if(errors.isEmpty()) {

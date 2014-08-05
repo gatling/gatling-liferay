@@ -1,10 +1,8 @@
 <aui:form action="${addScenarioURL}" name="fm" id="fm">
 	<div class="well well-small">
-		<p>
-			<liferay-ui:icon-help message="About this page">
-				<liferay-ui:message key="create-scenario-help" />
-			</liferay-ui:icon-help>
-		</p>
+		<liferay-ui:icon-help message="About this page">
+			<liferay-ui:message key="create-scenario-help" />
+		</liferay-ui:icon-help>
 	</div>
 	<aui:fieldset>
 		<aui:input label="simulation-edit-form-name-scenario"

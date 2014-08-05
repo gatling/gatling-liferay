@@ -5,7 +5,9 @@
 	<aui:input type="hidden" name="scenarioId" value='${empty scenario ? "" : scenario.scenario_id }' />
 	<aui:input type="hidden" name="groupId" value='${scenario.group_id}' />
 
-	
+	<div class="well well-small">
+		<liferay-ui:message key="scenario-edit-help-scenario" />
+	</div>
 	
 	<table class="table table-bordered table-scenario">
 		<tr>
