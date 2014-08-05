@@ -15,10 +15,10 @@
 	<portlet:param name="page" value="/html/gatling/view.jsp" />
 </portlet:renderURL>
 
-<c:set var="entete">
+<c:set var="titleHeader">
 	<liferay-ui:message key="simulation-edit-header" arguments="${simulation.name}" />
 </c:set>
-<liferay-ui:header title="${entete}" backURL="${backURL}" />
+<liferay-ui:header title="${titleHeader}" backURL="${backURL}" />
 
 <%--
 	 FAQ link

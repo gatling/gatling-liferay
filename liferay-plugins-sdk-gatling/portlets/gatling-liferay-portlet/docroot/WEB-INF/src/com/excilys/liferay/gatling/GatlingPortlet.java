@@ -352,8 +352,8 @@ public class GatlingPortlet extends MVCPortlet {
 				List<Simulation> listSimulations = SimulationLocalServiceUtil.getSimulations(0,
 						SimulationLocalServiceUtil.getSimulationsCount());
 				String JSListSimName = GatlingUtil.createJSListOfSimulationName(listSimulations);
-				renderRequest.setAttribute("listOfSimulationName", JSListSimName);
 
+				renderRequest.setAttribute("listOfSimulationName", JSListSimName);
 				renderRequest.setAttribute("listScenario", scenarioList);
 				renderRequest.setAttribute("MapScenario", scenariosMap);
 			} catch (SystemException  | PortalException  e) {
@@ -420,9 +420,12 @@ public class GatlingPortlet extends MVCPortlet {
 				//add private and public url of site
 				String privateURL = scenario.getUrl_site().replace("web", "group");
 				String publicURL = scenario.getUrl_site();
-
+				/*
+				 * create header list
+				 */
+				String[] headerList = new String[] {simulation.getName(), scenario.getName(), siteName};
+				renderRequest.setAttribute("headerList", headerList);
 				//add request parameters
-				renderRequest.setAttribute("simulationName", simulation.getName());
 				renderRequest.setAttribute("scenario", scenario);
 				renderRequest.setAttribute("listPages", displayLayoutList);
 				renderRequest.setAttribute("hierachy", hierachy);

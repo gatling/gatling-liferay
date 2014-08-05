@@ -9,8 +9,10 @@
 	<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
 	<portlet:param name="simulationId" value="${scenario.simulation_id }" />
 </portlet:renderURL>
-
-<liferay-ui:header title="${simulationName} / ${scenario.name } (${siteName})" backURL="${backURL }" />
+<c:set var="titleHeader">
+	<liferay-ui:message key="scenario-edit" arguments="${headerList}" />
+</c:set>
+<liferay-ui:header title="${titleHeader}" backURL="${backURL }" />
 
 <portlet:actionURL name="editScenario" var="editScenarioURL"
 	windowState="normal" />
