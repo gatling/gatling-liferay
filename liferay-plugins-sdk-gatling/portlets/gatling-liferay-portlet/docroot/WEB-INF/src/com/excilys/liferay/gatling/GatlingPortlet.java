@@ -369,15 +369,15 @@ public class GatlingPortlet extends MVCPortlet {
 				Scenario scenario = ScenarioLocalServiceUtil.getScenario(ParamUtil.getLong(renderRequest, "scenarioId"));
 				Simulation simulation = SimulationLocalServiceUtil.getSimulation(scenario.getSimulation_id());
 				
-				//update freindlyUrl of site if changed
-				String oldFreindlyURL = scenario.getUrl_site();
+				//update friendlyUrl of site if changed
+				String oldFriendlyURL = scenario.getUrl_site();
 				final ThemeDisplay themeDisplay =	(ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
-				String currentFreindlyURL = GroupLocalServiceUtil.fetchGroup(scenario.getGroup_id()).getIconURL(themeDisplay);	
-				currentFreindlyURL = currentFreindlyURL.split("/")[0]+"//"+currentFreindlyURL.split("/")[2]+"/web"+GroupLocalServiceUtil.fetchGroup(scenario.getGroup_id()).getFriendlyURL();
+				String currentFriendlyURL = GroupLocalServiceUtil.fetchGroup(scenario.getGroup_id()).getIconURL(themeDisplay);	
+				currentFriendlyURL = currentFriendlyURL.split("/")[0]+"//"+currentFriendlyURL.split("/")[2]+"/web"+GroupLocalServiceUtil.fetchGroup(scenario.getGroup_id()).getFriendlyURL();
 
-				if (! oldFreindlyURL.equals(currentFreindlyURL)) {
+				if (! oldFriendlyURL.equals(currentFriendlyURL)) {
 					//update site url 
-					scenario.setUrl_site(currentFreindlyURL);
+					scenario.setUrl_site(currentFriendlyURL);
 					ScenarioLocalServiceUtil.updateScenario(scenario);
 				}
 				
