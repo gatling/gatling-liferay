@@ -22,20 +22,21 @@ public class MustacheRequest {
 		this.last = last;
 	}
 
-	public void setWeight(Object i) {
+	public MustacheRequest setWeight(Object i) {
 		this.pourcentage = (Double) i;
+		return this;
 	}
 	
 	public int truncate() throws SystemException {
+		List<Request> listRequest = RequestLocalServiceUtil.findByScenarioIdAndUsed( scenarioId);
 		if(last){
-			List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId( scenarioId);
 			int sum = 0;
 			int total = 0;
 			for (int j = 0; j < listRequest.size(); j++) {
 				total += listRequest.get(j).getWeight();
 			}
 			for (int j = 0; j < listRequest.size()-1; j++) {
-				sum += listRequest.get(j).getWeight()*100/total;				
+				sum += listRequest.get(j).getWeight()*100/total;
 			}
 			pourcentage = 100-sum;
 		}
@@ -48,6 +49,11 @@ public class MustacheRequest {
 
 	public void setScenarioId(long l) {
 		this.scenarioId = l;
+	}
+	
+	public MustacheRequest setLast(boolean last) {
+		this.last = last;
+		return this;
 	}
 
 }

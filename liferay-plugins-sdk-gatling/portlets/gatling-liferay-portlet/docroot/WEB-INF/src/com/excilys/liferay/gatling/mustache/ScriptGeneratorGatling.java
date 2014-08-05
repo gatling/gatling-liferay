@@ -21,6 +21,7 @@ public class ScriptGeneratorGatling {
 
 	public ScriptGeneratorGatling(Long simulationId) throws Exception{
 		this.simuName = SimulationLocalServiceUtil.getSimulation(simulationId).getVariableName();
+		System.out.println(this.simuName);
 		this.simulationId = simulationId;
 	}
 
@@ -47,17 +48,13 @@ public class ScriptGeneratorGatling {
 					weight = (double) ((int)((int) rq.getWeight()*10000/totalWeight))/100;
 					currentSumWeight += weight;
 					MustacheRequest mr = null;
-					if((j+1) == listRequest.size()){
-						mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , true);
-						mr.setScenarioId(sc.getScenario_id());
-					}  else {
-						mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , false);
-					}
+					mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , false);
+
 					mustacheRequests.add(mr);
 				}
 			}
 			final double lastWeight = (double) (int)( (100-currentSumWeight+weight)*100)/100;
-			mustacheRequests.get(mustacheRequests.size()-1).setWeight(lastWeight);
+			mustacheRequests.get(mustacheRequests.size()-1).setWeight(lastWeight).setLast(true).setScenarioId(sc.getScenario_id());
 			final MustacheScenario ms = new MustacheScenario(sc.getVariableName(),sc.getUsers_per_seconds(), sc.getDuration(), (i+1) == listScenario.size() ? true : false, mustacheRequests);
 			list.add(ms);
 		}
@@ -82,6 +79,10 @@ public class ScriptGeneratorGatling {
 		this.simulationId = id;
 		this.simuName = SimulationLocalServiceUtil.getSimulation(id).getVariableName();		
 
+	}
+	
+	public String getSimuName() {
+		return simuName;
 	}
 
 

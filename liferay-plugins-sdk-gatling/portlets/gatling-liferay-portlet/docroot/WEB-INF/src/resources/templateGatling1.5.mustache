@@ -9,20 +9,18 @@ class {{simuName}} extends Simulation {
 
 {{#mustacheScenario}}
   var {{name}} = scenario("{{name}}")
-  .randomSwitch(
+    .randomSwitch(
 		{{#mustacheRequests}}
-    {{truncate}} -> exec(http("{{name}}").get("{{url}}")){{^last}},{{/last}}
+      {{truncate}} -> exec(http("{{name}}").get("{{url}}")){{^last}},{{/last}}
 {{/mustacheRequests}}	
   )
 	{{/mustacheScenario}}
 	
 		
-
-{{#mustacheScenario}}
   setUp(
-    {{name}}.users({{users}}).ramp({{duration}})
-  )
+{{#mustacheScenario}}
+    {{name}}.users({{users}}).ramp({{duration}}){{^last}},{{/last}}
 {{/mustacheScenario}}
-
+  )
 
 }
