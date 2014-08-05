@@ -154,16 +154,7 @@
 		<h5><liferay-ui:message key="simulation-list-export" /></h5>
 		<aui:input name="export" value="${simulation.simulation_id }" type="hidden" />
 		<aui:select label="simulation-list-version-choice" name="gatlingVersion" >
-			<c:choose>
-				<c:when test="${gatlingVersion == 1}">
-					<c:set var="selected1" value="true"/>
-				</c:when>
-				<c:otherwise>
-					<c:set var="selected2" value="true"/>
-				</c:otherwise>
-			</c:choose>
-			<aui:option value="2" selected="${selected2 }" >Gatling 2.0 M3</aui:option>
-			<aui:option value="1" selected="${selected1 }" >Gatling 1.5</aui:option>
+			<%@include file="/html/gatling/template/gatlingVersionOption.jsp" %>
 		</aui:select>
 	</aui:form>
 </div>
