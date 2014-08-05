@@ -136,7 +136,8 @@ public class GatlingUtil {
 		LayoutTypePortlet layoutTypePortlet;
 		try {
 			layoutTypePortlet = LayoutTypePortletFactoryUtil.create(LayoutLocalServiceUtil.getFriendlyURLLayout(groupId, isPrivate, freindlyUrl));
-			List<String> portletIdList = layoutTypePortlet.getPortletIds();
+//			List<String> portletIdList = layoutTypePortlet.getPortletIds();
+			LOG.info(layoutTypePortlet.getAllPortlets().get(0).isPreferencesCompanyWide());
 //			layoutTypePortlet.getPortalPreferences().
 		} catch (PortalException | SystemException e) {
 			LOG.error("enable to get portlet list of this site: "+e.getMessage());

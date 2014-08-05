@@ -24,8 +24,10 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
+import com.liferay.portal.model.User;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
+import com.liferay.portal.service.PortalPreferencesLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
@@ -34,7 +36,9 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -452,6 +456,20 @@ public class GatlingPortlet extends MVCPortlet {
 		 * Get template from version
 		 */
 		int gatlingVersion = ParamUtil.getInteger(request, "gatlingVersion");
+		
+		//get user credentials
+		User user = (User) request.getAttribute(WebKeys.USER);
+		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+		try {
+			PortalPreferencesLocalServiceUtil.getPortalPreferences(themeDisplay.getPlid());
+		} catch (PortalException | SystemException e1) {
+			LOG.error(e1.getMessage());
+		}
+//		themeDisplay.getTheme().get
+		
+		//verifier le mode d'authentification du portal
+		String userMail = user.getDisplayEmailAddress();
+		String userPassWord = user.getPassword();
 
 		//add user preference
 		final PortletPreferences prefs = request.getPreferences();

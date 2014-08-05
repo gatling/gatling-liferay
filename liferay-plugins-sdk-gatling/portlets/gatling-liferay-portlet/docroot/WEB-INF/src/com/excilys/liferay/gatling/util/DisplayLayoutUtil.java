@@ -24,6 +24,7 @@ public class DisplayLayoutUtil {
 	 */
 	public static void addLayoutToDisplayLayoutList(List<DisplayLayout> displayLayoutList, List<Layout> listLayouts) {
 		for(Layout l : listLayouts) {
+			GatlingUtil.getFavoritePortlet(l.getGroupId(), l.isPrivateLayout(), l.getFriendlyURL());
 			displayLayoutList.add(new DisplayLayout(l));
 			//Recusive call
 			try {
