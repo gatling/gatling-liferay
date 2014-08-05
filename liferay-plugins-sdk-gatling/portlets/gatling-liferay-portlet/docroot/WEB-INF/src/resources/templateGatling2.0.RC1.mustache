@@ -1,0 +1,24 @@
+import io.gatling.core.Predef._
+import io.gatling.http.Predef._
+import scala.concurrent.duration._
+
+
+class {{simuName}} extends Simulation {
+
+{{#mustacheScenario}}
+  var {{name}} = scenario("{{name}}")
+    .randomSwitch(
+		{{#mustacheRequests}}
+      {{pourcentage}} -> exec(http("{{name}}").get("{{url}}")){{^last}},{{/last}}
+{{/mustacheRequests}}	
+  )
+	{{/mustacheScenario}}
+	
+		
+  setUp(
+{{#mustacheScenario}}
+    {{name}}.inject( rampUsers({{users}}) over( {{duration}} seconds)){{^last}},{{/last}}
+{{/mustacheScenario}}
+  )
+
+}
