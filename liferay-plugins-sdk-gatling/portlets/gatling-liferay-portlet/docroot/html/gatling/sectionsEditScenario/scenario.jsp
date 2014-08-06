@@ -28,7 +28,7 @@
 				<aui:button value="scenario-edit-force-weight" cssClass="inline-button" id="force" onClick="forceWeight();" />
 			
 			</th>
-			<th><liferay-ui:message key="scenario-edit-table-header-page" /><liferay-ui:icon-help message="name-info-help"/></th>
+			<th><liferay-ui:message key="scenario-edit-table-header-page" /> <liferay-ui:icon-help message="name-info-help"/></th>
 			<th><liferay-ui:message key="scenario-edit-table-header-weight" /> <liferay-ui:icon-help message="weight-info-help"/></th>
 			<th><liferay-ui:icon-help message="percentage-info-help"/></th>
 		</tr>

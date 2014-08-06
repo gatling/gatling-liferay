@@ -1,8 +1,8 @@
+<%@include file="/html/gatling/header.jsp"%>
+
 <aui:form action="${addScenarioURL}" name="fm" id="fm">
 	<div class="well well-small">
-		<liferay-ui:icon-help message="About this page">
-			<liferay-ui:message key="create-scenario-help" />
-		</liferay-ui:icon-help>
+		<liferay-ui:message key="create-scenario-help" />
 	</div>
 	<aui:fieldset>
 		<aui:input label="simulation-edit-form-name-scenario"
@@ -10,7 +10,7 @@
 			<aui:validator name="required" />
 			<aui:validator name="alphanum" />
 			<aui:validator name="custom"
-				errorMessage="simulation-name-already-used">
+				errorMessage="scenario-name-already-used">
 			 		function (val, fieldNode, ruleValue) {
 						var result = false;
 						var list = ${listOfScenarioName};

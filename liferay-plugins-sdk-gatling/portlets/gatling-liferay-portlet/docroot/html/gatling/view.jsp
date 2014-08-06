@@ -122,11 +122,7 @@
 <div id="newFormSimulation" hidden="true">
 	<aui:form action="${addSimulationURL}" name="fm">
 		<div class="well well-small">
-			<p>
-				<liferay-ui:icon-help message="About this page">
-					<liferay-ui:message key="create-simulation-help" />
-				</liferay-ui:icon-help>
-			</p>
+			<liferay-ui:message key="create-simulation-help" />
 		</div>
 		<aui:input label="simulation-list-form-name-simulation" name="simulationName">
 			<aui:validator name="required" />

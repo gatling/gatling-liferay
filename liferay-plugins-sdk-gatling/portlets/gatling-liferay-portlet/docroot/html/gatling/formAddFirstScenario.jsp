@@ -10,7 +10,7 @@
 <liferay-ui:header title="${entete}"/>
 
 <div class="well well-small">
-	<liferay-ui:icon-help message="About this page" ><liferay-ui:message key="create-first-scenario-help" /></liferay-ui:icon-help>
+	<liferay-ui:message key="create-first-scenario-help" />
 </div>
 
 <portlet:actionURL name="addScenario" var="addScenarioURL">
@@ -21,4 +21,5 @@
 <%--
 	Form scenario
  --%>
+<c:set var="listOfScenarioName" value="[]"/>
 <%@ include file="/html/gatling/template/formNewScenario.jsp" %>

@@ -175,7 +175,7 @@
 		A.one("#newFormScenario").empty();
 		
 		var modalExport = new A.Modal({
-			bodyContent : A.one("#exportModalTemplate").html(),
+			bodyContent : A.all("#exportModalTemplate").html(),
 			centered : true,
 			headerContent : '<h3><liferay-ui:message key="simulation-list-export" /></h3>',
 			modal : true,
@@ -203,7 +203,7 @@
 		    	          }
 	    	        }
 	    	      ]);
-		A.one("#exportModalTemplate").empty();
+		A.all("#exportModalTemplate").empty();
 
 		A.one('#newScenario').on('click', function() {
 			modal.show();
