@@ -57,7 +57,6 @@ public class ScriptGeneratorGatling {
 					currentSumWeight += weight;
 					MustacheRequest mr = null;
 					mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , false);
-
 					mustacheRequests.add(mr);
 				}
 			}
