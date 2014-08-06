@@ -42,7 +42,7 @@
 </div>
 
 <div id="help-scenario" class="alert alert-info help-text help-content-hidden">
-	<liferay-ui:message key="scenario-explanation" />
+	<i class="icon-info-sign"></i> <liferay-ui:message key="scenario-explanation" />
 </div>
 
 <div class="navbar">

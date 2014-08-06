@@ -35,7 +35,7 @@
 </div>
 
 <div id="help-simulation" class="alert alert-info help-text help-content-hidden">
-	<liferay-ui:message key="simulation-explanation" />
+	<i class="icon-info-sign"></i> <liferay-ui:message key="simulation-explanation" />
 </div>
 <%-- If user has permission --%>
 <%--NavBar --%>
