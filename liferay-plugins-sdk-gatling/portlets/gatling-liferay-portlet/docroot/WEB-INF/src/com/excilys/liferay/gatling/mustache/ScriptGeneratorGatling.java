@@ -56,13 +56,8 @@ public class ScriptGeneratorGatling {
 					weight = (double) ((int)((int) rq.getWeight()*10000/totalWeight))/100;
 					currentSumWeight += weight;
 					MustacheRequest mr = null;
+					mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , false);
 
-					if ((j+1) == listRequest.size()) {
-						mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , true);
-						mr.setScenarioId(sc.getScenario_id());
-					}  else {
-						mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , false);
-					}
 					mustacheRequests.add(mr);
 				}
 			}
@@ -93,7 +88,7 @@ public class ScriptGeneratorGatling {
 		this.simuName = SimulationLocalServiceUtil.getSimulation(id).getVariableName();		
 
 	}
-	
+
 	public String getSimuName() {
 		return simuName;
 	}
