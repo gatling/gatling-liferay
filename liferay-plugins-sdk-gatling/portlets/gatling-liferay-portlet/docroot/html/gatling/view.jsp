@@ -195,7 +195,6 @@
 			    	      ])
 			}
 			else {
-				console.log("no selection");
 				alert("<liferay-ui:message key='no-selected-simulation' />");
 			}
 		});
