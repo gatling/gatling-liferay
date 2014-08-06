@@ -22,12 +22,13 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.model.Company;
+import com.liferay.portal.model.CompanyConstants;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
-import com.liferay.portal.service.PortalPreferencesLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
@@ -455,20 +456,9 @@ public class GatlingPortlet extends MVCPortlet {
 		 */
 		int gatlingVersion = ParamUtil.getInteger(request, "gatlingVersion");
 		
-		//get user credentials
+		//get user of portlet
 		User user = (User) request.getAttribute(WebKeys.USER);
-		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-		try {
-			PortalPreferencesLocalServiceUtil.getPortalPreferences(themeDisplay.getPlid());
-		} catch (PortalException | SystemException e1) {
-			LOG.error(e1.getMessage());
-		}
-//		themeDisplay.getTheme().get
 		
-		//verifier le mode d'authentification du portal
-		String userMail = user.getDisplayEmailAddress();
-		String userPassWord = user.getPassword();
-
 		//add user preference
 		final PortletPreferences prefs = request.getPreferences();
 		try {
@@ -510,13 +500,13 @@ public class GatlingPortlet extends MVCPortlet {
 					if (id  > 0) {
 						simulation = SimulationLocalServiceUtil.getSimulation(id);
 						zipOutputStream.putNextEntry(new ZipEntry("Simulation" + simulation.getName() + date.getTime() + ".scala"));
-						mustache.execute(new PrintWriter(zipOutputStream), new ScriptGeneratorGatling(id)).flush();
+						mustache.execute(new PrintWriter(zipOutputStream), new ScriptGeneratorGatling(id, user)).flush();
 						zipOutputStream.closeEntry();
 					}
 				}
 				zipOutputStream.close();
 			} catch (Exception e) {
-				throw new RuntimeException("connot export zip for scenario(s) " + e.getMessage());
+				throw new RuntimeException("cannot export zip for scenario(s) " + e.getMessage());
 			}
 
 		} else if (simulationsIds.length == 1 && simulationsIds[0] > 0) {
@@ -526,11 +516,10 @@ public class GatlingPortlet extends MVCPortlet {
 				simulation = SimulationLocalServiceUtil.getSimulation(simulationsIds[0]);
 				response.addProperty("Content-Disposition", "attachment; filename=Simulation"  + simulation.getName()  + date.getTime() + ".scala");
 				OutputStream out = response.getPortletOutputStream();
-
-				mustache.execute(new PrintWriter(out), new ScriptGeneratorGatling(simulationsIds[0])).flush();
+				mustache.execute(new PrintWriter(out), new ScriptGeneratorGatling(simulationsIds[0], user)).flush();
 				out.close();
 			} catch (Exception e) {
-				throw new RuntimeException("connot export script file " + e.getMessage());
+				throw new RuntimeException("cannot export script file " + e.getMessage());
 			}
 		} else {
 			//if no one valide simulation id received then error
