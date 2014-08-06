@@ -44,8 +44,5 @@
 			<short-title>Gatling</short-title>
 			<keywords></keywords>
 		</portlet-info>
-		<security-role-ref>
-			<role-name>gatling</role-name>
-		</security-role-ref>
 	</portlet>
 </portlet-app>
