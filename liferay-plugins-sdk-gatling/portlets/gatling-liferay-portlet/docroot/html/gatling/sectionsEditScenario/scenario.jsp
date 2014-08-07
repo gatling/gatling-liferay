@@ -1,3 +1,6 @@
+<%-- 
+	Copyright 2011-2014 eBusiness Information, Groupe Excilys (www.ebusinessinformation.fr)
+--%>
 <%@include file="/html/gatling/header.jsp"%>
 <liferay-ui:error-marker key="errorSection" value="scenario" />
 

@@ -1,3 +1,6 @@
+<%-- 
+	Copyright 2011-2014 eBusiness Information, Groupe Excilys (www.ebusinessinformation.fr)
+--%>
 <c:choose>
 	<c:when test="${gatlingVersion == 1}">
 		<c:set var="selected1" value="true"/>
