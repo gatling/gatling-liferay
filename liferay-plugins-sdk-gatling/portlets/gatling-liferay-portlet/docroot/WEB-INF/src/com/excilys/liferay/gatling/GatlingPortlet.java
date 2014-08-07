@@ -419,11 +419,6 @@ public class GatlingPortlet extends MVCPortlet {
 				String JSListName = GatlingUtil.createJSListOfScenarioName(scenariolist);
 
 				//add private and public url of site
-				LOG.info(themeDisplay.getURLSignIn());
-				LOG.info(themeDisplay.getPathFriendlyURLPrivateGroup());
-				LOG.info(themeDisplay.getPathFriendlyURLPrivateUser());
-				LOG.info(themeDisplay.getPathFriendlyURLPublic());
-//				LOG.info(themeDisplay.getURL);
 				String privateURL = scenario.getUrl_site().replace("web", "group");
 				String publicURL = scenario.getUrl_site();
 				/*
