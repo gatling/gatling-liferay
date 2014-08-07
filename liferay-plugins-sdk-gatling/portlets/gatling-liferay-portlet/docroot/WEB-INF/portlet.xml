@@ -9,7 +9,7 @@
 		<portlet-name>gatling</portlet-name>
 		<display-name>Gatling</display-name>
 		<portlet-class>com.excilys.liferay.gatling.GatlingPortlet</portlet-class>
-		<!-- Déclaration des pages ici -->
+		<!-- Declare init param (pages) -->
 		<init-param>
 			<name>list-simulation-jsp</name>
 			<value>/html/gatling/view.jsp</value>
@@ -38,6 +38,7 @@
 		</supports>
 		<supported-locale>en</supported-locale>
 		<supported-locale>fr</supported-locale>
+		<supported-locale>de</supported-locale>
 		<resource-bundle>content.Language</resource-bundle>
 		<portlet-info>
 			<title>Stress Tool</title>

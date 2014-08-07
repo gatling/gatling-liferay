@@ -42,7 +42,7 @@ public class ScriptGeneratorGatling {
 			double currentSumWeight = 0;
 			double weight = 0;
 			boolean hasPrivatePage = false;
-			String homeURL = sc.getUrl_site()+"/home";
+			String homeURL = sc.getUrl_site()+"/home?p_p_id=58&p_p_lifecycle=1&p_p_state=exclusive&p_p_mode=view&_58_struts_action=%2Flogin%2Flogin";
 			String userLogin = user.getLogin();
 			String userPassword = user.getPassword();
 			for (int j = 0; j < listRequest.size(); j++) {
