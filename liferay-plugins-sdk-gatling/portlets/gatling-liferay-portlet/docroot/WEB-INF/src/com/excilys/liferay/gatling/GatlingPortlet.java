@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.User;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
@@ -234,18 +233,14 @@ public class GatlingPortlet extends MVCPortlet {
 				// incomplete scenario = case if one or more information detail of
 				// scenario are not completed but there is request selected
 				return 1;
-			} else if ((count == 0)) {
-				//case if not request selected to that scenario = empty scenario
-				return 0;
 			}
-			// case if not request selected to that scenario = empty scenario
-			return 0;
 		} catch (SystemException e) {
 			if (LOG.isErrorEnabled()){
 				LOG.error("enable to determine Scenario state " + e.getMessage());
 			}
-			return 0;
 		}
+		// case if not request selected to that scenario = empty scenario
+		return 0;
 	}
 
 	/**
@@ -298,8 +293,7 @@ public class GatlingPortlet extends MVCPortlet {
 				simulationList = SimulationLocalServiceUtil.getSimulations(0, SimulationLocalServiceUtil.getSimulationsCount());
 				for (Simulation simulation : simulationList) {
 					Integer[] simulationInfos = new Integer[2];
-					List<Scenario> scenarioList = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
-					simulationInfos[0] = scenarioList.size();
+					simulationInfos[0] = ScenarioLocalServiceUtil.countBySimulationId(simulation.getSimulation_id());
 					simulationInfos[1] = simulationState(simulation);
 					simulationMap.put(simulation, simulationInfos);
 				}
@@ -382,8 +376,10 @@ public class GatlingPortlet extends MVCPortlet {
 				//update friendlyUrl of site if changed
 				String oldFriendlyURL = scenario.getUrl_site();
 				final ThemeDisplay themeDisplay =	(ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
-				String currentFriendlyURL = GroupLocalServiceUtil.fetchGroup(scenario.getGroup_id()).getIconURL(themeDisplay);	
-				currentFriendlyURL = currentFriendlyURL.split("/")[0]+"//"+currentFriendlyURL.split("/")[2]+"/web"+GroupLocalServiceUtil.fetchGroup(scenario.getGroup_id()).getFriendlyURL();
+				String currentFriendlyURL = GroupLocalServiceUtil.fetchGroup(scenario.getGroup_id()).getIconURL(themeDisplay);
+				StringBuilder sb = new StringBuilder(currentFriendlyURL.split("/")[0]);
+				sb.append("//").append(currentFriendlyURL.split("/")[2]).append("/web").append(GroupLocalServiceUtil.fetchGroup(scenario.getGroup_id()).getFriendlyURL());
+				currentFriendlyURL = sb.toString();
 
 				if (! oldFriendlyURL.equals(currentFriendlyURL)) {
 					//update site url 
@@ -448,9 +444,6 @@ public class GatlingPortlet extends MVCPortlet {
 		 * Get template from version
 		 */
 		int gatlingVersion = ParamUtil.getInteger(request, "gatlingVersion");
-		
-		//get user of portlet
-		User user = (User) request.getAttribute(WebKeys.USER);
 		
 		//add user preference
 		final PortletPreferences prefs = request.getPreferences();
