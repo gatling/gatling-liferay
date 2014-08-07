@@ -394,16 +394,13 @@ public class GatlingPortlet extends MVCPortlet {
 				//get public layout list
 				long groupId = scenario.getGroup_id();
 				List<Layout> listPublicLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false, 0);
-				// and private layouts
-				List<Layout> listPrivateLayouts = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
 
 				//get site name
 				String siteName = GroupLocalServiceUtil.getGroup(groupId).getName();
 
-				//create DisplayLayoutList with actuel layout(public and private) of the site and old layout added from requests
+				//create DisplayLayoutList with actuel layout(public for now) of the site and old layout added from requests
 				List<DisplayLayout> displayLayoutList = new ArrayList<DisplayLayout>();
 				DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listPublicLayouts);
-				DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listPrivateLayouts);
 
 				// Get Hierachy (used to add a button if a row is a parent)
 				Map<IdDisplayLayout, List<IdDisplayLayout>> hierachy = new LinkedHashMap<IdDisplayLayout, List<IdDisplayLayout>>();
@@ -419,7 +416,6 @@ public class GatlingPortlet extends MVCPortlet {
 				String JSListName = GatlingUtil.createJSListOfScenarioName(scenariolist);
 
 				//add private and public url of site
-				String privateURL = scenario.getUrl_site().replace("web", "group");
 				String publicURL = scenario.getUrl_site();
 				/*
 				 * create header list
@@ -431,7 +427,6 @@ public class GatlingPortlet extends MVCPortlet {
 				renderRequest.setAttribute("listPages", displayLayoutList);
 				renderRequest.setAttribute("hierachy", hierachy);
 				renderRequest.setAttribute("siteName", siteName);
-				renderRequest.setAttribute("privateURL", privateURL);
 				renderRequest.setAttribute("publicURL", publicURL);
 				renderRequest.setAttribute("listOfScenarioName", JSListName);
 
@@ -498,7 +493,7 @@ public class GatlingPortlet extends MVCPortlet {
 					if (id  > 0) {
 						simulation = SimulationLocalServiceUtil.getSimulation(id);
 						zipOutputStream.putNextEntry(new ZipEntry("Simulation" + simulation.getName() + date.getTime() + ".scala"));
-						mustache.execute(new PrintWriter(zipOutputStream), new ScriptGeneratorGatling(id, user)).flush();
+						mustache.execute(new PrintWriter(zipOutputStream), new ScriptGeneratorGatling(id)).flush();
 						zipOutputStream.closeEntry();
 					}
 				}
@@ -514,7 +509,7 @@ public class GatlingPortlet extends MVCPortlet {
 				simulation = SimulationLocalServiceUtil.getSimulation(simulationsIds[0]);
 				response.addProperty("Content-Disposition", "attachment; filename=Simulation"  + simulation.getName()  + date.getTime() + ".scala");
 				OutputStream out = response.getPortletOutputStream();
-				mustache.execute(new PrintWriter(out), new ScriptGeneratorGatling(simulationsIds[0], user)).flush();
+				mustache.execute(new PrintWriter(out), new ScriptGeneratorGatling(simulationsIds[0])).flush();
 				out.close();
 			} catch (Exception e) {
 				throw new RuntimeException("cannot export script file " + e.getMessage());

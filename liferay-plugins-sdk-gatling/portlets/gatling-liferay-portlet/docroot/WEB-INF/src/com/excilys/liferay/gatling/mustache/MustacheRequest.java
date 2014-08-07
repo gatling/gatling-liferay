@@ -7,8 +7,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import java.util.List;
 
 public class MustacheRequest {
-	
-
 
 	String name, url;
 	double pourcentage;

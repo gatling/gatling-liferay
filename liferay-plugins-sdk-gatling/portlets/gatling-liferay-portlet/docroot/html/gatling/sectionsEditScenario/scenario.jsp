@@ -17,7 +17,7 @@
 	</div>
 	
 	<table class="table table-bordered table-scenario">
-		<tr>
+		<tr> 
 			<th class="small-column">
 				<input type="checkbox" id="checkAll" /> 
 				<label for="checkAll" class="inline"><i class='icon-circle-arrow-down'></i></label>
@@ -64,15 +64,7 @@
 			<c:if test="${not layout.isUsed() }" >
 				<c:set var="color" value="empty-weight-color"/>
 			</c:if>
-			<%--private or public url --%>
-			<c:choose>
-				<c:when test="${layout.privateLayout}">
-					<c:set var="url" value="${privateURL}${layout.url}"/>
-				</c:when>
-				<c:otherwise>
-					<c:set var="url" value="${publicURL}${layout.url}"/>
-				</c:otherwise>
-			</c:choose>
+			<c:set var="url" value="${publicURL}${layout.url}"/>
 			<%--
 				DISPLAY
 			 --%>

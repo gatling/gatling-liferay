@@ -9,6 +9,7 @@ import com.liferay.portal.model.Layout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +46,7 @@ public class DisplayLayoutUtil {
 	 * @return the new list sorted and indent
 	 */
 	public static List<DisplayLayout> addRequestToDisplayLayoutList(List<DisplayLayout> displayLayoutList, List<Request> listRequests) {
-		List<DisplayLayout> result = new ArrayList<DisplayLayout>();
+		List<DisplayLayout> result = new LinkedList<DisplayLayout>();
 		List<DisplayLayout> requestToDisplayLayout = new ArrayList<DisplayLayout>();
 		// Create a DisplayLayoutList of listRequests (for comparison) 
 		for(Request r : listRequests) {

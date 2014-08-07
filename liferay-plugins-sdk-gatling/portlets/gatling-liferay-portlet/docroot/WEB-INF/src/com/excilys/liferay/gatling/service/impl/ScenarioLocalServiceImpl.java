@@ -178,8 +178,6 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			scenario = ScenarioLocalServiceUtil.addScenario(scenario);
 			//add Requests
 			final List<Layout> listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), false));
-			final List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), true);
-			listLayouts.addAll(listLayoutsPrivate);
 
 			for(Layout layout: listLayouts){
 				RequestLocalServiceUtil.addRequestFromLayout(layout, 0, scenario.getScenario_id(),false, userId);
@@ -209,7 +207,6 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			throw new NullPointerException("idScenario");
 
 		final Map<String, String[]> parameters = request.getParameterMap();
-		final Map<String, Request> mapPrivateRequestToEdit =new HashMap<String, Request>();
 		final Map<String, Request> mapPublicRequestToEdit =new HashMap<String, Request>();
 
 		//security
@@ -240,12 +237,9 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		final long groupId =ParamUtil.getLong(request, "groupId");
 		// Get non private pages
 		final List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId,false,0);
-		// then the private
-		final List<Layout> listLayoutsPrivate = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
 		List<DisplayLayout> displayLayoutList = new ArrayList<DisplayLayout>();
 		// Sorting layout
 		DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listLayouts);
-		DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listLayoutsPrivate);
 		// Retrieve Request from DB
 		final List<Request> listRequests = RequestLocalServiceUtil.findByScenarioId(idScenario);
 		// Merge Layout and Request in DisplayLayout List
@@ -254,13 +248,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		// get List request
 		final List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(request, "scenarioId",0));
 		for(Request r : listRequest){
-			if(r.isPrivatePage()){
-				mapPrivateRequestToEdit.put(r.getUrl().trim(),  r);
-			}
-			else{
-				mapPublicRequestToEdit.put(r.getUrl().trim(),  r);
-			}
-			
+			mapPublicRequestToEdit.put(r.getUrl().trim(),  r);
 		}
 
 		/*
@@ -279,23 +267,16 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 				displayLayout = displayLayoutList.get(layoutId);
 				url = displayLayout.getUrl();
 				status = displayLayout.getState();
-				//Request requestToedit = lstRequestToEdit.get(url)
+				
 				if(status != RequestState.OLD_REQUEST){
 					// if already exists in DB
 					boolean alreadyExists = false;
 					Request updatedRequest = null;
-					if(displayLayout.isPrivateLayout()){
-						alreadyExists = mapPrivateRequestToEdit.containsKey(url.trim());
-						if(alreadyExists){
-							updatedRequest = mapPrivateRequestToEdit.get(url);
-						}
+					alreadyExists = mapPublicRequestToEdit.containsKey(url.trim());
+					if(alreadyExists) {
+						updatedRequest = mapPublicRequestToEdit.get(url);								
 					}
-					else{
-						alreadyExists = mapPublicRequestToEdit.containsKey(url.trim());
-						if(alreadyExists) {
-							updatedRequest = mapPublicRequestToEdit.get(url);								
-						}
-					}
+					
 					
 					if (alreadyExists && (updatedRequest.getWeight() != weight)){
 						
