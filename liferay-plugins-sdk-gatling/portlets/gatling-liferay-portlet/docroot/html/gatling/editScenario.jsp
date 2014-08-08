@@ -147,7 +147,8 @@
 			var message = "";
 			var show = false;
 			// Check details
-			if( !validateNumber(Y.one("#<portlet:namespace />scenarioDuration").val()) || !validateNumber(Y.one("#<portlet:namespace />scenarioDuration").val()) ) {
+			if( !validateNumber(Y.one("#<portlet:namespace />scenarioDuration").val()) 
+					|| !validateNumber(Y.one("#<portlet:namespace />scenarioUsers").val()) ) {
 				message += "<li><liferay-ui:message key='scenario-edit-empty-details' /></li>";
 				show = true;
 			}
@@ -193,7 +194,7 @@
 	}
 	
 	function validateNumber(val) {
-		return !isNaN(val) && val > 0;
+		return  !isNaN(val) && val > 0;
 	}
 	
 	function createModal(message) {
