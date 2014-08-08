@@ -69,11 +69,17 @@
 		<%--for each  column --%>
 		<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Simulation" keyProperty="simulation_id" modelVar="simulation">
 			<liferay-ui:search-container-column-text>
-				<c:if test="${MapSimulation.get(simulation)[1] == 2}">
+				<c:choose>
+				<c:when test="${MapSimulation.get(simulation)[1] == 2}">
 					<input type="checkbox" class="checkLine"
 						name="<portlet:namespace/>export" id="<portlet:namespace/>checkAll"
 						value="${simulation.simulation_id}" />
-				</c:if>
+				</c:when>
+				<c:otherwise>
+					<input type="checkbox" class="checkLine" disabled="disabled"/>
+					<liferay-ui:icon-help message="message-help-info-state-simulation-important"/>
+				</c:otherwise>
+				</c:choose>
 			</liferay-ui:search-container-column-text>
 			<portlet:renderURL var="editSimulationURL">
 				<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
