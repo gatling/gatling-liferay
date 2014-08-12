@@ -1,23 +1,32 @@
 /**
  * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
  *
- * The contents of this file are subject to the terms of the Liferay Enterprise
- * Subscription License ("License"). You may not use this file except in
- * compliance with the License. You can obtain a copy of the License by
- * contacting Liferay, Inc. See the License for the specific language governing
- * permissions and limitations under the License, including but not limited to
- * distribution rights of the Software.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- *
- *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package com.liferay.resourcesimporter.util;
 
 import com.liferay.portal.kernel.util.FileUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.util.PortalUtil;
 import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
+import com.liferay.portlet.dynamicdatalists.model.DDLRecordSet;
+import com.liferay.portlet.dynamicdatamapping.model.DDMStructure;
+import com.liferay.portlet.dynamicdatamapping.model.DDMTemplateConstants;
+import com.liferay.portlet.dynamicdatamapping.service.DDMStructureLocalServiceUtil;
 
+import java.io.File;
 import java.io.InputStream;
 
 import java.net.URL;
@@ -39,12 +48,151 @@ public class ResourceImporter extends FileSystemImporter {
 	}
 
 
-	protected void addDDMStructures(
-			String parentStructureId, String structuresDirName)
+	protected void addApplicationDisplayTemplate(
+			String parentDirName, String dirName, long classNameId)
+		throws Exception {
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(resourcesDir);
+		sb.append(parentDirName);
+		sb.append("/");
+		sb.append(dirName);
+
+		Set<String> resourcePaths = servletContext.getResourcePaths(
+			sb.toString());
+
+		if (resourcePaths == null) {
+			return;
+		}
+
+		for (String resourcePath : resourcePaths) {
+			URL url = servletContext.getResource(resourcePath);
+
+			URLConnection urlConnection = url.openConnection();
+
+			String script = StringUtil.read(urlConnection.getInputStream());
+
+			if (Validator.isNull(script)) {
+				continue;
+			}
+
+			File file = new File(resourcePath);
+
+			addApplicationDisplayTemplate(script, file, classNameId);
+		}
+	}
+
+
+	protected void addDDLDisplayTemplates(
+			String ddmStructureKey, String dirName, String fileName)
+		throws Exception {
+
+		DDMStructure ddmStructure = DDMStructureLocalServiceUtil.getStructure(
+			groupId, PortalUtil.getClassNameId(DDLRecordSet.class),
+			ddmStructureKey);
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(resourcesDir);
+		sb.append(dirName);
+		sb.append(StringPool.SLASH);
+		sb.append(fileName);
+
+		Set<String> resourcePaths = servletContext.getResourcePaths(
+			sb.toString());
+
+		if (resourcePaths == null) {
+			return;
+		}
+
+		for (String resourcePath : resourcePaths) {
+			URL url = servletContext.getResource(resourcePath);
+
+			URLConnection urlConnection = url.openConnection();
+
+			String script = StringUtil.read(urlConnection.getInputStream());
+
+			if (Validator.isNull(script)) {
+				return;
+			}
+
+			addDDMTemplate(
+				groupId, ddmStructure.getStructureId(), resourcePath,
+				getDDMTemplateLanguage(resourcePath), script,
+				DDMTemplateConstants.TEMPLATE_TYPE_DISPLAY, StringPool.BLANK);
+		}
+	}
+
+
+	protected void addDDLFormTemplates(
+			String ddmStructureKey, String dirName, String fileName)
+		throws Exception {
+
+		DDMStructure ddmStructure = DDMStructureLocalServiceUtil.getStructure(
+			groupId, PortalUtil.getClassNameId(DDLRecordSet.class),
+			ddmStructureKey);
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(resourcesDir);
+		sb.append(dirName);
+		sb.append(StringPool.SLASH);
+		sb.append(fileName);
+
+		Set<String> resourcePaths = servletContext.getResourcePaths(
+			sb.toString());
+
+		if (resourcePaths == null) {
+			return;
+		}
+
+		for (String resourcePath : resourcePaths) {
+			URL url = servletContext.getResource(resourcePath);
+
+			URLConnection urlConnection = url.openConnection();
+
+			String script = StringUtil.read(urlConnection.getInputStream());
+
+			if (Validator.isNull(script)) {
+				return;
+			}
+
+			addDDMTemplate(
+				groupId, ddmStructure.getStructureId(), resourcePath, "xsd",
+				script, DDMTemplateConstants.TEMPLATE_TYPE_FORM,
+				DDMTemplateConstants.TEMPLATE_MODE_CREATE);
+		}
+	}
+
+
+	protected void addDDLStructures(String dirName) throws Exception {
+		Set<String> resourcePaths = servletContext.getResourcePaths(
+			resourcesDir.concat(dirName));
+
+		if (resourcePaths == null) {
+			return;
+		}
+
+		for (String resourcePath : resourcePaths) {
+			File file = new File(resourcePath);
+
+			URL url = servletContext.getResource(resourcePath);
+
+			URLConnection urlConnection = url.openConnection();
+
+			addDDMStructures(
+				FileUtil.stripExtension(file.getName()),
+				urlConnection.getInputStream());
+		}
+	}
+
+
+	protected void addDDMStructures(String parentStructureId, String dirName)
 		throws Exception {
 
 		Set<String> resourcePaths = servletContext.getResourcePaths(
-			resourcesDir.concat(structuresDirName));
+			resourcesDir.concat(dirName));
 
 		if (resourcePaths == null) {
 			return;
@@ -67,12 +215,11 @@ public class ResourceImporter extends FileSystemImporter {
 	}
 
 
-	protected void addDDMTemplates(
-			String ddmStructureKey, String templatesDirName)
+	protected void addDDMTemplates(String ddmStructureKey, String dirName)
 		throws Exception {
 
 		Set<String> resourcePaths = servletContext.getResourcePaths(
-			resourcesDir.concat(templatesDirName));
+			resourcesDir.concat(dirName));
 
 		if (resourcePaths == null) {
 			return;
@@ -95,11 +242,9 @@ public class ResourceImporter extends FileSystemImporter {
 	}
 
 
-	protected void addDLFileEntries(String fileEntriesDirName)
-		throws Exception {
-
+	protected void addDLFileEntries(String dirName) throws Exception {
 		Set<String> resourcePaths = servletContext.getResourcePaths(
-			resourcesDir.concat(fileEntriesDirName));
+			resourcesDir.concat(dirName));
 
 		if (resourcePaths == null) {
 			return;
@@ -164,12 +309,11 @@ public class ResourceImporter extends FileSystemImporter {
 
 
 	protected void addJournalArticles(
-			String ddmStructureKey, String ddmTemplateKey,
-			String articlesDirName)
+			String ddmStructureKey, String ddmTemplateKey, String dirName)
 		throws Exception {
 
 		Set<String> resourcePaths = servletContext.getResourcePaths(
-			resourcesDir.concat(articlesDirName));
+			resourcesDir.concat(dirName));
 
 		if (resourcePaths == null) {
 			return;
@@ -189,6 +333,30 @@ public class ResourceImporter extends FileSystemImporter {
 			addJournalArticles(
 				ddmStructureKey, ddmTemplateKey, name,
 				urlConnection.getInputStream());
+		}
+	}
+
+
+	protected void addLayoutTemplate(String dirName) throws Exception {
+		Set<String> resourcePaths = servletContext.getResourcePaths(
+			resourcesDir.concat(dirName));
+
+		if (resourcePaths == null) {
+			return;
+		}
+
+		for (String resourcePath : resourcePaths) {
+			String extension = FileUtil.getExtension(resourcePath);
+
+			if (!extension.equals("json")) {
+				return;
+			}
+
+			URL url = servletContext.getResource(resourcePath);
+
+			URLConnection urlConnection = url.openConnection();
+
+			addLayoutTemplate(urlConnection.getInputStream());
 		}
 	}
 
