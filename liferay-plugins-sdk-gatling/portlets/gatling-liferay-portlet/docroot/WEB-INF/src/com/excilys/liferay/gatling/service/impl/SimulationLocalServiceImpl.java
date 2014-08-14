@@ -94,7 +94,7 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	 * @return {@link Simulation} if added, else null
 	 * @throws SystemException
 	 */
-	public Simulation addSimulationFromRequest(ActionRequest request, ActionResponse response) throws SystemException  {
+	public Simulation addSimulationFromRequest(ActionRequest request) throws SystemException  {
 		/*
 		 * Create simulation
 		 */

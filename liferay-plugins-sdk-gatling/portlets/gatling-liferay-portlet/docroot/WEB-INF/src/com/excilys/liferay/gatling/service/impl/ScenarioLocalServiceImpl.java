@@ -146,7 +146,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	 * @return {@link Scenario} if added, else null
 	 * @throws SystemException
 	 */
-	public Scenario addScenarioFromRequest(ActionRequest request, ActionResponse response) throws SystemException {
+	public Scenario addScenarioFromRequest(ActionRequest request) throws SystemException {
 		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		final Long userId = themeDisplay.getUserId();
 		/*
@@ -200,7 +200,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	 * @return {@link Scenario} if added, else null
 	 * @throws SystemException
 	 */
-	public Scenario editScenarioFromRequest(ActionRequest request, ActionResponse response) throws PortalException, SystemException  {
+	public Scenario editScenarioFromRequest(ActionRequest request) throws PortalException, SystemException  {
 		final Long idScenario = ParamUtil.getLong(request, "scenarioId");
 
 		if (idScenario == null)

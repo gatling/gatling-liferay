@@ -359,10 +359,9 @@ public class ScenarioLocalServiceWrapper implements ScenarioLocalService,
 	*/
 	@Override
 	public com.excilys.liferay.gatling.model.Scenario addScenarioFromRequest(
-		javax.portlet.ActionRequest request,
-		javax.portlet.ActionResponse response)
+		javax.portlet.ActionRequest request)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _scenarioLocalService.addScenarioFromRequest(request, response);
+		return _scenarioLocalService.addScenarioFromRequest(request);
 	}
 
 	/**
@@ -375,11 +374,10 @@ public class ScenarioLocalServiceWrapper implements ScenarioLocalService,
 	*/
 	@Override
 	public com.excilys.liferay.gatling.model.Scenario editScenarioFromRequest(
-		javax.portlet.ActionRequest request,
-		javax.portlet.ActionResponse response)
+		javax.portlet.ActionRequest request)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		return _scenarioLocalService.editScenarioFromRequest(request, response);
+		return _scenarioLocalService.editScenarioFromRequest(request);
 	}
 
 	/**

@@ -299,8 +299,7 @@ public interface ScenarioLocalService extends BaseLocalService,
 	* @throws SystemException
 	*/
 	public com.excilys.liferay.gatling.model.Scenario addScenarioFromRequest(
-		javax.portlet.ActionRequest request,
-		javax.portlet.ActionResponse response)
+		javax.portlet.ActionRequest request)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
@@ -312,8 +311,7 @@ public interface ScenarioLocalService extends BaseLocalService,
 	* @throws SystemException
 	*/
 	public com.excilys.liferay.gatling.model.Scenario editScenarioFromRequest(
-		javax.portlet.ActionRequest request,
-		javax.portlet.ActionResponse response)
+		javax.portlet.ActionRequest request)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;
 }
