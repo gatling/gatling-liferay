@@ -278,7 +278,6 @@ public interface SimulationLocalService extends BaseLocalService,
 	* @throws SystemException
 	*/
 	public com.excilys.liferay.gatling.model.Simulation addSimulationFromRequest(
-		javax.portlet.ActionRequest request,
-		javax.portlet.ActionResponse response)
+		javax.portlet.ActionRequest request)
 		throws com.liferay.portal.kernel.exception.SystemException;
 }

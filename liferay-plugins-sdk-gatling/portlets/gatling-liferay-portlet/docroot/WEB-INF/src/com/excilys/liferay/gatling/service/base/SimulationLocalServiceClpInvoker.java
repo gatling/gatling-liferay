@@ -128,9 +128,7 @@ public class SimulationLocalServiceClpInvoker {
 
 		_methodName49 = "addSimulationFromRequest";
 
-		_methodParameterTypes49 = new String[] {
-				"javax.portlet.ActionRequest", "javax.portlet.ActionResponse"
-			};
+		_methodParameterTypes49 = new String[] { "javax.portlet.ActionRequest" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -253,8 +251,7 @@ public class SimulationLocalServiceClpInvoker {
 
 		if (_methodName49.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes49, parameterTypes)) {
-			return SimulationLocalServiceUtil.addSimulationFromRequest((javax.portlet.ActionRequest)arguments[0],
-				(javax.portlet.ActionResponse)arguments[1]);
+			return SimulationLocalServiceUtil.addSimulationFromRequest((javax.portlet.ActionRequest)arguments[0]);
 		}
 
 		throw new UnsupportedOperationException();

@@ -325,11 +325,9 @@ public class SimulationLocalServiceWrapper implements SimulationLocalService,
 	*/
 	@Override
 	public com.excilys.liferay.gatling.model.Simulation addSimulationFromRequest(
-		javax.portlet.ActionRequest request,
-		javax.portlet.ActionResponse response)
+		javax.portlet.ActionRequest request)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _simulationLocalService.addSimulationFromRequest(request,
-			response);
+		return _simulationLocalService.addSimulationFromRequest(request);
 	}
 
 	/**

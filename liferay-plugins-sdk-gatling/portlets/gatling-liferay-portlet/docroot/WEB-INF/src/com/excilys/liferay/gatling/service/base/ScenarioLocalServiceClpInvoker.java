@@ -144,15 +144,11 @@ public class ScenarioLocalServiceClpInvoker {
 
 		_methodName53 = "addScenarioFromRequest";
 
-		_methodParameterTypes53 = new String[] {
-				"javax.portlet.ActionRequest", "javax.portlet.ActionResponse"
-			};
+		_methodParameterTypes53 = new String[] { "javax.portlet.ActionRequest" };
 
 		_methodName54 = "editScenarioFromRequest";
 
-		_methodParameterTypes54 = new String[] {
-				"javax.portlet.ActionRequest", "javax.portlet.ActionResponse"
-			};
+		_methodParameterTypes54 = new String[] { "javax.portlet.ActionRequest" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -300,14 +296,12 @@ public class ScenarioLocalServiceClpInvoker {
 
 		if (_methodName53.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes53, parameterTypes)) {
-			return ScenarioLocalServiceUtil.addScenarioFromRequest((javax.portlet.ActionRequest)arguments[0],
-				(javax.portlet.ActionResponse)arguments[1]);
+			return ScenarioLocalServiceUtil.addScenarioFromRequest((javax.portlet.ActionRequest)arguments[0]);
 		}
 
 		if (_methodName54.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes54, parameterTypes)) {
-			return ScenarioLocalServiceUtil.editScenarioFromRequest((javax.portlet.ActionRequest)arguments[0],
-				(javax.portlet.ActionResponse)arguments[1]);
+			return ScenarioLocalServiceUtil.editScenarioFromRequest((javax.portlet.ActionRequest)arguments[0]);
 		}
 
 		throw new UnsupportedOperationException();

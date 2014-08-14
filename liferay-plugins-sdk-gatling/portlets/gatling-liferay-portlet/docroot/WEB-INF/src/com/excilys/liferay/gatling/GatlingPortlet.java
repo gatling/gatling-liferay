@@ -66,7 +66,6 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 
 	private MustacheFactory mf = new DefaultMustacheFactory();
-
 	/**
 	 * logging.
 	 */
@@ -78,7 +77,7 @@ public class GatlingPortlet extends MVCPortlet {
 	protected String jspListSimulation, jspEditSimulation, jspEditScenario, jspFormFirstScenario, jspHelp;
 
 	/**
-	 * get all name page and create the role 'gatling' on init portlet.
+	 * get all name page
 	 * @throws PortletException
 	 */
 	@Override
@@ -99,7 +98,7 @@ public class GatlingPortlet extends MVCPortlet {
 	 * @throws Exception
 	 */
 	public void addSimulation(final ActionRequest request, final ActionResponse response) throws Exception {
-		Simulation simulation = SimulationLocalServiceUtil.addSimulationFromRequest(request, response);
+		Simulation simulation = SimulationLocalServiceUtil.addSimulationFromRequest(request);
 
 		if (simulation != null) {
 			response.setRenderParameter("simulationId", Long.toString(simulation.getSimulation_id()));
@@ -156,7 +155,7 @@ public class GatlingPortlet extends MVCPortlet {
 	 * @throws Exception
 	 */
 	public void addScenario(final ActionRequest request, final ActionResponse response) throws Exception {
-		Scenario scenario = ScenarioLocalServiceUtil.addScenarioFromRequest(request, response);
+		Scenario scenario = ScenarioLocalServiceUtil.addScenarioFromRequest(request);
 		String first = ParamUtil.getString(request, "first");
 		if (scenario != null) {
 			// redirect to editScenario
@@ -179,7 +178,7 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	public void editScenario(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException {
 		LOG.debug("edit scenario controler");
-		Scenario scenario = ScenarioLocalServiceUtil.editScenarioFromRequest(request, response);
+		Scenario scenario = ScenarioLocalServiceUtil.editScenarioFromRequest(request);
 		response.setRenderParameter("page", scenario != null ? jspEditSimulation : jspListSimulation);
 		if (scenario != null) {
 			response.setRenderParameter("simulationId", Long.toString(scenario.getSimulation_id()));

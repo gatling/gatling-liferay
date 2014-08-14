@@ -338,10 +338,9 @@ public class ScenarioLocalServiceUtil {
 	* @throws SystemException
 	*/
 	public static com.excilys.liferay.gatling.model.Scenario addScenarioFromRequest(
-		javax.portlet.ActionRequest request,
-		javax.portlet.ActionResponse response)
+		javax.portlet.ActionRequest request)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().addScenarioFromRequest(request, response);
+		return getService().addScenarioFromRequest(request);
 	}
 
 	/**
@@ -353,11 +352,10 @@ public class ScenarioLocalServiceUtil {
 	* @throws SystemException
 	*/
 	public static com.excilys.liferay.gatling.model.Scenario editScenarioFromRequest(
-		javax.portlet.ActionRequest request,
-		javax.portlet.ActionResponse response)
+		javax.portlet.ActionRequest request)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		return getService().editScenarioFromRequest(request, response);
+		return getService().editScenarioFromRequest(request);
 	}
 
 	public static void clearService() {

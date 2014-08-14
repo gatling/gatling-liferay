@@ -129,9 +129,7 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
 
 		_methodName22 = "addSimulationFromRequest";
 
-		_methodParameterTypes22 = new String[] {
-				"javax.portlet.ActionRequest", "javax.portlet.ActionResponse"
-			};
+		_methodParameterTypes22 = new String[] { "javax.portlet.ActionRequest" };
 	}
 
 	@Override
@@ -774,19 +772,14 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
 
 	@Override
 	public com.excilys.liferay.gatling.model.Simulation addSimulationFromRequest(
-		javax.portlet.ActionRequest request,
-		javax.portlet.ActionResponse response)
+		javax.portlet.ActionRequest request)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName22,
 					_methodParameterTypes22,
-					new Object[] {
-						ClpSerializer.translateInput(request),
-						
-					ClpSerializer.translateInput(response)
-					});
+					new Object[] { ClpSerializer.translateInput(request) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);

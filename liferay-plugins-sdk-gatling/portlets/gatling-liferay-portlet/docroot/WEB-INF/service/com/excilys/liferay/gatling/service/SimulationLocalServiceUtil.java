@@ -309,10 +309,9 @@ public class SimulationLocalServiceUtil {
 	* @throws SystemException
 	*/
 	public static com.excilys.liferay.gatling.model.Simulation addSimulationFromRequest(
-		javax.portlet.ActionRequest request,
-		javax.portlet.ActionResponse response)
+		javax.portlet.ActionRequest request)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().addSimulationFromRequest(request, response);
+		return getService().addSimulationFromRequest(request);
 	}
 
 	public static void clearService() {

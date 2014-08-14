@@ -144,15 +144,11 @@ public class ScenarioLocalServiceClp implements ScenarioLocalService {
 
 		_methodName26 = "addScenarioFromRequest";
 
-		_methodParameterTypes26 = new String[] {
-				"javax.portlet.ActionRequest", "javax.portlet.ActionResponse"
-			};
+		_methodParameterTypes26 = new String[] { "javax.portlet.ActionRequest" };
 
 		_methodName27 = "editScenarioFromRequest";
 
-		_methodParameterTypes27 = new String[] {
-				"javax.portlet.ActionRequest", "javax.portlet.ActionResponse"
-			};
+		_methodParameterTypes27 = new String[] { "javax.portlet.ActionRequest" };
 	}
 
 	@Override
@@ -918,19 +914,14 @@ public class ScenarioLocalServiceClp implements ScenarioLocalService {
 
 	@Override
 	public com.excilys.liferay.gatling.model.Scenario addScenarioFromRequest(
-		javax.portlet.ActionRequest request,
-		javax.portlet.ActionResponse response)
+		javax.portlet.ActionRequest request)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName26,
 					_methodParameterTypes26,
-					new Object[] {
-						ClpSerializer.translateInput(request),
-						
-					ClpSerializer.translateInput(response)
-					});
+					new Object[] { ClpSerializer.translateInput(request) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -953,8 +944,7 @@ public class ScenarioLocalServiceClp implements ScenarioLocalService {
 
 	@Override
 	public com.excilys.liferay.gatling.model.Scenario editScenarioFromRequest(
-		javax.portlet.ActionRequest request,
-		javax.portlet.ActionResponse response)
+		javax.portlet.ActionRequest request)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
@@ -962,11 +952,7 @@ public class ScenarioLocalServiceClp implements ScenarioLocalService {
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName27,
 					_methodParameterTypes27,
-					new Object[] {
-						ClpSerializer.translateInput(request),
-						
-					ClpSerializer.translateInput(response)
-					});
+					new Object[] { ClpSerializer.translateInput(request) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
