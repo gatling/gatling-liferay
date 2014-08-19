@@ -112,12 +112,20 @@ public class GatlingUtil {
 					.add(PropertyFactoryUtil.forName("name").eq("gatling"));
 			
 			List<Role> roles = RoleLocalServiceUtil.dynamicQuery(dq);
-			if((roles ==null)|| roles.isEmpty() ){
+			if ((roles ==null)|| roles.isEmpty() ) {
 				
-				Locale locale=new Locale("English");
+				Locale locale = new Locale("ENGLISH","US");
+				Locale locale1 =new Locale("FRENCH");
+				Locale locale2 =new Locale("GERMAN");
 				Map<Locale,String> titleMap=new HashMap<Locale,String>();
+				Map<Locale,String> descriptionMap=new HashMap<Locale,String>();
 				titleMap.put(locale,"English");
-				Role objRole=RoleLocalServiceUtil.addRole(userId, companyId,"gatling",titleMap, null, 1);
+				titleMap.put(locale1,"français");
+				titleMap.put(locale2,"deutch");
+				descriptionMap.put(locale, "gatling is the role of the portlet Gatling-Liferay users.");
+				descriptionMap.put(locale1, "gatling est un rôle réservé au utilisateurs de la portlet Gatling-Liferay.");
+				descriptionMap.put(locale2, "gatling is the role of the portlet Gatling-Liferay users.");
+				Role objRole=RoleLocalServiceUtil.addRole(userId, companyId,"gatling",titleMap, descriptionMap, 1);
 				if(objRole!=null){
 					LOG.info("gatling role was added successfuly") ;
 				}else{
@@ -125,10 +133,12 @@ public class GatlingUtil {
 				}
 			}
 			else{
+//				RoleLocalServiceUtil.deleteRole(roles.get(0));
 				if(LOG.isInfoEnabled()) {
 					LOG.info("The role gatling already exists "+ roles.get(0));
 				}
 			}
 	}
 	
+
 }
