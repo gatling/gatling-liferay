@@ -3,22 +3,36 @@
  */
 package com.excilys.liferay.gatling.util;
 
+import com.excilys.liferay.gatling.GatlingPortlet;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.model.Group;
+import com.liferay.portal.model.Role;
 import com.liferay.portal.service.GroupLocalServiceUtil;
+import com.liferay.portal.service.RoleLocalServiceUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class GatlingUtil {
 	
+	
+	/**
+	 * logging.
+	 */
+	private static final Log LOG = LogFactoryUtil.getLog(GatlingPortlet.class);
 	
 	/**
 	 * create variable name for gatling scenario
@@ -86,4 +100,35 @@ public class GatlingUtil {
 
 		return listGroups;
 	}
+	
+	/**
+	 * create new role 'gatling' if doesn't exist
+	 * @param companyId
+	 * @param userId
+	 */
+	public static void createRole(long companyId, long userId) throws SystemException, PortalException {
+		LOG.info("create role Gatling");
+			DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Role.class)
+					.add(PropertyFactoryUtil.forName("name").eq("gatling"));
+			
+			List<Role> roles = RoleLocalServiceUtil.dynamicQuery(dq);
+			if((roles ==null)|| roles.isEmpty() ){
+				
+				Locale locale=new Locale("English");
+				Map<Locale,String> titleMap=new HashMap<Locale,String>();
+				titleMap.put(locale,"English");
+				Role objRole=RoleLocalServiceUtil.addRole(userId, companyId,"gatling",titleMap, null, 1);
+				if(objRole!=null){
+					LOG.info("gatling role was added successfuly") ;
+				}else{
+					LOG.info("failed to add gatling role");
+				}
+			}
+			else{
+				if(LOG.isInfoEnabled()) {
+					LOG.info("The role gatling already exists "+ roles.get(0));
+				}
+			}
+	}
+	
 }
