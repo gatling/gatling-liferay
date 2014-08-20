@@ -86,15 +86,9 @@
 							</c:if> 							
 						</td>
 						<td>
-							<c:choose>
-								<c:when test="${layout.privateLayout}">
-									<i class="icon-eye-close"></i>
-								</c:when>
-								<c:otherwise>
-									<i class="icon-eye-open"></i>
-								</c:otherwise>
-							</c:choose>
-							
+							<c:if test="${layout.privateLayout}">
+								<i class="icon-eye-close"></i>
+							</c:if>
 							<i class="icon-plus-sign"></i> 
 							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.numberOfSpace}*10px"> 
 								${layout.name}
@@ -131,14 +125,9 @@
 						</td>
 
 						<td>
-							<c:choose>
-								<c:when test="${layout.privateLayout}">
-									<i class="icon-eye-close"></i>
-								</c:when>
-								<c:otherwise>
-									<i class="icon-eye-open"></i>
-								</c:otherwise>
-							</c:choose>
+							<c:if test="${layout.privateLayout}">
+								<i class="icon-eye-close"></i>
+							</c:if>
 							<i class="icon-exclamation-sign"></i> 
 							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.numberOfSpace*30}px"> 
 								${layout.name}
@@ -165,14 +154,9 @@
 							</c:if>
 						</td>
 						<td>
-							<c:choose>
-								<c:when test="${layout.privateLayout}">
-									<i class="icon-eye-close"></i>
-								</c:when>
-								<c:otherwise>
-									<i class="icon-eye-open"></i>
-								</c:otherwise>
-							</c:choose>
+							<c:if test="${layout.privateLayout}">
+								<i class="icon-eye-close"></i>
+							</c:if>
 							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.numberOfSpace*30}px"> 
 								${layout.name}
 							</a>
