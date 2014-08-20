@@ -2,12 +2,9 @@
 	Copyright 2011-2014 eBusiness Information, Groupe Excilys (www.ebusinessinformation.fr)
 --%>
 <%@include file="/html/gatling/header.jsp"%>
-<%--session errors --%>
-<liferay-ui:error key="request-weight-required"
-	message="request-weight-required" />
-<liferay-ui:error key="request-scenarioid-required"
-	message="request-scenarioid-required" />
-
+<%--
+	Header
+ --%>
 <portlet:renderURL var="backURL">
 	<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
 	<portlet:param name="simulationId" value="${scenario.simulation_id }" />
@@ -16,6 +13,14 @@
 	<liferay-ui:message key="scenario-edit" arguments="${headerList}" />
 </c:set>
 <liferay-ui:header title="${titleHeader}" backURL="${backURL }" />
+<%--
+	session errors
+ --%>
+<liferay-ui:error key="request-weight-required"
+	message="request-weight-required" />
+<liferay-ui:error key="request-scenarioid-required"
+	message="request-scenarioid-required" />
+
 
 <portlet:actionURL name="editScenario" var="editScenarioURL"
 	windowState="normal" />

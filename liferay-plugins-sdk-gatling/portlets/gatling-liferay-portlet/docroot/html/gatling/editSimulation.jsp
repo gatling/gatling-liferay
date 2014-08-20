@@ -3,17 +3,8 @@
 --%>
 <%@include file="/html/gatling/header.jsp"%>
 <%--
-	session errors 
---%>
-<liferay-ui:error key="scenario-name-required" message="scenario-name-required" />
-<liferay-ui:error key="scenario-name-already-used" message="scenario-name-already-used" />
-<liferay-ui:error key="scenario-groupid-missing" message="scenario-groupid-missing" />
-<liferay-ui:error key="scenario-simulationid-missing" message="scenario-simulationid-missing" />
-<liferay-ui:error key="scenario-variable-required" message="scenario-variable-required" />
-<%--
 	header
 --%>
-
 <portlet:renderURL var="backURL">
 	<portlet:param name="page" value="/html/gatling/view.jsp" />
 </portlet:renderURL>
@@ -22,6 +13,14 @@
 	<liferay-ui:message key="simulation-edit-header" arguments="${simulation.name}" />
 </c:set>
 <liferay-ui:header title="${titleHeader}" backURL="${backURL}" />
+<%--
+	session errors 
+--%>
+<liferay-ui:error key="scenario-name-required" message="scenario-name-required" />
+<liferay-ui:error key="scenario-name-already-used" message="scenario-name-already-used" />
+<liferay-ui:error key="scenario-groupid-missing" message="scenario-groupid-missing" />
+<liferay-ui:error key="scenario-simulationid-missing" message="scenario-simulationid-missing" />
+<liferay-ui:error key="scenario-variable-required" message="scenario-variable-required" />
 
 <%--
 	 FAQ link
