@@ -11,9 +11,6 @@ class {{simuName}} extends Simulation {
 
 {{#mustacheScenario}}
   var {{name}} = scenario("{{name}}")
-  {{#hasPrivatePage}}
-    .exec(http("loginPage").post("{{homeURL}}").formParam("_58_login", "{{login}}").formParam("_58_password", "{{password}}"))
-  {{/hasPrivatePage}}
     .randomSwitch(
 		{{#mustacheRequests}}
       {{pourcentage}} -> exec(http("{{name}}").get("{{url}}")){{^last}},{{/last}}
