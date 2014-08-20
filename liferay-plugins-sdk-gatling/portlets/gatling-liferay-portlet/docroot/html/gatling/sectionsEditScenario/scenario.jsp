@@ -13,10 +13,10 @@
 	</portlet:renderURL>
 	<div class="well well-small">
 		<liferay-ui:message key="scenario-edit-help-scenario" /> 
-		<a href="${helpURL}#use-scenario" class="label">
-		<i class="icon-question-sign"></i> 
-		<liferay-ui:message key="help-use-scenario" />
-	</a> 
+		<a href="#" class="label" id="help">
+			<i class="icon-question-sign"></i> 
+			<liferay-ui:message key="help-use-scenario" />
+		</a> 
 	</div>
 	
 	<table class="table table-bordered table-scenario">
@@ -189,6 +189,18 @@
 			        uri : '${modalURL}'
 			   });	
 			});
+		});
+		
+		A.one("#help").on('click', function(A) {
+			Liferay.Util.openWindow({
+			     dialog : {
+			          	modal : true,
+			           	constrain : true,
+			            cache : true
+			        },
+			        uri : '${helpURL}#use-scenario',
+			        title : '<liferay-ui:message key="help-how-to-use-load-test-portlet"/>'
+			  });
 		});
 	});
 </script>

@@ -19,7 +19,7 @@
 <%--
 	FAQ link
 --%> 
-<portlet:renderURL var="helpURL">
+<portlet:renderURL var="helpURL" windowState="pop_up">
 	<portlet:param name="page" value="/html/gatling/help.jsp" />
 </portlet:renderURL>
 <div class="well well-small">
@@ -27,7 +27,7 @@
 		<i class="icon-share"></i> 
 		<liferay-ui:message key="help-gatling-wiki" />
 	</a> 
-	<a href="${helpURL}" class="label">
+	<a href="#" class="label" id="help">
 		<i class="icon-question-sign"></i> 
 		<liferay-ui:message key="help-how-to-use-portlet" />
 	</a> 
@@ -224,6 +224,18 @@
 			});
 		});
 		
+		A.one("#help").on('click', function(A) {
+			Liferay.Util.openWindow({
+			     dialog : {
+			          	modal : true,
+			           	constrain : true,
+			            cache : true
+			        },
+			        uri : '${helpURL}',
+			        title : '<liferay-ui:message key="help-how-to-use-load-test-portlet"/>'
+			  });
+		});
+		
 		/*
 		 * Multi select
 		 */
@@ -246,5 +258,6 @@
 	                lastChecked = this;
         		});
         });
+        
 	});
 </script>

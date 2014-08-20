@@ -3,12 +3,6 @@
 --%>
 <%@include file="/html/gatling/header.jsp"%>
 
-<portlet:renderURL var="backURL">
-	<portlet:param name="page" value="/html/gatling/view.jsp" />
-</portlet:renderURL>
-<c:set var="labelUrl" ><liferay-ui:message key="simulation-list-header" /></c:set>
-<liferay-ui:header title="help-how-to-use-load-test-portlet" backURL="${backURL}" backLabel="${labelUrl}"/>
-
 <div class="well well-small">
 	<a href="#portlet" class="label"><liferay-ui:message key="help-how-to-use-portlet" /></a>
 	<a href="#use-scenario" class="label"><liferay-ui:message key="help-use-scenario" /></a>
