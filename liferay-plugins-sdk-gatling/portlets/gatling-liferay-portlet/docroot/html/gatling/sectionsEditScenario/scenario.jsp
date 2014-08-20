@@ -86,11 +86,21 @@
 							</c:if> 							
 						</td>
 						<td>
+							<c:choose>
+								<c:when test="${layout.privateLayout}">
+									<i class="icon-eye-close"></i>
+								</c:when>
+								<c:otherwise>
+									<i class="icon-eye-open"></i>
+								</c:otherwise>
+							</c:choose>
+							
 							<i class="icon-plus-sign"></i> 
 							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.numberOfSpace}*10px"> 
 								${layout.name}
-								<i class="icon-share"></i>
 							</a>
+							
+							
 						</td>
 						<td>
 							<aui:button cssClass="show-portlet" data-id="${layout.requestId}" value="scenario-edit-stress-portlet-btn"/>
@@ -120,13 +130,21 @@
 							</portlet:actionURL> <liferay-ui:icon-delete url="${deleteRequestURL}" />
 						</td>
 
-						<td><i class="icon-exclamation-sign"></i> 
+						<td>
+							<c:choose>
+								<c:when test="${layout.privateLayout}">
+									<i class="icon-eye-close"></i>
+								</c:when>
+								<c:otherwise>
+									<i class="icon-eye-open"></i>
+								</c:otherwise>
+							</c:choose>
+							<i class="icon-exclamation-sign"></i> 
 							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.numberOfSpace*30}px"> 
 								${layout.name}
-								<i class="icon-share"></i>
 							</a></td>
 						<td>
-						</td>
+
 						<td><aui:input label="" name="weight${status.index}" value="${layout.weight}" cssClass="weight deleted" onChange="showWeight()">
 								<aui:validator name="number" />
 							</aui:input></td>
@@ -147,14 +165,22 @@
 							</c:if>
 						</td>
 						<td>
+							<c:choose>
+								<c:when test="${layout.privateLayout}">
+									<i class="icon-eye-close"></i>
+								</c:when>
+								<c:otherwise>
+									<i class="icon-eye-open"></i>
+								</c:otherwise>
+							</c:choose>
 							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.numberOfSpace*30}px"> 
 								${layout.name}
-								<i class="icon-share"></i>
 							</a>
 						</td>
 						<td>
 							<aui:button cssClass="show-portlet" data-id="${layout.requestId}" value="scenario-edit-stress-portlet-btn"/>
 						</td>
+
 						<td><aui:input label="" name="weight${status.index}" cssClass="weight" inlineField="true" value="${layout.weight}"
 								onChange="showWeight()">
 								<aui:validator name="number" />
