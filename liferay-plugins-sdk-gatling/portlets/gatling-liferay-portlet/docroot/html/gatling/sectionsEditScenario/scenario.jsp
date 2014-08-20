@@ -25,13 +25,12 @@
 				<input type="checkbox" id="checkAll" /> 
 				<label for="checkAll" class="inline"><i class='icon-circle-arrow-down'></i></label>
 				<%--Force weight button --%>
-
-				
 				<aui:input label="" name="forceWeight" cssClass="forceinput" inlineField="true" />
-				<aui:button value="scenario-edit-force-weight" cssClass="inline-button" id="force" onClick="forceWeight();" />
-			
+				<aui:button value="scenario-edit-force-weight-btn" cssClass="inline-button" id="force" onClick="forceWeight();" />
+				<liferay-ui:icon-help message="scenario-edit-force-weight"/>
 			</th>
 			<th><liferay-ui:message key="scenario-edit-table-header-page" /> <liferay-ui:icon-help message="name-info-help"/></th>
+			<th><liferay-ui:message key="scenario-edit-table-header-portlet" /></th>
 			<th><liferay-ui:message key="scenario-edit-table-header-weight" /> <liferay-ui:icon-help message="weight-info-help"/></th>
 			<th><liferay-ui:icon-help message="percentage-info-help"/></th>
 		</tr>
@@ -88,10 +87,13 @@
 						</td>
 						<td>
 							<i class="icon-plus-sign"></i> 
-							${layout.showName()}
-							<a href="${url}" title="${layout.url}" target="_blank"> 
+							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.numberOfSpace}*10px"> 
+								${layout.name}
 								<i class="icon-share"></i>
 							</a>
+						</td>
+						<td>
+							<aui:button cssClass="show-portlet" data-id="${layout.requestId}" value="scenario-edit-stress-portlet-btn"/>
 						</td>
 						<td>
 							<aui:input label="" name="weight${status.index}" cssClass="weight " inlineField="true" onChange="showWeight()"
@@ -118,7 +120,13 @@
 							</portlet:actionURL> <liferay-ui:icon-delete url="${deleteRequestURL}" />
 						</td>
 
-						<td><i class="icon-exclamation-sign"></i> ${layout.showName()}</td>
+						<td><i class="icon-exclamation-sign"></i> 
+							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.numberOfSpace*30}px"> 
+								${layout.name}
+								<i class="icon-share"></i>
+							</a></td>
+						<td>
+						</td>
 						<td><aui:input label="" name="weight${status.index}" value="${layout.weight}" cssClass="weight deleted" onChange="showWeight()">
 								<aui:validator name="number" />
 							</aui:input></td>
@@ -138,8 +146,15 @@
 								<i class="force-weight-children  icon-circle-arrow-down margin-left-5" data-children="${arraySubPage }" ></i>
 							</c:if>
 						</td>
-						<td>${layout.showName()}<a href="${url}" title="${layout.url}" target="_blank" > <i class="icon-share"></i></a></td>
-
+						<td>
+							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.numberOfSpace*30}px"> 
+								${layout.name}
+								<i class="icon-share"></i>
+							</a>
+						</td>
+						<td>
+							<aui:button cssClass="show-portlet" data-id="${layout.requestId}" value="scenario-edit-stress-portlet-btn"/>
+						</td>
 						<td><aui:input label="" name="weight${status.index}" cssClass="weight" inlineField="true" value="${layout.weight}"
 								onChange="showWeight()">
 								<aui:validator name="number" />
@@ -155,3 +170,25 @@
 		 --%>
 	</table>
 </aui:fieldset>
+<script type="text/javascript">
+	AUI().use('aui-base', function(A) {
+		A.all(".show-portlet").each(function() {
+			this.on('click', function(A) {
+				var id = this.getData('id');
+				console.log("showPortlet "+id);
+				//Create renderURL
+				
+			
+				Liferay.Util.openWindow({
+			   		dialog : {
+			        	modal : true,
+			            constrain : true,
+			         	destroyOnClose : true,
+			            cache : false
+			        },
+			        uri : '${modalURL}'
+			   });	
+			});
+		});
+	});
+</script>
