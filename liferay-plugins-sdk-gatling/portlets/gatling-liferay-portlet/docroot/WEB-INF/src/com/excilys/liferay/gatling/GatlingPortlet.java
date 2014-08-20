@@ -30,7 +30,6 @@ import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
 import java.io.IOException;
@@ -84,20 +83,11 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	@Override
 	public void init() throws PortletException {
-		LOG.info("initialise the portlet Gatling");
 		jspListSimulation = getInitParameter("list-simulation-jsp");
 		jspEditSimulation = getInitParameter("edit-simulation-jsp");
 		jspEditScenario = getInitParameter("edit-scenario-jsp");
 		jspFormFirstScenario = getInitParameter("form-first-scenario-jsp");
 		jspHelp = getInitParameter("help-jsp");
-		//create the role Gatling			
-		try {
-			long companyId = PortalUtil.getDefaultCompanyId();
-			long userId = 10437;
-			GatlingUtil.createRole(companyId,userId);
-		} catch (SystemException | PortalException e) {
-			LOG.error("problem when call createRole method");
-		}
 		super.init();
 	}
 
