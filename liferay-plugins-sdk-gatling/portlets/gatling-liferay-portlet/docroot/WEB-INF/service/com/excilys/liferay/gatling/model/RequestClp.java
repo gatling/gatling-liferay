@@ -78,8 +78,9 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 		attributes.put("url", getUrl());
 		attributes.put("weight", getWeight());
 		attributes.put("privatePage", getPrivatePage());
-		attributes.put("parentLayoutId", getParentLayoutId());
+		attributes.put("parentPlId", getParentPlId());
 		attributes.put("layoutId", getLayoutId());
+		attributes.put("plId", getPlId());
 
 		return attributes;
 	}
@@ -122,16 +123,22 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 			setPrivatePage(privatePage);
 		}
 
-		Long parentLayoutId = (Long)attributes.get("parentLayoutId");
+		Long parentPlId = (Long)attributes.get("parentPlId");
 
-		if (parentLayoutId != null) {
-			setParentLayoutId(parentLayoutId);
+		if (parentPlId != null) {
+			setParentPlId(parentPlId);
 		}
 
 		Long layoutId = (Long)attributes.get("layoutId");
 
 		if (layoutId != null) {
 			setLayoutId(layoutId);
+		}
+
+		Long plId = (Long)attributes.get("plId");
+
+		if (plId != null) {
+			setPlId(plId);
 		}
 	}
 
@@ -279,21 +286,21 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 	}
 
 	@Override
-	public long getParentLayoutId() {
-		return _parentLayoutId;
+	public long getParentPlId() {
+		return _parentPlId;
 	}
 
 	@Override
-	public void setParentLayoutId(long parentLayoutId) {
-		_parentLayoutId = parentLayoutId;
+	public void setParentPlId(long parentPlId) {
+		_parentPlId = parentPlId;
 
 		if (_requestRemoteModel != null) {
 			try {
 				Class<?> clazz = _requestRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setParentLayoutId", long.class);
+				Method method = clazz.getMethod("setParentPlId", long.class);
 
-				method.invoke(_requestRemoteModel, parentLayoutId);
+				method.invoke(_requestRemoteModel, parentPlId);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -317,6 +324,29 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 				Method method = clazz.getMethod("setLayoutId", long.class);
 
 				method.invoke(_requestRemoteModel, layoutId);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public long getPlId() {
+		return _plId;
+	}
+
+	@Override
+	public void setPlId(long plId) {
+		_plId = plId;
+
+		if (_requestRemoteModel != null) {
+			try {
+				Class<?> clazz = _requestRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setPlId", long.class);
+
+				method.invoke(_requestRemoteModel, plId);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -418,8 +448,9 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 		clone.setUrl(getUrl());
 		clone.setWeight(getWeight());
 		clone.setPrivatePage(getPrivatePage());
-		clone.setParentLayoutId(getParentLayoutId());
+		clone.setParentPlId(getParentPlId());
 		clone.setLayoutId(getLayoutId());
+		clone.setPlId(getPlId());
 
 		return clone;
 	}
@@ -468,7 +499,7 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{request_id=");
 		sb.append(getRequest_id());
@@ -482,10 +513,12 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 		sb.append(getWeight());
 		sb.append(", privatePage=");
 		sb.append(getPrivatePage());
-		sb.append(", parentLayoutId=");
-		sb.append(getParentLayoutId());
+		sb.append(", parentPlId=");
+		sb.append(getParentPlId());
 		sb.append(", layoutId=");
 		sb.append(getLayoutId());
+		sb.append(", plId=");
+		sb.append(getPlId());
 		sb.append("}");
 
 		return sb.toString();
@@ -493,7 +526,7 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(28);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("<model><model-name>");
 		sb.append("com.excilys.liferay.gatling.model.Request");
@@ -524,12 +557,16 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 		sb.append(getPrivatePage());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>parentLayoutId</column-name><column-value><![CDATA[");
-		sb.append(getParentLayoutId());
+			"<column><column-name>parentPlId</column-name><column-value><![CDATA[");
+		sb.append(getParentPlId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>layoutId</column-name><column-value><![CDATA[");
 		sb.append(getLayoutId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>plId</column-name><column-value><![CDATA[");
+		sb.append(getPlId());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -543,7 +580,8 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 	private String _url;
 	private double _weight;
 	private boolean _privatePage;
-	private long _parentLayoutId;
+	private long _parentPlId;
 	private long _layoutId;
+	private long _plId;
 	private BaseModel<?> _requestRemoteModel;
 }

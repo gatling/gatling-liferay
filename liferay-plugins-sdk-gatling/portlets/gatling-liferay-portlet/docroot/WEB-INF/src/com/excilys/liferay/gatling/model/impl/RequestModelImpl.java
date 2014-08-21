@@ -64,10 +64,11 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 			{ "url", Types.VARCHAR },
 			{ "weight", Types.DOUBLE },
 			{ "privatePage", Types.BOOLEAN },
-			{ "parentLayoutId", Types.BIGINT },
-			{ "layoutId", Types.BIGINT }
+			{ "parentPlId", Types.BIGINT },
+			{ "layoutId", Types.BIGINT },
+			{ "plId", Types.BIGINT }
 		};
-	public static final String TABLE_SQL_CREATE = "create table StressTool_Request (request_id LONG not null primary key,scenario_id LONG,name VARCHAR(75) null,url VARCHAR(75) null,weight DOUBLE,privatePage BOOLEAN,parentLayoutId LONG,layoutId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table StressTool_Request (request_id LONG not null primary key,scenario_id LONG,name VARCHAR(75) null,url VARCHAR(75) null,weight DOUBLE,privatePage BOOLEAN,parentPlId LONG,layoutId LONG,plId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table StressTool_Request";
 	public static final String ORDER_BY_JPQL = " ORDER BY request.request_id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY StressTool_Request.request_id ASC";
@@ -132,8 +133,9 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 		attributes.put("url", getUrl());
 		attributes.put("weight", getWeight());
 		attributes.put("privatePage", getPrivatePage());
-		attributes.put("parentLayoutId", getParentLayoutId());
+		attributes.put("parentPlId", getParentPlId());
 		attributes.put("layoutId", getLayoutId());
+		attributes.put("plId", getPlId());
 
 		return attributes;
 	}
@@ -176,16 +178,22 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 			setPrivatePage(privatePage);
 		}
 
-		Long parentLayoutId = (Long)attributes.get("parentLayoutId");
+		Long parentPlId = (Long)attributes.get("parentPlId");
 
-		if (parentLayoutId != null) {
-			setParentLayoutId(parentLayoutId);
+		if (parentPlId != null) {
+			setParentPlId(parentPlId);
 		}
 
 		Long layoutId = (Long)attributes.get("layoutId");
 
 		if (layoutId != null) {
 			setLayoutId(layoutId);
+		}
+
+		Long plId = (Long)attributes.get("plId");
+
+		if (plId != null) {
+			setPlId(plId);
 		}
 	}
 
@@ -289,13 +297,13 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 	}
 
 	@Override
-	public long getParentLayoutId() {
-		return _parentLayoutId;
+	public long getParentPlId() {
+		return _parentPlId;
 	}
 
 	@Override
-	public void setParentLayoutId(long parentLayoutId) {
-		_parentLayoutId = parentLayoutId;
+	public void setParentPlId(long parentPlId) {
+		_parentPlId = parentPlId;
 	}
 
 	@Override
@@ -306,6 +314,16 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 	@Override
 	public void setLayoutId(long layoutId) {
 		_layoutId = layoutId;
+	}
+
+	@Override
+	public long getPlId() {
+		return _plId;
+	}
+
+	@Override
+	public void setPlId(long plId) {
+		_plId = plId;
 	}
 
 	public long getColumnBitmask() {
@@ -345,8 +363,9 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 		requestImpl.setUrl(getUrl());
 		requestImpl.setWeight(getWeight());
 		requestImpl.setPrivatePage(getPrivatePage());
-		requestImpl.setParentLayoutId(getParentLayoutId());
+		requestImpl.setParentPlId(getParentPlId());
 		requestImpl.setLayoutId(getLayoutId());
+		requestImpl.setPlId(getPlId());
 
 		requestImpl.resetOriginalValues();
 
@@ -438,16 +457,18 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
 		requestCacheModel.privatePage = getPrivatePage();
 
-		requestCacheModel.parentLayoutId = getParentLayoutId();
+		requestCacheModel.parentPlId = getParentPlId();
 
 		requestCacheModel.layoutId = getLayoutId();
+
+		requestCacheModel.plId = getPlId();
 
 		return requestCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{request_id=");
 		sb.append(getRequest_id());
@@ -461,10 +482,12 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 		sb.append(getWeight());
 		sb.append(", privatePage=");
 		sb.append(getPrivatePage());
-		sb.append(", parentLayoutId=");
-		sb.append(getParentLayoutId());
+		sb.append(", parentPlId=");
+		sb.append(getParentPlId());
 		sb.append(", layoutId=");
 		sb.append(getLayoutId());
+		sb.append(", plId=");
+		sb.append(getPlId());
 		sb.append("}");
 
 		return sb.toString();
@@ -472,7 +495,7 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(28);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("<model><model-name>");
 		sb.append("com.excilys.liferay.gatling.model.Request");
@@ -503,12 +526,16 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 		sb.append(getPrivatePage());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>parentLayoutId</column-name><column-value><![CDATA[");
-		sb.append(getParentLayoutId());
+			"<column><column-name>parentPlId</column-name><column-value><![CDATA[");
+		sb.append(getParentPlId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>layoutId</column-name><column-value><![CDATA[");
 		sb.append(getLayoutId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>plId</column-name><column-value><![CDATA[");
+		sb.append(getPlId());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -530,8 +557,9 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 	private double _originalWeight;
 	private boolean _setOriginalWeight;
 	private boolean _privatePage;
-	private long _parentLayoutId;
+	private long _parentPlId;
 	private long _layoutId;
+	private long _plId;
 	private long _columnBitmask;
 	private Request _escapedModel;
 }

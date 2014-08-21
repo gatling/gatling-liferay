@@ -17,9 +17,13 @@ package com.excilys.liferay.gatling.service.impl;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.RequestLocalServiceBaseImpl;
+import com.excilys.liferay.gatling.util.DisplayItemUtil;
 import com.excilys.liferay.gatling.validator.RequestValidator;
 import com.liferay.counter.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.model.Layout;
 
@@ -44,7 +48,7 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.liferay.sample.service.RequestLocalServiceUtil} to access the request local service.
 	 */
-
+	private static final Log LOG = LogFactoryUtil.getLog(RequestLocalServiceImpl.class.getName());
  
 
 	@Override
@@ -80,13 +84,18 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 		//create request
 		final long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
 		final Request newRequest = RequestLocalServiceUtil.createRequest(primaryKey);
-		newRequest.setLayoutId(layout.getLayoutId());
+		newRequest.setPlId(layout.getPlid());
 		newRequest.setName(layout.getName(LocaleUtil.getDefault()));
 		newRequest.setUrl(layout.getFriendlyURL());
 		newRequest.setWeight(weight);
 		newRequest.setScenario_id(idScenario);
 		newRequest.setPrivatePage(layout.isPrivateLayout());
-		newRequest.setParentLayoutId(layout.getParentLayoutId());
+		newRequest.setLayoutId(layout.getLayoutId());
+		try {
+			newRequest.setParentPlId(layout.getParentPlid());
+		} catch (PortalException e) {
+			LOG.info(e.getMessage());
+		}
 		// Saving ...
 		final List<String> errors = RequestValidator.validateRequest(newRequest);
 		if(errors.isEmpty()) {

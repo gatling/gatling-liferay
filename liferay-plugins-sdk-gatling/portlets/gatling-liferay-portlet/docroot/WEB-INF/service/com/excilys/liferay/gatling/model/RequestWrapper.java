@@ -54,8 +54,9 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
 		attributes.put("url", getUrl());
 		attributes.put("weight", getWeight());
 		attributes.put("privatePage", getPrivatePage());
-		attributes.put("parentLayoutId", getParentLayoutId());
+		attributes.put("parentPlId", getParentPlId());
 		attributes.put("layoutId", getLayoutId());
+		attributes.put("plId", getPlId());
 
 		return attributes;
 	}
@@ -98,16 +99,22 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
 			setPrivatePage(privatePage);
 		}
 
-		Long parentLayoutId = (Long)attributes.get("parentLayoutId");
+		Long parentPlId = (Long)attributes.get("parentPlId");
 
-		if (parentLayoutId != null) {
-			setParentLayoutId(parentLayoutId);
+		if (parentPlId != null) {
+			setParentPlId(parentPlId);
 		}
 
 		Long layoutId = (Long)attributes.get("layoutId");
 
 		if (layoutId != null) {
 			setLayoutId(layoutId);
+		}
+
+		Long plId = (Long)attributes.get("plId");
+
+		if (plId != null) {
+			setPlId(plId);
 		}
 	}
 
@@ -262,23 +269,23 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
 	}
 
 	/**
-	* Returns the parent layout ID of this request.
+	* Returns the parent pl ID of this request.
 	*
-	* @return the parent layout ID of this request
+	* @return the parent pl ID of this request
 	*/
 	@Override
-	public long getParentLayoutId() {
-		return _request.getParentLayoutId();
+	public long getParentPlId() {
+		return _request.getParentPlId();
 	}
 
 	/**
-	* Sets the parent layout ID of this request.
+	* Sets the parent pl ID of this request.
 	*
-	* @param parentLayoutId the parent layout ID of this request
+	* @param parentPlId the parent pl ID of this request
 	*/
 	@Override
-	public void setParentLayoutId(long parentLayoutId) {
-		_request.setParentLayoutId(parentLayoutId);
+	public void setParentPlId(long parentPlId) {
+		_request.setParentPlId(parentPlId);
 	}
 
 	/**
@@ -299,6 +306,26 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
 	@Override
 	public void setLayoutId(long layoutId) {
 		_request.setLayoutId(layoutId);
+	}
+
+	/**
+	* Returns the pl ID of this request.
+	*
+	* @return the pl ID of this request
+	*/
+	@Override
+	public long getPlId() {
+		return _request.getPlId();
+	}
+
+	/**
+	* Sets the pl ID of this request.
+	*
+	* @param plId the pl ID of this request
+	*/
+	@Override
+	public void setPlId(long plId) {
+		_request.setPlId(plId);
 	}
 
 	@Override

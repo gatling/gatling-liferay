@@ -35,8 +35,9 @@ public class RequestSoap implements Serializable {
 		soapModel.setUrl(model.getUrl());
 		soapModel.setWeight(model.getWeight());
 		soapModel.setPrivatePage(model.getPrivatePage());
-		soapModel.setParentLayoutId(model.getParentLayoutId());
+		soapModel.setParentPlId(model.getParentPlId());
 		soapModel.setLayoutId(model.getLayoutId());
+		soapModel.setPlId(model.getPlId());
 
 		return soapModel;
 	}
@@ -141,12 +142,12 @@ public class RequestSoap implements Serializable {
 		_privatePage = privatePage;
 	}
 
-	public long getParentLayoutId() {
-		return _parentLayoutId;
+	public long getParentPlId() {
+		return _parentPlId;
 	}
 
-	public void setParentLayoutId(long parentLayoutId) {
-		_parentLayoutId = parentLayoutId;
+	public void setParentPlId(long parentPlId) {
+		_parentPlId = parentPlId;
 	}
 
 	public long getLayoutId() {
@@ -157,12 +158,21 @@ public class RequestSoap implements Serializable {
 		_layoutId = layoutId;
 	}
 
+	public long getPlId() {
+		return _plId;
+	}
+
+	public void setPlId(long plId) {
+		_plId = plId;
+	}
+
 	private long _request_id;
 	private long _scenario_id;
 	private String _name;
 	private String _url;
 	private double _weight;
 	private boolean _privatePage;
-	private long _parentLayoutId;
+	private long _parentPlId;
 	private long _layoutId;
+	private long _plId;
 }

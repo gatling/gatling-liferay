@@ -3,6 +3,15 @@
  */
 package com.excilys.liferay.gatling.util;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.util.DisplayItem.RequestState;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -11,14 +20,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.model.PortletPreferences;
 import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 public class DisplayItemUtil {
@@ -44,7 +45,7 @@ public class DisplayItemUtil {
 	public static void addLayoutToDisplayItemList(List<DisplayItem> displayItemList, List<Layout> listLayouts) {
 		for(Layout layout : listLayouts) {
 			displayItemList.add(new DisplayItem(layout));
-			
+
 			try {
 				// Get portlet in layout
 				Pattern p = Pattern.compile("column-\\d=(.*)");
@@ -56,8 +57,8 @@ public class DisplayItemUtil {
 						listPortlet.add(tmp[i]);
 					}
 				}
-				
-				
+
+
 				List<PortletPreferences> listPortletPreferences = PortletPreferencesLocalServiceUtil.getPortletPreferencesByPlid(layout.getPlid());
 				for (PortletPreferences portletPreferences : listPortletPreferences) {
 					if(listPortlet.contains(portletPreferences.getPortletId())) {
@@ -120,7 +121,7 @@ public class DisplayItemUtil {
 			}
 			// if not in layoutList add after its parent or at the end
 			else {
-				int parentIndex = findParentPosition(result,dlr.getParentLayoutId());
+				int parentIndex = findParentPosition(result,dlr.getParentPlId());
 				if(parentIndex >= 0) {
 					// put in on the "old" object place
 					result.add(parentIndex+1, dlr);
@@ -130,7 +131,7 @@ public class DisplayItemUtil {
 		}
 
 		// Indent
-		indentDisplayLayout(result);
+		processIndentAndHierachy(result);
 		//return
 		return result;
 	}
@@ -141,10 +142,10 @@ public class DisplayItemUtil {
 	 * @param parentLayoutId
 	 * @return
 	 */
-	private static int findParentPosition(List<DisplayItem> result, long parentLayoutId) {
+	private static int findParentPosition(List<DisplayItem> result, long parentPlId) {
 		for (int i = 0; i < result.size(); i++) {
 			DisplayItem dl = result.get(i);
-			if(dl.getDisplayLayoutId().getLayoutId() == parentLayoutId) {
+			if(dl.getPlId() == parentPlId) {
 				return i;
 			}
 		}
@@ -155,36 +156,37 @@ public class DisplayItemUtil {
 	 * Indent a {@link DisplayItem} List
 	 * @param list
 	 */
-	public static void indentDisplayLayout(List<DisplayItem> list) {
-		Map<IdDisplayItem, Integer> indentTab = new HashMap<IdDisplayItem, Integer>();
-		for(DisplayItem dl : list) {
-			if(!dl.isPortlet()) {
-				IdDisplayItem idl = new IdDisplayItem(dl.getDisplayLayoutId().isPrivatePage(),dl.getParentLayoutId());
-				if(indentTab.containsKey(idl)) {
-					dl.setNumberOfSpace(dl.getNumberOfSpace()+indentTab.get(idl));
-				}
-				indentTab.put(dl.getDisplayLayoutId(), dl.getNumberOfSpace()+1);
+	public static void processIndentAndHierachy(List<DisplayItem> list) {
+		class Info {
+			int depth;
+			long parentNode;
+			public Info(int depth, long parentNode) {
+				this.depth = depth;
+				this.parentNode = parentNode;
 			}
 		}
-	}
+		// Indent and subnode
+		Map<Long, Info> indentInfo = new HashMap<Long, Info>();
+		for (DisplayItem dl : list) {
+			Long parent = dl.getParentPlId();
+			// if it is subnode
+			if(indentInfo.containsKey(parent) && parent != 0) {
+				dl.setDepth(dl.getDepth()+indentInfo.get(parent).depth+1);
+			}
+			// keep the parent for the second part
+			indentInfo.put(dl.getPlId(), new Info(dl.getDepth(), parent));
+		}
+		
+		// set the subnodes
+		for (DisplayItem displayItem : list) {
+			if(!displayItem.isPortlet()) {
+				for(Entry<Long, Info> set : indentInfo.entrySet()) {
+					if(set.getValue().parentNode == displayItem.getPlId()) {
+						displayItem.getSubNodes().add(set.getKey());
+					}
+				}
+			}
+		}
 
-	/**
-	 * Create the Hierachy map from {@link DisplayItem} List
-	 * @param list
-	 * @param The result
-	 */
-	public static void mapHierachy(List<DisplayItem> list, Map<IdDisplayItem, List<IdDisplayItem>> mappage) {
-		for(DisplayItem dl : list) {
-			if(!dl.isPortlet() && dl.getParentLayoutId() !=0) {
-				IdDisplayItem idl = new IdDisplayItem(dl.getDisplayLayoutId().isPrivatePage(),dl.getParentLayoutId());
-				List<IdDisplayItem> childs = mappage.get(idl);
-				//if not exits
-				if(childs == null) {
-					childs = new ArrayList<IdDisplayItem>();
-				}
-				childs.add(dl.getDisplayLayoutId());
-				mappage.put(idl, childs);
-			}
-		}
 	}
 }

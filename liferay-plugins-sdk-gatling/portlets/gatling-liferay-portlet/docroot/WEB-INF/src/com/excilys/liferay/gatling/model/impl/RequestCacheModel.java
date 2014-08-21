@@ -35,7 +35,7 @@ import java.io.ObjectOutput;
 public class RequestCacheModel implements CacheModel<Request>, Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{request_id=");
 		sb.append(request_id);
@@ -49,10 +49,12 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
 		sb.append(weight);
 		sb.append(", privatePage=");
 		sb.append(privatePage);
-		sb.append(", parentLayoutId=");
-		sb.append(parentLayoutId);
+		sb.append(", parentPlId=");
+		sb.append(parentPlId);
 		sb.append(", layoutId=");
 		sb.append(layoutId);
+		sb.append(", plId=");
+		sb.append(plId);
 		sb.append("}");
 
 		return sb.toString();
@@ -81,8 +83,9 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
 
 		requestImpl.setWeight(weight);
 		requestImpl.setPrivatePage(privatePage);
-		requestImpl.setParentLayoutId(parentLayoutId);
+		requestImpl.setParentPlId(parentPlId);
 		requestImpl.setLayoutId(layoutId);
+		requestImpl.setPlId(plId);
 
 		requestImpl.resetOriginalValues();
 
@@ -97,8 +100,9 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
 		url = objectInput.readUTF();
 		weight = objectInput.readDouble();
 		privatePage = objectInput.readBoolean();
-		parentLayoutId = objectInput.readLong();
+		parentPlId = objectInput.readLong();
 		layoutId = objectInput.readLong();
+		plId = objectInput.readLong();
 	}
 
 	@Override
@@ -123,8 +127,9 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
 
 		objectOutput.writeDouble(weight);
 		objectOutput.writeBoolean(privatePage);
-		objectOutput.writeLong(parentLayoutId);
+		objectOutput.writeLong(parentPlId);
 		objectOutput.writeLong(layoutId);
+		objectOutput.writeLong(plId);
 	}
 
 	public long request_id;
@@ -133,6 +138,7 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
 	public String url;
 	public double weight;
 	public boolean privatePage;
-	public long parentLayoutId;
+	public long parentPlId;
 	public long layoutId;
+	public long plId;
 }

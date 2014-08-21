@@ -3,6 +3,27 @@
  */
 package com.excilys.liferay.gatling;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import javax.portlet.ReadOnlyException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.portlet.ValidatorException;
+
 import com.excilys.liferay.gatling.exception.EmptySimulation;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
@@ -14,7 +35,6 @@ import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.util.DisplayItem;
 import com.excilys.liferay.gatling.util.DisplayItemUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
-import com.excilys.liferay.gatling.util.IdDisplayItem;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
@@ -30,32 +50,8 @@ import com.liferay.portal.model.Layout;
 import com.liferay.portal.model.PortletPreferences;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
-import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.util.bridges.mvc.MVCPortlet;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-import javax.portlet.ReadOnlyException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.portlet.ValidatorException;
 
 /**
  * Portlet implementation class GatlingPortlet.
@@ -406,10 +402,6 @@ public class GatlingPortlet extends MVCPortlet {
 				DisplayItemUtil.addLayoutToDisplayItemList(displayLayoutList, listPublicLayouts);
 				DisplayItemUtil.addLayoutToDisplayItemList(displayLayoutList, listPrivateLayouts );
 
-				// Get Hierachy (used to add a button if a row is a parent)
-				Map<IdDisplayItem, List<IdDisplayItem>> hierachy = new LinkedHashMap<IdDisplayItem, List<IdDisplayItem>>();
-				DisplayItemUtil.mapHierachy(displayLayoutList, hierachy);
-
 				//get list of request to add the old page to DisplayLayout
 				List<Request> listRequests = RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(renderRequest, "scenarioId", 0));
 				//Merge Layout and Request in DisplayLayout List
@@ -429,7 +421,6 @@ public class GatlingPortlet extends MVCPortlet {
 				//add request parameters
 				renderRequest.setAttribute("scenario", scenario);
 				renderRequest.setAttribute("listPages", displayLayoutList);
-				renderRequest.setAttribute("hierachy", hierachy);
 				renderRequest.setAttribute("siteName", siteName);
 				renderRequest.setAttribute("publicURL", publicURL);
 				renderRequest.setAttribute("listOfScenarioName", JSListName);

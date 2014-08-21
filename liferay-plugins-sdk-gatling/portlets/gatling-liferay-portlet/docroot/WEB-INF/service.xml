@@ -29,8 +29,9 @@
 		<column name="url" type="String"></column>
 		<column name="weight" type="double"></column>
 		<column name="privatePage" type="boolean"></column>
-		<column name="parentLayoutId" type="long"></column>
+		<column name="parentPlId" type="long"></column>
 		<column name="layoutId" type="long"></column>
+		<column name="plId" type="long"></column>
 		
 		<finder name="ScenarioId" return-type="Collection">
 			<finder-column name="scenario_id" />

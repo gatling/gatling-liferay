@@ -52,8 +52,8 @@
 			</c:if>
 		 	<%--subpages --%>
 		 	<c:set var="arraySubPage"  />
-			<c:if test="${not empty hierachy[layout.displayLayoutId]}">
-				<c:forEach var="i" items="${hierachy[layout.displayLayoutId]}" varStatus="info">
+			<c:if test="${not empty layout.subNodes}">
+				<c:forEach var="i" items="${layout.subNodes}" varStatus="info">
 					<c:set var="arraySubPage" value="${arraySubPage}${i}" />
 					<c:if test="${not info.last}">
 						<c:set var="arraySubPage" value="${arraySubPage}," />
@@ -76,7 +76,7 @@
 					If the layout doesn't exists in db
 					
 					 --%>
-					<tr class="success ${layout.displayLayoutId} ${color }" >
+					<tr class="success ${layout.plId} ${color }" >
 						<%-- Affichage request pas enregistrée --%>
 						<td>
 							<input type="checkbox" name="${status.index}" class='checkLine' /> 
@@ -86,18 +86,20 @@
 							</c:if> 							
 						</td>
 						<td>
-							<c:if test="${layout.privateLayout}">
+							<c:if test="${layout.privateItem}">
 								<i class="icon-eye-close"></i>
 							</c:if>
 							<i class="icon-plus-sign"></i> 
-							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.numberOfSpace}*10px"> 
+							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.depth*30}px"> 
 								${layout.name}
 							</a>
 							
 							
 						</td>
 						<td>
-							<aui:button cssClass="show-portlet" data-id="${layout.requestId}" value="scenario-edit-stress-portlet-btn"/>
+							<c:if test="${not layout.portlet}">
+								<aui:button cssClass="show-portlet" data-id="${layout.requestId}" value="scenario-edit-stress-portlet-btn"/>
+							</c:if>
 						</td>
 						<td>
 							<aui:input label="" name="weight${status.index}" cssClass="weight " inlineField="true" onChange="showWeight()"
@@ -125,15 +127,15 @@
 						</td>
 
 						<td>
-							<c:if test="${layout.privateLayout}">
+							<c:if test="${layout.privateItem}">
 								<i class="icon-eye-close"></i>
 							</c:if>
 							<i class="icon-exclamation-sign"></i> 
-							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.numberOfSpace*30}px"> 
+							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.depth*30}px"> 
 								${layout.name}
 							</a></td>
 						<td>
-
+						<td></td>
 						<td><aui:input label="" name="weight${status.index}" value="${layout.weight}" cssClass="weight deleted" onChange="showWeight()">
 								<aui:validator name="number" />
 							</aui:input></td>
@@ -146,7 +148,7 @@
 					Exists in both
 					
 					 --%>
-					<tr class="${layout.displayLayoutId} ${color}">
+					<tr class="${layout.plId} ${color}">
 						<td>
 							<input type="checkbox"  name="${status.index}" class='checkLine'/>
 							<c:if test="${not empty arraySubPage}">
@@ -155,15 +157,17 @@
 							</c:if>
 						</td>
 						<td>
-							<c:if test="${layout.privateLayout}">
+							<c:if test="${layout.privateItem}">
 								<i class="icon-eye-close"></i>
 							</c:if>
-							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.numberOfSpace*30}px"> 
+							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.depth*30}px"> 
 								${layout.name}
 							</a>
 						</td>
 						<td>
-							<aui:button cssClass="show-portlet" data-id="${layout.requestId}" value="scenario-edit-stress-portlet-btn"/>
+							<c:if test="${not layout.portlet}">
+								<aui:button cssClass="show-portlet" data-id="${layout.requestId}" value="scenario-edit-stress-portlet-btn"/>
+							</c:if>
 						</td>
 
 						<td><aui:input label="" name="weight${status.index}" cssClass="weight" inlineField="true" value="${layout.weight}"
@@ -219,7 +223,44 @@
 			  });
 		});
 		
-		
+		A.all('.force-weight-children').each(function() {
+		      this.on('click',function(event) {
+					var children = this.getData("children").split(',');
+					var node = this.ancestor("tr").one(".checkLine");
+					var checked=true;
+					if(node.get("checked")) {
+					 	checked=false;	
+					}
+					node.set("checked",checked);
+					for (var i = 0; i < children.length; i++) {
+						selectSubPage(children[i], checked);
+					}
+					if (A.all(".checkLine:checked").size()==0){
+						A.one("#force").set('disabled', true);
+						A.one(".forceinput").set('disabled', true);
+					}
+					else{
+						A.one(".forceinput").set('disabled', false);
+						A.one("#force").set('disabled', false);
+					}
+			});
+		});
+	
+		function selectSubPage(page, checked) {
+			AUI().use('aui-base', function(A) {
+				var node = A.one('.'+page);
+				if(node != null) {
+					node.one(".checkLine").set("checked",checked);
+					var nodeList = node.one(".force-weight-children");
+					if(nodeList != null) {
+						var children = nodeList.getData("children").split(",");
+						for (var i = 0; i < children.length; i++) {
+							selectSubPage(children[i], checked);
+						}
+					}
+				}
+		    });
+		}
 		
 		A.all('.show-hide-children').each(function() {
 		      this.on('click',function(event) {

@@ -1355,8 +1355,9 @@ public class RequestPersistenceImpl extends BasePersistenceImpl<Request>
 		requestImpl.setUrl(request.getUrl());
 		requestImpl.setWeight(request.getWeight());
 		requestImpl.setPrivatePage(request.isPrivatePage());
-		requestImpl.setParentLayoutId(request.getParentLayoutId());
+		requestImpl.setParentPlId(request.getParentPlId());
 		requestImpl.setLayoutId(request.getLayoutId());
+		requestImpl.setPlId(request.getPlId());
 
 		return requestImpl;
 	}

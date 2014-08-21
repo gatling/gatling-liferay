@@ -68,7 +68,7 @@ public class ScriptGeneratorGatling {
 					MustacheRequest mr = null;
 					mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , false);
 
-					fillPortlets(sc.getGroup_id(), rq.getPrivatePage(), rq.getLayoutId(), mr);					
+					fillPortlets(sc.getGroup_id(), rq.getPrivatePage(), rq.getPlId(), mr);					
 					mustacheRequests.add(mr);
 				}
 			}

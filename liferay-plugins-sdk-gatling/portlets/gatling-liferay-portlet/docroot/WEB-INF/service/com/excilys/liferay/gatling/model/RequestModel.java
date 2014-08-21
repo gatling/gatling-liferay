@@ -151,18 +151,18 @@ public interface RequestModel extends BaseModel<Request> {
 	public void setPrivatePage(boolean privatePage);
 
 	/**
-	 * Returns the parent layout ID of this request.
+	 * Returns the parent pl ID of this request.
 	 *
-	 * @return the parent layout ID of this request
+	 * @return the parent pl ID of this request
 	 */
-	public long getParentLayoutId();
+	public long getParentPlId();
 
 	/**
-	 * Sets the parent layout ID of this request.
+	 * Sets the parent pl ID of this request.
 	 *
-	 * @param parentLayoutId the parent layout ID of this request
+	 * @param parentPlId the parent pl ID of this request
 	 */
-	public void setParentLayoutId(long parentLayoutId);
+	public void setParentPlId(long parentPlId);
 
 	/**
 	 * Returns the layout ID of this request.
@@ -177,6 +177,20 @@ public interface RequestModel extends BaseModel<Request> {
 	 * @param layoutId the layout ID of this request
 	 */
 	public void setLayoutId(long layoutId);
+
+	/**
+	 * Returns the pl ID of this request.
+	 *
+	 * @return the pl ID of this request
+	 */
+	public long getPlId();
+
+	/**
+	 * Sets the pl ID of this request.
+	 *
+	 * @param plId the pl ID of this request
+	 */
+	public void setPlId(long plId);
 
 	@Override
 	public boolean isNew();

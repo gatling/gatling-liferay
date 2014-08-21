@@ -298,8 +298,8 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 						if (LOG.isInfoEnabled()){
 							LOG.info("add new request "+key+" : "+StringUtil.merge(parameters.get(key)));
 						}
-						final Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.getDisplayLayoutId().isPrivatePage(), 
-								displayLayout.getDisplayLayoutId().getLayoutId());
+						final Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.isPrivateItem(), 
+								displayLayout.getLayoutId());
 
 						RequestLocalServiceUtil.addRequestFromLayout(layout, weight, idScenario, true, userId);
 						LOG.debug("request created and added succefully ");

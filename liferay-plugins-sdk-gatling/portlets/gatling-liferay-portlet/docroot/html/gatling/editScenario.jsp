@@ -71,30 +71,6 @@
         		});
         });
 		
-		A.all('.force-weight-children').each(function() {
-		      this.on('click',function(event) {
-					var children = this.getData("children").split(',');
-					var node = this.ancestor("tr").one(".checkLine");
-					var checked=true;
-					if(node.get("checked")) {
-					 	checked=false;	
-					}
-					node.set("checked",checked);
-					for (var i = 0; i < children.length; i++) {
-						selectSubPage(children[i], checked);
-					}
-					if (A.all(".checkLine:checked").size()==0){
-						A.one("#force").set('disabled', true);
-						A.one(".forceinput").set('disabled', true);
-					}
-					else{
-						A.one(".forceinput").set('disabled', false);
-						A.one("#force").set('disabled', false);
-					}
-				});
-			});
-		
-		
 		A.one("#checkAll").on('click',function(event) {
 			var checked=this.get("checked");
 			A.all(".checkLine").each(function() {
@@ -238,22 +214,6 @@
 						    	        }
 						    	      ]);
 			  	});	
-	}
-	
-	function selectSubPage(page, checked) {
-		AUI().use('aui-base', function(A) {
-			var node = A.one('.'+page);
-			if(node != null) {
-				node.one(".checkLine").set("checked",checked);
-				var nodeList = node.one(".force-weight-children");
-				if(nodeList != null) {
-					var children = nodeList.getData("children").split(",");
-					for (var i = 0; i < children.length; i++) {
-						selectSubPage(children[i], checked);
-					}
-				}
-			}
-	    });
 	}
 	
 	function forceWeight()

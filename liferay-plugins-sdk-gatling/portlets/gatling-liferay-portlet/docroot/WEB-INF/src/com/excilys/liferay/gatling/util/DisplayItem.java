@@ -3,9 +3,17 @@
  */
 package com.excilys.liferay.gatling.util;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
+import javax.transaction.Transaction;
+
 import com.excilys.liferay.gatling.model.Request;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.model.PortletPreferences;
@@ -20,31 +28,39 @@ import com.liferay.portal.service.PortletLocalServiceUtil;
  */
 public class DisplayItem {
 	
+	private static final Log LOG = LogFactoryUtil.getLog(DisplayItem.class.getName());
+	
 	public enum RequestState {
 		OLD_REQUEST, DEFAULT, NEW_REQUEST;
 	}
-	// displayLayoutId
-	private IdDisplayItem displayLayoutId;
-
+	
+	
 	// field for comparaison
 	private RequestState state;
 
-	// field for space
-	private int numberOfSpace;
+	// field for depth
+	private int depth;
 	
 	// field of Request table
+	// plId
+	private long plId;
 	private long requestId;
 	private long scenarioId;
 	private String name;
 	private String url;
 	private double weight;
-	private long parentLayoutId;
-	private boolean privateLayout;
-	private boolean portlet = false;
+	private long parentPlId;
+	private boolean privateItem;
+	private long layoutId;
+	private boolean portlet;
 	
+	// List of it direct subnodes
+	private List<Long> subNodes;
 	// Common initialization
 	{
+		portlet = false;
 		state = RequestState.DEFAULT;
+		subNodes = new ArrayList<Long>();
 	}
 	
 	/**
@@ -53,9 +69,9 @@ public class DisplayItem {
 	 */
 	public DisplayItem(PortletPreferences portletPreferences) {
 		
-		parentLayoutId = portletPreferences.getPlid();
+		parentPlId = portletPreferences.getPlid();
 		name = PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).getDisplayName();
-		setPortlet(Boolean.TRUE);
+		portlet = Boolean.TRUE;
 		try {
 			url = LayoutLocalServiceUtil.getLayout(portletPreferences.getPlid()).getFriendlyURL() /* + url portlet*/;
 		} catch (PortalException | SystemException e) {
@@ -69,11 +85,15 @@ public class DisplayItem {
 	 */
 	public DisplayItem(Layout layout) {
 		
-		displayLayoutId = new IdDisplayItem(layout.isPrivateLayout(), layout.getLayoutId());
-		parentLayoutId = layout.getParentLayoutId();
+		plId = layout.getPlid();
+		privateItem = layout.isPrivateLayout();
+		try {
+			parentPlId = layout.getParentPlid();
+		} catch (PortalException | SystemException e) {
+			LOG.info(e.getMessage());
+		}
 		name = layout.getName(LocaleUtil.getDefault());
 		url = layout.getFriendlyURL();
-		setPrivateLayout(layout.isPrivateLayout());
 	}
 	
 	/**
@@ -81,13 +101,13 @@ public class DisplayItem {
 	 * @param request
 	 */
 	public DisplayItem(Request request){
-		displayLayoutId = new IdDisplayItem(request.isPrivatePage(), request.getLayoutId());
+		plId = request.getPlId();
+		privateItem = request.isPrivatePage();
 		requestId = request.getRequest_id();
-		parentLayoutId = request.getParentLayoutId();
+		parentPlId = request.getParentPlId();
 		name = request.getName();
 		url = request.getUrl();
 		weight = request.getWeight();
-		setPrivateLayout(request.isPrivatePage());
 	}
 
 	public boolean isUsed() {
@@ -95,12 +115,12 @@ public class DisplayItem {
 	}
 
 	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((displayLayoutId == null) ? 0 : displayLayoutId.hashCode());
-		result = prime * result + ((url == null) ? 0 : url.hashCode());
+		result = prime * result + (int) (plId ^ (plId >>> 32));
 		return result;
 	}
 
@@ -113,75 +133,52 @@ public class DisplayItem {
 		if (getClass() != obj.getClass())
 			return false;
 		DisplayItem other = (DisplayItem) obj;
-		if (displayLayoutId == null) {
-			if (other.displayLayoutId != null)
-				return false;
-		} else if (!displayLayoutId.equals(other.displayLayoutId))
-			return false;
-		if (url == null) {
-			if (other.url != null)
-				return false;
-		} else if (!url.equals(other.url))
+		if (plId != other.plId)
 			return false;
 		return true;
 	}
 
-
 	/*
-	 * Getters and Setters
+	 * Getters/Setters
 	 */
-	
-	public IdDisplayItem getDisplayLayoutId() {
-		return displayLayoutId;
-	}
-
-	public void setDisplayLayoutId(IdDisplayItem displayLayoutId) {
-		this.displayLayoutId = displayLayoutId;
-	}
-	
 	public RequestState getState() {
 		return state;
 	}
+
 	public void setState(RequestState state) {
 		this.state = state;
 	}
+
+	public int getDepth() {
+		return depth;
+	}
+
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
+
+	public long getPlId() {
+		return plId;
+	}
+
+	public void setPlId(long plId) {
+		this.plId = plId;
+	}
+
 	public long getRequestId() {
 		return requestId;
 	}
+
 	public void setRequestId(long requestId) {
 		this.requestId = requestId;
 	}
+
 	public long getScenarioId() {
 		return scenarioId;
 	}
+
 	public void setScenarioId(long scenarioId) {
 		this.scenarioId = scenarioId;
-	}
-	public String getUrl() {
-		return url;
-	}
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	public double getWeight() {
-		return weight;
-	}
-	public void setWeight(double weight) {
-		this.weight = weight;
-	}
-	public int getNumberOfSpace() {
-		return numberOfSpace;
-	}
-	public void setNumberOfSpace(int numberOfSpace) {
-		this.numberOfSpace = numberOfSpace;
-	}
-
-	public long getParentLayoutId() {
-		return parentLayoutId;
-	}
-
-	public void setParentLayoutId(long parentLayoutId) {
-		this.parentLayoutId = parentLayoutId;
 	}
 
 	public String getName() {
@@ -192,12 +189,36 @@ public class DisplayItem {
 		this.name = name;
 	}
 
-	public boolean isPrivateLayout() {
-		return privateLayout;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setPrivateLayout(boolean privateLayout) {
-		this.privateLayout = privateLayout;
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public double getWeight() {
+		return weight;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+	public long getParentPlId() {
+		return parentPlId;
+	}
+
+	public void setParentPlId(long parentPlId) {
+		this.parentPlId = parentPlId;
+	}
+
+	public boolean isPrivateItem() {
+		return privateItem;
+	}
+
+	public void setPrivateItem(boolean privateItem) {
+		this.privateItem = privateItem;
 	}
 
 	public boolean isPortlet() {
@@ -207,5 +228,21 @@ public class DisplayItem {
 	public void setPortlet(boolean portlet) {
 		this.portlet = portlet;
 	}
+
+	public List<Long> getSubNodes() {
+		return subNodes;
+	}
+
+	public void setSubNodes(List<Long> subNodes) {
+		this.subNodes = subNodes;
+	}
+
+	public long getLayoutId() {
+		return layoutId;
+	}
+
+	public void setLayoutId(long layoutId) {
+		this.layoutId = layoutId;
+	}
+
 }
-	
