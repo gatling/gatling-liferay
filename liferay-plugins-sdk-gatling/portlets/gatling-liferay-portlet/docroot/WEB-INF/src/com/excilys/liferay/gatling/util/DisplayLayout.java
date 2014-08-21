@@ -15,8 +15,6 @@ import com.liferay.portal.model.Layout;
  */
 public class DisplayLayout {
 	
-	private static final String INDENT = "&emsp;&emsp;"; //tab
-	
 	public enum RequestState {
 		OLD_REQUEST, DEFAULT, NEW_REQUEST;
 	}
@@ -30,7 +28,6 @@ public class DisplayLayout {
 	private int numberOfSpace;
 	
 	// field of Request table
-	private boolean checked;
 	private long requestId;
 	private long scenarioId;
 	private String name;
@@ -107,18 +104,6 @@ public class DisplayLayout {
 		return true;
 	}
 
-	/**
-	 * 
-	 * @return the name of page with adequat indent if hierarchy
-	 */
-	public String showName() {
-		StringBuffer sb = new StringBuffer();
-		for(int i = 0; i< numberOfSpace; i++) {
-			sb.append(INDENT);
-		}
-		sb.append(" ").append(name);
-		return sb.toString();
-	}
 
 	/*
 	 * Getters and Setters
@@ -137,12 +122,6 @@ public class DisplayLayout {
 	}
 	public void setState(RequestState state) {
 		this.state = state;
-	}
-	public boolean isChecked() {
-		return checked;
-	}
-	public void setChecked(boolean checked) {
-		this.checked = checked;
 	}
 	public long getRequestId() {
 		return requestId;

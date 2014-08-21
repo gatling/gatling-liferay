@@ -17,8 +17,6 @@ public class IdDisplayLayout {
 		this.layoutId = layoutId;
 	}
 	
-	
-	
 	@Override
 	public String toString() {
 		int p = privatePage ? 1 : 0;
@@ -26,8 +24,6 @@ public class IdDisplayLayout {
 		sb.append(this.getClass().getSimpleName()).append("_").append(p).append("_").append(layoutId);
 		return sb.toString();
 	}
-
-
 
 	/*
 	 * Getters/Setters, Hash And Equals
@@ -67,6 +63,4 @@ public class IdDisplayLayout {
 			return false;
 		return true;
 	}
-
-	
 }
