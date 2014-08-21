@@ -399,14 +399,14 @@ public class GatlingPortlet extends MVCPortlet {
 				String siteName = GroupLocalServiceUtil.getGroup(groupId).getName();
 
 				//create DisplayLayoutList with actuel layout of the site and old layout added from requests
-				List<DisplayItem> displayLayoutList = new ArrayList<DisplayItem>();
-				DisplayItemUtil.addLayoutToDisplayItemList(displayLayoutList, listPublicLayouts);
-				DisplayItemUtil.addLayoutToDisplayItemList(displayLayoutList, listPrivateLayouts );
+				List<DisplayItem> displayItemList = new ArrayList<DisplayItem>();
+				DisplayItemUtil.addLayoutToDisplayItemList(displayItemList, listPublicLayouts);
+				DisplayItemUtil.addLayoutToDisplayItemList(displayItemList, listPrivateLayouts );
 
 				//get list of request to add the old page to DisplayLayout
 				List<Request> listRequests = RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(renderRequest, "scenarioId", 0));
 				//Merge Layout and Request in DisplayLayout List
-				displayLayoutList = DisplayItemUtil.addRequestToDisplayItemList(displayLayoutList, listRequests);
+				displayItemList = DisplayItemUtil.addRequestToDisplayItemList(displayItemList, listRequests);
 
 				// Get list of used names
 				List<Scenario> scenariolist = ScenarioLocalServiceUtil.getScenarios(0, ScenarioLocalServiceUtil.getScenariosCount());
@@ -421,7 +421,7 @@ public class GatlingPortlet extends MVCPortlet {
 				renderRequest.setAttribute("headerList", headerList);
 				//add request parameters
 				renderRequest.setAttribute("scenario", scenario);
-				renderRequest.setAttribute("listPages", displayLayoutList);
+				renderRequest.setAttribute("listPages", displayItemList);
 				renderRequest.setAttribute("siteName", siteName);
 				renderRequest.setAttribute("publicURL", publicURL);
 				renderRequest.setAttribute("listOfScenarioName", JSListName);

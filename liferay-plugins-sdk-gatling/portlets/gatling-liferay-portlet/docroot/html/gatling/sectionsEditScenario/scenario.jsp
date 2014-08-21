@@ -131,11 +131,15 @@
 								style="margin-left:${layout.depth*30}px"> ${layout.name} </a>
 							</td>
 						<td>
+<<<<<<< HEAD
 							<c:if test="${not empty portletList}">
 								<aui:button cssClass="show-portlet"
 									data-portlets="${portletList}"
 									value="scenario-edit-stress-portlet-btn" />
 							</c:if>
+=======
+							<aui:button cssClass="show-portlet" value="scenario-edit-stress-portlet-btn"/>
+>>>>>>> on progress portlet in editscenario
 						</td>
 						<td><aui:input label="" name="weight${status.index}"
 								cssClass="weight " inlineField="true" onChange="showWeight()"
@@ -310,7 +314,7 @@
 			        uri : renderURL.toString()
 			   });					
 			});
-		});
+	});
 		
 		if (A.all(".checkLine:checked").size() === A.all(".checkLine").size())
 			A.one("#checkAll").set("checked", true);

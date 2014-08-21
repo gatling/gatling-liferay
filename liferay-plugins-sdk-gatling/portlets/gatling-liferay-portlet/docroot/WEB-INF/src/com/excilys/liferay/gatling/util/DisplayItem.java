@@ -46,7 +46,6 @@ public class DisplayItem {
 	private String name;
 	private String url;
 	private double weight;
-
 	private long parentPlId;
 	private boolean privateItem;
 	private long layoutId;
