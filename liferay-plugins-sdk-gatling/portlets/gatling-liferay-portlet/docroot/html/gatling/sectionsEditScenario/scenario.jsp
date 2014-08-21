@@ -77,11 +77,12 @@
 					If the layout doesn't exists in db
 					
 					 --%>
-					<tr class="success ${layout.displayLayoutId} ${color }">
+					<tr class="success ${layout.displayLayoutId} ${color }" >
 						<%-- Affichage request pas enregistrée --%>
 						<td>
 							<input type="checkbox" name="${status.index}" class='checkLine' /> 
 							<c:if test="${not empty arraySubPage}">
+								<i class="icon-minus  show-hide-children" data-children="${arraySubPage }" ></i>
 								<i class="force-weight-children  icon-circle-arrow-down margin-left-5" data-children="${arraySubPage }" ></i>
 							</c:if> 							
 						</td>
@@ -150,6 +151,7 @@
 						<td>
 							<input type="checkbox"  name="${status.index}" class='checkLine'/>
 							<c:if test="${not empty arraySubPage}">
+								<i class="icon-minus   show-hide-children" data-children="${arraySubPage }" ></i>
 								<i class="force-weight-children  icon-circle-arrow-down margin-left-5" data-children="${arraySubPage }" ></i>
 							</c:if>
 						</td>
@@ -217,5 +219,44 @@
 			        title : '<liferay-ui:message key="help-how-to-use-load-test-portlet"/>'
 			  });
 		});
+		
+		
+		
+		A.all('.show-hide-children').each(function() {
+		      this.on('click',function(event) {
+		    	  var hide = true;
+		    	  if(this.hasClass('icon-minus')){
+		    		  this.addClass('icon-plus');
+			    	  this.removeClass('icon-minus');
+		    	  }
+		    	  else{
+		    		  this.addClass('icon-minus');
+			    	  this.removeClass('icon-plus');
+			    	  hide = false;
+		    	  }
+		    	  var children = this.getData("children").split(',');
+		    	  
+		    	  for (var i = 0; i < children.length; i++) {
+		    		var node = A.one('.'+children[i]);
+		    		showHideSubPage(children[i], hide);
+					}
+			});
+		});
 	});
+	
+	function showHideSubPage(child, hide) {
+		AUI().use('aui-base', function(A) {
+			var node = A.one('.'+child);
+			if(node != null) {
+				node.set("hidden",hide);
+				var nodeList = node.one(".show-hide-children");
+				if(nodeList != null) {
+					var children = nodeList.getData("children").split(",");
+					for (var i = 0; i < children.length; i++) {
+						showHideSubPage(children[i], hide);
+					}
+				}
+			}
+	    });
+	}
 </script>
