@@ -181,13 +181,17 @@
 	</table>
 </aui:fieldset>
 <script type="text/javascript">
-	AUI().use('aui-base', function(A) {
+	AUI().use('aui-base','liferay-portlet-url', function(A) {
 		A.all(".show-portlet").each(function() {
 			this.on('click', function(A) {
 				var id = this.getData('id');
 				console.log("showPortlet "+id);
 				//Create renderURL
-				
+				var renderURL = Liferay.PortletURL.createRenderURL();
+				renderURL.setPortletId("gatling_WAR_gatlingliferayportlet");
+				renderURL.setParameter("pagePortletId", id);
+				renderURL.setParameter("jspPage","/html/gatling/popupPortlet/portletConfig.jsp");
+				renderURL.setWindowState("pop_up");
 			
 				Liferay.Util.openWindow({
 			   		dialog : {
@@ -196,7 +200,8 @@
 			         	destroyOnClose : true,
 			            cache : false
 			        },
-			        uri : '${modalURL}'
+			        title : "Page Y / Portlet X",
+			        uri : renderURL.toString()
 			   });	
 			});
 		});
