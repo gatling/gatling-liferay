@@ -27,8 +27,10 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
+import com.liferay.portal.model.PortletPreferences;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
+import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
@@ -47,7 +49,6 @@ import java.util.zip.ZipOutputStream;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
-import javax.portlet.PortletPreferences;
 import javax.portlet.ReadOnlyException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -303,9 +304,9 @@ public class GatlingPortlet extends MVCPortlet {
 				throw new RuntimeException("error with getSimulation with localServiceUtil " + e.getMessage());
 			}
 			String JSListName = GatlingUtil.createJSListOfSimulationName(simulationList);
-			final PortletPreferences prefs = renderRequest.getPreferences();
+			final PortletPreferences prefs = (PortletPreferences) renderRequest.getPreferences();
 			String gatlingVersionString;
-			gatlingVersionString = prefs.getValue("gatlingVersion", null);
+			gatlingVersionString = ((javax.portlet.PortletPreferences) prefs).getValue("gatlingVersion", null);
 			renderRequest.setAttribute("gatlingVersion", gatlingVersionString);
 			renderRequest.setAttribute("listOfSimulationName", JSListName);
 			renderRequest.setAttribute("listSimulation", simulationList);
@@ -392,6 +393,9 @@ public class GatlingPortlet extends MVCPortlet {
 				//get public layout list
 				long groupId = scenario.getGroup_id();
 				List<Layout> listPublicLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false, 0);
+				for (Layout layout : listPublicLayouts) {
+					List<PortletPreferences> portletPreferences = PortletPreferencesLocalServiceUtil.getPortletPreferencesByPlid(layout.getPlid());
+				}
 
 				//get site name
 				String siteName = GroupLocalServiceUtil.getGroup(groupId).getName();
@@ -448,10 +452,10 @@ public class GatlingPortlet extends MVCPortlet {
 		int gatlingVersion = ParamUtil.getInteger(request, "gatlingVersion");
 		
 		//add user preference
-		final PortletPreferences prefs = request.getPreferences();
+		final PortletPreferences prefs = (PortletPreferences) request.getPreferences();
 		try {
-			prefs.setValue("gatlingVersion", Integer.toString(gatlingVersion));
-			prefs.store();
+			((javax.portlet.PortletPreferences) prefs).setValue("gatlingVersion", Integer.toString(gatlingVersion));
+			((javax.portlet.PortletPreferences) prefs).store();
 		} catch (ReadOnlyException | ValidatorException |  IOException e) {
 			throw new RuntimeException("connot add user preferences for gatling version " + e.getMessage());
 		} 
