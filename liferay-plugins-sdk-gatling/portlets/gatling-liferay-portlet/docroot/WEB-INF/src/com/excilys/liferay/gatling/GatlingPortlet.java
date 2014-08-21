@@ -305,7 +305,7 @@ public class GatlingPortlet extends MVCPortlet {
 				throw new RuntimeException("error with getSimulation with localServiceUtil " + e.getMessage());
 			}
 			String JSListName = GatlingUtil.createJSListOfSimulationName(simulationList);
-			final PortletPreferences prefs = (PortletPreferences) renderRequest.getPreferences();
+			final javax.portlet.PortletPreferences prefs = renderRequest.getPreferences();
 			String gatlingVersionString;
 			gatlingVersionString = ((javax.portlet.PortletPreferences) prefs).getValue("gatlingVersion", null);
 			renderRequest.setAttribute("gatlingVersion", gatlingVersionString);
@@ -394,13 +394,17 @@ public class GatlingPortlet extends MVCPortlet {
 				//get public layout list
 				long groupId = scenario.getGroup_id();
 				List<Layout> listPublicLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false, 0);
+				
+				//get private layout list
+				List<Layout> listPrivateLayouts = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
 
 				//get site name
 				String siteName = GroupLocalServiceUtil.getGroup(groupId).getName();
 
-				//create DisplayLayoutList with actuel layout(public for now) of the site and old layout added from requests
+				//create DisplayLayoutList with actuel layout of the site and old layout added from requests
 				List<DisplayItem> displayLayoutList = new ArrayList<DisplayItem>();
 				DisplayItemUtil.addLayoutToDisplayItemList(displayLayoutList, listPublicLayouts);
+				DisplayItemUtil.addLayoutToDisplayItemList(displayLayoutList, listPrivateLayouts );
 
 				// Get Hierachy (used to add a button if a row is a parent)
 				Map<IdDisplayItem, List<IdDisplayItem>> hierachy = new LinkedHashMap<IdDisplayItem, List<IdDisplayItem>>();
