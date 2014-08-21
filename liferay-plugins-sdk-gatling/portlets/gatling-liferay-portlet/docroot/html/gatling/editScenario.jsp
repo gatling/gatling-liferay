@@ -43,8 +43,7 @@
 
 </aui:form>
 <c:if test="${not empty confirmUpgrade }">
-	<aui:input type="hidden" id="confirmUpgrade" value="confirmUpgrade"
-		name="confirmUpgrade" />
+	<aui:input type="hidden" id="confirmUpgrade" value="confirmUpgrade" name="confirmUpgrade" />
 </c:if>
 
 <%--Upgrade scenario confirmation dialog box --%>

@@ -46,7 +46,7 @@
 	margin-bottom: 7px !important;
 }
 
-.force-weight-children:hover {
+.force-weight-children, .show-hide-children {
 	cursor: pointer;
 }
 

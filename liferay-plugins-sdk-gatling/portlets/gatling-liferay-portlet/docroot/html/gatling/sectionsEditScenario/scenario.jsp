@@ -2,13 +2,12 @@
 	Copyright 2011-2014 eBusiness Information, Groupe Excilys (www.ebusinessinformation.fr)
 --%>
 <%@include file="/html/gatling/header.jsp"%>
-<liferay-ui:error-marker key="errorSection" value="scenario" />
 
 <aui:fieldset label="scenario">
 	<aui:input type="hidden" name="scenarioId" value='${empty scenario ? "" : scenario.scenario_id }' />
 	<aui:input type="hidden" name="groupId" value='${scenario.group_id}' />
 
-	<portlet:renderURL var="helpURL">
+	<portlet:renderURL var="helpURL" windowState="pop_up">
 		<portlet:param name="page" value="/html/gatling/help.jsp" />
 	</portlet:renderURL>
 	<div class="well well-small">
@@ -238,7 +237,7 @@
 		    	  
 		    	  for (var i = 0; i < children.length; i++) {
 		    		var node = A.one('.'+children[i]);
-		    		showHideSubPage(children[i], hide);
+		    			showHideSubPage(children[i], hide);
 					}
 			});
 		});

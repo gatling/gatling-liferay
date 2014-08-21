@@ -53,7 +53,6 @@ public class DisplayItemUtil {
 				while(m.find()){
 					String[] tmp = m.group().substring(9).split(",");
 					for (int i = 0; i < tmp.length; i++) {
-						LOG.info("-> "+tmp[i]);
 						listPortlet.add(tmp[i]);
 					}
 				}
@@ -61,7 +60,6 @@ public class DisplayItemUtil {
 				
 				List<PortletPreferences> listPortletPreferences = PortletPreferencesLocalServiceUtil.getPortletPreferencesByPlid(layout.getPlid());
 				for (PortletPreferences portletPreferences : listPortletPreferences) {
-					LOG.info(portletPreferences.getPortletId());
 					if(listPortlet.contains(portletPreferences.getPortletId())) {
 						displayItemList.add(new DisplayItem(portletPreferences));
 					}
