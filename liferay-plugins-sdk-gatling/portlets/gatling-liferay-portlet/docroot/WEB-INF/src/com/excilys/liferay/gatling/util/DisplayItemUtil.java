@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class DisplayItemUtil {
@@ -42,13 +44,25 @@ public class DisplayItemUtil {
 	public static void addLayoutToDisplayItemList(List<DisplayItem> displayItemList, List<Layout> listLayouts) {
 		for(Layout layout : listLayouts) {
 			displayItemList.add(new DisplayItem(layout));
+			
 			try {
+				// Get portlet in layout
+				Pattern p = Pattern.compile("column-\\d=(.*)");
+				Matcher m =p.matcher(layout.getTypeSettings());
+				List<String> listPortlet = new ArrayList<String>();
+				while(m.find()){
+					String[] tmp = m.group().substring(9).split(",");
+					for (int i = 0; i < tmp.length; i++) {
+						LOG.info("-> "+tmp[i]);
+						listPortlet.add(tmp[i]);
+					}
+				}
+				
+				
 				List<PortletPreferences> listPortletPreferences = PortletPreferencesLocalServiceUtil.getPortletPreferencesByPlid(layout.getPlid());
 				for (PortletPreferences portletPreferences : listPortletPreferences) {
-					String id = portletPreferences.getPortletId().split("_")[0];
 					LOG.info(portletPreferences.getPortletId());
-					System.out.println(id);
-					if(!(id.equals("1") || id.equals("2") || id.equals("58") || id.equals("145"))) {
+					if(listPortlet.contains(portletPreferences.getPortletId())) {
 						displayItemList.add(new DisplayItem(portletPreferences));
 					}
 				}
