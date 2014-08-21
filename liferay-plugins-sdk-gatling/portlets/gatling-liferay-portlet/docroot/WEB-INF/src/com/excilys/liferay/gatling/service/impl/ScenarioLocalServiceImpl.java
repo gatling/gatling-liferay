@@ -20,9 +20,9 @@ import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.ScenarioLocalServiceBaseImpl;
-import com.excilys.liferay.gatling.util.DisplayLayout;
-import com.excilys.liferay.gatling.util.DisplayLayout.RequestState;
-import com.excilys.liferay.gatling.util.DisplayLayoutUtil;
+import com.excilys.liferay.gatling.util.DisplayItem;
+import com.excilys.liferay.gatling.util.DisplayItem.RequestState;
+import com.excilys.liferay.gatling.util.DisplayItemUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.excilys.liferay.gatling.validator.RequestValidator;
 import com.excilys.liferay.gatling.validator.ScenarioValidator;
@@ -237,13 +237,13 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		final long groupId =ParamUtil.getLong(request, "groupId");
 		// Get non private pages
 		final List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId,false,0);
-		List<DisplayLayout> displayLayoutList = new ArrayList<DisplayLayout>();
+		List<DisplayItem> displayLayoutList = new ArrayList<DisplayItem>();
 		// Sorting layout
-		DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listLayouts);
+		DisplayItemUtil.addLayoutToDisplayItemList(displayLayoutList, listLayouts);
 		// Retrieve Request from DB
 		final List<Request> listRequests = RequestLocalServiceUtil.findByScenarioId(idScenario);
 		// Merge Layout and Request in DisplayLayout List
-		displayLayoutList = DisplayLayoutUtil.addRequestToDisplayLayoutList(displayLayoutList, listRequests);
+		displayLayoutList = DisplayItemUtil.addRequestToDisplayItemList(displayLayoutList, listRequests);
 
 		// get List request
 		final List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(request, "scenarioId",0));
@@ -256,7 +256,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		 */
 		int layoutId = 0;
 		double weight = 0.0d;
-		DisplayLayout displayLayout = null;
+		DisplayItem displayLayout = null;
 		String url = null;
 		RequestState status = null;
 		for (String key : parameters.keySet()){

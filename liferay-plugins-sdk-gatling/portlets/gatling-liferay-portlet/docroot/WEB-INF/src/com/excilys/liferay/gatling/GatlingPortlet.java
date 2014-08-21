@@ -11,10 +11,10 @@ import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
-import com.excilys.liferay.gatling.util.DisplayLayout;
-import com.excilys.liferay.gatling.util.DisplayLayoutUtil;
+import com.excilys.liferay.gatling.util.DisplayItem;
+import com.excilys.liferay.gatling.util.DisplayItemUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
-import com.excilys.liferay.gatling.util.IdDisplayLayout;
+import com.excilys.liferay.gatling.util.IdDisplayItem;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -393,25 +394,22 @@ public class GatlingPortlet extends MVCPortlet {
 				//get public layout list
 				long groupId = scenario.getGroup_id();
 				List<Layout> listPublicLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false, 0);
-				for (Layout layout : listPublicLayouts) {
-					List<PortletPreferences> portletPreferences = PortletPreferencesLocalServiceUtil.getPortletPreferencesByPlid(layout.getPlid());
-				}
 
 				//get site name
 				String siteName = GroupLocalServiceUtil.getGroup(groupId).getName();
 
 				//create DisplayLayoutList with actuel layout(public for now) of the site and old layout added from requests
-				List<DisplayLayout> displayLayoutList = new ArrayList<DisplayLayout>();
-				DisplayLayoutUtil.addLayoutToDisplayLayoutList(displayLayoutList, listPublicLayouts);
+				List<DisplayItem> displayLayoutList = new ArrayList<DisplayItem>();
+				DisplayItemUtil.addLayoutToDisplayItemList(displayLayoutList, listPublicLayouts);
 
 				// Get Hierachy (used to add a button if a row is a parent)
-				Map<IdDisplayLayout, List<IdDisplayLayout>> hierachy = new LinkedHashMap<IdDisplayLayout, List<IdDisplayLayout>>();
-				DisplayLayoutUtil.mapHierachy(displayLayoutList, hierachy);
+				Map<IdDisplayItem, List<IdDisplayItem>> hierachy = new LinkedHashMap<IdDisplayItem, List<IdDisplayItem>>();
+				DisplayItemUtil.mapHierachy(displayLayoutList, hierachy);
 
 				//get list of request to add the old page to DisplayLayout
 				List<Request> listRequests = RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(renderRequest, "scenarioId", 0));
 				//Merge Layout and Request in DisplayLayout List
-				displayLayoutList = DisplayLayoutUtil.addRequestToDisplayLayoutList(displayLayoutList, listRequests);
+				displayLayoutList = DisplayItemUtil.addRequestToDisplayItemList(displayLayoutList, listRequests);
 
 				// Get list of used names
 				List<Scenario> scenariolist = ScenarioLocalServiceUtil.getScenarios(0, ScenarioLocalServiceUtil.getScenariosCount());

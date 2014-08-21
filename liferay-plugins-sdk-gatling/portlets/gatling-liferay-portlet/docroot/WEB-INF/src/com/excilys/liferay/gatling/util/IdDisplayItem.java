@@ -4,15 +4,15 @@
 package com.excilys.liferay.gatling.util;
 
 /**
- * Id of a {@link DisplayLayout}
+ * Id of a {@link DisplayItem}
  * Used to compare DisplayLayouts
  *
  */
-public class IdDisplayLayout {
+public class IdDisplayItem {
 	private boolean privatePage;
 	private long layoutId;
 	
-	public IdDisplayLayout(boolean privatePage, long layoutId) {
+	public IdDisplayItem(boolean privatePage, long layoutId) {
 		this.privatePage = privatePage;
 		this.layoutId = layoutId;
 	}
@@ -56,7 +56,7 @@ public class IdDisplayLayout {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		IdDisplayLayout other = (IdDisplayLayout) obj;
+		IdDisplayItem other = (IdDisplayItem) obj;
 		if (layoutId != other.layoutId)
 			return false;
 		if (privatePage != other.privatePage)

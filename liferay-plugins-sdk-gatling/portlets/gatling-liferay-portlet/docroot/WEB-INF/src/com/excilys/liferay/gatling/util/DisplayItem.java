@@ -4,22 +4,27 @@
 package com.excilys.liferay.gatling.util;
 
 import com.excilys.liferay.gatling.model.Request;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.model.Layout;
+import com.liferay.portal.model.PortletPreferences;
+import com.liferay.portal.service.LayoutLocalServiceUtil;
+import com.liferay.portal.service.PortletLocalServiceUtil;
 
 /**
  * DisplayLayout is used in editScenario.jsp to display both layout and request
  * 
- * use of {@link IdDisplayLayout} as field for identity
+ * use of {@link IdDisplayItem} as field for identity
  *
  */
-public class DisplayLayout {
+public class DisplayItem {
 	
 	public enum RequestState {
 		OLD_REQUEST, DEFAULT, NEW_REQUEST;
 	}
 	// displayLayoutId
-	private IdDisplayLayout displayLayoutId;
+	private IdDisplayItem displayLayoutId;
 
 	// field for comparaison
 	private RequestState state;
@@ -35,6 +40,7 @@ public class DisplayLayout {
 	private double weight;
 	private long parentLayoutId;
 	private boolean privateLayout;
+	private boolean portlet = false;
 	
 	// Common initialization
 	{
@@ -45,9 +51,25 @@ public class DisplayLayout {
 	 * create DisplayLayout from a liferay Layout
 	 * @param layout
 	 */
-	public DisplayLayout(Layout layout) {
+	public DisplayItem(PortletPreferences portletPreferences) {
 		
-		displayLayoutId = new IdDisplayLayout(layout.isPrivateLayout(), layout.getLayoutId());
+		parentLayoutId = portletPreferences.getPlid();
+		name = PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).getDisplayName();
+		setPortlet(Boolean.TRUE);
+		try {
+			url = LayoutLocalServiceUtil.getLayout(portletPreferences.getPlid()).getFriendlyURL() /* + url portlet*/;
+		} catch (PortalException | SystemException e) {
+			new RuntimeException("fuck you DB! give me my portlet url");
+		}
+	}
+	
+	/**
+	 * create DisplayLayout from a liferay Layout
+	 * @param layout
+	 */
+	public DisplayItem(Layout layout) {
+		
+		displayLayoutId = new IdDisplayItem(layout.isPrivateLayout(), layout.getLayoutId());
 		parentLayoutId = layout.getParentLayoutId();
 		name = layout.getName(LocaleUtil.getDefault());
 		url = layout.getFriendlyURL();
@@ -58,8 +80,8 @@ public class DisplayLayout {
 	 * create DisplayLayout from a scenario request
 	 * @param request
 	 */
-	public DisplayLayout(Request request){
-		displayLayoutId = new IdDisplayLayout(request.isPrivatePage(), request.getLayoutId());
+	public DisplayItem(Request request){
+		displayLayoutId = new IdDisplayItem(request.isPrivatePage(), request.getLayoutId());
 		requestId = request.getRequest_id();
 		parentLayoutId = request.getParentLayoutId();
 		name = request.getName();
@@ -67,7 +89,7 @@ public class DisplayLayout {
 		weight = request.getWeight();
 		setPrivateLayout(request.isPrivatePage());
 	}
-	
+
 	public boolean isUsed() {
 		return (weight > 0);
 	}
@@ -90,7 +112,7 @@ public class DisplayLayout {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DisplayLayout other = (DisplayLayout) obj;
+		DisplayItem other = (DisplayItem) obj;
 		if (displayLayoutId == null) {
 			if (other.displayLayoutId != null)
 				return false;
@@ -109,11 +131,11 @@ public class DisplayLayout {
 	 * Getters and Setters
 	 */
 	
-	public IdDisplayLayout getDisplayLayoutId() {
+	public IdDisplayItem getDisplayLayoutId() {
 		return displayLayoutId;
 	}
 
-	public void setDisplayLayoutId(IdDisplayLayout displayLayoutId) {
+	public void setDisplayLayoutId(IdDisplayItem displayLayoutId) {
 		this.displayLayoutId = displayLayoutId;
 	}
 	
@@ -176,6 +198,14 @@ public class DisplayLayout {
 
 	public void setPrivateLayout(boolean privateLayout) {
 		this.privateLayout = privateLayout;
+	}
+
+	public boolean isPortlet() {
+		return portlet;
+	}
+
+	public void setPortlet(boolean portlet) {
+		this.portlet = portlet;
 	}
 }
 	
