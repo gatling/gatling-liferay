@@ -76,7 +76,7 @@
 					If the layout doesn't exists in db
 					
 					 --%>
-					<tr class="success ${layout.plId} ${color }" >
+					<tr id="${layout.plId}" class="success ${color }" >
 						<%-- Affichage request pas enregistrée --%>
 						<td>
 							<input type="checkbox" name="${status.index}" class='checkLine' /> 
@@ -148,7 +148,7 @@
 					Exists in both
 					
 					 --%>
-					<tr class="${layout.plId} ${color}">
+					<tr id="${layout.plId}" class="${color}">
 						<td>
 							<input type="checkbox"  name="${status.index}" class='checkLine'/>
 							<c:if test="${not empty arraySubPage}">
@@ -248,7 +248,7 @@
 	
 		function selectSubPage(page, checked) {
 			AUI().use('aui-base', function(A) {
-				var node = A.one('.'+page);
+				var node = A.one('#'+page);
 				if(node != null) {
 					node.one(".checkLine").set("checked",checked);
 					var nodeList = node.one(".force-weight-children");
@@ -286,7 +286,7 @@
 	
 	function showHideSubPage(child, hide) {
 		AUI().use('aui-base', function(A) {
-			var node = A.one('.'+child);
+			var node = A.one('#'+child);
 			if(node != null) {
 				node.set("hidden",hide);
 				var nodeList = node.one(".show-hide-children");

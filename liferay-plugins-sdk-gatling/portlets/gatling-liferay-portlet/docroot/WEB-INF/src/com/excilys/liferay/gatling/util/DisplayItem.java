@@ -68,12 +68,13 @@ public class DisplayItem {
 	 * @param layout
 	 */
 	public DisplayItem(PortletPreferences portletPreferences) {
-		
-		parentPlId = portletPreferences.getPlid();
+		plId = portletPreferences.getPlid();
 		name = PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).getDisplayName();
 		portlet = Boolean.TRUE;
 		try {
-			url = LayoutLocalServiceUtil.getLayout(portletPreferences.getPlid()).getFriendlyURL() /* + url portlet*/;
+			Layout parent = LayoutLocalServiceUtil.getLayout(portletPreferences.getPlid());
+			url = parent.getFriendlyURL() /* + url portlet*/;
+			parentPlId = parent.getParentPlid();
 		} catch (PortalException | SystemException e) {
 			new RuntimeException("fuck you DB! give me my portlet url");
 		}
