@@ -19,7 +19,7 @@ public class MustacheScenario {
 	long users, duration;
 	List<MustacheRequest> mustacheRequests;
 	boolean last;
-
+	
 
 }
 

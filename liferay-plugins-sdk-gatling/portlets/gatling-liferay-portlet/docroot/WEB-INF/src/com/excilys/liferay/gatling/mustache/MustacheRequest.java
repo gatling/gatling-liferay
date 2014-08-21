@@ -4,23 +4,56 @@
 package com.excilys.liferay.gatling.mustache;
 
 import com.excilys.liferay.gatling.model.Request;
+import com.excilys.liferay.gatling.mustache.util.ExecSpecial;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MustacheRequest {
 
-	String name, url;
-	double pourcentage;
-	boolean last;
-	long scenarioId;
+	private String name, url;
+	private double pourcentage;
+	private boolean last, notRegular, regular;
+	private long scenarioId;
+	private List<ExecSpecial> listExecSpecial = new ArrayList<ExecSpecial>();
 	
 	MustacheRequest(String name, String url, double d, boolean last) {
 		this.url = url;
 		this.name = name;
 		this.pourcentage = d;
 		this.last = last;
+		this.regular = true;
+		this.notRegular = false;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public double getPourcentage() {
+		return pourcentage;
+	}
+
+	public void setPourcentage(double pourcentage) {
+		this.pourcentage = pourcentage;
+	}
+
+	public boolean isLast() {
+		return last;
 	}
 
 	public MustacheRequest setWeight(Object i) {
@@ -56,5 +89,47 @@ public class MustacheRequest {
 		this.last = last;
 		return this;
 	}
+
+	public boolean isNotRegular() {
+		return notRegular;
+	}
+
+	public void setNotRegular(boolean notRegular) {
+		this.notRegular = notRegular;
+	}
+
+	public boolean isRegular() {
+		return regular;
+	}
+
+	public void setRegular(boolean regular) {
+		this.regular = regular;
+	}
+
+	public List<ExecSpecial> getExecSpecial() {
+		setLastListExecSpecial();
+		return listExecSpecial;
+	}
+
+	public void setListExecSpecial(List<ExecSpecial> listExecSpecial) {
+		this.listExecSpecial = listExecSpecial;
+	}
+	
+	public void addListExecSpecial(ExecSpecial listExecSpecial) {
+		this.listExecSpecial.add(listExecSpecial);
+	}
+	
+
+	
+	private void setLastListExecSpecial() {
+		if(!listExecSpecial.isEmpty()) {
+			listExecSpecial.get(listExecSpecial.size()-1).setLast(true);
+		}		
+	}
+
+	public boolean listExecSpecialEmpty() {
+		return listExecSpecial.isEmpty();
+	}
+	
 
 }
