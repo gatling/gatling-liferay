@@ -96,7 +96,8 @@
 						<td><input type="checkbox" name="${status.index}"
 							class='checkLine' /></td>
 						<td><i class="icon-th-large"></i> 
-						<a href="#${layout.plId}" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px"> ${layout.name}</a></td>
+							<a href="#${layout.plId}" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px"> ${layout.name}</a>
+						</td>
 						<td></td>
 						<td><aui:input label="" name="weight${status.index}"
 								cssClass="weight " inlineField="true" onChange="showWeight()"
@@ -121,7 +122,8 @@
 								<i
 									class="force-weight-children  icon-circle-arrow-down margin-left-5"
 									data-children="${arraySubPage }"></i>
-							</c:if></td>
+							</c:if>
+						</td>
 						<td>
 							<c:if test="${layout.privateItem}">
 								<i class="icon-eye-close"></i>
@@ -328,8 +330,6 @@
 			A.one(".forceinput").set('disabled', false);
 			A.one("#force").set('disabled', false);
 		}
-		
-
 		
 		A.one("#help").on('click', function(A) {
 			Liferay.Util.openWindow({

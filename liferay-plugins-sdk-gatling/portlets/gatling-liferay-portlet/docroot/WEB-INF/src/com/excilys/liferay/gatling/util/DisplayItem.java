@@ -50,6 +50,7 @@ public class DisplayItem {
 	private boolean privateItem;
 	private long layoutId;
 	private boolean portlet;
+	
 	// List of it direct subnodes id
 	private List<Long> subNodes;
 	// List of page portlet id
