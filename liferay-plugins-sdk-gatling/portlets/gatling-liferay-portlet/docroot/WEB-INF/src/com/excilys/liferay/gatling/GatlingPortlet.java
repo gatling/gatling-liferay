@@ -303,7 +303,7 @@ public class GatlingPortlet extends MVCPortlet {
 			String JSListName = GatlingUtil.createJSListOfSimulationName(simulationList);
 			final javax.portlet.PortletPreferences prefs = renderRequest.getPreferences();
 			String gatlingVersionString;
-			gatlingVersionString = ((javax.portlet.PortletPreferences) prefs).getValue("gatlingVersion", null);
+			gatlingVersionString = prefs.getValue("gatlingVersion", null);
 			renderRequest.setAttribute("gatlingVersion", gatlingVersionString);
 			renderRequest.setAttribute("listOfSimulationName", JSListName);
 			renderRequest.setAttribute("listSimulation", simulationList);
