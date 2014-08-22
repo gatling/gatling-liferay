@@ -95,8 +95,8 @@
 						hidden="true">
 						<td><input type="checkbox" name="${status.index}"
 							class='checkLine' /></td>
-						<td><i class="icon-th-large"></i> <a href="#${layout.plId}"
-							style="margin-left:${(layout.depth-1)*30}px"> ${layout.name}</a></td>
+						<td><i class="icon-th-large"></i> 
+						<a href="#${layout.plId}" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px"> ${layout.name}</a></td>
 						<td></td>
 						<td><aui:input label="" name="weight${status.index}"
 								cssClass="weight " inlineField="true" onChange="showWeight()"
@@ -289,6 +289,29 @@
 			});
 		});
 		
+		A.all(".portlet-popup").each(function() {
+			this.on('click' , function(event) {
+				var id = this.get("href").substring(1);
+				//Create renderURL
+				var renderURL = Liferay.PortletURL.createRenderURL();
+				renderURL.setPortletId("gatling_WAR_gatlingliferayportlet");
+				renderURL.setParameter("pagePortletId", id);
+				renderURL.setParameter("jspPage","/html/gatling/popupPortlet/portletConfig.jsp");
+				renderURL.setWindowState("pop_up");
+		
+				Liferay.Util.openWindow({
+			   		dialog : {
+			        	modal : true,
+			            constrain : true,
+			         	destroyOnClose : true,
+			            cache : false
+			        },
+			        title : "Page Y / Portlet X",
+			        uri : renderURL.toString()
+			   });					
+			});
+		});
+		
 		if (A.all(".checkLine:checked").size() === A.all(".checkLine").size())
 			A.one("#checkAll").set("checked", true);
 
@@ -302,25 +325,7 @@
 			A.one("#force").set('disabled', false);
 		}
 		
-//			var id = this.getData('id');
-//			console.log("showPortlet "+id);
-//			//Create renderURL
-//			var renderURL = Liferay.PortletURL.createRenderURL();
-//			renderURL.setPortletId("gatling_WAR_gatlingliferayportlet");
-//			renderURL.setParameter("pagePortletId", id);
-//			renderURL.setParameter("jspPage","/html/gatling/popupPortlet/portletConfig.jsp");
-//			renderURL.setWindowState("pop_up");
-	
-//			Liferay.Util.openWindow({
-//		   		dialog : {
-//		        	modal : true,
-//		            constrain : true,
-//		         	destroyOnClose : true,
-//		            cache : false
-//		        },
-//		        title : "Page Y / Portlet X",
-//		        uri : renderURL.toString()
-//		   });	
+
 		
 		A.one("#help").on('click', function(A) {
 			Liferay.Util.openWindow({
