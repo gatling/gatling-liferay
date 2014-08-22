@@ -160,9 +160,11 @@ public class DisplayItemUtil {
 		class Info {
 			int depth;
 			long parentNode;
-			public Info(int depth, long parentNode) {
+			boolean isPortlet;
+			public Info(int depth, long parentNode, boolean portlet) {
 				this.depth = depth;
 				this.parentNode = parentNode;
+				this.isPortlet = portlet;
 			}
 		}
 		// Indent and subnode
@@ -174,14 +176,16 @@ public class DisplayItemUtil {
 				dl.setDepth(dl.getDepth()+indentInfo.get(parent).depth+1);
 			}
 			// keep the parent for the second part
-			indentInfo.put(dl.getPlId(), new Info(dl.getDepth(), parent));
+			indentInfo.put(dl.getPlId(), new Info(dl.getDepth(), parent, dl.isPortlet()));
 		}
 		
 		// set the subnodes
 		for (DisplayItem displayItem : list) {
-			if(!displayItem.isPortlet()) {
-				for(Entry<Long, Info> set : indentInfo.entrySet()) {
-					if(set.getValue().parentNode == displayItem.getPlId()) {
+			for(Entry<Long, Info> set : indentInfo.entrySet()) {
+				if(set.getValue().parentNode == displayItem.getPlId()) {
+					if(set.getValue().isPortlet) {
+						displayItem.getPagePortlet().add(set.getKey());
+					} else {
 						displayItem.getSubNodes().add(set.getKey());
 					}
 				}

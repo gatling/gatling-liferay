@@ -4,40 +4,43 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 <aui:fieldset label="scenario">
-	<aui:input type="hidden" name="scenarioId" value='${empty scenario ? "" : scenario.scenario_id }' />
+	<aui:input type="hidden" name="scenarioId"
+		value='${empty scenario ? "" : scenario.scenario_id }' />
 	<aui:input type="hidden" name="groupId" value='${scenario.group_id}' />
 
 	<portlet:renderURL var="helpURL" windowState="pop_up">
 		<portlet:param name="page" value="/html/gatling/help.jsp" />
 	</portlet:renderURL>
 	<div class="well well-small">
-		<liferay-ui:message key="scenario-edit-help-scenario" /> 
-		<a href="#" class="label" id="help">
-			<i class="icon-question-sign"></i> 
+		<liferay-ui:message key="scenario-edit-help-scenario" />
+		<a href="#help" class="label" id="help"> <i class="icon-question-sign"></i>
 			<liferay-ui:message key="help-use-scenario" />
-		</a> 
+		</a>
 	</div>
-	
+
 	<table class="table table-bordered table-scenario">
-		<tr> 
-			<th class="small-column">
-				<input type="checkbox" id="checkAll" /> 
-				<label for="checkAll" class="inline"><i class='icon-circle-arrow-down'></i></label>
-				<%--Force weight button --%>
-				<aui:input label="" name="forceWeight" cssClass="forceinput" inlineField="true" />
-				<aui:button value="scenario-edit-force-weight-btn" cssClass="inline-button" id="force" onClick="forceWeight();" />
-				<liferay-ui:icon-help message="scenario-edit-force-weight"/>
-			</th>
-			<th><liferay-ui:message key="scenario-edit-table-header-page" /> <liferay-ui:icon-help message="name-info-help"/></th>
-			<th><liferay-ui:message key="scenario-edit-table-header-portlet" /></th>
-			<th><liferay-ui:message key="scenario-edit-table-header-weight" /> <liferay-ui:icon-help message="weight-info-help"/></th>
-			<th><liferay-ui:icon-help message="percentage-info-help"/></th>
+		<thead>
+		<tr>
+			<th class="small-column"><input type="checkbox" id="checkAll" />
+				<label for="checkAll" class="inline"><i
+					class='icon-circle-arrow-down'></i></label> <%--Force weight button --%> <aui:input
+					label="" name="forceWeight" cssClass="forceinput"
+					inlineField="true" /> <aui:button
+					value="scenario-edit-force-weight-btn" cssClass="inline-button"
+					id="force" onClick="forceWeight();" /> <liferay-ui:icon-help
+					message="scenario-edit-force-weight" /></th>
+			<th ><liferay-ui:message key="scenario-edit-table-header-page" />
+				<liferay-ui:icon-help message="name-info-help" /></th>
+			<th class="small-column"><liferay-ui:message key="scenario-edit-table-header-portlet" /></th>
+			<th class="small-column"><liferay-ui:message key="scenario-edit-table-header-weight" />
+				<liferay-ui:icon-help message="weight-info-help" /></th>
+			<th class="small-column"><liferay-ui:icon-help message="percentage-info-help" /></th>
 		</tr>
+		</thead>
 		<c:if test="${ listPages.size() ==0 }">
 			<tr>
-				<td>
-					<label style="color: green"> <liferay-ui:message key="no-page" /></label>
-				</td>
+				<td><label style="color: green"> <liferay-ui:message
+							key="no-page" /></label></td>
 			</tr>
 		</c:if>
 		<%--
@@ -45,13 +48,15 @@
 		FOR EACH Display
 		
 		 --%>
+		<tbody>
 		<c:forEach var="layout" items='${ listPages }' varStatus="status">
 			<%-- Add a variable to know if we need to ask the user about upgrading the scenario --%>
-			<c:if test="${empty confirmUpgrade && (layout.state == 'NEW_REQUEST' || layout.state == 'OLD_REQUEST') }">
+			<c:if
+				test="${empty confirmUpgrade && (layout.state == 'NEW_REQUEST' || layout.state == 'OLD_REQUEST') }">
 				<c:set var="confirmUpgrade" value="confirmUpgrade" />
 			</c:if>
-		 	<%--subpages --%>
-		 	<c:set var="arraySubPage"  />
+			<%--subpages --%>
+			<c:set var="arraySubPage" />
 			<c:if test="${not empty layout.subNodes}">
 				<c:forEach var="i" items="${layout.subNodes}" varStatus="info">
 					<c:set var="arraySubPage" value="${arraySubPage}${i}" />
@@ -60,127 +65,152 @@
 					</c:if>
 				</c:forEach>
 			</c:if>
-			 <%-- Weight = 0 ? blue line --%>
-			<c:set var="color"/>
-			<c:if test="${not layout.isUsed() }" >
-				<c:set var="color" value="empty-weight-color"/>
+			<%--Portlets --%>
+			<c:set var="portletList" />
+			<c:if test="${not empty layout.pagePortlet}">
+				<c:forEach var="i" items="${layout.pagePortlet}" varStatus="info">
+					<c:set var="portletList" value="${portletList}${i}" />
+					<c:if test="${not info.last}">
+						<c:set var="portletList" value="${portletList}," />
+					</c:if>
+				</c:forEach>
 			</c:if>
-			<c:set var="url" value="${publicURL}${layout.url}"/>
+			<%-- Weight = 0 ? blue line --%>
+			<c:set var="color" />
+			<c:if test="${not layout.isUsed() }">
+				<c:set var="color" value="empty-weight-color" />
+			</c:if>
+			<c:set var="url" value="${publicURL}${layout.url}" />
 			<%--
 				DISPLAY
 			 --%>
 			<c:choose>
-				<c:when test="${layout.state == 'NEW_REQUEST'}">
-					<%-- 
-					
-					If the layout doesn't exists in db
-					
-					 --%>
-					<tr id="${layout.plId}" class="success ${color }" >
-						<%-- Affichage request pas enregistrée --%>
-						<td>
-							<input type="checkbox" name="${status.index}" class='checkLine' /> 
-							<c:if test="${not empty arraySubPage}">
-								<i class="icon-minus  show-hide-children" data-children="${arraySubPage }" ></i>
-								<i class="force-weight-children  icon-circle-arrow-down margin-left-5" data-children="${arraySubPage }" ></i>
-							</c:if> 							
-						</td>
-						<td>
-							<c:if test="${layout.privateItem}">
-								<i class="icon-eye-close"></i>
-							</c:if>
-							<i class="icon-plus-sign"></i> 
-							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.depth*30}px"> 
-								${layout.name}
-							</a>
-							
-							
-						</td>
-						<td>
-							<c:if test="${not layout.portlet}">
-								<aui:button cssClass="show-portlet" data-id="${layout.requestId}" value="scenario-edit-stress-portlet-btn"/>
-							</c:if>
-						</td>
-						
-						<td>
-							<aui:input label="" name="weight${status.index}" cssClass="weight " inlineField="true" onChange="showWeight()"
-								value="${layout.weight}">
-								<aui:validator name="number" />
-							</aui:input>
-							
-						</td>
-						<td><span class='percentage'>0.00%</span></td>
-					</tr>
-				</c:when>
-				<c:when test="${layout.state == 'OLD_REQUEST'}">
-					<%-- 
-					
-					When the layout is in DB but not in the site
-					
-					--%>
-					<tr class="error">
-						<%-- Affichage request pas enregistrée --%>
-						<td>
-							<input name="delete${layout.requestId}" type="hidden" value="${layout.requestId}" /> 
-							<portlet:actionURL var="deleteRequestURL" name="removeRequest">
-								<portlet:param name="requestId" value="${layout.requestId}" />
-							</portlet:actionURL> <liferay-ui:icon-delete url="${deleteRequestURL}" />
-						</td>
-
-						<td>
-							<c:if test="${layout.privateItem}">
-								<i class="icon-eye-close"></i>
-							</c:if>
-							<i class="icon-exclamation-sign"></i> 
-							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.depth*30}px"> 
-								${layout.name}
-							</a></td>
-						<td>
+				<%--
+				
+					If it is a portlet
+				
+				 --%>
+				<c:when test="${layout.portlet }">
+					<tr id="${layout.plId}" class="${color }"
+						hidden="true">
+						<td><input type="checkbox" name="${status.index}"
+							class='checkLine' /></td>
+						<td><i class="icon-th-large"></i> <a href="#${layout.plId}"
+							style="margin-left:${(layout.depth-1)*30}px"> ${layout.name}</a></td>
 						<td></td>
-						<td><aui:input label="" name="weight${status.index}" value="${layout.weight}" cssClass="weight deleted" onChange="showWeight()">
+						<td><aui:input label="" name="weight${status.index}"
+								cssClass="weight " inlineField="true" onChange="showWeight()"
+								value="${layout.weight}">
 								<aui:validator name="number" />
 							</aui:input></td>
 						<td><span class='percentage'>0.00%</span></td>
 					</tr>
 				</c:when>
-				<c:otherwise>
-					<%--  
+				<%-- 
 					
-					Exists in both
+					If the layout doesn't exist in db
 					
-					 --%>
-					<tr id="${layout.plId}" class="${color}">
-						<td>
-							<input type="checkbox"  name="${status.index}" class='checkLine'/>
-							<c:if test="${not empty arraySubPage}">
-								<i class="icon-minus   show-hide-children" data-children="${arraySubPage }" ></i>
-								<i class="force-weight-children  icon-circle-arrow-down margin-left-5" data-children="${arraySubPage }" ></i>
-							</c:if>
-						</td>
+				 --%>
+				<c:when test="${layout.state == 'NEW_REQUEST'}">
+					<tr id="${layout.plId}" class="success ${color }">
+						<%-- Affichage request pas enregistrée --%>
+						<td><input type="checkbox" name="${status.index}"
+							class='checkLine' /> <c:if test="${not empty arraySubPage}">
+								<i class="icon-minus  show-hide-children"
+									data-children="${arraySubPage }"></i>
+								<i
+									class="force-weight-children  icon-circle-arrow-down margin-left-5"
+									data-children="${arraySubPage }"></i>
+							</c:if></td>
 						<td>
 							<c:if test="${layout.privateItem}">
 								<i class="icon-eye-close"></i>
 							</c:if>
-							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.depth*30}px"> 
-								${layout.name}
-							</a>
-						</td>
+							<i class="icon-plus-sign"></i> <a href="${url}"
+								title="${layout.url}" target="_blank"
+								style="margin-left:${layout.depth*30}px"> ${layout.name} </a>
+							</td>
 						<td>
-							<c:if test="${not layout.portlet}">
-								<aui:button cssClass="show-portlet" data-id="${layout.requestId}" value="scenario-edit-stress-portlet-btn"/>
+							<c:if test="${not empty portletList}">
+								<aui:button cssClass="show-portlet"
+									data-portlets="${portletList}"
+									value="scenario-edit-stress-portlet-btn" />
 							</c:if>
 						</td>
-
-						<td><aui:input label="" name="weight${status.index}" cssClass="weight" inlineField="true" value="${layout.weight}"
-								onChange="showWeight()">
+						<td><aui:input label="" name="weight${status.index}"
+								cssClass="weight " inlineField="true" onChange="showWeight()"
+								value="${layout.weight}">
 								<aui:validator name="number" />
 							</aui:input>
 						</td>
 						<td><span class='percentage'>0.00%</span></td>
 					</tr>
+				</c:when>
+				<%-- 
+				
+				When the layout is in DB but not in the site
+				
+				--%>
+				<c:when test="${layout.state == 'OLD_REQUEST'}">
+					<tr class="error">
+						<%-- Affichage request pas enregistrée --%>
+						<td><input name="delete${layout.requestId}" type="hidden"
+							value="${layout.requestId}" /> <portlet:actionURL
+								var="deleteRequestURL" name="removeRequest">
+								<portlet:param name="requestId" value="${layout.requestId}" />
+							</portlet:actionURL> <liferay-ui:icon-delete url="${deleteRequestURL}" /></td>
+
+						<td><c:if test="${layout.privateItem}">
+								<i class="icon-eye-close"></i>
+							</c:if> <i class="icon-exclamation-sign"></i> <a href="${url}"
+							title="${layout.url}" target="_blank"
+							style="margin-left:${layout.depth*30}px"> ${layout.name} </a></td>
+						<td>
+						<td></td>
+						<td><aui:input label="" name="weight${status.index}"
+								value="${layout.weight}" cssClass="weight deleted"
+								onChange="showWeight()">
+								<aui:validator name="number" />
+							</aui:input></td>
+						<td><span class='percentage'>0.00%</span></td>
+					</tr>
+				</c:when>
+				<%--  
+					
+					Exists in both
+					
+				 --%>
+				<c:otherwise>
+					<tr id="${layout.plId}" class="${color}">
+						<td><input type="checkbox" name="${status.index}"
+							class='checkLine' /> <c:if test="${not empty arraySubPage}">
+								<i class="icon-minus   show-hide-children"
+									data-children="${arraySubPage }"></i>
+								<i
+									class="force-weight-children  icon-circle-arrow-down margin-left-5"
+									data-children="${arraySubPage }"></i>
+							</c:if>
+						</td>
+						<td><c:if test="${layout.privateItem}">
+								<i class="icon-eye-close"></i>
+							</c:if> <a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.depth*30}px"> ${layout.name} </a>
+						</td>
+						<td><c:if test="${not empty portletList}">
+								<aui:button cssClass="show-portlet" data-portlets="${portletList}"
+									value="scenario-edit-stress-portlet-btn" />
+							</c:if>
+						</td>
+						<td><aui:input label="" name="weight${status.index}"
+								cssClass="weight" inlineField="true" value="${layout.weight}"
+								onChange="showWeight()">
+								<aui:validator name="number" />
+							</aui:input></td>
+						<td><span class='percentage'>0.00%</span></td>
+					</tr>
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
+		</tbody>
 		<%--
 			END FOR EACH
 		 --%>
@@ -188,29 +218,109 @@
 </aui:fieldset>
 <script type="text/javascript">
 	AUI().use('aui-base','liferay-portlet-url', function(A) {
-		A.all(".show-portlet").each(function() {
-			this.on('click', function(A) {
-				var id = this.getData('id');
-				console.log("showPortlet "+id);
-				//Create renderURL
-				var renderURL = Liferay.PortletURL.createRenderURL();
-				renderURL.setPortletId("gatling_WAR_gatlingliferayportlet");
-				renderURL.setParameter("pagePortletId", id);
-				renderURL.setParameter("jspPage","/html/gatling/popupPortlet/portletConfig.jsp");
-				renderURL.setWindowState("pop_up");
+		var lastChecked = null;
+		//multiselect
+        var checkboxes = A.all(".checkLine");
+        checkboxes.each(function() {
+        		this.on('click', function(event) {
+	                if(!lastChecked) {
+	                    lastChecked = this;
+	                    return;
+	                }
+	
+	                if(event.shiftKey) {
+	                    var start = checkboxes.indexOf(this);
+	                    var end = checkboxes.indexOf(lastChecked);
+	
+	                    checkboxes.slice(Math.min(start,end), Math.max(start,end)+ 1).attr('checked', lastChecked.get("checked"));
+	
+	                }
+	                lastChecked = this;
+        		});
+        });
+		
+		A.one("#checkAll").on('click',function(event) {
+			var checked=this.get("checked");
+			A.all(".checkLine").each(function() {
+				this.set("checked", checked);
+			});
 			
-				Liferay.Util.openWindow({
-			   		dialog : {
-			        	modal : true,
-			            constrain : true,
-			         	destroyOnClose : true,
-			            cache : false
-			        },
-			        title : "Page Y / Portlet X",
-			        uri : renderURL.toString()
-			   });	
+			showWeight();
+			if (A.all(".checkLine:checked").size()==0){
+				A.one("#force").set('disabled', true);
+				A.one(".forceinput").set('disabled', true);
+			}
+			else{
+				A.one(".forceinput").set('disabled', false);
+				A.one("#force").set('disabled', false);
+			}
+		});
+			
+
+		A.all(".checkLine").each(function() {
+			this.on('click', function(event) {
+				if (A.all(".checkLine:checked").size() === A.all(".checkLine").size()) {
+					A.one("#checkAll").set("checked", true);
+				} else {
+					A.one("#checkAll").set("checked", false);
+				}
+				if (A.all(".checkLine:checked").size()==0){
+					A.one("#force").set('disabled', true);
+					A.one(".forceinput").set('disabled', true);
+				}
+				else{
+					A.one(".forceinput").set('disabled', false);
+					A.one("#force").set('disabled', false);
+				}
 			});
 		});
+		
+		A.all(".show-portlet").each(function() {
+			this.on('click', function(event) {
+				var portlets = this.getData("portlets").split(',');
+				for (var i = 0; i < portlets.length; i++) {
+					var line = A.one("#"+portlets[i]);
+					if(line.get('hidden')) {
+						line.set('hidden', false);
+					} else {
+						line.set('hidden', true);
+					}
+				}
+			});
+		});
+		
+		if (A.all(".checkLine:checked").size() === A.all(".checkLine").size())
+			A.one("#checkAll").set("checked", true);
+
+		
+		if (A.all(".checkLine:checked").size()==0){
+			A.one("#force").set('disabled', true);
+			A.one(".forceinput").set('disabled', true);
+		}
+		else{
+			A.one(".forceinput").set('disabled', false);
+			A.one("#force").set('disabled', false);
+		}
+		
+//			var id = this.getData('id');
+//			console.log("showPortlet "+id);
+//			//Create renderURL
+//			var renderURL = Liferay.PortletURL.createRenderURL();
+//			renderURL.setPortletId("gatling_WAR_gatlingliferayportlet");
+//			renderURL.setParameter("pagePortletId", id);
+//			renderURL.setParameter("jspPage","/html/gatling/popupPortlet/portletConfig.jsp");
+//			renderURL.setWindowState("pop_up");
+	
+//			Liferay.Util.openWindow({
+//		   		dialog : {
+//		        	modal : true,
+//		            constrain : true,
+//		         	destroyOnClose : true,
+//		            cache : false
+//		        },
+//		        title : "Page Y / Portlet X",
+//		        uri : renderURL.toString()
+//		   });	
 		
 		A.one("#help").on('click', function(A) {
 			Liferay.Util.openWindow({
@@ -264,23 +374,22 @@
 		}
 		
 		A.all('.show-hide-children').each(function() {
-		      this.on('click',function(event) {
-		    	  var hide = true;
-		    	  if(this.hasClass('icon-minus')){
-		    		  this.addClass('icon-plus');
-			    	  this.removeClass('icon-minus');
-		    	  }
-		    	  else{
-		    		  this.addClass('icon-minus');
-			    	  this.removeClass('icon-plus');
-			    	  hide = false;
-		    	  }
-		    	  var children = this.getData("children").split(',');
+		     this.on('click',function(event) {
+	    	 	var hide = true;
+		    	if(this.hasClass('icon-minus')){
+		    		this.addClass('icon-plus');
+			    	this.removeClass('icon-minus');
+		    	} else{
+		    		this.addClass('icon-minus');
+			    	this.removeClass('icon-plus');
+			    	hide = false;
+			   	}
+		    	var children = this.getData("children").split(',');
 		    	  
-		    	  for (var i = 0; i < children.length; i++) {
+		    	for (var i = 0; i < children.length; i++) {
 		    		var node = A.one('.'+children[i]);
-		    			showHideSubPage(children[i], hide);
-					}
+		    		showHideSubPage(children[i], hide);
+				}
 			});
 		});
 	});
@@ -300,4 +409,45 @@
 			}
 	    });
 	}
+	 
+	
+	function forceWeight()
+	{		
+		AUI().use('aui-base', function(A) {
+			var newVal = A.one('#<portlet:namespace/>forceWeight').val();
+			if ((newVal != null) && (!isNaN(newVal))) {
+				A.all('.checkLine:checked').each(function() {
+					this.ancestor("tr").one(".weight").val(newVal);
+				});
+				showWeight();
+			}
+		});
+	}
+	function showWeight() {
+		AUI().use('aui-base', function(A) {
+			var totalRate = parseInt(0);
+			A.all('.weight').each(function() {
+				if (!(this.val() == "" || isNaN(this.val())) && this.val() > 0) {
+					totalRate += parseFloat(this.val());
+					this.ancestor("tr").removeClass("empty-weight-color");
+				}
+				else {
+					this.val("0.0");
+					this.ancestor("tr").addClass("empty-weight-color");
+				}
+			});
+
+			A.all('.weight').each(function() {
+				if (!(this.val() == "" || isNaN(this.val()))) {
+					var perc = (this.val() / totalRate) * 100;
+					//cas du 0/0
+					if (isNaN(perc))
+						this.ancestor("tr").one(".percentage").text("0.00 %");
+					else
+						this.ancestor("tr").one(".percentage").text(perc.toFixed(2) + " %");
+				}
+			});
+		});
+	}
+	showWeight();
 </script>

@@ -48,79 +48,7 @@
 
 <%--Upgrade scenario confirmation dialog box --%>
 <script type="text/javascript">
-	AUI().use('aui-base', function(A) {
 		
-		var lastChecked = null;
-		//multiselect
-        var checkboxes = A.all(".checkLine");
-        checkboxes.each(function() {
-        		this.on('click', function(event) {
-	                if(!lastChecked) {
-	                    lastChecked = this;
-	                    return;
-	                }
-	
-	                if(event.shiftKey) {
-	                    var start = checkboxes.indexOf(this);
-	                    var end = checkboxes.indexOf(lastChecked);
-	
-	                    checkboxes.slice(Math.min(start,end), Math.max(start,end)+ 1).attr('checked', lastChecked.get("checked"));
-	
-	                }
-	                lastChecked = this;
-        		});
-        });
-		
-		A.one("#checkAll").on('click',function(event) {
-			var checked=this.get("checked");
-			A.all(".checkLine").each(function() {
-				this.set("checked", checked);
-			});
-			
-			showWeight();
-			if (A.all(".checkLine:checked").size()==0){
-				A.one("#force").set('disabled', true);
-				A.one(".forceinput").set('disabled', true);
-			}
-			else{
-				A.one(".forceinput").set('disabled', false);
-				A.one("#force").set('disabled', false);
-			}
-		});
-			
-
-		A.all(".checkLine").each(function() {
-			this.on('click', function(event) {
-				if (A.all(".checkLine:checked").size() === A.all(".checkLine").size()) {
-					A.one("#checkAll").set("checked", true);
-				} else {
-					A.one("#checkAll").set("checked", false);
-				}
-				if (A.all(".checkLine:checked").size()==0){
-					A.one("#force").set('disabled', true);
-					A.one(".forceinput").set('disabled', true);
-				}
-				else{
-					A.one(".forceinput").set('disabled', false);
-					A.one("#force").set('disabled', false);
-				}
-			});
-		});
-		if (A.all(".checkLine:checked").size() === A.all(".checkLine").size())
-			A.one("#checkAll").set("checked", true);
-
-		
-		if (A.all(".checkLine:checked").size()==0){
-			A.one("#force").set('disabled', true);
-			A.one(".forceinput").set('disabled', true);
-		}
-		else{
-			A.one(".forceinput").set('disabled', false);
-			A.one("#force").set('disabled', false);
-		}
-	});
-
-
 	function confirmSubmit() {
 		AUI().use('aui-base',
 			function(Y) {
@@ -215,46 +143,6 @@
 						    	      ]);
 			  	});	
 	}
-	
-	function forceWeight()
-	{		
-		AUI().use('aui-base', function(A) {
-			var newVal = A.one('#<portlet:namespace/>forceWeight').val();
-			if ((newVal != null) && (!isNaN(newVal))) {
-				A.all('.checkLine:checked').each(function() {
-					this.ancestor("tr").one(".weight").val(newVal);
-				});
-				showWeight();
-			}
-		});
-	}
-	function showWeight() {
-		AUI().use('aui-base', function(A) {
-			var totalRate = parseInt(0);
-			A.all('.weight').each(function() {
-				if (!(this.val() == "" || isNaN(this.val())) && this.val() > 0) {
-					totalRate += parseFloat(this.val());
-					this.ancestor("tr").removeClass("empty-weight-color");
-				}
-				else {
-					this.val("0.0");
-					this.ancestor("tr").addClass("empty-weight-color");
-				}
-			});
-
-			A.all('.weight').each(function() {
-				if (!(this.val() == "" || isNaN(this.val()))) {
-					var perc = (this.val() / totalRate) * 100;
-					//cas du 0/0
-					if (isNaN(perc))
-						this.ancestor("tr").one(".percentage").text("0.00 %");
-					else
-						this.ancestor("tr").one(".percentage").text(perc.toFixed(2) + " %");
-				}
-			});
-		});
-	}
-	showWeight();
 </script>
 
 

@@ -5,7 +5,6 @@ package com.excilys.liferay.gatling.util;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.excilys.liferay.gatling.model.Request;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -33,7 +32,7 @@ public class DisplayItem {
 	}
 	
 	
-	// field for comparaison
+	// field for comparison
 	private RequestState state;
 
 	// field for depth
@@ -52,15 +51,16 @@ public class DisplayItem {
 	private boolean privateItem;
 	private long layoutId;
 	private boolean portlet;
-	private String portletId;
-		
-	// List of it direct subnodes
+	// List of it direct subnodes id
 	private List<Long> subNodes;
+	// List of page portlet id
+	private List<Long> pagePortlet;
 	// Common initialization
 	{
 		portlet = false;
 		state = RequestState.DEFAULT;
 		subNodes = new ArrayList<Long>();
+		setPagePortlet(new ArrayList<Long>());
 	}
 	
 	/**
@@ -68,15 +68,13 @@ public class DisplayItem {
 	 * @param layout
 	 */
 	public DisplayItem(PortletPreferences portletPreferences) {
-		plId = portletPreferences.getPlid();
+		parentPlId = portletPreferences.getPlid();
+		plId = portletPreferences.getPortletPreferencesId();
 		name = PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).getDisplayName();
-		portlet = Boolean.TRUE;
-		portletId = PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).getPortletId();
-
+		portlet = true;
 		try {
 			Layout parent = LayoutLocalServiceUtil.getLayout(portletPreferences.getPlid());
 			url = parent.getFriendlyURL() /* + url portlet*/;
-			parentPlId = parent.getParentPlid();
 		} catch (PortalException | SystemException e) {
 			new RuntimeException("fuck you DB! give me my portlet url");
 		}
@@ -248,12 +246,11 @@ public class DisplayItem {
 		this.layoutId = layoutId;
 	}
 
-	public String getPortletId() {
-		return portletId;
+	public List<Long> getPagePortlet() {
+		return pagePortlet;
 	}
 
-	public void setPortletId(String portletId) {
-		this.portletId = portletId;
+	public void setPagePortlet(List<Long> pagePortlet) {
+		this.pagePortlet = pagePortlet;
 	}
 }
-
