@@ -104,7 +104,7 @@
 								value="${layout.weight}">
 								<aui:validator name="number" />
 							</aui:input></td>
-						<td><span style="margin-left:${(layout.depth)*10}px" class='percent'>0.00%</span></td>
+						<td><span style="margin-left:${(layout.depth)*15}px" class='percent'>0.00%</span></td>
 					</tr>
 				</c:when>
 				<%-- 
@@ -430,12 +430,42 @@
 	
 	function showWeightPortlet() {
 		AUI().use('aui-base', function(A) {
-			var total = parseInt(0);
+			var total = {};
+			var percentPage = {};
 			var listPortlet = A.all('.weight-portlet');
 			listPortlet.each(function() {
 				var parentId = this.ancestor("tr").getData("parent");
 				var parentPercent = A.one("#"+parentId).one(".percent").text();
+				parentPercent = parentPercent.substring(0,parentPercent.length-2);
+				percentPage[parentId] = parseFloat(parentPercent);
+				//now calculation for portlet
+				var weightPortlet = this.val();
+				if (!(weightPortlet == "" || isNaN(weightPortlet)) && weightPortlet > 0) {
+					if(total[parentId] === undefined) {
+						total[parentId] = 0;
+					}
+					var newVal = total[parentId] + parseFloat(weightPortlet);
+					total[parentId] = newVal;
+					this.ancestor("tr").removeClass("empty-weight-color");
+				}
+				else {
+					this.val("0.0");
+					this.ancestor("tr").addClass("empty-weight-color");
+				}
 			});
+			
+			listPortlet.each(function() {
+				var weightPortlet = this.val();
+				if (!(weightPortlet == "" || isNaN(weightPortlet))) {
+					var parentId = this.ancestor("tr").getData("parent");
+					var perc = (weightPortlet / total[parentId]) * percentPage[parentId];
+					//cas du 0/0
+					if (isNaN(perc))
+						this.ancestor("tr").one(".percent").text("0.00 %");
+					else
+						this.ancestor("tr").one(".percent").text(perc.toFixed(2) + " %");
+				}
+			})
 		});
 	}
 	
