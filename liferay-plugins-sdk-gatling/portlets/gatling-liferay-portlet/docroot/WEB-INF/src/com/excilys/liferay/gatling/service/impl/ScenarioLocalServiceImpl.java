@@ -277,24 +277,26 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 				url = displayLayout.getUrl();
 				status = displayLayout.getState();
 				
+				//if not deleted page
 				if(status != RequestState.OLD_REQUEST){
-					// if already exists in DB
+					
 					boolean alreadyExists = false;
 					Request updatedRequest = null;
+					
+					//check if the request page was added in the db 
 					alreadyExists = mapPublicRequestToEdit.containsKey(url.trim());
 					if(alreadyExists) {
 						updatedRequest = mapPublicRequestToEdit.get(url);								
 					}
 					
-					
+					//check if the weight of the request in db is changed then update data in db
 					if (alreadyExists && (updatedRequest.getWeight() != weight)){
 						
 						updatedRequest.setWeight(weight);
-						// Saving ...
 						final List<String> errors = RequestValidator.validateRequest(updatedRequest);
 						if (errors.isEmpty()) {
 							RequestLocalServiceUtil.updateRequest(updatedRequest);
-							LOG.info("request updated succefully");	
+							LOG.debug("request updated successfully");	
 						} else {
 							for (String error : errors) {
 								SessionErrors.add(request, error);
@@ -307,11 +309,11 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 						if (LOG.isInfoEnabled()){
 							LOG.info("add new request "+key+" : "+StringUtil.merge(parameters.get(key)));
 						}
-						final Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.isPrivateItem(), 
-								displayLayout.getLayoutId());
-
+						
+						final Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.isPrivateItem(), displayLayout.getLayoutId());
+						
 						RequestLocalServiceUtil.addRequestFromLayout(layout, weight, idScenario, true, userId);
-						LOG.info("request created and added succefully ");
+						LOG.debug("request created and added successfully ");
 					}	
 				}
 				

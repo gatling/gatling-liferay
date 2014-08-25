@@ -19,7 +19,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.model.PortletPreferences;
-import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
 
 
@@ -107,7 +106,7 @@ public class DisplayItemUtil {
 		}
 		// Old
 		for(DisplayItem dlr : requestToDisplayLayout) {
-			// if in ListRequests but not in DisplayLayoutList it's a old request
+			// if in ListRequests but not in DisplayLayoutList it's an old request
 			if(!result.contains(dlr)) {
 				dlr.setState(RequestState.OLD_REQUEST);
 			}

@@ -88,6 +88,7 @@ public class DisplayItem {
 	public DisplayItem(Layout layout) {
 		
 		displayId = layout.getPlid();
+		layoutId  = layout.getLayoutId();
 		privateItem = layout.isPrivateLayout();
 		try {
 			parentDisplayId = layout.getParentPlid();

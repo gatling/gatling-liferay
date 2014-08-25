@@ -79,7 +79,15 @@
 			<c:if test="${not layout.isUsed() }">
 				<c:set var="color" value="empty-weight-color" />
 			</c:if>
-			<c:set var="url" value="${publicURL}${layout.url}" />
+			<c:choose>
+				<c:when test="layout.privateItem">
+					<c:set var="url" value="${privateURL}${layout.url}" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="url" value="${publicURL}${layout.url}" />
+				</c:otherwise>
+			</c:choose>
+			
 			<%--
 				DISPLAY
 			 --%>
@@ -122,7 +130,8 @@
 						<td><c:if test="${layout.privateItem}">
 								<i class="icon-eye-close"></i>
 							</c:if>
-							<i class="icon-plus-sign"></i> <a href="${url}"
+							<i class="icon-plus-sign"></i> 
+								<a href="${url}"
 								title="${layout.url}" target="_blank"
 								style="margin-left:${layout.depth*30}px"> ${layout.name} </a>
 							</td>

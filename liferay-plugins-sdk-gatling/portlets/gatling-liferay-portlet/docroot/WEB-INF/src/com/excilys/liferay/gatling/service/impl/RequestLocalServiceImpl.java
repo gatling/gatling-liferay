@@ -80,28 +80,29 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 	 * Store a {@link Request} with given values
 	 */
 	public void addRequestFromLayout(Layout layout, double weight, long idScenario, boolean checked, long userId) throws SystemException {
-		//create request
-		final long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
-		final Request newRequest = RequestLocalServiceUtil.createRequest(primaryKey);
-		newRequest.setPlId(layout.getPlid());
-		newRequest.setName(layout.getName(LocaleUtil.getDefault()));
-		newRequest.setUrl(layout.getFriendlyURL());
-		newRequest.setWeight(weight);
-		newRequest.setScenario_id(idScenario);
-		newRequest.setPrivatePage(layout.isPrivateLayout());
-		newRequest.setLayoutId(layout.getLayoutId());
+		
 		try {
+			//create request
+			final long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
+			final Request newRequest = RequestLocalServiceUtil.createRequest(primaryKey);
+			newRequest.setPlId(layout.getPlid());
+			newRequest.setName(layout.getName(LocaleUtil.getDefault()));
+			newRequest.setUrl(layout.getFriendlyURL());
+			newRequest.setWeight(weight);
+			newRequest.setScenario_id(idScenario);
+			newRequest.setPrivatePage(layout.isPrivateLayout());
+			newRequest.setLayoutId(layout.getLayoutId());
 			newRequest.setParentPlId(layout.getParentPlid());
+			// Saving ...
+			final List<String> errors = RequestValidator.validateRequest(newRequest);
+			if(errors.isEmpty()) {
+				RequestLocalServiceUtil.addRequest(newRequest);
+			}
 		} catch (PortalException e) {
-			LOG.debug("unable to add request "+e.getMessage());
 			if (LOG.isErrorEnabled()){
 				LOG.error(e.getMessage());
 			}
 		}
-		// Saving ...
-		final List<String> errors = RequestValidator.validateRequest(newRequest);
-		if(errors.isEmpty()) {
-			RequestLocalServiceUtil.addRequest(newRequest);
-		}
+		
 	} 
 }
