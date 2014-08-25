@@ -430,8 +430,7 @@
 			var listPortlet = A.all('.weight-portlet');
 			listPortlet.each(function() {
 				var parentId = this.ancestor("tr").getData("parent");
-				var parentPercent = A.one("#"+parentId).one(".percent").text();
-				//now calculation for portlet
+				//now calculate for portlet
 				var weightPortlet = this.val();
 				if (!(weightPortlet == "" || isNaN(weightPortlet)) && weightPortlet > 0) {
 					if(total[parentId] === undefined) {

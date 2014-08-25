@@ -81,7 +81,7 @@
 			
 			else{
 				var test = true;
-				Y.all(".weight").each(function() {
+				Y.all(".weightPage").each(function() {
 					if(this.val() != 0.0){
 						test = false;
 					}
