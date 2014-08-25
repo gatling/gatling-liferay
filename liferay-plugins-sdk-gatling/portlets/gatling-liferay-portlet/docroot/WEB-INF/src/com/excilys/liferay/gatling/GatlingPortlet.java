@@ -396,7 +396,7 @@ public class GatlingPortlet extends MVCPortlet {
 				List<Layout> listPrivateLayouts = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
 
 				//get site name
-				String siteName = GroupLocalServiceUtil.getGroup(groupId).getName();
+				String siteName = GroupLocalServiceUtil.getGroup(groupId).getDescriptiveName();
 
 				//create DisplayLayoutList with actuel layout of the site and old layout added from requests
 				List<DisplayItem> displayItemList = new ArrayList<DisplayItem>();

@@ -67,6 +67,7 @@
 			<%--Portlets --%>
 			<c:set var="portletList" />
 			<c:if test="${not empty layout.pagePortlet}">
+				<c:set var="pageName" value="${layout.name}" />
 				<c:forEach var="i" items="${layout.pagePortlet}" varStatus="info">
 					<c:set var="portletList" value="${portletList}${i}" />
 					<c:if test="${not info.last}">
@@ -103,7 +104,7 @@
 						<td><input type="checkbox" name="${status.index}"
 							class='checkLine' /></td>
 						<td><i class="icon-th-large"></i>
-							<a href="#${layout.portletId}" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px"> ${layout.name}</a>
+							<a href="#${layout.portletId}" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px" data-portlet="${layout.name}" data-page="${pageName}"> ${layout.name}</a>
 						</td>
 						<td></td>
 						<td><aui:input label="" name="portlet${status.index}"
@@ -296,6 +297,8 @@
 		A.all(".portlet-popup").each(function() {
 			this.on('click' , function(event) {
 				var id = this.get("href").split(".jsp")[1].substring(1);
+				var pageName = this.getData("page");
+				var portletName = this.getData("portlet");
 				//Create renderURL
 				var renderURL = Liferay.PortletURL.createRenderURL();
 				renderURL.setPortletId("gatling_WAR_gatlingliferayportlet");
@@ -310,7 +313,7 @@
 			         	destroyOnClose : true,
 			            cache : false
 			        },
-			        title : "Page Y / Portlet X",
+			        title : "Page: "+pageName+" / Portlet: "+portletName,
 			        uri : renderURL.toString()
 			   });					
 			});
