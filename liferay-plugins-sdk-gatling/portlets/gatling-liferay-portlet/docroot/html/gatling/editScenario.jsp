@@ -72,7 +72,7 @@
 			if(!show){
 				show = true;
 				message += "<li><liferay-ui:message key='scenario-edit-weight-null'/></li>";
-				Y.all(".weight").each(function() {
+				Y.all(".weightPage").each(function() {
 					if(this.val() != 0.0){
 			  			show = false;
 					}
