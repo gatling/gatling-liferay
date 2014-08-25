@@ -26,7 +26,7 @@
 		</aui:input>
 		<aui:select label="simulation-edit-form-sites" name="sites" required="true">
 			<c:forEach var="group" items="${listGroup}">
-				<aui:option label="${group.name}" value="${group.groupId}" />
+				<aui:option label="${group.descriptiveName}" value="${group.groupId}" />
 			</c:forEach>
 		</aui:select>
 	</aui:fieldset>

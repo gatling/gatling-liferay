@@ -58,7 +58,6 @@ public class DisplayItemUtil {
 					}
 				}
 
-
 				List<PortletPreferences> listPortletPreferences = PortletPreferencesLocalServiceUtil.getPortletPreferencesByPlid(layout.getPlid());
 				for (PortletPreferences portletPreferences : listPortletPreferences) {
 					if(listPortlet.contains(portletPreferences.getPortletId())) {

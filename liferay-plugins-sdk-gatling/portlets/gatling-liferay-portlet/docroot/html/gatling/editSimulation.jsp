@@ -101,7 +101,7 @@
 		<liferay-ui:search-container-column-text name="simulation-edit-table-header-site">
 			<c:forEach var="site" items="${listGroup}">
 				<c:if test="${site.groupId eq scenario.group_id}">
-					${site.name}
+					${site.descriptiveName}
 				</c:if>
 			</c:forEach>
 		</liferay-ui:search-container-column-text>
