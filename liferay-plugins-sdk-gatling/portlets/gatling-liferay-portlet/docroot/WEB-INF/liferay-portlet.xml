@@ -18,5 +18,9 @@
 			/js/main.js
 		</footer-portlet-javascript>
 		<css-class-wrapper>gatling-portlet</css-class-wrapper>
+		
+		<add-default-resource>true</add-default-resource>
+		
 	</portlet>
+
 </liferay-portlet-app>

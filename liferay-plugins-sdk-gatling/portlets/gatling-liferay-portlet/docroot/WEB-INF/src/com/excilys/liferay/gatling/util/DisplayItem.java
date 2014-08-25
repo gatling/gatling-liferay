@@ -5,11 +5,9 @@ package com.excilys.liferay.gatling.util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
-
-import javax.transaction.Transaction;
 
 import com.excilys.liferay.gatling.model.Request;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -49,11 +47,13 @@ public class DisplayItem {
 	private String name;
 	private String url;
 	private double weight;
+
 	private long parentPlId;
 	private boolean privateItem;
 	private long layoutId;
 	private boolean portlet;
-	
+	private String portletId;
+		
 	// List of it direct subnodes
 	private List<Long> subNodes;
 	// Common initialization
@@ -71,6 +71,8 @@ public class DisplayItem {
 		plId = portletPreferences.getPlid();
 		name = PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).getDisplayName();
 		portlet = Boolean.TRUE;
+		portletId = PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).getPortletId();
+
 		try {
 			Layout parent = LayoutLocalServiceUtil.getLayout(portletPreferences.getPlid());
 			url = parent.getFriendlyURL() /* + url portlet*/;
@@ -246,4 +248,12 @@ public class DisplayItem {
 		this.layoutId = layoutId;
 	}
 
+	public String getPortletId() {
+		return portletId;
+	}
+
+	public void setPortletId(String portletId) {
+		this.portletId = portletId;
+	}
 }
+
