@@ -106,7 +106,7 @@
 							<a href="#${layout.portletId}" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px"> ${layout.name}</a>
 						</td>
 						<td></td>
-						<td><aui:input label="" name="weight${status.index}"
+						<td><aui:input label="" name="portlet${status.index}"
 								cssClass="weight-portlet " inlineField="true" onChange="showWeightPortlet()"
 								value="${layout.weight}">
 								<aui:validator name="number" />
