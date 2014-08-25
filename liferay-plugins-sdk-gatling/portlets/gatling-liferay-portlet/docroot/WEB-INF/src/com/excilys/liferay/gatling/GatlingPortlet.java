@@ -53,6 +53,7 @@ import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
+
 /**
  * Portlet implementation class GatlingPortlet.
  */
