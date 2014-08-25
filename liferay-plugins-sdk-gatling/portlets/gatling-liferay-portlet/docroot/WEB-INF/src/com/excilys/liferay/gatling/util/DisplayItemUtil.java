@@ -122,7 +122,7 @@ public class DisplayItemUtil {
 			}
 			// if not in layoutList add after its parent or at the end
 			else {
-				int parentIndex = findParentPosition(result,dlr.getParentPlId());
+				int parentIndex = findParentPosition(result,dlr.getParentDisplayId());
 				if(parentIndex >= 0) {
 					// put in on the "old" object place
 					result.add(parentIndex+1, dlr);
@@ -143,10 +143,10 @@ public class DisplayItemUtil {
 	 * @param parentLayoutId
 	 * @return
 	 */
-	private static int findParentPosition(List<DisplayItem> result, long parentPlId) {
+	private static int findParentPosition(List<DisplayItem> result, long parentDisplayId) {
 		for (int i = 0; i < result.size(); i++) {
 			DisplayItem dl = result.get(i);
-			if(dl.getPlId() == parentPlId) {
+			if(dl.getDisplayId() == parentDisplayId) {
 				return i;
 			}
 		}
@@ -171,19 +171,19 @@ public class DisplayItemUtil {
 		// Indent and subnode
 		Map<Long, Info> indentInfo = new HashMap<Long, Info>();
 		for (DisplayItem dl : list) {
-			Long parent = dl.getParentPlId();
+			Long parent = dl.getParentDisplayId();
 			// if it is subnode
 			if(indentInfo.containsKey(parent) && parent != 0) {
 				dl.setDepth(dl.getDepth()+indentInfo.get(parent).depth+1);
 			}
 			// keep the parent for the second part
-			indentInfo.put(dl.getPlId(), new Info(dl.getDepth(), parent, dl.isPortlet()));
+			indentInfo.put(dl.getDisplayId(), new Info(dl.getDepth(), parent, dl.isPortlet()));
 		}
 		
 		// set the subnodes
 		for (DisplayItem displayItem : list) {
 			for(Entry<Long, Info> set : indentInfo.entrySet()) {
-				if(set.getValue().parentNode == displayItem.getPlId()) {
+				if(set.getValue().parentNode == displayItem.getDisplayId()) {
 					if(set.getValue().isPortlet) {
 						displayItem.getPagePortlet().add(set.getKey());
 					} else {

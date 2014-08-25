@@ -91,11 +91,11 @@
 				
 				 --%>
 				<c:when test="${layout.portlet }">
-					<tr id="${layout.plId}" class="${color }" data-parent="${layout.parentPlId }"
+					<tr id="${layout.displayId}" class="${color }" data-parent="${layout.parentDisplayId }"
 						hidden="true">
 						<td><input type="checkbox" name="${status.index}"
 							class='checkLine' /></td>
-						<td><i class="icon-th-large"></i> 
+						<td><i class="icon-th-large"></i>
 							<a href="#${layout.portletId}" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px"> ${layout.name}</a>
 						</td>
 						<td></td>
@@ -113,7 +113,7 @@
 					
 				 --%>
 				<c:when test="${layout.state == 'NEW_REQUEST'}">
-					<tr id="${layout.plId}" class="success ${color }">
+					<tr id="${layout.displayId}" class="success ${color }">
 						<%-- Affichage request pas enregistrée --%>
 						<td><input type="checkbox" name="${status.index}"
 							class='checkLine' /> <c:if test="${not empty arraySubPage}">
@@ -133,7 +133,6 @@
 									data-portlets="${portletList}"
 									value="scenario-edit-stress-portlet-btn" />
 							</c:if>
-							<aui:button cssClass="show-portlet" value="scenario-edit-stress-portlet-btn"/>
 						</td>
 						<td><aui:input label="" name="weight${status.index}"
 								cssClass="weightPage " inlineField="true" onChange="showWeight()"
@@ -179,7 +178,7 @@
 					
 				 --%>
 				<c:otherwise>
-					<tr id="${layout.plId}" class="${color}">
+					<tr id="${layout.displayId}" class="${color}">
 						<td><input type="checkbox" name="${status.index}"
 							class='checkLine' /> <c:if test="${not empty arraySubPage}">
 								<i class="icon-minus   show-hide-children"

@@ -40,13 +40,13 @@ public class DisplayItem {
 	
 	// field of Request table
 	// plId
-	private long plId;
+	private long displayId;
 	private long requestId;
 	private long scenarioId;
 	private String name;
 	private String url;
 	private double weight;
-	private long parentPlId;
+	private long parentDisplayId;
 	private boolean privateItem;
 	private long layoutId;
 	private boolean portlet;
@@ -68,9 +68,9 @@ public class DisplayItem {
 	 * @param layout
 	 */
 	public DisplayItem(PortletPreferences portletPreferences) {
-		parentPlId = portletPreferences.getPlid();
-		plId = portletPreferences.getPortletPreferencesId();
-		setPortletId(portletPreferences.getPortletId());
+		parentDisplayId = portletPreferences.getPlid();
+		displayId = portletPreferences.getPortletPreferencesId();
+		portletId = portletPreferences.getPortletId();
 		name = PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).getDisplayName();
 		portlet = true;
 		try {
@@ -87,10 +87,10 @@ public class DisplayItem {
 	 */
 	public DisplayItem(Layout layout) {
 		
-		plId = layout.getPlid();
+		displayId = layout.getPlid();
 		privateItem = layout.isPrivateLayout();
 		try {
-			parentPlId = layout.getParentPlid();
+			parentDisplayId = layout.getParentPlid();
 		} catch (PortalException | SystemException e) {
 			LOG.info(e.getMessage());
 		}
@@ -103,10 +103,10 @@ public class DisplayItem {
 	 * @param request
 	 */
 	public DisplayItem(Request request){
-		plId = request.getPlId();
+		displayId = request.getPlId();
 		privateItem = request.isPrivatePage();
 		requestId = request.getRequest_id();
-		parentPlId = request.getParentPlId();
+		parentDisplayId = request.getParentPlId();
 		name = request.getName();
 		url = request.getUrl();
 		weight = request.getWeight();
@@ -122,7 +122,7 @@ public class DisplayItem {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (plId ^ (plId >>> 32));
+		result = prime * result + (int) (displayId ^ (displayId >>> 32));
 		return result;
 	}
 
@@ -135,7 +135,7 @@ public class DisplayItem {
 		if (getClass() != obj.getClass())
 			return false;
 		DisplayItem other = (DisplayItem) obj;
-		if (plId != other.plId)
+		if (displayId != other.displayId)
 			return false;
 		return true;
 	}
@@ -159,12 +159,12 @@ public class DisplayItem {
 		this.depth = depth;
 	}
 
-	public long getPlId() {
-		return plId;
+	public long getDisplayId() {
+		return displayId;
 	}
 
-	public void setPlId(long plId) {
-		this.plId = plId;
+	public void setDisplayId(long displayId) {
+		this.displayId = displayId;
 	}
 
 	public long getRequestId() {
@@ -207,12 +207,12 @@ public class DisplayItem {
 		this.weight = weight;
 	}
 
-	public long getParentPlId() {
-		return parentPlId;
+	public long getParentDisplayId() {
+		return parentDisplayId;
 	}
 
-	public void setParentPlId(long parentPlId) {
-		this.parentPlId = parentPlId;
+	public void setParentDisplayId(long parentDisplayId) {
+		this.parentDisplayId = parentDisplayId;
 	}
 
 	public boolean isPrivateItem() {
