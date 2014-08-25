@@ -427,13 +427,10 @@
 	function showWeightPortlet() {
 		AUI().use('aui-base', function(A) {
 			var total = {};
-			var percentPage = {};
 			var listPortlet = A.all('.weight-portlet');
 			listPortlet.each(function() {
 				var parentId = this.ancestor("tr").getData("parent");
 				var parentPercent = A.one("#"+parentId).one(".percent").text();
-				parentPercent = parentPercent.substring(0,parentPercent.length-2);
-				percentPage[parentId] = parseFloat(parentPercent);
 				//now calculation for portlet
 				var weightPortlet = this.val();
 				if (!(weightPortlet == "" || isNaN(weightPortlet)) && weightPortlet > 0) {
@@ -454,7 +451,7 @@
 				var weightPortlet = this.val();
 				if (!(weightPortlet == "" || isNaN(weightPortlet))) {
 					var parentId = this.ancestor("tr").getData("parent");
-					var perc = (weightPortlet / total[parentId]) * percentPage[parentId];
+					var perc = (weightPortlet / total[parentId]) * 100;
 					//cas du 0/0
 					if (isNaN(perc))
 						this.ancestor("tr").one(".percent").text("0.00 %");
