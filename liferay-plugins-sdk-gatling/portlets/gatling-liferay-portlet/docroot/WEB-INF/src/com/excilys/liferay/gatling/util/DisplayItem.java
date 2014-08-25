@@ -76,7 +76,7 @@ public class DisplayItem {
 			Layout parent = LayoutLocalServiceUtil.getLayout(portletPreferences.getPlid());
 			url = parent.getFriendlyURL() /* + url portlet*/;
 		} catch (PortalException | SystemException e) {
-			new RuntimeException("fuck you DB! give me my portlet url");
+			new RuntimeException(e.getMessage());
 		}
 	}
 	

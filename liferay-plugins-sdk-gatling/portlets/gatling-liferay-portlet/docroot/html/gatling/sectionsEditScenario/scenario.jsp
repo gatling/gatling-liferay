@@ -496,6 +496,7 @@
 				}
 			});
 		});
+		showWeightPortlet();
 	}
 	showWeight();
 </script>
