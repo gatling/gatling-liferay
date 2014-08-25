@@ -34,7 +34,7 @@
 			<th class="small-column"><liferay-ui:message key="scenario-edit-table-header-portlet" /></th>
 			<th class="small-column"><liferay-ui:message key="scenario-edit-table-header-weight" />
 				<liferay-ui:icon-help message="weight-info-help" /></th>
-			<th class="small-column"><liferay-ui:icon-help message="percentage-info-help" /></th>
+			<th class="small-column"><liferay-ui:icon-help message="percent-info-help" /></th>
 		</tr>
 		</thead>
 		<c:if test="${ listPages.size() ==0 }">
@@ -91,19 +91,20 @@
 				
 				 --%>
 				<c:when test="${layout.portlet }">
-					<tr id="${layout.plId}" class="${color }"
+					<tr id="${layout.plId}" class="${color }" data-parent="${layout.parentPlId }"
 						hidden="true">
 						<td><input type="checkbox" name="${status.index}"
 							class='checkLine' /></td>
 						<td><i class="icon-th-large"></i> 
-						<a href="#${layout.plId}" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px"> ${layout.name}</a></td>
+							<a href="#${layout.plId}" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px"> ${layout.name}</a>
+						</td>
 						<td></td>
 						<td><aui:input label="" name="weight${status.index}"
-								cssClass="weight " inlineField="true" onChange="showWeight()"
+								cssClass="weight-portlet " inlineField="true" onChange="showWeightPortlet()"
 								value="${layout.weight}">
 								<aui:validator name="number" />
 							</aui:input></td>
-						<td><span class='percentage'>0.00%</span></td>
+						<td><span style="margin-left:${(layout.depth)*15}px" class='percent'>0.00%</span></td>
 					</tr>
 				</c:when>
 				<%-- 
@@ -116,14 +117,10 @@
 						<%-- Affichage request pas enregistrée --%>
 						<td><input type="checkbox" name="${status.index}"
 							class='checkLine' /> <c:if test="${not empty arraySubPage}">
-								<i class="icon-minus  show-hide-children"
-									data-children="${arraySubPage }"></i>
-								<i
-									class="force-weight-children  icon-circle-arrow-down margin-left-5"
-									data-children="${arraySubPage }"></i>
+								<i class="icon-minus show-hide-children" data-children="${arraySubPage }"></i>
+								<i class="force-weight-children icon-circle-arrow-down margin-left-5" data-children="${arraySubPage }"></i>
 							</c:if></td>
-						<td>
-							<c:if test="${layout.privateItem}">
+						<td><c:if test="${layout.privateItem}">
 								<i class="icon-eye-close"></i>
 							</c:if>
 							<i class="icon-plus-sign"></i> <a href="${url}"
@@ -131,19 +128,23 @@
 								style="margin-left:${layout.depth*30}px"> ${layout.name} </a>
 							</td>
 						<td>
+<<<<<<< HEAD
 							<c:if test="${not empty portletList}">
 								<aui:button cssClass="show-portlet"
 									data-portlets="${portletList}"
 									value="scenario-edit-stress-portlet-btn" />
 							</c:if>
+=======
+							<aui:button cssClass="show-portlet" value="scenario-edit-stress-portlet-btn"/>
+>>>>>>> on progress portlet in editscenario
 						</td>
 						<td><aui:input label="" name="weight${status.index}"
-								cssClass="weight " inlineField="true" onChange="showWeight()"
+								cssClass="weightPage " inlineField="true" onChange="showWeight()"
 								value="${layout.weight}">
 								<aui:validator name="number" />
 							</aui:input>
 						</td>
-						<td><span class='percentage'>0.00%</span></td>
+						<td><span class='percent'>0.00%</span></td>
 					</tr>
 				</c:when>
 				<%-- 
@@ -168,11 +169,11 @@
 						<td>
 						<td></td>
 						<td><aui:input label="" name="weight${status.index}"
-								value="${layout.weight}" cssClass="weight deleted"
+								value="${layout.weight}" cssClass="weightPage deleted"
 								onChange="showWeight()">
 								<aui:validator name="number" />
 							</aui:input></td>
-						<td><span class='percentage'>0.00%</span></td>
+						<td><span class='percent'>0.00%</span></td>
 					</tr>
 				</c:when>
 				<%--  
@@ -201,11 +202,11 @@
 							</c:if>
 						</td>
 						<td><aui:input label="" name="weight${status.index}"
-								cssClass="weight" inlineField="true" value="${layout.weight}"
+								cssClass="weightPage" inlineField="true" value="${layout.weight}"
 								onChange="showWeight()">
 								<aui:validator name="number" />
 							</aui:input></td>
-						<td><span class='percentage'>0.00%</span></td>
+						<td><span class='percent'>0.00%</span></td>
 					</tr>
 				</c:otherwise>
 			</c:choose>
@@ -310,7 +311,7 @@
 			        uri : renderURL.toString()
 			   });					
 			});
-		});
+	});
 		
 		if (A.all(".checkLine:checked").size() === A.all(".checkLine").size())
 			A.one("#checkAll").set("checked", true);
@@ -324,8 +325,6 @@
 			A.one(".forceinput").set('disabled', false);
 			A.one("#force").set('disabled', false);
 		}
-		
-
 		
 		A.one("#help").on('click', function(A) {
 			Liferay.Util.openWindow({
@@ -422,16 +421,60 @@
 			var newVal = A.one('#<portlet:namespace/>forceWeight').val();
 			if ((newVal != null) && (!isNaN(newVal))) {
 				A.all('.checkLine:checked').each(function() {
-					this.ancestor("tr").one(".weight").val(newVal);
+					this.ancestor("tr").one(".field").val(newVal);
 				});
 				showWeight();
 			}
 		});
 	}
+	
+	function showWeightPortlet() {
+		AUI().use('aui-base', function(A) {
+			var total = {};
+			var percentPage = {};
+			var listPortlet = A.all('.weight-portlet');
+			listPortlet.each(function() {
+				var parentId = this.ancestor("tr").getData("parent");
+				var parentPercent = A.one("#"+parentId).one(".percent").text();
+				parentPercent = parentPercent.substring(0,parentPercent.length-2);
+				percentPage[parentId] = parseFloat(parentPercent);
+				//now calculation for portlet
+				var weightPortlet = this.val();
+				if (!(weightPortlet == "" || isNaN(weightPortlet)) && weightPortlet > 0) {
+					if(total[parentId] === undefined) {
+						total[parentId] = 0;
+					}
+					var newVal = total[parentId] + parseFloat(weightPortlet);
+					total[parentId] = newVal;
+					this.ancestor("tr").removeClass("empty-weight-color");
+				}
+				else {
+					this.val("0.0");
+					this.ancestor("tr").addClass("empty-weight-color");
+				}
+			});
+			
+			listPortlet.each(function() {
+				var weightPortlet = this.val();
+				if (!(weightPortlet == "" || isNaN(weightPortlet))) {
+					var parentId = this.ancestor("tr").getData("parent");
+					var perc = (weightPortlet / total[parentId]) * percentPage[parentId];
+					//cas du 0/0
+					if (isNaN(perc))
+						this.ancestor("tr").one(".percent").text("0.00 %");
+					else
+						this.ancestor("tr").one(".percent").text(perc.toFixed(2) + " %");
+				}
+			})
+		});
+	}
+	
+	
 	function showWeight() {
 		AUI().use('aui-base', function(A) {
 			var totalRate = parseInt(0);
-			A.all('.weight').each(function() {
+			var listePage = A.all('.weightPage');
+			listePage.each(function() {
 				if (!(this.val() == "" || isNaN(this.val())) && this.val() > 0) {
 					totalRate += parseFloat(this.val());
 					this.ancestor("tr").removeClass("empty-weight-color");
@@ -442,17 +485,18 @@
 				}
 			});
 
-			A.all('.weight').each(function() {
+			listePage.each(function() {
 				if (!(this.val() == "" || isNaN(this.val()))) {
 					var perc = (this.val() / totalRate) * 100;
 					//cas du 0/0
 					if (isNaN(perc))
-						this.ancestor("tr").one(".percentage").text("0.00 %");
+						this.ancestor("tr").one(".percent").text("0.00 %");
 					else
-						this.ancestor("tr").one(".percentage").text(perc.toFixed(2) + " %");
+						this.ancestor("tr").one(".percent").text(perc.toFixed(2) + " %");
 				}
 			});
 		});
+		showWeightPortlet();
 	}
 	showWeight();
 </script>

@@ -46,11 +46,11 @@ public class DisplayItem {
 	private String name;
 	private String url;
 	private double weight;
-
 	private long parentPlId;
 	private boolean privateItem;
 	private long layoutId;
 	private boolean portlet;
+	
 	// List of it direct subnodes id
 	private List<Long> subNodes;
 	// List of page portlet id
@@ -76,7 +76,7 @@ public class DisplayItem {
 			Layout parent = LayoutLocalServiceUtil.getLayout(portletPreferences.getPlid());
 			url = parent.getFriendlyURL() /* + url portlet*/;
 		} catch (PortalException | SystemException e) {
-			new RuntimeException("fuck you DB! give me my portlet url");
+			new RuntimeException(e.getMessage());
 		}
 	}
 	
