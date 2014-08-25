@@ -50,7 +50,7 @@ public class DisplayItem {
 	private boolean privateItem;
 	private long layoutId;
 	private boolean portlet;
-	
+	private String portletId;
 	// List of it direct subnodes id
 	private List<Long> subNodes;
 	// List of page portlet id
@@ -70,6 +70,7 @@ public class DisplayItem {
 	public DisplayItem(PortletPreferences portletPreferences) {
 		parentPlId = portletPreferences.getPlid();
 		plId = portletPreferences.getPortletPreferencesId();
+		setPortletId(portletPreferences.getPortletId());
 		name = PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).getDisplayName();
 		portlet = true;
 		try {
@@ -252,5 +253,13 @@ public class DisplayItem {
 
 	public void setPagePortlet(List<Long> pagePortlet) {
 		this.pagePortlet = pagePortlet;
+	}
+
+	public String getPortletId() {
+		return portletId;
+	}
+
+	public void setPortletId(String portletId) {
+		this.portletId = portletId;
 	}
 }

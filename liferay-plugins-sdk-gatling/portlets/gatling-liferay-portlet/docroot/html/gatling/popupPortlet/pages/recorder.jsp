@@ -1,11 +1,13 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 <%
-	String instancePortletName = ParamUtil.getString(request, "pagePortletId");
+	String instancePortletId = ParamUtil.getString(request, "pagePortletId");
+	String instancePortletName = PortletLocalServiceUtil.getPortletById(instancePortletId).getDisplayName();
+	System.out.println("portlet id= "+instancePortletId);
 %>
 
-<h3>Recorder:  <%= instancePortletName  %> </h3>
+<h3><liferay-ui:message key="recorder-for" />: <%= instancePortletName %></h3>
 
-<c:if test="<%= (instancePortletName != null) &&  (!instancePortletName.equals("0")) %>">
+<c:if test='<%= ((instancePortletId != null) &&  (!"0".equals(instancePortletId))) %>'>
+	<liferay-portlet:runtime portletName="<%= instancePortletId  %>" />
 </c:if>
-<liferay-portlet:runtime portletName="<%= instancePortletName  %>" />

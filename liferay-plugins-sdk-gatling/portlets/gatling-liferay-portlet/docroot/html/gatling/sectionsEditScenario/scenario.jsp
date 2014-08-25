@@ -96,7 +96,7 @@
 						<td><input type="checkbox" name="${status.index}"
 							class='checkLine' /></td>
 						<td><i class="icon-th-large"></i> 
-							<a href="#${layout.plId}" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px"> ${layout.name}</a>
+							<a href="#${layout.portletId}" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px"> ${layout.name}</a>
 						</td>
 						<td></td>
 						<td><aui:input label="" name="weight${status.index}"
@@ -128,15 +128,12 @@
 								style="margin-left:${layout.depth*30}px"> ${layout.name} </a>
 							</td>
 						<td>
-<<<<<<< HEAD
 							<c:if test="${not empty portletList}">
 								<aui:button cssClass="show-portlet"
 									data-portlets="${portletList}"
 									value="scenario-edit-stress-portlet-btn" />
 							</c:if>
-=======
 							<aui:button cssClass="show-portlet" value="scenario-edit-stress-portlet-btn"/>
->>>>>>> on progress portlet in editscenario
 						</td>
 						<td><aui:input label="" name="weight${status.index}"
 								cssClass="weightPage " inlineField="true" onChange="showWeight()"
@@ -292,7 +289,7 @@
 		
 		A.all(".portlet-popup").each(function() {
 			this.on('click' , function(event) {
-				var id = this.get("href").substring(1);
+				var id = this.get("href").split(".jsp")[1].substring(1);
 				//Create renderURL
 				var renderURL = Liferay.PortletURL.createRenderURL();
 				renderURL.setPortletId("gatling_WAR_gatlingliferayportlet");
@@ -391,7 +388,7 @@
 		    	var children = this.getData("children").split(',');
 		    	  
 		    	for (var i = 0; i < children.length; i++) {
-		    		var node = A.one('.'+children[i]);
+// 		    		var node = A.one('.'+children[i]);
 		    		showHideSubPage(children[i], hide);
 				}
 			});
@@ -465,7 +462,7 @@
 					else
 						this.ancestor("tr").one(".percent").text(perc.toFixed(2) + " %");
 				}
-			})
+			});
 		});
 	}
 	
