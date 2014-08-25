@@ -414,6 +414,7 @@ public class GatlingPortlet extends MVCPortlet {
 
 				//add private and public url of site
 				String publicURL = scenario.getUrl_site();
+				String privateURL = scenario.getUrl_site().replace("web", "group");
 				/*
 				 * create header list
 				 */
@@ -424,6 +425,7 @@ public class GatlingPortlet extends MVCPortlet {
 				renderRequest.setAttribute("listPages", displayItemList);
 				renderRequest.setAttribute("siteName", siteName);
 				renderRequest.setAttribute("publicURL", publicURL);
+				renderRequest.setAttribute("privateURL", privateURL);
 				renderRequest.setAttribute("listOfScenarioName", JSListName);
 
 			} catch (SystemException  | PortalException e) {

@@ -385,7 +385,7 @@
 		    	var children = this.getData("children").split(',');
 		    	  
 		    	for (var i = 0; i < children.length; i++) {
-// 		    		var node = A.one('.'+children[i]);
+		    		var node = A.one('.'+children[i]);
 		    		showHideSubPage(children[i], hide);
 				}
 			});

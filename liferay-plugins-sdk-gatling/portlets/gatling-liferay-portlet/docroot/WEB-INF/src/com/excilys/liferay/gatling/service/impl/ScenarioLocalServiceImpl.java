@@ -209,7 +209,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			throw new NullPointerException("idScenario");
 
 		final Map<String, String[]> parameters = request.getParameterMap();
-		final Map<String, Request> mapPublicRequestToEdit =new HashMap<String, Request>();
+		final Map<String, Request> mapPublicRequestToEdit = new HashMap<String, Request>();
 
 		//security
 		final ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
@@ -237,19 +237,26 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		 * Layout
 		 */
 		final long groupId =ParamUtil.getLong(request, "groupId");
-		// Get non private pages
-		final List<Layout> listLayouts = LayoutLocalServiceUtil.getLayouts(groupId,false,0);
-		List<DisplayItem> displayLayoutList = new ArrayList<DisplayItem>();
+		
+		//get public layout list
+		List<Layout> listPublicLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false, 0);
+		
+		//get private layout list
+		List<Layout> listPrivateLayouts = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
+
+		List<DisplayItem> displayItemList = new ArrayList<DisplayItem>();
+		
 		// Sorting layout
-		DisplayItemUtil.addLayoutToDisplayItemList(displayLayoutList, listLayouts);
+		DisplayItemUtil.addLayoutToDisplayItemList(displayItemList, listPublicLayouts);
+		DisplayItemUtil.addLayoutToDisplayItemList(displayItemList, listPrivateLayouts );
+		
 		// Retrieve Request from DB
 		final List<Request> listRequests = RequestLocalServiceUtil.findByScenarioId(idScenario);
 		// Merge Layout and Request in DisplayLayout List
-		displayLayoutList = DisplayItemUtil.addRequestToDisplayItemList(displayLayoutList, listRequests);
+		displayItemList = DisplayItemUtil.addRequestToDisplayItemList(displayItemList, listRequests);
 
 		// get List request
-		final List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(request, "scenarioId",0));
-		for(Request r : listRequest){
+		for(Request r : listRequests){
 			mapPublicRequestToEdit.put(r.getUrl().trim(),  r);
 		}
 
@@ -266,7 +273,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			if (key.contains("weight")) {
 				layoutId = Integer.parseInt(key.replace("weight",""));
 				weight = Double.parseDouble(StringUtil.merge(parameters.get(key)));
-				displayLayout = displayLayoutList.get(layoutId);
+				displayLayout = displayItemList.get(layoutId);
 				url = displayLayout.getUrl();
 				status = displayLayout.getState();
 				

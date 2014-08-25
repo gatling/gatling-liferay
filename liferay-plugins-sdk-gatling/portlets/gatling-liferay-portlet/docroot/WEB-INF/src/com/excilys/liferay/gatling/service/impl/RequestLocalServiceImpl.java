@@ -17,7 +17,6 @@ package com.excilys.liferay.gatling.service.impl;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.RequestLocalServiceBaseImpl;
-import com.excilys.liferay.gatling.util.DisplayItemUtil;
 import com.excilys.liferay.gatling.validator.RequestValidator;
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -94,7 +93,10 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 		try {
 			newRequest.setParentPlId(layout.getParentPlid());
 		} catch (PortalException e) {
-			LOG.info(e.getMessage());
+			LOG.debug("unable to add request "+e.getMessage());
+			if (LOG.isErrorEnabled()){
+				LOG.error(e.getMessage());
+			}
 		}
 		// Saving ...
 		final List<String> errors = RequestValidator.validateRequest(newRequest);
