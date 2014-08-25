@@ -178,6 +178,8 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			scenario = ScenarioLocalServiceUtil.addScenario(scenario);
 			//add Requests
 			final List<Layout> listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), false));
+			// private page
+			listLayouts.addAll(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), true));
 
 			for(Layout layout: listLayouts){
 				RequestLocalServiceUtil.addRequestFromLayout(layout, 0, scenario.getScenario_id(),false, userId);
@@ -218,7 +220,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		/*
 		 * Update Details
 		 */
-		LOG.debug("editScenarioDetails");
+		LOG.info("editScenarioDetails");
 		
 		Scenario scenario = ScenarioLocalServiceUtil.getScenario(idScenario);
 		String scenarioName= ParamUtil.getString(request, "scenarioName");
@@ -285,7 +287,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 						final List<String> errors = RequestValidator.validateRequest(updatedRequest);
 						if (errors.isEmpty()) {
 							RequestLocalServiceUtil.updateRequest(updatedRequest);
-							LOG.debug("request updated succefully");	
+							LOG.info("request updated succefully");	
 						} else {
 							for (String error : errors) {
 								SessionErrors.add(request, error);
@@ -302,7 +304,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 								displayLayout.getLayoutId());
 
 						RequestLocalServiceUtil.addRequestFromLayout(layout, weight, idScenario, true, userId);
-						LOG.debug("request created and added succefully ");
+						LOG.info("request created and added succefully ");
 					}	
 				}
 				

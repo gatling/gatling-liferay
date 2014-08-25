@@ -51,8 +51,7 @@
 		<tbody>
 		<c:forEach var="layout" items='${ listPages }' varStatus="status">
 			<%-- Add a variable to know if we need to ask the user about upgrading the scenario --%>
-			<c:if
-				test="${empty confirmUpgrade && (layout.state == 'NEW_REQUEST' || layout.state == 'OLD_REQUEST') }">
+			<c:if test="${empty confirmUpgrade && !layout.portlet && layout.state != 'DEFAULT' }">
 				<c:set var="confirmUpgrade" value="confirmUpgrade" />
 			</c:if>
 			<%--subpages --%>
@@ -162,7 +161,6 @@
 							</c:if> <i class="icon-exclamation-sign"></i> <a href="${url}"
 							title="${layout.url}" target="_blank"
 							style="margin-left:${layout.depth*30}px"> ${layout.name} </a></td>
-						<td>
 						<td></td>
 						<td><aui:input label="" name="weight${status.index}"
 								value="${layout.weight}" cssClass="weightPage deleted"
