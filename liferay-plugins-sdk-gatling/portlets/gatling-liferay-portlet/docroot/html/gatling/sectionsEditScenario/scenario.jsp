@@ -101,6 +101,7 @@
 								<aui:button cssClass="show-portlet" data-id="${layout.requestId}" value="scenario-edit-stress-portlet-btn"/>
 							</c:if>
 						</td>
+						
 						<td>
 							<aui:input label="" name="weight${status.index}" cssClass="weight " inlineField="true" onChange="showWeight()"
 								value="${layout.weight}">
