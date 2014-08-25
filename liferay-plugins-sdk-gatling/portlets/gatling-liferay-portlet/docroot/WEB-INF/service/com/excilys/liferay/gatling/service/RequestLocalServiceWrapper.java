@@ -320,10 +320,9 @@ public class RequestLocalServiceWrapper implements RequestLocalService,
 	*/
 	@Override
 	public void addRequestFromLayout(com.liferay.portal.model.Layout layout,
-		double weight, long idScenario, boolean checked, long userId)
+		double weight, long idScenario)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		_requestLocalService.addRequestFromLayout(layout, weight, idScenario,
-			checked, userId);
+		_requestLocalService.addRequestFromLayout(layout, weight, idScenario);
 	}
 
 	/**

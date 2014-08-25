@@ -137,8 +137,7 @@ public class RequestLocalServiceClpInvoker {
 		_methodName51 = "addRequestFromLayout";
 
 		_methodParameterTypes51 = new String[] {
-				"com.liferay.portal.model.Layout", "double", "long", "boolean",
-				"long"
+				"com.liferay.portal.model.Layout", "double", "long"
 			};
 	}
 
@@ -274,9 +273,7 @@ public class RequestLocalServiceClpInvoker {
 				Arrays.deepEquals(_methodParameterTypes51, parameterTypes)) {
 			RequestLocalServiceUtil.addRequestFromLayout((com.liferay.portal.model.Layout)arguments[0],
 				((Double)arguments[1]).doubleValue(),
-				((Long)arguments[2]).longValue(),
-				((Boolean)arguments[3]).booleanValue(),
-				((Long)arguments[4]).longValue());
+				((Long)arguments[2]).longValue());
 
 			return null;
 		}

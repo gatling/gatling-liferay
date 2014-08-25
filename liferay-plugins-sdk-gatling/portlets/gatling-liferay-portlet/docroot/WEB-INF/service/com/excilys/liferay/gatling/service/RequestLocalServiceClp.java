@@ -137,8 +137,7 @@ public class RequestLocalServiceClp implements RequestLocalService {
 		_methodName24 = "addRequestFromLayout";
 
 		_methodParameterTypes24 = new String[] {
-				"com.liferay.portal.model.Layout", "double", "long", "boolean",
-				"long"
+				"com.liferay.portal.model.Layout", "double", "long"
 			};
 	}
 
@@ -831,7 +830,7 @@ public class RequestLocalServiceClp implements RequestLocalService {
 
 	@Override
 	public void addRequestFromLayout(com.liferay.portal.model.Layout layout,
-		double weight, long idScenario, boolean checked, long userId)
+		double weight, long idScenario)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		try {
 			_invokableLocalService.invokeMethod(_methodName24,
@@ -841,11 +840,7 @@ public class RequestLocalServiceClp implements RequestLocalService {
 					
 				weight,
 					
-				idScenario,
-					
-				checked,
-					
-				userId
+				idScenario
 				});
 		}
 		catch (Throwable t) {

@@ -306,11 +306,9 @@ public class RequestLocalServiceUtil {
 	* Store a {@link Request} with given values
 	*/
 	public static void addRequestFromLayout(
-		com.liferay.portal.model.Layout layout, double weight, long idScenario,
-		boolean checked, long userId)
+		com.liferay.portal.model.Layout layout, double weight, long idScenario)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		getService()
-			.addRequestFromLayout(layout, weight, idScenario, checked, userId);
+		getService().addRequestFromLayout(layout, weight, idScenario);
 	}
 
 	public static void clearService() {

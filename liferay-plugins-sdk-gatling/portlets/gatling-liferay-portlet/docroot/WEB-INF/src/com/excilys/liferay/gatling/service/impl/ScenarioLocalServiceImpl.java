@@ -148,7 +148,6 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	 */
 	public Scenario addScenarioFromRequest(ActionRequest request) throws SystemException {
 		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-		final Long userId = themeDisplay.getUserId();
 		/*
 		 * Create a scenario
 		 */
@@ -182,7 +181,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			listLayouts.addAll(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), true));
 
 			for(Layout layout: listLayouts){
-				RequestLocalServiceUtil.addRequestFromLayout(layout, 0, scenario.getScenario_id(),false, userId);
+				RequestLocalServiceUtil.addRequestFromLayout(layout, 0, scenario.getScenario_id());
 			}
 			return scenario;
 		}
@@ -309,11 +308,11 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 						if (LOG.isInfoEnabled()){
 							LOG.info("add new request "+key+" : "+StringUtil.merge(parameters.get(key)));
 						}
-						
+
 						final Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.isPrivateItem(), displayLayout.getLayoutId());
-						
-						RequestLocalServiceUtil.addRequestFromLayout(layout, weight, idScenario, true, userId);
-						LOG.debug("request created and added successfully ");
+
+						RequestLocalServiceUtil.addRequestFromLayout(layout, weight, idScenario);
+						LOG.info("request created and added succefully ");
 					}	
 				}
 				

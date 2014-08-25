@@ -269,6 +269,6 @@ public interface RequestLocalService extends BaseLocalService,
 	* Store a {@link Request} with given values
 	*/
 	public void addRequestFromLayout(com.liferay.portal.model.Layout layout,
-		double weight, long idScenario, boolean checked, long userId)
+		double weight, long idScenario)
 		throws com.liferay.portal.kernel.exception.SystemException;
 }
