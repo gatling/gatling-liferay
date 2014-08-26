@@ -17,6 +17,7 @@ import java.util.zip.ZipOutputStream;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
 import javax.portlet.ReadOnlyException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -47,7 +48,6 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.PortletPreferences;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
@@ -452,16 +452,16 @@ public class GatlingPortlet extends MVCPortlet {
 		int gatlingVersion = ParamUtil.getInteger(request, "gatlingVersion");
 		
 		//add user preference
-		final PortletPreferences prefs = (PortletPreferences) request.getPreferences();
+		final PortletPreferences prefs = request.getPreferences();
 		try {
-			((javax.portlet.PortletPreferences) prefs).setValue("gatlingVersion", Integer.toString(gatlingVersion));
-			((javax.portlet.PortletPreferences) prefs).store();
+			prefs.setValue("gatlingVersion", Integer.toString(gatlingVersion));
+			prefs.store();
 		} catch (ReadOnlyException e) {
-			throw new RuntimeException("connot add user preferences for gatling version " + e.getMessage());
+			throw new RuntimeException("cannot add user preferences for gatling version " + e.getMessage());
 		} catch (ValidatorException e) {
-			throw new RuntimeException("connot add user preferences for gatling version " + e.getMessage());
+			throw new RuntimeException("cannot add user preferences for gatling version " + e.getMessage());
 		} catch (IOException e) {
-			throw new RuntimeException("connot add user preferences for gatling version " + e.getMessage());
+			throw new RuntimeException("cannot add user preferences for gatling version " + e.getMessage());
 		} 
 		//scripting Gatling
 		String template;
@@ -473,8 +473,6 @@ public class GatlingPortlet extends MVCPortlet {
 			template = "resources/templateGatling2.0.M3a.mustache";
 			break;
 		case 3:
-			template = "resources/templateGatling2.0.RC2.mustache";
-			break;
 		default:
 			template = "resources/templateGatling2.0.RC2.mustache";
 			break;
@@ -483,6 +481,9 @@ public class GatlingPortlet extends MVCPortlet {
 		 * Get simulations ids
 		 */
 		long[] simulationsIds = ParamUtil.getLongValues(request, "export");
+		for (int i = 0; i < simulationsIds.length; i++) {
+			LOG.info("SimulationIDs" + simulationsIds);
+		}
 		Simulation simulation;
 		Date date = new Date();
 		Mustache mustache = mf.compile(template);
