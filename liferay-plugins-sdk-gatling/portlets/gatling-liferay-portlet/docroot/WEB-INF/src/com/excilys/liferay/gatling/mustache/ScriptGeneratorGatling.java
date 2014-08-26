@@ -3,6 +3,13 @@
  */
 package com.excilys.liferay.gatling.mustache;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.mustache.util.AssetPublisher;
@@ -17,13 +24,6 @@ import com.liferay.portal.model.Layout;
 import com.liferay.portal.model.PortletPreferences;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ScriptGeneratorGatling {
 
@@ -65,8 +65,11 @@ public class ScriptGeneratorGatling {
 					String site = sc.getUrl_site();
 					weight = (double) ((int)((int) rq.getWeight()*10000/totalWeight))/100;
 					currentSumWeight += weight;
-					MustacheRequest mr = null;
-					mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , false);
+					//private url
+					if(rq.isPrivatePage()) {
+						site = site.replace("/web/", "/group/");
+					}
+					MustacheRequest mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , false);
 
 					fillPortlets(sc.getGroup_id(), rq.getPrivatePage(), rq.getLayoutId(), mr);
 					mustacheRequests.add(mr);
@@ -89,9 +92,6 @@ public class ScriptGeneratorGatling {
 
 		Pattern p = Pattern.compile("column-\\d=([0-9a-zA-Z,_])+\\n");
 		Matcher m =p.matcher(layout.getTypeSettings());
-		while(m.find()){
-			String[] portletIds = m.group().substring(9).split(",");
-		}		
 
 		List<PortletPreferences> pp = PortletPreferencesLocalServiceUtil.getPortletPreferencesByPlid(layout.getPlid());
 		for (PortletPreferences portletPreferences : pp) {
