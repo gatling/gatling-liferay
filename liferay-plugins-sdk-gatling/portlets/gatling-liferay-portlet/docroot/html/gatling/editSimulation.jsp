@@ -170,7 +170,7 @@
  		var modal = new A.Modal({
 			bodyContent : A.one("#newFormScenario").html(),
 			centered : true,
-			headerContent : "<h3><liferay-ui:message key="simulation-edit-form-header" /></h3>",
+			headerContent : "<h3><liferay-ui:message key="simulation-edit-form-header" arguments="${simulation.name}"/></h3>",
 			modal : true,
 			resizable : false,
 			visible : false,
