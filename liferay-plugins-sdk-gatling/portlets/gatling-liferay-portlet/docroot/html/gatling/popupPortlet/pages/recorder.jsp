@@ -13,11 +13,10 @@
 	<aui:input name="useCaseRecordName" inlineField="true" ></aui:input>
 	<div class="btn-group inline-button">
 	    <button class="btn btn-warning"><i class="icon-play"></i> <liferay-ui:message key="record" /></button>
-	    <button class="btn" disabled="disabled"><i class="icon-stop"></i> <liferay-ui:message key="stop" /></button>
+	    <%--<button class="btn" disabled="disabled"><i class="icon-stop"></i> <liferay-ui:message key="stop" /></button> --%>
 	</div>
 	
 	<hr/>
-	<div class="well">
-		<liferay-portlet:runtime portletName="<%= instancePortletId  %>" />
-	</div>
+		<liferay-portlet:renderURL var="portletURL" portletName="56_INSTANCE_rKrNKVmzAxje_" windowState="pop_up"/>
+		<iframe src="${portletURL }" width="95%" style="min-height: 600px;padding: 10px;padding-right: 0px;"></iframe>
 </c:if>
