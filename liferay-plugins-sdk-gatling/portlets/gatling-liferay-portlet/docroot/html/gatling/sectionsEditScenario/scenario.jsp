@@ -282,6 +282,12 @@
 		
 		A.all(".show-portlet").each(function() {
 			this.on('click', function(event) {
+				this.toggleClass('toggled');
+				if(this.hasClass('toggled')) {
+					this.text('<liferay-ui:message key="scenario-edit-stress-portlet-btn-hide"/>');
+				} else {
+					this.text('<liferay-ui:message key="scenario-edit-stress-portlet-btn"/>');
+				}
 				var portlets = this.getData("portlets").split(',');
 				for (var i = 0; i < portlets.length; i++) {
 					var line = A.one("#"+portlets[i]);
