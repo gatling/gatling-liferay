@@ -69,6 +69,8 @@
 			<c:if test="${not empty layout.pagePortlet}">
 				<c:set var="pageName" value="${layout.name}" />
 				<c:forEach var="i" items="${layout.pagePortlet}" varStatus="info">
+				
+<%-- 					<% request.getServletContext().get %> --%>
 					<c:set var="portletList" value="${portletList}${i}" />
 					<c:if test="${not info.last}">
 						<c:set var="portletList" value="${portletList}," />
