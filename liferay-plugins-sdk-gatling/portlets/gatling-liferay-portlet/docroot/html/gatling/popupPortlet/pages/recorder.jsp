@@ -8,10 +8,16 @@
 
 <h3><liferay-ui:message key="recorder-for" />: <%= instancePortletName %></h3>
 
-<div class="well well-small">
-	<c:if test='<%= ((instancePortletId != null) &&  (!"0".equals(instancePortletId))) %>'>
+
+<c:if test='<%= ((instancePortletId != null) &&  (!"0".equals(instancePortletId))) %>'>
+	<aui:input name="portletRecordName" inlineField="true" ></aui:input>
+	<div class="btn-group inline-button">
+	    <button class="btn"><i class="icon-play"></i> Record</button>
+	    <button class="btn"><i class="icon-stop"></i> Stop</button>
+	</div>
+	
+	<hr/>
+	<div class="well">
 		<liferay-portlet:runtime portletName="<%= instancePortletId  %>" />
-	</c:if>
-
-</div>
-
+	</div>
+</c:if>
