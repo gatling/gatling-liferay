@@ -143,7 +143,7 @@
 							<c:if test="${not empty portletList}">
 								<aui:button cssClass="show-portlet"
 									data-portlets="${portletList}"
-									value="scenario-edit-stress-portlet-show-btn" />
+									value="scenario-edit-stress-portlet-btn-show" />
 							</c:if>
 						</td>
 						<td><aui:input label="" name="weight${status.index}"
@@ -209,7 +209,7 @@
 						</td>
 						<td><c:if test="${not empty portletList}">
 								<aui:button cssClass="show-portlet" data-portlets="${portletList}"
-									value="scenario-edit-stress-portlet-show-btn" />
+									value="scenario-edit-stress-portlet-btn-show" />
 							</c:if>
 						</td>
 						<td><aui:input label="" name="weight${status.index}"
@@ -293,17 +293,9 @@
 				if(this.hasClass('toggled')) {
 					this.text('<liferay-ui:message key="scenario-edit-stress-portlet-btn-hide"/>');
 				} else {
-					this.text('<liferay-ui:message key="scenario-edit-stress-portlet-btn"/>');
+					this.text('<liferay-ui:message key="scenario-edit-stress-portlet-btn-show"/>');
 				}
 				var portlets = this.getData("portlets").split(',');
-				if(A.one("#"+portlets[0]).get('hidden')){
-					console.log('<liferay-ui:message key="scenario-edit-stress-portlet-show-btn"/>');
-					this.val('<liferay-ui:message key="scenario-edit-stress-portlet-show-btn"/>');
-				}
-				else{
-					console.log('<liferay-ui:message key="scenario-edit-stress-portlet-hide-btn"/>');
-					this.val('<liferay-ui:message key="scenario-edit-stress-portlet-hide-btn"/>');
-				}
 				for (var i = 0; i < portlets.length; i++) {
 					var line = A.one("#"+portlets[i]);
 					if(line.get('hidden')) {

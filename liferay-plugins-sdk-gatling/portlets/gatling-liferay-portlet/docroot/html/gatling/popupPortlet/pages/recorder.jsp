@@ -10,10 +10,10 @@
 
 
 <c:if test='<%= ((instancePortletId != null) &&  (!"0".equals(instancePortletId))) %>'>
-	<aui:input name="portletRecordName" inlineField="true" ></aui:input>
+	<aui:input name="useCaseRecordName" inlineField="true" ></aui:input>
 	<div class="btn-group inline-button">
-	    <button class="btn"><i class="icon-play"></i> Record</button>
-	    <button class="btn"><i class="icon-stop"></i> Stop</button>
+	    <button class="btn btn-warning"><i class="icon-play"></i> <liferay-ui:message key="record" /></button>
+	    <button class="btn" disabled="disabled"><i class="icon-stop"></i> <liferay-ui:message key="stop" /></button>
 	</div>
 	
 	<hr/>
