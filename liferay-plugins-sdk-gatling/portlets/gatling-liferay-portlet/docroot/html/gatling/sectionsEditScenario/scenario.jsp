@@ -160,17 +160,21 @@
 				<c:when test="${layout.state == 'OLD_REQUEST'}">
 					<tr class="error">
 						<%-- Affichage request pas enregistrée --%>
-						<td><input name="delete${layout.requestId}" type="hidden"
-							value="${layout.requestId}" /> <portlet:actionURL
+						<td>
+							<portlet:actionURL
 								var="deleteRequestURL" name="removeRequest">
 								<portlet:param name="requestId" value="${layout.requestId}" />
-							</portlet:actionURL> <liferay-ui:icon-delete url="${deleteRequestURL}" /></td>
+								<portlet:param name="scenarioId" value="${scenario.scenario_id}" />
+							</portlet:actionURL> 
+							<liferay-ui:icon-delete url="${deleteRequestURL}" />
+						</td>
 
 						<td><c:if test="${layout.privateItem}">
 								<i class="icon-eye-close"></i>
-							</c:if> <i class="icon-exclamation-sign"></i> <a href="${url}"
-							title="${layout.url}" target="_blank"
-							style="margin-left:${layout.depth*30}px"> ${layout.name} </a></td>
+							</c:if> 
+							<i class="icon-exclamation-sign"></i> 
+							<a href="${url}" title="${layout.url}" target="_blank" style="margin-left:${layout.depth*30}px"> ${layout.name} </a>
+						</td>
 						<td></td>
 						<td><aui:input label="" name="weight${status.index}"
 								value="${layout.weight}" cssClass="weightPage deleted"

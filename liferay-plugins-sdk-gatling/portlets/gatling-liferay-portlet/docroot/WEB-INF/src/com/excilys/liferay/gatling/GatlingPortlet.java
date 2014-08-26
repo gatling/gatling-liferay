@@ -216,6 +216,8 @@ public class GatlingPortlet extends MVCPortlet {
 		long requestId = Long.parseLong(request.getParameter("requestId"));
 		RequestLocalServiceUtil.deleteRequest(requestId);
 		LOG.debug("request deleted succefully ");
+		response.setRenderParameter("scenarioId", request.getParameter("scenarioId"));
+		response.setRenderParameter("page", jspEditScenario);
 	}
 
 	/**
