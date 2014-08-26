@@ -8,6 +8,10 @@
 
 <h3><liferay-ui:message key="recorder-for" />: <%= instancePortletName %></h3>
 
-<c:if test='<%= ((instancePortletId != null) &&  (!"0".equals(instancePortletId))) %>'>
-	<liferay-portlet:runtime portletName="<%= instancePortletId  %>" />
-</c:if>
+<div class="well well-small">
+	<c:if test='<%= ((instancePortletId != null) &&  (!"0".equals(instancePortletId))) %>'>
+		<liferay-portlet:runtime portletName="<%= instancePortletId  %>" />
+	</c:if>
+
+</div>
+
