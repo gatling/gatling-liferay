@@ -73,6 +73,9 @@ public class DisplayItem {
 		portletId = portletPreferences.getPortletId();
 		name = PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).getDisplayName();
 		portlet = true;
+//		PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).setSystem(true);
+//		PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).setInstanceable(false);
+//		PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).setAddDefaultResource(true);
 		try {
 			Layout parent = LayoutLocalServiceUtil.getLayout(portletPreferences.getPlid());
 			url = parent.getFriendlyURL() /* + url portlet*/;
