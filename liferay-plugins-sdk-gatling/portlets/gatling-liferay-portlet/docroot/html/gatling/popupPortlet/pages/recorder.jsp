@@ -17,6 +17,6 @@
 	</div>
 	
 	<hr/>
-		<liferay-portlet:renderURL var="portletURL" portletName="56_INSTANCE_rKrNKVmzAxje_" windowState="pop_up"/>
+		<liferay-portlet:renderURL var="portletURL" portletName="<%=instancePortletId %>" windowState="pop_up"/>
 		<iframe src="${portletURL }" width="95%" style="min-height: 600px;padding: 10px;padding-right: 0px;"></iframe>
 </c:if>
