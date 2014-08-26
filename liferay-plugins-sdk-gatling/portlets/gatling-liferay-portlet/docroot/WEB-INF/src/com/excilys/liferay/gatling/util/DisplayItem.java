@@ -76,7 +76,9 @@ public class DisplayItem {
 		try {
 			Layout parent = LayoutLocalServiceUtil.getLayout(portletPreferences.getPlid());
 			url = parent.getFriendlyURL() /* + url portlet*/;
-		} catch (PortalException | SystemException e) {
+		} catch (PortalException e) {
+			new RuntimeException(e.getMessage());
+		} catch (SystemException e) {
 			new RuntimeException(e.getMessage());
 		}
 	}
@@ -92,7 +94,9 @@ public class DisplayItem {
 		privateItem = layout.isPrivateLayout();
 		try {
 			parentDisplayId = layout.getParentPlid();
-		} catch (PortalException | SystemException e) {
+		} catch (SystemException e) {
+			LOG.info(e.getMessage());
+		} catch (PortalException e) {
 			LOG.info(e.getMessage());
 		}
 		name = layout.getName(LocaleUtil.getDefault());
