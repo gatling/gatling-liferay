@@ -63,11 +63,12 @@
 	<%--
 		Search container (table) 
 	--%>
-	<liferay-ui:search-container emptyResultsMessage="simulation-list-empty">
+	<liferay-ui:search-container emptyResultsMessage="simulation-list-empty" >
 		<%--List of data to display --%>
 		<liferay-ui:search-container-results results="${listSimulation }" total="${listSimulation.size() }" />
 		<%--for each  column --%>
 		<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Simulation" keyProperty="simulation_id" modelVar="simulation">
+			<%-- checkbox --%>
 			<liferay-ui:search-container-column-text>
 				<c:choose>
 				<c:when test="${MapSimulation.get(simulation)[1] == 2}">
@@ -81,29 +82,31 @@
 				</c:otherwise>
 				</c:choose>
 			</liferay-ui:search-container-column-text>
+			<%--edit url --%>
 			<portlet:renderURL var="editSimulationURL">
 				<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
 				<portlet:param name="simulationId" value="${simulation.simulation_id }" />
 			</portlet:renderURL>
 			<liferay-ui:search-container-column-text name="simulation-list-table-header-name" value="${simulation.name }" href="${editSimulationURL}" />
+			<%-- number of scenario --%>
 			<liferay-ui:search-container-column-text name="simulation-list-table-header-scenarionb" value="${MapSimulation.get(simulation)[0] }" />
+			<%--status --%>
 			<liferay-ui:search-container-column-text name="simulation-list-table-header-state">
 				<c:choose>
 					<c:when test="${MapSimulation.get(simulation)[1] == 2}">
-						<span class="badge badge-success"><i class=" icon-ok"></i></span>
+						<span class="badge badge-success"><i class="icon-ok"></i></span> 
 						<liferay-ui:icon-help message="message-help-info-state-simulation-success"/>
 					</c:when>
 					<c:when test="${MapSimulation.get(simulation)[1] == 1}">
-						<span class="badge badge-warning"><i class="icon-pencil"></i></span>
+						<span class="badge badge-warning"><i class="icon-pencil"></i></span> 
 						<liferay-ui:icon-help message="message-help-info-state-simulation-warning"/>
 					</c:when>
 					<c:otherwise>
-						<span class="badge badge-important"><i class="icon-ban-circle"></i></span>
+						<span class="badge badge-important"><i class="icon-ban-circle"></i> </span>
 						<liferay-ui:icon-help message="message-help-info-state-simulation-important"/>
 					</c:otherwise>
 				</c:choose>
 			</liferay-ui:search-container-column-text>
-	
 			<%--delete button --%>
 			<liferay-ui:search-container-column-text name="delete" >
 			<portlet:actionURL var="deleteSimulationURL" name="removeSimulation">

@@ -104,7 +104,10 @@
 						<td><input type="checkbox" name="${status.index}"
 							class='checkLine' /></td>
 						<td><i class="icon-th-large"></i>
-							<a href="#${layout.portletId}" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px" data-portlet="${layout.name}" data-page="${pageName}"> ${layout.name}</a>
+							<a href="#${layout.portletId}" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px" 
+								data-portlet="${layout.name}" data-page="${pageName}"> 
+								 ${layout.name} <i class="icon-wrench"></i>
+							</a>
 						</td>
 						<td></td>
 						<td><aui:input label="" name="portlet${status.index}"

@@ -90,14 +90,13 @@
 	<liferay-ui:search-container-results results="${listScenario }" total="${listScenario.size() }" />
 	<%--for each column --%>
 	<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Scenario" keyProperty="scenario_id" modelVar="scenario">
+		<%-- EditURl --%>
 		<portlet:renderURL var="editScenarioURL">
 			<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
 			<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
 		</portlet:renderURL>
-		<c:set var="scenarioRequestInfo"> 
-			<liferay-ui:message key="simulation-edit-table-header-requests" arguments="${MapScenario.get(scenario)}" />
-		</c:set>
 		<liferay-ui:search-container-column-text name="simulation-edit-table-header-name" value="${scenario.name}" href="${editScenarioURL}" />
+		<%--site name --%>
 		<liferay-ui:search-container-column-text name="simulation-edit-table-header-site">
 			<c:forEach var="site" items="${listGroup}">
 				<c:if test="${site.groupId eq scenario.group_id}">
@@ -105,22 +104,26 @@
 				</c:if>
 			</c:forEach>
 		</liferay-ui:search-container-column-text>
+		<%-- requests --%>
 		<liferay-ui:search-container-column-text name="simulation-edit-table-header-requests" value="${MapScenario.get(scenario)[0]}/${MapScenario.get(scenario)[1]}" />
+		<%-- duration --%>
 		<liferay-ui:search-container-column-text name="simulation-edit-table-header-duration" value="${scenario.duration }" />
+		<%-- users --%>
 		<liferay-ui:search-container-column-text name="simulation-edit-table-header-users" value="${scenario.getUsers_per_seconds() }" />
+		<%-- state --%>
 		<liferay-ui:search-container-column-text name="simulation-edit-table-header-state">
 			<c:choose>
 				<c:when test="${MapScenario.get(scenario)[2] == 2}">
-					<span class="badge badge-success"><i class=" icon-ok"></i></span>
+					<span class="badge badge-success"><i class=" icon-ok"></i></span> 
 					<liferay-ui:icon-help message="message-help-info-state-scenario-success" />
 				</c:when>
 				<c:when test="${MapScenario.get(scenario)[2] == 1}">
-					<span class="badge badge-warning"><i class="icon-pencil"></i></span>
+					<span class="badge badge-warning"><i class="icon-pencil"></i></span> 
 					<liferay-ui:icon-help message="message-help-info-state-scenario-warning" />
 					<c:set var="export" value="false"/>
 				</c:when>
 				<c:otherwise>
-					<span class="badge badge-important"><i class="icon-ban-circle"></i></span>
+					<span class="badge badge-important"><i class="icon-ban-circle"></i></span> 
 					<liferay-ui:icon-help message="message-help-info-state-scenario-important" />
 					<c:set var="export" value="false"/>
 				</c:otherwise>
@@ -128,11 +131,11 @@
 		</liferay-ui:search-container-column-text>
 		<%--delete button --%>
 		<liferay-ui:search-container-column-text name="delete" align="center">
-		<portlet:actionURL var="deleteScenarioURL" name="removeScenario">
-			<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
-			<portlet:param name="simulationId" value="${scenario.simulation_id }" />
-		</portlet:actionURL>
-		<liferay-ui:icon-delete url="${deleteScenarioURL}" />
+			<portlet:actionURL var="deleteScenarioURL" name="removeScenario">
+				<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
+				<portlet:param name="simulationId" value="${scenario.simulation_id }" />
+			</portlet:actionURL>
+			<liferay-ui:icon-delete url="${deleteScenarioURL}" />
 		</liferay-ui:search-container-column-text>
 	</liferay-ui:search-container-row>
 	<%--iterate and show list of data --%>
