@@ -13,8 +13,8 @@ String currentTab = ParamUtil.getString(request, "tabs1", "sample");
 <liferay-portlet:renderURL var="changeTabURL">
 	<liferay-portlet:param name="" value=""/>
 </liferay-portlet:renderURL>
-<liferay-ui:tabs names="Sample, Recorder"
-				refresh="false">
+<liferay-ui:tabs names='existing-simulation,recorder-word'
+				refresh="false" >
 	<liferay-ui:section>
 		<liferay-util:include page="/html/gatling/popupPortlet/pages/sample.jsp" servletContext="<%=this.getServletContext() %>"/>
 	</liferay-ui:section>
