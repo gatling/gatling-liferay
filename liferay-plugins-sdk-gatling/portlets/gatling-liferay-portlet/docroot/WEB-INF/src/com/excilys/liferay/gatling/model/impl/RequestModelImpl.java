@@ -66,9 +66,11 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 			{ "privatePage", Types.BOOLEAN },
 			{ "parentPlId", Types.BIGINT },
 			{ "layoutId", Types.BIGINT },
-			{ "plId", Types.BIGINT }
+			{ "plId", Types.BIGINT },
+			{ "isPortlet", Types.BOOLEAN },
+			{ "portetId", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table StressTool_Request (request_id LONG not null primary key,scenario_id LONG,name VARCHAR(75) null,url VARCHAR(75) null,weight DOUBLE,privatePage BOOLEAN,parentPlId LONG,layoutId LONG,plId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table StressTool_Request (request_id LONG not null primary key,scenario_id LONG,name VARCHAR(75) null,url VARCHAR(75) null,weight DOUBLE,privatePage BOOLEAN,parentPlId LONG,layoutId LONG,plId LONG,isPortlet BOOLEAN,portetId VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table StressTool_Request";
 	public static final String ORDER_BY_JPQL = " ORDER BY request.request_id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY StressTool_Request.request_id ASC";
@@ -136,6 +138,8 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 		attributes.put("parentPlId", getParentPlId());
 		attributes.put("layoutId", getLayoutId());
 		attributes.put("plId", getPlId());
+		attributes.put("isPortlet", getIsPortlet());
+		attributes.put("portetId", getPortetId());
 
 		return attributes;
 	}
@@ -194,6 +198,18 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
 		if (plId != null) {
 			setPlId(plId);
+		}
+
+		Boolean isPortlet = (Boolean)attributes.get("isPortlet");
+
+		if (isPortlet != null) {
+			setIsPortlet(isPortlet);
+		}
+
+		String portetId = (String)attributes.get("portetId");
+
+		if (portetId != null) {
+			setPortetId(portetId);
 		}
 	}
 
@@ -326,6 +342,36 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 		_plId = plId;
 	}
 
+	@Override
+	public boolean getIsPortlet() {
+		return _isPortlet;
+	}
+
+	@Override
+	public boolean isIsPortlet() {
+		return _isPortlet;
+	}
+
+	@Override
+	public void setIsPortlet(boolean isPortlet) {
+		_isPortlet = isPortlet;
+	}
+
+	@Override
+	public String getPortetId() {
+		if (_portetId == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _portetId;
+		}
+	}
+
+	@Override
+	public void setPortetId(String portetId) {
+		_portetId = portetId;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -366,6 +412,8 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 		requestImpl.setParentPlId(getParentPlId());
 		requestImpl.setLayoutId(getLayoutId());
 		requestImpl.setPlId(getPlId());
+		requestImpl.setIsPortlet(getIsPortlet());
+		requestImpl.setPortetId(getPortetId());
 
 		requestImpl.resetOriginalValues();
 
@@ -463,12 +511,22 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
 		requestCacheModel.plId = getPlId();
 
+		requestCacheModel.isPortlet = getIsPortlet();
+
+		requestCacheModel.portetId = getPortetId();
+
+		String portetId = requestCacheModel.portetId;
+
+		if ((portetId != null) && (portetId.length() == 0)) {
+			requestCacheModel.portetId = null;
+		}
+
 		return requestCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{request_id=");
 		sb.append(getRequest_id());
@@ -488,6 +546,10 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 		sb.append(getLayoutId());
 		sb.append(", plId=");
 		sb.append(getPlId());
+		sb.append(", isPortlet=");
+		sb.append(getIsPortlet());
+		sb.append(", portetId=");
+		sb.append(getPortetId());
 		sb.append("}");
 
 		return sb.toString();
@@ -495,7 +557,7 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("<model><model-name>");
 		sb.append("com.excilys.liferay.gatling.model.Request");
@@ -537,6 +599,14 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 			"<column><column-name>plId</column-name><column-value><![CDATA[");
 		sb.append(getPlId());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>isPortlet</column-name><column-value><![CDATA[");
+		sb.append(getIsPortlet());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>portetId</column-name><column-value><![CDATA[");
+		sb.append(getPortetId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -560,6 +630,8 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 	private long _parentPlId;
 	private long _layoutId;
 	private long _plId;
+	private boolean _isPortlet;
+	private String _portetId;
 	private long _columnBitmask;
 	private Request _escapedModel;
 }

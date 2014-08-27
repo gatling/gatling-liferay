@@ -81,6 +81,8 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 		attributes.put("parentPlId", getParentPlId());
 		attributes.put("layoutId", getLayoutId());
 		attributes.put("plId", getPlId());
+		attributes.put("isPortlet", getIsPortlet());
+		attributes.put("portetId", getPortetId());
 
 		return attributes;
 	}
@@ -139,6 +141,18 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 
 		if (plId != null) {
 			setPlId(plId);
+		}
+
+		Boolean isPortlet = (Boolean)attributes.get("isPortlet");
+
+		if (isPortlet != null) {
+			setIsPortlet(isPortlet);
+		}
+
+		String portetId = (String)attributes.get("portetId");
+
+		if (portetId != null) {
+			setPortetId(portetId);
 		}
 	}
 
@@ -355,6 +369,57 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 	}
 
 	@Override
+	public boolean getIsPortlet() {
+		return _isPortlet;
+	}
+
+	@Override
+	public boolean isIsPortlet() {
+		return _isPortlet;
+	}
+
+	@Override
+	public void setIsPortlet(boolean isPortlet) {
+		_isPortlet = isPortlet;
+
+		if (_requestRemoteModel != null) {
+			try {
+				Class<?> clazz = _requestRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setIsPortlet", boolean.class);
+
+				method.invoke(_requestRemoteModel, isPortlet);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public String getPortetId() {
+		return _portetId;
+	}
+
+	@Override
+	public void setPortetId(String portetId) {
+		_portetId = portetId;
+
+		if (_requestRemoteModel != null) {
+			try {
+				Class<?> clazz = _requestRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setPortetId", String.class);
+
+				method.invoke(_requestRemoteModel, portetId);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
 	public boolean isUsed() {
 		try {
 			String methodName = "isUsed";
@@ -451,6 +516,8 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 		clone.setParentPlId(getParentPlId());
 		clone.setLayoutId(getLayoutId());
 		clone.setPlId(getPlId());
+		clone.setIsPortlet(getIsPortlet());
+		clone.setPortetId(getPortetId());
 
 		return clone;
 	}
@@ -499,7 +566,7 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{request_id=");
 		sb.append(getRequest_id());
@@ -519,6 +586,10 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 		sb.append(getLayoutId());
 		sb.append(", plId=");
 		sb.append(getPlId());
+		sb.append(", isPortlet=");
+		sb.append(getIsPortlet());
+		sb.append(", portetId=");
+		sb.append(getPortetId());
 		sb.append("}");
 
 		return sb.toString();
@@ -526,7 +597,7 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("<model><model-name>");
 		sb.append("com.excilys.liferay.gatling.model.Request");
@@ -568,6 +639,14 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 			"<column><column-name>plId</column-name><column-value><![CDATA[");
 		sb.append(getPlId());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>isPortlet</column-name><column-value><![CDATA[");
+		sb.append(getIsPortlet());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>portetId</column-name><column-value><![CDATA[");
+		sb.append(getPortetId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -583,5 +662,7 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 	private long _parentPlId;
 	private long _layoutId;
 	private long _plId;
+	private boolean _isPortlet;
+	private String _portetId;
 	private BaseModel<?> _requestRemoteModel;
 }

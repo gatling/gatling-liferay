@@ -33,14 +33,49 @@
 		<column name="privatePage" type="boolean"></column>
 		<column name="parentPlId" type="long"></column>
 		<column name="layoutId" type="long"></column>
-		<column name="plId" type="long"></column>		
+		<column name="plId" type="long"></column>
+		<column name="isPortlet" type="boolean"></column>
+		<column name="portetId" type="String"></column>
 		<finder name="ScenarioId" return-type="Collection">
 			<finder-column name="scenario_id" />
 		</finder>		
 		<finder name="ScenarioIdAndUsed" return-type="Collection">
 			<finder-column name="scenario_id" />
 			<finder-column name="weight" comparator=">" />
-		</finder>		
+		</finder>
+	</entity>
+	
+	
+		
+	<!-- link between a use case and portlet in scenario (library) -->
+	<entity name="LinkUsecaseRequest" remote-service="false" local-service="true">
+		<column name="linkUsecaseRequestId" type="long" primary="true" />
+		<column name="request_id" type="long" />
+		<column name="usecaseId" type="long" />
+		<column name="weight" type="double" />
+	</entity>
+	
+	<!-- use case  -->
+	<entity name="Usecase" remote-service="false" local-service="true">
+		<column name="usecaseId" type="long" primary="true" />
+		<column name="portletId" type="long" />
+		<column name="versionPortlet" type="long" />
+		<column name="name" type="String" />
+	</entity>
+	
+	<!-- url -->
+	<entity name="UrlUsecase" remote-service="false" local-service="true">
+		<column name="urlUsecaseId" type="long" primary="true" />
+		<column name="usecaseId" type="long" />
+		<column name="url" type="String" />
+		<column name="order" type="int" />
+	</entity>
+	
+	<!-- table used to share data between recorder page and servlet filter -->
+	<entity name="RecordPortlet">
+		<column name="recordPortletId" type="long" primary="true"/>
+		<column name="portletId" type="String" />
+		<column name="state" type="String" />
 	</entity>
 
 </service-builder>

@@ -38,6 +38,8 @@ public class RequestSoap implements Serializable {
 		soapModel.setParentPlId(model.getParentPlId());
 		soapModel.setLayoutId(model.getLayoutId());
 		soapModel.setPlId(model.getPlId());
+		soapModel.setIsPortlet(model.getIsPortlet());
+		soapModel.setPortetId(model.getPortetId());
 
 		return soapModel;
 	}
@@ -166,6 +168,26 @@ public class RequestSoap implements Serializable {
 		_plId = plId;
 	}
 
+	public boolean getIsPortlet() {
+		return _isPortlet;
+	}
+
+	public boolean isIsPortlet() {
+		return _isPortlet;
+	}
+
+	public void setIsPortlet(boolean isPortlet) {
+		_isPortlet = isPortlet;
+	}
+
+	public String getPortetId() {
+		return _portetId;
+	}
+
+	public void setPortetId(String portetId) {
+		_portetId = portetId;
+	}
+
 	private long _request_id;
 	private long _scenario_id;
 	private String _name;
@@ -175,4 +197,6 @@ public class RequestSoap implements Serializable {
 	private long _parentPlId;
 	private long _layoutId;
 	private long _plId;
+	private boolean _isPortlet;
+	private String _portetId;
 }

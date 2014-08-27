@@ -16,9 +16,13 @@ package com.excilys.liferay.gatling.service.base;
 
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.service.RequestLocalService;
+import com.excilys.liferay.gatling.service.persistence.LinkUsecaseRequestPersistence;
+import com.excilys.liferay.gatling.service.persistence.RecordPortletPersistence;
 import com.excilys.liferay.gatling.service.persistence.RequestPersistence;
 import com.excilys.liferay.gatling.service.persistence.ScenarioPersistence;
 import com.excilys.liferay.gatling.service.persistence.SimulationPersistence;
+import com.excilys.liferay.gatling.service.persistence.UrlUsecasePersistence;
+import com.excilys.liferay.gatling.service.persistence.UsecasePersistence;
 
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.bean.IdentifiableBean;
@@ -276,6 +280,82 @@ public abstract class RequestLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the link usecase request local service.
+	 *
+	 * @return the link usecase request local service
+	 */
+	public com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalService getLinkUsecaseRequestLocalService() {
+		return linkUsecaseRequestLocalService;
+	}
+
+	/**
+	 * Sets the link usecase request local service.
+	 *
+	 * @param linkUsecaseRequestLocalService the link usecase request local service
+	 */
+	public void setLinkUsecaseRequestLocalService(
+		com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalService linkUsecaseRequestLocalService) {
+		this.linkUsecaseRequestLocalService = linkUsecaseRequestLocalService;
+	}
+
+	/**
+	 * Returns the link usecase request persistence.
+	 *
+	 * @return the link usecase request persistence
+	 */
+	public LinkUsecaseRequestPersistence getLinkUsecaseRequestPersistence() {
+		return linkUsecaseRequestPersistence;
+	}
+
+	/**
+	 * Sets the link usecase request persistence.
+	 *
+	 * @param linkUsecaseRequestPersistence the link usecase request persistence
+	 */
+	public void setLinkUsecaseRequestPersistence(
+		LinkUsecaseRequestPersistence linkUsecaseRequestPersistence) {
+		this.linkUsecaseRequestPersistence = linkUsecaseRequestPersistence;
+	}
+
+	/**
+	 * Returns the record portlet remote service.
+	 *
+	 * @return the record portlet remote service
+	 */
+	public com.excilys.liferay.gatling.service.RecordPortletService getRecordPortletService() {
+		return recordPortletService;
+	}
+
+	/**
+	 * Sets the record portlet remote service.
+	 *
+	 * @param recordPortletService the record portlet remote service
+	 */
+	public void setRecordPortletService(
+		com.excilys.liferay.gatling.service.RecordPortletService recordPortletService) {
+		this.recordPortletService = recordPortletService;
+	}
+
+	/**
+	 * Returns the record portlet persistence.
+	 *
+	 * @return the record portlet persistence
+	 */
+	public RecordPortletPersistence getRecordPortletPersistence() {
+		return recordPortletPersistence;
+	}
+
+	/**
+	 * Sets the record portlet persistence.
+	 *
+	 * @param recordPortletPersistence the record portlet persistence
+	 */
+	public void setRecordPortletPersistence(
+		RecordPortletPersistence recordPortletPersistence) {
+		this.recordPortletPersistence = recordPortletPersistence;
+	}
+
+	/**
 	 * Returns the request local service.
 	 *
 	 * @return the request local service
@@ -385,6 +465,81 @@ public abstract class RequestLocalServiceBaseImpl extends BaseLocalServiceImpl
 	public void setSimulationPersistence(
 		SimulationPersistence simulationPersistence) {
 		this.simulationPersistence = simulationPersistence;
+	}
+
+	/**
+	 * Returns the url usecase local service.
+	 *
+	 * @return the url usecase local service
+	 */
+	public com.excilys.liferay.gatling.service.UrlUsecaseLocalService getUrlUsecaseLocalService() {
+		return urlUsecaseLocalService;
+	}
+
+	/**
+	 * Sets the url usecase local service.
+	 *
+	 * @param urlUsecaseLocalService the url usecase local service
+	 */
+	public void setUrlUsecaseLocalService(
+		com.excilys.liferay.gatling.service.UrlUsecaseLocalService urlUsecaseLocalService) {
+		this.urlUsecaseLocalService = urlUsecaseLocalService;
+	}
+
+	/**
+	 * Returns the url usecase persistence.
+	 *
+	 * @return the url usecase persistence
+	 */
+	public UrlUsecasePersistence getUrlUsecasePersistence() {
+		return urlUsecasePersistence;
+	}
+
+	/**
+	 * Sets the url usecase persistence.
+	 *
+	 * @param urlUsecasePersistence the url usecase persistence
+	 */
+	public void setUrlUsecasePersistence(
+		UrlUsecasePersistence urlUsecasePersistence) {
+		this.urlUsecasePersistence = urlUsecasePersistence;
+	}
+
+	/**
+	 * Returns the usecase local service.
+	 *
+	 * @return the usecase local service
+	 */
+	public com.excilys.liferay.gatling.service.UsecaseLocalService getUsecaseLocalService() {
+		return usecaseLocalService;
+	}
+
+	/**
+	 * Sets the usecase local service.
+	 *
+	 * @param usecaseLocalService the usecase local service
+	 */
+	public void setUsecaseLocalService(
+		com.excilys.liferay.gatling.service.UsecaseLocalService usecaseLocalService) {
+		this.usecaseLocalService = usecaseLocalService;
+	}
+
+	/**
+	 * Returns the usecase persistence.
+	 *
+	 * @return the usecase persistence
+	 */
+	public UsecasePersistence getUsecasePersistence() {
+		return usecasePersistence;
+	}
+
+	/**
+	 * Sets the usecase persistence.
+	 *
+	 * @param usecasePersistence the usecase persistence
+	 */
+	public void setUsecasePersistence(UsecasePersistence usecasePersistence) {
+		this.usecasePersistence = usecasePersistence;
 	}
 
 	/**
@@ -563,6 +718,14 @@ public abstract class RequestLocalServiceBaseImpl extends BaseLocalServiceImpl
 		}
 	}
 
+	@BeanReference(type = com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalService.class)
+	protected com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalService linkUsecaseRequestLocalService;
+	@BeanReference(type = LinkUsecaseRequestPersistence.class)
+	protected LinkUsecaseRequestPersistence linkUsecaseRequestPersistence;
+	@BeanReference(type = com.excilys.liferay.gatling.service.RecordPortletService.class)
+	protected com.excilys.liferay.gatling.service.RecordPortletService recordPortletService;
+	@BeanReference(type = RecordPortletPersistence.class)
+	protected RecordPortletPersistence recordPortletPersistence;
 	@BeanReference(type = com.excilys.liferay.gatling.service.RequestLocalService.class)
 	protected com.excilys.liferay.gatling.service.RequestLocalService requestLocalService;
 	@BeanReference(type = RequestPersistence.class)
@@ -575,6 +738,14 @@ public abstract class RequestLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected com.excilys.liferay.gatling.service.SimulationLocalService simulationLocalService;
 	@BeanReference(type = SimulationPersistence.class)
 	protected SimulationPersistence simulationPersistence;
+	@BeanReference(type = com.excilys.liferay.gatling.service.UrlUsecaseLocalService.class)
+	protected com.excilys.liferay.gatling.service.UrlUsecaseLocalService urlUsecaseLocalService;
+	@BeanReference(type = UrlUsecasePersistence.class)
+	protected UrlUsecasePersistence urlUsecasePersistence;
+	@BeanReference(type = com.excilys.liferay.gatling.service.UsecaseLocalService.class)
+	protected com.excilys.liferay.gatling.service.UsecaseLocalService usecaseLocalService;
+	@BeanReference(type = UsecasePersistence.class)
+	protected UsecasePersistence usecasePersistence;
 	@BeanReference(type = com.liferay.counter.service.CounterLocalService.class)
 	protected com.liferay.counter.service.CounterLocalService counterLocalService;
 	@BeanReference(type = com.liferay.portal.service.ResourceLocalService.class)

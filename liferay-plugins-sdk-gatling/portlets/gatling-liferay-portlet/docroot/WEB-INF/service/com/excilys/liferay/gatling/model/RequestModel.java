@@ -192,6 +192,42 @@ public interface RequestModel extends BaseModel<Request> {
 	 */
 	public void setPlId(long plId);
 
+	/**
+	 * Returns the is portlet of this request.
+	 *
+	 * @return the is portlet of this request
+	 */
+	public boolean getIsPortlet();
+
+	/**
+	 * Returns <code>true</code> if this request is is portlet.
+	 *
+	 * @return <code>true</code> if this request is is portlet; <code>false</code> otherwise
+	 */
+	public boolean isIsPortlet();
+
+	/**
+	 * Sets whether this request is is portlet.
+	 *
+	 * @param isPortlet the is portlet of this request
+	 */
+	public void setIsPortlet(boolean isPortlet);
+
+	/**
+	 * Returns the portet ID of this request.
+	 *
+	 * @return the portet ID of this request
+	 */
+	@AutoEscape
+	public String getPortetId();
+
+	/**
+	 * Sets the portet ID of this request.
+	 *
+	 * @param portetId the portet ID of this request
+	 */
+	public void setPortetId(String portetId);
+
 	@Override
 	public boolean isNew();
 

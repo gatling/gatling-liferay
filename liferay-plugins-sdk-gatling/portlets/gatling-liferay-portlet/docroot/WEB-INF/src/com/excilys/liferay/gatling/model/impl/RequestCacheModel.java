@@ -35,7 +35,7 @@ import java.io.ObjectOutput;
 public class RequestCacheModel implements CacheModel<Request>, Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{request_id=");
 		sb.append(request_id);
@@ -55,6 +55,10 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
 		sb.append(layoutId);
 		sb.append(", plId=");
 		sb.append(plId);
+		sb.append(", isPortlet=");
+		sb.append(isPortlet);
+		sb.append(", portetId=");
+		sb.append(portetId);
 		sb.append("}");
 
 		return sb.toString();
@@ -86,6 +90,14 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
 		requestImpl.setParentPlId(parentPlId);
 		requestImpl.setLayoutId(layoutId);
 		requestImpl.setPlId(plId);
+		requestImpl.setIsPortlet(isPortlet);
+
+		if (portetId == null) {
+			requestImpl.setPortetId(StringPool.BLANK);
+		}
+		else {
+			requestImpl.setPortetId(portetId);
+		}
 
 		requestImpl.resetOriginalValues();
 
@@ -103,6 +115,8 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
 		parentPlId = objectInput.readLong();
 		layoutId = objectInput.readLong();
 		plId = objectInput.readLong();
+		isPortlet = objectInput.readBoolean();
+		portetId = objectInput.readUTF();
 	}
 
 	@Override
@@ -130,6 +144,14 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
 		objectOutput.writeLong(parentPlId);
 		objectOutput.writeLong(layoutId);
 		objectOutput.writeLong(plId);
+		objectOutput.writeBoolean(isPortlet);
+
+		if (portetId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(portetId);
+		}
 	}
 
 	public long request_id;
@@ -141,4 +163,6 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
 	public long parentPlId;
 	public long layoutId;
 	public long plId;
+	public boolean isPortlet;
+	public String portetId;
 }

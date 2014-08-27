@@ -14,9 +14,13 @@
 
 package com.excilys.liferay.gatling.service;
 
+import com.excilys.liferay.gatling.model.LinkUsecaseRequestClp;
+import com.excilys.liferay.gatling.model.RecordPortletClp;
 import com.excilys.liferay.gatling.model.RequestClp;
 import com.excilys.liferay.gatling.model.ScenarioClp;
 import com.excilys.liferay.gatling.model.SimulationClp;
+import com.excilys.liferay.gatling.model.UrlUsecaseClp;
+import com.excilys.liferay.gatling.model.UsecaseClp;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -104,6 +108,14 @@ public class ClpSerializer {
 
 		String oldModelClassName = oldModelClass.getName();
 
+		if (oldModelClassName.equals(LinkUsecaseRequestClp.class.getName())) {
+			return translateInputLinkUsecaseRequest(oldModel);
+		}
+
+		if (oldModelClassName.equals(RecordPortletClp.class.getName())) {
+			return translateInputRecordPortlet(oldModel);
+		}
+
 		if (oldModelClassName.equals(RequestClp.class.getName())) {
 			return translateInputRequest(oldModel);
 		}
@@ -114,6 +126,14 @@ public class ClpSerializer {
 
 		if (oldModelClassName.equals(SimulationClp.class.getName())) {
 			return translateInputSimulation(oldModel);
+		}
+
+		if (oldModelClassName.equals(UrlUsecaseClp.class.getName())) {
+			return translateInputUrlUsecase(oldModel);
+		}
+
+		if (oldModelClassName.equals(UsecaseClp.class.getName())) {
+			return translateInputUsecase(oldModel);
 		}
 
 		return oldModel;
@@ -129,6 +149,26 @@ public class ClpSerializer {
 		}
 
 		return newList;
+	}
+
+	public static Object translateInputLinkUsecaseRequest(BaseModel<?> oldModel) {
+		LinkUsecaseRequestClp oldClpModel = (LinkUsecaseRequestClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getLinkUsecaseRequestRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputRecordPortlet(BaseModel<?> oldModel) {
+		RecordPortletClp oldClpModel = (RecordPortletClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getRecordPortletRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
 	}
 
 	public static Object translateInputRequest(BaseModel<?> oldModel) {
@@ -161,6 +201,26 @@ public class ClpSerializer {
 		return newModel;
 	}
 
+	public static Object translateInputUrlUsecase(BaseModel<?> oldModel) {
+		UrlUsecaseClp oldClpModel = (UrlUsecaseClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getUrlUsecaseRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputUsecase(BaseModel<?> oldModel) {
+		UsecaseClp oldClpModel = (UsecaseClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getUsecaseRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
 	public static Object translateInput(Object obj) {
 		if (obj instanceof BaseModel<?>) {
 			return translateInput((BaseModel<?>)obj);
@@ -179,6 +239,16 @@ public class ClpSerializer {
 		String oldModelClassName = oldModelClass.getName();
 
 		if (oldModelClassName.equals(
+					"com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestImpl")) {
+			return translateOutputLinkUsecaseRequest(oldModel);
+		}
+
+		if (oldModelClassName.equals(
+					"com.excilys.liferay.gatling.model.impl.RecordPortletImpl")) {
+			return translateOutputRecordPortlet(oldModel);
+		}
+
+		if (oldModelClassName.equals(
 					"com.excilys.liferay.gatling.model.impl.RequestImpl")) {
 			return translateOutputRequest(oldModel);
 		}
@@ -191,6 +261,16 @@ public class ClpSerializer {
 		if (oldModelClassName.equals(
 					"com.excilys.liferay.gatling.model.impl.SimulationImpl")) {
 			return translateOutputSimulation(oldModel);
+		}
+
+		if (oldModelClassName.equals(
+					"com.excilys.liferay.gatling.model.impl.UrlUsecaseImpl")) {
+			return translateOutputUrlUsecase(oldModel);
+		}
+
+		if (oldModelClassName.equals(
+					"com.excilys.liferay.gatling.model.impl.UsecaseImpl")) {
+			return translateOutputUsecase(oldModel);
 		}
 
 		return oldModel;
@@ -274,6 +354,16 @@ public class ClpSerializer {
 		}
 
 		if (className.equals(
+					"com.excilys.liferay.gatling.NoSuchLinkUsecaseRequestException")) {
+			return new com.excilys.liferay.gatling.NoSuchLinkUsecaseRequestException();
+		}
+
+		if (className.equals(
+					"com.excilys.liferay.gatling.NoSuchRecordPortletException")) {
+			return new com.excilys.liferay.gatling.NoSuchRecordPortletException();
+		}
+
+		if (className.equals(
 					"com.excilys.liferay.gatling.NoSuchRequestException")) {
 			return new com.excilys.liferay.gatling.NoSuchRequestException();
 		}
@@ -288,7 +378,38 @@ public class ClpSerializer {
 			return new com.excilys.liferay.gatling.NoSuchSimulationException();
 		}
 
+		if (className.equals(
+					"com.excilys.liferay.gatling.NoSuchUrlUsecaseException")) {
+			return new com.excilys.liferay.gatling.NoSuchUrlUsecaseException();
+		}
+
+		if (className.equals(
+					"com.excilys.liferay.gatling.NoSuchUsecaseException")) {
+			return new com.excilys.liferay.gatling.NoSuchUsecaseException();
+		}
+
 		return throwable;
+	}
+
+	public static Object translateOutputLinkUsecaseRequest(
+		BaseModel<?> oldModel) {
+		LinkUsecaseRequestClp newModel = new LinkUsecaseRequestClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setLinkUsecaseRequestRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputRecordPortlet(BaseModel<?> oldModel) {
+		RecordPortletClp newModel = new RecordPortletClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setRecordPortletRemoteModel(oldModel);
+
+		return newModel;
 	}
 
 	public static Object translateOutputRequest(BaseModel<?> oldModel) {
@@ -317,6 +438,26 @@ public class ClpSerializer {
 		newModel.setModelAttributes(oldModel.getModelAttributes());
 
 		newModel.setSimulationRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputUrlUsecase(BaseModel<?> oldModel) {
+		UrlUsecaseClp newModel = new UrlUsecaseClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setUrlUsecaseRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputUsecase(BaseModel<?> oldModel) {
+		UsecaseClp newModel = new UsecaseClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setUsecaseRemoteModel(oldModel);
 
 		return newModel;
 	}

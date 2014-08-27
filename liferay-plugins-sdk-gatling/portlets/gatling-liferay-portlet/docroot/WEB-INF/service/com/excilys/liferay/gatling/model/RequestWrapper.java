@@ -57,6 +57,8 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
 		attributes.put("parentPlId", getParentPlId());
 		attributes.put("layoutId", getLayoutId());
 		attributes.put("plId", getPlId());
+		attributes.put("isPortlet", getIsPortlet());
+		attributes.put("portetId", getPortetId());
 
 		return attributes;
 	}
@@ -115,6 +117,18 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
 
 		if (plId != null) {
 			setPlId(plId);
+		}
+
+		Boolean isPortlet = (Boolean)attributes.get("isPortlet");
+
+		if (isPortlet != null) {
+			setIsPortlet(isPortlet);
+		}
+
+		String portetId = (String)attributes.get("portetId");
+
+		if (portetId != null) {
+			setPortetId(portetId);
 		}
 	}
 
@@ -326,6 +340,56 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
 	@Override
 	public void setPlId(long plId) {
 		_request.setPlId(plId);
+	}
+
+	/**
+	* Returns the is portlet of this request.
+	*
+	* @return the is portlet of this request
+	*/
+	@Override
+	public boolean getIsPortlet() {
+		return _request.getIsPortlet();
+	}
+
+	/**
+	* Returns <code>true</code> if this request is is portlet.
+	*
+	* @return <code>true</code> if this request is is portlet; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIsPortlet() {
+		return _request.isIsPortlet();
+	}
+
+	/**
+	* Sets whether this request is is portlet.
+	*
+	* @param isPortlet the is portlet of this request
+	*/
+	@Override
+	public void setIsPortlet(boolean isPortlet) {
+		_request.setIsPortlet(isPortlet);
+	}
+
+	/**
+	* Returns the portet ID of this request.
+	*
+	* @return the portet ID of this request
+	*/
+	@Override
+	public java.lang.String getPortetId() {
+		return _request.getPortetId();
+	}
+
+	/**
+	* Sets the portet ID of this request.
+	*
+	* @param portetId the portet ID of this request
+	*/
+	@Override
+	public void setPortetId(java.lang.String portetId) {
+		_request.setPortetId(portetId);
 	}
 
 	@Override

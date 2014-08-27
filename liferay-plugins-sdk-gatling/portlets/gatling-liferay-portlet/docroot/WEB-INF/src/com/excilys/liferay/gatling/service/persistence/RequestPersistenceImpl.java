@@ -1358,6 +1358,8 @@ public class RequestPersistenceImpl extends BasePersistenceImpl<Request>
 		requestImpl.setParentPlId(request.getParentPlId());
 		requestImpl.setLayoutId(request.getLayoutId());
 		requestImpl.setPlId(request.getPlId());
+		requestImpl.setIsPortlet(request.isIsPortlet());
+		requestImpl.setPortetId(request.getPortetId());
 
 		return requestImpl;
 	}
