@@ -6,14 +6,16 @@
 <portlet:actionURL name="editPortletSample" var="editPortletSampleURL"	windowState="normal" >
 	<portlet:param name="portletId" value="${pagePortletId}" />
 </portlet:actionURL>
+
+<div class="well well-small">
+	<liferay-ui:message key="portlet-edit-sample-details" />
+</div>
 	
 <c:choose>
 	<c:when test="${not empty script && not empty script[0] && not empty script[0][0] && script[0][0] != ' ' }">
 		<aui:form action="" name="addSample" id="addSample">		
 		
-			<div class="well well-small">
-				<liferay-ui:message key="edit-scenario-sample" />
-			</div>
+
 			<aui:select inlineField="true" label="portlet-edit-sample-select" name="Sample Script" required="true" id="selectScript">
 		<!-- Get the list of the different sample scripts available for the Portlet. The list is store in a class named ListScript (package mustache) -->
 			  	<c:forEach var="group" items="${script}">
@@ -30,8 +32,7 @@
 			<table class="table table-bordered table-scenario">
 				<thead>
 					<tr>
-						<th ><liferay-ui:message key="portlet-edit-table-header-name" />
-							<liferay-ui:icon-help message="name-info-help" /></th>
+						<th ><liferay-ui:message key="portlet-edit-sample-name" />
 						<th class="small-column"><liferay-ui:message key="scenario-edit-table-header-weight" />
 							<liferay-ui:icon-help message="weight-info-help" /></th>
 						<th class="small-column"><liferay-ui:icon-help message="percent-info-help" /></th>
@@ -48,7 +49,9 @@
 	</c:when>
 	
 	<c:otherwise>
-		<liferay-ui:message key="portlet-edit-sample-empty"/>
+		<div class="alert">
+			<liferay-ui:message key="portlet-edit-sample-empty"/>
+		</div>	
 	</c:otherwise>
 </c:choose>
 

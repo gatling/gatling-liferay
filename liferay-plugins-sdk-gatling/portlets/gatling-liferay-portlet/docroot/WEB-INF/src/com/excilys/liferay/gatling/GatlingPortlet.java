@@ -233,11 +233,7 @@ public class GatlingPortlet extends MVCPortlet {
 	public void editPortletSample(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException {
 		LOG.debug("editPortletSample");
 		//Scenario scenario = ScenarioLocalServiceUtil.editScenarioFromRequest(request);
-		Scenario scenario = null;
-		response.setRenderParameter("page", scenario != null ? jspEditScenario : jspEditSimulation);
-		if (scenario != null) {
-			response.setRenderParameter("simulationId", Long.toString(scenario.getSimulation_id()));
-		}
+		response.setRenderParameter("page", jspEditPortlet);
 	}
 
 	/**
