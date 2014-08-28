@@ -7,13 +7,13 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
-
+<%-- 
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-
+ --%>
 <%@ page import="com.liferay.portal.kernel.template.TemplateHandler" %>
 <%@ page import="com.liferay.portal.kernel.template.TemplateHandlerRegistryUtil" %>
 <%@ page import="com.liferay.portal.kernel.exception.PortalException" %>
@@ -33,6 +33,7 @@
 <%@ page import="com.excilys.liferay.gatling.model.Request"%>
 <%@ page import="com.excilys.liferay.gatling.model.Scenario"%>
 <%@ page import="com.excilys.liferay.gatling.model.Simulation"%>
+<%@ page import="com.excilys.liferay.gatling.mustache.ListScript"%>
 <%@ page import="com.excilys.liferay.gatling.service.RequestLocalServiceUtil"%>
 <%@ page import="com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil"%>
 <%@ page import="com.excilys.liferay.gatling.service.SimulationLocalServiceUtil"%>

@@ -29,6 +29,7 @@ import com.excilys.liferay.gatling.exception.EmptySimulation;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.mustache.ListScript;
 import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
@@ -73,7 +74,7 @@ public class GatlingPortlet extends MVCPortlet {
 	/**
 	 * pages of portlet.
 	 */
-	protected String jspListSimulation, jspEditSimulation, jspEditScenario, jspFormFirstScenario, jspHelp;
+	protected String jspListSimulation, jspEditSimulation, jspEditScenario, jspFormFirstScenario, jspHelp, jspEditPortlet;
 
 	/**
 	 * get all name page
@@ -86,6 +87,7 @@ public class GatlingPortlet extends MVCPortlet {
 		jspEditScenario = getInitParameter("edit-scenario-jsp");
 		jspFormFirstScenario = getInitParameter("form-first-scenario-jsp");
 		jspHelp = getInitParameter("help-jsp");
+		jspEditPortlet = "/html/gatling/popupPortlet/portletConfig.jsp";
 		super.init();
 	}
 
@@ -365,7 +367,7 @@ public class GatlingPortlet extends MVCPortlet {
 			// List of Sites
 			List<Group> listGroups = GatlingUtil.getListOfSites();
 			renderRequest.setAttribute("listGroup", listGroups);
-		}else if (page.equals(jspEditScenario)) {
+		} else if (page.equals(jspEditScenario)) {
 			/*
 			 * Edit scenario -> request list send to jsp page
 			 */
@@ -437,6 +439,14 @@ public class GatlingPortlet extends MVCPortlet {
 			} catch (PortalException e) {
 				throw new RuntimeException("connot get layout list: " + e.getMessage());
 			} 
+		} else if (page.equals(jspEditPortlet)) {
+			if (ParamUtil.getString(renderRequest, "pagePortletId") == null) {
+				throw new NullPointerException("portlet id is null");
+			}	
+			String portletId = ParamUtil.getString(renderRequest, "pagePortletId");
+			String [][] script =  ListScript.getList( portletId.split("_")[0]);
+			renderRequest.setAttribute("script", script);
+			renderRequest.setAttribute("portletId", portletId);
 		}
 
 		/* redirect to jsp page */

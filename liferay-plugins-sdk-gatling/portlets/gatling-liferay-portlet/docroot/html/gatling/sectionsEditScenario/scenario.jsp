@@ -320,7 +320,7 @@
 				renderURL.setPortletId("gatling_WAR_gatlingliferayportlet");
 				renderURL.setParameter("pagePortletId", id);
 				renderURL.setParameter("groupId", groupId);
-				renderURL.setParameter("jspPage","/html/gatling/popupPortlet/portletConfig.jsp");
+				renderURL.setParameter("page","/html/gatling/popupPortlet/portletConfig.jsp");
 				renderURL.setWindowState("pop_up");
 		
 				Liferay.Util.openWindow({
