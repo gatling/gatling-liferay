@@ -237,6 +237,8 @@ public class GatlingPortlet extends MVCPortlet {
 		LOG.debug("editPortletSample");
 		//Scenario scenario = ScenarioLocalServiceUtil.editScenarioFromRequest(request);
 		response.setRenderParameter("page", jspEditPortlet);
+		//hack, only work this way ....
+		response.setRenderParameter("p_p_state", "pop_up");
 	}
 
 	public void toggleRecord(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException {
@@ -249,6 +251,8 @@ public class GatlingPortlet extends MVCPortlet {
 			session.setAttribute("state", "RECORD");
 		}
 		
+		//hack, only work this way ....
+		response.setRenderParameter("p_p_state", "pop_up");
 		PortalUtil.copyRequestParameters(request, response);
 	}
 	

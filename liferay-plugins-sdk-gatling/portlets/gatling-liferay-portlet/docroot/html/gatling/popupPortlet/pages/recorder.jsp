@@ -2,7 +2,8 @@
 <%@page import="com.liferay.portal.kernel.util.HttpUtil"%>
 <%@include file="/html/gatling/header.jsp"%>
 
-<liferay-portlet:actionURL var="toggleRecord" name="toggleRecord" windowState="pop_up" >
+<liferay-portlet:actionURL var="toggleRecordURL" name="toggleRecord" windowState="pop_up" >
+
 	<liferay-portlet:param name="page" value="/html/gatling/popupPortlet/portletConfig.jsp"/>
 	<liferay-portlet:param name="tabs1" value="record-usecase"/>
 	<liferay-portlet:param name="pagePortletId" value="${portletId }"/>
@@ -15,10 +16,10 @@
 	<div class="btn-group inline-button">
 		<c:choose>
 			<c:when test="${state eq 'RECORD' }">
-		 	<aui:a cssClass="btn btn-warning" href="${toggleRecord }"><i class="icon-stop"></i> <liferay-ui:message key="stop" /></aui:a>
+		 	<aui:a cssClass="btn btn-warning" href="${toggleRecordURL }"><i class="icon-stop"></i> <liferay-ui:message key="stop" /></aui:a>
 			</c:when>
 			<c:otherwise>
-		    <aui:a cssClass="btn btn-warning" href="${toggleRecord }"><i class="icon-play"></i> <liferay-ui:message key="record" /></aui:a>
+		    <aui:a cssClass="btn btn-warning" href="${toggleRecordURL }"><i class="icon-play"></i> <liferay-ui:message key="record" /></aui:a>
 			</c:otherwise>
 		</c:choose>
 	</div>
