@@ -8,10 +8,9 @@
 	<liferay-portlet:param name="pagePortletId" value="${portletId }"/>
 </liferay-portlet:actionURL>
 
-<h3><liferay-ui:message key="recorder-for" />: ${portletName} </h3>
+<h3><liferay-ui:message key="recorder-for" />: ${portletN} </h3>
 
 <c:if test='${ portletId != null &&  !"0".equals(portletId) }'>
->>>>>>> ajout des clés des messages qui manque + scriplet enlevé de recorder.jsp
 	<aui:input name="useCaseRecordName" inlineField="true" ></aui:input>
 	<div class="btn-group inline-button">
 		<c:choose>

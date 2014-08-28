@@ -497,10 +497,12 @@ public class GatlingPortlet extends MVCPortlet {
 			String portletId = ParamUtil.getString(renderRequest, "pagePortletId");
 			String portletName = PortletLocalServiceUtil.getPortletById(portletId).getDisplayName();
 			long  groupId =  Long.parseLong(ParamUtil.getString(renderRequest, "groupId"));
-			System.out.println("portlet id= "+portletId);
+			LOG.info("portlet id= "+portletId);
 			String [][] script =  ListScript.getList( portletId.split("_")[0]);
 			renderRequest.setAttribute("script", script);
 			renderRequest.setAttribute("portletId", portletId);
+			renderRequest.setAttribute("portletN", portletName);
+			renderRequest.setAttribute("groupId", groupId);
 			
 			// Check state of recording
 			String state = renderRequest.getParameter("state");
@@ -511,10 +513,6 @@ public class GatlingPortlet extends MVCPortlet {
 				}
 				renderRequest.setAttribute("tabs1", "record-usecase");
 			}
-			
-			renderRequest.setAttribute("portletName", portletName);
-			renderRequest.setAttribute("groupId", groupId);
-
 		}
 		/* redirect to jsp page */
 		include(page, renderRequest, renderResponse);
