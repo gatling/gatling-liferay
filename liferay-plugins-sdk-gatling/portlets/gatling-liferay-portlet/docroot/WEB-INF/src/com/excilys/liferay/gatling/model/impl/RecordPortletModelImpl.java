@@ -16,10 +16,8 @@ package com.excilys.liferay.gatling.model.impl;
 
 import com.excilys.liferay.gatling.model.RecordPortlet;
 import com.excilys.liferay.gatling.model.RecordPortletModel;
-import com.excilys.liferay.gatling.model.RecordPortletSoap;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
-import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,9 +33,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,7 +49,6 @@ import java.util.Map;
  * @see com.excilys.liferay.gatling.model.RecordPortletModel
  * @generated
  */
-@JSON(strict = true)
 public class RecordPortletModelImpl extends BaseModelImpl<RecordPortlet>
 	implements RecordPortletModel {
 	/*
@@ -81,47 +76,6 @@ public class RecordPortletModelImpl extends BaseModelImpl<RecordPortlet>
 				"value.object.finder.cache.enabled.com.excilys.liferay.gatling.model.RecordPortlet"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = false;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static RecordPortlet toModel(RecordPortletSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		RecordPortlet model = new RecordPortletImpl();
-
-		model.setRecordPortletId(soapModel.getRecordPortletId());
-		model.setPortletId(soapModel.getPortletId());
-		model.setState(soapModel.getState());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<RecordPortlet> toModels(RecordPortletSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<RecordPortlet> models = new ArrayList<RecordPortlet>(soapModels.length);
-
-		for (RecordPortletSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
-
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.excilys.liferay.gatling.model.RecordPortlet"));
 
@@ -190,7 +144,6 @@ public class RecordPortletModelImpl extends BaseModelImpl<RecordPortlet>
 		}
 	}
 
-	@JSON
 	@Override
 	public long getRecordPortletId() {
 		return _recordPortletId;
@@ -201,7 +154,6 @@ public class RecordPortletModelImpl extends BaseModelImpl<RecordPortlet>
 		_recordPortletId = recordPortletId;
 	}
 
-	@JSON
 	@Override
 	public String getPortletId() {
 		if (_portletId == null) {
@@ -217,7 +169,6 @@ public class RecordPortletModelImpl extends BaseModelImpl<RecordPortlet>
 		_portletId = portletId;
 	}
 
-	@JSON
 	@Override
 	public String getState() {
 		if (_state == null) {

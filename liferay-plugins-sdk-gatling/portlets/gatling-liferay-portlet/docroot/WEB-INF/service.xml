@@ -72,7 +72,7 @@
 	</entity>
 	
 	<!-- table used to share data between recorder page and servlet filter -->
-	<entity name="RecordPortlet">
+	<entity name="RecordPortlet" remote-service="false" local-service="true">
 		<column name="recordPortletId" type="long" primary="true"/>
 		<column name="portletId" type="String" />
 		<column name="state" type="String" />

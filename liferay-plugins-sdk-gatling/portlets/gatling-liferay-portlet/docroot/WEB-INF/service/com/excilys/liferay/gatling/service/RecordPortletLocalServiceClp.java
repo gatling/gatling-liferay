@@ -20,34 +20,29 @@ import com.liferay.portal.service.InvokableLocalService;
  * @author Brian Wing Shun Chan
  * @generated
  */
-public class LinkUsecaseScenarioLocalServiceClp
-	implements LinkUsecaseScenarioLocalService {
-	public LinkUsecaseScenarioLocalServiceClp(
+public class RecordPortletLocalServiceClp implements RecordPortletLocalService {
+	public RecordPortletLocalServiceClp(
 		InvokableLocalService invokableLocalService) {
 		_invokableLocalService = invokableLocalService;
 
-		_methodName0 = "addLinkUsecaseScenario";
+		_methodName0 = "addRecordPortlet";
 
 		_methodParameterTypes0 = new String[] {
-				"com.excilys.liferay.gatling.model.LinkUsecaseScenario"
+				"com.excilys.liferay.gatling.model.RecordPortlet"
 			};
 
-		_methodName1 = "createLinkUsecaseScenario";
+		_methodName1 = "createRecordPortlet";
 
-		_methodParameterTypes1 = new String[] {
-				"com.excilys.liferay.gatling.service.persistence.LinkUsecaseScenarioPK"
-			};
+		_methodParameterTypes1 = new String[] { "long" };
 
-		_methodName2 = "deleteLinkUsecaseScenario";
+		_methodName2 = "deleteRecordPortlet";
 
-		_methodParameterTypes2 = new String[] {
-				"com.excilys.liferay.gatling.service.persistence.LinkUsecaseScenarioPK"
-			};
+		_methodParameterTypes2 = new String[] { "long" };
 
-		_methodName3 = "deleteLinkUsecaseScenario";
+		_methodName3 = "deleteRecordPortlet";
 
 		_methodParameterTypes3 = new String[] {
-				"com.excilys.liferay.gatling.model.LinkUsecaseScenario"
+				"com.excilys.liferay.gatling.model.RecordPortlet"
 			};
 
 		_methodName4 = "dynamicQuery";
@@ -86,34 +81,30 @@ public class LinkUsecaseScenarioLocalServiceClp
 				"com.liferay.portal.kernel.dao.orm.Projection"
 			};
 
-		_methodName10 = "fetchLinkUsecaseScenario";
+		_methodName10 = "fetchRecordPortlet";
 
-		_methodParameterTypes10 = new String[] {
-				"com.excilys.liferay.gatling.service.persistence.LinkUsecaseScenarioPK"
-			};
+		_methodParameterTypes10 = new String[] { "long" };
 
-		_methodName11 = "getLinkUsecaseScenario";
+		_methodName11 = "getRecordPortlet";
 
-		_methodParameterTypes11 = new String[] {
-				"com.excilys.liferay.gatling.service.persistence.LinkUsecaseScenarioPK"
-			};
+		_methodParameterTypes11 = new String[] { "long" };
 
 		_methodName12 = "getPersistedModel";
 
 		_methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-		_methodName13 = "getLinkUsecaseScenarios";
+		_methodName13 = "getRecordPortlets";
 
 		_methodParameterTypes13 = new String[] { "int", "int" };
 
-		_methodName14 = "getLinkUsecaseScenariosCount";
+		_methodName14 = "getRecordPortletsCount";
 
 		_methodParameterTypes14 = new String[] {  };
 
-		_methodName15 = "updateLinkUsecaseScenario";
+		_methodName15 = "updateRecordPortlet";
 
 		_methodParameterTypes15 = new String[] {
-				"com.excilys.liferay.gatling.model.LinkUsecaseScenario"
+				"com.excilys.liferay.gatling.model.RecordPortlet"
 			};
 
 		_methodName16 = "getBeanIdentifier";
@@ -126,17 +117,15 @@ public class LinkUsecaseScenarioLocalServiceClp
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.LinkUsecaseScenario addLinkUsecaseScenario(
-		com.excilys.liferay.gatling.model.LinkUsecaseScenario linkUsecaseScenario)
+	public com.excilys.liferay.gatling.model.RecordPortlet addRecordPortlet(
+		com.excilys.liferay.gatling.model.RecordPortlet recordPortlet)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName0,
 					_methodParameterTypes0,
-					new Object[] {
-						ClpSerializer.translateInput(linkUsecaseScenario)
-					});
+					new Object[] { ClpSerializer.translateInput(recordPortlet) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -154,20 +143,17 @@ public class LinkUsecaseScenarioLocalServiceClp
 			}
 		}
 
-		return (com.excilys.liferay.gatling.model.LinkUsecaseScenario)ClpSerializer.translateOutput(returnObj);
+		return (com.excilys.liferay.gatling.model.RecordPortlet)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.LinkUsecaseScenario createLinkUsecaseScenario(
-		com.excilys.liferay.gatling.service.persistence.LinkUsecaseScenarioPK linkUsecaseScenarioPK) {
+	public com.excilys.liferay.gatling.model.RecordPortlet createRecordPortlet(
+		long recordPortletId) {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName1,
-					_methodParameterTypes1,
-					new Object[] {
-						ClpSerializer.translateInput(linkUsecaseScenarioPK)
-					});
+					_methodParameterTypes1, new Object[] { recordPortletId });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -181,22 +167,19 @@ public class LinkUsecaseScenarioLocalServiceClp
 			}
 		}
 
-		return (com.excilys.liferay.gatling.model.LinkUsecaseScenario)ClpSerializer.translateOutput(returnObj);
+		return (com.excilys.liferay.gatling.model.RecordPortlet)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.LinkUsecaseScenario deleteLinkUsecaseScenario(
-		com.excilys.liferay.gatling.service.persistence.LinkUsecaseScenarioPK linkUsecaseScenarioPK)
+	public com.excilys.liferay.gatling.model.RecordPortlet deleteRecordPortlet(
+		long recordPortletId)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName2,
-					_methodParameterTypes2,
-					new Object[] {
-						ClpSerializer.translateInput(linkUsecaseScenarioPK)
-					});
+					_methodParameterTypes2, new Object[] { recordPortletId });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -218,21 +201,19 @@ public class LinkUsecaseScenarioLocalServiceClp
 			}
 		}
 
-		return (com.excilys.liferay.gatling.model.LinkUsecaseScenario)ClpSerializer.translateOutput(returnObj);
+		return (com.excilys.liferay.gatling.model.RecordPortlet)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.LinkUsecaseScenario deleteLinkUsecaseScenario(
-		com.excilys.liferay.gatling.model.LinkUsecaseScenario linkUsecaseScenario)
+	public com.excilys.liferay.gatling.model.RecordPortlet deleteRecordPortlet(
+		com.excilys.liferay.gatling.model.RecordPortlet recordPortlet)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName3,
 					_methodParameterTypes3,
-					new Object[] {
-						ClpSerializer.translateInput(linkUsecaseScenario)
-					});
+					new Object[] { ClpSerializer.translateInput(recordPortlet) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -250,7 +231,7 @@ public class LinkUsecaseScenarioLocalServiceClp
 			}
 		}
 
-		return (com.excilys.liferay.gatling.model.LinkUsecaseScenario)ClpSerializer.translateOutput(returnObj);
+		return (com.excilys.liferay.gatling.model.RecordPortlet)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
@@ -451,17 +432,14 @@ public class LinkUsecaseScenarioLocalServiceClp
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.LinkUsecaseScenario fetchLinkUsecaseScenario(
-		com.excilys.liferay.gatling.service.persistence.LinkUsecaseScenarioPK linkUsecaseScenarioPK)
+	public com.excilys.liferay.gatling.model.RecordPortlet fetchRecordPortlet(
+		long recordPortletId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName10,
-					_methodParameterTypes10,
-					new Object[] {
-						ClpSerializer.translateInput(linkUsecaseScenarioPK)
-					});
+					_methodParameterTypes10, new Object[] { recordPortletId });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -479,22 +457,19 @@ public class LinkUsecaseScenarioLocalServiceClp
 			}
 		}
 
-		return (com.excilys.liferay.gatling.model.LinkUsecaseScenario)ClpSerializer.translateOutput(returnObj);
+		return (com.excilys.liferay.gatling.model.RecordPortlet)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.LinkUsecaseScenario getLinkUsecaseScenario(
-		com.excilys.liferay.gatling.service.persistence.LinkUsecaseScenarioPK linkUsecaseScenarioPK)
+	public com.excilys.liferay.gatling.model.RecordPortlet getRecordPortlet(
+		long recordPortletId)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName11,
-					_methodParameterTypes11,
-					new Object[] {
-						ClpSerializer.translateInput(linkUsecaseScenarioPK)
-					});
+					_methodParameterTypes11, new Object[] { recordPortletId });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -516,7 +491,7 @@ public class LinkUsecaseScenarioLocalServiceClp
 			}
 		}
 
-		return (com.excilys.liferay.gatling.model.LinkUsecaseScenario)ClpSerializer.translateOutput(returnObj);
+		return (com.excilys.liferay.gatling.model.RecordPortlet)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
@@ -555,7 +530,7 @@ public class LinkUsecaseScenarioLocalServiceClp
 	}
 
 	@Override
-	public java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseScenario> getLinkUsecaseScenarios(
+	public java.util.List<com.excilys.liferay.gatling.model.RecordPortlet> getRecordPortlets(
 		int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
@@ -580,11 +555,11 @@ public class LinkUsecaseScenarioLocalServiceClp
 			}
 		}
 
-		return (java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseScenario>)ClpSerializer.translateOutput(returnObj);
+		return (java.util.List<com.excilys.liferay.gatling.model.RecordPortlet>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
-	public int getLinkUsecaseScenariosCount()
+	public int getRecordPortletsCount()
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
@@ -612,17 +587,15 @@ public class LinkUsecaseScenarioLocalServiceClp
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.LinkUsecaseScenario updateLinkUsecaseScenario(
-		com.excilys.liferay.gatling.model.LinkUsecaseScenario linkUsecaseScenario)
+	public com.excilys.liferay.gatling.model.RecordPortlet updateRecordPortlet(
+		com.excilys.liferay.gatling.model.RecordPortlet recordPortlet)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName15,
 					_methodParameterTypes15,
-					new Object[] {
-						ClpSerializer.translateInput(linkUsecaseScenario)
-					});
+					new Object[] { ClpSerializer.translateInput(recordPortlet) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -640,7 +613,7 @@ public class LinkUsecaseScenarioLocalServiceClp
 			}
 		}
 
-		return (com.excilys.liferay.gatling.model.LinkUsecaseScenario)ClpSerializer.translateOutput(returnObj);
+		return (com.excilys.liferay.gatling.model.RecordPortlet)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override

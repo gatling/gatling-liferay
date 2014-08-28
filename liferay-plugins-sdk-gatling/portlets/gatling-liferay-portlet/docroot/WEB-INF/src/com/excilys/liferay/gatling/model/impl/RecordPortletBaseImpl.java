@@ -15,6 +15,9 @@
 package com.excilys.liferay.gatling.model.impl;
 
 import com.excilys.liferay.gatling.model.RecordPortlet;
+import com.excilys.liferay.gatling.service.RecordPortletLocalServiceUtil;
+
+import com.liferay.portal.kernel.exception.SystemException;
 
 /**
  * The extended model base implementation for the RecordPortlet service. Represents a row in the &quot;StressTool_RecordPortlet&quot; database table, with each column mapped to a property of this class.
@@ -35,4 +38,13 @@ public abstract class RecordPortletBaseImpl extends RecordPortletModelImpl
 	 *
 	 * Never modify or reference this class directly. All methods that expect a record portlet model instance should use the {@link RecordPortlet} interface instead.
 	 */
+	@Override
+	public void persist() throws SystemException {
+		if (this.isNew()) {
+			RecordPortletLocalServiceUtil.addRecordPortlet(this);
+		}
+		else {
+			RecordPortletLocalServiceUtil.updateRecordPortlet(this);
+		}
+	}
 }

@@ -14,6 +14,8 @@
 
 package com.excilys.liferay.gatling.model;
 
+import com.liferay.portal.model.PersistedModel;
+
 /**
  * The extended model interface for the RecordPortlet service. Represents a row in the &quot;StressTool_RecordPortlet&quot; database table, with each column mapped to a property of this class.
  *
@@ -23,7 +25,7 @@ package com.excilys.liferay.gatling.model;
  * @see com.excilys.liferay.gatling.model.impl.RecordPortletModelImpl
  * @generated
  */
-public interface RecordPortlet extends RecordPortletModel {
+public interface RecordPortlet extends RecordPortletModel, PersistedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

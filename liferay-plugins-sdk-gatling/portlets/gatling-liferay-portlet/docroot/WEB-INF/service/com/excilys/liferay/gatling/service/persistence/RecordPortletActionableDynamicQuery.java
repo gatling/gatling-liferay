@@ -14,8 +14,8 @@
 
 package com.excilys.liferay.gatling.service.persistence;
 
-import com.excilys.liferay.gatling.model.LinkUsecasePortletStress;
-import com.excilys.liferay.gatling.service.LinkUsecasePortletStressLocalServiceUtil;
+import com.excilys.liferay.gatling.model.RecordPortlet;
+import com.excilys.liferay.gatling.service.RecordPortletLocalServiceUtil;
 
 import com.liferay.portal.kernel.dao.orm.BaseActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -24,15 +24,14 @@ import com.liferay.portal.kernel.exception.SystemException;
  * @author Brian Wing Shun Chan
  * @generated
  */
-public abstract class LinkUsecasePortletStressActionableDynamicQuery
+public abstract class RecordPortletActionableDynamicQuery
 	extends BaseActionableDynamicQuery {
-	public LinkUsecasePortletStressActionableDynamicQuery()
-		throws SystemException {
-		setBaseLocalService(LinkUsecasePortletStressLocalServiceUtil.getService());
-		setClass(LinkUsecasePortletStress.class);
+	public RecordPortletActionableDynamicQuery() throws SystemException {
+		setBaseLocalService(RecordPortletLocalServiceUtil.getService());
+		setClass(RecordPortlet.class);
 
 		setClassLoader(com.excilys.liferay.gatling.service.ClpSerializer.class.getClassLoader());
 
-		setPrimaryKeyPropertyName("linkUsecasePortletStressId");
+		setPrimaryKeyPropertyName("recordPortletId");
 	}
 }

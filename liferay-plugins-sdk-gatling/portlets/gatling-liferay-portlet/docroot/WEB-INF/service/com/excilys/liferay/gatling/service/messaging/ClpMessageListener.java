@@ -16,7 +16,7 @@ package com.excilys.liferay.gatling.service.messaging;
 
 import com.excilys.liferay.gatling.service.ClpSerializer;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
-import com.excilys.liferay.gatling.service.RecordPortletServiceUtil;
+import com.excilys.liferay.gatling.service.RecordPortletLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
@@ -43,7 +43,8 @@ public class ClpMessageListener extends BaseMessageListener {
 				servletContextName.equals(getServletContextName())) {
 			LinkUsecaseRequestLocalServiceUtil.clearService();
 
-			RecordPortletServiceUtil.clearService();
+			RecordPortletLocalServiceUtil.clearService();
+
 			RequestLocalServiceUtil.clearService();
 
 			ScenarioLocalServiceUtil.clearService();

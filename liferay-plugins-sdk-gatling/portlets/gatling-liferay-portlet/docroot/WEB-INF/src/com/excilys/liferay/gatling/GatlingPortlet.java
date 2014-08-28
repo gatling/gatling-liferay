@@ -302,7 +302,7 @@ public class GatlingPortlet extends MVCPortlet {
 	public void doView(final RenderRequest renderRequest, final RenderResponse renderResponse) throws IOException, PortletException {
 		/* get the path  for next jsp or by  default jspListSimulation */
 		String page = ParamUtil.get(renderRequest, "page", jspListSimulation);
-
+		
 		//view.jsp => list of the simulations
 		if (page.equals(jspListSimulation)) {
 			LOG.debug("DoView : List Simulation");
@@ -462,7 +462,6 @@ public class GatlingPortlet extends MVCPortlet {
 			renderRequest.setAttribute("script", script);
 			renderRequest.setAttribute("portletId", portletId);
 		}
-
 		/* redirect to jsp page */
 		include(page, renderRequest, renderResponse);
 	}

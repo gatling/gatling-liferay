@@ -221,8 +221,7 @@ public class RecordPortletWrapper implements RecordPortlet,
 	}
 
 	@Override
-	public int compareTo(
-		com.excilys.liferay.gatling.model.RecordPortlet recordPortlet) {
+	public int compareTo(RecordPortlet recordPortlet) {
 		return _recordPortlet.compareTo(recordPortlet);
 	}
 
@@ -232,17 +231,17 @@ public class RecordPortletWrapper implements RecordPortlet,
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<com.excilys.liferay.gatling.model.RecordPortlet> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<RecordPortlet> toCacheModel() {
 		return _recordPortlet.toCacheModel();
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.RecordPortlet toEscapedModel() {
+	public RecordPortlet toEscapedModel() {
 		return new RecordPortletWrapper(_recordPortlet.toEscapedModel());
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.RecordPortlet toUnescapedModel() {
+	public RecordPortlet toUnescapedModel() {
 		return new RecordPortletWrapper(_recordPortlet.toUnescapedModel());
 	}
 
@@ -254,6 +253,12 @@ public class RecordPortletWrapper implements RecordPortlet,
 	@Override
 	public java.lang.String toXmlString() {
 		return _recordPortlet.toXmlString();
+	}
+
+	@Override
+	public void persist()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_recordPortlet.persist();
 	}
 
 	@Override

@@ -247,7 +247,7 @@ public class UsecaseWrapper implements Usecase, ModelWrapper<Usecase> {
 	}
 
 	@Override
-	public int compareTo(com.excilys.liferay.gatling.model.Usecase usecase) {
+	public int compareTo(Usecase usecase) {
 		return _usecase.compareTo(usecase);
 	}
 
@@ -257,17 +257,17 @@ public class UsecaseWrapper implements Usecase, ModelWrapper<Usecase> {
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<com.excilys.liferay.gatling.model.Usecase> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<Usecase> toCacheModel() {
 		return _usecase.toCacheModel();
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.Usecase toEscapedModel() {
+	public Usecase toEscapedModel() {
 		return new UsecaseWrapper(_usecase.toEscapedModel());
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.Usecase toUnescapedModel() {
+	public Usecase toUnescapedModel() {
 		return new UsecaseWrapper(_usecase.toUnescapedModel());
 	}
 

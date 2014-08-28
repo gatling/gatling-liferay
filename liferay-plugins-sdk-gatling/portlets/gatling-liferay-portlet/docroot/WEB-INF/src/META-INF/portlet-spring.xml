@@ -3,7 +3,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	<bean id="com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalService" class="com.excilys.liferay.gatling.service.impl.LinkUsecaseRequestLocalServiceImpl" />
 	<bean id="com.excilys.liferay.gatling.service.persistence.LinkUsecaseRequestPersistence" class="com.excilys.liferay.gatling.service.persistence.LinkUsecaseRequestPersistenceImpl" parent="basePersistence" />
-	<bean id="com.excilys.liferay.gatling.service.RecordPortletService" class="com.excilys.liferay.gatling.service.impl.RecordPortletServiceImpl" />
+	<bean id="com.excilys.liferay.gatling.service.RecordPortletLocalService" class="com.excilys.liferay.gatling.service.impl.RecordPortletLocalServiceImpl" />
 	<bean id="com.excilys.liferay.gatling.service.persistence.RecordPortletPersistence" class="com.excilys.liferay.gatling.service.persistence.RecordPortletPersistenceImpl" parent="basePersistence" />
 	<bean id="com.excilys.liferay.gatling.service.RequestLocalService" class="com.excilys.liferay.gatling.service.impl.RequestLocalServiceImpl" />
 	<bean id="com.excilys.liferay.gatling.service.persistence.RequestPersistence" class="com.excilys.liferay.gatling.service.persistence.RequestPersistenceImpl" parent="basePersistence" />

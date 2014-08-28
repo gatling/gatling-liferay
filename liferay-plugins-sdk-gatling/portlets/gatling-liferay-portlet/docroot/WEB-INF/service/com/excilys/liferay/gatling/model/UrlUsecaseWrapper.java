@@ -247,8 +247,7 @@ public class UrlUsecaseWrapper implements UrlUsecase, ModelWrapper<UrlUsecase> {
 	}
 
 	@Override
-	public int compareTo(
-		com.excilys.liferay.gatling.model.UrlUsecase urlUsecase) {
+	public int compareTo(UrlUsecase urlUsecase) {
 		return _urlUsecase.compareTo(urlUsecase);
 	}
 
@@ -258,17 +257,17 @@ public class UrlUsecaseWrapper implements UrlUsecase, ModelWrapper<UrlUsecase> {
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<com.excilys.liferay.gatling.model.UrlUsecase> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<UrlUsecase> toCacheModel() {
 		return _urlUsecase.toCacheModel();
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.UrlUsecase toEscapedModel() {
+	public UrlUsecase toEscapedModel() {
 		return new UrlUsecaseWrapper(_urlUsecase.toEscapedModel());
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.UrlUsecase toUnescapedModel() {
+	public UrlUsecase toUnescapedModel() {
 		return new UrlUsecaseWrapper(_urlUsecase.toUnescapedModel());
 	}
 

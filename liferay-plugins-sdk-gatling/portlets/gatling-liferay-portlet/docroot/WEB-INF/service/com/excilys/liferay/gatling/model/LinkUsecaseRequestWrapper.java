@@ -248,8 +248,7 @@ public class LinkUsecaseRequestWrapper implements LinkUsecaseRequest,
 	}
 
 	@Override
-	public int compareTo(
-		com.excilys.liferay.gatling.model.LinkUsecaseRequest linkUsecaseRequest) {
+	public int compareTo(LinkUsecaseRequest linkUsecaseRequest) {
 		return _linkUsecaseRequest.compareTo(linkUsecaseRequest);
 	}
 
@@ -259,17 +258,17 @@ public class LinkUsecaseRequestWrapper implements LinkUsecaseRequest,
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<com.excilys.liferay.gatling.model.LinkUsecaseRequest> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<LinkUsecaseRequest> toCacheModel() {
 		return _linkUsecaseRequest.toCacheModel();
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.LinkUsecaseRequest toEscapedModel() {
+	public LinkUsecaseRequest toEscapedModel() {
 		return new LinkUsecaseRequestWrapper(_linkUsecaseRequest.toEscapedModel());
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.LinkUsecaseRequest toUnescapedModel() {
+	public LinkUsecaseRequest toUnescapedModel() {
 		return new LinkUsecaseRequestWrapper(_linkUsecaseRequest.toUnescapedModel());
 	}
 

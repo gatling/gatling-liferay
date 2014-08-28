@@ -14,7 +14,7 @@
 
 package com.excilys.liferay.gatling.service.base;
 
-import com.excilys.liferay.gatling.service.LinkUsecasePortletStressLocalServiceUtil;
+import com.excilys.liferay.gatling.service.RecordPortletLocalServiceUtil;
 
 import java.util.Arrays;
 
@@ -22,26 +22,26 @@ import java.util.Arrays;
  * @author Brian Wing Shun Chan
  * @generated
  */
-public class LinkUsecasePortletStressLocalServiceClpInvoker {
-	public LinkUsecasePortletStressLocalServiceClpInvoker() {
-		_methodName0 = "addLinkUsecasePortletStress";
+public class RecordPortletLocalServiceClpInvoker {
+	public RecordPortletLocalServiceClpInvoker() {
+		_methodName0 = "addRecordPortlet";
 
 		_methodParameterTypes0 = new String[] {
-				"com.excilys.liferay.gatling.model.LinkUsecasePortletStress"
+				"com.excilys.liferay.gatling.model.RecordPortlet"
 			};
 
-		_methodName1 = "createLinkUsecasePortletStress";
+		_methodName1 = "createRecordPortlet";
 
 		_methodParameterTypes1 = new String[] { "long" };
 
-		_methodName2 = "deleteLinkUsecasePortletStress";
+		_methodName2 = "deleteRecordPortlet";
 
 		_methodParameterTypes2 = new String[] { "long" };
 
-		_methodName3 = "deleteLinkUsecasePortletStress";
+		_methodName3 = "deleteRecordPortlet";
 
 		_methodParameterTypes3 = new String[] {
-				"com.excilys.liferay.gatling.model.LinkUsecasePortletStress"
+				"com.excilys.liferay.gatling.model.RecordPortlet"
 			};
 
 		_methodName4 = "dynamicQuery";
@@ -80,11 +80,11 @@ public class LinkUsecasePortletStressLocalServiceClpInvoker {
 				"com.liferay.portal.kernel.dao.orm.Projection"
 			};
 
-		_methodName10 = "fetchLinkUsecasePortletStress";
+		_methodName10 = "fetchRecordPortlet";
 
 		_methodParameterTypes10 = new String[] { "long" };
 
-		_methodName11 = "getLinkUsecasePortletStress";
+		_methodName11 = "getRecordPortlet";
 
 		_methodParameterTypes11 = new String[] { "long" };
 
@@ -92,71 +92,71 @@ public class LinkUsecasePortletStressLocalServiceClpInvoker {
 
 		_methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-		_methodName13 = "getLinkUsecasePortletStresses";
+		_methodName13 = "getRecordPortlets";
 
 		_methodParameterTypes13 = new String[] { "int", "int" };
 
-		_methodName14 = "getLinkUsecasePortletStressesCount";
+		_methodName14 = "getRecordPortletsCount";
 
 		_methodParameterTypes14 = new String[] {  };
 
-		_methodName15 = "updateLinkUsecasePortletStress";
+		_methodName15 = "updateRecordPortlet";
 
 		_methodParameterTypes15 = new String[] {
-				"com.excilys.liferay.gatling.model.LinkUsecasePortletStress"
+				"com.excilys.liferay.gatling.model.RecordPortlet"
 			};
 
-		_methodName60 = "getBeanIdentifier";
+		_methodName56 = "getBeanIdentifier";
 
-		_methodParameterTypes60 = new String[] {  };
+		_methodParameterTypes56 = new String[] {  };
 
-		_methodName61 = "setBeanIdentifier";
+		_methodName57 = "setBeanIdentifier";
 
-		_methodParameterTypes61 = new String[] { "java.lang.String" };
+		_methodParameterTypes57 = new String[] { "java.lang.String" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
 		Object[] arguments) throws Throwable {
 		if (_methodName0.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes0, parameterTypes)) {
-			return LinkUsecasePortletStressLocalServiceUtil.addLinkUsecasePortletStress((com.excilys.liferay.gatling.model.LinkUsecasePortletStress)arguments[0]);
+			return RecordPortletLocalServiceUtil.addRecordPortlet((com.excilys.liferay.gatling.model.RecordPortlet)arguments[0]);
 		}
 
 		if (_methodName1.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes1, parameterTypes)) {
-			return LinkUsecasePortletStressLocalServiceUtil.createLinkUsecasePortletStress(((Long)arguments[0]).longValue());
+			return RecordPortletLocalServiceUtil.createRecordPortlet(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName2.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes2, parameterTypes)) {
-			return LinkUsecasePortletStressLocalServiceUtil.deleteLinkUsecasePortletStress(((Long)arguments[0]).longValue());
+			return RecordPortletLocalServiceUtil.deleteRecordPortlet(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName3.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes3, parameterTypes)) {
-			return LinkUsecasePortletStressLocalServiceUtil.deleteLinkUsecasePortletStress((com.excilys.liferay.gatling.model.LinkUsecasePortletStress)arguments[0]);
+			return RecordPortletLocalServiceUtil.deleteRecordPortlet((com.excilys.liferay.gatling.model.RecordPortlet)arguments[0]);
 		}
 
 		if (_methodName4.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes4, parameterTypes)) {
-			return LinkUsecasePortletStressLocalServiceUtil.dynamicQuery();
+			return RecordPortletLocalServiceUtil.dynamicQuery();
 		}
 
 		if (_methodName5.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes5, parameterTypes)) {
-			return LinkUsecasePortletStressLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0]);
+			return RecordPortletLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0]);
 		}
 
 		if (_methodName6.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes6, parameterTypes)) {
-			return LinkUsecasePortletStressLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
+			return RecordPortletLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
 				((Integer)arguments[1]).intValue(),
 				((Integer)arguments[2]).intValue());
 		}
 
 		if (_methodName7.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes7, parameterTypes)) {
-			return LinkUsecasePortletStressLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
+			return RecordPortletLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
 				((Integer)arguments[1]).intValue(),
 				((Integer)arguments[2]).intValue(),
 				(com.liferay.portal.kernel.util.OrderByComparator)arguments[3]);
@@ -164,54 +164,54 @@ public class LinkUsecasePortletStressLocalServiceClpInvoker {
 
 		if (_methodName8.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes8, parameterTypes)) {
-			return LinkUsecasePortletStressLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0]);
+			return RecordPortletLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0]);
 		}
 
 		if (_methodName9.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes9, parameterTypes)) {
-			return LinkUsecasePortletStressLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
+			return RecordPortletLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
 				(com.liferay.portal.kernel.dao.orm.Projection)arguments[1]);
 		}
 
 		if (_methodName10.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes10, parameterTypes)) {
-			return LinkUsecasePortletStressLocalServiceUtil.fetchLinkUsecasePortletStress(((Long)arguments[0]).longValue());
+			return RecordPortletLocalServiceUtil.fetchRecordPortlet(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName11.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes11, parameterTypes)) {
-			return LinkUsecasePortletStressLocalServiceUtil.getLinkUsecasePortletStress(((Long)arguments[0]).longValue());
+			return RecordPortletLocalServiceUtil.getRecordPortlet(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName12.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes12, parameterTypes)) {
-			return LinkUsecasePortletStressLocalServiceUtil.getPersistedModel((java.io.Serializable)arguments[0]);
+			return RecordPortletLocalServiceUtil.getPersistedModel((java.io.Serializable)arguments[0]);
 		}
 
 		if (_methodName13.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes13, parameterTypes)) {
-			return LinkUsecasePortletStressLocalServiceUtil.getLinkUsecasePortletStresses(((Integer)arguments[0]).intValue(),
+			return RecordPortletLocalServiceUtil.getRecordPortlets(((Integer)arguments[0]).intValue(),
 				((Integer)arguments[1]).intValue());
 		}
 
 		if (_methodName14.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes14, parameterTypes)) {
-			return LinkUsecasePortletStressLocalServiceUtil.getLinkUsecasePortletStressesCount();
+			return RecordPortletLocalServiceUtil.getRecordPortletsCount();
 		}
 
 		if (_methodName15.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes15, parameterTypes)) {
-			return LinkUsecasePortletStressLocalServiceUtil.updateLinkUsecasePortletStress((com.excilys.liferay.gatling.model.LinkUsecasePortletStress)arguments[0]);
+			return RecordPortletLocalServiceUtil.updateRecordPortlet((com.excilys.liferay.gatling.model.RecordPortlet)arguments[0]);
 		}
 
-		if (_methodName60.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
-			return LinkUsecasePortletStressLocalServiceUtil.getBeanIdentifier();
+		if (_methodName56.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes56, parameterTypes)) {
+			return RecordPortletLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName61.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
-			LinkUsecasePortletStressLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
+		if (_methodName57.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes57, parameterTypes)) {
+			RecordPortletLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
@@ -251,8 +251,8 @@ public class LinkUsecasePortletStressLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName60;
-	private String[] _methodParameterTypes60;
-	private String _methodName61;
-	private String[] _methodParameterTypes61;
+	private String _methodName56;
+	private String[] _methodParameterTypes56;
+	private String _methodName57;
+	private String[] _methodParameterTypes57;
 }

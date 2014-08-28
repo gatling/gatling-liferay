@@ -325,22 +325,22 @@ public abstract class UrlUsecaseLocalServiceBaseImpl
 	}
 
 	/**
-	 * Returns the record portlet remote service.
+	 * Returns the record portlet local service.
 	 *
-	 * @return the record portlet remote service
+	 * @return the record portlet local service
 	 */
-	public com.excilys.liferay.gatling.service.RecordPortletService getRecordPortletService() {
-		return recordPortletService;
+	public com.excilys.liferay.gatling.service.RecordPortletLocalService getRecordPortletLocalService() {
+		return recordPortletLocalService;
 	}
 
 	/**
-	 * Sets the record portlet remote service.
+	 * Sets the record portlet local service.
 	 *
-	 * @param recordPortletService the record portlet remote service
+	 * @param recordPortletLocalService the record portlet local service
 	 */
-	public void setRecordPortletService(
-		com.excilys.liferay.gatling.service.RecordPortletService recordPortletService) {
-		this.recordPortletService = recordPortletService;
+	public void setRecordPortletLocalService(
+		com.excilys.liferay.gatling.service.RecordPortletLocalService recordPortletLocalService) {
+		this.recordPortletLocalService = recordPortletLocalService;
 	}
 
 	/**
@@ -729,8 +729,8 @@ public abstract class UrlUsecaseLocalServiceBaseImpl
 	protected com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalService linkUsecaseRequestLocalService;
 	@BeanReference(type = LinkUsecaseRequestPersistence.class)
 	protected LinkUsecaseRequestPersistence linkUsecaseRequestPersistence;
-	@BeanReference(type = com.excilys.liferay.gatling.service.RecordPortletService.class)
-	protected com.excilys.liferay.gatling.service.RecordPortletService recordPortletService;
+	@BeanReference(type = com.excilys.liferay.gatling.service.RecordPortletLocalService.class)
+	protected com.excilys.liferay.gatling.service.RecordPortletLocalService recordPortletLocalService;
 	@BeanReference(type = RecordPortletPersistence.class)
 	protected RecordPortletPersistence recordPortletPersistence;
 	@BeanReference(type = com.excilys.liferay.gatling.service.RequestLocalService.class)
