@@ -32,7 +32,7 @@
 					<tr>
 						<th ><liferay-ui:message key="portlet-edit-table-header-name" />
 							<liferay-ui:icon-help message="name-info-help" /></th>
-						<th class="small-column"><liferay-ui:message key="portlet-edit-table-header-weight" />
+						<th class="small-column"><liferay-ui:message key="scenario-edit-table-header-weight" />
 							<liferay-ui:icon-help message="weight-info-help" /></th>
 						<th class="small-column"><liferay-ui:icon-help message="percent-info-help" /></th>
 					</tr>
