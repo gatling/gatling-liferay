@@ -18,6 +18,6 @@
 	</div>
 	
 	<hr/>
-		<liferay-portlet:renderURL var="portletURL" portletName="<%= portletId %>" windowState="pop_up" doAsGroupId="<%= groupId %>" />
-		<iframe src="${portletURL }" width="95%" style="min-height: 600px;padding: 10px;padding-right: 0px;"></iframe>
+	<liferay-portlet:renderURL var="portletURL" portletName="<%= portletId %>" windowState="pop_up" doAsGroupId="<%= groupId %>" />
+	<iframe src="${portletURL }" width="95%" style="min-height: 600px;padding: 10px;padding-right: 0px;"></iframe>
 </c:if>

@@ -81,7 +81,7 @@ public class DisplayItem {
 		name = PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).getDisplayName();
 		portlet = true;
 		portletId = portletPreferences.getPortletId();
-	
+//		PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).get
 		try {
 			Layout parent = LayoutLocalServiceUtil.getLayout(portletPreferences.getPlid());
 			url = parent.getFriendlyURL() /* + url portlet*/;
