@@ -3,7 +3,7 @@
 --%>
 <%@include file="/html/gatling/header.jsp"%>
 
-<portlet:actionURL name="editPortletSample" var="editPortletSampleURL"	windowState="normal" >
+<portlet:actionURL name="editPortletSample" var="editPortletSampleURL"	windowState="pop_up" >
 	<portlet:param name="portletId" value="${pagePortletId}" />
 </portlet:actionURL>
 
@@ -93,7 +93,6 @@
 				if (!(this.val() == "" || isNaN(this.val()))) {
 					var perc = (this.val() / totalRate) * 100;
 					//cas du 0/0
-					console.log(perc);
 					if (isNaN(perc))
 						this.ancestor("tr").one(".popup_percent").text("0.00 %");
 					else

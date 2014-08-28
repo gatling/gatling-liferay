@@ -18,6 +18,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
+import javax.portlet.PortletSession;
 import javax.portlet.ReadOnlyException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -52,6 +53,7 @@ import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
 
@@ -234,8 +236,22 @@ public class GatlingPortlet extends MVCPortlet {
 		LOG.debug("editPortletSample");
 		//Scenario scenario = ScenarioLocalServiceUtil.editScenarioFromRequest(request);
 		response.setRenderParameter("page", jspEditPortlet);
+
 	}
 
+	public void toggleRecord(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException {
+		PortletSession session = request.getPortletSession();
+		if (session.getAttribute("state") != null) {
+			response.setRenderParameter("state", "STOP");
+			session.removeAttribute("state");
+		} else {
+			response.setRenderParameter("state", "RECORD");
+			session.setAttribute("state", "RECORD");
+		}
+		
+		PortalUtil.copyRequestParameters(request, response);
+	}
+	
 	/**
 	 * get the scenario state, if completed or not yet.
 	 * @param scenario
@@ -303,8 +319,14 @@ public class GatlingPortlet extends MVCPortlet {
 		/* get the path  for next jsp or by  default jspListSimulation */
 		String page = ParamUtil.get(renderRequest, "page", jspListSimulation);
 		
-		//view.jsp => list of the simulations
 		if (page.equals(jspListSimulation)) {
+			/*
+			 * 
+			 * 
+			 * ===== view.jsp => list of the simulations
+			 * 
+			 * 
+			 */
 			LOG.debug("DoView : List Simulation");
 			List<Simulation> simulationList = new ArrayList<Simulation>();
 			Map<Simulation, Integer[]> simulationMap = new HashMap<Simulation, Integer[]>();
@@ -329,7 +351,11 @@ public class GatlingPortlet extends MVCPortlet {
 			renderRequest.setAttribute("MapSimulation", simulationMap);
 		} else if (page.equals(jspEditSimulation) || page.equals(jspFormFirstScenario)) {
 			/*
-			 * Edit simulation, get and send scenarios list to jsp page
+			 * 
+			 * 
+			 * ===== Edit simulation, get and send scenarios list to jsp page
+			 * 
+			 * 
 			 */
 			LOG.debug("DoView : Edit Simulation");
 			
@@ -383,7 +409,11 @@ public class GatlingPortlet extends MVCPortlet {
 			renderRequest.setAttribute("listGroup", listGroups);
 		} else if (page.equals(jspEditScenario)) {
 			/*
-			 * Edit scenario -> request list send to jsp page
+			 * 
+			 * 
+			 * ===== Edit scenario -> request list send to jsp page
+			 * 
+			 * 
 			 */
 			LOG.debug("DoView : Edit Scenario");
 			if (ParamUtil.getLong(renderRequest, "scenarioId") == 0) {
@@ -454,6 +484,13 @@ public class GatlingPortlet extends MVCPortlet {
 				throw new RuntimeException("connot get layout list: " + e.getMessage());
 			} 
 		} else if (page.equals(jspEditPortlet)) {
+			/*
+			 * 
+			 * 
+			 * ===== PORTLET POPUP
+			 * 
+			 * 
+			 */
 			if (ParamUtil.getString(renderRequest, "pagePortletId") == null) {
 				throw new NullPointerException("portlet id is null");
 			}	
@@ -461,12 +498,23 @@ public class GatlingPortlet extends MVCPortlet {
 			String [][] script =  ListScript.getList( portletId.split("_")[0]);
 			renderRequest.setAttribute("script", script);
 			renderRequest.setAttribute("portletId", portletId);
+			
+			// Check state of recording
+			String state = renderRequest.getParameter("state");
+			if(state != null) {
+				if(state.equals("RECORD")) {
+					LOG.info("Recording ...");
+					renderRequest.setAttribute("state", "RECORD");
+				}
+				renderRequest.setAttribute("tabs1", "record-usecase");
+			}
 		}
 		/* redirect to jsp page */
 		include(page, renderRequest, renderResponse);
 	}
 
 	/**
+	 * 
 	 * 
 	 */
 	@Override
