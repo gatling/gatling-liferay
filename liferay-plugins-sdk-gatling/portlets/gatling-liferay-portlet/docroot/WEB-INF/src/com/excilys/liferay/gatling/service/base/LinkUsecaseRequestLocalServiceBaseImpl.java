@@ -17,12 +17,11 @@ package com.excilys.liferay.gatling.service.base;
 import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalService;
 import com.excilys.liferay.gatling.service.persistence.LinkUsecaseRequestPersistence;
-import com.excilys.liferay.gatling.service.persistence.RecordPortletPersistence;
+import com.excilys.liferay.gatling.service.persistence.RecordPersistence;
 import com.excilys.liferay.gatling.service.persistence.RequestPersistence;
 import com.excilys.liferay.gatling.service.persistence.ScenarioPersistence;
 import com.excilys.liferay.gatling.service.persistence.SimulationPersistence;
-import com.excilys.liferay.gatling.service.persistence.UrlUsecasePersistence;
-import com.excilys.liferay.gatling.service.persistence.UsecasePersistence;
+import com.excilys.liferay.gatling.service.persistence.UrlRecordPersistence;
 
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.bean.IdentifiableBean;
@@ -326,41 +325,40 @@ public abstract class LinkUsecaseRequestLocalServiceBaseImpl
 	}
 
 	/**
-	 * Returns the record portlet local service.
+	 * Returns the record local service.
 	 *
-	 * @return the record portlet local service
+	 * @return the record local service
 	 */
-	public com.excilys.liferay.gatling.service.RecordPortletLocalService getRecordPortletLocalService() {
-		return recordPortletLocalService;
+	public com.excilys.liferay.gatling.service.RecordLocalService getRecordLocalService() {
+		return recordLocalService;
 	}
 
 	/**
-	 * Sets the record portlet local service.
+	 * Sets the record local service.
 	 *
-	 * @param recordPortletLocalService the record portlet local service
+	 * @param recordLocalService the record local service
 	 */
-	public void setRecordPortletLocalService(
-		com.excilys.liferay.gatling.service.RecordPortletLocalService recordPortletLocalService) {
-		this.recordPortletLocalService = recordPortletLocalService;
+	public void setRecordLocalService(
+		com.excilys.liferay.gatling.service.RecordLocalService recordLocalService) {
+		this.recordLocalService = recordLocalService;
 	}
 
 	/**
-	 * Returns the record portlet persistence.
+	 * Returns the record persistence.
 	 *
-	 * @return the record portlet persistence
+	 * @return the record persistence
 	 */
-	public RecordPortletPersistence getRecordPortletPersistence() {
-		return recordPortletPersistence;
+	public RecordPersistence getRecordPersistence() {
+		return recordPersistence;
 	}
 
 	/**
-	 * Sets the record portlet persistence.
+	 * Sets the record persistence.
 	 *
-	 * @param recordPortletPersistence the record portlet persistence
+	 * @param recordPersistence the record persistence
 	 */
-	public void setRecordPortletPersistence(
-		RecordPortletPersistence recordPortletPersistence) {
-		this.recordPortletPersistence = recordPortletPersistence;
+	public void setRecordPersistence(RecordPersistence recordPersistence) {
+		this.recordPersistence = recordPersistence;
 	}
 
 	/**
@@ -476,78 +474,41 @@ public abstract class LinkUsecaseRequestLocalServiceBaseImpl
 	}
 
 	/**
-	 * Returns the url usecase local service.
+	 * Returns the url record local service.
 	 *
-	 * @return the url usecase local service
+	 * @return the url record local service
 	 */
-	public com.excilys.liferay.gatling.service.UrlUsecaseLocalService getUrlUsecaseLocalService() {
-		return urlUsecaseLocalService;
+	public com.excilys.liferay.gatling.service.UrlRecordLocalService getUrlRecordLocalService() {
+		return urlRecordLocalService;
 	}
 
 	/**
-	 * Sets the url usecase local service.
+	 * Sets the url record local service.
 	 *
-	 * @param urlUsecaseLocalService the url usecase local service
+	 * @param urlRecordLocalService the url record local service
 	 */
-	public void setUrlUsecaseLocalService(
-		com.excilys.liferay.gatling.service.UrlUsecaseLocalService urlUsecaseLocalService) {
-		this.urlUsecaseLocalService = urlUsecaseLocalService;
+	public void setUrlRecordLocalService(
+		com.excilys.liferay.gatling.service.UrlRecordLocalService urlRecordLocalService) {
+		this.urlRecordLocalService = urlRecordLocalService;
 	}
 
 	/**
-	 * Returns the url usecase persistence.
+	 * Returns the url record persistence.
 	 *
-	 * @return the url usecase persistence
+	 * @return the url record persistence
 	 */
-	public UrlUsecasePersistence getUrlUsecasePersistence() {
-		return urlUsecasePersistence;
+	public UrlRecordPersistence getUrlRecordPersistence() {
+		return urlRecordPersistence;
 	}
 
 	/**
-	 * Sets the url usecase persistence.
+	 * Sets the url record persistence.
 	 *
-	 * @param urlUsecasePersistence the url usecase persistence
+	 * @param urlRecordPersistence the url record persistence
 	 */
-	public void setUrlUsecasePersistence(
-		UrlUsecasePersistence urlUsecasePersistence) {
-		this.urlUsecasePersistence = urlUsecasePersistence;
-	}
-
-	/**
-	 * Returns the usecase local service.
-	 *
-	 * @return the usecase local service
-	 */
-	public com.excilys.liferay.gatling.service.UsecaseLocalService getUsecaseLocalService() {
-		return usecaseLocalService;
-	}
-
-	/**
-	 * Sets the usecase local service.
-	 *
-	 * @param usecaseLocalService the usecase local service
-	 */
-	public void setUsecaseLocalService(
-		com.excilys.liferay.gatling.service.UsecaseLocalService usecaseLocalService) {
-		this.usecaseLocalService = usecaseLocalService;
-	}
-
-	/**
-	 * Returns the usecase persistence.
-	 *
-	 * @return the usecase persistence
-	 */
-	public UsecasePersistence getUsecasePersistence() {
-		return usecasePersistence;
-	}
-
-	/**
-	 * Sets the usecase persistence.
-	 *
-	 * @param usecasePersistence the usecase persistence
-	 */
-	public void setUsecasePersistence(UsecasePersistence usecasePersistence) {
-		this.usecasePersistence = usecasePersistence;
+	public void setUrlRecordPersistence(
+		UrlRecordPersistence urlRecordPersistence) {
+		this.urlRecordPersistence = urlRecordPersistence;
 	}
 
 	/**
@@ -730,10 +691,10 @@ public abstract class LinkUsecaseRequestLocalServiceBaseImpl
 	protected com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalService linkUsecaseRequestLocalService;
 	@BeanReference(type = LinkUsecaseRequestPersistence.class)
 	protected LinkUsecaseRequestPersistence linkUsecaseRequestPersistence;
-	@BeanReference(type = com.excilys.liferay.gatling.service.RecordPortletLocalService.class)
-	protected com.excilys.liferay.gatling.service.RecordPortletLocalService recordPortletLocalService;
-	@BeanReference(type = RecordPortletPersistence.class)
-	protected RecordPortletPersistence recordPortletPersistence;
+	@BeanReference(type = com.excilys.liferay.gatling.service.RecordLocalService.class)
+	protected com.excilys.liferay.gatling.service.RecordLocalService recordLocalService;
+	@BeanReference(type = RecordPersistence.class)
+	protected RecordPersistence recordPersistence;
 	@BeanReference(type = com.excilys.liferay.gatling.service.RequestLocalService.class)
 	protected com.excilys.liferay.gatling.service.RequestLocalService requestLocalService;
 	@BeanReference(type = RequestPersistence.class)
@@ -746,14 +707,10 @@ public abstract class LinkUsecaseRequestLocalServiceBaseImpl
 	protected com.excilys.liferay.gatling.service.SimulationLocalService simulationLocalService;
 	@BeanReference(type = SimulationPersistence.class)
 	protected SimulationPersistence simulationPersistence;
-	@BeanReference(type = com.excilys.liferay.gatling.service.UrlUsecaseLocalService.class)
-	protected com.excilys.liferay.gatling.service.UrlUsecaseLocalService urlUsecaseLocalService;
-	@BeanReference(type = UrlUsecasePersistence.class)
-	protected UrlUsecasePersistence urlUsecasePersistence;
-	@BeanReference(type = com.excilys.liferay.gatling.service.UsecaseLocalService.class)
-	protected com.excilys.liferay.gatling.service.UsecaseLocalService usecaseLocalService;
-	@BeanReference(type = UsecasePersistence.class)
-	protected UsecasePersistence usecasePersistence;
+	@BeanReference(type = com.excilys.liferay.gatling.service.UrlRecordLocalService.class)
+	protected com.excilys.liferay.gatling.service.UrlRecordLocalService urlRecordLocalService;
+	@BeanReference(type = UrlRecordPersistence.class)
+	protected UrlRecordPersistence urlRecordPersistence;
 	@BeanReference(type = com.liferay.counter.service.CounterLocalService.class)
 	protected com.liferay.counter.service.CounterLocalService counterLocalService;
 	@BeanReference(type = com.liferay.portal.service.ResourceLocalService.class)

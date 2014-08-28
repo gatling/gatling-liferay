@@ -6,7 +6,7 @@
 	<language-properties>content/Language_fr.properties</language-properties>
 	<servlet-filter>
 		<servlet-filter-name>RecordFilter</servlet-filter-name>
-		<servlet-filter-impl>com.excilys.liferay.gatling.recorder.RecorderFilter</servlet-filter-impl>
+		<servlet-filter-impl>com.excilys.liferay.gatling.recorder.RecorderFilter</servlet-filter-impl> 
 	</servlet-filter>
 	<servlet-filter-mapping>
 		<servlet-filter-name>RecordFilter</servlet-filter-name>

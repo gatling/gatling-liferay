@@ -15,12 +15,11 @@
 package com.excilys.liferay.gatling.service;
 
 import com.excilys.liferay.gatling.model.LinkUsecaseRequestClp;
-import com.excilys.liferay.gatling.model.RecordPortletClp;
+import com.excilys.liferay.gatling.model.RecordClp;
 import com.excilys.liferay.gatling.model.RequestClp;
 import com.excilys.liferay.gatling.model.ScenarioClp;
 import com.excilys.liferay.gatling.model.SimulationClp;
-import com.excilys.liferay.gatling.model.UrlUsecaseClp;
-import com.excilys.liferay.gatling.model.UsecaseClp;
+import com.excilys.liferay.gatling.model.UrlRecordClp;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -112,8 +111,8 @@ public class ClpSerializer {
 			return translateInputLinkUsecaseRequest(oldModel);
 		}
 
-		if (oldModelClassName.equals(RecordPortletClp.class.getName())) {
-			return translateInputRecordPortlet(oldModel);
+		if (oldModelClassName.equals(RecordClp.class.getName())) {
+			return translateInputRecord(oldModel);
 		}
 
 		if (oldModelClassName.equals(RequestClp.class.getName())) {
@@ -128,12 +127,8 @@ public class ClpSerializer {
 			return translateInputSimulation(oldModel);
 		}
 
-		if (oldModelClassName.equals(UrlUsecaseClp.class.getName())) {
-			return translateInputUrlUsecase(oldModel);
-		}
-
-		if (oldModelClassName.equals(UsecaseClp.class.getName())) {
-			return translateInputUsecase(oldModel);
+		if (oldModelClassName.equals(UrlRecordClp.class.getName())) {
+			return translateInputUrlRecord(oldModel);
 		}
 
 		return oldModel;
@@ -161,10 +156,10 @@ public class ClpSerializer {
 		return newModel;
 	}
 
-	public static Object translateInputRecordPortlet(BaseModel<?> oldModel) {
-		RecordPortletClp oldClpModel = (RecordPortletClp)oldModel;
+	public static Object translateInputRecord(BaseModel<?> oldModel) {
+		RecordClp oldClpModel = (RecordClp)oldModel;
 
-		BaseModel<?> newModel = oldClpModel.getRecordPortletRemoteModel();
+		BaseModel<?> newModel = oldClpModel.getRecordRemoteModel();
 
 		newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -201,20 +196,10 @@ public class ClpSerializer {
 		return newModel;
 	}
 
-	public static Object translateInputUrlUsecase(BaseModel<?> oldModel) {
-		UrlUsecaseClp oldClpModel = (UrlUsecaseClp)oldModel;
+	public static Object translateInputUrlRecord(BaseModel<?> oldModel) {
+		UrlRecordClp oldClpModel = (UrlRecordClp)oldModel;
 
-		BaseModel<?> newModel = oldClpModel.getUrlUsecaseRemoteModel();
-
-		newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-		return newModel;
-	}
-
-	public static Object translateInputUsecase(BaseModel<?> oldModel) {
-		UsecaseClp oldClpModel = (UsecaseClp)oldModel;
-
-		BaseModel<?> newModel = oldClpModel.getUsecaseRemoteModel();
+		BaseModel<?> newModel = oldClpModel.getUrlRecordRemoteModel();
 
 		newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -244,8 +229,8 @@ public class ClpSerializer {
 		}
 
 		if (oldModelClassName.equals(
-					"com.excilys.liferay.gatling.model.impl.RecordPortletImpl")) {
-			return translateOutputRecordPortlet(oldModel);
+					"com.excilys.liferay.gatling.model.impl.RecordImpl")) {
+			return translateOutputRecord(oldModel);
 		}
 
 		if (oldModelClassName.equals(
@@ -264,13 +249,8 @@ public class ClpSerializer {
 		}
 
 		if (oldModelClassName.equals(
-					"com.excilys.liferay.gatling.model.impl.UrlUsecaseImpl")) {
-			return translateOutputUrlUsecase(oldModel);
-		}
-
-		if (oldModelClassName.equals(
-					"com.excilys.liferay.gatling.model.impl.UsecaseImpl")) {
-			return translateOutputUsecase(oldModel);
+					"com.excilys.liferay.gatling.model.impl.UrlRecordImpl")) {
+			return translateOutputUrlRecord(oldModel);
 		}
 
 		return oldModel;
@@ -359,8 +339,8 @@ public class ClpSerializer {
 		}
 
 		if (className.equals(
-					"com.excilys.liferay.gatling.NoSuchRecordPortletException")) {
-			return new com.excilys.liferay.gatling.NoSuchRecordPortletException();
+					"com.excilys.liferay.gatling.NoSuchRecordException")) {
+			return new com.excilys.liferay.gatling.NoSuchRecordException();
 		}
 
 		if (className.equals(
@@ -379,13 +359,8 @@ public class ClpSerializer {
 		}
 
 		if (className.equals(
-					"com.excilys.liferay.gatling.NoSuchUrlUsecaseException")) {
-			return new com.excilys.liferay.gatling.NoSuchUrlUsecaseException();
-		}
-
-		if (className.equals(
-					"com.excilys.liferay.gatling.NoSuchUsecaseException")) {
-			return new com.excilys.liferay.gatling.NoSuchUsecaseException();
+					"com.excilys.liferay.gatling.NoSuchUrlRecordException")) {
+			return new com.excilys.liferay.gatling.NoSuchUrlRecordException();
 		}
 
 		return throwable;
@@ -402,12 +377,12 @@ public class ClpSerializer {
 		return newModel;
 	}
 
-	public static Object translateOutputRecordPortlet(BaseModel<?> oldModel) {
-		RecordPortletClp newModel = new RecordPortletClp();
+	public static Object translateOutputRecord(BaseModel<?> oldModel) {
+		RecordClp newModel = new RecordClp();
 
 		newModel.setModelAttributes(oldModel.getModelAttributes());
 
-		newModel.setRecordPortletRemoteModel(oldModel);
+		newModel.setRecordRemoteModel(oldModel);
 
 		return newModel;
 	}
@@ -442,22 +417,12 @@ public class ClpSerializer {
 		return newModel;
 	}
 
-	public static Object translateOutputUrlUsecase(BaseModel<?> oldModel) {
-		UrlUsecaseClp newModel = new UrlUsecaseClp();
+	public static Object translateOutputUrlRecord(BaseModel<?> oldModel) {
+		UrlRecordClp newModel = new UrlRecordClp();
 
 		newModel.setModelAttributes(oldModel.getModelAttributes());
 
-		newModel.setUrlUsecaseRemoteModel(oldModel);
-
-		return newModel;
-	}
-
-	public static Object translateOutputUsecase(BaseModel<?> oldModel) {
-		UsecaseClp newModel = new UsecaseClp();
-
-		newModel.setModelAttributes(oldModel.getModelAttributes());
-
-		newModel.setUsecaseRemoteModel(oldModel);
+		newModel.setUrlRecordRemoteModel(oldModel);
 
 		return newModel;
 	}

@@ -56,26 +56,20 @@
 	</entity>
 	
 	<!-- use case  -->
-	<entity name="Usecase" remote-service="false" local-service="true">
-		<column name="usecaseId" type="long" primary="true" />
+	<entity name="Record" remote-service="false" local-service="true">
+		<column name="recordId" type="long" primary="true" />
 		<column name="portletId" type="long" />
 		<column name="versionPortlet" type="long" />
 		<column name="name" type="String" />
 	</entity>
 	
 	<!-- url -->
-	<entity name="UrlUsecase" remote-service="false" local-service="true">
-		<column name="urlUsecaseId" type="long" primary="true" />
-		<column name="usecaseId" type="long" />
+	<entity name="UrlRecord" remote-service="false" local-service="true">
+		<column name="urlRecordId" type="long" primary="true" />
+		<column name="recordId" type="long" />
 		<column name="url" type="String" />
 		<column name="order" type="int" />
 	</entity>
-	
-	<!-- table used to share data between recorder page and servlet filter -->
-	<entity name="RecordPortlet" remote-service="false" local-service="true">
-		<column name="recordPortletId" type="long" primary="true"/>
-		<column name="portletId" type="String" />
-		<column name="state" type="String" />
-	</entity>
+
 
 </service-builder>
