@@ -52,6 +52,7 @@ import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
+import com.liferay.portal.service.PortletLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
@@ -495,6 +496,9 @@ public class GatlingPortlet extends MVCPortlet {
 				throw new NullPointerException("portlet id is null");
 			}	
 			String portletId = ParamUtil.getString(renderRequest, "pagePortletId");
+			String portletName = PortletLocalServiceUtil.getPortletById(portletId).getDisplayName();
+			long  groupId =  Long.parseLong(ParamUtil.getString(renderRequest, "groupId"));
+			System.out.println("portlet id= "+portletId);
 			String [][] script =  ListScript.getList( portletId.split("_")[0]);
 			renderRequest.setAttribute("script", script);
 			renderRequest.setAttribute("portletId", portletId);
@@ -508,6 +512,10 @@ public class GatlingPortlet extends MVCPortlet {
 				}
 				renderRequest.setAttribute("tabs1", "record-usecase");
 			}
+			
+			renderRequest.setAttribute("portletName", portletName);
+			renderRequest.setAttribute("groupId", groupId);
+
 		}
 		/* redirect to jsp page */
 		include(page, renderRequest, renderResponse);
