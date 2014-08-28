@@ -221,6 +221,24 @@ public class GatlingPortlet extends MVCPortlet {
 		response.setRenderParameter("scenarioId", request.getParameter("scenarioId"));
 		response.setRenderParameter("page", jspEditScenario);
 	}
+	
+	/**
+	 * edit portlet sample.
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws SystemException
+	 * @throws PortalException
+	 */
+	public void editPortletSample(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException {
+		LOG.debug("editPortletSample");
+		//Scenario scenario = ScenarioLocalServiceUtil.editScenarioFromRequest(request);
+		Scenario scenario = null;
+		response.setRenderParameter("page", scenario != null ? jspEditScenario : jspEditSimulation);
+		if (scenario != null) {
+			response.setRenderParameter("simulationId", Long.toString(scenario.getSimulation_id()));
+		}
+	}
 
 	/**
 	 * get the scenario state, if completed or not yet.
