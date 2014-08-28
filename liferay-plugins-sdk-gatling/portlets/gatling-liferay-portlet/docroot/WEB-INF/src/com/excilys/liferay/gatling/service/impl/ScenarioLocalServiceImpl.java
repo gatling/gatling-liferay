@@ -211,8 +211,8 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		final Map<String, Request> mapPublicRequestToEdit = new HashMap<String, Request>();
 
 		//security
-		final ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-		final Long userId = themeDisplay.getUserId();
+//		final ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+//		final Long userId = themeDisplay.getUserId();
 		
 		Scenario scenarioToReturn = null;
 

@@ -9,20 +9,13 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.model.Company;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.model.PortletPreferences;
-import com.liferay.portal.service.CompanyLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.service.PortletLocalServiceUtil;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.portlet.PortletRequest;
 
 /**
  * DisplayLayout is used in editScenario.jsp to display both layout and request
@@ -57,8 +50,11 @@ public class DisplayItem {
 	private boolean privateItem;
 	private long layoutId;
 	private boolean portlet;
+	
+	//fields to get portlet displayed
 	private String portletId;
 	private long groupId;
+	
 	// List of it direct subnodes id
 	private List<Long> subNodes;
 	// List of page portlet id
@@ -81,7 +77,6 @@ public class DisplayItem {
 		name = PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).getDisplayName();
 		portlet = true;
 		portletId = portletPreferences.getPortletId();
-//		PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).get
 		try {
 			Layout parent = LayoutLocalServiceUtil.getLayout(portletPreferences.getPlid());
 			url = parent.getFriendlyURL() /* + url portlet*/;

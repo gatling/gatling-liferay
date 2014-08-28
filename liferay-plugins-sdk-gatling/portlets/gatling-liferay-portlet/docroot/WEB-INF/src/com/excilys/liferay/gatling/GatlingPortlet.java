@@ -237,7 +237,6 @@ public class GatlingPortlet extends MVCPortlet {
 		LOG.debug("editPortletSample");
 		//Scenario scenario = ScenarioLocalServiceUtil.editScenarioFromRequest(request);
 		response.setRenderParameter("page", jspEditPortlet);
-
 	}
 
 	public void toggleRecord(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException {
