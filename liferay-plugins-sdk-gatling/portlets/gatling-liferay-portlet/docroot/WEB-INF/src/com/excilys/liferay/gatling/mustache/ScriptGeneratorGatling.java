@@ -100,8 +100,10 @@ public class ScriptGeneratorGatling {
 
 			  // 19 Message Boards
 			if( new String("19").equals(portletId)) {
+				// ===> will be simple script
 				this.setMessageBoard.add( new MessageBoard(mr.getUrl(), mr.getName()));
 				mr.addListExecSpecial(new ExecSpecial("MessageBoard", mr.getName()));
+				//more wirdo on! Have a Post Script! Need log!
 
 			} // 101 Asset Publisher
 			else if( new String("101").equals(portletId)) {

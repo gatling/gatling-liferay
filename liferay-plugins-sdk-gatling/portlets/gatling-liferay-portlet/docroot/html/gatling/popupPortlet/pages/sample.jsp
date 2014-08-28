@@ -60,7 +60,6 @@
 		AUI().use('aui-base', 'aui-node-base', function(A){
 			var idSelect = "<portlet:namespace/>"+"selectScript";
 			var label = document.getElementById(idSelect)[document.getElementById(idSelect).selectedIndex].textContent;
-			console.log(label);
 			
 			if(label != null && label != "" && label != " "){			
 				var value = document.getElementById(idSelect).value;				
