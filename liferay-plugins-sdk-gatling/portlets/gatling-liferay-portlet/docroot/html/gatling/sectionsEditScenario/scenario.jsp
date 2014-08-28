@@ -107,7 +107,7 @@
 							class='checkLine' /></td>
 						<td><i class="icon-th-large"></i>
 							<a href="#${layout.portletId}" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px" 
-								data-portlet="${layout.name}" data-page="${pageName}"> 
+								data-portlet="${layout.name}" data-page="${pageName}" data-groupId="${layout.groupId}"> 
 								 ${layout.name} <i class="icon-wrench"></i>
 							</a>
 						</td>
@@ -314,10 +314,12 @@
 				var id = this.get("href").split(".jsp")[1].substring(1);
 				var pageName = this.getData("page");
 				var portletName = this.getData("portlet");
+				var groupId = this.getData("groupId");
 				//Create renderURL
 				var renderURL = Liferay.PortletURL.createRenderURL();
 				renderURL.setPortletId("gatling_WAR_gatlingliferayportlet");
 				renderURL.setParameter("pagePortletId", id);
+				renderURL.setParameter("groupId", groupId);
 				renderURL.setParameter("jspPage","/html/gatling/popupPortlet/portletConfig.jsp");
 				renderURL.setWindowState("pop_up");
 		
@@ -330,7 +332,7 @@
 			        },
 			        title : "Page: "+pageName+" / Portlet: "+portletName,
 			        uri : renderURL.toString()
-			   });					
+			   });
 			});
 	});
 		

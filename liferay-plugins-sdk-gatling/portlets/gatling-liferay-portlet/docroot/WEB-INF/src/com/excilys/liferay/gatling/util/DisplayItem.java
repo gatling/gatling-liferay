@@ -3,19 +3,26 @@
  */
 package com.excilys.liferay.gatling.util;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.excilys.liferay.gatling.model.Request;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.model.Company;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.model.PortletPreferences;
+import com.liferay.portal.service.CompanyLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.service.PortletLocalServiceUtil;
+import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.util.PortalUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.portlet.PortletRequest;
 
 /**
  * DisplayLayout is used in editScenario.jsp to display both layout and request
@@ -51,6 +58,7 @@ public class DisplayItem {
 	private long layoutId;
 	private boolean portlet;
 	private String portletId;
+	private long groupId;
 	// List of it direct subnodes id
 	private List<Long> subNodes;
 	// List of page portlet id
@@ -69,16 +77,15 @@ public class DisplayItem {
 	 */
 	public DisplayItem(PortletPreferences portletPreferences) {
 		parentDisplayId = portletPreferences.getPlid();
-		displayId = portletPreferences.getPortletPreferencesId();
-		portletId = portletPreferences.getPortletId();
+		displayId = portletPreferences.getPortletPreferencesId();	
 		name = PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).getDisplayName();
 		portlet = true;
-//		PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).setSystem(true);
-//		PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).setInstanceable(false);
-//		PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).setAddDefaultResource(true);
+		portletId = portletPreferences.getPortletId();
+	
 		try {
 			Layout parent = LayoutLocalServiceUtil.getLayout(portletPreferences.getPlid());
 			url = parent.getFriendlyURL() /* + url portlet*/;
+			groupId = parent.getGroupId(); 
 		} catch (PortalException e) {
 			new RuntimeException(e.getMessage());
 		} catch (SystemException e) {
@@ -269,5 +276,13 @@ public class DisplayItem {
 
 	public void setPortletId(String portletId) {
 		this.portletId = portletId;
+	}
+
+	public long getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(long groupId) {
+		this.groupId = groupId;
 	}
 }
