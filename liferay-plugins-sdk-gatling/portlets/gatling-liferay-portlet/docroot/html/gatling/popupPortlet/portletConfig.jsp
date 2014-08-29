@@ -4,22 +4,25 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 <%
-// Tab value to preselect on page load
-// Default parameter name used by the taglib is "tabs1"
-String currentTab = ParamUtil.getString(request, "tabs1", "existing-usecase");
+	// Tab value to preselect on page load
+	// Default parameter name used by the taglib is "tabs1"
+	String currentTab = ParamUtil.getString(request, "tabs1",
+			"existing-usecase");
 %>
-
 <!-- This is the link associated to every tab to load the specific page -->
 <liferay-portlet:renderURL var="changeTabURL">
-	<liferay-portlet:param name="" value=""/>
+	<liferay-portlet:param name="" value="" />
 </liferay-portlet:renderURL>
-<liferay-ui:tabs names='existing-usecase,record-usecase'
-				refresh="false"
-				value="<%=currentTab %>">
+<liferay-ui:tabs names='existing-usecase,record-usecase' refresh="false"
+	value="<%=currentTab%>">
 	<liferay-ui:section>
-		<liferay-util:include page="/html/gatling/popupPortlet/pages/sample.jsp" servletContext="<%=this.getServletContext() %>"/>
+		<liferay-util:include
+			page="/html/gatling/popupPortlet/pages/sample.jsp"
+			servletContext="<%=this.getServletContext()%>" />
 	</liferay-ui:section>
 	<liferay-ui:section>
-		<liferay-util:include page="/html/gatling/popupPortlet/pages/recorder.jsp" servletContext="<%=this.getServletContext() %>"/>
+		<liferay-util:include
+			page="/html/gatling/popupPortlet/pages/recorder.jsp"
+			servletContext="<%=this.getServletContext()%>" />
 	</liferay-ui:section>
 </liferay-ui:tabs>

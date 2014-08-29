@@ -18,7 +18,6 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
-import javax.portlet.PortletSession;
 import javax.portlet.ReadOnlyException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -239,18 +238,13 @@ public class GatlingPortlet extends MVCPortlet {
 		response.setRenderParameter("page", jspEditPortlet);
 		//hack, only work this way ....
 		response.setRenderParameter("p_p_state", "pop_up");
+		PortalUtil.copyRequestParameters(request, response);
 	}
 
 	public void toggleRecord(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException {
-		PortletSession session = request.getPortletSession();
-		if (session.getAttribute("state") != null) {
-			response.setRenderParameter("state", "STOP");
-			session.removeAttribute("state");
-		} else {
-			response.setRenderParameter("state", "RECORD");
-			session.setAttribute("state", "RECORD");
-		}
-		
+		String recordState = ParamUtil.getString(request, "nextRecordState");
+		response.setRenderParameter("recordState", recordState);
+		LOG.info(recordState);
 		//hack, only work this way ....
 		response.setRenderParameter("p_p_state", "pop_up");
 		PortalUtil.copyRequestParameters(request, response);
@@ -509,14 +503,19 @@ public class GatlingPortlet extends MVCPortlet {
 			renderRequest.setAttribute("groupId", groupId);
 			
 			// Check state of recording
-			String state = renderRequest.getParameter("state");
+			String state = renderRequest.getParameter("recordState");
 			if(state != null) {
 				if(state.equals("RECORD")) {
 					LOG.info("Recording ...");
-					renderRequest.setAttribute("state", "RECORD");
+					renderRequest.setAttribute("nextRecordState", "STOP");
+				} else {
+					renderRequest.setAttribute("nextRecordState", "RECORD");
 				}
 				renderRequest.setAttribute("tabs1", "record-usecase");
+			} else {
+				renderRequest.setAttribute("nextRecordState", "RECORD");
 			}
+			LOG.info(state);
 		}
 		/* redirect to jsp page */
 		include(page, renderRequest, renderResponse);

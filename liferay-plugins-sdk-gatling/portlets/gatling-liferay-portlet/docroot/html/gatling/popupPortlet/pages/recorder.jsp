@@ -7,6 +7,7 @@
 	<liferay-portlet:param name="page" value="/html/gatling/popupPortlet/portletConfig.jsp"/>
 	<liferay-portlet:param name="tabs1" value="record-usecase"/>
 	<liferay-portlet:param name="pagePortletId" value="${portletId }"/>
+	<liferay-portlet:param name="nextRecordState" value="${nextRecordState}"/>
 </liferay-portlet:actionURL>
 
 <h3><liferay-ui:message key="recorder-for" />: ${portletN} </h3>
@@ -15,7 +16,7 @@
 	<aui:input name="useCaseRecordName" inlineField="true" ></aui:input>
 	<div class="btn-group inline-button">
 		<c:choose>
-			<c:when test="${state eq 'RECORD' }">
+			<c:when test="${nextRecordState eq 'STOP' }">
 		 	<aui:a cssClass="btn btn-warning" href="${toggleRecordURL }"><i class="icon-stop"></i> <liferay-ui:message key="stop" /></aui:a>
 			</c:when>
 			<c:otherwise>
