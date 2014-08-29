@@ -336,11 +336,13 @@
 			         	destroyOnClose : true,
 			            cache : false
 			        },
+			        id : "<portlet:namespace/>pop_up_portlet",
 			        title : "Page: "+pageName+" / Portlet: "+portletName,
 			        uri : renderURL.toString()
 			   });
+				
 			});
-	});
+		});
 		
 		if (A.all(".checkLine:checked").size() === A.all(".checkLine").size())
 			A.one("#checkAll").set("checked", true);

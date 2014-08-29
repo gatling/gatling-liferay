@@ -7,10 +7,11 @@
 	<liferay-portlet:param name="page" value="/html/gatling/popupPortlet/portletConfig.jsp"/>
 	<liferay-portlet:param name="tabs1" value="record-usecase"/>
 	<liferay-portlet:param name="pagePortletId" value="${portletId }"/>
+	<liferay-portlet:param name="groupId" value="${groupId }"/>
 	<liferay-portlet:param name="nextRecordState" value="${nextRecordState}"/>
 </liferay-portlet:actionURL>
 
-<h3><liferay-ui:message key="recorder-for" />: ${portletN} </h3>
+<h3><liferay-ui:message key="recorder-for" />: ${portletName} </h3>
 
 <c:if test='${ portletId != null &&  !"0".equals(portletId) }'>
 	<aui:input name="useCaseRecordName" inlineField="true" ></aui:input>

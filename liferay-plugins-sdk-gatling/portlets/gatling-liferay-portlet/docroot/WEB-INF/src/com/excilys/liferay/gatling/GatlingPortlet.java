@@ -3,6 +3,32 @@
  */
 package com.excilys.liferay.gatling;
 
+<<<<<<< HEAD
+=======
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
+import javax.portlet.ReadOnlyException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.portlet.ValidatorException;
+import javax.servlet.http.Cookie;
+
+>>>>>>> recorderFilter working
 import com.excilys.liferay.gatling.exception.EmptySimulation;
 import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
 import com.excilys.liferay.gatling.model.Record;
@@ -28,6 +54,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
+import com.liferay.portal.kernel.util.CookieKeys;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -272,7 +299,6 @@ public class GatlingPortlet extends MVCPortlet {
 	public void toggleRecord(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException {
 		String recordState = ParamUtil.getString(request, "nextRecordState");
 		response.setRenderParameter("recordState", recordState);
-		LOG.info(recordState);
 		//hack, only work this way ....
 		response.setRenderParameter("p_p_state", "pop_up");
 		PortalUtil.copyRequestParameters(request, response);
@@ -551,7 +577,7 @@ public class GatlingPortlet extends MVCPortlet {
 			LOG.info("list size= "+ useCaseList.size());
 			renderRequest.setAttribute("script", script);
 			renderRequest.setAttribute("portletId", portletId);
-			renderRequest.setAttribute("portletN", portletName);
+			renderRequest.setAttribute("portletName", portletName);
 			renderRequest.setAttribute("groupId", groupId);
 			renderRequest.setAttribute("requestId", requestId);
 			renderRequest.setAttribute("recordAndSampleList", useCaseList);
@@ -559,17 +585,19 @@ public class GatlingPortlet extends MVCPortlet {
 			// Check state of recording
 			String state = renderRequest.getParameter("recordState");
 			if(state != null) {
+				renderRequest.setAttribute("tabs1", "record-usecase");
+				
+				Cookie myCookie = new Cookie("GATLING_RECORD_STATE", portletId+",RECORD");
 				if(state.equals("RECORD")) {
-					LOG.info("Recording ...");
 					renderRequest.setAttribute("nextRecordState", "STOP");
 				} else {
 					renderRequest.setAttribute("nextRecordState", "RECORD");
+					myCookie.setMaxAge(0);
 				}
-				renderRequest.setAttribute("tabs1", "record-usecase");
+				CookieKeys.addCookie(PortalUtil.getHttpServletRequest(renderRequest), PortalUtil.getHttpServletResponse(renderResponse), myCookie);
 			} else {
 				renderRequest.setAttribute("nextRecordState", "RECORD");
 			}
-			LOG.info(state);
 		}
 		/* redirect to jsp page */
 		include(page, renderRequest, renderResponse);

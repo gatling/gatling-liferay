@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.CookieKeys;
 import com.liferay.portal.kernel.util.HttpUtil;
 /**
  * Servlet Filter implementation class RecordFilter
@@ -47,23 +48,27 @@ public class RecorderFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 
-		boolean recording = false;
+		String state = CookieKeys.getCookie(httpRequest, "GATLING_RECORD_STATE");
 		/*
 		 * Recording
 		 */
-		if(recording) {
-			HttpSession session = httpRequest.getSession();
-			if(session.getAttribute("recordURL") == null) {
-				session.setAttribute("recordURL", new ArrayList<String>());
+		if(state != null) {
+			String[] infos = state.split(",");
+			String ppid = request.getParameter("p_p_id");
+			if(state != null && infos[1].equals("RECORD") && infos[0].equals(ppid)) {
+				HttpSession session = httpRequest.getSession();
+				if(session.getAttribute("recordURL") == null) {
+					session.setAttribute("recordURL", new ArrayList<String>());
+				}
+				List<String> recordURLs = (List<String>) session.getAttribute("recordURL");
+				LOG.info("========================");
+				String params = HttpUtil.parameterMapToString(request.getParameterMap());
+				LOG.info("URL ("+httpRequest.getMethod()+") : "+params);
+				recordURLs.add(params);
+				LOG.info("========================");
+				//Store it again
+				session.setAttribute("recordURL", recordURLs);
 			}
-			List<String> recordURLs = (List<String>) session.getAttribute("recordURL");
-			LOG.info("========================");
-			String params = HttpUtil.parameterMapToString(request.getParameterMap());
-			LOG.info("URL ("+httpRequest.getMethod()+") : "+params);
-			recordURLs.add(params);
-			LOG.info("========================");
-			//Store it again
-			session.setAttribute("recordURL", recordURLs);
 		}
 		// pass the request along the filter chain
 		chain.doFilter(request, response);
