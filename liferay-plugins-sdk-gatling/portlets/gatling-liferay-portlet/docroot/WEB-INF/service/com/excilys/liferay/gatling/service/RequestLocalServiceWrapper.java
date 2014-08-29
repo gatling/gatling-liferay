@@ -316,16 +316,6 @@ public class RequestLocalServiceWrapper implements RequestLocalService,
 	}
 
 	/**
-	* Store a {@link Request} with given values
-	*/
-	@Override
-	public void addRequestFromLayout(com.liferay.portal.model.Layout layout,
-		double weight, long idScenario)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		_requestLocalService.addRequestFromLayout(layout, weight, idScenario);
-	}
-
-	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */
 	public RequestLocalService getWrappedRequestLocalService() {

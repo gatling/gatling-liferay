@@ -51,8 +51,9 @@
 	<entity name="LinkUsecaseRequest" remote-service="false" local-service="true">
 		<column name="linkUsecaseRequestId" type="long" primary="true" />
 		<column name="request_id" type="long" />
-		<column name="recordId" type="long" />
+		<column name="recordId" type="long"/>
 		<column name="weight" type="double" />
+		<column name="sample" type="boolean"></column>
 	</entity>
 	
 	<!-- use case  -->

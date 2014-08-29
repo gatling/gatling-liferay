@@ -77,6 +77,7 @@ public class LinkUsecaseRequestClp extends BaseModelImpl<LinkUsecaseRequest>
 		attributes.put("request_id", getRequest_id());
 		attributes.put("recordId", getRecordId());
 		attributes.put("weight", getWeight());
+		attributes.put("sample", getSample());
 
 		return attributes;
 	}
@@ -105,6 +106,12 @@ public class LinkUsecaseRequestClp extends BaseModelImpl<LinkUsecaseRequest>
 
 		if (weight != null) {
 			setWeight(weight);
+		}
+
+		Boolean sample = (Boolean)attributes.get("sample");
+
+		if (sample != null) {
+			setSample(sample);
 		}
 	}
 
@@ -202,6 +209,34 @@ public class LinkUsecaseRequestClp extends BaseModelImpl<LinkUsecaseRequest>
 		}
 	}
 
+	@Override
+	public boolean getSample() {
+		return _sample;
+	}
+
+	@Override
+	public boolean isSample() {
+		return _sample;
+	}
+
+	@Override
+	public void setSample(boolean sample) {
+		_sample = sample;
+
+		if (_linkUsecaseRequestRemoteModel != null) {
+			try {
+				Class<?> clazz = _linkUsecaseRequestRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setSample", boolean.class);
+
+				method.invoke(_linkUsecaseRequestRemoteModel, sample);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
 	public BaseModel<?> getLinkUsecaseRequestRemoteModel() {
 		return _linkUsecaseRequestRemoteModel;
 	}
@@ -277,6 +312,7 @@ public class LinkUsecaseRequestClp extends BaseModelImpl<LinkUsecaseRequest>
 		clone.setRequest_id(getRequest_id());
 		clone.setRecordId(getRecordId());
 		clone.setWeight(getWeight());
+		clone.setSample(getSample());
 
 		return clone;
 	}
@@ -325,7 +361,7 @@ public class LinkUsecaseRequestClp extends BaseModelImpl<LinkUsecaseRequest>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(11);
 
 		sb.append("{linkUsecaseRequestId=");
 		sb.append(getLinkUsecaseRequestId());
@@ -335,6 +371,8 @@ public class LinkUsecaseRequestClp extends BaseModelImpl<LinkUsecaseRequest>
 		sb.append(getRecordId());
 		sb.append(", weight=");
 		sb.append(getWeight());
+		sb.append(", sample=");
+		sb.append(getSample());
 		sb.append("}");
 
 		return sb.toString();
@@ -342,7 +380,7 @@ public class LinkUsecaseRequestClp extends BaseModelImpl<LinkUsecaseRequest>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(16);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("<model><model-name>");
 		sb.append("com.excilys.liferay.gatling.model.LinkUsecaseRequest");
@@ -364,6 +402,10 @@ public class LinkUsecaseRequestClp extends BaseModelImpl<LinkUsecaseRequest>
 			"<column><column-name>weight</column-name><column-value><![CDATA[");
 		sb.append(getWeight());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>sample</column-name><column-value><![CDATA[");
+		sb.append(getSample());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -374,5 +416,6 @@ public class LinkUsecaseRequestClp extends BaseModelImpl<LinkUsecaseRequest>
 	private long _request_id;
 	private long _recordId;
 	private double _weight;
+	private boolean _sample;
 	private BaseModel<?> _linkUsecaseRequestRemoteModel;
 }

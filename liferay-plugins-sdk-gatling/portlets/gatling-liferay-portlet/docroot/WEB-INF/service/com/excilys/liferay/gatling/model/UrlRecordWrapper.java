@@ -247,7 +247,7 @@ public class UrlRecordWrapper implements UrlRecord, ModelWrapper<UrlRecord> {
 	}
 
 	@Override
-	public int compareTo(UrlRecord urlRecord) {
+	public int compareTo(com.excilys.liferay.gatling.model.UrlRecord urlRecord) {
 		return _urlRecord.compareTo(urlRecord);
 	}
 
@@ -257,17 +257,17 @@ public class UrlRecordWrapper implements UrlRecord, ModelWrapper<UrlRecord> {
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<UrlRecord> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<com.excilys.liferay.gatling.model.UrlRecord> toCacheModel() {
 		return _urlRecord.toCacheModel();
 	}
 
 	@Override
-	public UrlRecord toEscapedModel() {
+	public com.excilys.liferay.gatling.model.UrlRecord toEscapedModel() {
 		return new UrlRecordWrapper(_urlRecord.toEscapedModel());
 	}
 
 	@Override
-	public UrlRecord toUnescapedModel() {
+	public com.excilys.liferay.gatling.model.UrlRecord toUnescapedModel() {
 		return new UrlRecordWrapper(_urlRecord.toUnescapedModel());
 	}
 

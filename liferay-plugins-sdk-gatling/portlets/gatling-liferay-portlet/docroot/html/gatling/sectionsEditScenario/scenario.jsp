@@ -105,10 +105,10 @@
 						hidden="true">
 						<td><input type="checkbox" name="${status.index}"
 							class='checkLine' /></td>
-						<td><i class="icon-th-large"></i>
-							<a href="#${layout.portletId}" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px" 
+						<td>${layout.portletId}<i class="icon-th-large"></i>
+							<a href="# ${layout.portletId}" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px" 
 								data-portlet="${layout.name}" data-page="${pageName}" data-groupId="${layout.groupId}"> 
-								 ${layout.name} <i class="icon-wrench"></i>
+								 ${layout.name}  <i class="icon-wrench"></i>
 							</a>
 						</td>
 						<td></td>
@@ -311,6 +311,7 @@
 		
 		A.all(".portlet-popup").each(function() {
 			this.on('click' , function(event) {
+				console.log(this.get("href"));
 				var id = this.get("href").split(".jsp")[1].substring(1);
 				var pageName = this.getData("page");
 				var portletName = this.getData("portlet");

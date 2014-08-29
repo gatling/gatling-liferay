@@ -112,6 +112,27 @@ public interface LinkUsecaseRequestModel extends BaseModel<LinkUsecaseRequest> {
 	 */
 	public void setWeight(double weight);
 
+	/**
+	 * Returns the sample of this link usecase request.
+	 *
+	 * @return the sample of this link usecase request
+	 */
+	public boolean getSample();
+
+	/**
+	 * Returns <code>true</code> if this link usecase request is sample.
+	 *
+	 * @return <code>true</code> if this link usecase request is sample; <code>false</code> otherwise
+	 */
+	public boolean isSample();
+
+	/**
+	 * Sets whether this link usecase request is sample.
+	 *
+	 * @param sample the sample of this link usecase request
+	 */
+	public void setSample(boolean sample);
+
 	@Override
 	public boolean isNew();
 

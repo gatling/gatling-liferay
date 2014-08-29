@@ -264,11 +264,4 @@ public interface RequestLocalService extends BaseLocalService,
 
 	public void removeByScenarioId(long scenarioId)
 		throws com.liferay.portal.kernel.exception.SystemException;
-
-	/**
-	* Store a {@link Request} with given values
-	*/
-	public void addRequestFromLayout(com.liferay.portal.model.Layout layout,
-		double weight, long idScenario)
-		throws com.liferay.portal.kernel.exception.SystemException;
 }

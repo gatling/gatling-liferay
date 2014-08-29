@@ -493,8 +493,9 @@ public class GatlingPortlet extends MVCPortlet {
 				throw new NullPointerException("portlet id is null");
 			}	
 			String portletId = ParamUtil.getString(renderRequest, "pagePortletId");
+			LOG.info("portletId: "+portletId);
 			String portletName = PortletLocalServiceUtil.getPortletById(portletId).getDisplayName();
-			long  groupId =  Long.parseLong(ParamUtil.getString(renderRequest, "groupId"));
+			long  groupId =  ParamUtil.getLong(renderRequest, "groupId");
 			LOG.info("portlet id= "+portletId);
 			String [][] script =  ListScript.getList( portletId.split("_")[0]);
 			renderRequest.setAttribute("script", script);

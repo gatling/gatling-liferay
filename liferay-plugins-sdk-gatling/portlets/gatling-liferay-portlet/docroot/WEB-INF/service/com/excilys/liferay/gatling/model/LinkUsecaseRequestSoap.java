@@ -33,6 +33,7 @@ public class LinkUsecaseRequestSoap implements Serializable {
 		soapModel.setRequest_id(model.getRequest_id());
 		soapModel.setRecordId(model.getRecordId());
 		soapModel.setWeight(model.getWeight());
+		soapModel.setSample(model.getSample());
 
 		return soapModel;
 	}
@@ -120,8 +121,21 @@ public class LinkUsecaseRequestSoap implements Serializable {
 		_weight = weight;
 	}
 
+	public boolean getSample() {
+		return _sample;
+	}
+
+	public boolean isSample() {
+		return _sample;
+	}
+
+	public void setSample(boolean sample) {
+		_sample = sample;
+	}
+
 	private long _linkUsecaseRequestId;
 	private long _request_id;
 	private long _recordId;
 	private double _weight;
+	private boolean _sample;
 }

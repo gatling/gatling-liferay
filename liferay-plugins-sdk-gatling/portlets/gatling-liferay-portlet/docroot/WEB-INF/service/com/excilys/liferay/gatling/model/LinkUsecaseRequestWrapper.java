@@ -53,6 +53,7 @@ public class LinkUsecaseRequestWrapper implements LinkUsecaseRequest,
 		attributes.put("request_id", getRequest_id());
 		attributes.put("recordId", getRecordId());
 		attributes.put("weight", getWeight());
+		attributes.put("sample", getSample());
 
 		return attributes;
 	}
@@ -81,6 +82,12 @@ public class LinkUsecaseRequestWrapper implements LinkUsecaseRequest,
 
 		if (weight != null) {
 			setWeight(weight);
+		}
+
+		Boolean sample = (Boolean)attributes.get("sample");
+
+		if (sample != null) {
+			setSample(sample);
 		}
 	}
 
@@ -184,6 +191,36 @@ public class LinkUsecaseRequestWrapper implements LinkUsecaseRequest,
 		_linkUsecaseRequest.setWeight(weight);
 	}
 
+	/**
+	* Returns the sample of this link usecase request.
+	*
+	* @return the sample of this link usecase request
+	*/
+	@Override
+	public boolean getSample() {
+		return _linkUsecaseRequest.getSample();
+	}
+
+	/**
+	* Returns <code>true</code> if this link usecase request is sample.
+	*
+	* @return <code>true</code> if this link usecase request is sample; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isSample() {
+		return _linkUsecaseRequest.isSample();
+	}
+
+	/**
+	* Sets whether this link usecase request is sample.
+	*
+	* @param sample the sample of this link usecase request
+	*/
+	@Override
+	public void setSample(boolean sample) {
+		_linkUsecaseRequest.setSample(sample);
+	}
+
 	@Override
 	public boolean isNew() {
 		return _linkUsecaseRequest.isNew();
@@ -248,7 +285,8 @@ public class LinkUsecaseRequestWrapper implements LinkUsecaseRequest,
 	}
 
 	@Override
-	public int compareTo(LinkUsecaseRequest linkUsecaseRequest) {
+	public int compareTo(
+		com.excilys.liferay.gatling.model.LinkUsecaseRequest linkUsecaseRequest) {
 		return _linkUsecaseRequest.compareTo(linkUsecaseRequest);
 	}
 
@@ -258,17 +296,17 @@ public class LinkUsecaseRequestWrapper implements LinkUsecaseRequest,
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<LinkUsecaseRequest> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<com.excilys.liferay.gatling.model.LinkUsecaseRequest> toCacheModel() {
 		return _linkUsecaseRequest.toCacheModel();
 	}
 
 	@Override
-	public LinkUsecaseRequest toEscapedModel() {
+	public com.excilys.liferay.gatling.model.LinkUsecaseRequest toEscapedModel() {
 		return new LinkUsecaseRequestWrapper(_linkUsecaseRequest.toEscapedModel());
 	}
 
 	@Override
-	public LinkUsecaseRequest toUnescapedModel() {
+	public com.excilys.liferay.gatling.model.LinkUsecaseRequest toUnescapedModel() {
 		return new LinkUsecaseRequestWrapper(_linkUsecaseRequest.toUnescapedModel());
 	}
 

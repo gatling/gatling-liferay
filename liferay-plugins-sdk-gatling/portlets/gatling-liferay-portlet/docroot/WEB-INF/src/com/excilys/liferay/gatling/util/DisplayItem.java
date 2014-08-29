@@ -77,9 +77,10 @@ public class DisplayItem {
 		name = PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).getDisplayName();
 		portlet = true;
 		portletId = portletPreferences.getPortletId();
+		LOG.info("portletId:  "+portletId);
 		try {
 			Layout parent = LayoutLocalServiceUtil.getLayout(portletPreferences.getPlid());
-			url = parent.getFriendlyURL() /* + url portlet*/;
+			url = parent.getFriendlyURL() + portletId;
 			groupId = parent.getGroupId(); 
 		} catch (PortalException e) {
 			new RuntimeException(e.getMessage());
@@ -120,6 +121,8 @@ public class DisplayItem {
 		name = request.getName();
 		url = request.getUrl();
 		weight = request.getWeight();
+		portlet = request.isIsPortlet();
+		portletId = request.getPortetId();
 	}
 
 	public boolean isUsed() {

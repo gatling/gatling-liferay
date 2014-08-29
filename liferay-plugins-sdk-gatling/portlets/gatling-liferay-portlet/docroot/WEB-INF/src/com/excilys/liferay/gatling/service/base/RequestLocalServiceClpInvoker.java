@@ -133,12 +133,6 @@ public class RequestLocalServiceClpInvoker {
 		_methodName62 = "removeByScenarioId";
 
 		_methodParameterTypes62 = new String[] { "long" };
-
-		_methodName63 = "addRequestFromLayout";
-
-		_methodParameterTypes63 = new String[] {
-				"com.liferay.portal.model.Layout", "double", "long"
-			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -269,15 +263,6 @@ public class RequestLocalServiceClpInvoker {
 			return null;
 		}
 
-		if (_methodName63.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes63, parameterTypes)) {
-			RequestLocalServiceUtil.addRequestFromLayout((com.liferay.portal.model.Layout)arguments[0],
-				((Double)arguments[1]).doubleValue(),
-				((Long)arguments[2]).longValue());
-
-			return null;
-		}
-
 		throw new UnsupportedOperationException();
 	}
 
@@ -327,6 +312,4 @@ public class RequestLocalServiceClpInvoker {
 	private String[] _methodParameterTypes61;
 	private String _methodName62;
 	private String[] _methodParameterTypes62;
-	private String _methodName63;
-	private String[] _methodParameterTypes63;
 }

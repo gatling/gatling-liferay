@@ -179,9 +179,12 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			final List<Layout> listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), false));
 			// private page
 			listLayouts.addAll(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), true));
+			
+			List<DisplayItem> listDisplayItems = new ArrayList<DisplayItem>();
+			DisplayItemUtil.addLayoutToDisplayItemList(listDisplayItems, listLayouts);
 
-			for(Layout layout: listLayouts){
-				RequestLocalServiceUtil.addRequestFromLayout(layout, 0, scenario.getScenario_id());
+			for(DisplayItem displayItem: listDisplayItems){
+				DisplayItemUtil.addRequestFromDisplayItem(displayItem, 0, scenario.getScenario_id());
 			}
 			return scenario;
 		}
@@ -268,9 +271,8 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		String url = null;
 		RequestState status = null;
 		for (String key : parameters.keySet()){
-			
-			if (key.contains("weight")) {
-				layoutId = Integer.parseInt(key.replace("weight",""));
+			if ((key.contains("weight")) || (key.contains("portlet") && !key.contains("java"))) {
+				layoutId =  (key.contains("weight") ? Integer.parseInt(key.replace("weight","")) : Integer.parseInt(key.replace("portlet",""))) ;
 				weight = Double.parseDouble(StringUtil.merge(parameters.get(key)));
 				displayLayout = displayItemList.get(layoutId);
 				url = displayLayout.getUrl();
@@ -290,7 +292,6 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 					
 					//check if the weight of the request in db is changed then update data in db
 					if (alreadyExists && (updatedRequest.getWeight() != weight)){
-						
 						updatedRequest.setWeight(weight);
 						final List<String> errors = RequestValidator.validateRequest(updatedRequest);
 						if (errors.isEmpty()) {
@@ -303,15 +304,12 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 						}
 					}
 
-					// else Add new page
+					// else Add new page or new portlet request
 					else if (!alreadyExists) {
 						if (LOG.isInfoEnabled()){
 							LOG.info("add new request "+key+" : "+StringUtil.merge(parameters.get(key)));
 						}
-
-						final Layout layout = LayoutLocalServiceUtil.getLayout(groupId, displayLayout.isPrivateItem(), displayLayout.getLayoutId());
-
-						RequestLocalServiceUtil.addRequestFromLayout(layout, weight, idScenario);
+						DisplayItemUtil.addRequestFromDisplayItem(displayLayout, weight, idScenario);
 						LOG.info("request created and added succefully ");
 					}	
 				}

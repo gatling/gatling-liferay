@@ -302,15 +302,6 @@ public class RequestLocalServiceUtil {
 		getService().removeByScenarioId(scenarioId);
 	}
 
-	/**
-	* Store a {@link Request} with given values
-	*/
-	public static void addRequestFromLayout(
-		com.liferay.portal.model.Layout layout, double weight, long idScenario)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		getService().addRequestFromLayout(layout, weight, idScenario);
-	}
-
 	public static void clearService() {
 		_service = null;
 	}

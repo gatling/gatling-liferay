@@ -35,7 +35,7 @@ public class LinkUsecaseRequestCacheModel implements CacheModel<LinkUsecaseReque
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(11);
 
 		sb.append("{linkUsecaseRequestId=");
 		sb.append(linkUsecaseRequestId);
@@ -45,6 +45,8 @@ public class LinkUsecaseRequestCacheModel implements CacheModel<LinkUsecaseReque
 		sb.append(recordId);
 		sb.append(", weight=");
 		sb.append(weight);
+		sb.append(", sample=");
+		sb.append(sample);
 		sb.append("}");
 
 		return sb.toString();
@@ -58,6 +60,7 @@ public class LinkUsecaseRequestCacheModel implements CacheModel<LinkUsecaseReque
 		linkUsecaseRequestImpl.setRequest_id(request_id);
 		linkUsecaseRequestImpl.setRecordId(recordId);
 		linkUsecaseRequestImpl.setWeight(weight);
+		linkUsecaseRequestImpl.setSample(sample);
 
 		linkUsecaseRequestImpl.resetOriginalValues();
 
@@ -70,6 +73,7 @@ public class LinkUsecaseRequestCacheModel implements CacheModel<LinkUsecaseReque
 		request_id = objectInput.readLong();
 		recordId = objectInput.readLong();
 		weight = objectInput.readDouble();
+		sample = objectInput.readBoolean();
 	}
 
 	@Override
@@ -79,10 +83,12 @@ public class LinkUsecaseRequestCacheModel implements CacheModel<LinkUsecaseReque
 		objectOutput.writeLong(request_id);
 		objectOutput.writeLong(recordId);
 		objectOutput.writeDouble(weight);
+		objectOutput.writeBoolean(sample);
 	}
 
 	public long linkUsecaseRequestId;
 	public long request_id;
 	public long recordId;
 	public double weight;
+	public boolean sample;
 }

@@ -355,7 +355,7 @@ public class ScenarioWrapper implements Scenario, ModelWrapper<Scenario> {
 	}
 
 	@Override
-	public int compareTo(Scenario scenario) {
+	public int compareTo(com.excilys.liferay.gatling.model.Scenario scenario) {
 		return _scenario.compareTo(scenario);
 	}
 
@@ -365,17 +365,17 @@ public class ScenarioWrapper implements Scenario, ModelWrapper<Scenario> {
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<Scenario> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<com.excilys.liferay.gatling.model.Scenario> toCacheModel() {
 		return _scenario.toCacheModel();
 	}
 
 	@Override
-	public Scenario toEscapedModel() {
+	public com.excilys.liferay.gatling.model.Scenario toEscapedModel() {
 		return new ScenarioWrapper(_scenario.toEscapedModel());
 	}
 
 	@Override
-	public Scenario toUnescapedModel() {
+	public com.excilys.liferay.gatling.model.Scenario toUnescapedModel() {
 		return new ScenarioWrapper(_scenario.toUnescapedModel());
 	}
 

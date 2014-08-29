@@ -60,9 +60,10 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 			{ "linkUsecaseRequestId", Types.BIGINT },
 			{ "request_id", Types.BIGINT },
 			{ "recordId", Types.BIGINT },
-			{ "weight", Types.DOUBLE }
+			{ "weight", Types.DOUBLE },
+			{ "sample", Types.BOOLEAN }
 		};
-	public static final String TABLE_SQL_CREATE = "create table StressTool_LinkUsecaseRequest (linkUsecaseRequestId LONG not null primary key,request_id LONG,recordId LONG,weight DOUBLE)";
+	public static final String TABLE_SQL_CREATE = "create table StressTool_LinkUsecaseRequest (linkUsecaseRequestId LONG not null primary key,request_id LONG,recordId LONG,weight DOUBLE,sample BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table StressTool_LinkUsecaseRequest";
 	public static final String ORDER_BY_JPQL = " ORDER BY linkUsecaseRequest.linkUsecaseRequestId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY StressTool_LinkUsecaseRequest.linkUsecaseRequestId ASC";
@@ -120,6 +121,7 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 		attributes.put("request_id", getRequest_id());
 		attributes.put("recordId", getRecordId());
 		attributes.put("weight", getWeight());
+		attributes.put("sample", getSample());
 
 		return attributes;
 	}
@@ -148,6 +150,12 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 
 		if (weight != null) {
 			setWeight(weight);
+		}
+
+		Boolean sample = (Boolean)attributes.get("sample");
+
+		if (sample != null) {
+			setSample(sample);
 		}
 	}
 
@@ -192,6 +200,21 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 	}
 
 	@Override
+	public boolean getSample() {
+		return _sample;
+	}
+
+	@Override
+	public boolean isSample() {
+		return _sample;
+	}
+
+	@Override
+	public void setSample(boolean sample) {
+		_sample = sample;
+	}
+
+	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
 			LinkUsecaseRequest.class.getName(), getPrimaryKey());
@@ -222,6 +245,7 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 		linkUsecaseRequestImpl.setRequest_id(getRequest_id());
 		linkUsecaseRequestImpl.setRecordId(getRecordId());
 		linkUsecaseRequestImpl.setWeight(getWeight());
+		linkUsecaseRequestImpl.setSample(getSample());
 
 		linkUsecaseRequestImpl.resetOriginalValues();
 
@@ -286,12 +310,14 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 
 		linkUsecaseRequestCacheModel.weight = getWeight();
 
+		linkUsecaseRequestCacheModel.sample = getSample();
+
 		return linkUsecaseRequestCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(11);
 
 		sb.append("{linkUsecaseRequestId=");
 		sb.append(getLinkUsecaseRequestId());
@@ -301,6 +327,8 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 		sb.append(getRecordId());
 		sb.append(", weight=");
 		sb.append(getWeight());
+		sb.append(", sample=");
+		sb.append(getSample());
 		sb.append("}");
 
 		return sb.toString();
@@ -308,7 +336,7 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(16);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("<model><model-name>");
 		sb.append("com.excilys.liferay.gatling.model.LinkUsecaseRequest");
@@ -330,6 +358,10 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 			"<column><column-name>weight</column-name><column-value><![CDATA[");
 		sb.append(getWeight());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>sample</column-name><column-value><![CDATA[");
+		sb.append(getSample());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -344,5 +376,6 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 	private long _request_id;
 	private long _recordId;
 	private double _weight;
+	private boolean _sample;
 	private LinkUsecaseRequest _escapedModel;
 }
