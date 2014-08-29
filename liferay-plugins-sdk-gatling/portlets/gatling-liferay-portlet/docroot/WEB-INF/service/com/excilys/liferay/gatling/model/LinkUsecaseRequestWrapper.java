@@ -51,7 +51,7 @@ public class LinkUsecaseRequestWrapper implements LinkUsecaseRequest,
 
 		attributes.put("linkUsecaseRequestId", getLinkUsecaseRequestId());
 		attributes.put("request_id", getRequest_id());
-		attributes.put("usecaseId", getUsecaseId());
+		attributes.put("recordId", getRecordId());
 		attributes.put("weight", getWeight());
 
 		return attributes;
@@ -71,10 +71,10 @@ public class LinkUsecaseRequestWrapper implements LinkUsecaseRequest,
 			setRequest_id(request_id);
 		}
 
-		Long usecaseId = (Long)attributes.get("usecaseId");
+		Long recordId = (Long)attributes.get("recordId");
 
-		if (usecaseId != null) {
-			setUsecaseId(usecaseId);
+		if (recordId != null) {
+			setRecordId(recordId);
 		}
 
 		Double weight = (Double)attributes.get("weight");
@@ -145,23 +145,23 @@ public class LinkUsecaseRequestWrapper implements LinkUsecaseRequest,
 	}
 
 	/**
-	* Returns the usecase ID of this link usecase request.
+	* Returns the record ID of this link usecase request.
 	*
-	* @return the usecase ID of this link usecase request
+	* @return the record ID of this link usecase request
 	*/
 	@Override
-	public long getUsecaseId() {
-		return _linkUsecaseRequest.getUsecaseId();
+	public long getRecordId() {
+		return _linkUsecaseRequest.getRecordId();
 	}
 
 	/**
-	* Sets the usecase ID of this link usecase request.
+	* Sets the record ID of this link usecase request.
 	*
-	* @param usecaseId the usecase ID of this link usecase request
+	* @param recordId the record ID of this link usecase request
 	*/
 	@Override
-	public void setUsecaseId(long usecaseId) {
-		_linkUsecaseRequest.setUsecaseId(usecaseId);
+	public void setRecordId(long recordId) {
+		_linkUsecaseRequest.setRecordId(recordId);
 	}
 
 	/**
@@ -248,8 +248,7 @@ public class LinkUsecaseRequestWrapper implements LinkUsecaseRequest,
 	}
 
 	@Override
-	public int compareTo(
-		com.excilys.liferay.gatling.model.LinkUsecaseRequest linkUsecaseRequest) {
+	public int compareTo(LinkUsecaseRequest linkUsecaseRequest) {
 		return _linkUsecaseRequest.compareTo(linkUsecaseRequest);
 	}
 
@@ -259,17 +258,17 @@ public class LinkUsecaseRequestWrapper implements LinkUsecaseRequest,
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<com.excilys.liferay.gatling.model.LinkUsecaseRequest> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<LinkUsecaseRequest> toCacheModel() {
 		return _linkUsecaseRequest.toCacheModel();
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.LinkUsecaseRequest toEscapedModel() {
+	public LinkUsecaseRequest toEscapedModel() {
 		return new LinkUsecaseRequestWrapper(_linkUsecaseRequest.toEscapedModel());
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.LinkUsecaseRequest toUnescapedModel() {
+	public LinkUsecaseRequest toUnescapedModel() {
 		return new LinkUsecaseRequestWrapper(_linkUsecaseRequest.toUnescapedModel());
 	}
 

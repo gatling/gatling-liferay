@@ -31,7 +31,7 @@ public class LinkUsecaseRequestSoap implements Serializable {
 
 		soapModel.setLinkUsecaseRequestId(model.getLinkUsecaseRequestId());
 		soapModel.setRequest_id(model.getRequest_id());
-		soapModel.setUsecaseId(model.getUsecaseId());
+		soapModel.setRecordId(model.getRecordId());
 		soapModel.setWeight(model.getWeight());
 
 		return soapModel;
@@ -104,12 +104,12 @@ public class LinkUsecaseRequestSoap implements Serializable {
 		_request_id = request_id;
 	}
 
-	public long getUsecaseId() {
-		return _usecaseId;
+	public long getRecordId() {
+		return _recordId;
 	}
 
-	public void setUsecaseId(long usecaseId) {
-		_usecaseId = usecaseId;
+	public void setRecordId(long recordId) {
+		_recordId = recordId;
 	}
 
 	public double getWeight() {
@@ -122,6 +122,6 @@ public class LinkUsecaseRequestSoap implements Serializable {
 
 	private long _linkUsecaseRequestId;
 	private long _request_id;
-	private long _usecaseId;
+	private long _recordId;
 	private double _weight;
 }

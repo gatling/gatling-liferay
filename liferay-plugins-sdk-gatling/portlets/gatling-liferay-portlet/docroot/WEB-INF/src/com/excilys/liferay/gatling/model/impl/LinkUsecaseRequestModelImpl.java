@@ -59,10 +59,10 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "linkUsecaseRequestId", Types.BIGINT },
 			{ "request_id", Types.BIGINT },
-			{ "usecaseId", Types.BIGINT },
+			{ "recordId", Types.BIGINT },
 			{ "weight", Types.DOUBLE }
 		};
-	public static final String TABLE_SQL_CREATE = "create table StressTool_LinkUsecaseRequest (linkUsecaseRequestId LONG not null primary key,request_id LONG,usecaseId LONG,weight DOUBLE)";
+	public static final String TABLE_SQL_CREATE = "create table StressTool_LinkUsecaseRequest (linkUsecaseRequestId LONG not null primary key,request_id LONG,recordId LONG,weight DOUBLE)";
 	public static final String TABLE_SQL_DROP = "drop table StressTool_LinkUsecaseRequest";
 	public static final String ORDER_BY_JPQL = " ORDER BY linkUsecaseRequest.linkUsecaseRequestId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY StressTool_LinkUsecaseRequest.linkUsecaseRequestId ASC";
@@ -118,7 +118,7 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 
 		attributes.put("linkUsecaseRequestId", getLinkUsecaseRequestId());
 		attributes.put("request_id", getRequest_id());
-		attributes.put("usecaseId", getUsecaseId());
+		attributes.put("recordId", getRecordId());
 		attributes.put("weight", getWeight());
 
 		return attributes;
@@ -138,10 +138,10 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 			setRequest_id(request_id);
 		}
 
-		Long usecaseId = (Long)attributes.get("usecaseId");
+		Long recordId = (Long)attributes.get("recordId");
 
-		if (usecaseId != null) {
-			setUsecaseId(usecaseId);
+		if (recordId != null) {
+			setRecordId(recordId);
 		}
 
 		Double weight = (Double)attributes.get("weight");
@@ -172,13 +172,13 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 	}
 
 	@Override
-	public long getUsecaseId() {
-		return _usecaseId;
+	public long getRecordId() {
+		return _recordId;
 	}
 
 	@Override
-	public void setUsecaseId(long usecaseId) {
-		_usecaseId = usecaseId;
+	public void setRecordId(long recordId) {
+		_recordId = recordId;
 	}
 
 	@Override
@@ -220,7 +220,7 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 
 		linkUsecaseRequestImpl.setLinkUsecaseRequestId(getLinkUsecaseRequestId());
 		linkUsecaseRequestImpl.setRequest_id(getRequest_id());
-		linkUsecaseRequestImpl.setUsecaseId(getUsecaseId());
+		linkUsecaseRequestImpl.setRecordId(getRecordId());
 		linkUsecaseRequestImpl.setWeight(getWeight());
 
 		linkUsecaseRequestImpl.resetOriginalValues();
@@ -282,7 +282,7 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 
 		linkUsecaseRequestCacheModel.request_id = getRequest_id();
 
-		linkUsecaseRequestCacheModel.usecaseId = getUsecaseId();
+		linkUsecaseRequestCacheModel.recordId = getRecordId();
 
 		linkUsecaseRequestCacheModel.weight = getWeight();
 
@@ -297,8 +297,8 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 		sb.append(getLinkUsecaseRequestId());
 		sb.append(", request_id=");
 		sb.append(getRequest_id());
-		sb.append(", usecaseId=");
-		sb.append(getUsecaseId());
+		sb.append(", recordId=");
+		sb.append(getRecordId());
 		sb.append(", weight=");
 		sb.append(getWeight());
 		sb.append("}");
@@ -323,8 +323,8 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 		sb.append(getRequest_id());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>usecaseId</column-name><column-value><![CDATA[");
-		sb.append(getUsecaseId());
+			"<column><column-name>recordId</column-name><column-value><![CDATA[");
+		sb.append(getRecordId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>weight</column-name><column-value><![CDATA[");
@@ -342,7 +342,7 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 		};
 	private long _linkUsecaseRequestId;
 	private long _request_id;
-	private long _usecaseId;
+	private long _recordId;
 	private double _weight;
 	private LinkUsecaseRequest _escapedModel;
 }

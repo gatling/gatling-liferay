@@ -41,8 +41,8 @@ public class LinkUsecaseRequestCacheModel implements CacheModel<LinkUsecaseReque
 		sb.append(linkUsecaseRequestId);
 		sb.append(", request_id=");
 		sb.append(request_id);
-		sb.append(", usecaseId=");
-		sb.append(usecaseId);
+		sb.append(", recordId=");
+		sb.append(recordId);
 		sb.append(", weight=");
 		sb.append(weight);
 		sb.append("}");
@@ -56,7 +56,7 @@ public class LinkUsecaseRequestCacheModel implements CacheModel<LinkUsecaseReque
 
 		linkUsecaseRequestImpl.setLinkUsecaseRequestId(linkUsecaseRequestId);
 		linkUsecaseRequestImpl.setRequest_id(request_id);
-		linkUsecaseRequestImpl.setUsecaseId(usecaseId);
+		linkUsecaseRequestImpl.setRecordId(recordId);
 		linkUsecaseRequestImpl.setWeight(weight);
 
 		linkUsecaseRequestImpl.resetOriginalValues();
@@ -68,7 +68,7 @@ public class LinkUsecaseRequestCacheModel implements CacheModel<LinkUsecaseReque
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		linkUsecaseRequestId = objectInput.readLong();
 		request_id = objectInput.readLong();
-		usecaseId = objectInput.readLong();
+		recordId = objectInput.readLong();
 		weight = objectInput.readDouble();
 	}
 
@@ -77,12 +77,12 @@ public class LinkUsecaseRequestCacheModel implements CacheModel<LinkUsecaseReque
 		throws IOException {
 		objectOutput.writeLong(linkUsecaseRequestId);
 		objectOutput.writeLong(request_id);
-		objectOutput.writeLong(usecaseId);
+		objectOutput.writeLong(recordId);
 		objectOutput.writeDouble(weight);
 	}
 
 	public long linkUsecaseRequestId;
 	public long request_id;
-	public long usecaseId;
+	public long recordId;
 	public double weight;
 }

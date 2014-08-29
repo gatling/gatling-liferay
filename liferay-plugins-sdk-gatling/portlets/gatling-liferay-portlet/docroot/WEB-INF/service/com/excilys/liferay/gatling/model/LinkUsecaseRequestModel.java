@@ -85,18 +85,18 @@ public interface LinkUsecaseRequestModel extends BaseModel<LinkUsecaseRequest> {
 	public void setRequest_id(long request_id);
 
 	/**
-	 * Returns the usecase ID of this link usecase request.
+	 * Returns the record ID of this link usecase request.
 	 *
-	 * @return the usecase ID of this link usecase request
+	 * @return the record ID of this link usecase request
 	 */
-	public long getUsecaseId();
+	public long getRecordId();
 
 	/**
-	 * Sets the usecase ID of this link usecase request.
+	 * Sets the record ID of this link usecase request.
 	 *
-	 * @param usecaseId the usecase ID of this link usecase request
+	 * @param recordId the record ID of this link usecase request
 	 */
-	public void setUsecaseId(long usecaseId);
+	public void setRecordId(long recordId);
 
 	/**
 	 * Returns the weight of this link usecase request.

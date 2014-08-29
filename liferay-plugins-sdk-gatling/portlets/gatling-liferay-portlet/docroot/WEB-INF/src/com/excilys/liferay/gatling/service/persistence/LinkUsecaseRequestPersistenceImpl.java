@@ -327,7 +327,7 @@ public class LinkUsecaseRequestPersistenceImpl extends BasePersistenceImpl<LinkU
 
 		linkUsecaseRequestImpl.setLinkUsecaseRequestId(linkUsecaseRequest.getLinkUsecaseRequestId());
 		linkUsecaseRequestImpl.setRequest_id(linkUsecaseRequest.getRequest_id());
-		linkUsecaseRequestImpl.setUsecaseId(linkUsecaseRequest.getUsecaseId());
+		linkUsecaseRequestImpl.setRecordId(linkUsecaseRequest.getRecordId());
 		linkUsecaseRequestImpl.setWeight(linkUsecaseRequest.getWeight());
 
 		return linkUsecaseRequestImpl;

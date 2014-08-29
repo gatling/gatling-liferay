@@ -75,7 +75,7 @@ public class LinkUsecaseRequestClp extends BaseModelImpl<LinkUsecaseRequest>
 
 		attributes.put("linkUsecaseRequestId", getLinkUsecaseRequestId());
 		attributes.put("request_id", getRequest_id());
-		attributes.put("usecaseId", getUsecaseId());
+		attributes.put("recordId", getRecordId());
 		attributes.put("weight", getWeight());
 
 		return attributes;
@@ -95,10 +95,10 @@ public class LinkUsecaseRequestClp extends BaseModelImpl<LinkUsecaseRequest>
 			setRequest_id(request_id);
 		}
 
-		Long usecaseId = (Long)attributes.get("usecaseId");
+		Long recordId = (Long)attributes.get("recordId");
 
-		if (usecaseId != null) {
-			setUsecaseId(usecaseId);
+		if (recordId != null) {
+			setRecordId(recordId);
 		}
 
 		Double weight = (Double)attributes.get("weight");
@@ -157,21 +157,21 @@ public class LinkUsecaseRequestClp extends BaseModelImpl<LinkUsecaseRequest>
 	}
 
 	@Override
-	public long getUsecaseId() {
-		return _usecaseId;
+	public long getRecordId() {
+		return _recordId;
 	}
 
 	@Override
-	public void setUsecaseId(long usecaseId) {
-		_usecaseId = usecaseId;
+	public void setRecordId(long recordId) {
+		_recordId = recordId;
 
 		if (_linkUsecaseRequestRemoteModel != null) {
 			try {
 				Class<?> clazz = _linkUsecaseRequestRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setUsecaseId", long.class);
+				Method method = clazz.getMethod("setRecordId", long.class);
 
-				method.invoke(_linkUsecaseRequestRemoteModel, usecaseId);
+				method.invoke(_linkUsecaseRequestRemoteModel, recordId);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -275,7 +275,7 @@ public class LinkUsecaseRequestClp extends BaseModelImpl<LinkUsecaseRequest>
 
 		clone.setLinkUsecaseRequestId(getLinkUsecaseRequestId());
 		clone.setRequest_id(getRequest_id());
-		clone.setUsecaseId(getUsecaseId());
+		clone.setRecordId(getRecordId());
 		clone.setWeight(getWeight());
 
 		return clone;
@@ -331,8 +331,8 @@ public class LinkUsecaseRequestClp extends BaseModelImpl<LinkUsecaseRequest>
 		sb.append(getLinkUsecaseRequestId());
 		sb.append(", request_id=");
 		sb.append(getRequest_id());
-		sb.append(", usecaseId=");
-		sb.append(getUsecaseId());
+		sb.append(", recordId=");
+		sb.append(getRecordId());
 		sb.append(", weight=");
 		sb.append(getWeight());
 		sb.append("}");
@@ -357,8 +357,8 @@ public class LinkUsecaseRequestClp extends BaseModelImpl<LinkUsecaseRequest>
 		sb.append(getRequest_id());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>usecaseId</column-name><column-value><![CDATA[");
-		sb.append(getUsecaseId());
+			"<column><column-name>recordId</column-name><column-value><![CDATA[");
+		sb.append(getRecordId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>weight</column-name><column-value><![CDATA[");
@@ -372,7 +372,7 @@ public class LinkUsecaseRequestClp extends BaseModelImpl<LinkUsecaseRequest>
 
 	private long _linkUsecaseRequestId;
 	private long _request_id;
-	private long _usecaseId;
+	private long _recordId;
 	private double _weight;
 	private BaseModel<?> _linkUsecaseRequestRemoteModel;
 }
