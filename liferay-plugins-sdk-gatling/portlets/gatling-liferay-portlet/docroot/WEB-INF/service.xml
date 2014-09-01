@@ -51,7 +51,7 @@
 	<entity name="LinkUsecaseRequest" remote-service="false" local-service="true">
 		<column name="linkUsecaseRequestId" type="long" primary="true" />
 		<column name="request_id" type="long" />
-		<column name="recordId" type="long"/>
+		<column name="recordId" type="long" />
 		<column name="weight" type="double" />
 		<column name="sample" type="boolean"></column>
 	</entity>
@@ -60,7 +60,7 @@
 	<entity name="Record" remote-service="false" local-service="true">
 		<column name="recordId" type="long" primary="true" />
 		<column name="portletId" type="long" />
-		<column name="versionPortlet" type="long" />
+		<column name="versionLiferay" type="long" />
 		<column name="name" type="String" />
 	</entity>
 	

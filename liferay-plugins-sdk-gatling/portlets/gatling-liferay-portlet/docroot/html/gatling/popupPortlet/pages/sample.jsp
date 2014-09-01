@@ -4,7 +4,7 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 <portlet:actionURL name="editPortletSample" var="editPortletSampleURL"	windowState="pop_up" >
-	<portlet:param name="portletId" value="${pagePortletId}" />
+	<portlet:param name="portletId" value="${portletId}" />
 </portlet:actionURL>
 
 <div class="well well-small">
@@ -28,7 +28,7 @@
 		
 		</aui:form>
 		
-		<aui:form action="editPortletSampleURL" name="formPortletSample" method="POST">
+		<aui:form action="${editPortletSampleURL}" name="formPortletSample" method="POST">
 			<table class="table table-bordered table-scenario">
 				<thead>
 					<tr>
@@ -56,6 +56,7 @@
 </c:choose>
 
 <script type="text/javascript">
+
 	function addLine() {
 		AUI().use('aui-base', 'aui-node-base', function(A){
 			var idSelect = "<portlet:namespace/>"+"selectScript";
@@ -66,7 +67,13 @@
 				var one = A.one('#toPaste').html();
 				var html = A.Node.create(one);
 				html.one('#text').html(label);
-				html.one('#text').set('title',value);
+				html.one('#text').set('title',value); //sampleId
+				var weightInput = html.one('#weight').get("children");
+				console.log(" weightInput= "+ weightInput);
+				var weightName = weightInput.get('name');
+				console.log("weightName= "+weightName);
+// 				weightName = weightName + value;
+// 				html.one('#weight').set('name',value); //sampleId
 				html.appendTo('#bodyEditScript');	
 			}
 		
@@ -110,7 +117,7 @@
 <table><tbody id="toPaste">
 	<tr>
 		<td id="text" title=""></td>
-		<td><aui:input name="oue" label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input></td>
+		<td id="weight"><aui:input name="weightScenarioSample"  class="weightScenarioSample" label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input></td>
 		<td class='popup_percent'></td>
 	</tr>
 </tbody></table>

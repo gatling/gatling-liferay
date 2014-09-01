@@ -46,6 +46,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
@@ -234,13 +235,28 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	public void editPortletSample(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException {
 		LOG.debug("editPortletSample");
+		final Map<String, String[]> parameters = request.getParameterMap();
+		LOG.info("----------------------------");
+		for (String key : parameters.keySet()){
+			LOG.info(key+" : "+StringUtil.merge(parameters.get(key)));
+		}
+		LOG.info("----------------------------");
+		
+		response.setRenderParameter("pagePortletId", StringUtil.merge(parameters.get("portletId")));
 		//Scenario scenario = ScenarioLocalServiceUtil.editScenarioFromRequest(request);
 		response.setRenderParameter("page", jspEditPortlet);
 		//hack, only work this way ....
 		response.setRenderParameter("p_p_state", "pop_up");
 		PortalUtil.copyRequestParameters(request, response);
 	}
-
+	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws SystemException
+	 * @throws PortalException
+	 */
 	public void toggleRecord(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException {
 		String recordState = ParamUtil.getString(request, "nextRecordState");
 		response.setRenderParameter("recordState", recordState);

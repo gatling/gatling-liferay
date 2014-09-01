@@ -10,9 +10,9 @@ public class ListScript {
 	public static String[][] getList(String idPortlet) {
 
 		if("54".equals(idPortlet)) {
-			return new String[][] {{"Simple (only GETs)", "1"}};
+			return new String[][] {{"Simple (only GETs)", "1"}, {"Simple (only POSTs)", "2"}, {"Simple (POSTs and GETs)", "3"}};
 		} else if("56".equals(idPortlet)) {
-			return new String[][] {{"Simple (only GETs)", "1"}};
+			return new String[][] {{"Simple (only GETs)", "1"}, {"Simple (only POSTs)", "2"}, {"Simple (POSTs and GETs)", "3"}};
 		} 
 		return new String[][] {{}};
 	}
