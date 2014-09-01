@@ -68,7 +68,8 @@
 				var html = A.Node.create(one);
 				html.one('#text').html(label);
 				html.one('#text').set('title',value); //sampleId
-				var weightInput = html.one('#weight').get("children");
+				var weightdiv = html.one('#weight').get("children");
+				var weightInput = weightdiv.get("children");
 				console.log(" weightInput= "+ weightInput);
 				var weightName = weightInput.get('name');
 				console.log("weightName= "+weightName);
