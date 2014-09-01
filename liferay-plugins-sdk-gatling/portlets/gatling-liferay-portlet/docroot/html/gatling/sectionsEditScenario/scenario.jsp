@@ -234,7 +234,7 @@
 	</table>
 </aui:fieldset>
 <script type="text/javascript">
-	AUI().use('aui-base','liferay-portlet-url', function(A) {
+	AUI().use('aui-base','liferay-portlet-url','liferay-util-window', function(A) {
 		var lastChecked = null;
 		//multiselect
         var checkboxes = A.all(".checkLine");
@@ -328,21 +328,51 @@
 				renderURL.setParameter("requestId", requestId);
 				renderURL.setParameter("page","/html/gatling/popupPortlet/portletConfig.jsp");
 				renderURL.setWindowState("pop_up");
-		
-				Liferay.Util.openWindow({
+			
+				
+				var popupPortlet = Liferay.Util.openWindow({
 			   		dialog : {
 			        	modal : true,
-			            constrain : true,
+			            cache : false,
+			            draggable: false,
+			            resizable: false,
+			            closeOnEscape: false,
 			         	destroyOnClose : true,
-			            cache : false
-			        },
+			            toolbars: {
+			            	footer: [
+			            	         {
+			            	             label: 'Cancel',
+			            	             on: {
+			            	               click: function() {
+			            	            	  hidePopup();
+			            	               }
+			            	             }
+			            	           },
+			            	           {
+			            	             label: 'Save portlet configuration',
+			            	             on: {
+			            	               click: function() {
+			            	                 alert('=D');
+			            	                 hidePopup();
+			            	               }
+			            	             }
+			            	           }
+			            	         ]
+		           			}
+				        },
 			        id : "<portlet:namespace/>pop_up_portlet",
 			        title : "Page: "+pageName+" / Portlet: "+portletName,
 			        uri : renderURL.toString()
-			   });
+			   	});
+
 				
 			});
 		});
+		
+		function hidePopup() {
+			var dialog = Liferay.Util.getWindow("<portlet:namespace/>pop_up_portlet");
+ 			dialog.destroy();
+		}
 		
 		if (A.all(".checkLine:checked").size() === A.all(".checkLine").size())
 			A.one("#checkAll").set("checked", true);

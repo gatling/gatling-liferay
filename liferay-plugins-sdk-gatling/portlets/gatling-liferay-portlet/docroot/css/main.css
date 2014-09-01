@@ -30,15 +30,15 @@
 	display: none !important;
 }
 
-.empty-weight-color > td {
+.empty-weight-color>td {
 	background-color: #E5F5FC !important;
 }
 
-.success > td {
+.success>td {
 	background-color: #F1FBD1 !important;
 }
 
-.error > td {
+.error>td {
 	background-color: #FEE5E2 !important;
 }
 
@@ -52,11 +52,11 @@
 
 .small-column {
 	max-width: 230px;
-	width:230px;
+	width: 230px;
 }
 
 .inline {
-	display:inline !important;
+	display: inline !important;
 }
 
 dt {
@@ -65,4 +65,11 @@ dt {
 
 dd {
 	margin-bottom: 10px;
+}
+
+#portletRecordFrame {
+	min-height: 600px;
+	padding: 10px;
+	padding-right: 0px;
+	position: fixed;
 }

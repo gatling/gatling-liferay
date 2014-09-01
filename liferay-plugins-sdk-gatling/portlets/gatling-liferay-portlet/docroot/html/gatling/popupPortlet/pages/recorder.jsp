@@ -15,7 +15,10 @@
 
 <c:if test='${ portletId != null &&  !"0".equals(portletId) }'>
 	<aui:input name="useCaseRecordName" inlineField="true" ></aui:input>
-	<div class="btn-group inline-button">
+	<c:if test="${nextRecordState eq 'STOP' }">
+	<div style="position: fixed; width: 100%; height: 100%; top: 0px; left: 0px; z-index: 1201;" class="yui3-widget-mask"></div>
+	</c:if>
+	<div class="btn-group inline-button" style="z-index: 1202">
 		<c:choose>
 			<c:when test="${nextRecordState eq 'STOP' }">
 		 	<aui:a cssClass="btn btn-warning" href="${toggleRecordURL }"><i class="icon-stop"></i> <liferay-ui:message key="stop" /></aui:a>
@@ -27,5 +30,5 @@
 	</div>
 	<hr/>
 	<liferay-portlet:renderURL var="portletURL" portletName="${ portletId }" windowState="pop_up" doAsGroupId="${ groupId }" />
-	<iframe src="${portletURL }" width="95%" style="min-height: 600px;padding: 10px;padding-right: 0px;"></iframe>
+	<iframe id="portletRecordFrame" src="${portletURL }" width="95%" style="z-index: 1202"></iframe>
 </c:if>

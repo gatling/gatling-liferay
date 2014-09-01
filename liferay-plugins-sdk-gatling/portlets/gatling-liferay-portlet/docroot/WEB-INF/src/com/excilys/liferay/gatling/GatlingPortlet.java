@@ -584,20 +584,24 @@ public class GatlingPortlet extends MVCPortlet {
 			
 			// Check state of recording
 			String state = renderRequest.getParameter("recordState");
+			Cookie myCookie;
 			if(state != null) {
 				renderRequest.setAttribute("tabs1", "record-usecase");
 				
-				Cookie myCookie = new Cookie("GATLING_RECORD_STATE", portletId+",RECORD");
+				myCookie = new Cookie("GATLING_RECORD_STATE", portletId+",RECORD");
 				if(state.equals("RECORD")) {
 					renderRequest.setAttribute("nextRecordState", "STOP");
 				} else {
 					renderRequest.setAttribute("nextRecordState", "RECORD");
 					myCookie.setMaxAge(0);
 				}
-				CookieKeys.addCookie(PortalUtil.getHttpServletRequest(renderRequest), PortalUtil.getHttpServletResponse(renderResponse), myCookie);
+				
 			} else {
+				//Default cookie is stop
+				myCookie = new Cookie("GATLING_RECORD_STATE", portletId+",STOP");
 				renderRequest.setAttribute("nextRecordState", "RECORD");
 			}
+			CookieKeys.addCookie(PortalUtil.getHttpServletRequest(renderRequest), PortalUtil.getHttpServletResponse(renderResponse), myCookie);
 		}
 		/* redirect to jsp page */
 		include(page, renderRequest, renderResponse);

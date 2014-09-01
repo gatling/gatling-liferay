@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.util.HttpUtil;
  */
 public class RecorderFilter implements Filter {
 	private static final Log LOG = LogFactoryUtil.getLog(RecorderFilter.class);
+	private static final String GATLING_PPID="gatling_WAR_gatlingliferayportlet";
 	/**
 	 * Default constructor. 
 	 */
@@ -47,27 +48,31 @@ public class RecorderFilter implements Filter {
 	@SuppressWarnings("unchecked")
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
-
+		//Cookie is only available for our portlet (scope)
 		String state = CookieKeys.getCookie(httpRequest, "GATLING_RECORD_STATE");
+		
 		/*
 		 * Recording
 		 */
 		if(state != null) {
 			String[] infos = state.split(",");
 			String ppid = request.getParameter("p_p_id");
-			if(state != null && infos[1].equals("RECORD") && infos[0].equals(ppid)) {
+			// We do not record action on our own portlet
+			if(state != null && infos.length == 2 
+					&& !infos[0].equals(GATLING_PPID) && !ppid.equals(GATLING_PPID) 
+					&& infos[1].equals("RECORD")) {
+				LOG.info("========================");
 				HttpSession session = httpRequest.getSession();
 				if(session.getAttribute("recordURL") == null) {
 					session.setAttribute("recordURL", new ArrayList<String>());
 				}
 				List<String> recordURLs = (List<String>) session.getAttribute("recordURL");
-				LOG.info("========================");
 				String params = HttpUtil.parameterMapToString(request.getParameterMap());
 				LOG.info("URL ("+httpRequest.getMethod()+") : "+params);
 				recordURLs.add(params);
-				LOG.info("========================");
 				//Store it again
 				session.setAttribute("recordURL", recordURLs);
+				LOG.info("========================");
 			}
 		}
 		// pass the request along the filter chain
