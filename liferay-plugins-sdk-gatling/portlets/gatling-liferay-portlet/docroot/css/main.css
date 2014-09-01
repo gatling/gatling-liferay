@@ -73,3 +73,11 @@ dd {
 	padding-right: 0px;
 	position: fixed;
 }
+
+#p_p_id_gatling_WAR_gatlingliferayportlet_ .alert {
+	display: none;
+}
+
+.popup-focus {
+	z-index: 1300;
+}

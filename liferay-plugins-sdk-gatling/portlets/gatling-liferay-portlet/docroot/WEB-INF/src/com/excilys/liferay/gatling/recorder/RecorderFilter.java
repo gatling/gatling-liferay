@@ -58,21 +58,33 @@ public class RecorderFilter implements Filter {
 			String[] infos = state.split(",");
 			String ppid = request.getParameter("p_p_id");
 			// We do not record action on our own portlet
-			if(state != null && infos.length == 2 
-					&& !infos[0].equals(GATLING_PPID) && !ppid.equals(GATLING_PPID) 
-					&& infos[1].equals("RECORD")) {
-				LOG.info("========================");
-				HttpSession session = httpRequest.getSession();
-				if(session.getAttribute("recordURL") == null) {
-					session.setAttribute("recordURL", new ArrayList<String>());
+			if(state != null && infos.length == 3 // size cookie correct
+					&& !infos[0].equals(GATLING_PPID) && !ppid.equals(GATLING_PPID)) { // not gatling action
+				switch (infos[1]) {
+				case "RECORD": 
+					HttpSession session = httpRequest.getSession();
+					// get the recorded Urls list
+					if(session.getAttribute("recordURL") == null) {
+						session.setAttribute("recordURL", new ArrayList<String>());
+					}
+					List<String> recordURLs = (List<String>) session.getAttribute("recordURL");
+					
+					// get the parameters
+					String params = HttpUtil.parameterMapToString(request.getParameterMap());
+					// Display
+					LOG.info("======"+infos[2]+"======");
+					LOG.info("URL ("+httpRequest.getMethod()+") : "+params);
+					// Save
+					recordURLs.add(params);
+					// Store it again
+					session.setAttribute("recordURL", recordURLs);
+					break;
+				case "STOP":
+				default:
+					LOG.info("Stopping ...");
+					break;
 				}
-				List<String> recordURLs = (List<String>) session.getAttribute("recordURL");
-				String params = HttpUtil.parameterMapToString(request.getParameterMap());
-				LOG.info("URL ("+httpRequest.getMethod()+") : "+params);
-				recordURLs.add(params);
-				//Store it again
-				session.setAttribute("recordURL", recordURLs);
-				LOG.info("========================");
+				
 			}
 		}
 		// pass the request along the filter chain

@@ -3,8 +3,6 @@
  */
 package com.excilys.liferay.gatling;
 
-<<<<<<< HEAD
-=======
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -28,7 +26,6 @@ import javax.portlet.ResourceResponse;
 import javax.portlet.ValidatorException;
 import javax.servlet.http.Cookie;
 
->>>>>>> recorderFilter working
 import com.excilys.liferay.gatling.exception.EmptySimulation;
 import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
 import com.excilys.liferay.gatling.model.Record;
@@ -42,7 +39,6 @@ import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
-import com.excilys.liferay.gatling.service.base.LinkUsecaseRequestLocalServiceBaseImpl;
 import com.excilys.liferay.gatling.util.DisplayItem;
 import com.excilys.liferay.gatling.util.DisplayItemUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
@@ -66,28 +62,6 @@ import com.liferay.portal.service.PortletLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-import javax.portlet.PortletPreferences;
-import javax.portlet.ReadOnlyException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.portlet.ValidatorException;
 
 
 /**
@@ -587,8 +561,8 @@ public class GatlingPortlet extends MVCPortlet {
 			Cookie myCookie;
 			if(state != null) {
 				renderRequest.setAttribute("tabs1", "record-usecase");
-				
-				myCookie = new Cookie("GATLING_RECORD_STATE", portletId+",RECORD");
+				String nameUseCase = ParamUtil.getString(renderRequest, "useCaseRecordName");
+				myCookie = new Cookie("GATLING_RECORD_STATE", portletId+",RECORD,"+nameUseCase);
 				if(state.equals("RECORD")) {
 					renderRequest.setAttribute("nextRecordState", "STOP");
 				} else {

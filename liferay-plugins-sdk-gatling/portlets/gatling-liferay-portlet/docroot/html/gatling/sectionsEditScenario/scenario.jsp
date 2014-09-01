@@ -332,7 +332,7 @@
 				
 				var popupPortlet = Liferay.Util.openWindow({
 			   		dialog : {
-			        	modal : true,
+			        	modal : false,
 			            cache : false,
 			            draggable: false,
 			            resizable: false,
@@ -344,7 +344,7 @@
 			            	             label: 'Cancel',
 			            	             on: {
 			            	               click: function() {
-			            	            	  hidePopup();
+			            	            	  checkStateAndHidePopup();
 			            	               }
 			            	             }
 			            	           },
@@ -352,8 +352,7 @@
 			            	             label: 'Save portlet configuration',
 			            	             on: {
 			            	               click: function() {
-			            	                 alert('=D');
-			            	                 hidePopup();
+			            	                 checkStateAndHidePopup();
 			            	               }
 			            	             }
 			            	           }
@@ -369,9 +368,14 @@
 			});
 		});
 		
-		function hidePopup() {
+		function checkStateAndHidePopup() {
 			var dialog = Liferay.Util.getWindow("<portlet:namespace/>pop_up_portlet");
- 			dialog.destroy();
+			console.log(A.one("#<portlet:namespace/>pop_up_portlet_iframe"));
+			if(AUI().one("<portlet:namespace/>checkRecording") != null) {
+				alert("You are currently recording a use case. You have to end it in order to close the window.");
+			} else {
+	 			dialog.destroy();
+			}
 		}
 		
 		if (A.all(".checkLine:checked").size() === A.all(".checkLine").size())
