@@ -275,6 +275,11 @@ public class LinkUsecaseRequestLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	public static void savelinkUseCase(long requestId, long recordId,
+		double weight, boolean isSample) {
+		getService().savelinkUseCase(requestId, recordId, weight, isSample);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

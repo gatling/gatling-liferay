@@ -318,7 +318,7 @@ public class RecordPersistenceImpl extends BasePersistenceImpl<Record>
 
 		recordImpl.setRecordId(record.getRecordId());
 		recordImpl.setPortletId(record.getPortletId());
-		recordImpl.setVersionPortlet(record.getVersionPortlet());
+		recordImpl.setVersionLiferay(record.getVersionLiferay());
 		recordImpl.setName(record.getName());
 
 		return recordImpl;

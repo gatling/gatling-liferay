@@ -60,10 +60,10 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "recordId", Types.BIGINT },
 			{ "portletId", Types.BIGINT },
-			{ "versionPortlet", Types.BIGINT },
+			{ "versionLiferay", Types.BIGINT },
 			{ "name", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table StressTool_Record (recordId LONG not null primary key,portletId LONG,versionPortlet LONG,name VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table StressTool_Record (recordId LONG not null primary key,portletId LONG,versionLiferay LONG,name VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table StressTool_Record";
 	public static final String ORDER_BY_JPQL = " ORDER BY record.recordId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY StressTool_Record.recordId ASC";
@@ -119,7 +119,7 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 
 		attributes.put("recordId", getRecordId());
 		attributes.put("portletId", getPortletId());
-		attributes.put("versionPortlet", getVersionPortlet());
+		attributes.put("versionLiferay", getVersionLiferay());
 		attributes.put("name", getName());
 
 		return attributes;
@@ -139,10 +139,10 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 			setPortletId(portletId);
 		}
 
-		Long versionPortlet = (Long)attributes.get("versionPortlet");
+		Long versionLiferay = (Long)attributes.get("versionLiferay");
 
-		if (versionPortlet != null) {
-			setVersionPortlet(versionPortlet);
+		if (versionLiferay != null) {
+			setVersionLiferay(versionLiferay);
 		}
 
 		String name = (String)attributes.get("name");
@@ -173,13 +173,13 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 	}
 
 	@Override
-	public long getVersionPortlet() {
-		return _versionPortlet;
+	public long getVersionLiferay() {
+		return _versionLiferay;
 	}
 
 	@Override
-	public void setVersionPortlet(long versionPortlet) {
-		_versionPortlet = versionPortlet;
+	public void setVersionLiferay(long versionLiferay) {
+		_versionLiferay = versionLiferay;
 	}
 
 	@Override
@@ -226,7 +226,7 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 
 		recordImpl.setRecordId(getRecordId());
 		recordImpl.setPortletId(getPortletId());
-		recordImpl.setVersionPortlet(getVersionPortlet());
+		recordImpl.setVersionLiferay(getVersionLiferay());
 		recordImpl.setName(getName());
 
 		recordImpl.resetOriginalValues();
@@ -288,7 +288,7 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 
 		recordCacheModel.portletId = getPortletId();
 
-		recordCacheModel.versionPortlet = getVersionPortlet();
+		recordCacheModel.versionLiferay = getVersionLiferay();
 
 		recordCacheModel.name = getName();
 
@@ -309,8 +309,8 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 		sb.append(getRecordId());
 		sb.append(", portletId=");
 		sb.append(getPortletId());
-		sb.append(", versionPortlet=");
-		sb.append(getVersionPortlet());
+		sb.append(", versionLiferay=");
+		sb.append(getVersionLiferay());
 		sb.append(", name=");
 		sb.append(getName());
 		sb.append("}");
@@ -335,8 +335,8 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 		sb.append(getPortletId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>versionPortlet</column-name><column-value><![CDATA[");
-		sb.append(getVersionPortlet());
+			"<column><column-name>versionLiferay</column-name><column-value><![CDATA[");
+		sb.append(getVersionLiferay());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>name</column-name><column-value><![CDATA[");
@@ -352,7 +352,7 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 	private static Class<?>[] _escapedModelInterfaces = new Class[] { Record.class };
 	private long _recordId;
 	private long _portletId;
-	private long _versionPortlet;
+	private long _versionLiferay;
 	private String _name;
 	private Record _escapedModel;
 }

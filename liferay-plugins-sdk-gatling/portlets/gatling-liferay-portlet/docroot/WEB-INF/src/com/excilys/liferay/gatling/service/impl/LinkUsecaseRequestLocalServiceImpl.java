@@ -14,7 +14,16 @@
 
 package com.excilys.liferay.gatling.service.impl;
 
+import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
+import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.LinkUsecaseRequestLocalServiceBaseImpl;
+import com.excilys.liferay.gatling.validator.LinkUsecaseRequestValidator;
+import com.liferay.counter.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import java.util.List;
 
 /**
  * The implementation of the link usecase request local service.
@@ -37,4 +46,27 @@ public class LinkUsecaseRequestLocalServiceImpl
 	 *
 	 * Never reference this interface directly. Always use {@link com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil} to access the link usecase request local service.
 	 */
+	
+	private static final Log LOG = LogFactoryUtil.getLog(LinkUsecaseRequestLocalServiceImpl.class.getName());
+	
+	public void savelinkUseCase(long requestId, long recordId, double weight, boolean isSample){
+		long primaryKey;
+		try {
+			primaryKey = CounterLocalServiceUtil.increment(LinkUsecaseRequest.class.getName());
+			final LinkUsecaseRequest newLinkUsecaseRequest = LinkUsecaseRequestLocalServiceUtil.createLinkUsecaseRequest(primaryKey);
+			newLinkUsecaseRequest.setRequest_id(requestId);
+			newLinkUsecaseRequest.setRecordId(recordId);
+			newLinkUsecaseRequest.setWeight(weight);
+			newLinkUsecaseRequest.setSample(isSample);
+			final List<String> errors = LinkUsecaseRequestValidator.validateLinkUsecaseRequest(newLinkUsecaseRequest);
+			if(errors.isEmpty()) {
+				LinkUsecaseRequestLocalServiceUtil.addLinkUsecaseRequest(newLinkUsecaseRequest);
+			}
+		} catch (SystemException e) {
+			if (LOG.isErrorEnabled()){
+				LOG.error("unable to add new LinkUsecaseRequest");
+			}
+		}
+		
+	}
 }

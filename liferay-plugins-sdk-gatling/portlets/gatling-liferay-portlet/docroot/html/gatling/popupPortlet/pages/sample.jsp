@@ -5,6 +5,7 @@
 
 <portlet:actionURL name="editPortletSample" var="editPortletSampleURL"	windowState="pop_up" >
 	<portlet:param name="portletId" value="${portletId}" />
+	<portlet:param name="requestId" value="${requestId}" />
 </portlet:actionURL>
 
 <div class="well well-small">
@@ -68,13 +69,9 @@
 				var html = A.Node.create(one);
 				html.one('#text').html(label);
 				html.one('#text').set('title',value); //sampleId
-				var weightdiv = html.one('#weight').get("children");
-				var weightInput = weightdiv.get("children");
-				console.log(" weightInput= "+ weightInput);
-				var weightName = weightInput.get('name');
-				console.log("weightName= "+weightName);
-// 				weightName = weightName + value;
-// 				html.one('#weight').set('name',value); //sampleId
+				var weightInput = html.one('#weight').one("input");
+				var weightName = weightInput.get('name') + value;
+				weightInput.set('name',weightName); //sampleId
 				html.appendTo('#bodyEditScript');	
 			}
 		
@@ -118,7 +115,7 @@
 <table><tbody id="toPaste">
 	<tr>
 		<td id="text" title=""></td>
-		<td id="weight"><aui:input name="weightScenarioSample"  class="weightScenarioSample" label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input></td>
+		<td id="weight"><aui:input name="weightScenarioSample"  class="weightScenarioSample"   id="weightScenarioSample" label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input></td>
 		<td class='popup_percent'></td>
 	</tr>
 </tbody></table>

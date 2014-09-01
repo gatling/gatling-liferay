@@ -41,8 +41,8 @@ public class RecordCacheModel implements CacheModel<Record>, Externalizable {
 		sb.append(recordId);
 		sb.append(", portletId=");
 		sb.append(portletId);
-		sb.append(", versionPortlet=");
-		sb.append(versionPortlet);
+		sb.append(", versionLiferay=");
+		sb.append(versionLiferay);
 		sb.append(", name=");
 		sb.append(name);
 		sb.append("}");
@@ -56,7 +56,7 @@ public class RecordCacheModel implements CacheModel<Record>, Externalizable {
 
 		recordImpl.setRecordId(recordId);
 		recordImpl.setPortletId(portletId);
-		recordImpl.setVersionPortlet(versionPortlet);
+		recordImpl.setVersionLiferay(versionLiferay);
 
 		if (name == null) {
 			recordImpl.setName(StringPool.BLANK);
@@ -74,7 +74,7 @@ public class RecordCacheModel implements CacheModel<Record>, Externalizable {
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		recordId = objectInput.readLong();
 		portletId = objectInput.readLong();
-		versionPortlet = objectInput.readLong();
+		versionLiferay = objectInput.readLong();
 		name = objectInput.readUTF();
 	}
 
@@ -83,7 +83,7 @@ public class RecordCacheModel implements CacheModel<Record>, Externalizable {
 		throws IOException {
 		objectOutput.writeLong(recordId);
 		objectOutput.writeLong(portletId);
-		objectOutput.writeLong(versionPortlet);
+		objectOutput.writeLong(versionLiferay);
 
 		if (name == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -95,6 +95,6 @@ public class RecordCacheModel implements CacheModel<Record>, Externalizable {
 
 	public long recordId;
 	public long portletId;
-	public long versionPortlet;
+	public long versionLiferay;
 	public String name;
 }

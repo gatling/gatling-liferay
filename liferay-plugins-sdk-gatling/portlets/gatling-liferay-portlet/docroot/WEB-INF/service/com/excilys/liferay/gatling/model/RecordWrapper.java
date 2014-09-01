@@ -50,7 +50,7 @@ public class RecordWrapper implements Record, ModelWrapper<Record> {
 
 		attributes.put("recordId", getRecordId());
 		attributes.put("portletId", getPortletId());
-		attributes.put("versionPortlet", getVersionPortlet());
+		attributes.put("versionLiferay", getVersionLiferay());
 		attributes.put("name", getName());
 
 		return attributes;
@@ -70,10 +70,10 @@ public class RecordWrapper implements Record, ModelWrapper<Record> {
 			setPortletId(portletId);
 		}
 
-		Long versionPortlet = (Long)attributes.get("versionPortlet");
+		Long versionLiferay = (Long)attributes.get("versionLiferay");
 
-		if (versionPortlet != null) {
-			setVersionPortlet(versionPortlet);
+		if (versionLiferay != null) {
+			setVersionLiferay(versionLiferay);
 		}
 
 		String name = (String)attributes.get("name");
@@ -144,23 +144,23 @@ public class RecordWrapper implements Record, ModelWrapper<Record> {
 	}
 
 	/**
-	* Returns the version portlet of this record.
+	* Returns the version liferay of this record.
 	*
-	* @return the version portlet of this record
+	* @return the version liferay of this record
 	*/
 	@Override
-	public long getVersionPortlet() {
-		return _record.getVersionPortlet();
+	public long getVersionLiferay() {
+		return _record.getVersionLiferay();
 	}
 
 	/**
-	* Sets the version portlet of this record.
+	* Sets the version liferay of this record.
 	*
-	* @param versionPortlet the version portlet of this record
+	* @param versionLiferay the version liferay of this record
 	*/
 	@Override
-	public void setVersionPortlet(long versionPortlet) {
-		_record.setVersionPortlet(versionPortlet);
+	public void setVersionLiferay(long versionLiferay) {
+		_record.setVersionLiferay(versionLiferay);
 	}
 
 	/**

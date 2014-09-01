@@ -289,6 +289,13 @@ public class LinkUsecaseRequestLocalServiceWrapper
 			parameterTypes, arguments);
 	}
 
+	@Override
+	public void savelinkUseCase(long requestId, long recordId, double weight,
+		boolean isSample) {
+		_linkUsecaseRequestLocalService.savelinkUseCase(requestId, recordId,
+			weight, isSample);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

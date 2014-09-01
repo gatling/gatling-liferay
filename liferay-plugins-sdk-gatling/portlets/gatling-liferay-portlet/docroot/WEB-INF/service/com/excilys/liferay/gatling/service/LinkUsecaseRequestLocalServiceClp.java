@@ -115,6 +115,12 @@ public class LinkUsecaseRequestLocalServiceClp
 		_methodName17 = "setBeanIdentifier";
 
 		_methodParameterTypes17 = new String[] { "java.lang.String" };
+
+		_methodName19 = "savelinkUseCase";
+
+		_methodParameterTypes19 = new String[] {
+				"long", "long", "double", "boolean"
+			};
 	}
 
 	@Override
@@ -677,6 +683,27 @@ public class LinkUsecaseRequestLocalServiceClp
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public void savelinkUseCase(long requestId, long recordId, double weight,
+		boolean isSample) {
+		try {
+			_invokableLocalService.invokeMethod(_methodName19,
+				_methodParameterTypes19,
+				new Object[] { requestId, recordId, weight, isSample });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -714,4 +741,6 @@ public class LinkUsecaseRequestLocalServiceClp
 	private String[] _methodParameterTypes16;
 	private String _methodName17;
 	private String[] _methodParameterTypes17;
+	private String _methodName19;
+	private String[] _methodParameterTypes19;
 }

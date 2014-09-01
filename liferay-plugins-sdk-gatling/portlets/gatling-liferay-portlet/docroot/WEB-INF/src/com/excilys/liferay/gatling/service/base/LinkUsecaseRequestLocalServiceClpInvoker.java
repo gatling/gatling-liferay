@@ -113,6 +113,12 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 		_methodName53 = "setBeanIdentifier";
 
 		_methodParameterTypes53 = new String[] { "java.lang.String" };
+
+		_methodName58 = "savelinkUseCase";
+
+		_methodParameterTypes58 = new String[] {
+				"long", "long", "double", "boolean"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -216,6 +222,16 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 			return null;
 		}
 
+		if (_methodName58.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes58, parameterTypes)) {
+			LinkUsecaseRequestLocalServiceUtil.savelinkUseCase(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue(),
+				((Double)arguments[2]).doubleValue(),
+				((Boolean)arguments[3]).booleanValue());
+
+			return null;
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -255,4 +271,6 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 	private String[] _methodParameterTypes52;
 	private String _methodName53;
 	private String[] _methodParameterTypes53;
+	private String _methodName58;
+	private String[] _methodParameterTypes58;
 }

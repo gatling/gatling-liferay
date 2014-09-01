@@ -86,18 +86,18 @@ public interface RecordModel extends BaseModel<Record> {
 	public void setPortletId(long portletId);
 
 	/**
-	 * Returns the version portlet of this record.
+	 * Returns the version liferay of this record.
 	 *
-	 * @return the version portlet of this record
+	 * @return the version liferay of this record
 	 */
-	public long getVersionPortlet();
+	public long getVersionLiferay();
 
 	/**
-	 * Sets the version portlet of this record.
+	 * Sets the version liferay of this record.
 	 *
-	 * @param versionPortlet the version portlet of this record
+	 * @param versionLiferay the version liferay of this record
 	 */
-	public void setVersionPortlet(long versionPortlet);
+	public void setVersionLiferay(long versionLiferay);
 
 	/**
 	 * Returns the name of this record.

@@ -31,7 +31,7 @@ public class RecordSoap implements Serializable {
 
 		soapModel.setRecordId(model.getRecordId());
 		soapModel.setPortletId(model.getPortletId());
-		soapModel.setVersionPortlet(model.getVersionPortlet());
+		soapModel.setVersionLiferay(model.getVersionLiferay());
 		soapModel.setName(model.getName());
 
 		return soapModel;
@@ -101,12 +101,12 @@ public class RecordSoap implements Serializable {
 		_portletId = portletId;
 	}
 
-	public long getVersionPortlet() {
-		return _versionPortlet;
+	public long getVersionLiferay() {
+		return _versionLiferay;
 	}
 
-	public void setVersionPortlet(long versionPortlet) {
-		_versionPortlet = versionPortlet;
+	public void setVersionLiferay(long versionLiferay) {
+		_versionLiferay = versionLiferay;
 	}
 
 	public String getName() {
@@ -119,6 +119,6 @@ public class RecordSoap implements Serializable {
 
 	private long _recordId;
 	private long _portletId;
-	private long _versionPortlet;
+	private long _versionLiferay;
 	private String _name;
 }

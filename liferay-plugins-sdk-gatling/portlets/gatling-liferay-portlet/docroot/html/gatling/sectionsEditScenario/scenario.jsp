@@ -66,8 +66,10 @@
 			</c:if>
 			<%--Portlets --%>
 			<c:set var="portletList" />
+			
 			<c:if test="${not empty layout.pagePortlet}">
 				<c:set var="pageName" value="${layout.name}" />
+				<c:set var="parentRequestId" value="${layout.requestId}"/>
 				<c:forEach var="i" items="${layout.pagePortlet}" varStatus="info">
 				
 <%-- 					<% request.getServletContext().get %> --%>
@@ -107,7 +109,8 @@
 							class='checkLine' /></td>
 						<td><i class="icon-th-large"></i>
 							<a href="#" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px" 
-								data-portlet="${layout.name}" data-page="${pageName}" data-groupId="${layout.groupId}" data-portletId="${layout.portletId}"> 
+								data-portlet="${layout.name}" data-page="${pageName}" data-groupId="${layout.groupId}" 
+								data-portletId="${layout.portletId}" data-parent="${parentRequestId}" > 
 								 ${layout.name}  <i class="icon-wrench"></i>
 							</a>
 						</td>
@@ -316,11 +319,13 @@
 				var pageName = this.getData("page");
 				var portletName = this.getData("portlet");
 				var groupId = this.getData("groupId");
+				var requestId = this.getData("parent");;
 				//Create renderURL
 				var renderURL = Liferay.PortletURL.createRenderURL();
 				renderURL.setPortletId("gatling_WAR_gatlingliferayportlet");
 				renderURL.setParameter("pagePortletId", portletId);
 				renderURL.setParameter("groupId", groupId);
+				renderURL.setParameter("requestId", requestId);
 				renderURL.setParameter("page","/html/gatling/popupPortlet/portletConfig.jsp");
 				renderURL.setWindowState("pop_up");
 		

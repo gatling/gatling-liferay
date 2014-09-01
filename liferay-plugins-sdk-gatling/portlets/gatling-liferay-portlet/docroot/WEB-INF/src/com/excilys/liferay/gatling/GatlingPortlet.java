@@ -3,34 +3,13 @@
  */
 package com.excilys.liferay.gatling;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-import javax.portlet.PortletPreferences;
-import javax.portlet.ReadOnlyException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.portlet.ValidatorException;
-
 import com.excilys.liferay.gatling.exception.EmptySimulation;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.mustache.ListScript;
 import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
+import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
@@ -56,6 +35,28 @@ import com.liferay.portal.service.PortletLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
+import javax.portlet.ReadOnlyException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.portlet.ValidatorException;
 
 
 /**
@@ -236,11 +237,18 @@ public class GatlingPortlet extends MVCPortlet {
 	public void editPortletSample(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException {
 		LOG.debug("editPortletSample");
 		final Map<String, String[]> parameters = request.getParameterMap();
-		LOG.info("----------------------------");
+		long requestId = Long.parseLong(StringUtil.merge(parameters.get("requestId")));
+		
 		for (String key : parameters.keySet()){
-			LOG.info(key+" : "+StringUtil.merge(parameters.get(key)));
+			if(key.contains("weightScenarioSample")){
+				long recordId = Long.parseLong(key.replace("weightScenarioSample", ""));
+				String[] weights = StringUtil.merge(parameters.get(key)).split(",");
+				for(String weight : weights){
+					// add new Link use Case
+					LinkUsecaseRequestLocalServiceUtil.savelinkUseCase(requestId, recordId,  Double.parseDouble(weight), true);
+				}
+			}
 		}
-		LOG.info("----------------------------");
 		
 		response.setRenderParameter("pagePortletId", StringUtil.merge(parameters.get("portletId")));
 		//Scenario scenario = ScenarioLocalServiceUtil.editScenarioFromRequest(request);
@@ -512,12 +520,13 @@ public class GatlingPortlet extends MVCPortlet {
 			LOG.info("portletId: "+portletId);
 			String portletName = PortletLocalServiceUtil.getPortletById(portletId).getDisplayName();
 			long  groupId =  ParamUtil.getLong(renderRequest, "groupId");
-			LOG.info("portlet id= "+portletId);
+			long  requestId =  ParamUtil.getLong(renderRequest, "requestId");
 			String [][] script =  ListScript.getList( portletId.split("_")[0]);
 			renderRequest.setAttribute("script", script);
 			renderRequest.setAttribute("portletId", portletId);
 			renderRequest.setAttribute("portletN", portletName);
 			renderRequest.setAttribute("groupId", groupId);
+			renderRequest.setAttribute("requestId", requestId);
 			
 			// Check state of recording
 			String state = renderRequest.getParameter("recordState");
