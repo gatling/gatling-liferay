@@ -280,6 +280,15 @@ public class LinkUsecaseRequestLocalServiceUtil {
 		getService().savelinkUseCase(requestId, recordId, weight, isSample);
 	}
 
+	/**
+	* get {@link LinkUsecaseRequest} have this requestId
+	*/
+	public static java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest> findByRecordAndRequest(
+		long requestId, long recordId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findByRecordAndRequest(requestId, recordId);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

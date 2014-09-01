@@ -4,15 +4,19 @@
 package com.excilys.liferay.gatling;
 
 import com.excilys.liferay.gatling.exception.EmptySimulation;
+import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
+import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.mustache.ListScript;
 import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
+import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
+import com.excilys.liferay.gatling.service.base.LinkUsecaseRequestLocalServiceBaseImpl;
 import com.excilys.liferay.gatling.util.DisplayItem;
 import com.excilys.liferay.gatling.util.DisplayItemUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
@@ -522,11 +526,31 @@ public class GatlingPortlet extends MVCPortlet {
 			long  groupId =  ParamUtil.getLong(renderRequest, "groupId");
 			long  requestId =  ParamUtil.getLong(renderRequest, "requestId");
 			String [][] script =  ListScript.getList( portletId.split("_")[0]);
+			
+			//get record and Sample list in db if exists
+			Map<String, LinkUsecaseRequest>  useCaseList = new HashMap<String, LinkUsecaseRequest>();
+			try {
+				List<Record> recordList = RecordLocalServiceUtil.findByPortletAndRequest(portletId.split("_")[0]) ;
+				for (Record record : recordList) {
+					long recordId = record.getRecordId();
+					for (LinkUsecaseRequest lucr : LinkUsecaseRequestLocalServiceUtil.findByRecordAndRequest(requestId, recordId) ) {
+						useCaseList.put(record.getName(), lucr);
+					}
+//					.addAll();
+				}
+			} catch (NumberFormatException | SystemException e) {
+				if(LOG.isErrorEnabled()){
+					LOG.error("error when search for Record list: "+e.getMessage());
+				}
+			}
+			
+			LOG.info("list size= "+ useCaseList.size());
 			renderRequest.setAttribute("script", script);
 			renderRequest.setAttribute("portletId", portletId);
 			renderRequest.setAttribute("portletN", portletName);
 			renderRequest.setAttribute("groupId", groupId);
 			renderRequest.setAttribute("requestId", requestId);
+			renderRequest.setAttribute("recordAndSampleList", useCaseList);
 			
 			// Check state of recording
 			String state = renderRequest.getParameter("recordState");

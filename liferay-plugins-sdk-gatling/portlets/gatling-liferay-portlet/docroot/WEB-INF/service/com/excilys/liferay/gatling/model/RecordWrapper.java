@@ -50,7 +50,7 @@ public class RecordWrapper implements Record, ModelWrapper<Record> {
 
 		attributes.put("recordId", getRecordId());
 		attributes.put("portletId", getPortletId());
-		attributes.put("versionLiferay", getVersionLiferay());
+		attributes.put("versionPortlet", getVersionPortlet());
 		attributes.put("name", getName());
 
 		return attributes;
@@ -64,16 +64,16 @@ public class RecordWrapper implements Record, ModelWrapper<Record> {
 			setRecordId(recordId);
 		}
 
-		Long portletId = (Long)attributes.get("portletId");
+		String portletId = (String)attributes.get("portletId");
 
 		if (portletId != null) {
 			setPortletId(portletId);
 		}
 
-		Long versionLiferay = (Long)attributes.get("versionLiferay");
+		Long versionPortlet = (Long)attributes.get("versionPortlet");
 
-		if (versionLiferay != null) {
-			setVersionLiferay(versionLiferay);
+		if (versionPortlet != null) {
+			setVersionPortlet(versionPortlet);
 		}
 
 		String name = (String)attributes.get("name");
@@ -129,7 +129,7 @@ public class RecordWrapper implements Record, ModelWrapper<Record> {
 	* @return the portlet ID of this record
 	*/
 	@Override
-	public long getPortletId() {
+	public java.lang.String getPortletId() {
 		return _record.getPortletId();
 	}
 
@@ -139,28 +139,28 @@ public class RecordWrapper implements Record, ModelWrapper<Record> {
 	* @param portletId the portlet ID of this record
 	*/
 	@Override
-	public void setPortletId(long portletId) {
+	public void setPortletId(java.lang.String portletId) {
 		_record.setPortletId(portletId);
 	}
 
 	/**
-	* Returns the version liferay of this record.
+	* Returns the version portlet of this record.
 	*
-	* @return the version liferay of this record
+	* @return the version portlet of this record
 	*/
 	@Override
-	public long getVersionLiferay() {
-		return _record.getVersionLiferay();
+	public long getVersionPortlet() {
+		return _record.getVersionPortlet();
 	}
 
 	/**
-	* Sets the version liferay of this record.
+	* Sets the version portlet of this record.
 	*
-	* @param versionLiferay the version liferay of this record
+	* @param versionPortlet the version portlet of this record
 	*/
 	@Override
-	public void setVersionLiferay(long versionLiferay) {
-		_record.setVersionLiferay(versionLiferay);
+	public void setVersionPortlet(long versionPortlet) {
+		_record.setVersionPortlet(versionPortlet);
 	}
 
 	/**

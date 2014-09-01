@@ -41,8 +41,8 @@ public class RecordCacheModel implements CacheModel<Record>, Externalizable {
 		sb.append(recordId);
 		sb.append(", portletId=");
 		sb.append(portletId);
-		sb.append(", versionLiferay=");
-		sb.append(versionLiferay);
+		sb.append(", versionPortlet=");
+		sb.append(versionPortlet);
 		sb.append(", name=");
 		sb.append(name);
 		sb.append("}");
@@ -55,8 +55,15 @@ public class RecordCacheModel implements CacheModel<Record>, Externalizable {
 		RecordImpl recordImpl = new RecordImpl();
 
 		recordImpl.setRecordId(recordId);
-		recordImpl.setPortletId(portletId);
-		recordImpl.setVersionLiferay(versionLiferay);
+
+		if (portletId == null) {
+			recordImpl.setPortletId(StringPool.BLANK);
+		}
+		else {
+			recordImpl.setPortletId(portletId);
+		}
+
+		recordImpl.setVersionPortlet(versionPortlet);
 
 		if (name == null) {
 			recordImpl.setName(StringPool.BLANK);
@@ -73,8 +80,8 @@ public class RecordCacheModel implements CacheModel<Record>, Externalizable {
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		recordId = objectInput.readLong();
-		portletId = objectInput.readLong();
-		versionLiferay = objectInput.readLong();
+		portletId = objectInput.readUTF();
+		versionPortlet = objectInput.readLong();
 		name = objectInput.readUTF();
 	}
 
@@ -82,8 +89,15 @@ public class RecordCacheModel implements CacheModel<Record>, Externalizable {
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeLong(recordId);
-		objectOutput.writeLong(portletId);
-		objectOutput.writeLong(versionLiferay);
+
+		if (portletId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(portletId);
+		}
+
+		objectOutput.writeLong(versionPortlet);
 
 		if (name == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -94,7 +108,7 @@ public class RecordCacheModel implements CacheModel<Record>, Externalizable {
 	}
 
 	public long recordId;
-	public long portletId;
-	public long versionLiferay;
+	public String portletId;
+	public long versionPortlet;
 	public String name;
 }

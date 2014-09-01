@@ -119,6 +119,10 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 		_methodParameterTypes58 = new String[] {
 				"long", "long", "double", "boolean"
 			};
+
+		_methodName59 = "findByRecordAndRequest";
+
+		_methodParameterTypes59 = new String[] { "long", "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -232,6 +236,12 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 			return null;
 		}
 
+		if (_methodName59.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes59, parameterTypes)) {
+			return LinkUsecaseRequestLocalServiceUtil.findByRecordAndRequest(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue());
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -273,4 +283,6 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 	private String[] _methodParameterTypes53;
 	private String _methodName58;
 	private String[] _methodParameterTypes58;
+	private String _methodName59;
+	private String[] _methodParameterTypes59;
 }

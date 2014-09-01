@@ -17,8 +17,6 @@ package com.excilys.liferay.gatling.service.impl;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.service.base.RequestLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import java.util.List;
 
@@ -41,7 +39,6 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.liferay.sample.service.RequestLocalServiceUtil} to access the request local service.
 	 */
-	private static final Log LOG = LogFactoryUtil.getLog(RequestLocalServiceImpl.class.getName());
  
 
 	@Override

@@ -113,6 +113,10 @@ public class RecordLocalServiceClpInvoker {
 		_methodName53 = "setBeanIdentifier";
 
 		_methodParameterTypes53 = new String[] { "java.lang.String" };
+
+		_methodName58 = "findByPortletAndRequest";
+
+		_methodParameterTypes58 = new String[] { "java.lang.String" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -216,6 +220,11 @@ public class RecordLocalServiceClpInvoker {
 			return null;
 		}
 
+		if (_methodName58.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes58, parameterTypes)) {
+			return RecordLocalServiceUtil.findByPortletAndRequest((java.lang.String)arguments[0]);
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -255,4 +264,6 @@ public class RecordLocalServiceClpInvoker {
 	private String[] _methodParameterTypes52;
 	private String _methodName53;
 	private String[] _methodParameterTypes53;
+	private String _methodName58;
+	private String[] _methodParameterTypes58;
 }

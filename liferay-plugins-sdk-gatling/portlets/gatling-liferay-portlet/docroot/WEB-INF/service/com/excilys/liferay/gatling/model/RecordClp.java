@@ -74,7 +74,7 @@ public class RecordClp extends BaseModelImpl<Record> implements Record {
 
 		attributes.put("recordId", getRecordId());
 		attributes.put("portletId", getPortletId());
-		attributes.put("versionLiferay", getVersionLiferay());
+		attributes.put("versionPortlet", getVersionPortlet());
 		attributes.put("name", getName());
 
 		return attributes;
@@ -88,16 +88,16 @@ public class RecordClp extends BaseModelImpl<Record> implements Record {
 			setRecordId(recordId);
 		}
 
-		Long portletId = (Long)attributes.get("portletId");
+		String portletId = (String)attributes.get("portletId");
 
 		if (portletId != null) {
 			setPortletId(portletId);
 		}
 
-		Long versionLiferay = (Long)attributes.get("versionLiferay");
+		Long versionPortlet = (Long)attributes.get("versionPortlet");
 
-		if (versionLiferay != null) {
-			setVersionLiferay(versionLiferay);
+		if (versionPortlet != null) {
+			setVersionPortlet(versionPortlet);
 		}
 
 		String name = (String)attributes.get("name");
@@ -131,19 +131,19 @@ public class RecordClp extends BaseModelImpl<Record> implements Record {
 	}
 
 	@Override
-	public long getPortletId() {
+	public String getPortletId() {
 		return _portletId;
 	}
 
 	@Override
-	public void setPortletId(long portletId) {
+	public void setPortletId(String portletId) {
 		_portletId = portletId;
 
 		if (_recordRemoteModel != null) {
 			try {
 				Class<?> clazz = _recordRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setPortletId", long.class);
+				Method method = clazz.getMethod("setPortletId", String.class);
 
 				method.invoke(_recordRemoteModel, portletId);
 			}
@@ -154,21 +154,21 @@ public class RecordClp extends BaseModelImpl<Record> implements Record {
 	}
 
 	@Override
-	public long getVersionLiferay() {
-		return _versionLiferay;
+	public long getVersionPortlet() {
+		return _versionPortlet;
 	}
 
 	@Override
-	public void setVersionLiferay(long versionLiferay) {
-		_versionLiferay = versionLiferay;
+	public void setVersionPortlet(long versionPortlet) {
+		_versionPortlet = versionPortlet;
 
 		if (_recordRemoteModel != null) {
 			try {
 				Class<?> clazz = _recordRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setVersionLiferay", long.class);
+				Method method = clazz.getMethod("setVersionPortlet", long.class);
 
-				method.invoke(_recordRemoteModel, versionLiferay);
+				method.invoke(_recordRemoteModel, versionPortlet);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -270,7 +270,7 @@ public class RecordClp extends BaseModelImpl<Record> implements Record {
 
 		clone.setRecordId(getRecordId());
 		clone.setPortletId(getPortletId());
-		clone.setVersionLiferay(getVersionLiferay());
+		clone.setVersionPortlet(getVersionPortlet());
 		clone.setName(getName());
 
 		return clone;
@@ -326,8 +326,8 @@ public class RecordClp extends BaseModelImpl<Record> implements Record {
 		sb.append(getRecordId());
 		sb.append(", portletId=");
 		sb.append(getPortletId());
-		sb.append(", versionLiferay=");
-		sb.append(getVersionLiferay());
+		sb.append(", versionPortlet=");
+		sb.append(getVersionPortlet());
 		sb.append(", name=");
 		sb.append(getName());
 		sb.append("}");
@@ -352,8 +352,8 @@ public class RecordClp extends BaseModelImpl<Record> implements Record {
 		sb.append(getPortletId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>versionLiferay</column-name><column-value><![CDATA[");
-		sb.append(getVersionLiferay());
+			"<column><column-name>versionPortlet</column-name><column-value><![CDATA[");
+		sb.append(getVersionPortlet());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>name</column-name><column-value><![CDATA[");
@@ -366,8 +366,8 @@ public class RecordClp extends BaseModelImpl<Record> implements Record {
 	}
 
 	private long _recordId;
-	private long _portletId;
-	private long _versionLiferay;
+	private String _portletId;
+	private long _versionPortlet;
 	private String _name;
 	private BaseModel<?> _recordRemoteModel;
 }

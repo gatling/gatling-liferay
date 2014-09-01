@@ -244,4 +244,11 @@ public interface RecordLocalService extends BaseLocalService,
 	public java.lang.Object invokeMethod(java.lang.String name,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
+
+	/**
+	* get {@link Record} have this requestId
+	*/
+	public java.util.List<com.excilys.liferay.gatling.model.Record> findByPortletAndRequest(
+		java.lang.String portletId)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

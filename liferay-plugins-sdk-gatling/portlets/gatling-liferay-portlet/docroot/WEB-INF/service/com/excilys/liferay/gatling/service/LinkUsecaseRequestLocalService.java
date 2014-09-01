@@ -251,4 +251,11 @@ public interface LinkUsecaseRequestLocalService extends BaseLocalService,
 
 	public void savelinkUseCase(long requestId, long recordId, double weight,
 		boolean isSample);
+
+	/**
+	* get {@link LinkUsecaseRequest} have this requestId
+	*/
+	public java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest> findByRecordAndRequest(
+		long requestId, long recordId)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

@@ -297,6 +297,17 @@ public class LinkUsecaseRequestLocalServiceWrapper
 	}
 
 	/**
+	* get {@link LinkUsecaseRequest} have this requestId
+	*/
+	@Override
+	public java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest> findByRecordAndRequest(
+		long requestId, long recordId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _linkUsecaseRequestLocalService.findByRecordAndRequest(requestId,
+			recordId);
+	}
+
+	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */
 	public LinkUsecaseRequestLocalService getWrappedLinkUsecaseRequestLocalService() {

@@ -14,7 +14,16 @@
 
 package com.excilys.liferay.gatling.service.impl;
 
+import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
+import com.excilys.liferay.gatling.model.Record;
+import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.service.base.RecordLocalServiceBaseImpl;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+
+import java.util.List;
 
 /**
  * The implementation of the record local service.
@@ -36,4 +45,14 @@ public class RecordLocalServiceImpl extends RecordLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.excilys.liferay.gatling.service.RecordLocalServiceUtil} to access the record local service.
 	 */
+	
+	/**
+	 * get {@link Record} have this requestId
+	 */
+	public List<Record> findByPortletAndRequest(String portletId)  throws SystemException {
+		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Record.class)
+				.add(PropertyFactoryUtil.forName("portletId").eq(portletId));
+
+		return recordPersistence.findWithDynamicQuery(dq);
+	}
 }

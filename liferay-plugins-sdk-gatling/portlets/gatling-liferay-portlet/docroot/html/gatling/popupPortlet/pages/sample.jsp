@@ -32,15 +32,24 @@
 		<aui:form action="${editPortletSampleURL}" name="formPortletSample" method="POST">
 			<table class="table table-bordered table-scenario">
 				<thead>
-					<tr>
-						<th ><liferay-ui:message key="portlet-edit-sample-name" />
-						<th class="small-column"><liferay-ui:message key="scenario-edit-table-header-weight" />
-							<liferay-ui:icon-help message="weight-info-help" /></th>
-						<th class="small-column"><liferay-ui:icon-help message="percent-info-help" /></th>
-					</tr>
+					<c:if test="${ recordAndSampleList.size() != 0 }">
+						<tr>
+							<th ><liferay-ui:message key="portlet-edit-sample-name" />
+							<th class="small-column"><liferay-ui:message key="scenario-edit-table-header-weight" />
+								<liferay-ui:icon-help message="weight-info-help" /></th>
+							<th class="small-column"><liferay-ui:icon-help message="percent-info-help" /></th>
+						</tr>
+					</c:if>
 				</thead>
 				
-				<tbody id="bodyEditScript">
+				<tbody id="bodyEditScript">  
+					<c:forEach var="record" items='${ recordAndSampleList.keySet() }' varStatus="status">
+						<tr>
+							<td title="${ recordAndSampleList.get(record).recordId}">${record}</td>
+							<td ><aui:input name="weightScenarioSample${ recordAndSampleList.get(record).recordId}"  label="" value="${recordAndSampleList.get(record).weight}" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input></td>
+							<td class='popup_percent'></td>
+						</tr>
+					</c:forEach>
 				</tbody>				
 			</table>
 			
@@ -115,7 +124,7 @@
 <table><tbody id="toPaste">
 	<tr>
 		<td id="text" title=""></td>
-		<td id="weight"><aui:input name="weightScenarioSample"  class="weightScenarioSample"   id="weightScenarioSample" label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input></td>
+		<td id="weight"><aui:input name="weightScenarioSample"  label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input></td>
 		<td class='popup_percent'></td>
 	</tr>
 </tbody></table>

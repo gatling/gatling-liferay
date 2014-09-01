@@ -59,8 +59,8 @@
 	<!-- use case  -->
 	<entity name="Record" remote-service="false" local-service="true">
 		<column name="recordId" type="long" primary="true" />
-		<column name="portletId" type="long" />
-		<column name="versionLiferay" type="long" />
+		<column name="portletId" type="String" />
+		<column name="versionPortlet" type="long" />
 		<column name="name" type="String" />
 	</entity>
 	

@@ -121,6 +121,10 @@ public class LinkUsecaseRequestLocalServiceClp
 		_methodParameterTypes19 = new String[] {
 				"long", "long", "double", "boolean"
 			};
+
+		_methodName20 = "findByRecordAndRequest";
+
+		_methodParameterTypes20 = new String[] { "long", "long" };
 	}
 
 	@Override
@@ -704,6 +708,36 @@ public class LinkUsecaseRequestLocalServiceClp
 		}
 	}
 
+	@Override
+	public java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest> findByRecordAndRequest(
+		long requestId, long recordId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName20,
+					_methodParameterTypes20,
+					new Object[] { requestId, recordId });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest>)ClpSerializer.translateOutput(returnObj);
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -743,4 +777,6 @@ public class LinkUsecaseRequestLocalServiceClp
 	private String[] _methodParameterTypes17;
 	private String _methodName19;
 	private String[] _methodParameterTypes19;
+	private String _methodName20;
+	private String[] _methodParameterTypes20;
 }
