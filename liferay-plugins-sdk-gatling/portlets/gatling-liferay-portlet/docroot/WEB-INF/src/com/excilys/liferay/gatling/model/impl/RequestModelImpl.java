@@ -67,10 +67,10 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 			{ "parentPlId", Types.BIGINT },
 			{ "layoutId", Types.BIGINT },
 			{ "plId", Types.BIGINT },
-			{ "isPortlet", Types.BOOLEAN },
+			{ "portlet", Types.BOOLEAN },
 			{ "portetId", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table StressTool_Request (request_id LONG not null primary key,scenario_id LONG,name VARCHAR(75) null,url VARCHAR(75) null,weight DOUBLE,privatePage BOOLEAN,parentPlId LONG,layoutId LONG,plId LONG,isPortlet BOOLEAN,portetId VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table StressTool_Request (request_id LONG not null primary key,scenario_id LONG,name VARCHAR(75) null,url VARCHAR(75) null,weight DOUBLE,privatePage BOOLEAN,parentPlId LONG,layoutId LONG,plId LONG,portlet BOOLEAN,portetId VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table StressTool_Request";
 	public static final String ORDER_BY_JPQL = " ORDER BY request.request_id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY StressTool_Request.request_id ASC";
@@ -86,9 +86,11 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.column.bitmask.enabled.com.excilys.liferay.gatling.model.Request"),
 			true);
-	public static long SCENARIO_ID_COLUMN_BITMASK = 1L;
-	public static long WEIGHT_COLUMN_BITMASK = 2L;
-	public static long REQUEST_ID_COLUMN_BITMASK = 4L;
+	public static long PARENTPLID_COLUMN_BITMASK = 1L;
+	public static long PORTLET_COLUMN_BITMASK = 2L;
+	public static long SCENARIO_ID_COLUMN_BITMASK = 4L;
+	public static long WEIGHT_COLUMN_BITMASK = 8L;
+	public static long REQUEST_ID_COLUMN_BITMASK = 16L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.excilys.liferay.gatling.model.Request"));
 
@@ -138,7 +140,7 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 		attributes.put("parentPlId", getParentPlId());
 		attributes.put("layoutId", getLayoutId());
 		attributes.put("plId", getPlId());
-		attributes.put("isPortlet", getIsPortlet());
+		attributes.put("portlet", getPortlet());
 		attributes.put("portetId", getPortetId());
 
 		return attributes;
@@ -200,10 +202,10 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 			setPlId(plId);
 		}
 
-		Boolean isPortlet = (Boolean)attributes.get("isPortlet");
+		Boolean portlet = (Boolean)attributes.get("portlet");
 
-		if (isPortlet != null) {
-			setIsPortlet(isPortlet);
+		if (portlet != null) {
+			setPortlet(portlet);
 		}
 
 		String portetId = (String)attributes.get("portetId");
@@ -319,7 +321,19 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
 	@Override
 	public void setParentPlId(long parentPlId) {
+		_columnBitmask |= PARENTPLID_COLUMN_BITMASK;
+
+		if (!_setOriginalParentPlId) {
+			_setOriginalParentPlId = true;
+
+			_originalParentPlId = _parentPlId;
+		}
+
 		_parentPlId = parentPlId;
+	}
+
+	public long getOriginalParentPlId() {
+		return _originalParentPlId;
 	}
 
 	@Override
@@ -343,18 +357,30 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 	}
 
 	@Override
-	public boolean getIsPortlet() {
-		return _isPortlet;
+	public boolean getPortlet() {
+		return _portlet;
 	}
 
 	@Override
-	public boolean isIsPortlet() {
-		return _isPortlet;
+	public boolean isPortlet() {
+		return _portlet;
 	}
 
 	@Override
-	public void setIsPortlet(boolean isPortlet) {
-		_isPortlet = isPortlet;
+	public void setPortlet(boolean portlet) {
+		_columnBitmask |= PORTLET_COLUMN_BITMASK;
+
+		if (!_setOriginalPortlet) {
+			_setOriginalPortlet = true;
+
+			_originalPortlet = _portlet;
+		}
+
+		_portlet = portlet;
+	}
+
+	public boolean getOriginalPortlet() {
+		return _originalPortlet;
 	}
 
 	@Override
@@ -412,7 +438,7 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 		requestImpl.setParentPlId(getParentPlId());
 		requestImpl.setLayoutId(getLayoutId());
 		requestImpl.setPlId(getPlId());
-		requestImpl.setIsPortlet(getIsPortlet());
+		requestImpl.setPortlet(getPortlet());
 		requestImpl.setPortetId(getPortetId());
 
 		requestImpl.resetOriginalValues();
@@ -474,6 +500,14 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
 		requestModelImpl._setOriginalWeight = false;
 
+		requestModelImpl._originalParentPlId = requestModelImpl._parentPlId;
+
+		requestModelImpl._setOriginalParentPlId = false;
+
+		requestModelImpl._originalPortlet = requestModelImpl._portlet;
+
+		requestModelImpl._setOriginalPortlet = false;
+
 		requestModelImpl._columnBitmask = 0;
 	}
 
@@ -511,7 +545,7 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
 		requestCacheModel.plId = getPlId();
 
-		requestCacheModel.isPortlet = getIsPortlet();
+		requestCacheModel.portlet = getPortlet();
 
 		requestCacheModel.portetId = getPortetId();
 
@@ -546,8 +580,8 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 		sb.append(getLayoutId());
 		sb.append(", plId=");
 		sb.append(getPlId());
-		sb.append(", isPortlet=");
-		sb.append(getIsPortlet());
+		sb.append(", portlet=");
+		sb.append(getPortlet());
 		sb.append(", portetId=");
 		sb.append(getPortetId());
 		sb.append("}");
@@ -600,8 +634,8 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 		sb.append(getPlId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>isPortlet</column-name><column-value><![CDATA[");
-		sb.append(getIsPortlet());
+			"<column><column-name>portlet</column-name><column-value><![CDATA[");
+		sb.append(getPortlet());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>portetId</column-name><column-value><![CDATA[");
@@ -628,9 +662,13 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 	private boolean _setOriginalWeight;
 	private boolean _privatePage;
 	private long _parentPlId;
+	private long _originalParentPlId;
+	private boolean _setOriginalParentPlId;
 	private long _layoutId;
 	private long _plId;
-	private boolean _isPortlet;
+	private boolean _portlet;
+	private boolean _originalPortlet;
+	private boolean _setOriginalPortlet;
 	private String _portetId;
 	private long _columnBitmask;
 	private Request _escapedModel;

@@ -1,12 +1,12 @@
 package com.excilys.liferay.gatling.mustache.util;
 
-public class ExecSpecial {
+public class MustachePortlet {
 
 	private String object = null;
 	private String variable = null;
 	private boolean last = false;
 	
-	public ExecSpecial(String object, String variable) {
+	public MustachePortlet(String object, String variable) {
 		this.object = object;
 		this.variable = variable;
 	}

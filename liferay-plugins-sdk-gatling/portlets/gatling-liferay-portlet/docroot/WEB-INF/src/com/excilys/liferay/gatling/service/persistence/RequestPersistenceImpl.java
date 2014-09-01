@@ -82,6 +82,496 @@ public class RequestPersistenceImpl extends BasePersistenceImpl<Request>
 	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(RequestModelImpl.ENTITY_CACHE_ENABLED,
 			RequestModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PARENTPLID =
+		new FinderPath(RequestModelImpl.ENTITY_CACHE_ENABLED,
+			RequestModelImpl.FINDER_CACHE_ENABLED, RequestImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByParentPlid",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PARENTPLID =
+		new FinderPath(RequestModelImpl.ENTITY_CACHE_ENABLED,
+			RequestModelImpl.FINDER_CACHE_ENABLED, RequestImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByParentPlid",
+			new String[] { Long.class.getName() },
+			RequestModelImpl.PARENTPLID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_PARENTPLID = new FinderPath(RequestModelImpl.ENTITY_CACHE_ENABLED,
+			RequestModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByParentPlid",
+			new String[] { Long.class.getName() });
+
+	/**
+	 * Returns all the requests where parentPlId = &#63;.
+	 *
+	 * @param parentPlId the parent pl ID
+	 * @return the matching requests
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<Request> findByParentPlid(long parentPlId)
+		throws SystemException {
+		return findByParentPlid(parentPlId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the requests where parentPlId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.RequestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param parentPlId the parent pl ID
+	 * @param start the lower bound of the range of requests
+	 * @param end the upper bound of the range of requests (not inclusive)
+	 * @return the range of matching requests
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<Request> findByParentPlid(long parentPlId, int start, int end)
+		throws SystemException {
+		return findByParentPlid(parentPlId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the requests where parentPlId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.RequestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param parentPlId the parent pl ID
+	 * @param start the lower bound of the range of requests
+	 * @param end the upper bound of the range of requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching requests
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<Request> findByParentPlid(long parentPlId, int start, int end,
+		OrderByComparator orderByComparator) throws SystemException {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PARENTPLID;
+			finderArgs = new Object[] { parentPlId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PARENTPLID;
+			finderArgs = new Object[] { parentPlId, start, end, orderByComparator };
+		}
+
+		List<Request> list = (List<Request>)FinderCacheUtil.getResult(finderPath,
+				finderArgs, this);
+
+		if ((list != null) && !list.isEmpty()) {
+			for (Request request : list) {
+				if ((parentPlId != request.getParentPlId())) {
+					list = null;
+
+					break;
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 3));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_REQUEST_WHERE);
+
+			query.append(_FINDER_COLUMN_PARENTPLID_PARENTPLID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(RequestModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(parentPlId);
+
+				if (!pagination) {
+					list = (List<Request>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = new UnmodifiableList<Request>(list);
+				}
+				else {
+					list = (List<Request>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first request in the ordered set where parentPlId = &#63;.
+	 *
+	 * @param parentPlId the parent pl ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching request
+	 * @throws com.excilys.liferay.gatling.NoSuchRequestException if a matching request could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Request findByParentPlid_First(long parentPlId,
+		OrderByComparator orderByComparator)
+		throws NoSuchRequestException, SystemException {
+		Request request = fetchByParentPlid_First(parentPlId, orderByComparator);
+
+		if (request != null) {
+			return request;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("parentPlId=");
+		msg.append(parentPlId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchRequestException(msg.toString());
+	}
+
+	/**
+	 * Returns the first request in the ordered set where parentPlId = &#63;.
+	 *
+	 * @param parentPlId the parent pl ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching request, or <code>null</code> if a matching request could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Request fetchByParentPlid_First(long parentPlId,
+		OrderByComparator orderByComparator) throws SystemException {
+		List<Request> list = findByParentPlid(parentPlId, 0, 1,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last request in the ordered set where parentPlId = &#63;.
+	 *
+	 * @param parentPlId the parent pl ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching request
+	 * @throws com.excilys.liferay.gatling.NoSuchRequestException if a matching request could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Request findByParentPlid_Last(long parentPlId,
+		OrderByComparator orderByComparator)
+		throws NoSuchRequestException, SystemException {
+		Request request = fetchByParentPlid_Last(parentPlId, orderByComparator);
+
+		if (request != null) {
+			return request;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("parentPlId=");
+		msg.append(parentPlId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchRequestException(msg.toString());
+	}
+
+	/**
+	 * Returns the last request in the ordered set where parentPlId = &#63;.
+	 *
+	 * @param parentPlId the parent pl ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching request, or <code>null</code> if a matching request could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Request fetchByParentPlid_Last(long parentPlId,
+		OrderByComparator orderByComparator) throws SystemException {
+		int count = countByParentPlid(parentPlId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Request> list = findByParentPlid(parentPlId, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the requests before and after the current request in the ordered set where parentPlId = &#63;.
+	 *
+	 * @param request_id the primary key of the current request
+	 * @param parentPlId the parent pl ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next request
+	 * @throws com.excilys.liferay.gatling.NoSuchRequestException if a request with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Request[] findByParentPlid_PrevAndNext(long request_id,
+		long parentPlId, OrderByComparator orderByComparator)
+		throws NoSuchRequestException, SystemException {
+		Request request = findByPrimaryKey(request_id);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Request[] array = new RequestImpl[3];
+
+			array[0] = getByParentPlid_PrevAndNext(session, request,
+					parentPlId, orderByComparator, true);
+
+			array[1] = request;
+
+			array[2] = getByParentPlid_PrevAndNext(session, request,
+					parentPlId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Request getByParentPlid_PrevAndNext(Session session,
+		Request request, long parentPlId, OrderByComparator orderByComparator,
+		boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_REQUEST_WHERE);
+
+		query.append(_FINDER_COLUMN_PARENTPLID_PARENTPLID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(RequestModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(parentPlId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(request);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Request> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the requests where parentPlId = &#63; from the database.
+	 *
+	 * @param parentPlId the parent pl ID
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public void removeByParentPlid(long parentPlId) throws SystemException {
+		for (Request request : findByParentPlid(parentPlId, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(request);
+		}
+	}
+
+	/**
+	 * Returns the number of requests where parentPlId = &#63;.
+	 *
+	 * @param parentPlId the parent pl ID
+	 * @return the number of matching requests
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public int countByParentPlid(long parentPlId) throws SystemException {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_PARENTPLID;
+
+		Object[] finderArgs = new Object[] { parentPlId };
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_REQUEST_WHERE);
+
+			query.append(_FINDER_COLUMN_PARENTPLID_PARENTPLID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(parentPlId);
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_PARENTPLID_PARENTPLID_2 = "request.parentPlId = ?";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_SCENARIOID =
 		new FinderPath(RequestModelImpl.ENTITY_CACHE_ENABLED,
 			RequestModelImpl.FINDER_CACHE_ENABLED, RequestImpl.class,
@@ -1090,6 +1580,1113 @@ public class RequestPersistenceImpl extends BasePersistenceImpl<Request>
 
 	private static final String _FINDER_COLUMN_SCENARIOIDANDUSED_SCENARIO_ID_2 = "request.scenario_id = ? AND ";
 	private static final String _FINDER_COLUMN_SCENARIOIDANDUSED_WEIGHT_2 = "request.weight > ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_SCENARIOIDANDISNOTPORTLET =
+		new FinderPath(RequestModelImpl.ENTITY_CACHE_ENABLED,
+			RequestModelImpl.FINDER_CACHE_ENABLED, RequestImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByScenarioIdAndIsNotPortlet",
+			new String[] {
+				Long.class.getName(), Boolean.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SCENARIOIDANDISNOTPORTLET =
+		new FinderPath(RequestModelImpl.ENTITY_CACHE_ENABLED,
+			RequestModelImpl.FINDER_CACHE_ENABLED, RequestImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByScenarioIdAndIsNotPortlet",
+			new String[] { Long.class.getName(), Boolean.class.getName() },
+			RequestModelImpl.SCENARIO_ID_COLUMN_BITMASK |
+			RequestModelImpl.PORTLET_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_SCENARIOIDANDISNOTPORTLET =
+		new FinderPath(RequestModelImpl.ENTITY_CACHE_ENABLED,
+			RequestModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByScenarioIdAndIsNotPortlet",
+			new String[] { Long.class.getName(), Boolean.class.getName() });
+
+	/**
+	 * Returns all the requests where scenario_id = &#63; and portlet = &#63;.
+	 *
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @return the matching requests
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<Request> findByScenarioIdAndIsNotPortlet(long scenario_id,
+		boolean portlet) throws SystemException {
+		return findByScenarioIdAndIsNotPortlet(scenario_id, portlet,
+			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the requests where scenario_id = &#63; and portlet = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.RequestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @param start the lower bound of the range of requests
+	 * @param end the upper bound of the range of requests (not inclusive)
+	 * @return the range of matching requests
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<Request> findByScenarioIdAndIsNotPortlet(long scenario_id,
+		boolean portlet, int start, int end) throws SystemException {
+		return findByScenarioIdAndIsNotPortlet(scenario_id, portlet, start,
+			end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the requests where scenario_id = &#63; and portlet = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.RequestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @param start the lower bound of the range of requests
+	 * @param end the upper bound of the range of requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching requests
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<Request> findByScenarioIdAndIsNotPortlet(long scenario_id,
+		boolean portlet, int start, int end, OrderByComparator orderByComparator)
+		throws SystemException {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SCENARIOIDANDISNOTPORTLET;
+			finderArgs = new Object[] { scenario_id, portlet };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_SCENARIOIDANDISNOTPORTLET;
+			finderArgs = new Object[] {
+					scenario_id, portlet,
+					
+					start, end, orderByComparator
+				};
+		}
+
+		List<Request> list = (List<Request>)FinderCacheUtil.getResult(finderPath,
+				finderArgs, this);
+
+		if ((list != null) && !list.isEmpty()) {
+			for (Request request : list) {
+				if ((scenario_id != request.getScenario_id()) ||
+						(portlet != request.getPortlet())) {
+					list = null;
+
+					break;
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(4 +
+						(orderByComparator.getOrderByFields().length * 3));
+			}
+			else {
+				query = new StringBundler(4);
+			}
+
+			query.append(_SQL_SELECT_REQUEST_WHERE);
+
+			query.append(_FINDER_COLUMN_SCENARIOIDANDISNOTPORTLET_SCENARIO_ID_2);
+
+			query.append(_FINDER_COLUMN_SCENARIOIDANDISNOTPORTLET_PORTLET_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(RequestModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(scenario_id);
+
+				qPos.add(portlet);
+
+				if (!pagination) {
+					list = (List<Request>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = new UnmodifiableList<Request>(list);
+				}
+				else {
+					list = (List<Request>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first request in the ordered set where scenario_id = &#63; and portlet = &#63;.
+	 *
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching request
+	 * @throws com.excilys.liferay.gatling.NoSuchRequestException if a matching request could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Request findByScenarioIdAndIsNotPortlet_First(long scenario_id,
+		boolean portlet, OrderByComparator orderByComparator)
+		throws NoSuchRequestException, SystemException {
+		Request request = fetchByScenarioIdAndIsNotPortlet_First(scenario_id,
+				portlet, orderByComparator);
+
+		if (request != null) {
+			return request;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("scenario_id=");
+		msg.append(scenario_id);
+
+		msg.append(", portlet=");
+		msg.append(portlet);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchRequestException(msg.toString());
+	}
+
+	/**
+	 * Returns the first request in the ordered set where scenario_id = &#63; and portlet = &#63;.
+	 *
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching request, or <code>null</code> if a matching request could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Request fetchByScenarioIdAndIsNotPortlet_First(long scenario_id,
+		boolean portlet, OrderByComparator orderByComparator)
+		throws SystemException {
+		List<Request> list = findByScenarioIdAndIsNotPortlet(scenario_id,
+				portlet, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last request in the ordered set where scenario_id = &#63; and portlet = &#63;.
+	 *
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching request
+	 * @throws com.excilys.liferay.gatling.NoSuchRequestException if a matching request could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Request findByScenarioIdAndIsNotPortlet_Last(long scenario_id,
+		boolean portlet, OrderByComparator orderByComparator)
+		throws NoSuchRequestException, SystemException {
+		Request request = fetchByScenarioIdAndIsNotPortlet_Last(scenario_id,
+				portlet, orderByComparator);
+
+		if (request != null) {
+			return request;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("scenario_id=");
+		msg.append(scenario_id);
+
+		msg.append(", portlet=");
+		msg.append(portlet);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchRequestException(msg.toString());
+	}
+
+	/**
+	 * Returns the last request in the ordered set where scenario_id = &#63; and portlet = &#63;.
+	 *
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching request, or <code>null</code> if a matching request could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Request fetchByScenarioIdAndIsNotPortlet_Last(long scenario_id,
+		boolean portlet, OrderByComparator orderByComparator)
+		throws SystemException {
+		int count = countByScenarioIdAndIsNotPortlet(scenario_id, portlet);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Request> list = findByScenarioIdAndIsNotPortlet(scenario_id,
+				portlet, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the requests before and after the current request in the ordered set where scenario_id = &#63; and portlet = &#63;.
+	 *
+	 * @param request_id the primary key of the current request
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next request
+	 * @throws com.excilys.liferay.gatling.NoSuchRequestException if a request with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Request[] findByScenarioIdAndIsNotPortlet_PrevAndNext(
+		long request_id, long scenario_id, boolean portlet,
+		OrderByComparator orderByComparator)
+		throws NoSuchRequestException, SystemException {
+		Request request = findByPrimaryKey(request_id);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Request[] array = new RequestImpl[3];
+
+			array[0] = getByScenarioIdAndIsNotPortlet_PrevAndNext(session,
+					request, scenario_id, portlet, orderByComparator, true);
+
+			array[1] = request;
+
+			array[2] = getByScenarioIdAndIsNotPortlet_PrevAndNext(session,
+					request, scenario_id, portlet, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Request getByScenarioIdAndIsNotPortlet_PrevAndNext(
+		Session session, Request request, long scenario_id, boolean portlet,
+		OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_REQUEST_WHERE);
+
+		query.append(_FINDER_COLUMN_SCENARIOIDANDISNOTPORTLET_SCENARIO_ID_2);
+
+		query.append(_FINDER_COLUMN_SCENARIOIDANDISNOTPORTLET_PORTLET_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(RequestModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(scenario_id);
+
+		qPos.add(portlet);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(request);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Request> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the requests where scenario_id = &#63; and portlet = &#63; from the database.
+	 *
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public void removeByScenarioIdAndIsNotPortlet(long scenario_id,
+		boolean portlet) throws SystemException {
+		for (Request request : findByScenarioIdAndIsNotPortlet(scenario_id,
+				portlet, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(request);
+		}
+	}
+
+	/**
+	 * Returns the number of requests where scenario_id = &#63; and portlet = &#63;.
+	 *
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @return the number of matching requests
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public int countByScenarioIdAndIsNotPortlet(long scenario_id,
+		boolean portlet) throws SystemException {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_SCENARIOIDANDISNOTPORTLET;
+
+		Object[] finderArgs = new Object[] { scenario_id, portlet };
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_REQUEST_WHERE);
+
+			query.append(_FINDER_COLUMN_SCENARIOIDANDISNOTPORTLET_SCENARIO_ID_2);
+
+			query.append(_FINDER_COLUMN_SCENARIOIDANDISNOTPORTLET_PORTLET_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(scenario_id);
+
+				qPos.add(portlet);
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_SCENARIOIDANDISNOTPORTLET_SCENARIO_ID_2 =
+		"request.scenario_id = ? AND ";
+	private static final String _FINDER_COLUMN_SCENARIOIDANDISNOTPORTLET_PORTLET_2 =
+		"request.portlet = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_SCENARIOIDANDUSEDANDISNOTPORTLET =
+		new FinderPath(RequestModelImpl.ENTITY_CACHE_ENABLED,
+			RequestModelImpl.FINDER_CACHE_ENABLED, RequestImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByScenarioIdAndUsedAndIsNotPortlet",
+			new String[] {
+				Long.class.getName(), Boolean.class.getName(),
+				Double.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_SCENARIOIDANDUSEDANDISNOTPORTLET =
+		new FinderPath(RequestModelImpl.ENTITY_CACHE_ENABLED,
+			RequestModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"countByScenarioIdAndUsedAndIsNotPortlet",
+			new String[] {
+				Long.class.getName(), Boolean.class.getName(),
+				Double.class.getName()
+			});
+
+	/**
+	 * Returns all the requests where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63;.
+	 *
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @param weight the weight
+	 * @return the matching requests
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<Request> findByScenarioIdAndUsedAndIsNotPortlet(
+		long scenario_id, boolean portlet, double weight)
+		throws SystemException {
+		return findByScenarioIdAndUsedAndIsNotPortlet(scenario_id, portlet,
+			weight, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the requests where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.RequestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @param weight the weight
+	 * @param start the lower bound of the range of requests
+	 * @param end the upper bound of the range of requests (not inclusive)
+	 * @return the range of matching requests
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<Request> findByScenarioIdAndUsedAndIsNotPortlet(
+		long scenario_id, boolean portlet, double weight, int start, int end)
+		throws SystemException {
+		return findByScenarioIdAndUsedAndIsNotPortlet(scenario_id, portlet,
+			weight, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the requests where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.RequestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @param weight the weight
+	 * @param start the lower bound of the range of requests
+	 * @param end the upper bound of the range of requests (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching requests
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<Request> findByScenarioIdAndUsedAndIsNotPortlet(
+		long scenario_id, boolean portlet, double weight, int start, int end,
+		OrderByComparator orderByComparator) throws SystemException {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_SCENARIOIDANDUSEDANDISNOTPORTLET;
+		finderArgs = new Object[] {
+				scenario_id, portlet, weight,
+				
+				start, end, orderByComparator
+			};
+
+		List<Request> list = (List<Request>)FinderCacheUtil.getResult(finderPath,
+				finderArgs, this);
+
+		if ((list != null) && !list.isEmpty()) {
+			for (Request request : list) {
+				if ((scenario_id != request.getScenario_id()) ||
+						(portlet != request.getPortlet()) ||
+						(weight >= request.getWeight())) {
+					list = null;
+
+					break;
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(5 +
+						(orderByComparator.getOrderByFields().length * 3));
+			}
+			else {
+				query = new StringBundler(5);
+			}
+
+			query.append(_SQL_SELECT_REQUEST_WHERE);
+
+			query.append(_FINDER_COLUMN_SCENARIOIDANDUSEDANDISNOTPORTLET_SCENARIO_ID_2);
+
+			query.append(_FINDER_COLUMN_SCENARIOIDANDUSEDANDISNOTPORTLET_PORTLET_2);
+
+			query.append(_FINDER_COLUMN_SCENARIOIDANDUSEDANDISNOTPORTLET_WEIGHT_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(RequestModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(scenario_id);
+
+				qPos.add(portlet);
+
+				qPos.add(weight);
+
+				if (!pagination) {
+					list = (List<Request>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = new UnmodifiableList<Request>(list);
+				}
+				else {
+					list = (List<Request>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first request in the ordered set where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63;.
+	 *
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @param weight the weight
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching request
+	 * @throws com.excilys.liferay.gatling.NoSuchRequestException if a matching request could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Request findByScenarioIdAndUsedAndIsNotPortlet_First(
+		long scenario_id, boolean portlet, double weight,
+		OrderByComparator orderByComparator)
+		throws NoSuchRequestException, SystemException {
+		Request request = fetchByScenarioIdAndUsedAndIsNotPortlet_First(scenario_id,
+				portlet, weight, orderByComparator);
+
+		if (request != null) {
+			return request;
+		}
+
+		StringBundler msg = new StringBundler(8);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("scenario_id=");
+		msg.append(scenario_id);
+
+		msg.append(", portlet=");
+		msg.append(portlet);
+
+		msg.append(", weight=");
+		msg.append(weight);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchRequestException(msg.toString());
+	}
+
+	/**
+	 * Returns the first request in the ordered set where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63;.
+	 *
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @param weight the weight
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching request, or <code>null</code> if a matching request could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Request fetchByScenarioIdAndUsedAndIsNotPortlet_First(
+		long scenario_id, boolean portlet, double weight,
+		OrderByComparator orderByComparator) throws SystemException {
+		List<Request> list = findByScenarioIdAndUsedAndIsNotPortlet(scenario_id,
+				portlet, weight, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last request in the ordered set where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63;.
+	 *
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @param weight the weight
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching request
+	 * @throws com.excilys.liferay.gatling.NoSuchRequestException if a matching request could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Request findByScenarioIdAndUsedAndIsNotPortlet_Last(
+		long scenario_id, boolean portlet, double weight,
+		OrderByComparator orderByComparator)
+		throws NoSuchRequestException, SystemException {
+		Request request = fetchByScenarioIdAndUsedAndIsNotPortlet_Last(scenario_id,
+				portlet, weight, orderByComparator);
+
+		if (request != null) {
+			return request;
+		}
+
+		StringBundler msg = new StringBundler(8);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("scenario_id=");
+		msg.append(scenario_id);
+
+		msg.append(", portlet=");
+		msg.append(portlet);
+
+		msg.append(", weight=");
+		msg.append(weight);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchRequestException(msg.toString());
+	}
+
+	/**
+	 * Returns the last request in the ordered set where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63;.
+	 *
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @param weight the weight
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching request, or <code>null</code> if a matching request could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Request fetchByScenarioIdAndUsedAndIsNotPortlet_Last(
+		long scenario_id, boolean portlet, double weight,
+		OrderByComparator orderByComparator) throws SystemException {
+		int count = countByScenarioIdAndUsedAndIsNotPortlet(scenario_id,
+				portlet, weight);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Request> list = findByScenarioIdAndUsedAndIsNotPortlet(scenario_id,
+				portlet, weight, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the requests before and after the current request in the ordered set where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63;.
+	 *
+	 * @param request_id the primary key of the current request
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @param weight the weight
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next request
+	 * @throws com.excilys.liferay.gatling.NoSuchRequestException if a request with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Request[] findByScenarioIdAndUsedAndIsNotPortlet_PrevAndNext(
+		long request_id, long scenario_id, boolean portlet, double weight,
+		OrderByComparator orderByComparator)
+		throws NoSuchRequestException, SystemException {
+		Request request = findByPrimaryKey(request_id);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Request[] array = new RequestImpl[3];
+
+			array[0] = getByScenarioIdAndUsedAndIsNotPortlet_PrevAndNext(session,
+					request, scenario_id, portlet, weight, orderByComparator,
+					true);
+
+			array[1] = request;
+
+			array[2] = getByScenarioIdAndUsedAndIsNotPortlet_PrevAndNext(session,
+					request, scenario_id, portlet, weight, orderByComparator,
+					false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Request getByScenarioIdAndUsedAndIsNotPortlet_PrevAndNext(
+		Session session, Request request, long scenario_id, boolean portlet,
+		double weight, OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_REQUEST_WHERE);
+
+		query.append(_FINDER_COLUMN_SCENARIOIDANDUSEDANDISNOTPORTLET_SCENARIO_ID_2);
+
+		query.append(_FINDER_COLUMN_SCENARIOIDANDUSEDANDISNOTPORTLET_PORTLET_2);
+
+		query.append(_FINDER_COLUMN_SCENARIOIDANDUSEDANDISNOTPORTLET_WEIGHT_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(RequestModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(scenario_id);
+
+		qPos.add(portlet);
+
+		qPos.add(weight);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(request);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Request> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the requests where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63; from the database.
+	 *
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @param weight the weight
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public void removeByScenarioIdAndUsedAndIsNotPortlet(long scenario_id,
+		boolean portlet, double weight) throws SystemException {
+		for (Request request : findByScenarioIdAndUsedAndIsNotPortlet(
+				scenario_id, portlet, weight, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(request);
+		}
+	}
+
+	/**
+	 * Returns the number of requests where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63;.
+	 *
+	 * @param scenario_id the scenario_id
+	 * @param portlet the portlet
+	 * @param weight the weight
+	 * @return the number of matching requests
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public int countByScenarioIdAndUsedAndIsNotPortlet(long scenario_id,
+		boolean portlet, double weight) throws SystemException {
+		FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_COUNT_BY_SCENARIOIDANDUSEDANDISNOTPORTLET;
+
+		Object[] finderArgs = new Object[] { scenario_id, portlet, weight };
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(4);
+
+			query.append(_SQL_COUNT_REQUEST_WHERE);
+
+			query.append(_FINDER_COLUMN_SCENARIOIDANDUSEDANDISNOTPORTLET_SCENARIO_ID_2);
+
+			query.append(_FINDER_COLUMN_SCENARIOIDANDUSEDANDISNOTPORTLET_PORTLET_2);
+
+			query.append(_FINDER_COLUMN_SCENARIOIDANDUSEDANDISNOTPORTLET_WEIGHT_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(scenario_id);
+
+				qPos.add(portlet);
+
+				qPos.add(weight);
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_SCENARIOIDANDUSEDANDISNOTPORTLET_SCENARIO_ID_2 =
+		"request.scenario_id = ? AND ";
+	private static final String _FINDER_COLUMN_SCENARIOIDANDUSEDANDISNOTPORTLET_PORTLET_2 =
+		"request.portlet = ? AND ";
+	private static final String _FINDER_COLUMN_SCENARIOIDANDUSEDANDISNOTPORTLET_WEIGHT_2 =
+		"request.weight > ?";
 
 	public RequestPersistenceImpl() {
 		setModelClass(Request.class);
@@ -1314,6 +2911,25 @@ public class RequestPersistenceImpl extends BasePersistenceImpl<Request>
 
 		else {
 			if ((requestModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PARENTPLID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						requestModelImpl.getOriginalParentPlId()
+					};
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_PARENTPLID,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PARENTPLID,
+					args);
+
+				args = new Object[] { requestModelImpl.getParentPlId() };
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_PARENTPLID,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PARENTPLID,
+					args);
+			}
+
+			if ((requestModelImpl.getColumnBitmask() &
 					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SCENARIOID.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
 						requestModelImpl.getOriginalScenario_id()
@@ -1329,6 +2945,29 @@ public class RequestPersistenceImpl extends BasePersistenceImpl<Request>
 				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_SCENARIOID,
 					args);
 				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SCENARIOID,
+					args);
+			}
+
+			if ((requestModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SCENARIOIDANDISNOTPORTLET.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						requestModelImpl.getOriginalScenario_id(),
+						requestModelImpl.getOriginalPortlet()
+					};
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_SCENARIOIDANDISNOTPORTLET,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SCENARIOIDANDISNOTPORTLET,
+					args);
+
+				args = new Object[] {
+						requestModelImpl.getScenario_id(),
+						requestModelImpl.getPortlet()
+					};
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_SCENARIOIDANDISNOTPORTLET,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SCENARIOIDANDISNOTPORTLET,
 					args);
 			}
 		}
@@ -1358,7 +2997,7 @@ public class RequestPersistenceImpl extends BasePersistenceImpl<Request>
 		requestImpl.setParentPlId(request.getParentPlId());
 		requestImpl.setLayoutId(request.getLayoutId());
 		requestImpl.setPlId(request.getPlId());
-		requestImpl.setIsPortlet(request.isIsPortlet());
+		requestImpl.setPortlet(request.isPortlet());
 		requestImpl.setPortetId(request.getPortetId());
 
 		return requestImpl;

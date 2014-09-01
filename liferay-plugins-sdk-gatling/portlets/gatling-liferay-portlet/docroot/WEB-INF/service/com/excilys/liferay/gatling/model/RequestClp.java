@@ -81,7 +81,7 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 		attributes.put("parentPlId", getParentPlId());
 		attributes.put("layoutId", getLayoutId());
 		attributes.put("plId", getPlId());
-		attributes.put("isPortlet", getIsPortlet());
+		attributes.put("portlet", getPortlet());
 		attributes.put("portetId", getPortetId());
 
 		return attributes;
@@ -143,10 +143,10 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 			setPlId(plId);
 		}
 
-		Boolean isPortlet = (Boolean)attributes.get("isPortlet");
+		Boolean portlet = (Boolean)attributes.get("portlet");
 
-		if (isPortlet != null) {
-			setIsPortlet(isPortlet);
+		if (portlet != null) {
+			setPortlet(portlet);
 		}
 
 		String portetId = (String)attributes.get("portetId");
@@ -369,26 +369,26 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 	}
 
 	@Override
-	public boolean getIsPortlet() {
-		return _isPortlet;
+	public boolean getPortlet() {
+		return _portlet;
 	}
 
 	@Override
-	public boolean isIsPortlet() {
-		return _isPortlet;
+	public boolean isPortlet() {
+		return _portlet;
 	}
 
 	@Override
-	public void setIsPortlet(boolean isPortlet) {
-		_isPortlet = isPortlet;
+	public void setPortlet(boolean portlet) {
+		_portlet = portlet;
 
 		if (_requestRemoteModel != null) {
 			try {
 				Class<?> clazz = _requestRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setIsPortlet", boolean.class);
+				Method method = clazz.getMethod("setPortlet", boolean.class);
 
-				method.invoke(_requestRemoteModel, isPortlet);
+				method.invoke(_requestRemoteModel, portlet);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -516,7 +516,7 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 		clone.setParentPlId(getParentPlId());
 		clone.setLayoutId(getLayoutId());
 		clone.setPlId(getPlId());
-		clone.setIsPortlet(getIsPortlet());
+		clone.setPortlet(getPortlet());
 		clone.setPortetId(getPortetId());
 
 		return clone;
@@ -586,8 +586,8 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 		sb.append(getLayoutId());
 		sb.append(", plId=");
 		sb.append(getPlId());
-		sb.append(", isPortlet=");
-		sb.append(getIsPortlet());
+		sb.append(", portlet=");
+		sb.append(getPortlet());
 		sb.append(", portetId=");
 		sb.append(getPortetId());
 		sb.append("}");
@@ -640,8 +640,8 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 		sb.append(getPlId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>isPortlet</column-name><column-value><![CDATA[");
-		sb.append(getIsPortlet());
+			"<column><column-name>portlet</column-name><column-value><![CDATA[");
+		sb.append(getPortlet());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>portetId</column-name><column-value><![CDATA[");
@@ -662,7 +662,7 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 	private long _parentPlId;
 	private long _layoutId;
 	private long _plId;
-	private boolean _isPortlet;
+	private boolean _portlet;
 	private String _portetId;
 	private BaseModel<?> _requestRemoteModel;
 }

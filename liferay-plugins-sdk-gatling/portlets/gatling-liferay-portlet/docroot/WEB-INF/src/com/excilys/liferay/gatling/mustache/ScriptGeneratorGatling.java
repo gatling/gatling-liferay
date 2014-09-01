@@ -10,12 +10,14 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.mustache.util.AssetPublisher;
-import com.excilys.liferay.gatling.mustache.util.ExecSpecial;
+import com.excilys.liferay.gatling.mustache.util.MustachePortlet;
 import com.excilys.liferay.gatling.mustache.util.MessageBoard;
 import com.excilys.liferay.gatling.mustache.util.WikiDisplay;
+import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
@@ -32,7 +34,6 @@ public class ScriptGeneratorGatling {
 	private Set<MessageBoard> setMessageBoard = new HashSet<MessageBoard>();
 	private Set<AssetPublisher> setAssetPublisher = new HashSet<AssetPublisher>();
 	private Set<WikiDisplay> setWikiDisplay = new HashSet<WikiDisplay>();
-	private List<MustacheScenario> mustacheScenario = new ArrayList<MustacheScenario>();
 
 	public ScriptGeneratorGatling() {
 	}
@@ -42,88 +43,55 @@ public class ScriptGeneratorGatling {
 		this.simulationId = simulationId;
 	}
 
-	public void initiate() throws Exception{
-		generateMustacheScenario();
-	}
-
-
-	public void generateMustacheScenario() throws Exception{
+	public List<MustacheScenario> mustacheScenario() throws Exception{
 
 		final List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
-		final List<MustacheScenario> list = new ArrayList<MustacheScenario>();
+		final List<MustacheScenario> listMustacheScenario = new ArrayList<MustacheScenario>();
 		for (int i = 0; i < listScenario.size(); i++) {
 
 			final Scenario sc = listScenario.get(i);
-			final List<MustacheRequest> mustacheRequests = new ArrayList<MustacheRequest>();
+			final List<MustacheRequest> listMustacheRequest = new ArrayList<MustacheRequest>();
 			final List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId( sc.getScenario_id());
 			double totalWeight = getTotalWeight(sc);
 			double currentSumWeight = 0;
 			double weight = 0;
 			for (int j = 0; j < listRequest.size(); j++) {
 				final Request rq = listRequest.get(j);
-				if(rq.getWeight() > 0) {						
-					String site = sc.getUrl_site();
-					weight = (double) ((int)((int) rq.getWeight()*10000/totalWeight))/100;
-					currentSumWeight += weight;
-					//private url
-					if(rq.isPrivatePage()) {
-						site = site.replace("/web/", "/group/");
-					}
-					MustacheRequest mr = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , false);
+				if(rq.getWeight() > 0) {			
 
-					fillPortlets(sc.getGroup_id(), rq.getPrivatePage(), rq.getLayoutId(), mr);
-					mustacheRequests.add(mr);
+					if(! rq.isPortlet()){
+						String site = sc.getUrl_site();
+						weight = (double) ((int)((int) rq.getWeight()*10000/totalWeight))/100;
+						currentSumWeight += weight;
+						//private url
+						if(rq.isPrivatePage()) {
+							site = site.replace("/web/", "/group/");
+						}
+						
+						//has portlets for the script to stress
+						int size = RequestLocalServiceUtil.countByParentPlid(rq.getPlId());
+						System.out.println("size: " + size);
+						MustacheRequest mustacheRequest = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , false, size == 0);
+						listMustacheRequest.add(mustacheRequest);
+//					} else if (LinkUsecaseRequestLocalServiceUtil.countByRequestIdAndUsed(rq.getRequest_id()) > 0){
+//						List<LinkUsecaseRequest> listPortlet = LinkUsecaseRequestLocalServiceUtil.findByRequestIdAndUsed(rq.getRequest_id());
+//						// field the listPortlet
+//						for (LinkUsecaseRequest linkUsecaseRequest : listPortlet) {
+//							
+//						}
+//						
+					}
 				}
 			}
 			final double lastWeight = (double) (int)( (100-currentSumWeight+weight)*100)/100;
-			mustacheRequests.get(mustacheRequests.size()-1).setWeight(lastWeight).setLast(true).setScenarioId(sc.getScenario_id());
-			final MustacheScenario ms = new MustacheScenario(sc.getVariableName(),sc.getUsers_per_seconds(), sc.getDuration(), (i+1) == listScenario.size() ? true : false, mustacheRequests);
-			list.add(ms);
+			listMustacheRequest.get(listMustacheRequest.size()-1).setWeight(lastWeight).setLast(true).setScenarioId(sc.getScenario_id());
+			final MustacheScenario mustacheScenario = new MustacheScenario(sc.getVariableName(),sc.getUsers_per_seconds(), sc.getDuration(), (i+1) == listScenario.size() ? true : false, listMustacheRequest);
+			listMustacheScenario.add(mustacheScenario);
 		}
 
-		mustacheScenario.addAll(list);
+		return listMustacheScenario;
 	}
 
-	/*TO IMPROVE*/
-	private void fillPortlets(long group_id, boolean privatePage, long layoutId, MustacheRequest mr) throws Exception{
-
-		Layout layout = LayoutLocalServiceUtil.getLayout(group_id, privatePage, layoutId);
-
-
-		Pattern p = Pattern.compile("column-\\d=([0-9a-zA-Z,_])+\\n");
-		Matcher m =p.matcher(layout.getTypeSettings());
-
-		List<PortletPreferences> pp = PortletPreferencesLocalServiceUtil.getPortletPreferencesByPlid(layout.getPlid());
-		for (PortletPreferences portletPreferences : pp) {
-			final String portletId = portletPreferences.getPortletId();
-			System.out.println(portletId);
-
-			  // 19 Message Boards
-			if( new String("19").equals(portletId)) {
-				// ===> will be simple script
-				this.setMessageBoard.add( new MessageBoard(mr.getUrl(), mr.getName()));
-				mr.addListExecSpecial(new ExecSpecial("MessageBoard", mr.getName()));
-				//more wirdo on! Have a Post Script! Need log!
-
-			} // 101 Asset Publisher
-			else if( new String("101").equals(portletId)) {
-				this.setAssetPublisher.add(new AssetPublisher(mr.getUrl(), mr.getName()));
-				mr.addListExecSpecial(new ExecSpecial("AssetPublisher", mr.getName()));	
-
-			} // 54 Wiki Display
-			else if( new String("54").equals(portletId.split("_")[0])) {
-				this.setWikiDisplay.add(new WikiDisplay(mr.getUrl(), mr.getName(), portletId, m.group().substring(0, 8)));
-				mr.addListExecSpecial(new ExecSpecial("WikiDisplay", mr.getName()));				
-			} // 71 Navigation
-			else if( new String("71").equals(portletId.split("_")[0])) {				
-			} 
-		}
-		System.out.println("--------------");
-		if(!mr.listExecSpecialEmpty()) {
-			mr.setNotRegular(true);
-			mr.setRegular(false);			
-		}
-	}
 
 	public Set<WikiDisplay> wikiDisplay() {
 		return this.setWikiDisplay;
@@ -159,15 +127,6 @@ public class ScriptGeneratorGatling {
 	public String getSimuName() {
 		return simuName;
 	}
-
-	public List<MustacheScenario> getMustacheScenario() {
-		return mustacheScenario;
-	}
-
-	public void setMustacheScenario(List<MustacheScenario> mustacheScenario) {
-		this.mustacheScenario = mustacheScenario;
-	}
-
 
 
 }

@@ -4,7 +4,7 @@
 package com.excilys.liferay.gatling.mustache;
 
 import com.excilys.liferay.gatling.model.Request;
-import com.excilys.liferay.gatling.mustache.util.ExecSpecial;
+import com.excilys.liferay.gatling.mustache.util.MustachePortlet;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 
@@ -17,15 +17,15 @@ public class MustacheRequest {
 	private double pourcentage;
 	private boolean last, notRegular, regular;
 	private long scenarioId;
-	private List<ExecSpecial> listExecSpecial = new ArrayList<ExecSpecial>();
+	private List<MustachePortlet> listMustachePortlet = new ArrayList<MustachePortlet>();
 	
-	MustacheRequest(String name, String url, double d, boolean last) {
+	MustacheRequest(String name, String url, double d, boolean last, boolean regular) {
 		this.url = url;
 		this.name = name;
 		this.pourcentage = d;
 		this.last = last;
-		this.regular = true;
-		this.notRegular = false;
+		this.regular = regular;
+		this.notRegular = !regular;
 	}
 
 	public String getName() {
@@ -106,29 +106,29 @@ public class MustacheRequest {
 		this.regular = regular;
 	}
 
-	public List<ExecSpecial> getExecSpecial() {
-		setLastListExecSpecial();
-		return listExecSpecial;
+	public List<MustachePortlet> getExecSpecial() {
+		setLastListMustachePortlet();
+		return listMustachePortlet;
 	}
 
-	public void setListExecSpecial(List<ExecSpecial> listExecSpecial) {
-		this.listExecSpecial = listExecSpecial;
+	public void setListMustachePortlet(List<MustachePortlet> listMustachePortlet) {
+		this.listMustachePortlet = listMustachePortlet;
 	}
 	
-	public void addListExecSpecial(ExecSpecial listExecSpecial) {
-		this.listExecSpecial.add(listExecSpecial);
+	public void addListMustachePortlet(MustachePortlet listMustachePortlet) {
+		this.listMustachePortlet.add(listMustachePortlet);
 	}
 	
 
 	
-	private void setLastListExecSpecial() {
-		if(!listExecSpecial.isEmpty()) {
-			listExecSpecial.get(listExecSpecial.size()-1).setLast(true);
+	private void setLastListMustachePortlet() {
+		if(!listMustachePortlet.isEmpty()) {
+			listMustachePortlet.get(listMustachePortlet.size()-1).setLast(true);
 		}		
 	}
 
-	public boolean listExecSpecialEmpty() {
-		return listExecSpecial.isEmpty();
+	public boolean listMustachePortletEmpty() {
+		return listMustachePortlet.isEmpty();
 	}
 	
 

@@ -211,7 +211,7 @@ public class DisplayItemUtil {
 		newRequest.setPrivatePage(displayItem.isPrivateItem());
 		newRequest.setLayoutId(displayItem.getLayoutId());
 		newRequest.setParentPlId(displayItem.getParentDisplayId());
-		newRequest.setIsPortlet(displayItem.isPortlet());
+		newRequest.setPortlet(displayItem.isPortlet());
 		newRequest.setPortetId(displayItem.getPortletId());
 		// Saving ...
 		final List<String> errors = RequestValidator.validateRequest(newRequest);

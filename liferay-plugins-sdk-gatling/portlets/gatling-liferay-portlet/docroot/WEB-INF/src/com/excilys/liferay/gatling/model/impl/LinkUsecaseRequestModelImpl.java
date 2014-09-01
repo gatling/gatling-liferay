@@ -76,7 +76,12 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.finder.cache.enabled.com.excilys.liferay.gatling.model.LinkUsecaseRequest"),
 			true);
-	public static final boolean COLUMN_BITMASK_ENABLED = false;
+	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
+				"value.object.column.bitmask.enabled.com.excilys.liferay.gatling.model.LinkUsecaseRequest"),
+			true);
+	public static long REQUEST_ID_COLUMN_BITMASK = 1L;
+	public static long WEIGHT_COLUMN_BITMASK = 2L;
+	public static long LINKUSECASEREQUESTID_COLUMN_BITMASK = 4L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.excilys.liferay.gatling.model.LinkUsecaseRequest"));
 
@@ -176,7 +181,19 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 
 	@Override
 	public void setRequest_id(long request_id) {
+		_columnBitmask |= REQUEST_ID_COLUMN_BITMASK;
+
+		if (!_setOriginalRequest_id) {
+			_setOriginalRequest_id = true;
+
+			_originalRequest_id = _request_id;
+		}
+
 		_request_id = request_id;
+	}
+
+	public long getOriginalRequest_id() {
+		return _originalRequest_id;
 	}
 
 	@Override
@@ -196,7 +213,19 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 
 	@Override
 	public void setWeight(double weight) {
+		_columnBitmask |= WEIGHT_COLUMN_BITMASK;
+
+		if (!_setOriginalWeight) {
+			_setOriginalWeight = true;
+
+			_originalWeight = _weight;
+		}
+
 		_weight = weight;
+	}
+
+	public double getOriginalWeight() {
+		return _originalWeight;
 	}
 
 	@Override
@@ -212,6 +241,10 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 	@Override
 	public void setSample(boolean sample) {
 		_sample = sample;
+	}
+
+	public long getColumnBitmask() {
+		return _columnBitmask;
 	}
 
 	@Override
@@ -296,6 +329,17 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 
 	@Override
 	public void resetOriginalValues() {
+		LinkUsecaseRequestModelImpl linkUsecaseRequestModelImpl = this;
+
+		linkUsecaseRequestModelImpl._originalRequest_id = linkUsecaseRequestModelImpl._request_id;
+
+		linkUsecaseRequestModelImpl._setOriginalRequest_id = false;
+
+		linkUsecaseRequestModelImpl._originalWeight = linkUsecaseRequestModelImpl._weight;
+
+		linkUsecaseRequestModelImpl._setOriginalWeight = false;
+
+		linkUsecaseRequestModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -374,8 +418,13 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 		};
 	private long _linkUsecaseRequestId;
 	private long _request_id;
+	private long _originalRequest_id;
+	private boolean _setOriginalRequest_id;
 	private long _recordId;
 	private double _weight;
+	private double _originalWeight;
+	private boolean _setOriginalWeight;
 	private boolean _sample;
+	private long _columnBitmask;
 	private LinkUsecaseRequest _escapedModel;
 }

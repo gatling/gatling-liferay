@@ -116,15 +116,28 @@ public class LinkUsecaseRequestLocalServiceClp
 
 		_methodParameterTypes17 = new String[] { "java.lang.String" };
 
+<<<<<<< HEAD
 		_methodName19 = "savelinkUseCase";
 
 		_methodParameterTypes19 = new String[] {
 				"long", "long", "double", "boolean"
 			};
+<<<<<<< HEAD
 
 		_methodName20 = "findByRecordAndRequest";
 
 		_methodParameterTypes20 = new String[] { "long", "long" };
+=======
+=======
+		_methodName19 = "findByRequestIdAndUsed";
+
+		_methodParameterTypes19 = new String[] { "long" };
+
+		_methodName20 = "countByRequestIdAndUsed";
+
+		_methodParameterTypes20 = new String[] { "long" };
+>>>>>>> template +service.xml + gatlingportlet (count of request) update
+>>>>>>> template +service.xml + gatlingportlet (count of request) update
 	}
 
 	@Override
@@ -688,15 +701,29 @@ public class LinkUsecaseRequestLocalServiceClp
 	}
 
 	@Override
+<<<<<<< HEAD
 	public void savelinkUseCase(long requestId, long recordId, double weight,
 		boolean isSample) {
 		try {
 			_invokableLocalService.invokeMethod(_methodName19,
 				_methodParameterTypes19,
 				new Object[] { requestId, recordId, weight, isSample });
+=======
+	public java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest> findByRequestIdAndUsed(
+		long requestId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName19,
+					_methodParameterTypes19, new Object[] { requestId });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
 
 			if (t instanceof RuntimeException) {
 				throw (RuntimeException)t;
@@ -706,6 +733,43 @@ public class LinkUsecaseRequestLocalServiceClp
 					" is not a valid exception");
 			}
 		}
+
+		return (java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public int countByRequestIdAndUsed(long requestId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName20,
+					_methodParameterTypes20, new Object[] { requestId });
+>>>>>>> template +service.xml + gatlingportlet (count of request) update
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+<<<<<<< HEAD
+=======
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+>>>>>>> template +service.xml + gatlingportlet (count of request) update
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+<<<<<<< HEAD
+=======
+
+		return ((Integer)returnObj).intValue();
+>>>>>>> template +service.xml + gatlingportlet (count of request) update
 	}
 
 	@Override
@@ -777,6 +841,14 @@ public class LinkUsecaseRequestLocalServiceClp
 	private String[] _methodParameterTypes17;
 	private String _methodName19;
 	private String[] _methodParameterTypes19;
+<<<<<<< HEAD
 	private String _methodName20;
 	private String[] _methodParameterTypes20;
+=======
+<<<<<<< HEAD
+=======
+	private String _methodName20;
+	private String[] _methodParameterTypes20;
+>>>>>>> template +service.xml + gatlingportlet (count of request) update
+>>>>>>> template +service.xml + gatlingportlet (count of request) update
 }

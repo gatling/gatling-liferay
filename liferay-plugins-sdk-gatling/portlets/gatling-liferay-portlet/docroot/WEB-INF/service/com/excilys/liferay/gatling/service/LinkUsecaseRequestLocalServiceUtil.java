@@ -275,9 +275,21 @@ public class LinkUsecaseRequestLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+<<<<<<< HEAD
 	public static void savelinkUseCase(long requestId, long recordId,
 		double weight, boolean isSample) {
 		getService().savelinkUseCase(requestId, recordId, weight, isSample);
+=======
+	public static java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest> findByRequestIdAndUsed(
+		long requestId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findByRequestIdAndUsed(requestId);
+	}
+
+	public static int countByRequestIdAndUsed(long requestId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().countByRequestIdAndUsed(requestId);
+>>>>>>> template +service.xml + gatlingportlet (count of request) update
 	}
 
 	/**

@@ -57,7 +57,7 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
 		attributes.put("parentPlId", getParentPlId());
 		attributes.put("layoutId", getLayoutId());
 		attributes.put("plId", getPlId());
-		attributes.put("isPortlet", getIsPortlet());
+		attributes.put("portlet", getPortlet());
 		attributes.put("portetId", getPortetId());
 
 		return attributes;
@@ -119,10 +119,10 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
 			setPlId(plId);
 		}
 
-		Boolean isPortlet = (Boolean)attributes.get("isPortlet");
+		Boolean portlet = (Boolean)attributes.get("portlet");
 
-		if (isPortlet != null) {
-			setIsPortlet(isPortlet);
+		if (portlet != null) {
+			setPortlet(portlet);
 		}
 
 		String portetId = (String)attributes.get("portetId");
@@ -343,33 +343,33 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
 	}
 
 	/**
-	* Returns the is portlet of this request.
+	* Returns the portlet of this request.
 	*
-	* @return the is portlet of this request
+	* @return the portlet of this request
 	*/
 	@Override
-	public boolean getIsPortlet() {
-		return _request.getIsPortlet();
+	public boolean getPortlet() {
+		return _request.getPortlet();
 	}
 
 	/**
-	* Returns <code>true</code> if this request is is portlet.
+	* Returns <code>true</code> if this request is portlet.
 	*
-	* @return <code>true</code> if this request is is portlet; <code>false</code> otherwise
+	* @return <code>true</code> if this request is portlet; <code>false</code> otherwise
 	*/
 	@Override
-	public boolean isIsPortlet() {
-		return _request.isIsPortlet();
+	public boolean isPortlet() {
+		return _request.isPortlet();
 	}
 
 	/**
-	* Sets whether this request is is portlet.
+	* Sets whether this request is portlet.
 	*
-	* @param isPortlet the is portlet of this request
+	* @param portlet the portlet of this request
 	*/
 	@Override
-	public void setIsPortlet(boolean isPortlet) {
-		_request.setIsPortlet(isPortlet);
+	public void setPortlet(boolean portlet) {
+		_request.setPortlet(portlet);
 	}
 
 	/**

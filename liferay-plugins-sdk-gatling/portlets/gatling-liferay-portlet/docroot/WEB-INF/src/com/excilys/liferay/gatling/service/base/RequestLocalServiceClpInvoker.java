@@ -114,25 +114,49 @@ public class RequestLocalServiceClpInvoker {
 
 		_methodParameterTypes53 = new String[] { "java.lang.String" };
 
-		_methodName58 = "findByScenarioId";
+		_methodName58 = "findByParentPlid";
 
 		_methodParameterTypes58 = new String[] { "long" };
 
-		_methodName59 = "countByScenarioId";
+		_methodName59 = "countByParentPlid";
 
 		_methodParameterTypes59 = new String[] { "long" };
 
-		_methodName60 = "findByScenarioIdAndUsed";
+		_methodName60 = "findByScenarioId";
 
 		_methodParameterTypes60 = new String[] { "long" };
 
-		_methodName61 = "countByScenarioIdAndUsed";
+		_methodName61 = "countByScenarioId";
 
 		_methodParameterTypes61 = new String[] { "long" };
 
-		_methodName62 = "removeByScenarioId";
+		_methodName62 = "findByScenarioIdAndUsed";
 
 		_methodParameterTypes62 = new String[] { "long" };
+
+		_methodName63 = "countByScenarioIdAndUsed";
+
+		_methodParameterTypes63 = new String[] { "long" };
+
+		_methodName64 = "removeByScenarioId";
+
+		_methodParameterTypes64 = new String[] { "long" };
+
+		_methodName65 = "findByScenarioIdAndIsNotPortlet";
+
+		_methodParameterTypes65 = new String[] { "long" };
+
+		_methodName66 = "countByScenarioIdAndIsNotPortlet";
+
+		_methodParameterTypes66 = new String[] { "long" };
+
+		_methodName67 = "findByScenarioIdAndUsedAndIsNotPortlet";
+
+		_methodParameterTypes67 = new String[] { "long" };
+
+		_methodName68 = "countByScenarioIdAndUsedAndIsNotPortlet";
+
+		_methodParameterTypes68 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -238,29 +262,59 @@ public class RequestLocalServiceClpInvoker {
 
 		if (_methodName58.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes58, parameterTypes)) {
-			return RequestLocalServiceUtil.findByScenarioId(((Long)arguments[0]).longValue());
+			return RequestLocalServiceUtil.findByParentPlid(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName59.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes59, parameterTypes)) {
-			return RequestLocalServiceUtil.countByScenarioId(((Long)arguments[0]).longValue());
+			return RequestLocalServiceUtil.countByParentPlid(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName60.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
-			return RequestLocalServiceUtil.findByScenarioIdAndUsed(((Long)arguments[0]).longValue());
+			return RequestLocalServiceUtil.findByScenarioId(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName61.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
-			return RequestLocalServiceUtil.countByScenarioIdAndUsed(((Long)arguments[0]).longValue());
+			return RequestLocalServiceUtil.countByScenarioId(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName62.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes62, parameterTypes)) {
+			return RequestLocalServiceUtil.findByScenarioIdAndUsed(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName63.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes63, parameterTypes)) {
+			return RequestLocalServiceUtil.countByScenarioIdAndUsed(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName64.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes64, parameterTypes)) {
 			RequestLocalServiceUtil.removeByScenarioId(((Long)arguments[0]).longValue());
 
 			return null;
+		}
+
+		if (_methodName65.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes65, parameterTypes)) {
+			return RequestLocalServiceUtil.findByScenarioIdAndIsNotPortlet(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName66.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes66, parameterTypes)) {
+			return RequestLocalServiceUtil.countByScenarioIdAndIsNotPortlet(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName67.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes67, parameterTypes)) {
+			return RequestLocalServiceUtil.findByScenarioIdAndUsedAndIsNotPortlet(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName68.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
+			return RequestLocalServiceUtil.countByScenarioIdAndUsedAndIsNotPortlet(((Long)arguments[0]).longValue());
 		}
 
 		throw new UnsupportedOperationException();
@@ -312,4 +366,16 @@ public class RequestLocalServiceClpInvoker {
 	private String[] _methodParameterTypes61;
 	private String _methodName62;
 	private String[] _methodParameterTypes62;
+	private String _methodName63;
+	private String[] _methodParameterTypes63;
+	private String _methodName64;
+	private String[] _methodParameterTypes64;
+	private String _methodName65;
+	private String[] _methodParameterTypes65;
+	private String _methodName66;
+	private String[] _methodParameterTypes66;
+	private String _methodName67;
+	private String[] _methodParameterTypes67;
+	private String _methodName68;
+	private String[] _methodParameterTypes68;
 }

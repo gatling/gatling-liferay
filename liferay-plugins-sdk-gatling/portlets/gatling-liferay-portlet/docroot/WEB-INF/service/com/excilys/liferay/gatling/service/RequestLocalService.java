@@ -248,6 +248,13 @@ public interface RequestLocalService extends BaseLocalService,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
 
+	public java.util.List<com.excilys.liferay.gatling.model.Request> findByParentPlid(
+		long parentPlid)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public int countByParentPlid(long parentPlid)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
 	public java.util.List<com.excilys.liferay.gatling.model.Request> findByScenarioId(
 		long scenarioId)
 		throws com.liferay.portal.kernel.exception.SystemException;
@@ -263,5 +270,19 @@ public interface RequestLocalService extends BaseLocalService,
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public void removeByScenarioId(long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public java.util.List<com.excilys.liferay.gatling.model.Request> findByScenarioIdAndIsNotPortlet(
+		long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public int countByScenarioIdAndIsNotPortlet(long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public java.util.List<com.excilys.liferay.gatling.model.Request> findByScenarioIdAndUsedAndIsNotPortlet(
+		long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public int countByScenarioIdAndUsedAndIsNotPortlet(long scenarioId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 }

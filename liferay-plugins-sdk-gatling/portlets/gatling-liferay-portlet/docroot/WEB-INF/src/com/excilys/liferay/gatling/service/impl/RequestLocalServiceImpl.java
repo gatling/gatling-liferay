@@ -39,13 +39,23 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.liferay.sample.service.RequestLocalServiceUtil} to access the request local service.
 	 */
- 
+	private static final Log LOG = LogFactoryUtil.getLog(RequestLocalServiceImpl.class.getName());
+
+
+	@Override
+	public List<Request> findByParentPlid(long parentPlid) throws SystemException{
+		return requestPersistence.findByParentPlid(parentPlid);
+	}	
+
+	@Override
+	public int countByParentPlid(long parentPlid) throws SystemException{
+		return requestPersistence.countByParentPlid(parentPlid);
+	}
 
 	@Override
 	public List<Request> findByScenarioId(long scenarioId) throws SystemException{
 		return requestPersistence.findByScenarioId(scenarioId);
-	}
-	
+	}	
 
 	@Override
 	public int countByScenarioId(long scenarioId) throws SystemException{
@@ -66,4 +76,27 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 	public void removeByScenarioId(long scenarioId) throws SystemException {
 		requestPersistence.removeByScenarioId(scenarioId);
 	}
+	 
+	@Override
+	public List<Request> findByScenarioIdAndIsNotPortlet(long scenarioId) throws SystemException{
+		return requestPersistence.findByScenarioIdAndIsNotPortlet(scenarioId, false);
+	}
+	
+	@Override
+	public int countByScenarioIdAndIsNotPortlet(long scenarioId) throws SystemException{
+		return requestPersistence.countByScenarioIdAndIsNotPortlet(scenarioId, false);
+	}
+	
+	@Override
+	public List<Request> findByScenarioIdAndUsedAndIsNotPortlet(long scenarioId) throws SystemException{
+		return requestPersistence.findByScenarioIdAndUsedAndIsNotPortlet(scenarioId, false, 0);
+	}
+	
+	@Override
+	public int countByScenarioIdAndUsedAndIsNotPortlet(long scenarioId) throws SystemException{
+		return requestPersistence.countByScenarioIdAndUsedAndIsNotPortlet(scenarioId, false, 0);
+	}
+	
+	
+	
 }

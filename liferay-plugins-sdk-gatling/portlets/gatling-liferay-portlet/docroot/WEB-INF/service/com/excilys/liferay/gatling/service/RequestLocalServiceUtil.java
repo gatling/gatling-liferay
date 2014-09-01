@@ -275,6 +275,17 @@ public class RequestLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	public static java.util.List<com.excilys.liferay.gatling.model.Request> findByParentPlid(
+		long parentPlid)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findByParentPlid(parentPlid);
+	}
+
+	public static int countByParentPlid(long parentPlid)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().countByParentPlid(parentPlid);
+	}
+
 	public static java.util.List<com.excilys.liferay.gatling.model.Request> findByScenarioId(
 		long scenarioId)
 		throws com.liferay.portal.kernel.exception.SystemException {
@@ -300,6 +311,28 @@ public class RequestLocalServiceUtil {
 	public static void removeByScenarioId(long scenarioId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		getService().removeByScenarioId(scenarioId);
+	}
+
+	public static java.util.List<com.excilys.liferay.gatling.model.Request> findByScenarioIdAndIsNotPortlet(
+		long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findByScenarioIdAndIsNotPortlet(scenarioId);
+	}
+
+	public static int countByScenarioIdAndIsNotPortlet(long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().countByScenarioIdAndIsNotPortlet(scenarioId);
+	}
+
+	public static java.util.List<com.excilys.liferay.gatling.model.Request> findByScenarioIdAndUsedAndIsNotPortlet(
+		long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findByScenarioIdAndUsedAndIsNotPortlet(scenarioId);
+	}
+
+	public static int countByScenarioIdAndUsedAndIsNotPortlet(long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().countByScenarioIdAndUsedAndIsNotPortlet(scenarioId);
 	}
 
 	public static void clearService() {

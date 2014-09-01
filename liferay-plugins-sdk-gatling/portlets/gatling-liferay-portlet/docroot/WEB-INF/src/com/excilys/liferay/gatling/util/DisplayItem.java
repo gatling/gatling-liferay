@@ -121,7 +121,7 @@ public class DisplayItem {
 		name = request.getName();
 		url = request.getUrl();
 		weight = request.getWeight();
-		portlet = request.isIsPortlet();
+		portlet = request.isPortlet();
 		portletId = request.getPortetId();
 	}
 

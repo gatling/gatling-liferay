@@ -228,12 +228,12 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 
 		if (_methodName58.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes58, parameterTypes)) {
-			LinkUsecaseRequestLocalServiceUtil.savelinkUseCase(((Long)arguments[0]).longValue(),
-				((Long)arguments[1]).longValue(),
-				((Double)arguments[2]).doubleValue(),
-				((Boolean)arguments[3]).booleanValue());
+			return LinkUsecaseRequestLocalServiceUtil.findByRequestIdAndUsed(((Long)arguments[0]).longValue());
+		}
 
-			return null;
+		if (_methodName59.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes59, parameterTypes)) {
+			return LinkUsecaseRequestLocalServiceUtil.countByRequestIdAndUsed(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName59.equals(name) &&

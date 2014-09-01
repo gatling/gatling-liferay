@@ -285,7 +285,7 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	private int scenarioState(Scenario scenario) {
 		try {
-			int count = RequestLocalServiceUtil.countByScenarioIdAndUsed(scenario.getScenario_id());
+			int count = RequestLocalServiceUtil.countByScenarioIdAndUsedAndIsNotPortlet(scenario.getScenario_id());
 			if (count != 0 && scenario.getDuration() != 0 && scenario.getUsers_per_seconds() != 0) {
 				// completed scenario = case if all minimal information are
 				// completed
@@ -406,8 +406,8 @@ public class GatlingPortlet extends MVCPortlet {
 				for (Scenario scenario : scenarioList) {
 					Number[] info = new Number[3];
 					info[2] = scenarioState(scenario);
-					info[0] = RequestLocalServiceUtil.countByScenarioIdAndUsed(scenario.getScenario_id());
-					info[1] = RequestLocalServiceUtil.countByScenarioId(scenario.getScenario_id());
+					info[0] = RequestLocalServiceUtil.countByScenarioIdAndUsedAndIsNotPortlet(scenario.getScenario_id());
+					info[1] = RequestLocalServiceUtil.countByScenarioIdAndIsNotPortlet(scenario.getScenario_id());
 					scenariosMap.put(scenario, info);
 				}
 				String JSListName = GatlingUtil.createJSListOfScenarioName(scenarioList);
@@ -612,9 +612,6 @@ public class GatlingPortlet extends MVCPortlet {
 		 * Get simulations ids
 		 */
 		long[] simulationsIds = ParamUtil.getLongValues(request, "export");
-		for (int i = 0; i < simulationsIds.length; i++) {
-			LOG.info("SimulationIDs" + simulationsIds);
-		}
 		Simulation simulation;
 		Date date = new Date();
 		Mustache mustache = mf.compile(template);

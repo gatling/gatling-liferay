@@ -50,6 +50,7 @@ public class LinkUsecaseRequestLocalServiceImpl
 	 *
 	 * Never reference this interface directly. Always use {@link com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil} to access the link usecase request local service.
 	 */
+
 	
 	private static final Log LOG = LogFactoryUtil.getLog(LinkUsecaseRequestLocalServiceImpl.class.getName());
 	
@@ -83,4 +84,18 @@ public class LinkUsecaseRequestLocalServiceImpl
 
 		return linkUsecaseRequestPersistence.findWithDynamicQuery(dq);
 	}
+
+	
+	@Override
+	public List<LinkUsecaseRequest> findByRequestIdAndUsed(long requestId) throws SystemException{
+		return linkUsecaseRequestPersistence.findByRequestIdAndUsed(requestId, 0);
+	}
+	
+	@Override
+	public int countByRequestIdAndUsed(long requestId) throws SystemException{
+		return linkUsecaseRequestPersistence.countByRequestIdAndUsed(requestId, 0);
+	}
+	
+	
+
 }

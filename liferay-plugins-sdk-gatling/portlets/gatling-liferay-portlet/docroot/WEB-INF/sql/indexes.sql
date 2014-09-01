@@ -1,4 +1,9 @@
+create index IX_3C3D8616 on StressTool_LinkUsecaseRequest (request_id, weight);
+
+create index IX_34F85EB7 on StressTool_Request (parentPlId);
 create index IX_258F3998 on StressTool_Request (scenario_id);
+create index IX_4F385812 on StressTool_Request (scenario_id, portlet);
+create index IX_A55F4DFE on StressTool_Request (scenario_id, portlet, weight);
 create index IX_87174984 on StressTool_Request (scenario_id, weight);
 
 create index IX_4E9E331A on StressTool_Scenario (simulation_id);

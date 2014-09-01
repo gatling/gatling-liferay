@@ -34,15 +34,27 @@
 		<column name="parentPlId" type="long"></column>
 		<column name="layoutId" type="long"></column>
 		<column name="plId" type="long"></column>
-		<column name="isPortlet" type="boolean"></column>
+		<column name="portlet" type="boolean"></column>
 		<column name="portetId" type="String"></column>
+		<finder name="ParentPlid" return-type="Collection">
+			<finder-column name="parentPlId" />
+		</finder>		
 		<finder name="ScenarioId" return-type="Collection">
 			<finder-column name="scenario_id" />
 		</finder>		
 		<finder name="ScenarioIdAndUsed" return-type="Collection">
 			<finder-column name="scenario_id" />
 			<finder-column name="weight" comparator=">" />
+		</finder>	
+		<finder name="ScenarioIdAndIsNotPortlet" return-type="Collection">
+			<finder-column name="scenario_id" />
+			<finder-column name="portlet" />
 		</finder>
+		<finder name="ScenarioIdAndUsedAndIsNotPortlet" return-type="Collection">
+			<finder-column name="scenario_id" />
+			<finder-column name="portlet" />
+			<finder-column name="weight" comparator=">" />
+		</finder> 
 	</entity>
 	
 	
@@ -53,7 +65,12 @@
 		<column name="request_id" type="long" />
 		<column name="recordId" type="long" />
 		<column name="weight" type="double" />
-		<column name="sample" type="boolean"></column>
+		<column name="sample" type="boolean"></column>	
+		<finder name="RequestIdAndUsed" return-type="Collection">
+			<finder-column name="request_id" />
+			<finder-column name="weight" comparator=">" />
+		</finder>
+		
 	</entity>
 	
 	<!-- use case  -->

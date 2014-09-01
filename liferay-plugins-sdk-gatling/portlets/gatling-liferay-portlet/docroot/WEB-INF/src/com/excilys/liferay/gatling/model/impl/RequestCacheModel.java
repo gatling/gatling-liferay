@@ -55,8 +55,8 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
 		sb.append(layoutId);
 		sb.append(", plId=");
 		sb.append(plId);
-		sb.append(", isPortlet=");
-		sb.append(isPortlet);
+		sb.append(", portlet=");
+		sb.append(portlet);
 		sb.append(", portetId=");
 		sb.append(portetId);
 		sb.append("}");
@@ -90,7 +90,7 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
 		requestImpl.setParentPlId(parentPlId);
 		requestImpl.setLayoutId(layoutId);
 		requestImpl.setPlId(plId);
-		requestImpl.setIsPortlet(isPortlet);
+		requestImpl.setPortlet(portlet);
 
 		if (portetId == null) {
 			requestImpl.setPortetId(StringPool.BLANK);
@@ -115,7 +115,7 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
 		parentPlId = objectInput.readLong();
 		layoutId = objectInput.readLong();
 		plId = objectInput.readLong();
-		isPortlet = objectInput.readBoolean();
+		portlet = objectInput.readBoolean();
 		portetId = objectInput.readUTF();
 	}
 
@@ -144,7 +144,7 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
 		objectOutput.writeLong(parentPlId);
 		objectOutput.writeLong(layoutId);
 		objectOutput.writeLong(plId);
-		objectOutput.writeBoolean(isPortlet);
+		objectOutput.writeBoolean(portlet);
 
 		if (portetId == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -163,6 +163,6 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
 	public long parentPlId;
 	public long layoutId;
 	public long plId;
-	public boolean isPortlet;
+	public boolean portlet;
 	public String portetId;
 }
