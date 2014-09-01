@@ -538,7 +538,11 @@ public class GatlingPortlet extends MVCPortlet {
 					}
 //					.addAll();
 				}
-			} catch (NumberFormatException | SystemException e) {
+			} catch (NumberFormatException e) {
+				if(LOG.isErrorEnabled()){
+					LOG.error("error when search for Record list: "+e.getMessage());
+				}
+			} catch (SystemException e) {
 				if(LOG.isErrorEnabled()){
 					LOG.error("error when search for Record list: "+e.getMessage());
 				}

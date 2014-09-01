@@ -123,6 +123,14 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 		_methodName59 = "findByRecordAndRequest";
 
 		_methodParameterTypes59 = new String[] { "long", "long" };
+
+		_methodName60 = "findByRequestIdAndUsed";
+
+		_methodParameterTypes60 = new String[] { "long" };
+
+		_methodName61 = "countByRequestIdAndUsed";
+
+		_methodParameterTypes61 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -228,18 +236,28 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 
 		if (_methodName58.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes58, parameterTypes)) {
-			return LinkUsecaseRequestLocalServiceUtil.findByRequestIdAndUsed(((Long)arguments[0]).longValue());
-		}
+			LinkUsecaseRequestLocalServiceUtil.savelinkUseCase(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue(),
+				((Double)arguments[2]).doubleValue(),
+				((Boolean)arguments[3]).booleanValue());
 
-		if (_methodName59.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes59, parameterTypes)) {
-			return LinkUsecaseRequestLocalServiceUtil.countByRequestIdAndUsed(((Long)arguments[0]).longValue());
+			return null;
 		}
 
 		if (_methodName59.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes59, parameterTypes)) {
 			return LinkUsecaseRequestLocalServiceUtil.findByRecordAndRequest(((Long)arguments[0]).longValue(),
 				((Long)arguments[1]).longValue());
+		}
+
+		if (_methodName60.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
+			return LinkUsecaseRequestLocalServiceUtil.findByRequestIdAndUsed(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName61.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
+			return LinkUsecaseRequestLocalServiceUtil.countByRequestIdAndUsed(((Long)arguments[0]).longValue());
 		}
 
 		throw new UnsupportedOperationException();
@@ -285,4 +303,8 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 	private String[] _methodParameterTypes58;
 	private String _methodName59;
 	private String[] _methodParameterTypes59;
+	private String _methodName60;
+	private String[] _methodParameterTypes60;
+	private String _methodName61;
+	private String[] _methodParameterTypes61;
 }

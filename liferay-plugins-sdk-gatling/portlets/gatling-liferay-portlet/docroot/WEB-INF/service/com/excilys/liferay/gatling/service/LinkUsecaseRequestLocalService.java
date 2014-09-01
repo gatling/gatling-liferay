@@ -249,10 +249,8 @@ public interface LinkUsecaseRequestLocalService extends BaseLocalService,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
 
-<<<<<<< HEAD
 	public void savelinkUseCase(long requestId, long recordId, double weight,
 		boolean isSample);
-<<<<<<< HEAD
 
 	/**
 	* get {@link LinkUsecaseRequest} have this requestId
@@ -260,14 +258,11 @@ public interface LinkUsecaseRequestLocalService extends BaseLocalService,
 	public java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest> findByRecordAndRequest(
 		long requestId, long recordId)
 		throws com.liferay.portal.kernel.exception.SystemException;
-=======
-=======
+
 	public java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest> findByRequestIdAndUsed(
 		long requestId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public int countByRequestIdAndUsed(long requestId)
 		throws com.liferay.portal.kernel.exception.SystemException;
->>>>>>> template +service.xml + gatlingportlet (count of request) update
->>>>>>> template +service.xml + gatlingportlet (count of request) update
 }
