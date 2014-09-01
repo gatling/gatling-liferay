@@ -105,9 +105,9 @@
 						hidden="true">
 						<td><input type="checkbox" name="${status.index}"
 							class='checkLine' /></td>
-						<td>${layout.portletId}<i class="icon-th-large"></i>
-							<a href="# ${layout.portletId}" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px" 
-								data-portlet="${layout.name}" data-page="${pageName}" data-groupId="${layout.groupId}"> 
+						<td><i class="icon-th-large"></i>
+							<a href="#" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px" 
+								data-portlet="${layout.name}" data-page="${pageName}" data-groupId="${layout.groupId}" data-portletId="${layout.portletId}"> 
 								 ${layout.name}  <i class="icon-wrench"></i>
 							</a>
 						</td>
@@ -312,14 +312,14 @@
 		A.all(".portlet-popup").each(function() {
 			this.on('click' , function(event) {
 				console.log(this.get("href"));
-				var id = this.get("href").split(".jsp")[1].substring(1);
+				var portletId =this.getData("portletId");
 				var pageName = this.getData("page");
 				var portletName = this.getData("portlet");
 				var groupId = this.getData("groupId");
 				//Create renderURL
 				var renderURL = Liferay.PortletURL.createRenderURL();
 				renderURL.setPortletId("gatling_WAR_gatlingliferayportlet");
-				renderURL.setParameter("pagePortletId", id);
+				renderURL.setParameter("pagePortletId", portletId);
 				renderURL.setParameter("groupId", groupId);
 				renderURL.setParameter("page","/html/gatling/popupPortlet/portletConfig.jsp");
 				renderURL.setWindowState("pop_up");

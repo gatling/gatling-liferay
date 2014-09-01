@@ -214,6 +214,7 @@ public class DisplayItemUtil {
 		newRequest.setLayoutId(displayItem.getLayoutId());
 		newRequest.setParentPlId(displayItem.getParentDisplayId());
 		newRequest.setIsPortlet(displayItem.isPortlet());
+		newRequest.setPortetId(displayItem.getPortletId());
 		// Saving ...
 		final List<String> errors = RequestValidator.validateRequest(newRequest);
 		if(errors.isEmpty()) {
