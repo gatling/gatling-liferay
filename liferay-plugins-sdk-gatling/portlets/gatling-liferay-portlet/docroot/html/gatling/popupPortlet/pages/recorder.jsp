@@ -27,7 +27,19 @@
 			 	<input id="checkRecording" type="hidden" value="true"/>
 				</c:when>
 				<c:otherwise>
-				<aui:input name="useCaseRecordName" inlineField="true" required="true"></aui:input> 
+				<aui:input name="useCaseRecordName" inlineField="true" >
+					<aui:validator name="required" errorMessage="record-name-required"></aui:validator>
+					<aui:validator name="custom" errorMessage="record-name-already-used">
+					 		function (val, fieldNode, ruleValue) {
+							var result = false;
+							var list = ${listRecordsName};
+							if (list.indexOf(val) == -1) {
+								result = true;
+							}
+							return result;
+						}
+					</aui:validator>
+				</aui:input> 
 				<liferay-util:buffer var="btnRecordText">
 					<liferay-ui:message key="record" /> 
 				</liferay-util:buffer>	

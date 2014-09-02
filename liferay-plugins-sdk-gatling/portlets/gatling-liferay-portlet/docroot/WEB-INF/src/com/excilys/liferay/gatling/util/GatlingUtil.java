@@ -3,6 +3,7 @@
  */
 package com.excilys.liferay.gatling.util;
 
+import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -58,6 +59,23 @@ public class GatlingUtil {
 		for (Iterator<Scenario> iterator = list.iterator(); iterator.hasNext();) {
 			Scenario scenario = iterator.next();
 			sb.append("'").append(scenario.getName()).append("'");
+			if(iterator.hasNext()) {
+				sb.append(",");
+			}
+		}
+		return sb.append("]").toString();
+	}
+	
+	/**
+	 * 
+	 * @param list
+	 * @return
+	 */
+	public static String createJSListOfRecordName(List<Record> list) {
+		StringBuilder sb = new StringBuilder("[");
+		for (Iterator<Record> iterator = list.iterator(); iterator.hasNext();) {
+			Record record = iterator.next();
+			sb.append("'").append(record.getName()).append("'");
 			if(iterator.hasNext()) {
 				sb.append(",");
 			}
