@@ -13,6 +13,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.excilys.liferay.gatling.model.Record;
+import com.excilys.liferay.gatling.model.UrlRecord;
+import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
+import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
+import com.liferay.counter.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.CookieKeys;
@@ -50,36 +56,63 @@ public class RecorderFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		//Cookie is only available for our portlet (scope)
 		String state = CookieKeys.getCookie(httpRequest, "GATLING_RECORD_STATE");
-		
 		/*
 		 * Recording
 		 */
 		if(state != null) {
 			String[] infos = state.split(",");
 			String ppid = request.getParameter("p_p_id");
-			// We do not record action on our own portlet
-			if(state != null && infos.length == 3 // size cookie correct
-					&& !infos[0].equals(GATLING_PPID) && !ppid.equals(GATLING_PPID)) { // not gatling action
+			if(state != null && ppid != null && infos.length == 3) {  // size cookie correct
+				LOG.info("======"+infos[2]+"======");
+				
+				HttpSession session = httpRequest.getSession();
+				// get the recorded Urls list
+				if(session.getAttribute("recordURL") == null) {
+					session.setAttribute("recordURL", new ArrayList<String>());
+				}
+				List<String> recordURLs = (List<String>) session.getAttribute("recordURL");
 				switch (infos[1]) {
 				case "RECORD": 
-					HttpSession session = httpRequest.getSession();
-					// get the recorded Urls list
-					if(session.getAttribute("recordURL") == null) {
-						session.setAttribute("recordURL", new ArrayList<String>());
+					if(!infos[0].equals(GATLING_PPID) && !ppid.equals(GATLING_PPID)) {  // We do not record action on our own portlet
+						// get the parameters
+						String params = HttpUtil.parameterMapToString(request.getParameterMap());
+						// Display
+						LOG.info("URL ("+httpRequest.getMethod()+") : "+params);
+						// Save
+						recordURLs.add(params);
+						// Store it again
+						session.setAttribute("recordURL", recordURLs);
 					}
-					List<String> recordURLs = (List<String>) session.getAttribute("recordURL");
-					
-					// get the parameters
-					String params = HttpUtil.parameterMapToString(request.getParameterMap());
-					// Display
-					LOG.info("======"+infos[2]+"======");
-					LOG.info("URL ("+httpRequest.getMethod()+") : "+params);
-					// Save
-					recordURLs.add(params);
-					// Store it again
-					session.setAttribute("recordURL", recordURLs);
 					break;
 				case "STOP":
+					if(!recordURLs.isEmpty()) {
+						LOG.info("Saving ...");
+						session.setAttribute("recordURL", new ArrayList<String>());
+						try {
+							long primaryKeyRecord;
+							primaryKeyRecord = CounterLocalServiceUtil.increment(Record.class.getName());
+							Record record = RecordLocalServiceUtil.createRecord(primaryKeyRecord);
+							record.setName(infos[2]);
+							record.setPortletId(ppid);
+							record.setVersionPortlet(1); //TODO get the real version
+							record.persist();
+							LOG.info("... 1/2");
+							for (int i = 0; i < recordURLs.size(); i++) {
+								String url = recordURLs.get(i);
+								long primaryKeyUrl = CounterLocalServiceUtil.increment(UrlRecord.class.getName());
+								UrlRecord urlRecord = UrlRecordLocalServiceUtil.createUrlRecord(primaryKeyUrl);
+								urlRecord.setUrl(url);
+								urlRecord.setOrder(i);
+								urlRecord.setRecordId(record.getRecordId());
+								urlRecord.persist();
+								LOG.info("...");
+							}
+							LOG.info("...2/2");
+						} catch (SystemException e) {
+							LOG.error("Error saving use case ...\n"+e.getMessage());
+						}
+						
+					}
 				default:
 					LOG.info("Stopping ...");
 					break;

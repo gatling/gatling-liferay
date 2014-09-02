@@ -85,7 +85,7 @@
 	<entity name="UrlRecord" remote-service="false" local-service="true">
 		<column name="urlRecordId" type="long" primary="true" />
 		<column name="recordId" type="long" />
-		<column name="url" type="String" />
+		<column name="url" type="String"></column>
 		<column name="order" type="int" />
 	</entity>
 
