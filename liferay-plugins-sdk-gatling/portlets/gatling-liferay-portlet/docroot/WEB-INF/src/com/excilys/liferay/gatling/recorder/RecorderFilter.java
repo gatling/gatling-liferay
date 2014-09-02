@@ -62,8 +62,7 @@ public class RecorderFilter implements Filter {
 		if(state != null) {
 			String[] infos = state.split(",");
 			String ppid = request.getParameter("p_p_id");
-			if(state != null && ppid != null && infos.length == 3) {  // size cookie correct
-				
+			if(state != null && infos.length == 3) {  // size cookie correct
 				HttpSession session = httpRequest.getSession();
 				// get the recorded Urls list
 				if(session.getAttribute("recordURL") == null) {
@@ -72,7 +71,7 @@ public class RecorderFilter implements Filter {
 				List<String> recordURLs = (List<String>) session.getAttribute("recordURL");
 				switch (infos[1]) {
 				case "RECORD": 
-					if(!infos[0].equals(GATLING_PPID) && !ppid.equals(GATLING_PPID)) {  // We do not record action on our own portlet
+					if(httpRequest.getParameter("doAsGroupId") != null) {  // we only record request with doAsGroupId (= portlet tested)
 						// get the parameters
 						String params = HttpUtil.parameterMapToString(request.getParameterMap());
 						// Display
@@ -84,15 +83,15 @@ public class RecorderFilter implements Filter {
 					}
 					break;
 				case "STOP":
+					session.setAttribute("recordURL", new ArrayList<String>());
 					if(!recordURLs.isEmpty()) {
 						LOG.info("Saving ...");
-						session.setAttribute("recordURL", new ArrayList<String>());
 						try {
 							long primaryKeyRecord;
 							primaryKeyRecord = CounterLocalServiceUtil.increment(Record.class.getName());
 							Record record = RecordLocalServiceUtil.createRecord(primaryKeyRecord);
 							record.setName(infos[2]);
-							record.setPortletId(ppid);
+							record.setPortletId(infos[0]);
 							record.setVersionPortlet(1); //TODO get the real version
 							record.persist();
 							LOG.info("... 1/2");
@@ -112,9 +111,6 @@ public class RecorderFilter implements Filter {
 						}
 						
 					}
-				default:
-					LOG.info("Stopping ...");
-					break;
 				}
 				
 			}
