@@ -3,43 +3,6 @@
  */
 package com.excilys.liferay.gatling;
 
-import com.excilys.liferay.gatling.exception.EmptySimulation;
-import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
-import com.excilys.liferay.gatling.model.Record;
-import com.excilys.liferay.gatling.model.Request;
-import com.excilys.liferay.gatling.model.Scenario;
-import com.excilys.liferay.gatling.model.Simulation;
-import com.excilys.liferay.gatling.mustache.ListScript;
-import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
-import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
-import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
-import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
-import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
-import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
-import com.excilys.liferay.gatling.service.base.LinkUsecaseRequestLocalServiceBaseImpl;
-import com.excilys.liferay.gatling.util.DisplayItem;
-import com.excilys.liferay.gatling.util.DisplayItemUtil;
-import com.excilys.liferay.gatling.util.GatlingUtil;
-import com.github.mustachejava.DefaultMustacheFactory;
-import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.servlet.HttpHeaders;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.service.GroupLocalServiceUtil;
-import com.liferay.portal.service.LayoutLocalServiceUtil;
-import com.liferay.portal.service.PortletLocalServiceUtil;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.util.bridges.mvc.MVCPortlet;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -61,6 +24,44 @@ import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.portlet.ValidatorException;
+import javax.servlet.http.Cookie;
+
+import com.excilys.liferay.gatling.exception.EmptySimulation;
+import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
+import com.excilys.liferay.gatling.model.Record;
+import com.excilys.liferay.gatling.model.Request;
+import com.excilys.liferay.gatling.model.Scenario;
+import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.mustache.ListScript;
+import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
+import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
+import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
+import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
+import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
+import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
+import com.excilys.liferay.gatling.util.DisplayItem;
+import com.excilys.liferay.gatling.util.DisplayItemUtil;
+import com.excilys.liferay.gatling.util.GatlingUtil;
+import com.github.mustachejava.DefaultMustacheFactory;
+import com.github.mustachejava.Mustache;
+import com.github.mustachejava.MustacheFactory;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.HttpHeaders;
+import com.liferay.portal.kernel.util.CookieKeys;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.model.Group;
+import com.liferay.portal.model.Layout;
+import com.liferay.portal.service.GroupLocalServiceUtil;
+import com.liferay.portal.service.LayoutLocalServiceUtil;
+import com.liferay.portal.service.PortletLocalServiceUtil;
+import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.util.PortalUtil;
+import com.liferay.util.bridges.mvc.MVCPortlet;
 
 
 /**
@@ -290,7 +291,6 @@ public class GatlingPortlet extends MVCPortlet {
 	public void toggleRecord(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException {
 		String recordState = ParamUtil.getString(request, "nextRecordState");
 		response.setRenderParameter("recordState", recordState);
-		LOG.info(recordState);
 		//hack, only work this way ....
 		response.setRenderParameter("p_p_state", "pop_up");
 		PortalUtil.copyRequestParameters(request, response);
@@ -523,9 +523,9 @@ public class GatlingPortlet extends MVCPortlet {
 				renderRequest.setAttribute("listOfScenarioName", JSListName);
 
 			} catch (SystemException e) {
-				throw new RuntimeException("connot get layout list: " + e.getMessage());
+				throw new RuntimeException("cannot get layout list: " + e.getMessage());
 			} catch (PortalException e) {
-				throw new RuntimeException("connot get layout list: " + e.getMessage());
+				throw new RuntimeException("cannot get layout list: " + e.getMessage());
 			} 
 		} else if (page.equals(jspEditPortlet)) {
 			/*
@@ -539,7 +539,6 @@ public class GatlingPortlet extends MVCPortlet {
 				throw new NullPointerException("portlet id is null");
 			}	
 			String portletId = ParamUtil.getString(renderRequest, "pagePortletId");
-			LOG.info("portletId: "+portletId);
 			String portletName = PortletLocalServiceUtil.getPortletById(portletId).getDisplayName();
 			long  groupId =  ParamUtil.getLong(renderRequest, "groupId");
 			long  requestId =  ParamUtil.getLong(renderRequest, "requestId");
@@ -566,28 +565,33 @@ public class GatlingPortlet extends MVCPortlet {
 				}
 			}
 			
-			LOG.info("list size= "+ useCaseList.size());
 			renderRequest.setAttribute("script", script);
 			renderRequest.setAttribute("portletId", portletId);
-			renderRequest.setAttribute("portletN", portletName);
+			renderRequest.setAttribute("portletName", portletName);
 			renderRequest.setAttribute("groupId", groupId);
 			renderRequest.setAttribute("requestId", requestId);
 			renderRequest.setAttribute("recordAndSampleList", useCaseList);
 			
 			// Check state of recording
 			String state = renderRequest.getParameter("recordState");
+			Cookie myCookie;
 			if(state != null) {
+				renderRequest.setAttribute("tabs1", "record-usecase");
+				String nameUseCase = ParamUtil.getString(renderRequest, "useCaseRecordName");
+				myCookie = new Cookie("GATLING_RECORD_STATE", portletId+",RECORD,"+nameUseCase);
 				if(state.equals("RECORD")) {
-					LOG.info("Recording ...");
 					renderRequest.setAttribute("nextRecordState", "STOP");
 				} else {
 					renderRequest.setAttribute("nextRecordState", "RECORD");
+					myCookie.setMaxAge(0);
 				}
-				renderRequest.setAttribute("tabs1", "record-usecase");
+				
 			} else {
+				//Default cookie is stop
+				myCookie = new Cookie("GATLING_RECORD_STATE", portletId+",STOP");
 				renderRequest.setAttribute("nextRecordState", "RECORD");
 			}
-			LOG.info(state);
+			CookieKeys.addCookie(PortalUtil.getHttpServletRequest(renderRequest), PortalUtil.getHttpServletResponse(renderResponse), myCookie);
 		}
 		/* redirect to jsp page */
 		include(page, renderRequest, renderResponse);

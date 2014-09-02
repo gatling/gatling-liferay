@@ -75,6 +75,18 @@
 	</c:otherwise>
 </c:choose>
 
+<div hidden="true">
+<table><tbody id="toPaste">
+	<tr>
+		<td id="text" title=""></td>
+		<td id="weight"><aui:input name="weightScenarioSample"  label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input></td>
+		<td class='popup_percent'></td>
+	</tr>
+</tbody></table>
+</div>	
+
+
+
 <script type="text/javascript">
 
 	function addLine() {
@@ -127,18 +139,8 @@
 	showWeightPopup();
 	
 
-</script>
-			
-			
-<div hidden="true">
-<table><tbody id="toPaste">
-	<tr>
-		<td id="text" title=""></td>
-		<td id="weight"><aui:input name="weightScenarioSample"  label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input></td>
-		<td class='popup_percent'></td>
-	</tr>
-</tbody></table>
-</div>		
+</script>		
+	
 			
 
 

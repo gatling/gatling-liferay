@@ -3,6 +3,9 @@
  */
 package com.excilys.liferay.gatling.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.excilys.liferay.gatling.model.Request;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -13,9 +16,6 @@ import com.liferay.portal.model.Layout;
 import com.liferay.portal.model.PortletPreferences;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.service.PortletLocalServiceUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * DisplayLayout is used in editScenario.jsp to display both layout and request
@@ -77,7 +77,6 @@ public class DisplayItem {
 		name = PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).getDisplayName();
 		portlet = true;
 		portletId = portletPreferences.getPortletId();
-		LOG.info("portletId:  "+portletId);
 		try {
 			Layout parent = LayoutLocalServiceUtil.getLayout(portletPreferences.getPlid());
 			url = parent.getFriendlyURL() + portletId;
