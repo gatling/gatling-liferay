@@ -9,7 +9,6 @@
 	String currentTab = ParamUtil.getString(request, "tabs1",
 			"existing-usecase");
 %>
-
 <!-- This is the link associated to every tab to load the specific page -->
 <liferay-portlet:renderURL var="changeTabURL">
 	<liferay-portlet:param name="" value="" />

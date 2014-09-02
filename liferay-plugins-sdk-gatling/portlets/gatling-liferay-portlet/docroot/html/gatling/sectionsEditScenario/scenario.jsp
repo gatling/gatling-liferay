@@ -22,13 +22,11 @@
 		<thead>
 		<tr>
 			<th class="small-column"><input type="checkbox" id="checkAll" />
-				<label for="checkAll" class="inline"><i
-					class='icon-circle-arrow-down'></i></label> <%--Force weight button --%> <aui:input
-					label="" name="forceWeight" cssClass="forceinput"
-					inlineField="true" /> <aui:button
-					value="scenario-edit-force-weight-btn" cssClass="inline-button"
-					id="force" onClick="forceWeight();" /> <liferay-ui:icon-help
-					message="scenario-edit-force-weight" /></th>
+				<label for="checkAll" class="inline"><i class='icon-circle-arrow-down'></i></label>
+				<aui:input label="" name="forceWeight" cssClass="forceinput" inlineField="true" />
+				<%--Force weight button --%>
+				<aui:button value="scenario-edit-force-weight-btn" cssClass="inline-button" id="force" onClick="forceWeight();" /> 
+				<liferay-ui:icon-help message="scenario-edit-force-weight" /></th>
 			<th ><liferay-ui:message key="scenario-edit-table-header-page" />
 				<liferay-ui:icon-help message="name-info-help" /></th>
 			<th class="small-column"><liferay-ui:message key="scenario-edit-table-header-portlet" /></th>
@@ -232,7 +230,10 @@
 			END FOR EACH
 		 --%>
 	</table>
+		<input id="recording" value="false" type="hidden"/>
 </aui:fieldset>
+
+
 <script type="text/javascript">
 	AUI().use('aui-base','liferay-portlet-url','liferay-util-window', function(A) {
 		var lastChecked = null;
@@ -332,7 +333,7 @@
 				
 				var popupPortlet = Liferay.Util.openWindow({
 			   		dialog : {
-			        	modal : false,
+			        	modal : true,
 			            cache : false,
 			            draggable: false,
 			            resizable: false,
@@ -342,17 +343,19 @@
 			            	footer: [
 			            	         {
 			            	             label: 'Cancel',
+			            	             id:"cancelButtonPopup",
 			            	             on: {
 			            	               click: function() {
-			            	            	  checkStateAndHidePopup();
+			            	            	  checkAndHidePopup();
 			            	               }
 			            	             }
 			            	           },
 			            	           {
 			            	             label: 'Save portlet configuration',
+			            	             id:"saveButtonPopup",
 			            	             on: {
 			            	               click: function() {
-			            	                 checkStateAndHidePopup();
+			            	            	  checkAndHidePopup();
 			            	               }
 			            	             }
 			            	           }
@@ -368,13 +371,13 @@
 			});
 		});
 		
-		function checkStateAndHidePopup() {
-			var dialog = Liferay.Util.getWindow("<portlet:namespace/>pop_up_portlet");
-			console.log(A.one("#<portlet:namespace/>pop_up_portlet_iframe"));
-			if(AUI().one("<portlet:namespace/>checkRecording") != null) {
-				alert("You are currently recording a use case. You have to end it in order to close the window.");
+		function checkAndHidePopup() {
+			var recording = (A.one("#recording").val().toLowerCase() === 'true');
+			if(recording) {
+				alert("<liferay-ui:message key='use-case-recording-alert' />");
 			} else {
-	 			dialog.destroy();
+				var dialog = Liferay.Util.getWindow("<portlet:namespace/>pop_up_portlet");
+				dialog.destroy();
 			}
 		}
 		

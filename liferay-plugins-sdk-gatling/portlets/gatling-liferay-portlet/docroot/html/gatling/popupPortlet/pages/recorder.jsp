@@ -24,6 +24,7 @@
 					<liferay-ui:message key="stop" /> 
 				</liferay-util:buffer>				
 			 	<aui:button cssClass="btn btn-warning inline-button" type="submit" value="${btnRecordText}" icon="icon-stop" />
+			 	<input id="checkRecording" type="hidden" value="true"/>
 				</c:when>
 				<c:otherwise>
 				<aui:input name="useCaseRecordName" inlineField="true" required="true"></aui:input> 
@@ -31,6 +32,7 @@
 					<liferay-ui:message key="record" /> 
 				</liferay-util:buffer>	
 			    <aui:button cssClass="btn btn-warning inline-button" type="submit" value="${btnRecordText }" icon="icon-play"/>
+			    <input id="checkRecording" type="hidden" value="false"/>
 				</c:otherwise>
 			</c:choose>
 		</div>
@@ -41,7 +43,13 @@
 	
 	<c:if test="${nextRecordState eq 'STOP' }">
 	<div style="position: fixed; width: 100%; height: 100%; top: 0px; left: 0px; z-index: 1201;" class="yui3-widget-mask"></div>
-	<!--hidden value to check if recording -->
-	<aui:input name="checkRecording" type="hidden"/>
 	</c:if>
+	
 </c:if>
+
+<script>
+AUI().use("aui-base", function(A) {
+	A.one(top.document.getElementById('recording')).val(A.one("#checkRecording").val());
+	console.log(top.document.getElementById('recording'));
+});
+</script>
