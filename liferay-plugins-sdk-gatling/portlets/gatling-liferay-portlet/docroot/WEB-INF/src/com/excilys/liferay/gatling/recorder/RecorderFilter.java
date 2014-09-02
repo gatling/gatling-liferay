@@ -77,7 +77,7 @@ public class RecorderFilter implements Filter {
 						// Display
 						LOG.info("URL ("+httpRequest.getMethod()+") : "+params);
 						// Save
-						recordURLs.add(params);
+						recordURLs.add(httpRequest.getMethod()+")"+params);
 						// Store it again
 						session.setAttribute("recordURL", recordURLs);
 					}
@@ -96,10 +96,12 @@ public class RecorderFilter implements Filter {
 							record.persist();
 							LOG.info("... 1/2");
 							for (int i = 0; i < recordURLs.size(); i++) {
-								String url = recordURLs.get(i);
+								String url = recordURLs.get(i).split("\\)")[1];
+								String type = recordURLs.get(i).split("\\)")[0];
 								long primaryKeyUrl = CounterLocalServiceUtil.increment(UrlRecord.class.getName());
 								UrlRecord urlRecord = UrlRecordLocalServiceUtil.createUrlRecord(primaryKeyUrl);
 								urlRecord.setUrl(url);
+								urlRecord.setType(type);
 								urlRecord.setOrder(i);
 								urlRecord.setRecordId(record.getRecordId());
 								urlRecord.persist();

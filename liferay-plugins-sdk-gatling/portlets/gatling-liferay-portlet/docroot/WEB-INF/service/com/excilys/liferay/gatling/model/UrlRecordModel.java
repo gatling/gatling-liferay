@@ -101,6 +101,21 @@ public interface UrlRecordModel extends BaseModel<UrlRecord> {
 	public void setUrl(String url);
 
 	/**
+	 * Returns the type of this url record.
+	 *
+	 * @return the type of this url record
+	 */
+	@AutoEscape
+	public String getType();
+
+	/**
+	 * Sets the type of this url record.
+	 *
+	 * @param type the type of this url record
+	 */
+	public void setType(String type);
+
+	/**
 	 * Returns the order of this url record.
 	 *
 	 * @return the order of this url record

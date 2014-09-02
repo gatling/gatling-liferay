@@ -51,6 +51,7 @@ public class UrlRecordWrapper implements UrlRecord, ModelWrapper<UrlRecord> {
 		attributes.put("urlRecordId", getUrlRecordId());
 		attributes.put("recordId", getRecordId());
 		attributes.put("url", getUrl());
+		attributes.put("type", getType());
 		attributes.put("order", getOrder());
 
 		return attributes;
@@ -74,6 +75,12 @@ public class UrlRecordWrapper implements UrlRecord, ModelWrapper<UrlRecord> {
 
 		if (url != null) {
 			setUrl(url);
+		}
+
+		String type = (String)attributes.get("type");
+
+		if (type != null) {
+			setType(type);
 		}
 
 		Integer order = (Integer)attributes.get("order");
@@ -161,6 +168,26 @@ public class UrlRecordWrapper implements UrlRecord, ModelWrapper<UrlRecord> {
 	@Override
 	public void setUrl(java.lang.String url) {
 		_urlRecord.setUrl(url);
+	}
+
+	/**
+	* Returns the type of this url record.
+	*
+	* @return the type of this url record
+	*/
+	@Override
+	public java.lang.String getType() {
+		return _urlRecord.getType();
+	}
+
+	/**
+	* Sets the type of this url record.
+	*
+	* @param type the type of this url record
+	*/
+	@Override
+	public void setType(java.lang.String type) {
+		_urlRecord.setType(type);
 	}
 
 	/**

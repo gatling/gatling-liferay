@@ -61,9 +61,10 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 			{ "urlRecordId", Types.BIGINT },
 			{ "recordId", Types.BIGINT },
 			{ "url", Types.VARCHAR },
+			{ "type_", Types.VARCHAR },
 			{ "order_", Types.INTEGER }
 		};
-	public static final String TABLE_SQL_CREATE = "create table StressTool_UrlRecord (urlRecordId LONG not null primary key,recordId LONG,url TEXT null,order_ INTEGER)";
+	public static final String TABLE_SQL_CREATE = "create table StressTool_UrlRecord (urlRecordId LONG not null primary key,recordId LONG,url TEXT null,type_ VARCHAR(75) null,order_ INTEGER)";
 	public static final String TABLE_SQL_DROP = "drop table StressTool_UrlRecord";
 	public static final String ORDER_BY_JPQL = " ORDER BY urlRecord.urlRecordId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY StressTool_UrlRecord.urlRecordId ASC";
@@ -120,6 +121,7 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 		attributes.put("urlRecordId", getUrlRecordId());
 		attributes.put("recordId", getRecordId());
 		attributes.put("url", getUrl());
+		attributes.put("type", getType());
 		attributes.put("order", getOrder());
 
 		return attributes;
@@ -143,6 +145,12 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 
 		if (url != null) {
 			setUrl(url);
+		}
+
+		String type = (String)attributes.get("type");
+
+		if (type != null) {
+			setType(type);
 		}
 
 		Integer order = (Integer)attributes.get("order");
@@ -188,6 +196,21 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 	}
 
 	@Override
+	public String getType() {
+		if (_type == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _type;
+		}
+	}
+
+	@Override
+	public void setType(String type) {
+		_type = type;
+	}
+
+	@Override
 	public int getOrder() {
 		return _order;
 	}
@@ -227,6 +250,7 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 		urlRecordImpl.setUrlRecordId(getUrlRecordId());
 		urlRecordImpl.setRecordId(getRecordId());
 		urlRecordImpl.setUrl(getUrl());
+		urlRecordImpl.setType(getType());
 		urlRecordImpl.setOrder(getOrder());
 
 		urlRecordImpl.resetOriginalValues();
@@ -296,6 +320,14 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 			urlRecordCacheModel.url = null;
 		}
 
+		urlRecordCacheModel.type = getType();
+
+		String type = urlRecordCacheModel.type;
+
+		if ((type != null) && (type.length() == 0)) {
+			urlRecordCacheModel.type = null;
+		}
+
 		urlRecordCacheModel.order = getOrder();
 
 		return urlRecordCacheModel;
@@ -303,7 +335,7 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(11);
 
 		sb.append("{urlRecordId=");
 		sb.append(getUrlRecordId());
@@ -311,6 +343,8 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 		sb.append(getRecordId());
 		sb.append(", url=");
 		sb.append(getUrl());
+		sb.append(", type=");
+		sb.append(getType());
 		sb.append(", order=");
 		sb.append(getOrder());
 		sb.append("}");
@@ -320,7 +354,7 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(16);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("<model><model-name>");
 		sb.append("com.excilys.liferay.gatling.model.UrlRecord");
@@ -339,6 +373,10 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 		sb.append(getUrl());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>type</column-name><column-value><![CDATA[");
+		sb.append(getType());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>order</column-name><column-value><![CDATA[");
 		sb.append(getOrder());
 		sb.append("]]></column-value></column>");
@@ -355,6 +393,7 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 	private long _urlRecordId;
 	private long _recordId;
 	private String _url;
+	private String _type;
 	private int _order;
 	private UrlRecord _escapedModel;
 }

@@ -36,7 +36,7 @@ public class UrlRecordCacheModel implements CacheModel<UrlRecord>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(11);
 
 		sb.append("{urlRecordId=");
 		sb.append(urlRecordId);
@@ -44,6 +44,8 @@ public class UrlRecordCacheModel implements CacheModel<UrlRecord>,
 		sb.append(recordId);
 		sb.append(", url=");
 		sb.append(url);
+		sb.append(", type=");
+		sb.append(type);
 		sb.append(", order=");
 		sb.append(order);
 		sb.append("}");
@@ -65,6 +67,13 @@ public class UrlRecordCacheModel implements CacheModel<UrlRecord>,
 			urlRecordImpl.setUrl(url);
 		}
 
+		if (type == null) {
+			urlRecordImpl.setType(StringPool.BLANK);
+		}
+		else {
+			urlRecordImpl.setType(type);
+		}
+
 		urlRecordImpl.setOrder(order);
 
 		urlRecordImpl.resetOriginalValues();
@@ -77,6 +86,7 @@ public class UrlRecordCacheModel implements CacheModel<UrlRecord>,
 		urlRecordId = objectInput.readLong();
 		recordId = objectInput.readLong();
 		url = objectInput.readUTF();
+		type = objectInput.readUTF();
 		order = objectInput.readInt();
 	}
 
@@ -93,11 +103,19 @@ public class UrlRecordCacheModel implements CacheModel<UrlRecord>,
 			objectOutput.writeUTF(url);
 		}
 
+		if (type == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(type);
+		}
+
 		objectOutput.writeInt(order);
 	}
 
 	public long urlRecordId;
 	public long recordId;
 	public String url;
+	public String type;
 	public int order;
 }

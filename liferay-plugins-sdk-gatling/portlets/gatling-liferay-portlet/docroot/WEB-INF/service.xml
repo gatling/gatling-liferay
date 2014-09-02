@@ -86,6 +86,7 @@
 		<column name="urlRecordId" type="long" primary="true" />
 		<column name="recordId" type="long" />
 		<column name="url" type="String" />
+		<column name="type" type="String" />
 		<column name="order" type="int" />
 	</entity>
 

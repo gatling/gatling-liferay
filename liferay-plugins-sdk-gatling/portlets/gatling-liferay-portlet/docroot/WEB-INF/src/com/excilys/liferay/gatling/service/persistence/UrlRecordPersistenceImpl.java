@@ -324,6 +324,7 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 		urlRecordImpl.setUrlRecordId(urlRecord.getUrlRecordId());
 		urlRecordImpl.setRecordId(urlRecord.getRecordId());
 		urlRecordImpl.setUrl(urlRecord.getUrl());
+		urlRecordImpl.setType(urlRecord.getType());
 		urlRecordImpl.setOrder(urlRecord.getOrder());
 
 		return urlRecordImpl;
@@ -647,7 +648,7 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 				PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
 	private static Log _log = LogFactoryUtil.getLog(UrlRecordPersistenceImpl.class);
 	private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"order"
+				"type", "order"
 			});
 	private static UrlRecord _nullUrlRecord = new UrlRecordImpl() {
 			@Override

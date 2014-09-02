@@ -32,6 +32,7 @@ public class UrlRecordSoap implements Serializable {
 		soapModel.setUrlRecordId(model.getUrlRecordId());
 		soapModel.setRecordId(model.getRecordId());
 		soapModel.setUrl(model.getUrl());
+		soapModel.setType(model.getType());
 		soapModel.setOrder(model.getOrder());
 
 		return soapModel;
@@ -109,6 +110,14 @@ public class UrlRecordSoap implements Serializable {
 		_url = url;
 	}
 
+	public String getType() {
+		return _type;
+	}
+
+	public void setType(String type) {
+		_type = type;
+	}
+
 	public int getOrder() {
 		return _order;
 	}
@@ -120,5 +129,6 @@ public class UrlRecordSoap implements Serializable {
 	private long _urlRecordId;
 	private long _recordId;
 	private String _url;
+	private String _type;
 	private int _order;
 }

@@ -48,6 +48,7 @@
 		<field name="url" type="String">
 			<hint name="max-length">5000</hint>
 		</field>
+		<field name="type" type="String" />
 		<field name="order" type="int" />
 	</model>
 </model-hints>

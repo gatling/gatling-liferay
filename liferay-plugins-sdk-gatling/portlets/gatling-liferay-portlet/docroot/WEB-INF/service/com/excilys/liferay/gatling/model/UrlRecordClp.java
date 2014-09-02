@@ -75,6 +75,7 @@ public class UrlRecordClp extends BaseModelImpl<UrlRecord> implements UrlRecord 
 		attributes.put("urlRecordId", getUrlRecordId());
 		attributes.put("recordId", getRecordId());
 		attributes.put("url", getUrl());
+		attributes.put("type", getType());
 		attributes.put("order", getOrder());
 
 		return attributes;
@@ -98,6 +99,12 @@ public class UrlRecordClp extends BaseModelImpl<UrlRecord> implements UrlRecord 
 
 		if (url != null) {
 			setUrl(url);
+		}
+
+		String type = (String)attributes.get("type");
+
+		if (type != null) {
+			setType(type);
 		}
 
 		Integer order = (Integer)attributes.get("order");
@@ -169,6 +176,29 @@ public class UrlRecordClp extends BaseModelImpl<UrlRecord> implements UrlRecord 
 				Method method = clazz.getMethod("setUrl", String.class);
 
 				method.invoke(_urlRecordRemoteModel, url);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public String getType() {
+		return _type;
+	}
+
+	@Override
+	public void setType(String type) {
+		_type = type;
+
+		if (_urlRecordRemoteModel != null) {
+			try {
+				Class<?> clazz = _urlRecordRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setType", String.class);
+
+				method.invoke(_urlRecordRemoteModel, type);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -271,6 +301,7 @@ public class UrlRecordClp extends BaseModelImpl<UrlRecord> implements UrlRecord 
 		clone.setUrlRecordId(getUrlRecordId());
 		clone.setRecordId(getRecordId());
 		clone.setUrl(getUrl());
+		clone.setType(getType());
 		clone.setOrder(getOrder());
 
 		return clone;
@@ -320,7 +351,7 @@ public class UrlRecordClp extends BaseModelImpl<UrlRecord> implements UrlRecord 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(11);
 
 		sb.append("{urlRecordId=");
 		sb.append(getUrlRecordId());
@@ -328,6 +359,8 @@ public class UrlRecordClp extends BaseModelImpl<UrlRecord> implements UrlRecord 
 		sb.append(getRecordId());
 		sb.append(", url=");
 		sb.append(getUrl());
+		sb.append(", type=");
+		sb.append(getType());
 		sb.append(", order=");
 		sb.append(getOrder());
 		sb.append("}");
@@ -337,7 +370,7 @@ public class UrlRecordClp extends BaseModelImpl<UrlRecord> implements UrlRecord 
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(16);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("<model><model-name>");
 		sb.append("com.excilys.liferay.gatling.model.UrlRecord");
@@ -356,6 +389,10 @@ public class UrlRecordClp extends BaseModelImpl<UrlRecord> implements UrlRecord 
 		sb.append(getUrl());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>type</column-name><column-value><![CDATA[");
+		sb.append(getType());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>order</column-name><column-value><![CDATA[");
 		sb.append(getOrder());
 		sb.append("]]></column-value></column>");
@@ -368,6 +405,7 @@ public class UrlRecordClp extends BaseModelImpl<UrlRecord> implements UrlRecord 
 	private long _urlRecordId;
 	private long _recordId;
 	private String _url;
+	private String _type;
 	private int _order;
 	private BaseModel<?> _urlRecordRemoteModel;
 }
