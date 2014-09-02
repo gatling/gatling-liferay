@@ -56,6 +56,7 @@ public class RecorderFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		//Cookie is only available for our portlet (scope)
 		String cookie = CookieKeys.getCookie(httpRequest, "GATLING_RECORD_STATE");
+
 		/*
 		 * Recording
 		 */

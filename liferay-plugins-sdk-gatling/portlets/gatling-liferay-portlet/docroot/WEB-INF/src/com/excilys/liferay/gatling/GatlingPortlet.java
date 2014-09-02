@@ -549,7 +549,7 @@ public class GatlingPortlet extends MVCPortlet {
 			//get record and Sample list in db if exists
 			Map<String, List<LinkUsecaseRequest> >  useCaseList = new HashMap<String, List<LinkUsecaseRequest> >();
 			try {
-				script =  ListScript.getList( portletId.split("_")[0]);
+				script =  ListScript.getList(portletId);
 				List<Record> recordList = RecordLocalServiceUtil.findByPortletAndRequest(portletId.split("_")[0]) ;
 				for (Record record : recordList) {
 					long recordId = record.getRecordId();

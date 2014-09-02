@@ -4,6 +4,7 @@ import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListScript {
@@ -16,7 +17,11 @@ public class ListScript {
 	public static List<Record> getList(String idPortlet) throws SystemException {
 
 		// get list of sample and records
-		List<Record> recordList = RecordLocalServiceUtil.findByPortletAndRequest(idPortlet.split("_")[0]) ;
+		List<Record> recordList = new ArrayList<Record>();
+		List<Record> recordListPortletType = RecordLocalServiceUtil.findByPortletAndRequest(idPortlet.split("_INSTANCE_")[0]) ;
+		List<Record> recordListInstance = RecordLocalServiceUtil.findByPortletAndRequest(idPortlet) ;
+		recordList.addAll(recordListInstance);
+		recordList.addAll(recordListPortletType);
 		return recordList;
 	}
 	
