@@ -13,14 +13,14 @@
 </div>
 	
 <c:choose>
-	<c:when test="${not empty script && not empty script[0] && not empty script[0][0] && script[0][0] != ' ' }">
+	<c:when test="${not empty script && not empty script.get(0) && not empty script.get(0).name && script.get(0).name != ' ' }">
 		<aui:form action="" name="addSample" id="addSample">		
 		
 
 			<aui:select inlineField="true" label="portlet-edit-sample-select" name="Sample Script" required="true" id="selectScript">
 		<!-- Get the list of the different sample scripts available for the Portlet. The list is store in a class named ListScript (package mustache) -->
-			  	<c:forEach var="group" items="${script}">
-					<aui:option label="${group[0]}" value="${group[1]}" />
+			  	<c:forEach var="record" items="${script}">
+					<aui:option label="${record.name}" value="${record.recordId}" />
 				</c:forEach> 
 		
 			</aui:select>

@@ -1,5 +1,11 @@
 package com.excilys.liferay.gatling.mustache;
 
+import com.excilys.liferay.gatling.model.Record;
+import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+
+import java.util.List;
+
 public class ListScript {
 
 	public static String getList() {
@@ -7,14 +13,11 @@ public class ListScript {
 		return "sansParam";
 	}
 
-	public static String[][] getList(String idPortlet) {
+	public static List<Record> getList(String idPortlet) throws SystemException {
 
-		if("54".equals(idPortlet)) {
-			return new String[][] {{"Simple (only GETs)", "1"}, {"Simple (only POSTs)", "2"}, {"Simple (POSTs and GETs)", "3"}};
-		} else if("56".equals(idPortlet)) {
-			return new String[][] {{"Simple (only GETs)", "1"}, {"Simple (only POSTs)", "2"}, {"Simple (POSTs and GETs)", "3"}};
-		} 
-		return new String[][] {{}};
+		// get list of sample and records
+		List<Record> recordList = RecordLocalServiceUtil.findByPortletAndRequest(idPortlet.split("_")[0]) ;
+		return recordList;
 	}
 	
 	public class Details {
