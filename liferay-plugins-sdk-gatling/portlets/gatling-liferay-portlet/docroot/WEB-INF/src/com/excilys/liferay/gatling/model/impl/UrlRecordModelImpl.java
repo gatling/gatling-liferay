@@ -63,7 +63,7 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 			{ "url", Types.VARCHAR },
 			{ "order_", Types.INTEGER }
 		};
-	public static final String TABLE_SQL_CREATE = "create table StressTool_UrlRecord (urlRecordId LONG not null primary key,recordId LONG,url VARCHAR(500) null,order_ INTEGER)";
+	public static final String TABLE_SQL_CREATE = "create table StressTool_UrlRecord (urlRecordId LONG not null primary key,recordId LONG,url TEXT null,order_ INTEGER)";
 	public static final String TABLE_SQL_DROP = "drop table StressTool_UrlRecord";
 	public static final String ORDER_BY_JPQL = " ORDER BY urlRecord.urlRecordId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY StressTool_UrlRecord.urlRecordId ASC";

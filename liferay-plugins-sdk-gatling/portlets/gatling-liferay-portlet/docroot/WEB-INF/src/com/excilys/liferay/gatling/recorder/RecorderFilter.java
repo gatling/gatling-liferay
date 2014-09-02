@@ -63,7 +63,6 @@ public class RecorderFilter implements Filter {
 			String[] infos = state.split(",");
 			String ppid = request.getParameter("p_p_id");
 			if(state != null && ppid != null && infos.length == 3) {  // size cookie correct
-				LOG.info("======"+infos[2]+"======");
 				
 				HttpSession session = httpRequest.getSession();
 				// get the recorded Urls list
