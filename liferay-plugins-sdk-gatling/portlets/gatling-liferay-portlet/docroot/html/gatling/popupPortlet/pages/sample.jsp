@@ -4,7 +4,7 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 <portlet:actionURL name="editPortletSample" var="editPortletSampleURL"	windowState="pop_up" >
-	<portlet:param name="portletId" value="${portletId}" />
+	<portlet:param name="pagePortletId" value="${portletId}" />
 	<portlet:param name="requestId" value="${requestId}" />
 </portlet:actionURL>
 
@@ -38,6 +38,7 @@
 							<th class="small-column"><liferay-ui:message key="scenario-edit-table-header-weight" />
 								<liferay-ui:icon-help message="weight-info-help" /></th>
 							<th class="small-column"><liferay-ui:icon-help message="percent-info-help" /></th>
+							<th class="small-column"><liferay-ui:message key="delete-message" /></th>
 						</tr>
 					</c:if>
 				</thead>
@@ -48,6 +49,15 @@
 							<td title="${ recordAndSampleList.get(record).recordId}">${record}</td>
 							<td ><aui:input name="weightScenarioSample${ recordAndSampleList.get(record).recordId}"  label="" value="${recordAndSampleList.get(record).weight}" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input></td>
 							<td class='popup_percent'></td>
+							<td>
+								<%--delete button --%>
+								<portlet:actionURL var="deleteUseCaseURL" name="removeUseCase">
+									<portlet:param name="useCaseId" value="${recordAndSampleList.get(record).linkUsecaseRequestId }" />
+									<portlet:param name="pagePortletId" value="${portletId }" />
+									<portlet:param name="requestId" value="${requestId}" />
+								</portlet:actionURL>
+								<liferay-ui:icon-delete url="${deleteUseCaseURL}" />
+							</td>
 						</tr>
 					</c:forEach>
 				</tbody>				

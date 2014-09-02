@@ -92,7 +92,6 @@
 					<c:set var="url" value="${publicURL}${layout.url}" />
 				</c:otherwise>
 			</c:choose>
-			
 			<%--
 				DISPLAY
 			 --%>

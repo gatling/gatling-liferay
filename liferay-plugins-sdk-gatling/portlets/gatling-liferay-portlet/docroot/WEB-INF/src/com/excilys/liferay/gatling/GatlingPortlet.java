@@ -254,8 +254,26 @@ public class GatlingPortlet extends MVCPortlet {
 			}
 		}
 		
-		response.setRenderParameter("pagePortletId", StringUtil.merge(parameters.get("portletId")));
-		//Scenario scenario = ScenarioLocalServiceUtil.editScenarioFromRequest(request);
+		response.setRenderParameter("page", jspEditPortlet);
+		//hack, only work this way ....
+		response.setRenderParameter("p_p_state", "pop_up");
+		PortalUtil.copyRequestParameters(request, response);
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws SystemException
+	 * @throws PortalException
+	 */
+	public void removeUseCase(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException{
+		
+		final Map<String, String[]> parameters = request.getParameterMap();
+		long useCaseId = Long.parseLong(StringUtil.merge(parameters.get("useCaseId")));
+		LinkUsecaseRequestLocalServiceUtil.deleteLinkUsecaseRequest(useCaseId);		
+		
+		//redirect
 		response.setRenderParameter("page", jspEditPortlet);
 		//hack, only work this way ....
 		response.setRenderParameter("p_p_state", "pop_up");
