@@ -57,19 +57,33 @@ public class LinkUsecaseRequestLocalServiceImpl
 	public void savelinkUseCase(long requestId, long recordId, double weight, boolean isSample){
 		long primaryKey;
 		try {
-			primaryKey = CounterLocalServiceUtil.increment(LinkUsecaseRequest.class.getName());
-			final LinkUsecaseRequest newLinkUsecaseRequest = LinkUsecaseRequestLocalServiceUtil.createLinkUsecaseRequest(primaryKey);
-			newLinkUsecaseRequest.setRequest_id(requestId);
-			newLinkUsecaseRequest.setRecordId(recordId);
-			newLinkUsecaseRequest.setWeight(weight);
-			newLinkUsecaseRequest.setSample(isSample);
-			final List<String> errors = LinkUsecaseRequestValidator.validateLinkUsecaseRequest(newLinkUsecaseRequest);
-			if(errors.isEmpty()) {
-				LinkUsecaseRequestLocalServiceUtil.addLinkUsecaseRequest(newLinkUsecaseRequest);
+			
+			List<LinkUsecaseRequest> existantLinkUsecaseRequest = findByRecordAndRequest(requestId, recordId);
+			final LinkUsecaseRequest newLinkUsecaseRequest;
+			if(existantLinkUsecaseRequest.isEmpty()){
+				//Create new LinkUsecaseRequest 
+				primaryKey = CounterLocalServiceUtil.increment(LinkUsecaseRequest.class.getName());
+				newLinkUsecaseRequest = LinkUsecaseRequestLocalServiceUtil.createLinkUsecaseRequest(primaryKey);
+				newLinkUsecaseRequest.setRequest_id(requestId);
+				newLinkUsecaseRequest.setRecordId(recordId);
+				newLinkUsecaseRequest.setWeight(weight);
+				newLinkUsecaseRequest.setSample(isSample);
+				final List<String> errors = LinkUsecaseRequestValidator.validateLinkUsecaseRequest(newLinkUsecaseRequest);
+				if(errors.isEmpty()) {
+					LinkUsecaseRequestLocalServiceUtil.addLinkUsecaseRequest(newLinkUsecaseRequest);
+				}
+			}
+			else{
+				//Update LinkUsecaseRequest
+				newLinkUsecaseRequest = existantLinkUsecaseRequest.get(0);
+				if(weight != newLinkUsecaseRequest.getWeight()){
+					newLinkUsecaseRequest.setWeight(weight);
+					LinkUsecaseRequest linkUsecaseRequest = LinkUsecaseRequestLocalServiceUtil.updateLinkUsecaseRequest(newLinkUsecaseRequest);
+				}
 			}
 		} catch (SystemException e) {
 			if (LOG.isErrorEnabled()){
-				LOG.error("unable to add new LinkUsecaseRequest: "+e.getMessage());
+				LOG.error("unable to add or update new LinkUsecaseRequest: "+e.getMessage());
 			}
 		}
 	}
