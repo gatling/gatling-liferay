@@ -79,7 +79,7 @@ public class DisplayItem {
 		portletId = portletPreferences.getPortletId();
 		try {
 			Layout parent = LayoutLocalServiceUtil.getLayout(portletPreferences.getPlid());
-			url = parent.getFriendlyURL() + portletId;
+			url = parent.getFriendlyURL() ; //+ portletId
 			groupId = parent.getGroupId(); 
 		} catch (PortalException e) {
 			new RuntimeException(e.getMessage());
@@ -97,6 +97,7 @@ public class DisplayItem {
 		displayId = layout.getPlid();
 		layoutId  = layout.getLayoutId();
 		privateItem = layout.isPrivateLayout();
+		groupId = layout.getGroupId();
 		try {
 			parentDisplayId = layout.getParentPlid();
 		} catch (SystemException e) {

@@ -543,9 +543,9 @@ public class GatlingPortlet extends MVCPortlet {
 			String portletId = ParamUtil.getString(renderRequest, "pagePortletId");
 			String portletName = PortletLocalServiceUtil.getPortletById(portletId).getDisplayName();
 			long  groupId =  ParamUtil.getLong(renderRequest, "groupId");
+			long  plId =  ParamUtil.getLong(renderRequest, "plId");
 			long  requestId =  ParamUtil.getLong(renderRequest, "requestId");
 			List<Record>script = null;
-			
 			//get record and Sample list in db if exists
 			Map<String, List<LinkUsecaseRequest> >  useCaseList = new HashMap<String, List<LinkUsecaseRequest> >();
 			try {
@@ -570,6 +570,7 @@ public class GatlingPortlet extends MVCPortlet {
 			renderRequest.setAttribute("portletId", portletId);
 			renderRequest.setAttribute("portletName", portletName);
 			renderRequest.setAttribute("groupId", groupId);
+			renderRequest.setAttribute("plId", plId);
 			renderRequest.setAttribute("requestId", requestId);
 			renderRequest.setAttribute("recordAndSampleList", useCaseList);
 			

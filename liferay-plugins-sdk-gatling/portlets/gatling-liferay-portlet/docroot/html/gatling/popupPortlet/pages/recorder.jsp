@@ -11,7 +11,7 @@
 	<liferay-portlet:param name="nextRecordState" value="${nextRecordState}"/>
 </liferay-portlet:actionURL>
 
-<h3><liferay-ui:message key="recorder-for" />: ${portletName} </h3>
+<h3><liferay-ui:message key="recorder-for" />: ${portletName}</h3>
 
 <c:if test='${ portletId != null &&  !"0".equals(portletId) }'>
 	<aui:form action="${toggleRecordURL}">
@@ -38,7 +38,7 @@
 		</div>
 	</aui:form>
 	<hr/>
-	<liferay-portlet:renderURL var="portletURL" portletName="${ portletId }" windowState="pop_up" doAsGroupId="${ groupId }" />
+	<liferay-portlet:renderURL var="portletURL" portletName="${ portletId }" windowState="pop_up" doAsGroupId="${ groupId }" plid="${ plId }"/>
 	<iframe id="portletRecordFrame" src="${portletURL }" width="95%" class="popup-focus" ></iframe>
 	
 	<c:if test="${nextRecordState eq 'STOP' }">
