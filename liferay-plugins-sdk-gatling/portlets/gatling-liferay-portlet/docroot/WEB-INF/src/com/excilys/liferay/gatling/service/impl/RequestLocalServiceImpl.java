@@ -17,6 +17,8 @@ package com.excilys.liferay.gatling.service.impl;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.service.base.RequestLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import java.util.List;
 
