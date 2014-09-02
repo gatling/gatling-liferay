@@ -83,7 +83,7 @@
 				<c:set var="color" value="empty-weight-color" />
 			</c:if>
 			<c:choose>
-				<c:when test="layout.privateItem">
+				<c:when test="${ layout.privateItem}">
 					<c:set var="url" value="${privateURL}${layout.url}" />
 				</c:when>
 				<c:otherwise>
