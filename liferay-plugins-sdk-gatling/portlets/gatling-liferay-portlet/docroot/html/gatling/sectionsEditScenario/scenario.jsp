@@ -346,6 +346,7 @@
 			            	footer: [
 			            	           {
 			            	             label: 'Close portlet configuration',
+			            	             cssClass : "btn-info",
 			            	             on: {
 			            	               click: function() {
 			            	            	  checkAndHidePopup();

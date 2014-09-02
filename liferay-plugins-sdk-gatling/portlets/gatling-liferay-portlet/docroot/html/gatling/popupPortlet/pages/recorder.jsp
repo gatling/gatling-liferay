@@ -18,19 +18,18 @@
 		
 		<div class="btn-group" style="z-index: 1202">
 			<c:choose>
-				<c:when test="${nextRecordState eq 'STOP' }">
-				<aui:input name="useCaseRecordName" inlineField="true" /> 
+			<c:when test="${nextRecordState eq 'STOP' }">
+				<aui:input name="useCaseRecordName" inlineField="true"/>
 				<liferay-util:buffer var="btnRecordText">
 					<liferay-ui:message key="stop" /> 
 				</liferay-util:buffer>				
 			 	<aui:button cssClass="btn btn-warning inline-button" type="submit" value="${btnRecordText}" icon="icon-stop" />
 			 	<input id="checkRecording" type="hidden" value="true"/>
-				</c:when>
-				<c:otherwise>
-				<aui:input name="useCaseRecordName" inlineField="true" >
-					<aui:validator name="required" errorMessage="record-name-required"></aui:validator>
+			</c:when>
+			<c:otherwise>
+				<aui:input name="useCaseRecordName" required="true" inlineField="true">
 					<aui:validator name="custom" errorMessage="record-name-already-used">
-					 		function (val, fieldNode, ruleValue) {
+					 	function (val, fieldNode, ruleValue) {
 							var result = false;
 							var list = ${listRecordsName};
 							if (list.indexOf(val) == -1) {
@@ -45,7 +44,7 @@
 				</liferay-util:buffer>	
 			    <aui:button cssClass="btn btn-warning inline-button" type="submit" value="${btnRecordText }" icon="icon-play"/>
 			    <input id="checkRecording" type="hidden" value="false"/>
-				</c:otherwise>
+			</c:otherwise>
 			</c:choose>
 		</div>
 	</aui:form>

@@ -22,8 +22,7 @@
 	message="request-scenarioid-required" />
 
 
-<portlet:actionURL name="editScenario" var="editScenarioURL"
-	windowState="normal" />
+<portlet:actionURL name="editScenario" var="editScenarioURL" windowState="normal" />
 <aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario">
 	<div class="well well-small">
 		<liferay-ui:icon-help message="About this page">
@@ -133,6 +132,7 @@
 						    	        },
 						    	        {
 						    	          label: '<liferay-ui:message key="submit-anyway" />',
+						    	          cssClass : "btn-warning",
 						    	          on: {
 							    	            click: function() {
 							    	            	confirmDialog.hide();
@@ -143,6 +143,8 @@
 						    	      ]);
 			  	});	
 	}
-</script>
+	
+	
 
+</script>
 
