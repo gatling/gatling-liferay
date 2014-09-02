@@ -28,7 +28,6 @@ import com.liferay.portal.kernel.util.HttpUtil;
  */
 public class RecorderFilter implements Filter {
 	private static final Log LOG = LogFactoryUtil.getLog(RecorderFilter.class);
-	private static final String GATLING_PPID="gatling_WAR_gatlingliferayportlet";
 	/**
 	 * Default constructor. 
 	 */
