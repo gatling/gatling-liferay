@@ -50,6 +50,5 @@
 <script>
 AUI().use("aui-base", function(A) {
 	A.one(top.document.getElementById('recording')).val(A.one("#checkRecording").val());
-	console.log(top.document.getElementById('recording'));
 });
 </script>

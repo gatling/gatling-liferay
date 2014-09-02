@@ -505,9 +505,9 @@ public class GatlingPortlet extends MVCPortlet {
 				renderRequest.setAttribute("listOfScenarioName", JSListName);
 
 			} catch (SystemException e) {
-				throw new RuntimeException("connot get layout list: " + e.getMessage());
+				throw new RuntimeException("cannot get layout list: " + e.getMessage());
 			} catch (PortalException e) {
-				throw new RuntimeException("connot get layout list: " + e.getMessage());
+				throw new RuntimeException("cannot get layout list: " + e.getMessage());
 			} 
 		} else if (page.equals(jspEditPortlet)) {
 			/*
@@ -521,7 +521,6 @@ public class GatlingPortlet extends MVCPortlet {
 				throw new NullPointerException("portlet id is null");
 			}	
 			String portletId = ParamUtil.getString(renderRequest, "pagePortletId");
-			LOG.info("portletId: "+portletId);
 			String portletName = PortletLocalServiceUtil.getPortletById(portletId).getDisplayName();
 			long  groupId =  ParamUtil.getLong(renderRequest, "groupId");
 			long  requestId =  ParamUtil.getLong(renderRequest, "requestId");
@@ -548,7 +547,6 @@ public class GatlingPortlet extends MVCPortlet {
 				}
 			}
 			
-			LOG.info("list size= "+ useCaseList.size());
 			renderRequest.setAttribute("script", script);
 			renderRequest.setAttribute("portletId", portletId);
 			renderRequest.setAttribute("portletName", portletName);

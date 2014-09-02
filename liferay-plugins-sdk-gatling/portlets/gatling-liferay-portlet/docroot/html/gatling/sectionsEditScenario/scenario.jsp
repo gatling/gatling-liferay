@@ -341,18 +341,8 @@
 			         	destroyOnClose : true,
 			            toolbars: {
 			            	footer: [
-			            	         {
-			            	             label: 'Cancel',
-			            	             id:"cancelButtonPopup",
-			            	             on: {
-			            	               click: function() {
-			            	            	  checkAndHidePopup();
-			            	               }
-			            	             }
-			            	           },
 			            	           {
-			            	             label: 'Save portlet configuration',
-			            	             id:"saveButtonPopup",
+			            	             label: 'Close portlet configuration',
 			            	             on: {
 			            	               click: function() {
 			            	            	  checkAndHidePopup();
