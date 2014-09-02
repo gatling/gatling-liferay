@@ -119,7 +119,7 @@ public class LinkUsecaseRequestLocalServiceClp
 		_methodName19 = "savelinkUseCase";
 
 		_methodParameterTypes19 = new String[] {
-				"long", "long", "double", "boolean"
+				"long", "long", "long", "double", "boolean"
 			};
 
 		_methodName20 = "findByRecordAndRequest";
@@ -696,12 +696,22 @@ public class LinkUsecaseRequestLocalServiceClp
 	}
 
 	@Override
-	public void savelinkUseCase(long requestId, long recordId, double weight,
-		boolean isSample) {
+	public void savelinkUseCase(long linkUsecaseRequestId, long requestId,
+		long recordId, double weight, boolean isSample) {
 		try {
 			_invokableLocalService.invokeMethod(_methodName19,
 				_methodParameterTypes19,
-				new Object[] { requestId, recordId, weight, isSample });
+				new Object[] {
+					linkUsecaseRequestId,
+					
+				requestId,
+					
+				recordId,
+					
+				weight,
+					
+				isSample
+				});
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);

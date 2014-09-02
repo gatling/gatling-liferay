@@ -290,10 +290,10 @@ public class LinkUsecaseRequestLocalServiceWrapper
 	}
 
 	@Override
-	public void savelinkUseCase(long requestId, long recordId, double weight,
-		boolean isSample) {
-		_linkUsecaseRequestLocalService.savelinkUseCase(requestId, recordId,
-			weight, isSample);
+	public void savelinkUseCase(long linkUsecaseRequestId, long requestId,
+		long recordId, double weight, boolean isSample) {
+		_linkUsecaseRequestLocalService.savelinkUseCase(linkUsecaseRequestId,
+			requestId, recordId, weight, isSample);
 	}
 
 	/**

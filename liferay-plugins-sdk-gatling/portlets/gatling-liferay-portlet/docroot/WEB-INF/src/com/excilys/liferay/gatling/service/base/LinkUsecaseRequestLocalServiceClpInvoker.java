@@ -117,7 +117,7 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 		_methodName58 = "savelinkUseCase";
 
 		_methodParameterTypes58 = new String[] {
-				"long", "long", "double", "boolean"
+				"long", "long", "long", "double", "boolean"
 			};
 
 		_methodName59 = "findByRecordAndRequest";
@@ -238,8 +238,9 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 				Arrays.deepEquals(_methodParameterTypes58, parameterTypes)) {
 			LinkUsecaseRequestLocalServiceUtil.savelinkUseCase(((Long)arguments[0]).longValue(),
 				((Long)arguments[1]).longValue(),
-				((Double)arguments[2]).doubleValue(),
-				((Boolean)arguments[3]).booleanValue());
+				((Long)arguments[2]).longValue(),
+				((Double)arguments[3]).doubleValue(),
+				((Boolean)arguments[4]).booleanValue());
 
 			return null;
 		}

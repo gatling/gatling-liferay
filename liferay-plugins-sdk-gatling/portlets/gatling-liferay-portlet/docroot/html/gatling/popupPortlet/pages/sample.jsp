@@ -44,21 +44,23 @@
 				</thead>
 				
 				<tbody id="bodyEditScript">  
-					<c:forEach var="record" items='${ recordAndSampleList.keySet() }' varStatus="status">
-						<tr>
-							<td title="${ recordAndSampleList.get(record).recordId}">${record}</td>
-							<td ><aui:input name="weightScenarioSample${ recordAndSampleList.get(record).recordId}"  label="" value="${recordAndSampleList.get(record).weight}" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input></td>
-							<td class='popup_percent'></td>
-							<td>
-								<%--delete button --%>
-								<portlet:actionURL var="deleteUseCaseURL" name="removeUseCase">
-									<portlet:param name="useCaseId" value="${recordAndSampleList.get(record).linkUsecaseRequestId }" />
-									<portlet:param name="pagePortletId" value="${portletId }" />
-									<portlet:param name="requestId" value="${requestId}" />
-								</portlet:actionURL>
-								<liferay-ui:icon-delete url="${deleteUseCaseURL}" />
-							</td>
-						</tr>
+					<c:forEach var="records" items='${ recordAndSampleList.keySet() }' varStatus="status1">
+						<c:forEach var="record" items='${ recordAndSampleList.get(records) }' varStatus="status">
+							<tr>
+								<td title="${ record.recordId}">${records}</td>
+								<td ><aui:input name="${ record.linkUsecaseRequestId}weightScenarioSample${ record.recordId}" value="${record.weight}" label="" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input></td>
+								<td class='popup_percent'></td>
+								<td>
+									<%--delete button --%>
+									<portlet:actionURL var="deleteUseCaseURL" name="removeUseCase">
+										<portlet:param name="useCaseId" value="${record.linkUsecaseRequestId }" />
+										<portlet:param name="pagePortletId" value="${portletId }" />
+										<portlet:param name="requestId" value="${requestId}" />
+									</portlet:actionURL>
+									<liferay-ui:icon-delete url="${deleteUseCaseURL}" />
+								</td>
+							</tr>
+						</c:forEach>
 					</c:forEach>
 				</tbody>				
 			</table>
@@ -74,17 +76,16 @@
 		</div>	
 	</c:otherwise>
 </c:choose>
-
+	
 <div hidden="true">
 <table><tbody id="toPaste">
 	<tr>
 		<td id="text" title=""></td>
-		<td id="weight"><aui:input name="weightScenarioSample"  label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input></td>
+		<td id="weight"><aui:input name="0weightScenarioSample"  label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input></td>
 		<td class='popup_percent'></td>
 	</tr>
 </tbody></table>
-</div>	
-
+</div>
 
 
 <script type="text/javascript">
@@ -137,10 +138,5 @@
 		});
 	}
 	showWeightPopup();
-	
 
-</script>		
-	
-			
-
-
+</script>

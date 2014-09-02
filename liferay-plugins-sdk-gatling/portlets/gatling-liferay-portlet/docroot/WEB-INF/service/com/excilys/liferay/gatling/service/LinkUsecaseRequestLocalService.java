@@ -249,8 +249,8 @@ public interface LinkUsecaseRequestLocalService extends BaseLocalService,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
 
-	public void savelinkUseCase(long requestId, long recordId, double weight,
-		boolean isSample);
+	public void savelinkUseCase(long linkUsecaseRequestId, long requestId,
+		long recordId, double weight, boolean isSample);
 
 	/**
 	* get {@link LinkUsecaseRequest} have this requestId

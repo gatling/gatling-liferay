@@ -23,6 +23,7 @@ import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -54,13 +55,12 @@ public class LinkUsecaseRequestLocalServiceImpl
 	
 	private static final Log LOG = LogFactoryUtil.getLog(LinkUsecaseRequestLocalServiceImpl.class.getName());
 	
-	public void savelinkUseCase(long requestId, long recordId, double weight, boolean isSample){
+	public void savelinkUseCase(long linkUsecaseRequestId, long requestId, long recordId, double weight, boolean isSample){
 		long primaryKey;
 		try {
 			
-			List<LinkUsecaseRequest> existantLinkUsecaseRequest = findByRecordAndRequest(requestId, recordId);
 			final LinkUsecaseRequest newLinkUsecaseRequest;
-			if(existantLinkUsecaseRequest.isEmpty()){
+			if(linkUsecaseRequestId == 0){
 				//Create new LinkUsecaseRequest 
 				primaryKey = CounterLocalServiceUtil.increment(LinkUsecaseRequest.class.getName());
 				newLinkUsecaseRequest = LinkUsecaseRequestLocalServiceUtil.createLinkUsecaseRequest(primaryKey);
@@ -75,15 +75,19 @@ public class LinkUsecaseRequestLocalServiceImpl
 			}
 			else{
 				//Update LinkUsecaseRequest
-				newLinkUsecaseRequest = existantLinkUsecaseRequest.get(0);
-				if(weight != newLinkUsecaseRequest.getWeight()){
-					newLinkUsecaseRequest.setWeight(weight);
-					LinkUsecaseRequest linkUsecaseRequest = LinkUsecaseRequestLocalServiceUtil.updateLinkUsecaseRequest(newLinkUsecaseRequest);
+				final LinkUsecaseRequest existantLinkUsecaseRequest = LinkUsecaseRequestLocalServiceUtil.getLinkUsecaseRequest(linkUsecaseRequestId);
+				if(weight != existantLinkUsecaseRequest.getWeight()){
+					existantLinkUsecaseRequest.setWeight(weight);
+					LinkUsecaseRequestLocalServiceUtil.updateLinkUsecaseRequest(existantLinkUsecaseRequest);
 				}
 			}
 		} catch (SystemException e) {
 			if (LOG.isErrorEnabled()){
 				LOG.error("unable to add or update new LinkUsecaseRequest: "+e.getMessage());
+			}
+		} catch (PortalException e) {
+			if (LOG.isErrorEnabled()){
+				LOG.error("unable to get LinkUsecaseRequest with her id: "+e.getMessage());
 			}
 		}
 	}

@@ -246,11 +246,13 @@ public class GatlingPortlet extends MVCPortlet {
 		
 		for (String key : parameters.keySet()){
 			if(key.contains("weightScenarioSample")){
-				long recordId = Long.parseLong(key.replace("weightScenarioSample", ""));
+				LOG.info("key: "+key);
+				long linkUsecaseRequestId = Long.parseLong(key.split("weightScenarioSample")[0]);
+				long recordId = Long.parseLong(key.split("weightScenarioSample")[1]);
 				String[] weights = StringUtil.merge(parameters.get(key)).split(",");
 				for(String weight : weights){
 					// add new Link use Case
-					LinkUsecaseRequestLocalServiceUtil.savelinkUseCase(requestId, recordId,  Double.parseDouble(weight), true);
+					LinkUsecaseRequestLocalServiceUtil.savelinkUseCase(linkUsecaseRequestId, requestId, recordId, Double.parseDouble(weight), true);
 				}
 			}
 		}
@@ -545,15 +547,13 @@ public class GatlingPortlet extends MVCPortlet {
 			String [][] script =  ListScript.getList( portletId.split("_")[0]);
 			
 			//get record and Sample list in db if exists
-			Map<String, LinkUsecaseRequest>  useCaseList = new HashMap<String, LinkUsecaseRequest>();
+			Map<String, List<LinkUsecaseRequest> >  useCaseList = new HashMap<String, List<LinkUsecaseRequest> >();
 			try {
 				List<Record> recordList = RecordLocalServiceUtil.findByPortletAndRequest(portletId.split("_")[0]) ;
 				for (Record record : recordList) {
 					long recordId = record.getRecordId();
-					for (LinkUsecaseRequest lucr : LinkUsecaseRequestLocalServiceUtil.findByRecordAndRequest(requestId, recordId) ) {
-						useCaseList.put(record.getName(), lucr);
-					}
-//					.addAll();
+					List<LinkUsecaseRequest> listUseCase = LinkUsecaseRequestLocalServiceUtil.findByRecordAndRequest(requestId, recordId);
+					useCaseList.put(record.getName(), listUseCase);
 				}
 			} catch (NumberFormatException e) {
 				if(LOG.isErrorEnabled()){
