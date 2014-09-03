@@ -285,7 +285,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 						final List<String> errors = RequestValidator.validateRequest(updatedRequest);
 						if (errors.isEmpty()) {
 							RequestLocalServiceUtil.updateRequest(updatedRequest);
-							LOG.info("request updated successfully");	
+							LOG.debug("request updated successfully");	
 						} else {
 							for (String error : errors) {
 								SessionErrors.add(request, error);
@@ -294,7 +294,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 					} else {
 						// else Add new page or new portlet request
 						if (LOG.isInfoEnabled()){
-							LOG.info("add new request "+key+" : "+StringUtil.merge(parameters.get(key)));
+							LOG.debug("add new request "+key+" : "+StringUtil.merge(parameters.get(key)));
 						}
 						RequestLocalServiceUtil.addRequestFromDisplayItem(displayLayout, weight, idScenario);
 						LOG.info("request created and added succefully ");
@@ -304,7 +304,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 				// if layout doesn't exist anymore
 				else {
 					if (LOG.isInfoEnabled()){
-						LOG.info("delete request: "+key+" : "+StringUtil.merge(parameters.get(key)));
+						LOG.debug("delete request: "+key+" : "+StringUtil.merge(parameters.get(key)));
 					}
 					RequestLocalServiceUtil.deleteRequest(requestId);
 				}
