@@ -61,5 +61,8 @@
 <script>
 AUI().use("aui-base", function(A) {
 	A.one(top.document.getElementById('recording')).val(A.one("#checkRecording").val());
+	if(A.one(".alert") != null && A.one("#checkRecording").val() === 'true') {
+		A.one(".alert").hide();
+	}
 });
 </script>
