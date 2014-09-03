@@ -551,7 +551,8 @@ public class GatlingPortlet extends MVCPortlet {
 			Map<String, List<LinkUsecaseRequest> >  useCaseList = new HashMap<String, List<LinkUsecaseRequest> >();
 			try {
 				availableScript =  ListScript.getList(portletId);
-				List<Record> recordList = RecordLocalServiceUtil.findByPortletAndRequest(portletId.split("_")[0]) ;
+				List<Record> recordList = RecordLocalServiceUtil.findByPortletAndRequest(portletId.split("_")[0]);
+				listRecordsName = GatlingUtil.createJSListOfRecordName(recordList);
 				for (Record record : recordList) {
 					long recordId = record.getRecordId();
 					List<LinkUsecaseRequest> listUseCase = LinkUsecaseRequestLocalServiceUtil.findByRecordAndRequest(requestId, recordId);

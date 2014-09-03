@@ -3,6 +3,10 @@
  */
 package com.excilys.liferay.gatling.util;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
@@ -13,10 +17,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.service.GroupLocalServiceUtil;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class GatlingUtil {
 	

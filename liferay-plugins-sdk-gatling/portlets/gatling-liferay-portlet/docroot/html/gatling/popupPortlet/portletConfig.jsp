@@ -10,9 +10,6 @@
 			"existing-usecase");
 %>
 <!-- This is the link associated to every tab to load the specific page -->
-<liferay-portlet:renderURL var="changeTabURL">
-	<liferay-portlet:param name="" value="" />
-</liferay-portlet:renderURL>
 <liferay-ui:tabs names='existing-usecase,record-usecase' refresh="false"
 	value="<%=currentTab%>">
 	<liferay-ui:section>
