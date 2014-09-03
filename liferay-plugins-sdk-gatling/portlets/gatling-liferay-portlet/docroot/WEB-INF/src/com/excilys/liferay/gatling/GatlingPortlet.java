@@ -567,7 +567,7 @@ public class GatlingPortlet extends MVCPortlet {
 					LOG.error("error when search for Record list: "+e.getMessage());
 				}
 			}
-			
+			System.out.println("sths vjs jsv jyr b "+availableScript.length);
 			renderRequest.setAttribute("availableScript", availableScript);
 			renderRequest.setAttribute("portletId", portletId);
 			renderRequest.setAttribute("portletName", portletName);

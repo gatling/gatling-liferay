@@ -12,7 +12,7 @@
 	<liferay-ui:message key="portlet-edit-sample-details" />
 </div>
 <c:choose>
-	<c:when test="${not empty availableScript && not empty availableScript[0] && availableScript.get(0).name != ' ' }">
+	<c:when test="${not empty availableScript && not empty availableScript[0] && availableScript[0][0] != ' ' }">
 		<aui:form action="" name="addSample" id="addSample">		
 		
 
