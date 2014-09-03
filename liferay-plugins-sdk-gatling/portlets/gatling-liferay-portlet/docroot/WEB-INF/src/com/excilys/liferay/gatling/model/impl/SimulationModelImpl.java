@@ -75,7 +75,11 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.finder.cache.enabled.com.excilys.liferay.gatling.model.Simulation"),
 			true);
-	public static final boolean COLUMN_BITMASK_ENABLED = false;
+	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
+				"value.object.column.bitmask.enabled.com.excilys.liferay.gatling.model.Simulation"),
+			true);
+	public static long VARIABLENAME_COLUMN_BITMASK = 1L;
+	public static long SIMULATION_ID_COLUMN_BITMASK = 2L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.excilys.liferay.gatling.model.Simulation"));
 
@@ -181,7 +185,21 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 
 	@Override
 	public void setVariableName(String variableName) {
+		_columnBitmask |= VARIABLENAME_COLUMN_BITMASK;
+
+		if (_originalVariableName == null) {
+			_originalVariableName = _variableName;
+		}
+
 		_variableName = variableName;
+	}
+
+	public String getOriginalVariableName() {
+		return GetterUtil.getString(_originalVariableName);
+	}
+
+	public long getColumnBitmask() {
+		return _columnBitmask;
 	}
 
 	@Override
@@ -264,6 +282,11 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 
 	@Override
 	public void resetOriginalValues() {
+		SimulationModelImpl simulationModelImpl = this;
+
+		simulationModelImpl._originalVariableName = simulationModelImpl._variableName;
+
+		simulationModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -339,5 +362,7 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 	private long _simulation_id;
 	private String _name;
 	private String _variableName;
+	private String _originalVariableName;
+	private long _columnBitmask;
 	private Simulation _escapedModel;
 }

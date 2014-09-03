@@ -81,10 +81,7 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	 * Count how many {@link Simulation} have this variableName
 	 */
 	public int countByVariableName(String variableName) throws SystemException {
-		final DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Simulation.class)
-				.add(PropertyFactoryUtil.forName("variableName").like(variableName+"%"));
-
-		return (int) simulationPersistence.countWithDynamicQuery(dq);
+		return (int) simulationPersistence.countByVariableName(variableName);
 	}
 
 	/**
@@ -99,13 +96,13 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		 * Create simulation
 		 */
 		long primaryKey = CounterLocalServiceUtil.increment(Simulation.class.getName());
-		Simulation simulation = SimulationLocalServiceUtil.createSimulation(primaryKey);
+		Simulation simulation = simulationPersistence.create(primaryKey);
 		simulation.setName(ParamUtil.getString(request, "simulationName"));
 		/*
 		 *  Set Variable Name
 		 */
 		String variableName = GatlingUtil.createVariableName("Simulation", ParamUtil.getString(request, "simulationName"));
-		final int count = SimulationLocalServiceUtil.countByVariableName(variableName);
+		final int count = simulationPersistence.countByVariableName(variableName);
 		// Test if the variable name already exists
 		if(count != 0) {
 			// Add a number at the end to make it unique
@@ -118,7 +115,7 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		List<String> errors = SimulationValidator.validateSimulation(simulation);
 		if(errors.isEmpty()) {
 			// Add scenario
-			simulation = SimulationLocalServiceUtil.addSimulation(simulation);
+			simulation = simulationPersistence.update(simulation);
 			LOG.info(simulation);
 			return simulation;
 		}

@@ -38,6 +38,144 @@ public interface SimulationPersistence extends BasePersistence<Simulation> {
 	 */
 
 	/**
+	* Returns all the simulations where variableName = &#63;.
+	*
+	* @param variableName the variable name
+	* @return the matching simulations
+	* @throws SystemException if a system exception occurred
+	*/
+	public java.util.List<com.excilys.liferay.gatling.model.Simulation> findByVariableName(
+		java.lang.String variableName)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns a range of all the simulations where variableName = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.SimulationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param variableName the variable name
+	* @param start the lower bound of the range of simulations
+	* @param end the upper bound of the range of simulations (not inclusive)
+	* @return the range of matching simulations
+	* @throws SystemException if a system exception occurred
+	*/
+	public java.util.List<com.excilys.liferay.gatling.model.Simulation> findByVariableName(
+		java.lang.String variableName, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns an ordered range of all the simulations where variableName = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.SimulationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param variableName the variable name
+	* @param start the lower bound of the range of simulations
+	* @param end the upper bound of the range of simulations (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching simulations
+	* @throws SystemException if a system exception occurred
+	*/
+	public java.util.List<com.excilys.liferay.gatling.model.Simulation> findByVariableName(
+		java.lang.String variableName, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the first simulation in the ordered set where variableName = &#63;.
+	*
+	* @param variableName the variable name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching simulation
+	* @throws com.excilys.liferay.gatling.NoSuchSimulationException if a matching simulation could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.excilys.liferay.gatling.model.Simulation findByVariableName_First(
+		java.lang.String variableName,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.excilys.liferay.gatling.NoSuchSimulationException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the first simulation in the ordered set where variableName = &#63;.
+	*
+	* @param variableName the variable name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching simulation, or <code>null</code> if a matching simulation could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.excilys.liferay.gatling.model.Simulation fetchByVariableName_First(
+		java.lang.String variableName,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the last simulation in the ordered set where variableName = &#63;.
+	*
+	* @param variableName the variable name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching simulation
+	* @throws com.excilys.liferay.gatling.NoSuchSimulationException if a matching simulation could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.excilys.liferay.gatling.model.Simulation findByVariableName_Last(
+		java.lang.String variableName,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.excilys.liferay.gatling.NoSuchSimulationException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the last simulation in the ordered set where variableName = &#63;.
+	*
+	* @param variableName the variable name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching simulation, or <code>null</code> if a matching simulation could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.excilys.liferay.gatling.model.Simulation fetchByVariableName_Last(
+		java.lang.String variableName,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the simulations before and after the current simulation in the ordered set where variableName = &#63;.
+	*
+	* @param simulation_id the primary key of the current simulation
+	* @param variableName the variable name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next simulation
+	* @throws com.excilys.liferay.gatling.NoSuchSimulationException if a simulation with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.excilys.liferay.gatling.model.Simulation[] findByVariableName_PrevAndNext(
+		long simulation_id, java.lang.String variableName,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.excilys.liferay.gatling.NoSuchSimulationException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Removes all the simulations where variableName = &#63; from the database.
+	*
+	* @param variableName the variable name
+	* @throws SystemException if a system exception occurred
+	*/
+	public void removeByVariableName(java.lang.String variableName)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the number of simulations where variableName = &#63;.
+	*
+	* @param variableName the variable name
+	* @return the number of matching simulations
+	* @throws SystemException if a system exception occurred
+	*/
+	public int countByVariableName(java.lang.String variableName)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
 	* Caches the simulation in the entity cache if it is enabled.
 	*
 	* @param simulation the simulation

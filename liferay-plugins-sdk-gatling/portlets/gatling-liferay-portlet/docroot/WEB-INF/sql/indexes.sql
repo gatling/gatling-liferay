@@ -10,3 +10,5 @@ create index IX_A55F4DFE on StressTool_Request (scenario_id, portlet, weight);
 create index IX_87174984 on StressTool_Request (scenario_id, weight);
 
 create index IX_4E9E331A on StressTool_Scenario (simulation_id);
+
+create index IX_2117B35B on StressTool_Simulation (variableName);

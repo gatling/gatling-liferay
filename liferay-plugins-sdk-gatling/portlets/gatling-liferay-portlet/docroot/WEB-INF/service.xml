@@ -8,6 +8,9 @@
 		<column name="simulation_id" type="long" primary="true"></column>
 		<column name="name" type="String"></column>
 		<column name="variableName" type="String"></column>
+		<finder name="VariableName" return-type="Collection">
+			<finder-column name="variableName" />
+		</finder>		
 	</entity>
 	
 	<entity name="Scenario" local-service="true" remote-service="false">

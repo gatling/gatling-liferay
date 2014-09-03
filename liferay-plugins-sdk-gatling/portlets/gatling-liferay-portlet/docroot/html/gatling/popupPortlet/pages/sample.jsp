@@ -12,7 +12,7 @@
 	<liferay-ui:message key="portlet-edit-sample-details" />
 </div>
 <c:choose>
-	<c:when test="${not empty script && not empty script.get(0) && not empty script.get(0).name && script.get(0).name != ' ' }">
+	<c:when test="${not empty availableScript && not empty availableScript[0] && availableScript.get(0).name != ' ' }">
 		<aui:form action="" name="addSample" id="addSample">		
 		
 
@@ -41,6 +41,10 @@
 				</thead>
 				
 				<tbody id="bodyEditScript">  
+				
+				
+				
+				
 					<c:forEach var="records" items='${ recordAndSampleList.keySet() }' varStatus="status1">
 						<c:forEach var="record" items='${ recordAndSampleList.get(records) }' varStatus="status">
 							<tr>

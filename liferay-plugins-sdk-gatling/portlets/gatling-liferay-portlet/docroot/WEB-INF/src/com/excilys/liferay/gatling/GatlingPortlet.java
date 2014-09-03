@@ -548,7 +548,7 @@ public class GatlingPortlet extends MVCPortlet {
 			String listRecordsName = null;
 			String[][] availableScript = null;
 			//get record and Sample list in db if exists
-			Map<String, List<LinkUsecaseRequest> >  useCaseList = new HashMap<String, List<LinkUsecaseRequest> >();
+			Map<String, List<LinkUsecaseRequest> >  recordAndSampleList = new HashMap<String, List<LinkUsecaseRequest> >();
 			try {
 				availableScript =  ListScript.getList(portletId);
 				List<Record> recordList = RecordLocalServiceUtil.findByPortletAndRequest(portletId.split("_")[0]);
@@ -556,7 +556,7 @@ public class GatlingPortlet extends MVCPortlet {
 				for (Record record : recordList) {
 					long recordId = record.getRecordId();
 					List<LinkUsecaseRequest> listUseCase = LinkUsecaseRequestLocalServiceUtil.findByRecordAndRequest(requestId, recordId);
-					useCaseList.put(record.getName(), listUseCase);
+					recordAndSampleList.put(record.getName(), listUseCase);
 				}				
 			} catch (NumberFormatException e) {
 				if(LOG.isErrorEnabled()){
@@ -574,7 +574,7 @@ public class GatlingPortlet extends MVCPortlet {
 			renderRequest.setAttribute("groupId", groupId);
 			renderRequest.setAttribute("plId", plId);
 			renderRequest.setAttribute("requestId", requestId);
-			renderRequest.setAttribute("recordAndSampleList", useCaseList);
+			renderRequest.setAttribute("recordAndSampleList", recordAndSampleList);
 			renderRequest.setAttribute("listRecordsName", listRecordsName);
 			
 			// Check state of recording
