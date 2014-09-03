@@ -291,20 +291,15 @@ public class LinkUsecaseRequestLocalServiceUtil {
 		return getService().findByRecordAndRequest(requestId, recordId);
 	}
 
-	public static java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest> findByRequestIdAndUsed(
-		long requestId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().findByRequestIdAndUsed(requestId);
-	}
-
 	public static int countByRequestIdAndUsed(long requestId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().countByRequestIdAndUsed(requestId);
 	}
 
-	public static void removeByRequestId(long requestId)
+	public static java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest> findByRequestIdAndUsed(
+		long requestId)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		getService().removeByRequestId(requestId);
+		return getService().findByRequestIdAndUsed(requestId);
 	}
 
 	public static int countByRequestId(long requestId)
@@ -316,6 +311,11 @@ public class LinkUsecaseRequestLocalServiceUtil {
 		long requestId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().findByRequestId(requestId);
+	}
+
+	public static void removeByRequestId(long requestId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getService().removeByRequestId(requestId);
 	}
 
 	public static void clearService() {

@@ -547,7 +547,7 @@ public class GatlingPortlet extends MVCPortlet {
 			long  requestId =  ParamUtil.getLong(renderRequest, "requestId");
 
 			String[][] arrayLinkUsecaseRequest = null;
-//			String listRecordsName = null;
+			String listRecordsName = null;
 			String[][] availableScript = null;
 			//get record and Sample list in db if exists
 //			Map<String, List<LinkUsecaseRequest> >  recordAndSampleList = new HashMap<String, List<LinkUsecaseRequest> >();
@@ -555,8 +555,8 @@ public class GatlingPortlet extends MVCPortlet {
 				availableScript =  ListScript.getList(portletId);
 				arrayLinkUsecaseRequest = GatlingUtil.fillArrayLinkUseCases(requestId);
 
-//				List<Record> recordList = RecordLocalServiceUtil.findByPortletAndRequest(portletId.split("_")[0]);
-//				listRecordsName = GatlingUtil.createJSListOfRecordName(recordList);
+				List<Record> recordList = RecordLocalServiceUtil.findByPortletId(portletId.split("_INSTANCE")[0]);
+				listRecordsName = GatlingUtil.createJSListOfRecordName(recordList);
 //				for (Record record : recordList) {
 //					long recordId = record.getRecordId();
 //					List<LinkUsecaseRequest> listUseCase = LinkUsecaseRequestLocalServiceUtil.findByRecordAndRequest(requestId, recordId);
@@ -581,7 +581,7 @@ public class GatlingPortlet extends MVCPortlet {
 			renderRequest.setAttribute("arrayLinkUsecaseRequest", arrayLinkUsecaseRequest);
 			
 //			renderRequest.setAttribute("recordAndSampleList", recordAndSampleList);
-//			renderRequest.setAttribute("listRecordsName", listRecordsName);
+			renderRequest.setAttribute("listRecordsName", listRecordsName);
 
 			// Check state of recording
 			String state = renderRequest.getParameter("recordState");

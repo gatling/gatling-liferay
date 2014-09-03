@@ -126,23 +126,23 @@ public class LinkUsecaseRequestLocalServiceClp
 
 		_methodParameterTypes20 = new String[] { "long", "long" };
 
-		_methodName21 = "findByRequestIdAndUsed";
+		_methodName21 = "countByRequestIdAndUsed";
 
 		_methodParameterTypes21 = new String[] { "long" };
 
-		_methodName22 = "countByRequestIdAndUsed";
+		_methodName22 = "findByRequestIdAndUsed";
 
 		_methodParameterTypes22 = new String[] { "long" };
 
-		_methodName23 = "removeByRequestId";
+		_methodName23 = "countByRequestId";
 
 		_methodParameterTypes23 = new String[] { "long" };
 
-		_methodName24 = "countByRequestId";
+		_methodName24 = "findByRequestId";
 
 		_methodParameterTypes24 = new String[] { "long" };
 
-		_methodName25 = "findByRequestId";
+		_methodName25 = "removeByRequestId";
 
 		_methodParameterTypes25 = new String[] { "long" };
 	}
@@ -769,8 +769,7 @@ public class LinkUsecaseRequestLocalServiceClp
 	}
 
 	@Override
-	public java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest> findByRequestIdAndUsed(
-		long requestId)
+	public int countByRequestIdAndUsed(long requestId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
@@ -794,11 +793,12 @@ public class LinkUsecaseRequestLocalServiceClp
 			}
 		}
 
-		return (java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest>)ClpSerializer.translateOutput(returnObj);
+		return ((Integer)returnObj).intValue();
 	}
 
 	@Override
-	public int countByRequestIdAndUsed(long requestId)
+	public java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest> findByRequestIdAndUsed(
+		long requestId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
@@ -822,31 +822,7 @@ public class LinkUsecaseRequestLocalServiceClp
 			}
 		}
 
-		return ((Integer)returnObj).intValue();
-	}
-
-	@Override
-	public void removeByRequestId(long requestId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		try {
-			_invokableLocalService.invokeMethod(_methodName23,
-				_methodParameterTypes23, new Object[] { requestId });
-		}
-		catch (Throwable t) {
-			t = ClpSerializer.translateThrowable(t);
-
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
-			}
-
-			if (t instanceof RuntimeException) {
-				throw (RuntimeException)t;
-			}
-			else {
-				throw new RuntimeException(t.getClass().getName() +
-					" is not a valid exception");
-			}
-		}
+		return (java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
@@ -855,8 +831,8 @@ public class LinkUsecaseRequestLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName24,
-					_methodParameterTypes24, new Object[] { requestId });
+			returnObj = _invokableLocalService.invokeMethod(_methodName23,
+					_methodParameterTypes23, new Object[] { requestId });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -884,8 +860,8 @@ public class LinkUsecaseRequestLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName25,
-					_methodParameterTypes25, new Object[] { requestId });
+			returnObj = _invokableLocalService.invokeMethod(_methodName24,
+					_methodParameterTypes24, new Object[] { requestId });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -904,6 +880,30 @@ public class LinkUsecaseRequestLocalServiceClp
 		}
 
 		return (java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public void removeByRequestId(long requestId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		try {
+			_invokableLocalService.invokeMethod(_methodName25,
+				_methodParameterTypes25, new Object[] { requestId });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
 	}
 
 	private InvokableLocalService _invokableLocalService;

@@ -52,11 +52,11 @@
 
 				<tbody id="bodyEditScript">
 
-<%-- 					<c:forEach var="linkUsecaseRequest"	items="${arrayLinkUsecaseRequest}">
+ 					<c:forEach var="linkUsecaseRequest"	items="${arrayLinkUsecaseRequest}">
 						<tr>
-							<td class="text" title="linkUsecaseRequest[0]" >linkUsecaseRequest[1]</td>
+							<td class="text" title="${linkUsecaseRequest[0]}" >${linkUsecaseRequest[1]}</td>
 							<td class="weight">
-								<aui:input name="0weightScenarioSample" label="" value="linkUsecaseRequest[2]" cssClass="popup_weightPage" onChange="showWeightPopup()" />
+								<aui:input name="0weightScenarioSample" label="" value="${linkUsecaseRequest[2]}" cssClass="popup_weightPage" onChange="showWeightPopup()" />
 							</td>
 							<td class='popup_percent' />
 							<td><aui:a href="#" onClick="removeLine(this);">
@@ -65,27 +65,8 @@
 						</tr>
 
 					</c:forEach>
- --%>
-					<%-- 				
-				
-					<c:forEach var="records" items='${ recordAndSampleList.keySet() }' varStatus="status1">
-						<c:forEach var="record" items='${ recordAndSampleList.get(records) }' varStatus="status">
-							<tr>
-								<td title="${ record.recordId}">${records}</td>
-								<td ><aui:input name="${ record.linkUsecaseRequestId}weightScenarioSample${ record.recordId}" value="${record.weight}" label="" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input></td>
-								<td class='popup_percent'></td>
-								<td>
-									delete button
-									<portlet:actionURL var="deleteUseCaseURL" name="removeUseCase">
-										<portlet:param name="useCaseId" value="${record.linkUsecaseRequestId }" />
-										<portlet:param name="pagePortletId" value="${portletId }" />
-										<portlet:param name="requestId" value="${requestId}" />
-									</portlet:actionURL>
-									<liferay-ui:icon-delete url="${deleteUseCaseURL}" />
-								</td>
-							</tr>
-						</c:forEach>
-					</c:forEach> --%>
+ 
+
 				</tbody>
 			</table>
 
@@ -119,60 +100,61 @@
 </div>
 
 
-<script type="text/javascript">
-/*	function addLine() {
-        AUI().use('aui-base', 'aui-node-base', function(A){
-                var idSelect = "<portlet:namespace/>"+"selectScript";
-                var label = document.getElementById(idSelect)[document.getElementById(idSelect).selectedIndex].textContent;
-                var value = document.getElementById(idSelect).value;
-                var canAdd = true;
-                A.one("#bodyEditScript").all('.text').each(function(node) {
-                        canAdd = canAdd && !(node.get('title') == value);
-                })
-                
-                if(canAdd && label != null && label != "" && label != " "){                     
-                        var value = document.getElementById(idSelect).value;                            
-                        var one = A.one('#toPaste').html();
-                        var html = A.Node.create(one);
-                        html.one('.text').html(label);
-                        html.one('.text').set('title',value); //sampleId
-                        var weightInput = html.one('.weight').one("input");
-                        var weightName = weightInput.get('name') + value;
-                        weightInput.set('name',weightName); //sampleId
-                        html.appendTo('#bodyEditScript');       
-                }
+<script type="text/javascript">	
+function addLine() {
+    AUI().use('aui-base', 'aui-node-base', function(A){
+        var idSelect = "<portlet:namespace/>"+"selectScript";
+        var label = document.getElementById(idSelect)[document.getElementById(idSelect).selectedIndex].textContent;
+        var value = document.getElementById(idSelect).value;
+        var canAdd = true;
+        A.one("#bodyEditScript").all('.text').each(function(node) {
+                canAdd = canAdd && !(node.get('title') == value);
+        })
         
-        });
-	}
+        if(canAdd && label != null && label != "" && label != " "){                     
+                var value = document.getElementById(idSelect).value;                            
+                var one = A.one('#toPaste').html();
+                var html = A.Node.create(one);
+                html.one('.text').html(label);
+                html.one('.text').set('title',value); //sampleId
+                var weightInput = html.one('.weight').one("input");
+                var weightName = weightInput.get('name') + value;
+                weightInput.set('name',weightName); //sampleId
+                html.appendTo('#bodyEditScript');       
+        }
 
- 	function removeLine(line) {
-		AUI().one(line).ancestor("tr").remove();
-	}
+});
+}
 
-	function showWeightPopup() {
-		AUI().use('aui-base', function(A) {
-					var totalRate = parseInt(0);
-					var listePage = A.all('.popup_weightPage');
-					listePage.each(function() {
-						if (!(this.val() == "" || isNaN(this.val())) && this.val() > 0) {
-							totalRate += parseFloat(this.val());
-						} else {
-							this.val("0.0");
-							this.ancestor("tr").addClass("empty-weight-color");
-						}
-					});
+function removeLine(line) {
+AUI().one(line).ancestor("tr").remove();
+}
 
-					listePage.each(function() {
-						if (!(this.val() == "" || isNaN(this.val()))) {
-							var perc = (this.val() / totalRate) * 100;
-							//cas du 0/0
-							if (isNaN(perc))
-								this.ancestor("tr").one(".popup_percent").text(	"0.00 %");
-							else
-								this.ancestor("tr").one(".popup_percent").text(	perc.toFixed(2) + " %");
-						}
-					});
-				});
-	}
-	showWeightPopup(); */
+function showWeightPopup() {
+AUI().use('aui-base', function(A) {
+			var totalRate = parseInt(0);
+			var listePage = A.all('.popup_weightPage');
+			listePage.each(function() {
+				if (!(this.val() == "" || isNaN(this.val())) && this.val() > 0) {
+					totalRate += parseFloat(this.val());
+				} else {
+					this.val("0.0");
+					this.ancestor("tr").addClass("empty-weight-color");
+				}
+			});
+
+			listePage.each(function() {
+				if (!(this.val() == "" || isNaN(this.val()))) {
+					var perc = (this.val() / totalRate) * 100;
+					//cas du 0/0
+					if (isNaN(perc))
+						this.ancestor("tr").one(".popup_percent").text(	"0.00 %");
+					else
+						this.ancestor("tr").one(".popup_percent").text(	perc.toFixed(2) + " %");
+				}
+			});
+		});
+}
+showWeightPopup(); 
+
 </script>

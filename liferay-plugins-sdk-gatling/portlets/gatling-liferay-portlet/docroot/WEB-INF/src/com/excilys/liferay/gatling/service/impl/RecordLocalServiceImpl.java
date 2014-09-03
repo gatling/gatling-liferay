@@ -43,16 +43,6 @@ public class RecordLocalServiceImpl extends RecordLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.excilys.liferay.gatling.service.RecordLocalServiceUtil} to access the record local service.
 	 */
-	
-	/**
-	 * get {@link Record} have this requestId
-	 */
-	public List<Record> findByPortletAndRequest(String portletId)  throws SystemException {
-		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Record.class)
-				.add(PropertyFactoryUtil.forName("portletId").eq(portletId));
-
-		return recordPersistence.findWithDynamicQuery(dq);
-	}
 
 	@Override
 	public List<Record> findByPortletId(String portletId) throws SystemException{

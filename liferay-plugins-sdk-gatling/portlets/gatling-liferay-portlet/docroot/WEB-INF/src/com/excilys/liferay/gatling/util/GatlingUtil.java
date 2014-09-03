@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
 import com.excilys.liferay.gatling.model.Record;
+import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
@@ -111,13 +112,14 @@ public class GatlingUtil {
 
 	public static String[][] fillArrayLinkUseCases(long requestId) throws SystemException, PortalException {
 		int numberUseCases = LinkUsecaseRequestLocalServiceUtil.countByRequestId(requestId);
-		String[][] arrayLinkUsecaseRequest = new String[numberUseCases][2];
+		String[][] arrayLinkUsecaseRequest = new String[numberUseCases][3];
 		List<LinkUsecaseRequest> listUseCaseRequest= LinkUsecaseRequestLocalServiceUtil.findByRequestId(requestId);
 		for (int i=0; i<numberUseCases; i++) {
 			
 			LinkUsecaseRequest link = listUseCaseRequest.get(i);
 			arrayLinkUsecaseRequest[i][0] = Long.valueOf(link.getRecordId()).toString(); //ID
 			if(link.isSample()){
+				System.out.println("pif");
 				if(link.getRecordId() == 1){
 					arrayLinkUsecaseRequest[i][1] = "Sample (only GETs)"; //NAME
 				} else if(link.getRecordId() == 2){
@@ -126,13 +128,12 @@ public class GatlingUtil {
 					arrayLinkUsecaseRequest[i][1] = "Sample (Complex one)"; //NAME
 				}
 			} else {
+				System.out.println("paf");
 				arrayLinkUsecaseRequest[i][1] = RecordLocalServiceUtil.getRecord(link.getRecordId()).getName(); //NAME
 			}
 			arrayLinkUsecaseRequest[i][2] = Double.valueOf(link.getWeight()).toString(); //WEIGHT
 		}
-
-		//on my way
 		
-		return null;
+		return arrayLinkUsecaseRequest;
 	}
 }

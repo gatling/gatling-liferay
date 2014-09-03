@@ -259,14 +259,11 @@ public interface LinkUsecaseRequestLocalService extends BaseLocalService,
 		long requestId, long recordId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
-	public java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest> findByRequestIdAndUsed(
-		long requestId)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
 	public int countByRequestIdAndUsed(long requestId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
-	public void removeByRequestId(long requestId)
+	public java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest> findByRequestIdAndUsed(
+		long requestId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public int countByRequestId(long requestId)
@@ -274,5 +271,8 @@ public interface LinkUsecaseRequestLocalService extends BaseLocalService,
 
 	public java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest> findByRequestId(
 		long requestId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public void removeByRequestId(long requestId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 }

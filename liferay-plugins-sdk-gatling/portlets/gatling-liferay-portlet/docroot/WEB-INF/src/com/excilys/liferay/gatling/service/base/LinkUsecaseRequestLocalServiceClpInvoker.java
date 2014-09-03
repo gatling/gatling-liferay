@@ -124,23 +124,23 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 
 		_methodParameterTypes59 = new String[] { "long", "long" };
 
-		_methodName60 = "findByRequestIdAndUsed";
+		_methodName60 = "countByRequestIdAndUsed";
 
 		_methodParameterTypes60 = new String[] { "long" };
 
-		_methodName61 = "countByRequestIdAndUsed";
+		_methodName61 = "findByRequestIdAndUsed";
 
 		_methodParameterTypes61 = new String[] { "long" };
 
-		_methodName62 = "removeByRequestId";
+		_methodName62 = "countByRequestId";
 
 		_methodParameterTypes62 = new String[] { "long" };
 
-		_methodName63 = "countByRequestId";
+		_methodName63 = "findByRequestId";
 
 		_methodParameterTypes63 = new String[] { "long" };
 
-		_methodName64 = "findByRequestId";
+		_methodName64 = "removeByRequestId";
 
 		_methodParameterTypes64 = new String[] { "long" };
 	}
@@ -265,29 +265,29 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 
 		if (_methodName60.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
-			return LinkUsecaseRequestLocalServiceUtil.findByRequestIdAndUsed(((Long)arguments[0]).longValue());
+			return LinkUsecaseRequestLocalServiceUtil.countByRequestIdAndUsed(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName61.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
-			return LinkUsecaseRequestLocalServiceUtil.countByRequestIdAndUsed(((Long)arguments[0]).longValue());
+			return LinkUsecaseRequestLocalServiceUtil.findByRequestIdAndUsed(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName62.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes62, parameterTypes)) {
-			LinkUsecaseRequestLocalServiceUtil.removeByRequestId(((Long)arguments[0]).longValue());
-
-			return null;
+			return LinkUsecaseRequestLocalServiceUtil.countByRequestId(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName63.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes63, parameterTypes)) {
-			return LinkUsecaseRequestLocalServiceUtil.countByRequestId(((Long)arguments[0]).longValue());
+			return LinkUsecaseRequestLocalServiceUtil.findByRequestId(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName64.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes64, parameterTypes)) {
-			return LinkUsecaseRequestLocalServiceUtil.findByRequestId(((Long)arguments[0]).longValue());
+			LinkUsecaseRequestLocalServiceUtil.removeByRequestId(((Long)arguments[0]).longValue());
+
+			return null;
 		}
 
 		throw new UnsupportedOperationException();

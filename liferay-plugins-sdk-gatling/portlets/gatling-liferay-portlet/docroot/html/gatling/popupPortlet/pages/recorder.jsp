@@ -28,16 +28,16 @@
 			</c:when>
 			<c:otherwise>
 				<aui:input name="useCaseRecordName" required="true" inlineField="true">
-					<aui:validator name="custom" errorMessage="record-name-already-used">
-<%-- 					 	function (val, fieldNode, ruleValue) {
+ 					<aui:validator name="custom" errorMessage="record-name-already-used" >
+ 					 	function (val, fieldNode, ruleValue) {
 							var result = false;
 							var list = ${listRecordsName};
 							if (list.indexOf(val) == -1) {
 								result = true;
 							}
 							return result;
-						} --%>
-					</aui:validator>
+						} 
+					</aui:validator> 
 				</aui:input> 
 				<liferay-util:buffer var="btnRecordText">
 					<liferay-ui:message key="record" /> 
