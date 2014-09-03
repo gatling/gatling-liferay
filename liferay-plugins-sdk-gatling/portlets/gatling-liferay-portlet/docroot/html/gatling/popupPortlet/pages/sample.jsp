@@ -77,9 +77,10 @@
 <div hidden="true">
 <table><tbody id="toPaste">
 	<tr>
-		<td id="text" title=""></td>
-		<td id="weight"><aui:input name="0weightScenarioSample"  label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input></td>
+		<td class="text" title=""></td>
+		<td class="weight"><aui:input name="0weightScenarioSample"  label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input></td>
 		<td class='popup_percent'></td>
+		<td ><aui:a href="#" onClick="removeLine(this);"><liferay-ui:icon image="delete"/></aui:a></td>
 	</tr>
 </tbody></table>
 </div>
@@ -91,20 +92,29 @@
 		AUI().use('aui-base', 'aui-node-base', function(A){
 			var idSelect = "<portlet:namespace/>"+"selectScript";
 			var label = document.getElementById(idSelect)[document.getElementById(idSelect).selectedIndex].textContent;
+			var value = document.getElementById(idSelect).value;
+			var canAdd = true;
+			A.one("#bodyEditScript").all('.text').each(function(node) {
+				canAdd = canAdd && !(node.get('title') == value);
+			})
 			
-			if(label != null && label != "" && label != " "){			
+			if(canAdd && label != null && label != "" && label != " "){			
 				var value = document.getElementById(idSelect).value;				
 				var one = A.one('#toPaste').html();
 				var html = A.Node.create(one);
-				html.one('#text').html(label);
-				html.one('#text').set('title',value); //sampleId
-				var weightInput = html.one('#weight').one("input");
+				html.one('.text').html(label);
+				html.one('.text').set('title',value); //sampleId
+				var weightInput = html.one('.weight').one("input");
 				var weightName = weightInput.get('name') + value;
 				weightInput.set('name',weightName); //sampleId
 				html.appendTo('#bodyEditScript');	
 			}
 		
 		});
+	}
+	
+	function removeLine(line) {
+		AUI().one(line).ancestor("tr").remove();
 	}
 	
 	
