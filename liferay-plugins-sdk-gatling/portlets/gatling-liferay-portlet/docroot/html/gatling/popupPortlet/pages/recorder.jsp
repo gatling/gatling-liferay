@@ -19,7 +19,7 @@
 		<div class="btn-group" style="z-index: 1202">
 			<c:choose>
 			<c:when test="${nextRecordState eq 'STOP' }">
-				<aui:input name="useCaseRecordName" inlineField="true"/>
+				<aui:input name="useCaseRecordName" inlineField="true" readonly="true"/>
 				<liferay-util:buffer var="btnRecordText">
 					<liferay-ui:message key="stop" /> 
 				</liferay-util:buffer>				

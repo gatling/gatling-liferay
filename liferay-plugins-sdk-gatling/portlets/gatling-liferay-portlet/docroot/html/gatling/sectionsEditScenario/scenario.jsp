@@ -100,7 +100,7 @@
 				
 				 --%>
 				<c:when test="${layout.portlet }">
-					<tr id="${layout.displayId}" class="${color }" data-parent="${layout.parentDisplayId }"
+					<tr id="${layout.displayId}" class="portletLine ${color }" data-parent="${layout.parentDisplayId }"
 						hidden="true">
 						<td><input type="checkbox" name="${status.index}"
 							class='checkLine' /></td>
@@ -546,11 +546,27 @@
 			listePage.each(function() {
 				if (!(this.val() == "" || isNaN(this.val()))) {
 					var perc = (this.val() / totalRate) * 100;
+					
 					//cas du 0/0
 					if (isNaN(perc))
 						this.ancestor("tr").one(".percent").text("0.00 %");
 					else
 						this.ancestor("tr").one(".percent").text(perc.toFixed(2) + " %");
+					
+					if(this.ancestor("tr").one(".show-portlet") != null) {					
+						var readonly = false;
+						var listPortlets = this.ancestor("tr").one(".show-portlet").getData("portlets").split(",");
+
+						if(isNaN(perc) || perc <= 0) {
+							readonly = true;
+						}
+						for (var i = 0; i < listPortlets.length; i++) {
+							var portletId = listPortlets[i];
+							if(readonly)
+								A.one("#"+portletId).one(".weight-portlet").setAttribute("readonly");
+							else A.one("#"+portletId).one(".weight-portlet").removeAttribute("readonly");
+						}
+					}
 				}
 			});
 		});
