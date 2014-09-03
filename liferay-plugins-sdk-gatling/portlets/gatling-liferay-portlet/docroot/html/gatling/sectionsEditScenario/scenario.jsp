@@ -105,7 +105,7 @@
 						<td><input type="checkbox" name="${status.index}"
 							class='checkLine' /></td>
 						<td><i class="icon-th-large"></i>
-							<a href="#" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px" 
+							<a href="#" class="portlet-popup" style="margin-left:${(layout.depth-1)*30}px" data-requestId="${layout.requestId }"
 								data-portlet="${layout.name}" data-page="${pageName}" data-groupId="${scenario.group_id}" 
 								data-portletId="${layout.portletId}" data-parent="${parentRequestId}" data-plId="${layout.parentDisplayId}" > 
 								 ${layout.name}  <i class="icon-wrench"></i>
@@ -320,7 +320,7 @@
 				var portletName = this.getData("portlet");
 				var groupId = this.getData("groupId");
 				var plId = this.getData("plId");
-				var requestId = this.getData("parent");;
+				var requestId = this.getData("requestId");
 				//Create renderURL
 				var renderURL = Liferay.PortletURL.createRenderURL();
 				renderURL.setPortletId("gatling_WAR_gatlingliferayportlet");

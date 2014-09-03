@@ -11,36 +11,33 @@
 <div class="well well-small">
 	<liferay-ui:message key="portlet-edit-sample-details" />
 </div>
-	
 <c:choose>
 	<c:when test="${not empty script && not empty script.get(0) && not empty script.get(0).name && script.get(0).name != ' ' }">
 		<aui:form action="" name="addSample" id="addSample">		
 		
 
 			<aui:select inlineField="true" label="portlet-edit-sample-select" name="Sample Script" required="true" id="selectScript">
-		<!-- Get the list of the different sample scripts available for the Portlet. The list is store in a class named ListScript (package mustache) -->
+			<!-- Get the list of the different sample scripts available for the Portlet. The list is store in a class named ListScript (package mustache) -->
 			  	<c:forEach var="record" items="${script}">
 					<aui:option label="${record.name}" value="${record.recordId}" />
 				</c:forEach> 
 		
 			</aui:select>
 			 
-			<aui:button id="add" onClick="addLine()" value="portlet-edit-sample-add"/>
+			<aui:button id="add" onClick="addLine()" value="portlet-edit-sample-add" cssClass="inline-button"/>
 		
 		</aui:form>
 		
 		<aui:form action="${editPortletSampleURL}" name="formPortletSample" method="POST">
 			<table class="table table-bordered table-scenario">
 				<thead>
-					<c:if test="${ recordAndSampleList.size() != 0 }">
-						<tr>
-							<th ><liferay-ui:message key="portlet-edit-sample-name" />
-							<th class="small-column"><liferay-ui:message key="scenario-edit-table-header-weight" />
-								<liferay-ui:icon-help message="weight-info-help" /></th>
-							<th class="small-column"><liferay-ui:icon-help message="percent-info-help" /></th>
-							<th class="small-column"><liferay-ui:message key="delete-message" /></th>
-						</tr>
-					</c:if>
+					<tr>
+						<th ><liferay-ui:message key="portlet-edit-sample-name" />
+						<th class="small-column"><liferay-ui:message key="scenario-edit-table-header-weight" />
+							<liferay-ui:icon-help message="weight-info-help" /></th>
+						<th class="small-column"><liferay-ui:icon-help message="percent-info-help" /></th>
+						<th class="small-column"><liferay-ui:message key="delete-message" /></th>
+					</tr>
 				</thead>
 				
 				<tbody id="bodyEditScript">  
