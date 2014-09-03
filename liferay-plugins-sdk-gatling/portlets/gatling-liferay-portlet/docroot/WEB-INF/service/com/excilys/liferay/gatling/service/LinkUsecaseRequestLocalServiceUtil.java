@@ -307,6 +307,17 @@ public class LinkUsecaseRequestLocalServiceUtil {
 		getService().removeByRequestId(requestId);
 	}
 
+	public static int countByRequestId(long requestId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().countByRequestId(requestId);
+	}
+
+	public static java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest> findByRequestId(
+		long requestId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findByRequestId(requestId);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

@@ -326,6 +326,19 @@ public class LinkUsecaseRequestLocalServiceWrapper
 		_linkUsecaseRequestLocalService.removeByRequestId(requestId);
 	}
 
+	@Override
+	public int countByRequestId(long requestId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _linkUsecaseRequestLocalService.countByRequestId(requestId);
+	}
+
+	@Override
+	public java.util.List<com.excilys.liferay.gatling.model.LinkUsecaseRequest> findByRequestId(
+		long requestId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _linkUsecaseRequestLocalService.findByRequestId(requestId);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

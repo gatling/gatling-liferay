@@ -102,16 +102,28 @@ public class LinkUsecaseRequestLocalServiceImpl
 
 		return linkUsecaseRequestPersistence.findWithDynamicQuery(dq);
 	}
-
+	
+	/* --- byRequestIdAndUsed (weight>0) --- */
+	
+	@Override
+	public int countByRequestIdAndUsed(long requestId) throws SystemException{
+		return linkUsecaseRequestPersistence.countByRequestIdAndUsed(requestId, 0);
+	}
 	
 	@Override
 	public List<LinkUsecaseRequest> findByRequestIdAndUsed(long requestId) throws SystemException{
 		return linkUsecaseRequestPersistence.findByRequestIdAndUsed(requestId, 0);
 	}
 	
+	/* --- byRequestId --- */
+	
 	@Override
-	public int countByRequestIdAndUsed(long requestId) throws SystemException{
-		return linkUsecaseRequestPersistence.countByRequestIdAndUsed(requestId, 0);
+	public int countByRequestId(long requestId) throws SystemException{
+		return linkUsecaseRequestPersistence.countByRequestId(requestId);
+	}
+	
+	public List<LinkUsecaseRequest> findByRequestId(long requestId) throws SystemException {
+		return linkUsecaseRequestPersistence.findByRequestId(requestId);
 	}
 	
 	public void removeByRequestId(long requestId) throws SystemException {
