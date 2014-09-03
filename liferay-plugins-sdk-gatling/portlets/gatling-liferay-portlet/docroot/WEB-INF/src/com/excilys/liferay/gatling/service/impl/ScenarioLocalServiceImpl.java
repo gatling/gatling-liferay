@@ -210,12 +210,8 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			throw new NullPointerException("idScenario");
 
 		final Map<String, String[]> parameters = request.getParameterMap();
-		final Map<String, Request> mapPublicRequestToEdit = new HashMap<String, Request>();
+		final Map<Long, Request> mapPublicRequestToEdit = new HashMap<Long, Request>();
 
-		//security
-//		final ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-//		final Long userId = themeDisplay.getUserId();
-		
 		Scenario scenarioToReturn = null;
 
 		/*
@@ -258,7 +254,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 
 		// get List request
 		for(Request r : listRequests){
-			mapPublicRequestToEdit.put(r.getUrl().trim(),  r);
+			mapPublicRequestToEdit.put(r.getRequest_id(),  r);
 		}
 
 		/*
@@ -267,44 +263,36 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		int layoutId = 0;
 		double weight = 0.0d;
 		DisplayItem displayLayout = null;
-		String url = null;
 		RequestState status = null;
+		Long requestId = null;
 		for (String key : parameters.keySet()){
 			if ((key.contains("weight")) || (key.contains("portlet") && !key.contains("java"))) {
 				layoutId =  (key.contains("weight") ? Integer.parseInt(key.replace("weight","")) : Integer.parseInt(key.replace("portlet",""))) ;
 				weight = Double.parseDouble(StringUtil.merge(parameters.get(key)));
 				displayLayout = displayItemList.get(layoutId);
-				url = displayLayout.getUrl();
 				status = displayLayout.getState();
-				
+				requestId = displayLayout.getRequestId();
 				//if not deleted page
 				if(status != RequestState.OLD_REQUEST){
 					
-					boolean alreadyExists = false;
 					Request updatedRequest = null;
 					
 					//check if the request page was added in the db 
-					alreadyExists = mapPublicRequestToEdit.containsKey(url.trim());
-					if(alreadyExists) {
-						updatedRequest = mapPublicRequestToEdit.get(url);								
-					}
-					
+					updatedRequest = mapPublicRequestToEdit.get(requestId);								
 					//check if the weight of the request in db is changed then update data in db
-					if (alreadyExists && (updatedRequest.getWeight() != weight)){
+					if (updatedRequest != null){
 						updatedRequest.setWeight(weight);
 						final List<String> errors = RequestValidator.validateRequest(updatedRequest);
 						if (errors.isEmpty()) {
 							RequestLocalServiceUtil.updateRequest(updatedRequest);
-							LOG.debug("request updated successfully");	
+							LOG.info("request updated successfully");	
 						} else {
 							for (String error : errors) {
 								SessionErrors.add(request, error);
 							}
 						}
-					}
-
-					// else Add new page or new portlet request
-					else if (!alreadyExists) {
+					} else {
+						// else Add new page or new portlet request
 						if (LOG.isInfoEnabled()){
 							LOG.info("add new request "+key+" : "+StringUtil.merge(parameters.get(key)));
 						}
@@ -318,7 +306,6 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 					if (LOG.isInfoEnabled()){
 						LOG.info("delete request: "+key+" : "+StringUtil.merge(parameters.get(key)));
 					}
-					final long requestId =  displayLayout.getRequestId();
 					RequestLocalServiceUtil.deleteRequest(requestId);
 				}
 				
