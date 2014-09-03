@@ -68,9 +68,8 @@ public class RecorderFilter implements Filter {
 				}
 				// get the recorded Urls list
 				List<String> recordURLs = (List<String>) session.getAttribute("recordURL");
-				// switch on state record
-				switch (infos[1]) {
-				case "RECORD": 
+				// cases of cookie
+				if (infos[1].equalsIgnoreCase("RECORD")) { 
 					if(httpRequest.getParameter("doAsGroupId") != null) {  // we only record request with doAsGroupId (= portlet tested)
 						// get the parameters
 						String params = HttpUtil.parameterMapToString(request.getParameterMap());
@@ -81,8 +80,7 @@ public class RecorderFilter implements Filter {
 						// Store it in the session
 						session.setAttribute("recordURL", recordURLs);
 					}
-					break;
-				case "STOP":
+				} else if(infos[1].equalsIgnoreCase("STOP")) {
 					// Remove from session
 					session.removeAttribute("recordURL");
 					// Check if we have something to record
@@ -96,7 +94,7 @@ public class RecorderFilter implements Filter {
 							record.setPortletId(infos[0]);
 							record.setVersionPortlet(1); //TODO get the real version
 							record.persist();
-							LOG.info("... 1/2");
+							LOG.info("...1/2");
 							//Save url table
 							for (int i = 0; i < recordURLs.size(); i++) {
 								String url = recordURLs.get(i).split("\\)")[1];
