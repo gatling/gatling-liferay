@@ -17,8 +17,8 @@
 		
 
 			<aui:select inlineField="true" label="portlet-edit-sample-select" name="Sample Script" required="true" id="selectScript">
-			<!-- Get the list of the different sample scripts available for the Portlet. The list is store in a class named ListScript (package mustache) -->
-			  	<c:forEach var="record" items="${script}">
+		<!-- Get the list of the different sample scripts available for the Portlet. The list is stored in a class named ListScript (package mustache) -->
+			  	<c:forEach var="record" items="${availableScript}">
 					<aui:option label="${record.name}" value="${record.recordId}" />
 				</c:forEach> 
 		

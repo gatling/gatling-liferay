@@ -76,7 +76,11 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.finder.cache.enabled.com.excilys.liferay.gatling.model.Record"),
 			true);
-	public static final boolean COLUMN_BITMASK_ENABLED = false;
+	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
+				"value.object.column.bitmask.enabled.com.excilys.liferay.gatling.model.Record"),
+			true);
+	public static long PORTLETID_COLUMN_BITMASK = 1L;
+	public static long RECORDID_COLUMN_BITMASK = 2L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.excilys.liferay.gatling.model.Record"));
 
@@ -174,7 +178,17 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 
 	@Override
 	public void setPortletId(String portletId) {
+		_columnBitmask |= PORTLETID_COLUMN_BITMASK;
+
+		if (_originalPortletId == null) {
+			_originalPortletId = _portletId;
+		}
+
 		_portletId = portletId;
+	}
+
+	public String getOriginalPortletId() {
+		return GetterUtil.getString(_originalPortletId);
 	}
 
 	@Override
@@ -200,6 +214,10 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 	@Override
 	public void setName(String name) {
 		_name = name;
+	}
+
+	public long getColumnBitmask() {
+		return _columnBitmask;
 	}
 
 	@Override
@@ -283,6 +301,11 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 
 	@Override
 	public void resetOriginalValues() {
+		RecordModelImpl recordModelImpl = this;
+
+		recordModelImpl._originalPortletId = recordModelImpl._portletId;
+
+		recordModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -363,7 +386,9 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 	private static Class<?>[] _escapedModelInterfaces = new Class[] { Record.class };
 	private long _recordId;
 	private String _portletId;
+	private String _originalPortletId;
 	private long _versionPortlet;
 	private String _name;
+	private long _columnBitmask;
 	private Record _escapedModel;
 }

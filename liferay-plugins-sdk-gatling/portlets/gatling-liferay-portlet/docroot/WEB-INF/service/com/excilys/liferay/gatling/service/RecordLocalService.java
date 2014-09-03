@@ -251,4 +251,11 @@ public interface RecordLocalService extends BaseLocalService,
 	public java.util.List<com.excilys.liferay.gatling.model.Record> findByPortletAndRequest(
 		java.lang.String portletId)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public java.util.List<com.excilys.liferay.gatling.model.Record> findByPortletId(
+		java.lang.String portletId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public int countByPortletId(java.lang.String portletId)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

@@ -65,7 +65,7 @@
 		<column name="request_id" type="long" />
 		<column name="recordId" type="long" />
 		<column name="weight" type="double" />
-		<column name="sample" type="boolean"></column>	
+		<column name="sample" type="boolean" />	
 		<finder name="RequestIdAndUsed" return-type="Collection">
 			<finder-column name="request_id" />
 			<finder-column name="weight" comparator=">" />
@@ -81,6 +81,9 @@
 		<column name="portletId" type="String" />
 		<column name="versionPortlet" type="long" />
 		<column name="name" type="String" />
+		<finder name="PortletId" return-type="Collection">
+			<finder-column name="portletId" />
+		</finder>
 	</entity>
 	
 	<!-- url -->

@@ -1,34 +1,66 @@
 package com.excilys.liferay.gatling.mustache;
 
+import java.util.List;
+
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ListScript {
 
-	public static String getList() {
+	public static String[][] getList(String portletId) throws SystemException {
 		
-		return "sansParam";
+		int numberOfRecords = RecordLocalServiceUtil.countByPortletId(portletId);
+		String[][] availableScripts = null;
+		
+		if("54".equals(portletId.split("_")[0])) {
+			numberOfRecords += 3;
+			availableScripts = new String[numberOfRecords][2];
+			availableScripts[0] = new String[]{"Sample (only GETs)", "1"};
+			availableScripts[1] = new String[]{"Sample (POSTs & GETs)", "2"};
+			availableScripts[2] = new String[]{"Sample (Complex one)", "3"};
+			List<Record> listRecords = RecordLocalServiceUtil.findByPortletId(portletId);
+			for (int i = 3; i < numberOfRecords; i++) {
+				availableScripts[i] = new String[]{listRecords.get(i-3).getName(), Long.valueOf(listRecords.get(i-3).getRecordId()).toString()};
+			}
+			return availableScripts;
+		} else if("56".equals(portletId.split("_")[0])) {
+			numberOfRecords += 3;
+			availableScripts = new String[numberOfRecords][2];
+			availableScripts[0] = new String[]{"Sample (only GETs)", "1"};
+			availableScripts[1] = new String[]{"Sample (POSTs & GETs)", "2"};
+			availableScripts[2] = new String[]{"Sample (Complex one)", "3"};
+			List<Record> listRecords = RecordLocalServiceUtil.findByPortletId(portletId);
+			for (int i = 3; i < numberOfRecords; i++) {
+				availableScripts[i] = new String[]{listRecords.get(i-3).getName(), Long.valueOf(listRecords.get(i-3).getRecordId()).toString()};
+			}
+			return availableScripts;
+		} else if("101".equals(portletId.split("_")[0])) {
+			numberOfRecords += 3;
+			availableScripts = new String[numberOfRecords][2];
+			availableScripts[0] = new String[]{"Sample (only GETs)", "1"};
+			availableScripts[1] = new String[]{"Sample (POSTs & GETs)", "2"};
+			availableScripts[2] = new String[]{"Sample (Complex one)", "3"};
+			List<Record> listRecords = RecordLocalServiceUtil.findByPortletId(portletId);
+			for (int i = 3; i < numberOfRecords; i++) {
+				availableScripts[i] = new String[]{listRecords.get(i-3).getName(), Long.valueOf(listRecords.get(i-3).getRecordId()).toString()};
+			}
+			return availableScripts;
+		} else {			
+			availableScripts = new String[numberOfRecords][2];
+			List<Record> listRecords = RecordLocalServiceUtil.findByPortletId(portletId);
+			for (int i = 0; i < numberOfRecords; i++) {
+				availableScripts[i] = new String[]{listRecords.get(i).getName(), Long.valueOf(listRecords.get(i).getRecordId()).toString()};
+			}
+			return availableScripts;
+
+		}
 	}
 
-	public static String[][] getList(String idPortlet) throws SystemException {
-
-
-		if("54".equals(idPortlet)) {
-			return new String[][] {{"Simple (only GETs)", "1"}, {"A Bit more complicated (only POSTs)", "2"}, {"Complex (POSTs and GETs)", "3"}};
-		} else if("56".equals(idPortlet)) {
-			return new String[][] {{"Simple (only GETs)", "1"}, {"A Bit more complicated (only POSTs)", "2"}, {"Complex (POSTs and GETs)", "3"}};
-		} 
-		return new String[][] {{}};
-	}
-	
 	public class Details {
 		String label = "";
 		String value = "";
-		
+
 		Details(String lab, String val) {
 			label = lab;
 			value = val;
@@ -45,7 +77,7 @@ public class ListScript {
 		public void setValue(String value) {
 			this.value = value;
 		}
-		
+
 	}
 
 }

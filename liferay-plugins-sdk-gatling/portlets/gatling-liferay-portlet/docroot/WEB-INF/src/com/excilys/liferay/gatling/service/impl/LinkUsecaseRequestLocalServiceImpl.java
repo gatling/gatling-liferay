@@ -55,7 +55,7 @@ public class LinkUsecaseRequestLocalServiceImpl
 	private static final Log LOG = LogFactoryUtil.getLog(LinkUsecaseRequestLocalServiceImpl.class.getName());
 	
 
-	public void saveLinkUseCase(long requestId, long recordId, double weight, boolean isSample){
+	public void saveLinkUseCase(long linkUsecaseRequestId, long requestId, long recordId, double weight, boolean isSample){
 		long primaryKey;
 		try {
 			

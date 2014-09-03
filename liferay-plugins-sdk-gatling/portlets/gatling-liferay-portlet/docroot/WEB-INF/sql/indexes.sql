@@ -1,6 +1,8 @@
 create index IX_587C282A on StressTool_LinkUsecaseRequest (request_id);
 create index IX_3C3D8616 on StressTool_LinkUsecaseRequest (request_id, weight);
 
+create index IX_531D7B9B on StressTool_Record (portletId);
+
 create index IX_34F85EB7 on StressTool_Request (parentPlId);
 create index IX_258F3998 on StressTool_Request (scenario_id);
 create index IX_4F385812 on StressTool_Request (scenario_id, portlet);

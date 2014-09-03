@@ -284,6 +284,17 @@ public class RecordLocalServiceUtil {
 		return getService().findByPortletAndRequest(portletId);
 	}
 
+	public static java.util.List<com.excilys.liferay.gatling.model.Record> findByPortletId(
+		java.lang.String portletId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findByPortletId(portletId);
+	}
+
+	public static int countByPortletId(java.lang.String portletId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().countByPortletId(portletId);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

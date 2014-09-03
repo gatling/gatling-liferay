@@ -700,13 +700,8 @@ public class LinkUsecaseRequestLocalServiceClp
 	}
 
 	@Override
-<<<<<<< HEAD
-	public void savelinkUseCase(long linkUsecaseRequestId, long requestId,
+	public void saveLinkUseCase(long linkUsecaseRequestId, long requestId,
 		long recordId, double weight, boolean isSample) {
-=======
-	public void saveLinkUseCase(long requestId, long recordId, double weight,
-		boolean isSample) {
->>>>>>> better template with randomswitch for portlets and scripts
 		try {
 			_invokableLocalService.invokeMethod(_methodName19,
 				_methodParameterTypes19,

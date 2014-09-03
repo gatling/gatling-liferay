@@ -275,17 +275,11 @@ public class LinkUsecaseRequestLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
-<<<<<<< HEAD
-	public static void savelinkUseCase(long linkUsecaseRequestId,
+	public static void saveLinkUseCase(long linkUsecaseRequestId,
 		long requestId, long recordId, double weight, boolean isSample) {
 		getService()
-			.savelinkUseCase(linkUsecaseRequestId, requestId, recordId, weight,
+			.saveLinkUseCase(linkUsecaseRequestId, requestId, recordId, weight,
 			isSample);
-=======
-	public static void saveLinkUseCase(long requestId, long recordId,
-		double weight, boolean isSample) {
-		getService().saveLinkUseCase(requestId, recordId, weight, isSample);
->>>>>>> better template with randomswitch for portlets and scripts
 	}
 
 	/**

@@ -290,17 +290,10 @@ public class LinkUsecaseRequestLocalServiceWrapper
 	}
 
 	@Override
-<<<<<<< HEAD
-	public void savelinkUseCase(long linkUsecaseRequestId, long requestId,
+	public void saveLinkUseCase(long linkUsecaseRequestId, long requestId,
 		long recordId, double weight, boolean isSample) {
-		_linkUsecaseRequestLocalService.savelinkUseCase(linkUsecaseRequestId,
+		_linkUsecaseRequestLocalService.saveLinkUseCase(linkUsecaseRequestId,
 			requestId, recordId, weight, isSample);
-=======
-	public void saveLinkUseCase(long requestId, long recordId, double weight,
-		boolean isSample) {
-		_linkUsecaseRequestLocalService.saveLinkUseCase(requestId, recordId,
-			weight, isSample);
->>>>>>> better template with randomswitch for portlets and scripts
 	}
 
 	/**

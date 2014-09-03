@@ -252,7 +252,7 @@ public class GatlingPortlet extends MVCPortlet {
 				String[] weights = StringUtil.merge(parameters.get(key)).split(",");
 				for(String weight : weights){
 					// add new Link use Case
-					LinkUsecaseRequestLocalServiceUtil.saveLinkUseCase(requestId, recordId,  Double.parseDouble(weight), true);
+					LinkUsecaseRequestLocalServiceUtil.saveLinkUseCase(linkUsecaseRequestId, requestId, recordId,  Double.parseDouble(weight), true);
 				}
 			}
 		}
@@ -546,19 +546,17 @@ public class GatlingPortlet extends MVCPortlet {
 			long  plId =  ParamUtil.getLong(renderRequest, "plId");
 			long  requestId =  ParamUtil.getLong(renderRequest, "requestId");
 			String listRecordsName = null;
-			List<Record> script = null;
+			String[][] availableScript = null;
 			//get record and Sample list in db if exists
 			Map<String, List<LinkUsecaseRequest> >  useCaseList = new HashMap<String, List<LinkUsecaseRequest> >();
 			try {
-				script =  ListScript.getList(portletId);
-				listRecordsName = GatlingUtil.createJSListOfRecordName(script);
+				availableScript =  ListScript.getList(portletId);
 				List<Record> recordList = RecordLocalServiceUtil.findByPortletAndRequest(portletId.split("_")[0]) ;
 				for (Record record : recordList) {
 					long recordId = record.getRecordId();
 					List<LinkUsecaseRequest> listUseCase = LinkUsecaseRequestLocalServiceUtil.findByRecordAndRequest(requestId, recordId);
 					useCaseList.put(record.getName(), listUseCase);
-				}
-				
+				}				
 			} catch (NumberFormatException e) {
 				if(LOG.isErrorEnabled()){
 					LOG.error("error when search for Record list: "+e.getMessage());
@@ -569,7 +567,7 @@ public class GatlingPortlet extends MVCPortlet {
 				}
 			}
 			
-			renderRequest.setAttribute("script", script);
+			renderRequest.setAttribute("availableScript", availableScript);
 			renderRequest.setAttribute("portletId", portletId);
 			renderRequest.setAttribute("portletName", portletName);
 			renderRequest.setAttribute("groupId", groupId);
