@@ -14,8 +14,9 @@
 
 package com.excilys.liferay.gatling.service.impl;
 
+import java.util.List;
+
 import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
-import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.LinkUsecaseRequestLocalServiceBaseImpl;
 import com.excilys.liferay.gatling.validator.LinkUsecaseRequestValidator;
@@ -27,8 +28,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-
-import java.util.List;
 
 /**
  * The implementation of the link usecase request local service.
@@ -114,6 +113,9 @@ public class LinkUsecaseRequestLocalServiceImpl
 		return linkUsecaseRequestPersistence.countByRequestIdAndUsed(requestId, 0);
 	}
 	
+	public void removeByRequestId(long requestId) throws SystemException {
+		linkUsecaseRequestPersistence.removeByRequestId(requestId);
+	}
 	
 
 }

@@ -302,6 +302,11 @@ public class LinkUsecaseRequestLocalServiceUtil {
 		return getService().countByRequestIdAndUsed(requestId);
 	}
 
+	public static void removeByRequestId(long requestId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getService().removeByRequestId(requestId);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

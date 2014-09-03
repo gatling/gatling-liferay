@@ -760,13 +760,18 @@ public class ScenarioLocalServiceClp implements ScenarioLocalService {
 
 	@Override
 	public void removeBySimulationIdCascade(long simulationId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
 		try {
 			_invokableLocalService.invokeMethod(_methodName21,
 				_methodParameterTypes21, new Object[] { simulationId });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.NoSuchModelException) {
+				throw (com.liferay.portal.NoSuchModelException)t;
+			}
 
 			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
 				throw (com.liferay.portal.kernel.exception.SystemException)t;
@@ -784,7 +789,7 @@ public class ScenarioLocalServiceClp implements ScenarioLocalService {
 
 	@Override
 	public void removeByIdCascade(long scenarioId)
-		throws com.excilys.liferay.gatling.NoSuchScenarioException,
+		throws com.liferay.portal.NoSuchModelException,
 			com.liferay.portal.kernel.exception.SystemException {
 		try {
 			_invokableLocalService.invokeMethod(_methodName22,
@@ -793,8 +798,8 @@ public class ScenarioLocalServiceClp implements ScenarioLocalService {
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
 
-			if (t instanceof com.excilys.liferay.gatling.NoSuchScenarioException) {
-				throw (com.excilys.liferay.gatling.NoSuchScenarioException)t;
+			if (t instanceof com.liferay.portal.NoSuchModelException) {
+				throw (com.liferay.portal.NoSuchModelException)t;
 			}
 
 			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {

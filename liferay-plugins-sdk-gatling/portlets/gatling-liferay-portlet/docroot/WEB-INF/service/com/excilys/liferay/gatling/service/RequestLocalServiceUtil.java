@@ -309,7 +309,8 @@ public class RequestLocalServiceUtil {
 	}
 
 	public static void removeByScenarioId(long scenarioId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
 		getService().removeByScenarioId(scenarioId);
 	}
 

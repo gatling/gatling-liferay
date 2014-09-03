@@ -265,4 +265,7 @@ public interface LinkUsecaseRequestLocalService extends BaseLocalService,
 
 	public int countByRequestIdAndUsed(long requestId)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public void removeByRequestId(long requestId)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

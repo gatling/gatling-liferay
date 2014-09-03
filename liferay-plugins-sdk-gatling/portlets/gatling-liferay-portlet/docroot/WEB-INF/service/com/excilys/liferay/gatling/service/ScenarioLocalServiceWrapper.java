@@ -304,7 +304,8 @@ public class ScenarioLocalServiceWrapper implements ScenarioLocalService,
 	*/
 	@Override
 	public void removeBySimulationIdCascade(long simulationId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
 		_scenarioLocalService.removeBySimulationIdCascade(simulationId);
 	}
 
@@ -313,7 +314,7 @@ public class ScenarioLocalServiceWrapper implements ScenarioLocalService,
 	*/
 	@Override
 	public void removeByIdCascade(long scenarioId)
-		throws com.excilys.liferay.gatling.NoSuchScenarioException,
+		throws com.liferay.portal.NoSuchModelException,
 			com.liferay.portal.kernel.exception.SystemException {
 		_scenarioLocalService.removeByIdCascade(scenarioId);
 	}

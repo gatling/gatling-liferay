@@ -290,7 +290,8 @@ public class ScenarioLocalServiceUtil {
 	* Remove all {@link Scenario} (and children) for a given simulationId
 	*/
 	public static void removeBySimulationIdCascade(long simulationId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
 		getService().removeBySimulationIdCascade(simulationId);
 	}
 
@@ -298,7 +299,7 @@ public class ScenarioLocalServiceUtil {
 	* Remove all {@link Request} for a scenarioId
 	*/
 	public static void removeByIdCascade(long scenarioId)
-		throws com.excilys.liferay.gatling.NoSuchScenarioException,
+		throws com.liferay.portal.NoSuchModelException,
 			com.liferay.portal.kernel.exception.SystemException {
 		getService().removeByIdCascade(scenarioId);
 	}

@@ -14,7 +14,14 @@
 
 package com.excilys.liferay.gatling.service.impl;
 
-import com.excilys.liferay.gatling.NoSuchScenarioException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
@@ -27,6 +34,7 @@ import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.excilys.liferay.gatling.validator.RequestValidator;
 import com.excilys.liferay.gatling.validator.ScenarioValidator;
 import com.liferay.counter.service.CounterLocalServiceUtil;
+import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -42,14 +50,6 @@ import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
 
 
 /**
@@ -88,7 +88,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	 * Remove all {@link Scenario} (and children) for a given simulationId 
 	 */
 	@Override
-	public	void removeBySimulationIdCascade(long simulationId) throws SystemException {
+	public	void removeBySimulationIdCascade(long simulationId) throws SystemException, NoSuchModelException {
 		final List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
 		//Remove its requests
 		for(Scenario scenario : listScenario) {
@@ -101,7 +101,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	 * Remove all {@link Request} for a scenarioId
 	 */
 	@Override
-	public	void removeByIdCascade(long scenarioId) throws SystemException, NoSuchScenarioException {
+	public	void removeByIdCascade(long scenarioId) throws SystemException, NoSuchModelException {
 		RequestLocalServiceUtil.removeByScenarioId(scenarioId);
 		scenarioPersistence.remove(scenarioId);
 	}

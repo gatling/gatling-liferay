@@ -320,6 +320,12 @@ public class LinkUsecaseRequestLocalServiceWrapper
 		return _linkUsecaseRequestLocalService.countByRequestIdAndUsed(requestId);
 	}
 
+	@Override
+	public void removeByRequestId(long requestId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_linkUsecaseRequestLocalService.removeByRequestId(requestId);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

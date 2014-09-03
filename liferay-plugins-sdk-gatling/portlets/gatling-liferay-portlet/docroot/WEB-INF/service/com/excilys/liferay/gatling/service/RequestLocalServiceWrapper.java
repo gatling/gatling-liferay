@@ -324,7 +324,8 @@ public class RequestLocalServiceWrapper implements RequestLocalService,
 
 	@Override
 	public void removeByScenarioId(long scenarioId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
 		_requestLocalService.removeByScenarioId(scenarioId);
 	}
 

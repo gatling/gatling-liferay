@@ -260,13 +260,14 @@ public interface ScenarioLocalService extends BaseLocalService,
 	* Remove all {@link Scenario} (and children) for a given simulationId
 	*/
 	public void removeBySimulationIdCascade(long simulationId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws com.liferay.portal.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Remove all {@link Request} for a scenarioId
 	*/
 	public void removeByIdCascade(long scenarioId)
-		throws com.excilys.liferay.gatling.NoSuchScenarioException,
+		throws com.liferay.portal.NoSuchModelException,
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**

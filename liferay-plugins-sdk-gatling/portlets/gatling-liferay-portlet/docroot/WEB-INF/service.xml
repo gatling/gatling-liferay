@@ -70,7 +70,9 @@
 			<finder-column name="request_id" />
 			<finder-column name="weight" comparator=">" />
 		</finder>
-		
+		<finder name="RequestId" return-type="Collection">
+			<finder-column name="request_id" />
+		</finder>
 	</entity>
 	
 	<!-- use case  -->

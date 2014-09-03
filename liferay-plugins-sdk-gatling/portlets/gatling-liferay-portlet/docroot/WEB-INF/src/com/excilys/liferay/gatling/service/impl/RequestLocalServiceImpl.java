@@ -14,13 +14,15 @@
 
 package com.excilys.liferay.gatling.service.impl;
 
+import java.util.List;
+
 import com.excilys.liferay.gatling.model.Request;
+import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.RequestLocalServiceBaseImpl;
+import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-
-import java.util.List;
 
 /**
  * The implementation of the request local service.
@@ -75,8 +77,12 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 	}
 
 	@Override
-	public void removeByScenarioId(long scenarioId) throws SystemException {
-		requestPersistence.removeByScenarioId(scenarioId);
+	public void removeByScenarioId(long scenarioId) throws SystemException,NoSuchModelException {
+		List<Request> list = requestPersistence.findByScenarioId(scenarioId);
+		for(Request r : list) {
+			LinkUsecaseRequestLocalServiceUtil.removeByRequestId(r.getRequest_id());
+			requestPersistence.remove(r.getRequest_id());
+		}
 	}
 	 
 	@Override

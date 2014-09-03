@@ -1,3 +1,4 @@
+create index IX_587C282A on StressTool_LinkUsecaseRequest (request_id);
 create index IX_3C3D8616 on StressTool_LinkUsecaseRequest (request_id, weight);
 
 create index IX_34F85EB7 on StressTool_Request (parentPlId);
