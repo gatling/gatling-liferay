@@ -14,15 +14,15 @@ public class ListScript {
 		return "sansParam";
 	}
 
-	public static List<Record> getList(String idPortlet) throws SystemException {
+	public static String[][] getList(String idPortlet) throws SystemException {
 
-		// get list of sample and records
-		List<Record> recordList = new ArrayList<Record>();
-		List<Record> recordListPortletType = RecordLocalServiceUtil.findByPortletAndRequest(idPortlet.split("_INSTANCE_")[0]) ;
-		List<Record> recordListInstance = RecordLocalServiceUtil.findByPortletAndRequest(idPortlet) ;
-		recordList.addAll(recordListInstance);
-		recordList.addAll(recordListPortletType);
-		return recordList;
+
+		if("54".equals(idPortlet)) {
+			return new String[][] {{"Simple (only GETs)", "1"}, {"A Bit more complicated (only POSTs)", "2"}, {"Complex (POSTs and GETs)", "3"}};
+		} else if("56".equals(idPortlet)) {
+			return new String[][] {{"Simple (only GETs)", "1"}, {"A Bit more complicated (only POSTs)", "2"}, {"Complex (POSTs and GETs)", "3"}};
+		} 
+		return new String[][] {{}};
 	}
 	
 	public class Details {

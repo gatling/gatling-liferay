@@ -4,7 +4,6 @@
 package com.excilys.liferay.gatling.mustache;
 
 import com.excilys.liferay.gatling.model.Request;
-import com.excilys.liferay.gatling.mustache.util.MustachePortlet;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 
@@ -13,27 +12,27 @@ import java.util.List;
 
 public class MustacheRequest {
 
-	private String name, url;
+	private String requestName, url;
 	private double pourcentage;
 	private boolean last, notRegular, regular;
 	private long scenarioId;
-	private List<MustachePortlet> listMustachePortlet = new ArrayList<MustachePortlet>();
+	List<MustachePortlet> mustachePortlet = new ArrayList<MustachePortlet>();
 	
-	MustacheRequest(String name, String url, double d, boolean last, boolean regular) {
+	MustacheRequest(String name, String url, double pourcentage, boolean last, boolean regular) {
 		this.url = url;
-		this.name = name;
-		this.pourcentage = d;
+		this.requestName = name;
+		this.pourcentage = pourcentage;
 		this.last = last;
 		this.regular = regular;
 		this.notRegular = !regular;
 	}
-
-	public String getName() {
-		return name;
+	
+	public String getRequestName() {
+		return requestName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setRequestName(String name) {
+		this.requestName = name;
 	}
 
 	public String getUrl() {
@@ -61,6 +60,7 @@ public class MustacheRequest {
 		return this;
 	}
 	
+	// for version 1.5 of Gatling we need Integer in the randomSwitch
 	public int truncate() throws SystemException {
 		List<Request> listRequest = RequestLocalServiceUtil.findByScenarioIdAndUsed( scenarioId);
 		if(last){
@@ -106,29 +106,29 @@ public class MustacheRequest {
 		this.regular = regular;
 	}
 
-	public List<MustachePortlet> getExecSpecial() {
+	public List<MustachePortlet> getMustachePortlet() {
 		setLastListMustachePortlet();
-		return listMustachePortlet;
+		return mustachePortlet;
 	}
 
 	public void setListMustachePortlet(List<MustachePortlet> listMustachePortlet) {
-		this.listMustachePortlet = listMustachePortlet;
+		this.mustachePortlet = listMustachePortlet;
 	}
 	
-	public void addListMustachePortlet(MustachePortlet listMustachePortlet) {
-		this.listMustachePortlet.add(listMustachePortlet);
+	public void addListMustachePortlet(MustachePortlet mustachePortlet) {
+		this.mustachePortlet.add(mustachePortlet);
 	}
 	
 
 	
 	private void setLastListMustachePortlet() {
-		if(!listMustachePortlet.isEmpty()) {
-			listMustachePortlet.get(listMustachePortlet.size()-1).setLast(true);
+		if(!mustachePortlet.isEmpty()) {
+			mustachePortlet.get(mustachePortlet.size()-1).setLast(true);
 		}		
 	}
 
 	public boolean listMustachePortletEmpty() {
-		return listMustachePortlet.isEmpty();
+		return mustachePortlet.isEmpty();
 	}
 	
 

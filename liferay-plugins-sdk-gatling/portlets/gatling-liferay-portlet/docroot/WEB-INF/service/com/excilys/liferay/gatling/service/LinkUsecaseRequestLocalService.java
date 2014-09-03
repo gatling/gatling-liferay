@@ -249,8 +249,13 @@ public interface LinkUsecaseRequestLocalService extends BaseLocalService,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
 
+<<<<<<< HEAD
 	public void savelinkUseCase(long linkUsecaseRequestId, long requestId,
 		long recordId, double weight, boolean isSample);
+=======
+	public void saveLinkUseCase(long requestId, long recordId, double weight,
+		boolean isSample);
+>>>>>>> better template with randomswitch for portlets and scripts
 
 	/**
 	* get {@link LinkUsecaseRequest} have this requestId

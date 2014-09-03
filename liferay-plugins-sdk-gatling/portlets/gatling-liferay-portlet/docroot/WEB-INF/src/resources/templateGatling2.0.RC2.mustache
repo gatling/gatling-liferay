@@ -6,15 +6,19 @@ import scala.concurrent.duration._
  * Gatling 2.0RC2 Script generated for Liferay by the plugin
  * "Load Test with Gatling"
  */
+ 
+ {{#initiate}} {{/initiate}}
 
 class {{simuName}} extends Simulation {
   
-  
+/**
+ * List of the differents scenarios
+ */  
 {{#mustacheScenario}}
-  val {{name}} = scenario("{{name}}")
+  val {{scenarioName}} = scenario("{{scenarioName}}")
     .randomSwitch(
 {{#mustacheRequests}}
-      {{pourcentage}} -> exec({{^notRegular}}http("{{name}}").get("{{url}}"){{/notRegular}}{{^regular}}listRequest.{{name}}{{/regular}}){{^last}},{{/last}}
+      {{pourcentage}} -> exec({{^notRegular}}http("{{requestName}}").get("{{url}}"){{/notRegular}}{{^regular}}{{requestName}}.Entrance{{/regular}}){{^last}},{{/last}}
 {{/mustacheRequests}}	
   )
 {{/mustacheScenario}}
@@ -22,27 +26,81 @@ class {{simuName}} extends Simulation {
 		
   setUp(
 {{#mustacheScenario}}
-    {{name}}.inject( rampUsers({{users}}) over( {{duration}} seconds)){{^last}},{{/last}}
+    {{scenarioName}}.inject( rampUsers({{users}}) over( {{duration}} seconds)){{^last}},{{/last}}
 {{/mustacheScenario}}
   )
   
-  
-    
-  object listRequest {
+/**
+ * List of the differents requests that are stressing their inner portlets
+ */   
 {{#mustacheScenario}}
 {{#mustacheRequests}}
 {{^regular}}
-      val {{name}} = exec( http("{{name}}").get("{{url}}") ) 
-      					.pause(1)
-      					.randomSwitch(
+  object {{requestName}} {
+    val Entrance = exec( http("{{requestName}}").get("{{url}}") ) 
+      .pause(1)
+      .randomSwitch(  /*list of the portlets with their weight*/
 {{#mustachePortlet}}
-      						{{pourcentage}} -> exec(http("{{name}}").get("{{url}}")){{^last}},{{/last}}
+         {{pourcentage}} -> exec({{name}}){{^last}},{{/last}}         
 {{/mustachePortlet}}
-      					)
+      )
+{{#mustachePortlet}}
+    /* script for {{name}} */
+    
+    val {{name}} = randomSwitch(
+{{#scripts}}
+      {{pourcentage}} -> exec({{nameVariable}}){{^last}},{{/last}}
+{{/scripts}}
+        )
+{{#messageBoard}}
+    val {{nameVariable}} = exec(http("{{nameVariable}}")
+                          .get("{{url}}")
+                          .check(regex("""cell first"> <a href="([^"]+)">""").find(0).saveAs("url")))
+                        .pause(1)
+                        .exec(http("Select")
+                          .get("${url}")
+                          .check(status.is(200)))
+                        .pause(1)
+{{/messageBoard}}
+
+{{#assetPublisher}}
+	val {{nameVariable}} = exec(http("{{nameVariable}}")
+                          .get("{{url}}")
+                          .check(regex("""asset first"> <a href="([^"]+)">""").find(0).saveAs("url")))
+                        .pause(1)
+                        .exec(http("Select")
+                          .get("${url}")
+                          .check(status.is(200)))
+                        .pause(1)
+{{/assetPublisher}}
+
+{{#wikiDisplay}}  
+    val {{nameVariable}} = exec(http("{{nameVariable}}")
+                          .get("{{url}}"))
+                        .pause(1)
+                        .exec(http("Recent Changes")
+                          .get("http://localhost:8080/web/ste3/wiki2?p_p_id={{plid}}&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id={{column}}&p_p_col_count=1&_{{plid}}_nodeName=Main&_{{plid}}_struts_action=%2Fwiki_display%2Fview_recent_changes")
+                          .check(status.is(200)))
+                        .exec(http("View All Pages")
+                          .get("http://localhost:8080/web/ste3/wiki2?p_p_id={{plid}}&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id={{column}}&p_p_col_count=1&_{{plid}}_nodeName=Main&_{{plid}}_struts_action=%2Fwiki_display%2Fview_all_pages")
+                          .check(status.is(200)))
+                        .pause(1)
+{{/wikiDisplay}}
+
+{{#recoderGet}}
+    val {{nameVariable}} = 
+{{#listGet}}
+      exec( http("{{name}}").get("{{url}}"))
+      .pause(2)
+{{/listGet}}
+    )
+{{/recoderGet}}
+
+{{/mustachePortlet}}
+  }
 {{/regular}}
 {{/mustacheRequests}}
 {{/mustacheScenario}}
-  }
   
   
   

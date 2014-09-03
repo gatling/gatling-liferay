@@ -252,7 +252,7 @@ public class GatlingPortlet extends MVCPortlet {
 				String[] weights = StringUtil.merge(parameters.get(key)).split(",");
 				for(String weight : weights){
 					// add new Link use Case
-					LinkUsecaseRequestLocalServiceUtil.savelinkUseCase(linkUsecaseRequestId, requestId, recordId, Double.parseDouble(weight), true);
+					LinkUsecaseRequestLocalServiceUtil.saveLinkUseCase(requestId, recordId,  Double.parseDouble(weight), true);
 				}
 			}
 		}
@@ -648,6 +648,7 @@ public class GatlingPortlet extends MVCPortlet {
 		Date date = new Date();
 		Mustache mustache = mf.compile(template);
 		if (simulationsIds.length > 1) {
+			System.out.println("sdsdsd");
 			response.setContentType("application/zip");
 			response.addProperty("Content-Disposition", "attachment; filename = GatlingSimulations" + date.getTime() + ".zip");
 
@@ -667,6 +668,7 @@ public class GatlingPortlet extends MVCPortlet {
 			}
 
 		} else if (simulationsIds.length == 1 && simulationsIds[0] > 0) {
+			System.out.println("sdsdsd");
 			//create and export only one file with scenario script for this simulation id
 			response.setContentType("application/x-wais-source");
 			try {
