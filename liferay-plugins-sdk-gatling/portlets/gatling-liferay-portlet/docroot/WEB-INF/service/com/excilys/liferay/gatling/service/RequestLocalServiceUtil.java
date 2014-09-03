@@ -336,6 +336,15 @@ public class RequestLocalServiceUtil {
 		return getService().countByScenarioIdAndUsedAndIsNotPortlet(scenarioId);
 	}
 
+	/**
+	* Store a {@link Request} with given values
+	*/
+	public static void addRequestFromDisplayItem(
+		java.lang.Object displayItem1, double weight, long idScenario)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getService().addRequestFromDisplayItem(displayItem1, weight, idScenario);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

@@ -13,10 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.excilys.liferay.gatling.model.Request;
-import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.util.DisplayItem.RequestState;
-import com.excilys.liferay.gatling.validator.RequestValidator;
-import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -70,7 +67,8 @@ public class DisplayItemUtil {
 			} catch (SystemException e1) {
 				new RuntimeException(e1.getMessage());
 			}
-
+			displayItemList.size();
+			
 			//Recusive call
 			try {
 				// Get its children
@@ -196,27 +194,4 @@ public class DisplayItemUtil {
 
 	}
 	
-	/**
-	 * Store a {@link Request} with given values
-	 */
-	public static void addRequestFromDisplayItem(DisplayItem displayItem, double weight, long idScenario) throws SystemException {
-		//create request
-		final long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
-		final Request newRequest = RequestLocalServiceUtil.createRequest(primaryKey);
-		newRequest.setPlId(displayItem.getDisplayId());
-		newRequest.setName(displayItem.getName());
-		newRequest.setUrl(displayItem.getUrl());
-		newRequest.setWeight(weight);
-		newRequest.setScenario_id(idScenario);
-		newRequest.setPrivatePage(displayItem.isPrivateItem());
-		newRequest.setLayoutId(displayItem.getLayoutId());
-		newRequest.setParentPlId(displayItem.getParentDisplayId());
-		newRequest.setPortlet(displayItem.isPortlet());
-		newRequest.setPortetId(displayItem.getPortletId());
-		// Saving ...
-		final List<String> errors = RequestValidator.validateRequest(newRequest);
-		if(errors.isEmpty()) {
-			RequestLocalServiceUtil.addRequest(newRequest);
-		}
-	}
 }

@@ -176,15 +176,14 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		if(errors.isEmpty()) {
 			scenario = ScenarioLocalServiceUtil.addScenario(scenario);
 			//add Requests
-			final List<Layout> listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), false));
+			final List<Layout> listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), false, 0));
 			// private page
-			listLayouts.addAll(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), true));
+			listLayouts.addAll(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), true, 0));
 			
 			List<DisplayItem> listDisplayItems = new ArrayList<DisplayItem>();
 			DisplayItemUtil.addLayoutToDisplayItemList(listDisplayItems, listLayouts);
-
 			for(DisplayItem displayItem: listDisplayItems){
-				DisplayItemUtil.addRequestFromDisplayItem(displayItem, 0, scenario.getScenario_id());
+				RequestLocalServiceUtil.addRequestFromDisplayItem(displayItem, 0, scenario.getScenario_id());
 			}
 			return scenario;
 		}
@@ -309,7 +308,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 						if (LOG.isInfoEnabled()){
 							LOG.info("add new request "+key+" : "+StringUtil.merge(parameters.get(key)));
 						}
-						DisplayItemUtil.addRequestFromDisplayItem(displayLayout, weight, idScenario);
+						RequestLocalServiceUtil.addRequestFromDisplayItem(displayLayout, weight, idScenario);
 						LOG.info("request created and added succefully ");
 					}	
 				}

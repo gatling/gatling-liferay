@@ -19,6 +19,9 @@ import java.util.List;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.RequestLocalServiceBaseImpl;
+import com.excilys.liferay.gatling.util.DisplayItem;
+import com.excilys.liferay.gatling.validator.RequestValidator;
+import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -105,6 +108,31 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 		return requestPersistence.countByScenarioIdAndUsedAndIsNotPortlet(scenarioId, false, 0);
 	}
 	
-	
+	/**
+	 * Store a {@link Request} with given values
+	 */
+	public void addRequestFromDisplayItem(Object displayItem1, double weight, long idScenario) throws SystemException {
+		if(displayItem1 instanceof DisplayItem) {
+			DisplayItem displayItem = (DisplayItem) displayItem1;
+			//create request
+			final long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
+			final Request newRequest = requestPersistence.create(primaryKey);
+			newRequest.setPlId(displayItem.getDisplayId());
+			newRequest.setName(displayItem.getName());
+			newRequest.setUrl(displayItem.getUrl());
+			newRequest.setWeight(weight);
+			newRequest.setScenario_id(idScenario);
+			newRequest.setPrivatePage(displayItem.isPrivateItem());
+			newRequest.setLayoutId(displayItem.getLayoutId());
+			newRequest.setParentPlId(displayItem.getParentDisplayId());
+			newRequest.setPortlet(displayItem.isPortlet());
+			newRequest.setPortetId(displayItem.getPortletId());
+			// Saving ...
+			final List<String> errors = RequestValidator.validateRequest(newRequest);
+			if(errors.isEmpty()) {
+				requestPersistence.update(newRequest);
+			}
+		}
+	}
 	
 }

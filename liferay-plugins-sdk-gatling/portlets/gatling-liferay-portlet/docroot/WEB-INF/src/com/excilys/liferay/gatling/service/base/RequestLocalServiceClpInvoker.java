@@ -157,6 +157,12 @@ public class RequestLocalServiceClpInvoker {
 		_methodName68 = "countByScenarioIdAndUsedAndIsNotPortlet";
 
 		_methodParameterTypes68 = new String[] { "long" };
+
+		_methodName69 = "addRequestFromDisplayItem";
+
+		_methodParameterTypes69 = new String[] {
+				"java.lang.Object", "double", "long"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -317,6 +323,15 @@ public class RequestLocalServiceClpInvoker {
 			return RequestLocalServiceUtil.countByScenarioIdAndUsedAndIsNotPortlet(((Long)arguments[0]).longValue());
 		}
 
+		if (_methodName69.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes69, parameterTypes)) {
+			RequestLocalServiceUtil.addRequestFromDisplayItem((java.lang.Object)arguments[0],
+				((Double)arguments[1]).doubleValue(),
+				((Long)arguments[2]).longValue());
+
+			return null;
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -378,4 +393,6 @@ public class RequestLocalServiceClpInvoker {
 	private String[] _methodParameterTypes67;
 	private String _methodName68;
 	private String[] _methodParameterTypes68;
+	private String _methodName69;
+	private String[] _methodParameterTypes69;
 }

@@ -286,4 +286,11 @@ public interface RequestLocalService extends BaseLocalService,
 
 	public int countByScenarioIdAndUsedAndIsNotPortlet(long scenarioId)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Store a {@link Request} with given values
+	*/
+	public void addRequestFromDisplayItem(java.lang.Object displayItem1,
+		double weight, long idScenario)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

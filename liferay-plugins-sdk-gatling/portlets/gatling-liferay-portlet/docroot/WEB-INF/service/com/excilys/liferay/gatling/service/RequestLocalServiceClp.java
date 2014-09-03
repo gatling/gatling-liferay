@@ -157,6 +157,12 @@ public class RequestLocalServiceClp implements RequestLocalService {
 		_methodName29 = "countByScenarioIdAndUsedAndIsNotPortlet";
 
 		_methodParameterTypes29 = new String[] { "long" };
+
+		_methodName30 = "addRequestFromDisplayItem";
+
+		_methodParameterTypes30 = new String[] {
+				"java.lang.Object", "double", "long"
+			};
 	}
 
 	@Override
@@ -1022,6 +1028,38 @@ public class RequestLocalServiceClp implements RequestLocalService {
 		return ((Integer)returnObj).intValue();
 	}
 
+	@Override
+	public void addRequestFromDisplayItem(java.lang.Object displayItem1,
+		double weight, long idScenario)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		try {
+			_invokableLocalService.invokeMethod(_methodName30,
+				_methodParameterTypes30,
+				new Object[] {
+					ClpSerializer.translateInput(displayItem1),
+					
+				weight,
+					
+				idScenario
+				});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -1081,4 +1119,6 @@ public class RequestLocalServiceClp implements RequestLocalService {
 	private String[] _methodParameterTypes28;
 	private String _methodName29;
 	private String[] _methodParameterTypes29;
+	private String _methodName30;
+	private String[] _methodParameterTypes30;
 }
