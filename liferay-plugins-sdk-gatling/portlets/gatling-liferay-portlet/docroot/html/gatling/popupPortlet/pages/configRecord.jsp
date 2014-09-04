@@ -20,7 +20,10 @@
 		<%--delete button --%>
 		<liferay-ui:search-container-column-text name="delete" align="center">
 			<portlet:actionURL var="deleteRecordURL" name="removeRecord">
-				<portlet:param name="recordId" value="${scenario.scenario_id }" />
+				<portlet:param name="recordId" value="${record.recordId }" />
+				<portlet:param name="pagePortletId" value="${portletId}" />
+				<portlet:param name="requestId" value="${requestId}" />
+				<portlet:param name="groupId" value="${groupId }"/>
 			</portlet:actionURL>
 			<liferay-ui:icon-delete url="${deleteRecordURL}" />
 		</liferay-ui:search-container-column-text>
@@ -28,26 +31,3 @@
 	<%--iterate and show list of data --%>
 	<liferay-ui:search-iterator paginate="false" />
 </liferay-ui:search-container>		
-
-<!-- <table> -->
-<!-- 	<thead> -->
-<!-- 		<tr> -->
-<%-- 			<th> <liferay-ui:message key="portlet-edit-sample-name" /> </th> --%>
-<%-- 			<th class="small-column"> <liferay-ui:message	key="delete-message" /> </th> --%>
-<!-- 		</tr> -->
-<!-- 	</thead> -->
-	
-<!-- 	<tbody> -->
-<%-- 		<c:forEach var="record"	items="${recordList}"> --%>
-<!-- 			<tr> -->
-<%-- 				<td class="text" title="${record.name}" >${record.name}</td> --%>
-<!-- 				<td> -->
-<%-- 					<portlet:actionURL var="deleteRecordURL" name="removeRecord"> --%>
-<%-- 						<portlet:param name="recordId" value="${record.recordId }" /> --%>
-<%-- 					</portlet:actionURL> --%>
-<%-- 					<liferay-ui:icon-delete url="${deleteRecordURL}" /> --%>
-<!-- 				</td> -->
-<!-- 			</tr> -->
-<%-- 		</c:forEach> --%>
-<!-- 	</tbody> -->
-<!-- </table> -->

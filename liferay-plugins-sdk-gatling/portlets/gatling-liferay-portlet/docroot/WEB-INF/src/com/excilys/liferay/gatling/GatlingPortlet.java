@@ -282,7 +282,28 @@ public class GatlingPortlet extends MVCPortlet {
 		response.setRenderParameter("p_p_state", "pop_up");
 		PortalUtil.copyRequestParameters(request, response);
 	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws SystemException
+	 * @throws PortalException
+	 */
+	public void removeRecord(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException{
 
+		final Map<String, String[]> parameters = request.getParameterMap();
+		long recordId = Long.parseLong(StringUtil.merge(parameters.get("recordId")));
+		RecordLocalServiceUtil.deleteRecord(recordId);	
+
+		LOG.info(parameters.keySet());
+		//redirect
+		response.setRenderParameter("page", jspEditPortlet);
+		//hack, only work this way ....
+		response.setRenderParameter("p_p_state", "pop_up");
+		PortalUtil.copyRequestParameters(request, response);
+	}
+	
 	/**
 	 * 
 	 * @param request
