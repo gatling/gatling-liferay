@@ -195,7 +195,7 @@
 			    	        },
 			    	        {
 			    	          label: '<liferay-ui:message key="export" />',
-			    	          cssClass : 'btn-primary',
+			    	          cssClass : 'btn-info',
 			    	          on: {
 				    	            click: function() {
 				    	            	modalExport.hide();

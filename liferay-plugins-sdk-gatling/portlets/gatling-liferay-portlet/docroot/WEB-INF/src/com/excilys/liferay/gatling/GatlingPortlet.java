@@ -585,8 +585,6 @@ public class GatlingPortlet extends MVCPortlet {
 				arrayLinkUsecaseRequest = GatlingUtil.fillArrayLinkUseCases(requestId);
 				recordList = RecordLocalServiceUtil.findByPortletId(portletId);
 				listRecordsName = GatlingUtil.createJSListOfRecordName(recordList);
-				LOG.info("records list size= "+recordList.size());
-				LOG.info("listRecordsName = "+listRecordsName);
 				// Add to DTO
 				builder.availableScript(availableScript).linkDTO(arrayLinkUsecaseRequest).listRecordNameJS(listRecordsName);
 			} catch (SystemException e) {
@@ -599,7 +597,6 @@ public class GatlingPortlet extends MVCPortlet {
 				}
 			}
 
-			LOG.info("records list size= "+recordList.size());
 			renderRequest.setAttribute("listRecord", recordList);
 			
 			// Check state of recording
