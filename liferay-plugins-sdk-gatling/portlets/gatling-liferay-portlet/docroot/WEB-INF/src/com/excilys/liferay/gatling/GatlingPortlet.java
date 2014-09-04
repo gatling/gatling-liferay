@@ -554,7 +554,7 @@ public class GatlingPortlet extends MVCPortlet {
 			try {
 				availableScript =  ListScript.getList(portletId);
 				arrayLinkUsecaseRequest = GatlingUtil.fillArrayLinkUseCases(requestId);
-				recordList = RecordLocalServiceUtil.findByPortletId(portletId.split("_INSTANCE")[0]);
+				recordList = RecordLocalServiceUtil.findByPortletId(portletId);
 				listRecordsName = GatlingUtil.createJSListOfRecordName(recordList);
 				LOG.info("records list size= "+recordList.size());
 				LOG.info("listRecordsName = "+listRecordsName);
