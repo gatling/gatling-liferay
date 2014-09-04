@@ -10,7 +10,7 @@
 	<liferay-portlet:param name="groupId" value="${portletGatlingDTO.groupId }"/>
 	<liferay-portlet:param name="nextRecordState" value="${portletGatlingDTO.nextRecordState}"/>
 	<liferay-portlet:param name="lineId" value="${portletGatlingDTO.lineId}" />
-		<c:choose>
+	<c:choose>
 		<c:when test = "${portletGatlingDTO.nextRecordState eq 'STOP' }" >
 			<liferay-portlet:param name="tabs1" value="existing-usecase"/>
 		</c:when>
