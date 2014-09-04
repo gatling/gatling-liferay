@@ -26,6 +26,9 @@ import javax.portlet.ResourceResponse;
 import javax.portlet.ValidatorException;
 import javax.servlet.http.Cookie;
 
+import com.excilys.liferay.gatling.dto.LinkUsecaseRequestDTO;
+import com.excilys.liferay.gatling.dto.PortletConfigDTO;
+import com.excilys.liferay.gatling.dto.PortletConfigDTO.PortletConfigDTOBuilder;
 import com.excilys.liferay.gatling.exception.EmptySimulation;
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Request;
@@ -41,7 +44,6 @@ import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.util.DisplayItem;
 import com.excilys.liferay.gatling.util.DisplayItemUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
-import com.excilys.liferay.gatling.util.LinkUsecaseRequestDTO;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
@@ -560,16 +562,22 @@ public class GatlingPortlet extends MVCPortlet {
 			if (ParamUtil.getString(renderRequest, "pagePortletId") == null) {
 				throw new NullPointerException("portlet id is null");
 			}	
+			//DTO BUILDER
+			PortletConfigDTOBuilder builder = new PortletConfigDTO.PortletConfigDTOBuilder();
+			
 			String portletId = ParamUtil.getString(renderRequest, "pagePortletId");
 			String portletName = PortletLocalServiceUtil.getPortletById(portletId).getDisplayName();
 			long  groupId =  ParamUtil.getLong(renderRequest, "groupId");
 			long  plId =  ParamUtil.getLong(renderRequest, "plId");
 			long  requestId =  ParamUtil.getLong(renderRequest, "requestId");
+			long lineId = ParamUtil.getLong(renderRequest, "lineId");
+			// Add to DTO
+			builder.portletId(portletId).portletName(portletName).groupId(groupId).plId(plId).requestId(requestId).lineId(lineId);
 
 			List<LinkUsecaseRequestDTO> arrayLinkUsecaseRequest = null;
 			String listRecordsName = null;
 			String[][] availableScript = null;
-
+			
 			List<Record> recordList = new ArrayList<Record>();
 			//get record and Sample list in db if exists
 			try {
@@ -579,6 +587,8 @@ public class GatlingPortlet extends MVCPortlet {
 				listRecordsName = GatlingUtil.createJSListOfRecordName(recordList);
 				LOG.info("records list size= "+recordList.size());
 				LOG.info("listRecordsName = "+listRecordsName);
+				// Add to DTO
+				builder.availableScript(availableScript).linkDTO(arrayLinkUsecaseRequest).listRecordNameJS(listRecordsName);
 			} catch (SystemException e) {
 				if(LOG.isErrorEnabled()){
 					LOG.error("error when search for Record list: "+e.getMessage());
@@ -588,20 +598,10 @@ public class GatlingPortlet extends MVCPortlet {
 					LOG.error("error when search for Record list: "+e.getMessage());
 				}
 			}
-			
-			LOG.info("records list size= "+recordList.size());
-			
-			renderRequest.setAttribute("availableScript", availableScript);
-			renderRequest.setAttribute("portletId", portletId);
-			renderRequest.setAttribute("portletName", portletName);
-			renderRequest.setAttribute("groupId", groupId);
-			renderRequest.setAttribute("plId", plId);
-			renderRequest.setAttribute("requestId", requestId);
-			renderRequest.setAttribute("arrayLinkUsecaseRequest", arrayLinkUsecaseRequest);
-			renderRequest.setAttribute("listRecordsName", listRecordsName);
-			renderRequest.setAttribute("lineId", ParamUtil.getLong(renderRequest, "lineId"));
-			renderRequest.setAttribute("listRecord", recordList);
 
+			LOG.info("records list size= "+recordList.size());
+			renderRequest.setAttribute("listRecord", recordList);
+			
 			// Check state of recording
 			String state = renderRequest.getParameter("recordState");
 			Cookie myCookie;
@@ -610,18 +610,23 @@ public class GatlingPortlet extends MVCPortlet {
 				renderRequest.setAttribute("tabs1", "record-usecase");
 				if(state.equals("RECORD")) {
 					myCookie = new Cookie("GATLING_RECORD_STATE", portletId+",RECORD,"+nameUseCase);
-					renderRequest.setAttribute("nextRecordState", "STOP");
+					// Add to DTO
+					builder.nextStateRecord("STOP");
 				} else {
 					myCookie = new Cookie("GATLING_RECORD_STATE", portletId+",STOP,"+nameUseCase);
-					renderRequest.setAttribute("nextRecordState", "RECORD");
+					// Add to DTO
+					builder.nextStateRecord("RECORD");
 				}
 
 			} else {
 				//Default cookie is stop
 				myCookie = new Cookie("GATLING_RECORD_STATE", portletId+",STOP,USECASE");
-				renderRequest.setAttribute("nextRecordState", "RECORD");
+				// Add to DTO
+				builder.nextStateRecord("RECORD");
 			}
 			CookieKeys.addCookie(PortalUtil.getHttpServletRequest(renderRequest), PortalUtil.getHttpServletResponse(renderResponse), myCookie);
+			
+			renderRequest.setAttribute("portletGatlingDTO", builder.build());
 		}
 		/* redirect to jsp page */
 		include(page, renderRequest, renderResponse);

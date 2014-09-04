@@ -5,9 +5,9 @@
 
 <portlet:actionURL name="editPortletSample" var="editPortletSampleURL"
 	windowState="pop_up">
-	<portlet:param name="pagePortletId" value="${portletId}" />
-	<portlet:param name="requestId" value="${requestId}" />
-	<portlet:param name="lineId" value="${lineId}" />
+	<portlet:param name="pagePortletId" value="${portletGatlingDTO.portletId}" />
+	<portlet:param name="requestId" value="${portletGatlingDTO.requestId}" />
+	<portlet:param name="lineId" value="${portletGatlingDTO.lineId}" />
 </portlet:actionURL>
 
 <div class="well well-small">
@@ -15,14 +15,15 @@
 </div>
 <c:choose>
 	<c:when
-		test="${not empty availableScript && not empty availableScript[0] && not empty availableScript[0][0] && availableScript[0][0] != ' ' }">
+		test="${not empty portletGatlingDTO.availableScript && not empty portletGatlingDTO.availableScript[0] 
+				&& not empty portletGatlingDTO.availableScript[0][0] && portletGatlingDTO.availableScript[0][0] != ' ' }">
 		<aui:form action="" name="addSample" id="addSample">
 
 
 			<aui:select inlineField="true" label="portlet-edit-sample-select" name="Sample Script" required="true" id="selectScript">
 				
 				<!-- Get the list of the different sample scripts available for the Portlet. The list is stored in a class named ListScript (package mustache) -->
-				<c:forEach var="script" items="${availableScript}">
+				<c:forEach var="script" items="${portletGatlingDTO.availableScript}">
 					<aui:option label="${script[0]}" value="${script[2]},${script[1]}" />
 				</c:forEach>
 			</aui:select>
@@ -51,7 +52,7 @@
 
 				<tbody id="bodyEditScript">
 
- 					<c:forEach var="linkUsecaseRequest"	items="${arrayLinkUsecaseRequest}">
+ 					<c:forEach var="linkUsecaseRequest"	items="${portletGatlingDTO.linkDTO}">
 						<tr>
 							<aui:input name="idLink" type="hidden" value="${linkUsecaseRequest.linkId}"/>
 							<aui:input name="recordId" type="hidden" value="${linkUsecaseRequest.recordId}"/>
@@ -67,9 +68,9 @@
 							<td>
 								<portlet:actionURL var="deleteLinkUseCaseURL" name="removeLinkUseCase">
 									<portlet:param name="useCaseId" value="${linkUsecaseRequest.linkId}"/>
-									<portlet:param name="pagePortletId" value="${portletId}" />
-									<portlet:param name="requestId" value="${requestId}" />
-									<portlet:param name="lineId" value="${lineId}" />
+									<portlet:param name="pagePortletId" value="${portletGatlingDTO.portletId}" />
+									<portlet:param name="requestId" value="${portletGatlingDTO.requestId}" />
+									<portlet:param name="lineId" value="${portletGatlingDTO.lineId}" />
 								</portlet:actionURL>
 								<aui:a href="${deleteLinkUseCaseURL }">
 									<liferay-ui:icon image="delete" />
@@ -119,7 +120,7 @@
 <script type="text/javascript">	
 	AUI().use("aui-base", function(A) {
 		A.one("button[type='submit']").on('click', function(event) {
-			var info = A.one(top.document.getElementById('${lineId}')).one(".info-config");
+			var info = A.one(top.document.getElementById('${portletGatlingDTO.lineId}')).one(".info-config");
 			if(A.one("#bodyEditScript").all("tr").size() > 0) {
 				info.text("<liferay-ui:message key='portlet-configuration-ok' />");
 			} else {
@@ -133,7 +134,7 @@
 		AUI().use('aui-base', 'aui-node-base', function(A){
 			var idSelect = "<portlet:namespace/>"+"selectScript";
 			var label = document.getElementById(idSelect)[document.getElementById(idSelect).selectedIndex].textContent;
-			var value = document.getElementById(idSelect).value;
+			var value = document.getElementById(idSelect).value.split(',')[1];
 			var canAdd = true;
 			A.one("#bodyEditScript").all('.text').each(function(node) {
 				canAdd = canAdd && node.get('title') != value;
@@ -164,7 +165,7 @@
 	function showWeightPopup() {
 		AUI().use('aui-base', function(A) {
 			var totalRate = parseInt(0);
-			var listePage = A.all('.popup_weightPage');
+			var listePage = A.one("#bodyEditScript").all('.popup_weightPage');
 			listePage.each(function() {
 				if (!(this.val() == "" || isNaN(this.val())) && this.val() > 0) {
 					totalRate += parseFloat(this.val());
@@ -185,7 +186,7 @@
 				}
 			});
 		});
-}
-showWeightPopup(); 
+	}
+	showWeightPopup();
 
 </script>

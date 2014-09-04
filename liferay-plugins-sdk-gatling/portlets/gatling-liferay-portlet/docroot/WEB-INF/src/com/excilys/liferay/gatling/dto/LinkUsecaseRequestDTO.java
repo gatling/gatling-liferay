@@ -1,4 +1,4 @@
-package com.excilys.liferay.gatling.util;
+package com.excilys.liferay.gatling.dto;
 
 public 	class LinkUsecaseRequestDTO {
 	long linkId;

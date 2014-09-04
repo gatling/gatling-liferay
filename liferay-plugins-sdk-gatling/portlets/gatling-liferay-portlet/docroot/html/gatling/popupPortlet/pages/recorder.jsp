@@ -5,13 +5,13 @@
 <liferay-portlet:actionURL var="toggleRecordURL" name="toggleRecord" windowState="pop_up" >
 
 	<liferay-portlet:param name="page" value="/html/gatling/popupPortlet/portletConfig.jsp"/>
-	<liferay-portlet:param name="requestId" value="${requestId}" />
-	<liferay-portlet:param name="groupId" value="${groupId }"/>
-	<liferay-portlet:param name="nextRecordState" value="${nextRecordState}"/>
-	<portlet:param name="lineId" value="${lineId}" />
-	<liferay-portlet:param name="pagePortletId" value="${portletId }"/>
-	<c:choose>
-		<c:when test = "${nextRecordState eq 'STOP' }" >
+	<liferay-portlet:param name="pagePortletId" value="${portletGatlingDTO.portletId}"/>
+	<liferay-portlet:param name="requestId" value="${portletGatlingDTO.requestId}" />
+	<liferay-portlet:param name="groupId" value="${portletGatlingDTO.groupId }"/>
+	<liferay-portlet:param name="nextRecordState" value="${portletGatlingDTO.nextRecordState}"/>
+	<liferay-portlet:param name="lineId" value="${portletGatlingDTO.lineId}" />
+		<c:choose>
+		<c:when test = "${portletGatlingDTO.nextRecordState eq 'STOP' }" >
 			<liferay-portlet:param name="tabs1" value="existing-usecase"/>
 		</c:when>
 		<c:otherwise>
@@ -20,14 +20,14 @@
 	</c:choose>
 </liferay-portlet:actionURL>
 
-<h3><liferay-ui:message key="recorder-for" />: ${portletName}</h3>
+<h3><liferay-ui:message key="recorder-for" />: ${portletGatlingDTO.portletName}</h3>
 
-<c:if test='${ portletId != null &&  !"0".equals(portletId) }'>
+<c:if test='${ portletGatlingDTO.portletId != null &&  !"0".equals(portletGatlingDTO.portletId) }'>
 	<aui:form action="${toggleRecordURL}">
 		
 		<div class="btn-group" style="z-index: 1202">
 			<c:choose>
-			<c:when test="${nextRecordState eq 'STOP' }">
+			<c:when test="${portletGatlingDTO.nextRecordState eq 'STOP' }">
 				<aui:input name="useCaseRecordName" inlineField="true" readonly="true"/>
 				<liferay-util:buffer var="btnRecordText">
 					<liferay-ui:message key="stop" /> 
@@ -40,7 +40,7 @@
  					<aui:validator name="custom" errorMessage="record-name-already-used" >
  					 	function (val, fieldNode, ruleValue) {
 							var result = false;
-							var list = ${listRecordsName};
+							var list = ${portletGatlingDTO.listRecordsNameJS};
 							if (list.indexOf(val) == -1) {
 								result = true;
 							}
@@ -58,10 +58,10 @@
 		</div>
 	</aui:form>
 	<hr/>
-	<liferay-portlet:renderURL var="portletURL" portletName="${ portletId }" windowState="pop_up" doAsGroupId="${ groupId }" plid="${ plId }"/>
+	<liferay-portlet:renderURL var="portletURL" portletName="${portletGatlingDTO.portletId }" windowState="pop_up" doAsGroupId="${ portletGatlingDTO.groupId }" plid="${ portletGatlingDTO.plId }"/>
 	<iframe id="portletRecordFrame" src="${portletURL }" width="95%" class="popup-focus" ></iframe>
 	
-	<c:if test="${nextRecordState eq 'STOP' }">
+	<c:if test="${portletGatlingDTO.nextRecordState eq 'STOP' }">
 	<div style="position: fixed; width: 100%; height: 100%; top: 0px; left: 0px; z-index: 1201;" class="yui3-widget-mask"></div>
 	</c:if>
 	
