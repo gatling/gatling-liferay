@@ -585,6 +585,7 @@ public class GatlingPortlet extends MVCPortlet {
 				arrayLinkUsecaseRequest = GatlingUtil.fillArrayLinkUseCases(requestId);
 				recordList = RecordLocalServiceUtil.findByPortletId(portletId);
 				listRecordsName = GatlingUtil.createJSListOfRecordName(recordList);
+
 				// Add to DTO
 				builder.availableScript(availableScript).linkDTO(arrayLinkUsecaseRequest).listRecordNameJS(listRecordsName);
 			} catch (SystemException e) {
