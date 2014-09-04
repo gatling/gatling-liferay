@@ -18,9 +18,6 @@ import java.util.List;
 
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.service.base.RecordLocalServiceBaseImpl;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 
 /**

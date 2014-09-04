@@ -548,14 +548,16 @@ public class GatlingPortlet extends MVCPortlet {
 			List<LinkUsecaseRequestDTO> arrayLinkUsecaseRequest = null;
 			String listRecordsName = null;
 			String[][] availableScript = null;
-			 
-			
+
+			List<Record> recordList = new ArrayList<Record>();
 			//get record and Sample list in db if exists
 			try {
 				availableScript =  ListScript.getList(portletId);
 				arrayLinkUsecaseRequest = GatlingUtil.fillArrayLinkUseCases(requestId);
-				List<Record> recordList = RecordLocalServiceUtil.findByPortletId(portletId.split("_INSTANCE")[0]);
+				recordList = RecordLocalServiceUtil.findByPortletId(portletId.split("_INSTANCE")[0]);
 				listRecordsName = GatlingUtil.createJSListOfRecordName(recordList);
+				LOG.info("records list size= "+recordList.size());
+				LOG.info("listRecordsName = "+listRecordsName);
 			} catch (SystemException e) {
 				if(LOG.isErrorEnabled()){
 					LOG.error("error when search for Record list: "+e.getMessage());
@@ -566,6 +568,8 @@ public class GatlingPortlet extends MVCPortlet {
 				}
 			}
 			
+			LOG.info("records list size= "+recordList.size());
+			
 			renderRequest.setAttribute("availableScript", availableScript);
 			renderRequest.setAttribute("portletId", portletId);
 			renderRequest.setAttribute("portletName", portletName);
@@ -575,6 +579,8 @@ public class GatlingPortlet extends MVCPortlet {
 			renderRequest.setAttribute("arrayLinkUsecaseRequest", arrayLinkUsecaseRequest);
 			renderRequest.setAttribute("listRecordsName", listRecordsName);
 			renderRequest.setAttribute("lineId", ParamUtil.getLong(renderRequest, "lineId"));
+			renderRequest.setAttribute("listRecord", recordList);
+
 			// Check state of recording
 			String state = renderRequest.getParameter("recordState");
 			Cookie myCookie;

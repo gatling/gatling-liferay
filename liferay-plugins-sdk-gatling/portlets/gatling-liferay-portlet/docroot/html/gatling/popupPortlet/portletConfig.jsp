@@ -22,4 +22,9 @@
 			page="/html/gatling/popupPortlet/pages/recorder.jsp"
 			servletContext="<%=this.getServletContext()%>" />
 	</liferay-ui:section>
+	<liferay-ui:section>
+		<liferay-util:include
+			page="/html/gatling/popupPortlet/pages/configRecord.jsp"
+			servletContext="<%=this.getServletContext()%>" />
+	</liferay-ui:section>
 </liferay-ui:tabs>
