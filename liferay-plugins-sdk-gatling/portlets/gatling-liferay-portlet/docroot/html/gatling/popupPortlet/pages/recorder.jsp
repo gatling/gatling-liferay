@@ -5,6 +5,7 @@
 <liferay-portlet:actionURL var="toggleRecordURL" name="toggleRecord" windowState="pop_up" >
 
 	<liferay-portlet:param name="page" value="/html/gatling/popupPortlet/portletConfig.jsp"/>
+	<liferay-portlet:param name="pagePortletId" value="${portletId}"/>
 	<liferay-portlet:param name="tabs1" value="record-usecase"/>
 	<liferay-portlet:param name="requestId" value="${requestId}" />
 	<liferay-portlet:param name="groupId" value="${groupId }"/>
