@@ -41,6 +41,7 @@ import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.util.DisplayItem;
 import com.excilys.liferay.gatling.util.DisplayItemUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
+import com.excilys.liferay.gatling.util.LinkUsecaseRequestDTO;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
@@ -240,34 +241,21 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	public void editPortletSample(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException {
 		LOG.debug("editPortletSample");
-		final Map<String, String[]> parameters = request.getParameterMap();
-		long requestId = Long.parseLong(StringUtil.merge(parameters.get("requestId")));
-
-		String[] linkUsecaseRequestIds = ParamUtil.getParameterValues(request, "nameSample");
+		long requestId = ParamUtil.getLong(request, "requestId");
+		long[] linkUsecaseRequestIds = ParamUtil.getLongValues(request, "idLink");
 		long[] usecaseWeight = ParamUtil.getLongValues(request, "weightScenarioSample");
+		long[] recordIds = ParamUtil.getLongValues(request, "recordId");
+		boolean[] areSample = ParamUtil.getBooleanValues(request, "isSample");
 		
 		if(linkUsecaseRequestIds.length == usecaseWeight.length) {
 			for(int i=0; i<linkUsecaseRequestIds.length;i++) {
-				String id = linkUsecaseRequestIds[i];
+				long id = linkUsecaseRequestIds[i];
 				long weight = usecaseWeight[i];
-				LOG.info(id+" "+weight);
-				//LinkUsecaseRequestLocalServiceUtil.saveLinkUseCase(linkUsecaseRequestId, requestId, recordId, weight, isSample);
+				long recordId = recordIds[i];
+				boolean isSample = areSample[i];
+				LinkUsecaseRequestLocalServiceUtil.saveLinkUseCase(id, requestId, recordId, weight, isSample);
 			}
 		}
-		
-		
-//		for (String key : parameters.keySet()){
-//			if(key.contains("weightScenarioSample")){
-//				LOG.info("key: "+key);
-//				long linkUsecaseRequestId = Long.parseLong(key.split("weightScenarioSample")[0]);
-//				long recordId = Long.parseLong(key.split("weightScenarioSample")[1]);
-//				String[] weights = StringUtil.merge(parameters.get(key)).split(",");
-//				for(String weight : weights){
-//					// add new Link use Case
-//					LinkUsecaseRequestLocalServiceUtil.saveLinkUseCase(linkUsecaseRequestId, requestId, recordId,  Double.parseDouble(weight), true);
-//				}
-//			}
-//		}
 
 		response.setRenderParameter("page", jspEditPortlet);
 		//hack, only work this way ....
@@ -558,22 +546,15 @@ public class GatlingPortlet extends MVCPortlet {
 			long  plId =  ParamUtil.getLong(renderRequest, "plId");
 			long  requestId =  ParamUtil.getLong(renderRequest, "requestId");
 
-			String[][] arrayLinkUsecaseRequest = null;
+			List<LinkUsecaseRequestDTO> arrayLinkUsecaseRequest = null;
 			String listRecordsName = null;
 			String[][] availableScript = null;
-			//get record and Sample list in db if exists
-//			Map<String, List<LinkUsecaseRequest> >  recordAndSampleList = new HashMap<String, List<LinkUsecaseRequest> >();
+			 
 			try {
 				availableScript =  ListScript.getList(portletId);
 				arrayLinkUsecaseRequest = GatlingUtil.fillArrayLinkUseCases(requestId);
-
 				List<Record> recordList = RecordLocalServiceUtil.findByPortletId(portletId.split("_INSTANCE")[0]);
 				listRecordsName = GatlingUtil.createJSListOfRecordName(recordList);
-//				for (Record record : recordList) {
-//					long recordId = record.getRecordId();
-//					List<LinkUsecaseRequest> listUseCase = LinkUsecaseRequestLocalServiceUtil.findByRecordAndRequest(requestId, recordId);
-//					recordAndSampleList.put(record.getName(), listUseCase);
-//				}
 			} catch (SystemException e) {
 				if(LOG.isErrorEnabled()){
 					LOG.error("error when search for Record list: "+e.getMessage());
@@ -582,7 +563,6 @@ public class GatlingPortlet extends MVCPortlet {
 				if(LOG.isErrorEnabled()){
 					LOG.error("error when search for Record list: "+e.getMessage());
 				}
-				
 			}
 			renderRequest.setAttribute("availableScript", availableScript);
 			renderRequest.setAttribute("portletId", portletId);
@@ -591,8 +571,6 @@ public class GatlingPortlet extends MVCPortlet {
 			renderRequest.setAttribute("plId", plId);
 			renderRequest.setAttribute("requestId", requestId);
 			renderRequest.setAttribute("arrayLinkUsecaseRequest", arrayLinkUsecaseRequest);
-			
-//			renderRequest.setAttribute("recordAndSampleList", recordAndSampleList);
 			renderRequest.setAttribute("listRecordsName", listRecordsName);
 
 			// Check state of recording

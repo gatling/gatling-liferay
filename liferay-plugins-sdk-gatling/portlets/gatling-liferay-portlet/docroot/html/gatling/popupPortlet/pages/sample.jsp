@@ -21,10 +21,9 @@
 			<aui:select inlineField="true" label="portlet-edit-sample-select" name="Sample Script" required="true" id="selectScript">
 				
 				<!-- Get the list of the different sample scripts available for the Portlet. The list is stored in a class named ListScript (package mustache) -->
-				<c:forEach var="record" items="${availableScript}">
-					<aui:option label="${record[0]}" value="${record[1]}" />
+				<c:forEach var="script" items="${availableScript}">
+					<aui:option label="${script[0]}" value="${script[2]},${script[1]}" />
 				</c:forEach>
-
 			</aui:select>
 
 			<aui:button id="add" onClick="addLine()"
@@ -32,8 +31,7 @@
 
 		</aui:form>
 
-		<aui:form action="${editPortletSampleURL}" name="formPortletSample"
-			method="POST">
+		<aui:form action="${editPortletSampleURL}" name="formPortletSample" method="POST">
 			<table class="table table-bordered table-scenario">
 				<thead>
 					<tr>
@@ -54,18 +52,20 @@
 
  					<c:forEach var="linkUsecaseRequest"	items="${arrayLinkUsecaseRequest}">
 						<tr>
-							<td class="text" title="${linkUsecaseRequest[0]}" >
-								${linkUsecaseRequest[1]}
-								<aui:input name="nameSample" type="hidden" value="${linkUsecaseRequest[1]}"/>
+							<aui:input name="idLink" type="hidden" value="${linkUsecaseRequest.linkId}"/>
+							<aui:input name="recordId" type="hidden" value="${linkUsecaseRequest.recordId}"/>
+							<aui:input name="isSample" type="hidden" value="${linkUsecaseRequest.sample}"/>
+							<td class="text" title="${linkUsecaseRequest.linkId}" >
+								${linkUsecaseRequest.name}
 							</td>
 							<td class="weight">
-								<aui:input name="weightScenarioSample" label="" value="${linkUsecaseRequest[2]}" cssClass="popup_weightPage" onChange="showWeightPopup()" />
+								<aui:input name="weightScenarioSample" label="" value="${linkUsecaseRequest.weight}" cssClass="popup_weightPage" onChange="showWeightPopup()" />
 							</td>
 							<td class='popup_percent' />
 
 							<td>
 								<liferay-portlet:actionURL var="deleteLinkUseCaseURL" name="removeLinkUseCase">
-									<portlet:param name="useCaseId" value="${linkUsecaseRequest[3]}"/>
+									<portlet:param name="useCaseId" value="${linkUsecaseRequest.linkId}"/>
 									<portlet:param name="pagePortletId" value="${portletId}" />
 									<portlet:param name="requestId" value="${requestId}" />
 								</liferay-portlet:actionURL>
@@ -97,14 +97,21 @@
 	<table>
 		<tbody id="toPaste">
 			<tr>
-				<td class="text" title=""></td>
-				<td class="weight"><aui:input name="weightScenarioSample"
-						label="" value="0.0" cssClass="popup_weightPage"
-						onChange="showWeightPopup()"></aui:input></td>
-				<td class='popup_percent'></td>
-				<td><aui:a href="#" onClick="removeLine(this);">
+				<aui:input name="idLink" type="hidden" value="0"/>
+				<aui:input name="recordId" type="hidden" />
+				<aui:input name="isSample" type="hidden" />
+				<td class="text" title="">
+				</td>
+				<td class="weight">
+					<aui:input name="weightScenarioSample" label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input>
+				</td>
+				<td class='popup_percent'>
+				</td>
+				<td>
+					<aui:a href="#" onClick="removeLine(this);">
 						<liferay-ui:icon image="delete" />
-					</aui:a></td>
+					</aui:a>
+				</td>
 			</tr>
 		</tbody>
 	</table>
@@ -112,7 +119,7 @@
 
 <script type="text/javascript">	
 	AUI().use("aui-base", function(A) {
-		A.one("button[type=submit]").on('click', function(event) {
+		A.one("button[type='submit']").on('click', function(event) {
 			var info = A.one(top.document.getElementById('${plId}')).one(".info-config");
 			if(A.one("#bodyEditScript").all("tr").size() > 0) {
 				info.text("Configuration ok");
@@ -130,18 +137,20 @@
 			var value = document.getElementById(idSelect).value;
 			var canAdd = true;
 			A.one("#bodyEditScript").all('.text').each(function(node) {
-				canAdd = canAdd && !(node.get('title') == value);
+				canAdd = canAdd && node.get('title') != value;
 			})
 			
 			if(canAdd && label != null && label != "" && label != " "){			
-				var value = document.getElementById(idSelect).value;				
+				var value = document.getElementById(idSelect).value.split(',');				
 				var one = A.one('#toPaste').html();
 				var html = A.Node.create(one);
+				//set name of script
 				html.one('.text').html(label);
-				html.one('.text').set('title',value); //sampleId
-				var weightInput = html.one('.weight').one("input");
-				var weightName = weightInput.get('name') + value;
-				weightInput.set('name',weightName); //sampleId
+				html.one('.text').set('title',value[1]); //sampleId
+				//Set hidden input
+				html.one('#<portlet:namespace/>recordId').val(value[1]);
+				html.one('#<portlet:namespace/>isSample').val(value[0]);
+				//Append
 				html.appendTo('#bodyEditScript');	
 			}
 		

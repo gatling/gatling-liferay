@@ -4,8 +4,10 @@
 package com.excilys.liferay.gatling.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
 import com.excilys.liferay.gatling.model.Record;
@@ -108,30 +110,41 @@ public class GatlingUtil {
 
 		return listGroups;
 	}
-
-	public static String[][] fillArrayLinkUseCases(long requestId) throws SystemException, PortalException {
+	
+	public static Map<Long, String> createMapRecordIdAndName(List<Record> records) {
+		Map<Long,String> recordMap = new HashMap<Long, String>();
+		for (Record record : records) {
+			recordMap.put(record.getRecordId(), record.getName());
+		}
+		return recordMap;
+	}
+	
+	public static List<LinkUsecaseRequestDTO> fillArrayLinkUseCases(long requestId) throws SystemException, PortalException {
 		int numberUseCases = LinkUsecaseRequestLocalServiceUtil.countByRequestId(requestId);
-		String[][] arrayLinkUsecaseRequest = new String[numberUseCases][4];
 		List<LinkUsecaseRequest> listUseCaseRequest= LinkUsecaseRequestLocalServiceUtil.findByRequestId(requestId);
+		List<LinkUsecaseRequestDTO> listDisplayLink = new ArrayList<LinkUsecaseRequestDTO>();
 		for (int i=0; i<numberUseCases; i++) {
-			
 			LinkUsecaseRequest link = listUseCaseRequest.get(i);
-			arrayLinkUsecaseRequest[i][0] = Long.toString(link.getRecordId()); //ID
-			arrayLinkUsecaseRequest[i][3] = Long.toString(link.getLinkUsecaseRequestId());
+			long recordId = link.getRecordId(); //ID
+			long linkId = link.getLinkUsecaseRequestId();
+			double weight = link.getWeight(); //WEIGHT
+			boolean isSample = link.isSample();
+			String name = null;
 			if(link.isSample()){
 				if(link.getRecordId() == 1){
-					arrayLinkUsecaseRequest[i][1] = "Sample (only GETs)"; //NAME
+					name = "Sample (only GETs)"; //NAME
 				} else if(link.getRecordId() == 2){
-					arrayLinkUsecaseRequest[i][1] = "Sample (POSTs & GETs)"; //NAME
+					name = "Sample (POSTs & GETs)"; //NAME
 				} else if(link.getRecordId() == 3){
-					arrayLinkUsecaseRequest[i][1] = "Sample (Complex one)"; //NAME
+					name = "Sample (Complex one)"; //NAME
 				}
 			} else {
-				arrayLinkUsecaseRequest[i][1] = RecordLocalServiceUtil.getRecord(link.getRecordId()).getName(); //NAME
+				name = RecordLocalServiceUtil.getRecord(link.getRecordId()).getName(); //NAME
+				System.out.println(name);
 			}
-			arrayLinkUsecaseRequest[i][2] = Double.valueOf(link.getWeight()).toString(); //WEIGHT
+			listDisplayLink.add(new LinkUsecaseRequestDTO(linkId, recordId, weight, name, isSample));
 		}
 		
-		return arrayLinkUsecaseRequest;
+		return listDisplayLink;
 	}
 }
