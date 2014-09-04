@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.liferay.gatling.model.Request;
+import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -50,6 +51,7 @@ public class DisplayItem {
 	private boolean privateItem;
 	private long layoutId;
 	private boolean portlet;
+	private boolean portletConfigured;
 	
 	//fields to get portlet displayed
 	private String portletId;
@@ -123,6 +125,14 @@ public class DisplayItem {
 		weight = request.getWeight();
 		portlet = request.isPortlet();
 		portletId = request.getPortetId();
+		try {
+			int size = LinkUsecaseRequestLocalServiceUtil.countByRequestId(requestId);
+			if(size > 0) {
+				portletConfigured = true;
+			}
+		} catch (SystemException e) {
+			LOG.error(e.getMessage());
+		}
 	}
 
 	public boolean isUsed() {
@@ -282,5 +292,13 @@ public class DisplayItem {
 
 	public void setGroupId(long groupId) {
 		this.groupId = groupId;
+	}
+
+	public boolean isPortletConfigured() {
+		return portletConfigured;
+	}
+
+	public void setPortletConfigured(boolean portletConfigured) {
+		this.portletConfigured = portletConfigured;
 	}
 }

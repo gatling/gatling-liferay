@@ -108,7 +108,17 @@
 								 ${layout.name}  <i class="icon-wrench"></i>
 							</a>
 						</td>
-						<td class="info-config muted">No configurations set</td>
+						<td class="info-config muted">
+							<c:choose>
+							<c:when test="${layout.portletConfigured }">
+								<liferay-ui:message key='portlet-configuration-ok' />
+							</c:when>
+							<c:otherwise>
+								<liferay-ui:message key='portlet-configuration-ko' />
+							</c:otherwise>
+							</c:choose>
+						
+						</td>
 						<td><aui:input label="" name="portlet${status.index}"
 								cssClass="weight-portlet " inlineField="true" onChange="showWeightPortlet()"
 								value="${layout.weight}">

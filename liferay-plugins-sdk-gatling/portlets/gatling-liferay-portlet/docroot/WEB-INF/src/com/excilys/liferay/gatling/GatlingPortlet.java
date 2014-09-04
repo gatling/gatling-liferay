@@ -247,7 +247,7 @@ public class GatlingPortlet extends MVCPortlet {
 		long[] recordIds = ParamUtil.getLongValues(request, "recordId");
 		boolean[] areSample = ParamUtil.getBooleanValues(request, "isSample");
 		
-		if(linkUsecaseRequestIds.length == usecaseWeight.length) {
+		if(linkUsecaseRequestIds.length == usecaseWeight.length && usecaseWeight.length == areSample.length) {
 			for(int i=0; i<linkUsecaseRequestIds.length;i++) {
 				long id = linkUsecaseRequestIds[i];
 				long weight = usecaseWeight[i];
