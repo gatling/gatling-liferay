@@ -110,6 +110,7 @@ public class GatlingUtil {
 
 		return listGroups;
 	}
+
 	
 	public static Map<Long, String> createMapRecordIdAndName(List<Record> records) {
 		Map<Long,String> recordMap = new HashMap<Long, String>();
@@ -119,7 +120,18 @@ public class GatlingUtil {
 		return recordMap;
 	}
 	
-	public static List<LinkUsecaseRequestDTO> fillArrayLinkUseCases(long requestId) throws SystemException, PortalException {
+	
+
+	/**
+	 * 
+	 * @param requestId
+	 * @return
+	 * @throws SystemException
+	 * @throws PortalException
+	 */
+public static List<LinkUsecaseRequestDTO> fillArrayLinkUseCases(long requestId) throws SystemException, PortalException {
+		int numberUseCases = LinkUsecaseRequestLocalServiceUtil.countByRequestId(requestId);
+		String[][] arrayLinkUsecaseRequest = new String[numberUseCases][3];
 		List<LinkUsecaseRequest> listUseCaseRequest= LinkUsecaseRequestLocalServiceUtil.findByRequestId(requestId);
 		List<LinkUsecaseRequestDTO> listDisplayLink = new ArrayList<LinkUsecaseRequestDTO>();
 		for (LinkUsecaseRequest link : listUseCaseRequest) {
@@ -138,6 +150,7 @@ public class GatlingUtil {
 				}
 			} else {
 				name = RecordLocalServiceUtil.getRecord(link.getRecordId()).getName(); //NAME
+
 			}
 			listDisplayLink.add(new LinkUsecaseRequestDTO(linkId, recordId, weight, name, isSample));
 		}

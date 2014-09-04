@@ -549,6 +549,8 @@ public class GatlingPortlet extends MVCPortlet {
 			String listRecordsName = null;
 			String[][] availableScript = null;
 			 
+			
+			//get record and Sample list in db if exists
 			try {
 				availableScript =  ListScript.getList(portletId);
 				arrayLinkUsecaseRequest = GatlingUtil.fillArrayLinkUseCases(requestId);
@@ -563,6 +565,7 @@ public class GatlingPortlet extends MVCPortlet {
 					LOG.error("error when search for Record list: "+e.getMessage());
 				}
 			}
+			
 			renderRequest.setAttribute("availableScript", availableScript);
 			renderRequest.setAttribute("portletId", portletId);
 			renderRequest.setAttribute("portletName", portletName);
