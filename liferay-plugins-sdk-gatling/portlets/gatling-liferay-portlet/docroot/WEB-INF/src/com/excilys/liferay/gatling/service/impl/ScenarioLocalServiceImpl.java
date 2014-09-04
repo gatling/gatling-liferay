@@ -22,14 +22,14 @@ import java.util.Map;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 
+import com.excilys.liferay.gatling.dto.DisplayItemDTO;
+import com.excilys.liferay.gatling.dto.DisplayItemDTO.RequestState;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.ScenarioLocalServiceBaseImpl;
-import com.excilys.liferay.gatling.util.DisplayItem;
-import com.excilys.liferay.gatling.util.DisplayItem.RequestState;
-import com.excilys.liferay.gatling.util.DisplayItemUtil;
+import com.excilys.liferay.gatling.util.DisplayItemDTOUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.excilys.liferay.gatling.validator.RequestValidator;
 import com.excilys.liferay.gatling.validator.ScenarioValidator;
@@ -180,9 +180,9 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			// private page
 			listLayouts.addAll(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), true, 0));
 			
-			List<DisplayItem> listDisplayItems = new ArrayList<DisplayItem>();
-			DisplayItemUtil.addLayoutToDisplayItemList(listDisplayItems, listLayouts);
-			for(DisplayItem displayItem: listDisplayItems){
+			List<DisplayItemDTO> listDisplayItems = new ArrayList<DisplayItemDTO>();
+			DisplayItemDTOUtil.addLayoutToDisplayItemList(listDisplayItems, listLayouts);
+			for(DisplayItemDTO displayItem: listDisplayItems){
 				RequestLocalServiceUtil.addRequestFromDisplayItem(displayItem, 0, scenario.getScenario_id());
 			}
 			return scenario;
@@ -241,16 +241,16 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		//get private layout list
 		List<Layout> listPrivateLayouts = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
 
-		List<DisplayItem> displayItemList = new ArrayList<DisplayItem>();
+		List<DisplayItemDTO> displayItemList = new ArrayList<DisplayItemDTO>();
 		
 		// Sorting layout
-		DisplayItemUtil.addLayoutToDisplayItemList(displayItemList, listPublicLayouts);
-		DisplayItemUtil.addLayoutToDisplayItemList(displayItemList, listPrivateLayouts );
+		DisplayItemDTOUtil.addLayoutToDisplayItemList(displayItemList, listPublicLayouts);
+		DisplayItemDTOUtil.addLayoutToDisplayItemList(displayItemList, listPrivateLayouts );
 		
 		// Retrieve Request from DB
 		final List<Request> listRequests = RequestLocalServiceUtil.findByScenarioId(idScenario);
 		// Merge Layout and Request in DisplayLayout List
-		displayItemList = DisplayItemUtil.addRequestToDisplayItemList(displayItemList, listRequests);
+		displayItemList = DisplayItemDTOUtil.addRequestToDisplayItemList(displayItemList, listRequests);
 
 		// get List request
 		for(Request r : listRequests){
@@ -262,7 +262,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		 */
 		int layoutId = 0;
 		double weight = 0.0d;
-		DisplayItem displayLayout = null;
+		DisplayItemDTO displayLayout = null;
 		RequestState status = null;
 		Long requestId = null;
 		for (String key : parameters.keySet()){

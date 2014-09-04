@@ -1,7 +1,7 @@
 /**
  * Copyright 2011-2014 eBusiness Information, Groupe Excilys (www.ebusinessinformation.fr)
  */
-package com.excilys.liferay.gatling.util;
+package com.excilys.liferay.gatling.dto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +24,9 @@ import com.liferay.portal.service.PortletLocalServiceUtil;
  * use of {@link IdDisplayItem} as field for identity
  *
  */
-public class DisplayItem {
+public class DisplayItemDTO {
 	
-	private static final Log LOG = LogFactoryUtil.getLog(DisplayItem.class.getName());
+	private static final Log LOG = LogFactoryUtil.getLog(DisplayItemDTO.class.getName());
 	
 	public enum RequestState {
 		OLD_REQUEST, DEFAULT, NEW_REQUEST;
@@ -73,7 +73,7 @@ public class DisplayItem {
 	 * create DisplayLayout from a liferay Layout
 	 * @param layout
 	 */
-	public DisplayItem(PortletPreferences portletPreferences) {
+	public DisplayItemDTO(PortletPreferences portletPreferences) {
 		parentDisplayId = portletPreferences.getPlid();
 		displayId = portletPreferences.getPortletPreferencesId();	
 		name = PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).getDisplayName();
@@ -94,7 +94,7 @@ public class DisplayItem {
 	 * create DisplayLayout from a liferay Layout
 	 * @param layout
 	 */
-	public DisplayItem(Layout layout) {
+	public DisplayItemDTO(Layout layout) {
 		
 		displayId = layout.getPlid();
 		layoutId  = layout.getLayoutId();
@@ -115,7 +115,7 @@ public class DisplayItem {
 	 * create DisplayLayout from a scenario request
 	 * @param request
 	 */
-	public DisplayItem(Request request){
+	public DisplayItemDTO(Request request){
 		displayId = request.getPlId();
 		privateItem = request.isPrivatePage();
 		requestId = request.getRequest_id();
@@ -157,7 +157,7 @@ public class DisplayItem {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DisplayItem other = (DisplayItem) obj;
+		DisplayItemDTO other = (DisplayItemDTO) obj;
 		if (displayId != other.displayId)
 			return false;
 		return true;

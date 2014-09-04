@@ -4,10 +4,8 @@
 package com.excilys.liferay.gatling.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import com.excilys.liferay.gatling.dto.LinkUsecaseRequestDTO;
 import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
@@ -112,17 +110,6 @@ public class GatlingUtil {
 		return listGroups;
 	}
 
-	
-	public static Map<Long, String> createMapRecordIdAndName(List<Record> records) {
-		Map<Long,String> recordMap = new HashMap<Long, String>();
-		for (Record record : records) {
-			recordMap.put(record.getRecordId(), record.getName());
-		}
-		return recordMap;
-	}
-	
-	
-
 	/**
 	 * 
 	 * @param requestId
@@ -130,9 +117,7 @@ public class GatlingUtil {
 	 * @throws SystemException
 	 * @throws PortalException
 	 */
-public static List<LinkUsecaseRequestDTO> fillArrayLinkUseCases(long requestId) throws SystemException, PortalException {
-		int numberUseCases = LinkUsecaseRequestLocalServiceUtil.countByRequestId(requestId);
-		String[][] arrayLinkUsecaseRequest = new String[numberUseCases][3];
+	public static List<LinkUsecaseRequestDTO> fillArrayLinkUseCases(long requestId) throws SystemException, PortalException {
 		List<LinkUsecaseRequest> listUseCaseRequest= LinkUsecaseRequestLocalServiceUtil.findByRequestId(requestId);
 		List<LinkUsecaseRequestDTO> listDisplayLink = new ArrayList<LinkUsecaseRequestDTO>();
 		for (LinkUsecaseRequest link : listUseCaseRequest) {
@@ -151,7 +136,6 @@ public static List<LinkUsecaseRequestDTO> fillArrayLinkUseCases(long requestId) 
 				}
 			} else {
 				name = RecordLocalServiceUtil.getRecord(link.getRecordId()).getName(); //NAME
-
 			}
 			listDisplayLink.add(new LinkUsecaseRequestDTO(linkId, recordId, weight, name, isSample));
 		}

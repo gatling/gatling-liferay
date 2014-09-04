@@ -16,10 +16,10 @@ package com.excilys.liferay.gatling.service.impl;
 
 import java.util.List;
 
+import com.excilys.liferay.gatling.dto.DisplayItemDTO;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.RequestLocalServiceBaseImpl;
-import com.excilys.liferay.gatling.util.DisplayItem;
 import com.excilys.liferay.gatling.validator.RequestValidator;
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.NoSuchModelException;
@@ -112,8 +112,8 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 	 * Store a {@link Request} with given values
 	 */
 	public void addRequestFromDisplayItem(Object displayItem1, double weight, long idScenario) throws SystemException {
-		if(displayItem1 instanceof DisplayItem) {
-			DisplayItem displayItem = (DisplayItem) displayItem1;
+		if(displayItem1 instanceof DisplayItemDTO) {
+			DisplayItemDTO displayItem = (DisplayItemDTO) displayItem1;
 			//create request
 			final long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
 			final Request newRequest = requestPersistence.create(primaryKey);

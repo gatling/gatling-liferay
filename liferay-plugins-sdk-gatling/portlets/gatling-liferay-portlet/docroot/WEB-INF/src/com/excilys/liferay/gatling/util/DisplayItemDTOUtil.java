@@ -12,8 +12,9 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.excilys.liferay.gatling.dto.DisplayItemDTO;
+import com.excilys.liferay.gatling.dto.DisplayItemDTO.RequestState;
 import com.excilys.liferay.gatling.model.Request;
-import com.excilys.liferay.gatling.util.DisplayItem.RequestState;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -22,29 +23,29 @@ import com.liferay.portal.model.PortletPreferences;
 import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
 
 
-public class DisplayItemUtil {
+public class DisplayItemDTOUtil {
 
-	private final static transient Log LOG = LogFactoryUtil.getLog(DisplayItemUtil.class.getName());
+	private final static transient Log LOG = LogFactoryUtil.getLog(DisplayItemDTOUtil.class.getName());
 
 	/**
-	 * Add {@link PortletPreferences} list the {@link DisplayItem} list
+	 * Add {@link PortletPreferences} list the {@link DisplayItemDTO} list
 	 * @param displayItemtList
 	 * @param listItems
 	 */
-	public static void addPortletToDisplayItemList(List<DisplayItem> displayItemtList, List<PortletPreferences> listPortletPreferences) {
+	public static void addPortletToDisplayItemList(List<DisplayItemDTO> displayItemtList, List<PortletPreferences> listPortletPreferences) {
 		for(PortletPreferences pp : listPortletPreferences) {
-			displayItemtList.add(new DisplayItem(pp));	
+			displayItemtList.add(new DisplayItemDTO(pp));	
 		}
 	}
 
 	/**
-	 * Add {@link Layout} list the {@link DisplayItem} list
+	 * Add {@link Layout} list the {@link DisplayItemDTO} list
 	 * @param displayItemList
 	 * @param listLayouts
 	 */
-	public static void addLayoutToDisplayItemList(List<DisplayItem> displayItemList, List<Layout> listLayouts) {
+	public static void addLayoutToDisplayItemList(List<DisplayItemDTO> displayItemList, List<Layout> listLayouts) {
 		for(Layout layout : listLayouts) {
-			displayItemList.add(new DisplayItem(layout));
+			displayItemList.add(new DisplayItemDTO(layout));
 
 			try {
 				// Get portlet in layout
@@ -61,7 +62,7 @@ public class DisplayItemUtil {
 				List<PortletPreferences> listPortletPreferences = PortletPreferencesLocalServiceUtil.getPortletPreferencesByPlid(layout.getPlid());
 				for (PortletPreferences portletPreferences : listPortletPreferences) {
 					if(listPortlet.contains(portletPreferences.getPortletId())) {
-						displayItemList.add(new DisplayItem(portletPreferences));
+						displayItemList.add(new DisplayItemDTO(portletPreferences));
 					}
 				}
 			} catch (SystemException e1) {
@@ -81,31 +82,31 @@ public class DisplayItemUtil {
 	}
 
 	/**
-	 * Add {@link Request} list to a {@link DisplayItem} list
+	 * Add {@link Request} list to a {@link DisplayItemDTO} list
 	 * <br>
 	 * This will add requests in the proper order (by hierachy)
 	 * @param displayLayoutList
 	 * @param listRequests
 	 * @return the new list sorted and indent
 	 */
-	public static List<DisplayItem> addRequestToDisplayItemList(List<DisplayItem> displayLayoutList, List<Request> listRequests) {
-		List<DisplayItem> result = new LinkedList<DisplayItem>();
-		List<DisplayItem> requestToDisplayLayout = new ArrayList<DisplayItem>();
+	public static List<DisplayItemDTO> addRequestToDisplayItemList(List<DisplayItemDTO> displayLayoutList, List<Request> listRequests) {
+		List<DisplayItemDTO> result = new LinkedList<DisplayItemDTO>();
+		List<DisplayItemDTO> requestToDisplayLayout = new ArrayList<DisplayItemDTO>();
 		// Create a DisplayLayoutList of listRequests (for comparison) 
 		for(Request r : listRequests) {
-			requestToDisplayLayout.add(new DisplayItem(r));
+			requestToDisplayLayout.add(new DisplayItemDTO(r));
 		}
 		// Add displayLayoutList to result list
 		result.addAll(displayLayoutList);
 		// New
-		for(DisplayItem dl : result) {
+		for(DisplayItemDTO dl : result) {
 			// if in result(here displayLayoutList) but not in listRequests it's a new request
 			if(!requestToDisplayLayout.contains(dl)) {
 				dl.setState(RequestState.NEW_REQUEST);
 			}
 		}
 		// Old
-		for(DisplayItem dlr : requestToDisplayLayout) {
+		for(DisplayItemDTO dlr : requestToDisplayLayout) {
 			// if in ListRequests but not in DisplayLayoutList it's an old request
 			if(!result.contains(dlr)) {
 				dlr.setState(RequestState.OLD_REQUEST);
@@ -142,9 +143,9 @@ public class DisplayItemUtil {
 	 * @param parentLayoutId
 	 * @return
 	 */
-	private static int findParentPosition(List<DisplayItem> result, long parentDisplayId) {
+	private static int findParentPosition(List<DisplayItemDTO> result, long parentDisplayId) {
 		for (int i = 0; i < result.size(); i++) {
-			DisplayItem dl = result.get(i);
+			DisplayItemDTO dl = result.get(i);
 			if(dl.getDisplayId() == parentDisplayId) {
 				return i;
 			}
@@ -153,10 +154,10 @@ public class DisplayItemUtil {
 	}
 
 	/**
-	 * Indent a {@link DisplayItem} List
+	 * Indent a {@link DisplayItemDTO} List
 	 * @param list
 	 */
-	public static void processIndentAndHierachy(List<DisplayItem> list) {
+	public static void processIndentAndHierachy(List<DisplayItemDTO> list) {
 		class Info {
 			int depth;
 			long parentNode;
@@ -169,7 +170,7 @@ public class DisplayItemUtil {
 		}
 		// Indent and subnode
 		Map<Long, Info> indentInfo = new HashMap<Long, Info>();
-		for (DisplayItem dl : list) {
+		for (DisplayItemDTO dl : list) {
 			Long parent = dl.getParentDisplayId();
 			// if it is subnode
 			if(indentInfo.containsKey(parent) && parent != 0) {
@@ -180,7 +181,7 @@ public class DisplayItemUtil {
 		}
 		
 		// set the subnodes
-		for (DisplayItem displayItem : list) {
+		for (DisplayItemDTO displayItem : list) {
 			for(Entry<Long, Info> set : indentInfo.entrySet()) {
 				if(set.getValue().parentNode == displayItem.getDisplayId()) {
 					if(set.getValue().isPortlet) {

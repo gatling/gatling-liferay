@@ -26,6 +26,7 @@ import javax.portlet.ResourceResponse;
 import javax.portlet.ValidatorException;
 import javax.servlet.http.Cookie;
 
+import com.excilys.liferay.gatling.dto.DisplayItemDTO;
 import com.excilys.liferay.gatling.dto.LinkUsecaseRequestDTO;
 import com.excilys.liferay.gatling.dto.PortletConfigDTO;
 import com.excilys.liferay.gatling.dto.PortletConfigDTO.PortletConfigDTOBuilder;
@@ -41,8 +42,7 @@ import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
-import com.excilys.liferay.gatling.util.DisplayItem;
-import com.excilys.liferay.gatling.util.DisplayItemUtil;
+import com.excilys.liferay.gatling.util.DisplayItemDTOUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
@@ -518,14 +518,14 @@ public class GatlingPortlet extends MVCPortlet {
 				String siteName = GroupLocalServiceUtil.getGroup(groupId).getDescriptiveName();
 
 				//create DisplayLayoutList with actuel layout of the site and old layout added from requests
-				List<DisplayItem> displayItemList = new ArrayList<DisplayItem>();
-				DisplayItemUtil.addLayoutToDisplayItemList(displayItemList, listPublicLayouts);
-				DisplayItemUtil.addLayoutToDisplayItemList(displayItemList, listPrivateLayouts );
+				List<DisplayItemDTO> displayItemList = new ArrayList<DisplayItemDTO>();
+				DisplayItemDTOUtil.addLayoutToDisplayItemList(displayItemList, listPublicLayouts);
+				DisplayItemDTOUtil.addLayoutToDisplayItemList(displayItemList, listPrivateLayouts );
 
 				//get list of request to add the old page to DisplayLayout
 				List<Request> listRequests = RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(renderRequest, "scenarioId", 0));
 				//Merge Layout and Request in DisplayLayout List
-				displayItemList = DisplayItemUtil.addRequestToDisplayItemList(displayItemList, listRequests);
+				displayItemList = DisplayItemDTOUtil.addRequestToDisplayItemList(displayItemList, listRequests);
 
 				// Get list of used names
 				List<Scenario> scenariolist = ScenarioLocalServiceUtil.getScenarios(0, ScenarioLocalServiceUtil.getScenariosCount());
