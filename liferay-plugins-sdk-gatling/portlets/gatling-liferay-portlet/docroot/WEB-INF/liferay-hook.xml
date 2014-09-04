@@ -4,6 +4,7 @@
 <hook>
 	<language-properties>content/Language_en.properties</language-properties>
 	<language-properties>content/Language_fr.properties</language-properties>
+	<language-properties>content/Language_de.properties</language-properties>
 	<servlet-filter>
 		<servlet-filter-name>RecordFilter</servlet-filter-name>
 		<servlet-filter-impl>com.excilys.liferay.gatling.recorder.RecorderFilter</servlet-filter-impl> 

@@ -10,7 +10,7 @@
 			"existing-usecase");
 %>
 <!-- This is the link associated to every tab to load the specific page -->
-<liferay-ui:tabs names='existing-usecase,record-usecase' refresh="false"
+<liferay-ui:tabs names='existing-usecase,record-usecase,config-record' refresh="false" 
 	value="<%=currentTab%>">
 	<liferay-ui:section>
 		<liferay-util:include
