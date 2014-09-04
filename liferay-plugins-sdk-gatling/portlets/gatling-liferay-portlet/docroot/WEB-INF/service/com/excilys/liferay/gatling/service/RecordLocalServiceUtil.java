@@ -275,15 +275,6 @@ public class RecordLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
-	/**
-	* get {@link Record} have this requestId
-	*/
-	public static java.util.List<com.excilys.liferay.gatling.model.Record> findByPortletAndRequest(
-		java.lang.String portletId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().findByPortletAndRequest(portletId);
-	}
-
 	public static java.util.List<com.excilys.liferay.gatling.model.Record> findByPortletId(
 		java.lang.String portletId)
 		throws com.liferay.portal.kernel.exception.SystemException {

@@ -27,7 +27,6 @@ import javax.portlet.ValidatorException;
 import javax.servlet.http.Cookie;
 
 import com.excilys.liferay.gatling.exception.EmptySimulation;
-import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
@@ -244,18 +243,31 @@ public class GatlingPortlet extends MVCPortlet {
 		final Map<String, String[]> parameters = request.getParameterMap();
 		long requestId = Long.parseLong(StringUtil.merge(parameters.get("requestId")));
 
-		for (String key : parameters.keySet()){
-			if(key.contains("weightScenarioSample")){
-				LOG.info("key: "+key);
-				long linkUsecaseRequestId = Long.parseLong(key.split("weightScenarioSample")[0]);
-				long recordId = Long.parseLong(key.split("weightScenarioSample")[1]);
-				String[] weights = StringUtil.merge(parameters.get(key)).split(",");
-				for(String weight : weights){
-					// add new Link use Case
-					LinkUsecaseRequestLocalServiceUtil.saveLinkUseCase(linkUsecaseRequestId, requestId, recordId,  Double.parseDouble(weight), true);
-				}
+		String[] linkUsecaseRequestIds = ParamUtil.getParameterValues(request, "nameSample");
+		long[] usecaseWeight = ParamUtil.getLongValues(request, "weightScenarioSample");
+		
+		if(linkUsecaseRequestIds.length == usecaseWeight.length) {
+			for(int i=0; i<linkUsecaseRequestIds.length;i++) {
+				String id = linkUsecaseRequestIds[i];
+				long weight = usecaseWeight[i];
+				LOG.info(id+" "+weight);
+				//LinkUsecaseRequestLocalServiceUtil.saveLinkUseCase(linkUsecaseRequestId, requestId, recordId, weight, isSample);
 			}
 		}
+		
+		
+//		for (String key : parameters.keySet()){
+//			if(key.contains("weightScenarioSample")){
+//				LOG.info("key: "+key);
+//				long linkUsecaseRequestId = Long.parseLong(key.split("weightScenarioSample")[0]);
+//				long recordId = Long.parseLong(key.split("weightScenarioSample")[1]);
+//				String[] weights = StringUtil.merge(parameters.get(key)).split(",");
+//				for(String weight : weights){
+//					// add new Link use Case
+//					LinkUsecaseRequestLocalServiceUtil.saveLinkUseCase(linkUsecaseRequestId, requestId, recordId,  Double.parseDouble(weight), true);
+//				}
+//			}
+//		}
 
 		response.setRenderParameter("page", jspEditPortlet);
 		//hack, only work this way ....
@@ -270,7 +282,7 @@ public class GatlingPortlet extends MVCPortlet {
 	 * @throws SystemException
 	 * @throws PortalException
 	 */
-	public void removeUseCase(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException{
+	public void removeLinkUseCase(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException{
 
 		final Map<String, String[]> parameters = request.getParameterMap();
 		long useCaseId = Long.parseLong(StringUtil.merge(parameters.get("useCaseId")));
@@ -653,7 +665,6 @@ public class GatlingPortlet extends MVCPortlet {
 		Date date = new Date();
 		Mustache mustache = mf.compile(template);
 		if (simulationsIds.length > 1) {
-			System.out.println("sdsdsd");
 			response.setContentType("application/zip");
 			response.addProperty("Content-Disposition", "attachment; filename = GatlingSimulations" + date.getTime() + ".zip");
 
@@ -673,7 +684,6 @@ public class GatlingPortlet extends MVCPortlet {
 			}
 
 		} else if (simulationsIds.length == 1 && simulationsIds[0] > 0) {
-			System.out.println("sdsdsd");
 			//create and export only one file with scenario script for this simulation id
 			response.setContentType("application/x-wais-source");
 			try {

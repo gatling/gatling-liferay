@@ -114,17 +114,13 @@ public class RecordLocalServiceClp implements RecordLocalService {
 
 		_methodParameterTypes17 = new String[] { "java.lang.String" };
 
-		_methodName19 = "findByPortletAndRequest";
+		_methodName19 = "findByPortletId";
 
 		_methodParameterTypes19 = new String[] { "java.lang.String" };
 
-		_methodName20 = "findByPortletId";
+		_methodName20 = "countByPortletId";
 
 		_methodParameterTypes20 = new String[] { "java.lang.String" };
-
-		_methodName21 = "countByPortletId";
-
-		_methodParameterTypes21 = new String[] { "java.lang.String" };
 	}
 
 	@Override
@@ -674,7 +670,7 @@ public class RecordLocalServiceClp implements RecordLocalService {
 	}
 
 	@Override
-	public java.util.List<com.excilys.liferay.gatling.model.Record> findByPortletAndRequest(
+	public java.util.List<com.excilys.liferay.gatling.model.Record> findByPortletId(
 		java.lang.String portletId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
@@ -704,43 +700,13 @@ public class RecordLocalServiceClp implements RecordLocalService {
 	}
 
 	@Override
-	public java.util.List<com.excilys.liferay.gatling.model.Record> findByPortletId(
-		java.lang.String portletId)
+	public int countByPortletId(java.lang.String portletId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName20,
 					_methodParameterTypes20,
-					new Object[] { ClpSerializer.translateInput(portletId) });
-		}
-		catch (Throwable t) {
-			t = ClpSerializer.translateThrowable(t);
-
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
-			}
-
-			if (t instanceof RuntimeException) {
-				throw (RuntimeException)t;
-			}
-			else {
-				throw new RuntimeException(t.getClass().getName() +
-					" is not a valid exception");
-			}
-		}
-
-		return (java.util.List<com.excilys.liferay.gatling.model.Record>)ClpSerializer.translateOutput(returnObj);
-	}
-
-	@Override
-	public int countByPortletId(java.lang.String portletId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		Object returnObj = null;
-
-		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName21,
-					_methodParameterTypes21,
 					new Object[] { ClpSerializer.translateInput(portletId) });
 		}
 		catch (Throwable t) {
@@ -803,6 +769,4 @@ public class RecordLocalServiceClp implements RecordLocalService {
 	private String[] _methodParameterTypes19;
 	private String _methodName20;
 	private String[] _methodParameterTypes20;
-	private String _methodName21;
-	private String[] _methodParameterTypes21;
 }

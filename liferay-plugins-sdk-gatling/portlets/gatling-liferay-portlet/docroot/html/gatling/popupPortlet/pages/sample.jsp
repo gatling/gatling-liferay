@@ -54,14 +54,25 @@
 
  					<c:forEach var="linkUsecaseRequest"	items="${arrayLinkUsecaseRequest}">
 						<tr>
-							<td class="text" title="${linkUsecaseRequest[0]}" >${linkUsecaseRequest[1]}</td>
+							<td class="text" title="${linkUsecaseRequest[0]}" >
+								${linkUsecaseRequest[1]}
+								<aui:input name="nameSample" type="hidden" value="${linkUsecaseRequest[1]}"/>
+							</td>
 							<td class="weight">
-								<aui:input name="0weightScenarioSample" label="" value="${linkUsecaseRequest[2]}" cssClass="popup_weightPage" onChange="showWeightPopup()" />
+								<aui:input name="weightScenarioSample" label="" value="${linkUsecaseRequest[2]}" cssClass="popup_weightPage" onChange="showWeightPopup()" />
 							</td>
 							<td class='popup_percent' />
-							<td><aui:a href="#" onClick="removeLine(this);">
+
+							<td>
+								<liferay-portlet:actionURL var="deleteLinkUseCaseURL" name="removeLinkUseCase">
+									<portlet:param name="useCaseId" value="${linkUsecaseRequest[3]}"/>
+									<portlet:param name="pagePortletId" value="${portletId}" />
+									<portlet:param name="requestId" value="${requestId}" />
+								</liferay-portlet:actionURL>
+								<aui:a href="${deleteLinkUseCaseURL }">
 									<liferay-ui:icon image="delete" />
-								</aui:a></td>
+								</aui:a>
+							</td>
 						</tr>
 
 					</c:forEach>
@@ -87,7 +98,7 @@
 		<tbody id="toPaste">
 			<tr>
 				<td class="text" title=""></td>
-				<td class="weight"><aui:input name="0weightScenarioSample"
+				<td class="weight"><aui:input name="weightScenarioSample"
 						label="" value="0.0" cssClass="popup_weightPage"
 						onChange="showWeightPopup()"></aui:input></td>
 				<td class='popup_percent'></td>
@@ -102,7 +113,7 @@
 <script type="text/javascript">	
 	AUI().use("aui-base", function(A) {
 		A.one("button[type=submit]").on('click', function(event) {
-			var info = A.one(top.document.getElementById('${portletId}')).one(".info-config");
+			var info = A.one(top.document.getElementById('${plId}')).one(".info-config");
 			if(A.one("#bodyEditScript").all("tr").size() > 0) {
 				info.text("Configuration ok");
 			} else {

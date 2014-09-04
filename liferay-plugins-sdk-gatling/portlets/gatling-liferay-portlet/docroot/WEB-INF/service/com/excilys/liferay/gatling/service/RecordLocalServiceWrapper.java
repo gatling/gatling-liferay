@@ -280,16 +280,6 @@ public class RecordLocalServiceWrapper implements RecordLocalService,
 		return _recordLocalService.invokeMethod(name, parameterTypes, arguments);
 	}
 
-	/**
-	* get {@link Record} have this requestId
-	*/
-	@Override
-	public java.util.List<com.excilys.liferay.gatling.model.Record> findByPortletAndRequest(
-		java.lang.String portletId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _recordLocalService.findByPortletAndRequest(portletId);
-	}
-
 	@Override
 	public java.util.List<com.excilys.liferay.gatling.model.Record> findByPortletId(
 		java.lang.String portletId)
