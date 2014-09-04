@@ -3,7 +3,8 @@
 --%>
 <%@include file="/html/gatling/header.jsp"%>
 
-<h1>${listRecord.size() } records</h1>
+<h1>${listRecord.size() } <liferay-ui:message key="records-word" /></h1>
+
 <!-- view List of records -->
 
 <liferay-ui:search-container emptyResultsMessage="record-list-empty">
@@ -17,6 +18,7 @@
 			<portlet:param name="recordId" value="${record.recordId }" />
 		</portlet:renderURL>
 		<liferay-ui:search-container-column-text name="record-edit-table-header-name" value="${record.name}" href="${editRecordURL}" />
+	
 		<%--delete button --%>
 		<liferay-ui:search-container-column-text name="delete" align="center">
 			<portlet:actionURL var="deleteRecordURL" name="removeRecord">
