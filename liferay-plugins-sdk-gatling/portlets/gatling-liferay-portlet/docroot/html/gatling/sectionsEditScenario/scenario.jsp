@@ -37,8 +37,7 @@
 		</thead>
 		<c:if test="${ listPages.size() ==0 }">
 			<tr>
-				<td><label style="color: green"> <liferay-ui:message
-							key="no-page" /></label></td>
+				<td><label style="color: green"> <liferay-ui:message key="no-page" /></label></td>
 			</tr>
 		</c:if>
 		<%--
@@ -69,8 +68,6 @@
 				<c:set var="pageName" value="${layout.name}" />
 				<c:set var="parentRequestId" value="${layout.requestId}"/>
 				<c:forEach var="i" items="${layout.pagePortlet}" varStatus="info">
-				
-<%-- 					<% request.getServletContext().get %> --%>
 					<c:set var="portletList" value="${portletList}${i}" />
 					<c:if test="${not info.last}">
 						<c:set var="portletList" value="${portletList}," />
@@ -100,7 +97,7 @@
 				
 				 --%>
 				<c:when test="${layout.portlet }">
-					<tr id="${layout.displayId}" class="portletLine ${color }" data-parent="${layout.parentDisplayId }"
+					<tr id="${layout.displayId}" class="${color }" data-parent="${layout.parentDisplayId }"
 						hidden="true">
 						<td><input type="checkbox" name="${status.index}"
 							class='checkLine' /></td>
@@ -111,7 +108,7 @@
 								 ${layout.name}  <i class="icon-wrench"></i>
 							</a>
 						</td>
-						<td></td>
+						<td class="info-config muted">No configurations set</td>
 						<td><aui:input label="" name="portlet${status.index}"
 								cssClass="weight-portlet " inlineField="true" onChange="showWeightPortlet()"
 								value="${layout.weight}">
@@ -200,8 +197,7 @@
 							class='checkLine' /> <c:if test="${not empty arraySubPage}">
 								<i class="icon-minus   show-hide-children"
 									data-children="${arraySubPage }"></i>
-								<i
-									class="force-weight-children  icon-circle-arrow-down margin-left-5"
+								<i class="force-weight-children  icon-circle-arrow-down margin-left-5"
 									data-children="${arraySubPage }"></i>
 							</c:if>
 						</td>

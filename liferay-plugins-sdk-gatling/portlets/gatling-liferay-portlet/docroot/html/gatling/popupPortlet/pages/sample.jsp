@@ -99,39 +99,51 @@
 	</table>
 </div>
 
-
 <script type="text/javascript">	
-function addLine() {
-    AUI().use('aui-base', 'aui-node-base', function(A){
-        var idSelect = "<portlet:namespace/>"+"selectScript";
-        var label = document.getElementById(idSelect)[document.getElementById(idSelect).selectedIndex].textContent;
-        var value = document.getElementById(idSelect).value;
-        var canAdd = true;
-        A.one("#bodyEditScript").all('.text').each(function(node) {
-                canAdd = canAdd && !(node.get('title') == value);
-        })
-        
-        if(canAdd && label != null && label != "" && label != " "){                     
-                var value = document.getElementById(idSelect).value;                            
-                var one = A.one('#toPaste').html();
-                var html = A.Node.create(one);
-                html.one('.text').html(label);
-                html.one('.text').set('title',value); //sampleId
-                var weightInput = html.one('.weight').one("input");
-                var weightName = weightInput.get('name') + value;
-                weightInput.set('name',weightName); //sampleId
-                html.appendTo('#bodyEditScript');       
-        }
+	AUI().use("aui-base", function(A) {
+		A.one("button[type=submit]").on('click', function(event) {
+			var info = A.one(top.document.getElementById('${portletId}')).one(".info-config");
+			if(A.one("#bodyEditScript").all("tr").size() > 0) {
+				info.text("Configuration ok");
+			} else {
+				info.text("No configurations set");
+			}
+		});
+	});
 
-});
-}
 
-function removeLine(line) {
-AUI().one(line).ancestor("tr").remove();
-}
-
-function showWeightPopup() {
-AUI().use('aui-base', function(A) {
+	function addLine() {
+		AUI().use('aui-base', 'aui-node-base', function(A){
+			var idSelect = "<portlet:namespace/>"+"selectScript";
+			var label = document.getElementById(idSelect)[document.getElementById(idSelect).selectedIndex].textContent;
+			var value = document.getElementById(idSelect).value;
+			var canAdd = true;
+			A.one("#bodyEditScript").all('.text').each(function(node) {
+				canAdd = canAdd && !(node.get('title') == value);
+			})
+			
+			if(canAdd && label != null && label != "" && label != " "){			
+				var value = document.getElementById(idSelect).value;				
+				var one = A.one('#toPaste').html();
+				var html = A.Node.create(one);
+				html.one('.text').html(label);
+				html.one('.text').set('title',value); //sampleId
+				var weightInput = html.one('.weight').one("input");
+				var weightName = weightInput.get('name') + value;
+				weightInput.set('name',weightName); //sampleId
+				html.appendTo('#bodyEditScript');	
+			}
+		
+		});
+	}
+	
+	function removeLine(line) {
+		AUI().one(line).ancestor("tr").remove();
+	}
+	
+	
+	function showWeightPopup() {
+		AUI().use('aui-base', function(A) {
 			var totalRate = parseInt(0);
 			var listePage = A.all('.popup_weightPage');
 			listePage.each(function() {
