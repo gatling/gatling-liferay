@@ -317,6 +317,7 @@
 				var groupId = this.getData("groupId");
 				var plId = this.getData("plId");
 				var requestId = this.getData("requestId");
+				var lineId = this.ancestor("tr").get("id");
 				//Create renderURL
 				var renderURL = Liferay.PortletURL.createRenderURL();
 				renderURL.setPortletId("gatling_WAR_gatlingliferayportlet");
@@ -324,6 +325,7 @@
 				renderURL.setParameter("groupId", groupId);
 				renderURL.setParameter("plId", plId);
 				renderURL.setParameter("requestId", requestId);
+				renderURL.setParameter("lineId", lineId);
 				renderURL.setParameter("page","/html/gatling/popupPortlet/portletConfig.jsp");
 				renderURL.setWindowState("pop_up");
 			

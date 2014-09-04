@@ -120,11 +120,9 @@ public class GatlingUtil {
 	}
 	
 	public static List<LinkUsecaseRequestDTO> fillArrayLinkUseCases(long requestId) throws SystemException, PortalException {
-		int numberUseCases = LinkUsecaseRequestLocalServiceUtil.countByRequestId(requestId);
 		List<LinkUsecaseRequest> listUseCaseRequest= LinkUsecaseRequestLocalServiceUtil.findByRequestId(requestId);
 		List<LinkUsecaseRequestDTO> listDisplayLink = new ArrayList<LinkUsecaseRequestDTO>();
-		for (int i=0; i<numberUseCases; i++) {
-			LinkUsecaseRequest link = listUseCaseRequest.get(i);
+		for (LinkUsecaseRequest link : listUseCaseRequest) {
 			long recordId = link.getRecordId(); //ID
 			long linkId = link.getLinkUsecaseRequestId();
 			double weight = link.getWeight(); //WEIGHT
@@ -140,11 +138,9 @@ public class GatlingUtil {
 				}
 			} else {
 				name = RecordLocalServiceUtil.getRecord(link.getRecordId()).getName(); //NAME
-				System.out.println(name);
 			}
 			listDisplayLink.add(new LinkUsecaseRequestDTO(linkId, recordId, weight, name, isSample));
 		}
-		
 		return listDisplayLink;
 	}
 }

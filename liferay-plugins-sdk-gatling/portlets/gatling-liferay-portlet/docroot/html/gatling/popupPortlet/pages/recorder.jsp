@@ -6,9 +6,10 @@
 
 	<liferay-portlet:param name="page" value="/html/gatling/popupPortlet/portletConfig.jsp"/>
 	<liferay-portlet:param name="tabs1" value="record-usecase"/>
-	<liferay-portlet:param name="pagePortletId" value="${portletId }"/>
+	<liferay-portlet:param name="requestId" value="${requestId}" />
 	<liferay-portlet:param name="groupId" value="${groupId }"/>
 	<liferay-portlet:param name="nextRecordState" value="${nextRecordState}"/>
+	<portlet:param name="lineId" value="${lineId}" />
 </liferay-portlet:actionURL>
 
 <h3><liferay-ui:message key="recorder-for" />: ${portletName}</h3>

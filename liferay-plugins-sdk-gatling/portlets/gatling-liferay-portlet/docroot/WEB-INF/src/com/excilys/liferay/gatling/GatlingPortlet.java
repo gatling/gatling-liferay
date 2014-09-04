@@ -523,7 +523,6 @@ public class GatlingPortlet extends MVCPortlet {
 				renderRequest.setAttribute("publicURL", publicURL);
 				renderRequest.setAttribute("privateURL", privateURL);
 				renderRequest.setAttribute("listOfScenarioName", JSListName);
-
 			} catch (SystemException e) {
 				throw new RuntimeException("cannot get layout list: " + e.getMessage());
 			} catch (PortalException e) {
@@ -572,7 +571,7 @@ public class GatlingPortlet extends MVCPortlet {
 			renderRequest.setAttribute("requestId", requestId);
 			renderRequest.setAttribute("arrayLinkUsecaseRequest", arrayLinkUsecaseRequest);
 			renderRequest.setAttribute("listRecordsName", listRecordsName);
-
+			renderRequest.setAttribute("lineId", ParamUtil.getLong(renderRequest, "lineId"));
 			// Check state of recording
 			String state = renderRequest.getParameter("recordState");
 			Cookie myCookie;

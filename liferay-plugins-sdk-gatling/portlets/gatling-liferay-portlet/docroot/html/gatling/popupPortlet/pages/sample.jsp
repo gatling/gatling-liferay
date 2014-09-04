@@ -7,6 +7,7 @@
 	windowState="pop_up">
 	<portlet:param name="pagePortletId" value="${portletId}" />
 	<portlet:param name="requestId" value="${requestId}" />
+	<portlet:param name="lineId" value="${lineId}" />
 </portlet:actionURL>
 
 <div class="well well-small">
@@ -64,20 +65,18 @@
 							<td class='popup_percent' />
 
 							<td>
-								<liferay-portlet:actionURL var="deleteLinkUseCaseURL" name="removeLinkUseCase">
+								<portlet:actionURL var="deleteLinkUseCaseURL" name="removeLinkUseCase">
 									<portlet:param name="useCaseId" value="${linkUsecaseRequest.linkId}"/>
 									<portlet:param name="pagePortletId" value="${portletId}" />
 									<portlet:param name="requestId" value="${requestId}" />
-								</liferay-portlet:actionURL>
+									<portlet:param name="lineId" value="${lineId}" />
+								</portlet:actionURL>
 								<aui:a href="${deleteLinkUseCaseURL }">
 									<liferay-ui:icon image="delete" />
 								</aui:a>
 							</td>
 						</tr>
-
 					</c:forEach>
- 
-
 				</tbody>
 			</table>
 
@@ -120,11 +119,11 @@
 <script type="text/javascript">	
 	AUI().use("aui-base", function(A) {
 		A.one("button[type='submit']").on('click', function(event) {
-			var info = A.one(top.document.getElementById('${plId}')).one(".info-config");
+			var info = A.one(top.document.getElementById('${lineId}')).one(".info-config");
 			if(A.one("#bodyEditScript").all("tr").size() > 0) {
-				info.text("Configuration ok");
+				info.text("<liferay-ui:message key='portlet-configuration-ok' />");
 			} else {
-				info.text("No configurations set");
+				info.text("<liferay-ui:message key='portlet-configuration-ko' />");
 			}
 		});
 	});
