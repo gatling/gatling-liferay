@@ -61,7 +61,7 @@
 								${linkUsecaseRequest.name}
 							</td>
 							<td class="weight">
-								<aui:input name="weightScenarioSample" label="" value="${linkUsecaseRequest.weight}" cssClass="popup_weightPage" onChange="showWeightPopup()" />
+								<aui:input name="${linkUsecaseRequest.linkId}weightScenarioSample${linkUsecaseRequest.recordId}" label="" value="${linkUsecaseRequest.weight}" cssClass="popup_weightPage" onChange="showWeightPopup()" />
 							</td>
 							<td class='popup_percent' />
 
@@ -103,7 +103,7 @@
 				<td class="text" title="">
 				</td>
 				<td class="weight">
-					<aui:input name="weightScenarioSample" label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input>
+					<aui:input name="0weightScenarioSample" label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input>
 				</td>
 				<td class='popup_percent'>
 				</td>
@@ -147,6 +147,9 @@
 				//set name of script
 				html.one('.text').html(label);
 				html.one('.text').set('title',value[1]); //sampleId
+				var weightInput = html.one('#weight').one("input");
+				var weightName = weightInput.get('name') + value;
+				weightInput.set('name',weightName); 
 				//Set hidden input
 				html.one('#<portlet:namespace/>recordId').val(value[1]);
 				html.one('#<portlet:namespace/>isSample').val(value[0]);

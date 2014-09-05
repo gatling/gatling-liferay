@@ -247,22 +247,21 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	public void editPortletSample(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException {
 		LOG.debug("editPortletSample");
-		long requestId = ParamUtil.getLong(request, "requestId");
-		long[] linkUsecaseRequestIds = ParamUtil.getLongValues(request, "idLink");
-		long[] usecaseWeight = ParamUtil.getLongValues(request, "weightScenarioSample");
-		long[] recordIds = ParamUtil.getLongValues(request, "recordId");
-		boolean[] areSample = ParamUtil.getBooleanValues(request, "isSample");
+		final Map<String, String[]> parameters = request.getParameterMap();
+		long requestId = Long.parseLong(StringUtil.merge(parameters.get("requestId")));
 		
-		if(linkUsecaseRequestIds.length == usecaseWeight.length && usecaseWeight.length == areSample.length) {
-			for(int i=0; i<linkUsecaseRequestIds.length;i++) {
-				long id = linkUsecaseRequestIds[i];
-				long weight = usecaseWeight[i];
-				long recordId = recordIds[i];
-				boolean isSample = areSample[i];
-				LinkUsecaseRequestLocalServiceUtil.saveLinkUseCase(id, requestId, recordId, weight, isSample);
+		for (String key : parameters.keySet()){
+			if(key.contains("weightScenarioSample")){
+				long linkUsecaseRequestId = Long.parseLong(key.split("weightScenarioSample")[0]);
+				long recordId = Long.parseLong(key.split("weightScenarioSample")[1]);
+				String[] weights = StringUtil.merge(parameters.get(key)).split(",");
+				for(String weight : weights){
+					// add new Link use Case
+					LinkUsecaseRequestLocalServiceUtil.saveLinkUseCase(linkUsecaseRequestId, requestId, recordId, Double.parseDouble(weight), true);
+				}
 			}
 		}
-
+		
 		response.setRenderParameter("page", jspEditPortlet);
 		//hack, only work this way ....
 		response.setRenderParameter("p_p_state", "pop_up");

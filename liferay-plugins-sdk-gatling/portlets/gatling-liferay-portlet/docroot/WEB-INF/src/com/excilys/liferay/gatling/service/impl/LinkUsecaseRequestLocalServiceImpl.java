@@ -66,6 +66,7 @@ public class LinkUsecaseRequestLocalServiceImpl
 			//Update LinkUsecaseRequest
 			final LinkUsecaseRequest existantLinkUsecaseRequest = linkUsecaseRequestPersistence.findByPrimaryKey(linkUsecaseRequestId);
 			if(weight != existantLinkUsecaseRequest.getWeight()){
+				System.out.println("ancien "+existantLinkUsecaseRequest.getWeight()+" nouveau "+weight );
 				existantLinkUsecaseRequest.setWeight(weight);
 				linkUsecaseRequestPersistence.update(existantLinkUsecaseRequest);
 			}
