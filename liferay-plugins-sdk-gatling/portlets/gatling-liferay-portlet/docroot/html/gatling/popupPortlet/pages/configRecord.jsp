@@ -14,7 +14,7 @@
 	<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Record" keyProperty="recordId" modelVar="record">
 		<%-- EditURl --%>
 		<portlet:renderURL var="editRecordURL">
-			<portlet:param name="page" value="/html/gatling/editRecord.jsp" />
+			<portlet:param name="page" value="/html/gatling/popupPortlet/pages/editRecord.jsp" />
 			<portlet:param name="recordId" value="${record.recordId }" />
 		</portlet:renderURL>
 		<liferay-ui:search-container-column-text name="record-edit-table-header-name" value="${record.name}" href="${editRecordURL}" />

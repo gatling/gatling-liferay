@@ -36,7 +36,7 @@
 			<table class="table table-bordered table-scenario">
 				<thead>
 					<tr>
-						<th><liferay-ui:message key="portlet-edit-sample-name" />
+						<th><liferay-ui:message key="portlet-edit-sample-name" /></th>
 						<th class="small-column"><liferay-ui:message key="scenario-edit-table-header-weight" /> 
 							<liferay-ui:icon-help message="weight-info-help" />
 						</th>
