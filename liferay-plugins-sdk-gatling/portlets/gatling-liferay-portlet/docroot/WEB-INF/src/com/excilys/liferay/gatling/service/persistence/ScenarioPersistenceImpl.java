@@ -39,6 +39,7 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnmodifiableList;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
@@ -580,6 +581,583 @@ public class ScenarioPersistenceImpl extends BasePersistenceImpl<Scenario>
 	}
 
 	private static final String _FINDER_COLUMN_SIMULATIONID_SIMULATION_ID_2 = "scenario.simulation_id = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_VARIABLENAME =
+		new FinderPath(ScenarioModelImpl.ENTITY_CACHE_ENABLED,
+			ScenarioModelImpl.FINDER_CACHE_ENABLED, ScenarioImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByVariableName",
+			new String[] {
+				String.class.getName(), Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_VARIABLENAME =
+		new FinderPath(ScenarioModelImpl.ENTITY_CACHE_ENABLED,
+			ScenarioModelImpl.FINDER_CACHE_ENABLED, ScenarioImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByVariableName",
+			new String[] { String.class.getName(), Long.class.getName() },
+			ScenarioModelImpl.VARIABLENAME_COLUMN_BITMASK |
+			ScenarioModelImpl.SIMULATION_ID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_VARIABLENAME = new FinderPath(ScenarioModelImpl.ENTITY_CACHE_ENABLED,
+			ScenarioModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByVariableName",
+			new String[] { String.class.getName(), Long.class.getName() });
+
+	/**
+	 * Returns all the scenarios where variableName = &#63; and simulation_id = &#63;.
+	 *
+	 * @param variableName the variable name
+	 * @param simulation_id the simulation_id
+	 * @return the matching scenarios
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<Scenario> findByVariableName(String variableName,
+		long simulation_id) throws SystemException {
+		return findByVariableName(variableName, simulation_id,
+			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the scenarios where variableName = &#63; and simulation_id = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.ScenarioModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param variableName the variable name
+	 * @param simulation_id the simulation_id
+	 * @param start the lower bound of the range of scenarios
+	 * @param end the upper bound of the range of scenarios (not inclusive)
+	 * @return the range of matching scenarios
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<Scenario> findByVariableName(String variableName,
+		long simulation_id, int start, int end) throws SystemException {
+		return findByVariableName(variableName, simulation_id, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the scenarios where variableName = &#63; and simulation_id = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.ScenarioModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param variableName the variable name
+	 * @param simulation_id the simulation_id
+	 * @param start the lower bound of the range of scenarios
+	 * @param end the upper bound of the range of scenarios (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching scenarios
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<Scenario> findByVariableName(String variableName,
+		long simulation_id, int start, int end,
+		OrderByComparator orderByComparator) throws SystemException {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_VARIABLENAME;
+			finderArgs = new Object[] { variableName, simulation_id };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_VARIABLENAME;
+			finderArgs = new Object[] {
+					variableName, simulation_id,
+					
+					start, end, orderByComparator
+				};
+		}
+
+		List<Scenario> list = (List<Scenario>)FinderCacheUtil.getResult(finderPath,
+				finderArgs, this);
+
+		if ((list != null) && !list.isEmpty()) {
+			for (Scenario scenario : list) {
+				if (!Validator.equals(variableName, scenario.getVariableName()) ||
+						(simulation_id != scenario.getSimulation_id())) {
+					list = null;
+
+					break;
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(4 +
+						(orderByComparator.getOrderByFields().length * 3));
+			}
+			else {
+				query = new StringBundler(4);
+			}
+
+			query.append(_SQL_SELECT_SCENARIO_WHERE);
+
+			boolean bindVariableName = false;
+
+			if (variableName == null) {
+				query.append(_FINDER_COLUMN_VARIABLENAME_VARIABLENAME_1);
+			}
+			else if (variableName.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_VARIABLENAME_VARIABLENAME_3);
+			}
+			else {
+				bindVariableName = true;
+
+				query.append(_FINDER_COLUMN_VARIABLENAME_VARIABLENAME_2);
+			}
+
+			query.append(_FINDER_COLUMN_VARIABLENAME_SIMULATION_ID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(ScenarioModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindVariableName) {
+					qPos.add(variableName);
+				}
+
+				qPos.add(simulation_id);
+
+				if (!pagination) {
+					list = (List<Scenario>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = new UnmodifiableList<Scenario>(list);
+				}
+				else {
+					list = (List<Scenario>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first scenario in the ordered set where variableName = &#63; and simulation_id = &#63;.
+	 *
+	 * @param variableName the variable name
+	 * @param simulation_id the simulation_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching scenario
+	 * @throws com.excilys.liferay.gatling.NoSuchScenarioException if a matching scenario could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Scenario findByVariableName_First(String variableName,
+		long simulation_id, OrderByComparator orderByComparator)
+		throws NoSuchScenarioException, SystemException {
+		Scenario scenario = fetchByVariableName_First(variableName,
+				simulation_id, orderByComparator);
+
+		if (scenario != null) {
+			return scenario;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("variableName=");
+		msg.append(variableName);
+
+		msg.append(", simulation_id=");
+		msg.append(simulation_id);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchScenarioException(msg.toString());
+	}
+
+	/**
+	 * Returns the first scenario in the ordered set where variableName = &#63; and simulation_id = &#63;.
+	 *
+	 * @param variableName the variable name
+	 * @param simulation_id the simulation_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching scenario, or <code>null</code> if a matching scenario could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Scenario fetchByVariableName_First(String variableName,
+		long simulation_id, OrderByComparator orderByComparator)
+		throws SystemException {
+		List<Scenario> list = findByVariableName(variableName, simulation_id,
+				0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last scenario in the ordered set where variableName = &#63; and simulation_id = &#63;.
+	 *
+	 * @param variableName the variable name
+	 * @param simulation_id the simulation_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching scenario
+	 * @throws com.excilys.liferay.gatling.NoSuchScenarioException if a matching scenario could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Scenario findByVariableName_Last(String variableName,
+		long simulation_id, OrderByComparator orderByComparator)
+		throws NoSuchScenarioException, SystemException {
+		Scenario scenario = fetchByVariableName_Last(variableName,
+				simulation_id, orderByComparator);
+
+		if (scenario != null) {
+			return scenario;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("variableName=");
+		msg.append(variableName);
+
+		msg.append(", simulation_id=");
+		msg.append(simulation_id);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchScenarioException(msg.toString());
+	}
+
+	/**
+	 * Returns the last scenario in the ordered set where variableName = &#63; and simulation_id = &#63;.
+	 *
+	 * @param variableName the variable name
+	 * @param simulation_id the simulation_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching scenario, or <code>null</code> if a matching scenario could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Scenario fetchByVariableName_Last(String variableName,
+		long simulation_id, OrderByComparator orderByComparator)
+		throws SystemException {
+		int count = countByVariableName(variableName, simulation_id);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Scenario> list = findByVariableName(variableName, simulation_id,
+				count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the scenarios before and after the current scenario in the ordered set where variableName = &#63; and simulation_id = &#63;.
+	 *
+	 * @param scenario_id the primary key of the current scenario
+	 * @param variableName the variable name
+	 * @param simulation_id the simulation_id
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next scenario
+	 * @throws com.excilys.liferay.gatling.NoSuchScenarioException if a scenario with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Scenario[] findByVariableName_PrevAndNext(long scenario_id,
+		String variableName, long simulation_id,
+		OrderByComparator orderByComparator)
+		throws NoSuchScenarioException, SystemException {
+		Scenario scenario = findByPrimaryKey(scenario_id);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Scenario[] array = new ScenarioImpl[3];
+
+			array[0] = getByVariableName_PrevAndNext(session, scenario,
+					variableName, simulation_id, orderByComparator, true);
+
+			array[1] = scenario;
+
+			array[2] = getByVariableName_PrevAndNext(session, scenario,
+					variableName, simulation_id, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Scenario getByVariableName_PrevAndNext(Session session,
+		Scenario scenario, String variableName, long simulation_id,
+		OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_SCENARIO_WHERE);
+
+		boolean bindVariableName = false;
+
+		if (variableName == null) {
+			query.append(_FINDER_COLUMN_VARIABLENAME_VARIABLENAME_1);
+		}
+		else if (variableName.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_VARIABLENAME_VARIABLENAME_3);
+		}
+		else {
+			bindVariableName = true;
+
+			query.append(_FINDER_COLUMN_VARIABLENAME_VARIABLENAME_2);
+		}
+
+		query.append(_FINDER_COLUMN_VARIABLENAME_SIMULATION_ID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(ScenarioModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindVariableName) {
+			qPos.add(variableName);
+		}
+
+		qPos.add(simulation_id);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(scenario);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Scenario> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the scenarios where variableName = &#63; and simulation_id = &#63; from the database.
+	 *
+	 * @param variableName the variable name
+	 * @param simulation_id the simulation_id
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public void removeByVariableName(String variableName, long simulation_id)
+		throws SystemException {
+		for (Scenario scenario : findByVariableName(variableName,
+				simulation_id, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(scenario);
+		}
+	}
+
+	/**
+	 * Returns the number of scenarios where variableName = &#63; and simulation_id = &#63;.
+	 *
+	 * @param variableName the variable name
+	 * @param simulation_id the simulation_id
+	 * @return the number of matching scenarios
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public int countByVariableName(String variableName, long simulation_id)
+		throws SystemException {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_VARIABLENAME;
+
+		Object[] finderArgs = new Object[] { variableName, simulation_id };
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_SCENARIO_WHERE);
+
+			boolean bindVariableName = false;
+
+			if (variableName == null) {
+				query.append(_FINDER_COLUMN_VARIABLENAME_VARIABLENAME_1);
+			}
+			else if (variableName.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_VARIABLENAME_VARIABLENAME_3);
+			}
+			else {
+				bindVariableName = true;
+
+				query.append(_FINDER_COLUMN_VARIABLENAME_VARIABLENAME_2);
+			}
+
+			query.append(_FINDER_COLUMN_VARIABLENAME_SIMULATION_ID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindVariableName) {
+					qPos.add(variableName);
+				}
+
+				qPos.add(simulation_id);
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_VARIABLENAME_VARIABLENAME_1 = "scenario.variableName IS NULL AND ";
+	private static final String _FINDER_COLUMN_VARIABLENAME_VARIABLENAME_2 = "scenario.variableName = ? AND ";
+	private static final String _FINDER_COLUMN_VARIABLENAME_VARIABLENAME_3 = "(scenario.variableName IS NULL OR scenario.variableName = '') AND ";
+	private static final String _FINDER_COLUMN_VARIABLENAME_SIMULATION_ID_2 = "scenario.simulation_id = ?";
 
 	public ScenarioPersistenceImpl() {
 		setModelClass(Scenario.class);
@@ -821,6 +1399,29 @@ public class ScenarioPersistenceImpl extends BasePersistenceImpl<Scenario>
 				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_SIMULATIONID,
 					args);
 				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SIMULATIONID,
+					args);
+			}
+
+			if ((scenarioModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_VARIABLENAME.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						scenarioModelImpl.getOriginalVariableName(),
+						scenarioModelImpl.getOriginalSimulation_id()
+					};
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_VARIABLENAME,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_VARIABLENAME,
+					args);
+
+				args = new Object[] {
+						scenarioModelImpl.getVariableName(),
+						scenarioModelImpl.getSimulation_id()
+					};
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_VARIABLENAME,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_VARIABLENAME,
 					args);
 			}
 		}

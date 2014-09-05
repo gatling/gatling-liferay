@@ -17,17 +17,11 @@ package com.excilys.liferay.gatling.service.impl;
 import java.util.List;
 
 import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
-import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.LinkUsecaseRequestLocalServiceBaseImpl;
 import com.excilys.liferay.gatling.validator.LinkUsecaseRequestValidator;
 import com.liferay.counter.service.CounterLocalServiceUtil;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 /**
  * The implementation of the link usecase request local service.
@@ -52,42 +46,28 @@ public class LinkUsecaseRequestLocalServiceImpl
 	 */
 
 	
-	private static final Log LOG = LogFactoryUtil.getLog(LinkUsecaseRequestLocalServiceImpl.class.getName());
-	
-
-	public void saveLinkUseCase(long linkUsecaseRequestId, long requestId, long recordId, double weight, boolean isSample){
+	public void saveLinkUseCase(long linkUsecaseRequestId, long requestId, long recordId, double weight, boolean isSample) throws SystemException, PortalException {
 		long primaryKey;
-		try {
-			
-			final LinkUsecaseRequest newLinkUsecaseRequest;
-			if(linkUsecaseRequestId == 0){
-				//Create new LinkUsecaseRequest 
-				primaryKey = CounterLocalServiceUtil.increment(LinkUsecaseRequest.class.getName());
-				newLinkUsecaseRequest = LinkUsecaseRequestLocalServiceUtil.createLinkUsecaseRequest(primaryKey);
-				newLinkUsecaseRequest.setRequest_id(requestId);
-				newLinkUsecaseRequest.setRecordId(recordId);
-				newLinkUsecaseRequest.setWeight(weight);
-				newLinkUsecaseRequest.setSample(isSample);
-				final List<String> errors = LinkUsecaseRequestValidator.validateLinkUsecaseRequest(newLinkUsecaseRequest);
-				if(errors.isEmpty()) {
-					LinkUsecaseRequestLocalServiceUtil.addLinkUsecaseRequest(newLinkUsecaseRequest);
-				}
+		final LinkUsecaseRequest newLinkUsecaseRequest;
+		if(linkUsecaseRequestId == 0){
+			//Create new LinkUsecaseRequest 
+			primaryKey = CounterLocalServiceUtil.increment(LinkUsecaseRequest.class.getName());
+			newLinkUsecaseRequest = linkUsecaseRequestPersistence.create(primaryKey);
+			newLinkUsecaseRequest.setRequest_id(requestId);
+			newLinkUsecaseRequest.setRecordId(recordId);
+			newLinkUsecaseRequest.setWeight(weight);
+			newLinkUsecaseRequest.setSample(isSample);
+			final List<String> errors = LinkUsecaseRequestValidator.validateLinkUsecaseRequest(newLinkUsecaseRequest);
+			if(errors.isEmpty()) {
+				linkUsecaseRequestPersistence.update(newLinkUsecaseRequest);
 			}
-			else{
-				//Update LinkUsecaseRequest
-				final LinkUsecaseRequest existantLinkUsecaseRequest = LinkUsecaseRequestLocalServiceUtil.getLinkUsecaseRequest(linkUsecaseRequestId);
-				if(weight != existantLinkUsecaseRequest.getWeight()){
-					existantLinkUsecaseRequest.setWeight(weight);
-					LinkUsecaseRequestLocalServiceUtil.updateLinkUsecaseRequest(existantLinkUsecaseRequest);
-				}
-			}
-		} catch (SystemException e) {
-			if (LOG.isErrorEnabled()){
-				LOG.error("unable to add or update new LinkUsecaseRequest: "+e.getMessage());
-			}
-		} catch (PortalException e) {
-			if (LOG.isErrorEnabled()){
-				LOG.error("unable to get LinkUsecaseRequest with her id: "+e.getMessage());
+		}
+		else{
+			//Update LinkUsecaseRequest
+			final LinkUsecaseRequest existantLinkUsecaseRequest = linkUsecaseRequestPersistence.findByPrimaryKey(linkUsecaseRequestId);
+			if(weight != existantLinkUsecaseRequest.getWeight()){
+				existantLinkUsecaseRequest.setWeight(weight);
+				linkUsecaseRequestPersistence.update(existantLinkUsecaseRequest);
 			}
 		}
 	}
@@ -96,11 +76,7 @@ public class LinkUsecaseRequestLocalServiceImpl
 	 * get {@link LinkUsecaseRequest} have this requestId
 	 */
 	public List<LinkUsecaseRequest> findByRecordAndRequest(long requestId, long recordId)  throws SystemException {
-		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(LinkUsecaseRequest.class)
-				.add(PropertyFactoryUtil.forName("recordId").eq(recordId))
-				.add(PropertyFactoryUtil.forName("request_id").eq(requestId));
-
-		return linkUsecaseRequestPersistence.findWithDynamicQuery(dq);
+		return linkUsecaseRequestPersistence.findByRequestIdAndrecordId(requestId, recordId);
 	}
 	
 	/* --- byRequestIdAndUsed (weight>0) --- */

@@ -291,7 +291,9 @@ public class LinkUsecaseRequestLocalServiceWrapper
 
 	@Override
 	public void saveLinkUseCase(long linkUsecaseRequestId, long requestId,
-		long recordId, double weight, boolean isSample) {
+		long recordId, double weight, boolean isSample)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		_linkUsecaseRequestLocalService.saveLinkUseCase(linkUsecaseRequestId,
 			requestId, recordId, weight, isSample);
 	}

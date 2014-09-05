@@ -27,7 +27,6 @@ import com.excilys.liferay.gatling.dto.RequestDTO.RequestState;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
-import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.ScenarioLocalServiceBaseImpl;
 import com.excilys.liferay.gatling.util.DisplayItemDTOUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
@@ -89,7 +88,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	 */
 	@Override
 	public	void removeBySimulationIdCascade(long simulationId) throws SystemException, NoSuchModelException {
-		final List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
+		final List<Scenario> listScenario = scenarioPersistence.findBySimulationId(simulationId);
 		//Remove its requests
 		for(Scenario scenario : listScenario) {
 			RequestLocalServiceUtil.removeByScenarioId(scenario.getScenario_id());
@@ -131,6 +130,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	/**
 	 * get {@link Scenario} have this variableName
 	 */
+	@SuppressWarnings("unchecked")
 	public List<Scenario> findByVariableName(String variableName, long idSimulation)  throws SystemException {
 		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Scenario.class)
 				.add(PropertyFactoryUtil.forName("variableName").like(variableName+"%"))
@@ -152,15 +152,16 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		 * Create a scenario
 		 */
 		final long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
-		Scenario scenario = ScenarioLocalServiceUtil.createScenario(primaryKey);
+		Scenario scenario = scenarioPersistence.create(primaryKey);
 		scenario.setName(ParamUtil.getString(request, "scenarioName"));
 		scenario.setSimulation_id(ParamUtil.getLong(request, "simulationId"));
 		scenario.setGroup_id(ParamUtil.getLong(request, "sites"));
+		
 		/*
 		 *  Set Variable Name
 		 */
 		String variableName = GatlingUtil.createVariableName("scenario", ParamUtil.getString(request, "scenarioName"));
-		final int sizeVar = ScenarioLocalServiceUtil.countByVariableName(variableName, scenario.getSimulation_id());
+		final int sizeVar = scenarioPersistence.countByVariableName(variableName, scenario.getSimulation_id());
 		if(sizeVar !=0 ) {
 			variableName = variableName.concat(Integer.toString(sizeVar));
 		}
@@ -174,7 +175,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		// Saving ...
 		final List<String> errors = ScenarioValidator.validateScenario(scenario);
 		if(errors.isEmpty()) {
-			scenario = ScenarioLocalServiceUtil.addScenario(scenario);
+			scenario = scenarioPersistence.update(scenario);
 			//add Requests
 			final List<Layout> listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), false, 0));
 			// private page
@@ -219,7 +220,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		 */
 		LOG.info("editScenarioDetails");
 		
-		Scenario scenario = ScenarioLocalServiceUtil.getScenario(idScenario);
+		Scenario scenario = scenarioPersistence.findByPrimaryKey(idScenario);
 		String scenarioName= ParamUtil.getString(request, "scenarioName");
 		scenario.setName(scenarioName);
 		scenario.setVariableName(GatlingUtil.createVariableName("scenario", scenarioName));

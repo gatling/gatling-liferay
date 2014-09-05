@@ -84,7 +84,8 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 				"value.object.column.bitmask.enabled.com.excilys.liferay.gatling.model.Scenario"),
 			true);
 	public static long SIMULATION_ID_COLUMN_BITMASK = 1L;
-	public static long SCENARIO_ID_COLUMN_BITMASK = 2L;
+	public static long VARIABLENAME_COLUMN_BITMASK = 2L;
+	public static long SCENARIO_ID_COLUMN_BITMASK = 4L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.excilys.liferay.gatling.model.Scenario"));
 
@@ -225,7 +226,17 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 
 	@Override
 	public void setVariableName(String variableName) {
+		_columnBitmask |= VARIABLENAME_COLUMN_BITMASK;
+
+		if (_originalVariableName == null) {
+			_originalVariableName = _variableName;
+		}
+
 		_variableName = variableName;
+	}
+
+	public String getOriginalVariableName() {
+		return GetterUtil.getString(_originalVariableName);
 	}
 
 	@Override
@@ -386,6 +397,8 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 	public void resetOriginalValues() {
 		ScenarioModelImpl scenarioModelImpl = this;
 
+		scenarioModelImpl._originalVariableName = scenarioModelImpl._variableName;
+
 		scenarioModelImpl._originalSimulation_id = scenarioModelImpl._simulation_id;
 
 		scenarioModelImpl._setOriginalSimulation_id = false;
@@ -512,6 +525,7 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 	private long _scenario_id;
 	private String _name;
 	private String _variableName;
+	private String _originalVariableName;
 	private String _url_site;
 	private long _group_id;
 	private long _simulation_id;

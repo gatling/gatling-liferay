@@ -276,7 +276,9 @@ public class LinkUsecaseRequestLocalServiceUtil {
 	}
 
 	public static void saveLinkUseCase(long linkUsecaseRequestId,
-		long requestId, long recordId, double weight, boolean isSample) {
+		long requestId, long recordId, double weight, boolean isSample)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		getService()
 			.saveLinkUseCase(linkUsecaseRequestId, requestId, recordId, weight,
 			isSample);

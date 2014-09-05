@@ -24,7 +24,11 @@
 		<column name="duration" type="long"></column>		
 		<finder name="SimulationId" return-type="Collection">
 			<finder-column name="simulation_id" />
-		</finder>		
+		</finder>	
+		<finder name="VariableName" return-type="Collection">
+			<finder-column name="variableName" />
+			<finder-column name="simulation_id" />
+		</finder>
 	</entity>
 	
 	<entity name="Request" local-service="true" remote-service="false">
@@ -72,6 +76,10 @@
 		<finder name="RequestIdAndUsed" return-type="Collection">
 			<finder-column name="request_id" />
 			<finder-column name="weight" comparator=">" />
+		</finder>
+		<finder name="RequestIdAndrecordId" return-type="Collection">
+			<finder-column name="request_id" />
+			<finder-column name="recordId" />
 		</finder>
 		<finder name="RequestId" return-type="Collection">
 			<finder-column name="request_id" />

@@ -17,7 +17,6 @@ package com.excilys.liferay.gatling.service.impl;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
-import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.SimulationLocalServiceBaseImpl;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.excilys.liferay.gatling.validator.SimulationValidator;
@@ -27,15 +26,12 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
 
 import java.util.List;
 
 import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
 
 /**
  * The implementation of the simulation local service.
@@ -56,7 +52,6 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.liferay.sample.service.SimulationLocalServiceUtil} to access the simulation local service.
 	 */
-	private static final Log LOG = LogFactoryUtil.getLog(SimulationLocalServiceUtil.class);
 
 	/**
 	 * remove all {@link Scenario} linked to a simulationId and the simulation
@@ -87,7 +82,6 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	/**
 	 * Add a {@link Simulation} from an {@link ActionRequest}
 	 * @param {@link ActionRequest} request
-	 * @param {@link ActionResponse} response
 	 * @return {@link Simulation} if added, else null
 	 * @throws SystemException
 	 */
@@ -116,7 +110,6 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		if(errors.isEmpty()) {
 			// Add scenario
 			simulation = simulationPersistence.update(simulation);
-			LOG.info(simulation);
 			return simulation;
 		}
 		else {

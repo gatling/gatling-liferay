@@ -250,7 +250,9 @@ public interface LinkUsecaseRequestLocalService extends BaseLocalService,
 		throws java.lang.Throwable;
 
 	public void saveLinkUseCase(long linkUsecaseRequestId, long requestId,
-		long recordId, double weight, boolean isSample);
+		long recordId, double weight, boolean isSample)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* get {@link LinkUsecaseRequest} have this requestId

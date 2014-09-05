@@ -713,7 +713,9 @@ public class LinkUsecaseRequestLocalServiceClp
 
 	@Override
 	public void saveLinkUseCase(long linkUsecaseRequestId, long requestId,
-		long recordId, double weight, boolean isSample) {
+		long recordId, double weight, boolean isSample)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		try {
 			_invokableLocalService.invokeMethod(_methodName19,
 				_methodParameterTypes19,
@@ -731,6 +733,14 @@ public class LinkUsecaseRequestLocalServiceClp
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
 
 			if (t instanceof RuntimeException) {
 				throw (RuntimeException)t;
