@@ -3,6 +3,7 @@
  */
 package com.excilys.liferay.gatling;
 
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -35,6 +36,7 @@ import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.mustache.ListScript;
 import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
@@ -42,7 +44,10 @@ import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
+
 import com.excilys.liferay.gatling.util.DisplayItemDTOUtil;
+import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
+
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
@@ -85,7 +90,7 @@ public class GatlingPortlet extends MVCPortlet {
 	/**
 	 * pages of portlet.
 	 */
-	protected String jspListSimulation, jspEditSimulation, jspEditScenario, jspFormFirstScenario, jspHelp, jspEditPortlet;
+	protected String jspListSimulation, jspEditSimulation, jspEditScenario, jspFormFirstScenario, jspHelp, jspEditPortlet, jspEditRecord;
 
 	/**
 	 * get all name page
@@ -99,6 +104,7 @@ public class GatlingPortlet extends MVCPortlet {
 		jspFormFirstScenario = getInitParameter("form-first-scenario-jsp");
 		jspHelp = getInitParameter("help-jsp");
 		jspEditPortlet = "/html/gatling/popupPortlet/portletConfig.jsp";
+		jspEditRecord="/html/gatling/popupPortlet/pages/editRecord.jsp";
 		super.init();
 	}
 
@@ -550,6 +556,7 @@ public class GatlingPortlet extends MVCPortlet {
 			} catch (PortalException e) {
 				throw new RuntimeException("cannot get layout list: " + e.getMessage());
 			} 
+			
 		} else if (page.equals(jspEditPortlet)) {
 			/*
 			 * 
@@ -603,9 +610,20 @@ public class GatlingPortlet extends MVCPortlet {
 			
 			// Add to DTO
 			builder.availableScript(availableScript).linkDTO(arrayLinkUsecaseRequest).listRecordNameJS(listRecordsName);
-
-			renderRequest.setAttribute("listRecord", recordList);
+			LOG.info("records list size= "+recordList.size());
 			
+			
+			renderRequest.setAttribute("availableScript", availableScript);
+			renderRequest.setAttribute("portletId", portletId);
+			renderRequest.setAttribute("portletName", portletName);
+			renderRequest.setAttribute("groupId", groupId);
+			renderRequest.setAttribute("plId", plId);
+			renderRequest.setAttribute("requestId", requestId);
+			renderRequest.setAttribute("arrayLinkUsecaseRequest", arrayLinkUsecaseRequest);
+			renderRequest.setAttribute("listRecordsName", listRecordsName);
+			renderRequest.setAttribute("lineId", ParamUtil.getLong(renderRequest, "lineId"));
+			renderRequest.setAttribute("listRecord", recordList);
+
 			// Check state of recording
 			String state = renderRequest.getParameter("recordState");
 			Cookie myCookie;
@@ -631,6 +649,26 @@ public class GatlingPortlet extends MVCPortlet {
 			CookieKeys.addCookie(PortalUtil.getHttpServletRequest(renderRequest), PortalUtil.getHttpServletResponse(renderResponse), myCookie);
 			
 			renderRequest.setAttribute("portletGatlingDTO", builder.build());
+		}
+		
+		else if (page.equals(jspEditRecord)) {
+			
+			//Get the list of UrlRecord that coresponds to the recordId, if requested
+			long  recordId = ParamUtil.getLong(renderRequest, "recordId");
+			List<UrlRecord> listRecordUrl = new ArrayList<UrlRecord>();
+			
+			if(recordId != 0){
+				try {
+					listRecordUrl = UrlRecordLocalServiceUtil.findByRecordId(recordId);
+				} catch (SystemException e) {
+					if(LOG.isErrorEnabled()){
+						LOG.error("error when search for UrlRecord list: "+e.getMessage());
+					}
+				}
+			}
+			
+			renderRequest.setAttribute("listRecordUrl", listRecordUrl);
+			
 		}
 		/* redirect to jsp page */
 		include(page, renderRequest, renderResponse);

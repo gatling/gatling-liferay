@@ -14,7 +14,15 @@
 
 package com.excilys.liferay.gatling.service.impl;
 
+import com.excilys.liferay.gatling.model.Scenario;
+import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.service.base.UrlRecordLocalServiceBaseImpl;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+
+import java.util.List;
 
 /**
  * The implementation of the url record local service.
@@ -36,4 +44,13 @@ public class UrlRecordLocalServiceImpl extends UrlRecordLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil} to access the url record local service.
 	 */
+	
+	public List<UrlRecord> findByRecordId(long RecordId) throws SystemException {
+		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(UrlRecord.class)
+				.add(PropertyFactoryUtil.forName("recordId").eq(RecordId));
+
+		return  urlRecordPersistence.findWithDynamicQuery(dq);
+
+		
+	}
 }

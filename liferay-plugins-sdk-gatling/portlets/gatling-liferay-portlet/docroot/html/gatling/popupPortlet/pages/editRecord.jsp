@@ -20,13 +20,15 @@
 			<table class="table table-bordered">
 				<thead>
 					<tr>
-						<th> <liferay-ui:message key="record-url-name" /> </th>
+						<th class="small-column"> <liferay-ui:message key="record-url-name" /> </th>
 						<th class="small-column"><liferay-ui:message key="record-url-type" /> </th>
 						<th class="small-column"><liferay-ui:message key="record-url-order" /> </th>
 						<th class="small-column">
 							<liferay-ui:message	key="scenario-edit-table-header-weight" />
 							<liferay-ui:icon-help message="weight-info-help" />
 						</th>
+						<th class="small-column"><liferay-ui:icon-help message="percent-info-help" /> </th>
+						<th class="small-column"><liferay-ui:message key="delete-message" /> </th>
 					</tr>
 				</thead>
 		
@@ -42,11 +44,11 @@
 							</td>
 							
 							<td >
-							<aui:input name="order${recordURL.urlRecordId}" value="${recordURL.order}"></aui:input>	 
+							<aui:input name="order${recordURL.urlRecordId}" label="" value="${recordURL.order}"></aui:input>	 
 							</td>
 							
 							<td class="weight">
-								<aui:input name="weightrecordURL" label="" value="${recordURL.weight}" cssClass="popup_weightPage" onChange="showWeightPopup()" />
+								<aui:input name="weightrecordURL" label="" value="??" cssClass="popup_weightPage" onChange="showWeightPopup()" />
 							</td>
 							<td class='popup_percent' />
 		

@@ -248,4 +248,8 @@ public interface UrlRecordLocalService extends BaseLocalService,
 	public java.lang.Object invokeMethod(java.lang.String name,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
+
+	public java.util.List<com.excilys.liferay.gatling.model.UrlRecord> findByRecordId(
+		long RecordId)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }
