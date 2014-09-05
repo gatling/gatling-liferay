@@ -54,13 +54,13 @@
 		
 							<td>
 								<portlet:actionURL var="deleteRecordURLURL" name="removeRecordURL">
+									<portlet:param name="page" value="/html/gatling/popupPortlet/pages/editRecord.jsp" />
 									<portlet:param name="recordURLId" value="${recordURL.urlRecordId}"/>
+									<portlet:param name="recordId" value="${recordURL.recordId}"/>
 									<portlet:param name="pagePortletId" value="${portletId}" />
 									<portlet:param name="requestId" value="${requestId}" />
 								</portlet:actionURL>
-								<aui:a href="${removeRecordURL}">
-									<liferay-ui:icon image="delete" />
-								</aui:a>
+								<liferay-ui:icon-delete url="${deleteRecordURLURL}" />
 							</td>
 						</tr>
 					</c:forEach>
