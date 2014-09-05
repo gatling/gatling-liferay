@@ -250,6 +250,6 @@ public interface UrlRecordLocalService extends BaseLocalService,
 		throws java.lang.Throwable;
 
 	public java.util.List<com.excilys.liferay.gatling.model.UrlRecord> findByRecordId(
-		long RecordId)
+		long recordId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 }

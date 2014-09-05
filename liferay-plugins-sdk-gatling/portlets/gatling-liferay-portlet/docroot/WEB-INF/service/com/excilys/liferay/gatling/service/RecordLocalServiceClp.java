@@ -121,6 +121,10 @@ public class RecordLocalServiceClp implements RecordLocalService {
 		_methodName20 = "countByPortletId";
 
 		_methodParameterTypes20 = new String[] { "java.lang.String" };
+
+		_methodName21 = "update";
+
+		_methodParameterTypes21 = new String[] { "long", "java.lang.String" };
 	}
 
 	@Override
@@ -728,6 +732,36 @@ public class RecordLocalServiceClp implements RecordLocalService {
 		return ((Integer)returnObj).intValue();
 	}
 
+	@Override
+	public void update(long recordId, java.lang.String name)
+		throws com.liferay.portal.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
+		try {
+			_invokableLocalService.invokeMethod(_methodName21,
+				_methodParameterTypes21,
+				new Object[] { recordId, ClpSerializer.translateInput(name) });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.NoSuchModelException) {
+				throw (com.liferay.portal.NoSuchModelException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -769,4 +803,6 @@ public class RecordLocalServiceClp implements RecordLocalService {
 	private String[] _methodParameterTypes19;
 	private String _methodName20;
 	private String[] _methodParameterTypes20;
+	private String _methodName21;
+	private String[] _methodParameterTypes21;
 }

@@ -671,13 +671,13 @@ public class UrlRecordLocalServiceClp implements UrlRecordLocalService {
 
 	@Override
 	public java.util.List<com.excilys.liferay.gatling.model.UrlRecord> findByRecordId(
-		long RecordId)
+		long recordId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName19,
-					_methodParameterTypes19, new Object[] { RecordId });
+					_methodParameterTypes19, new Object[] { recordId });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);

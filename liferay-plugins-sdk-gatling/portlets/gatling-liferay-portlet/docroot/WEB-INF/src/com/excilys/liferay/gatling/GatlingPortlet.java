@@ -44,10 +44,8 @@ import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
-
 import com.excilys.liferay.gatling.util.DisplayItemDTOUtil;
 import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
-
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
@@ -266,6 +264,25 @@ public class GatlingPortlet extends MVCPortlet {
 		}
 
 		response.setRenderParameter("page", jspEditPortlet);
+		//hack, only work this way ....
+		response.setRenderParameter("p_p_state", "pop_up");
+		PortalUtil.copyRequestParameters(request, response);
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws SystemException
+	 * @throws PortalException
+	 */
+	public void editRecord(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException {
+		
+		long recordId = ParamUtil.getLong(request, "recordId");
+		String name = ParamUtil.getString(request, "recordName");
+		RecordLocalServiceUtil.update(recordId, name);
+		
+		response.setRenderParameter("page", jspEditRecord);
 		//hack, only work this way ....
 		response.setRenderParameter("p_p_state", "pop_up");
 		PortalUtil.copyRequestParameters(request, response);
@@ -610,8 +627,6 @@ public class GatlingPortlet extends MVCPortlet {
 			
 			// Add to DTO
 			builder.availableScript(availableScript).linkDTO(arrayLinkUsecaseRequest).listRecordNameJS(listRecordsName);
-			LOG.info("records list size= "+recordList.size());
-			
 			
 			renderRequest.setAttribute("availableScript", availableScript);
 			renderRequest.setAttribute("portletId", portletId);
@@ -655,6 +670,7 @@ public class GatlingPortlet extends MVCPortlet {
 			
 			//Get the list of UrlRecord that coresponds to the recordId, if requested
 			long  recordId = ParamUtil.getLong(renderRequest, "recordId");
+			String recordName = ParamUtil.getString(renderRequest, "recordname");
 			List<UrlRecord> listRecordUrl = new ArrayList<UrlRecord>();
 			
 			if(recordId != 0){
@@ -666,8 +682,14 @@ public class GatlingPortlet extends MVCPortlet {
 					}
 				}
 			}
+			else{
+				throw new NullPointerException("RecordId is null");
+			}
+			
 			
 			renderRequest.setAttribute("listRecordUrl", listRecordUrl);
+			renderRequest.setAttribute("recordName", recordName);
+			renderRequest.setAttribute("recordId", recordId);
 			
 		}
 		/* redirect to jsp page */

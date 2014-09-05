@@ -251,4 +251,8 @@ public interface RecordLocalService extends BaseLocalService,
 
 	public int countByPortletId(java.lang.String portletId)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public void update(long recordId, java.lang.String name)
+		throws com.liferay.portal.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException;
 }

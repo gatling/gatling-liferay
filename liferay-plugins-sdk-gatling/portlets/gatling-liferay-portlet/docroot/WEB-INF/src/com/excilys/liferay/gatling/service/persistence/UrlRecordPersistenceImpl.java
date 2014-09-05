@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
+import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -36,6 +37,7 @@ import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnmodifiableList;
 import com.liferay.portal.model.CacheModel;
@@ -82,6 +84,494 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(UrlRecordModelImpl.ENTITY_CACHE_ENABLED,
 			UrlRecordModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_RECORDID = new FinderPath(UrlRecordModelImpl.ENTITY_CACHE_ENABLED,
+			UrlRecordModelImpl.FINDER_CACHE_ENABLED, UrlRecordImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByrecordId",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_RECORDID =
+		new FinderPath(UrlRecordModelImpl.ENTITY_CACHE_ENABLED,
+			UrlRecordModelImpl.FINDER_CACHE_ENABLED, UrlRecordImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByrecordId",
+			new String[] { Long.class.getName() },
+			UrlRecordModelImpl.RECORDID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_RECORDID = new FinderPath(UrlRecordModelImpl.ENTITY_CACHE_ENABLED,
+			UrlRecordModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByrecordId",
+			new String[] { Long.class.getName() });
+
+	/**
+	 * Returns all the url records where recordId = &#63;.
+	 *
+	 * @param recordId the record ID
+	 * @return the matching url records
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<UrlRecord> findByrecordId(long recordId)
+		throws SystemException {
+		return findByrecordId(recordId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			null);
+	}
+
+	/**
+	 * Returns a range of all the url records where recordId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.UrlRecordModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param recordId the record ID
+	 * @param start the lower bound of the range of url records
+	 * @param end the upper bound of the range of url records (not inclusive)
+	 * @return the range of matching url records
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<UrlRecord> findByrecordId(long recordId, int start, int end)
+		throws SystemException {
+		return findByrecordId(recordId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the url records where recordId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.UrlRecordModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param recordId the record ID
+	 * @param start the lower bound of the range of url records
+	 * @param end the upper bound of the range of url records (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching url records
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<UrlRecord> findByrecordId(long recordId, int start, int end,
+		OrderByComparator orderByComparator) throws SystemException {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_RECORDID;
+			finderArgs = new Object[] { recordId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_RECORDID;
+			finderArgs = new Object[] { recordId, start, end, orderByComparator };
+		}
+
+		List<UrlRecord> list = (List<UrlRecord>)FinderCacheUtil.getResult(finderPath,
+				finderArgs, this);
+
+		if ((list != null) && !list.isEmpty()) {
+			for (UrlRecord urlRecord : list) {
+				if ((recordId != urlRecord.getRecordId())) {
+					list = null;
+
+					break;
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 3));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_URLRECORD_WHERE);
+
+			query.append(_FINDER_COLUMN_RECORDID_RECORDID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(UrlRecordModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(recordId);
+
+				if (!pagination) {
+					list = (List<UrlRecord>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = new UnmodifiableList<UrlRecord>(list);
+				}
+				else {
+					list = (List<UrlRecord>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first url record in the ordered set where recordId = &#63;.
+	 *
+	 * @param recordId the record ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching url record
+	 * @throws com.excilys.liferay.gatling.NoSuchUrlRecordException if a matching url record could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public UrlRecord findByrecordId_First(long recordId,
+		OrderByComparator orderByComparator)
+		throws NoSuchUrlRecordException, SystemException {
+		UrlRecord urlRecord = fetchByrecordId_First(recordId, orderByComparator);
+
+		if (urlRecord != null) {
+			return urlRecord;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("recordId=");
+		msg.append(recordId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchUrlRecordException(msg.toString());
+	}
+
+	/**
+	 * Returns the first url record in the ordered set where recordId = &#63;.
+	 *
+	 * @param recordId the record ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching url record, or <code>null</code> if a matching url record could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public UrlRecord fetchByrecordId_First(long recordId,
+		OrderByComparator orderByComparator) throws SystemException {
+		List<UrlRecord> list = findByrecordId(recordId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last url record in the ordered set where recordId = &#63;.
+	 *
+	 * @param recordId the record ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching url record
+	 * @throws com.excilys.liferay.gatling.NoSuchUrlRecordException if a matching url record could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public UrlRecord findByrecordId_Last(long recordId,
+		OrderByComparator orderByComparator)
+		throws NoSuchUrlRecordException, SystemException {
+		UrlRecord urlRecord = fetchByrecordId_Last(recordId, orderByComparator);
+
+		if (urlRecord != null) {
+			return urlRecord;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("recordId=");
+		msg.append(recordId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchUrlRecordException(msg.toString());
+	}
+
+	/**
+	 * Returns the last url record in the ordered set where recordId = &#63;.
+	 *
+	 * @param recordId the record ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching url record, or <code>null</code> if a matching url record could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public UrlRecord fetchByrecordId_Last(long recordId,
+		OrderByComparator orderByComparator) throws SystemException {
+		int count = countByrecordId(recordId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<UrlRecord> list = findByrecordId(recordId, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the url records before and after the current url record in the ordered set where recordId = &#63;.
+	 *
+	 * @param urlRecordId the primary key of the current url record
+	 * @param recordId the record ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next url record
+	 * @throws com.excilys.liferay.gatling.NoSuchUrlRecordException if a url record with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public UrlRecord[] findByrecordId_PrevAndNext(long urlRecordId,
+		long recordId, OrderByComparator orderByComparator)
+		throws NoSuchUrlRecordException, SystemException {
+		UrlRecord urlRecord = findByPrimaryKey(urlRecordId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			UrlRecord[] array = new UrlRecordImpl[3];
+
+			array[0] = getByrecordId_PrevAndNext(session, urlRecord, recordId,
+					orderByComparator, true);
+
+			array[1] = urlRecord;
+
+			array[2] = getByrecordId_PrevAndNext(session, urlRecord, recordId,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected UrlRecord getByrecordId_PrevAndNext(Session session,
+		UrlRecord urlRecord, long recordId,
+		OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_URLRECORD_WHERE);
+
+		query.append(_FINDER_COLUMN_RECORDID_RECORDID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(UrlRecordModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(recordId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(urlRecord);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<UrlRecord> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the url records where recordId = &#63; from the database.
+	 *
+	 * @param recordId the record ID
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public void removeByrecordId(long recordId) throws SystemException {
+		for (UrlRecord urlRecord : findByrecordId(recordId, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(urlRecord);
+		}
+	}
+
+	/**
+	 * Returns the number of url records where recordId = &#63;.
+	 *
+	 * @param recordId the record ID
+	 * @return the number of matching url records
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public int countByrecordId(long recordId) throws SystemException {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_RECORDID;
+
+		Object[] finderArgs = new Object[] { recordId };
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_URLRECORD_WHERE);
+
+			query.append(_FINDER_COLUMN_RECORDID_RECORDID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(recordId);
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_RECORDID_RECORDID_2 = "urlRecord.recordId = ?";
 
 	public UrlRecordPersistenceImpl() {
 		setModelClass(UrlRecord.class);
@@ -278,6 +768,8 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 
 		boolean isNew = urlRecord.isNew();
 
+		UrlRecordModelImpl urlRecordModelImpl = (UrlRecordModelImpl)urlRecord;
+
 		Session session = null;
 
 		try {
@@ -301,8 +793,27 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 
 		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (isNew) {
+		if (isNew || !UrlRecordModelImpl.COLUMN_BITMASK_ENABLED) {
 			FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+
+		else {
+			if ((urlRecordModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_RECORDID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						urlRecordModelImpl.getOriginalRecordId()
+					};
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_RECORDID, args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_RECORDID,
+					args);
+
+				args = new Object[] { urlRecordModelImpl.getRecordId() };
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_RECORDID, args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_RECORDID,
+					args);
+			}
 		}
 
 		EntityCacheUtil.putResult(UrlRecordModelImpl.ENTITY_CACHE_ENABLED,
@@ -641,9 +1152,12 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 	}
 
 	private static final String _SQL_SELECT_URLRECORD = "SELECT urlRecord FROM UrlRecord urlRecord";
+	private static final String _SQL_SELECT_URLRECORD_WHERE = "SELECT urlRecord FROM UrlRecord urlRecord WHERE ";
 	private static final String _SQL_COUNT_URLRECORD = "SELECT COUNT(urlRecord) FROM UrlRecord urlRecord";
+	private static final String _SQL_COUNT_URLRECORD_WHERE = "SELECT COUNT(urlRecord) FROM UrlRecord urlRecord WHERE ";
 	private static final String _ORDER_BY_ENTITY_ALIAS = "urlRecord.";
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No UrlRecord exists with the primary key ";
+	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No UrlRecord exists with the key {";
 	private static final boolean _HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = GetterUtil.getBoolean(PropsUtil.get(
 				PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
 	private static Log _log = LogFactoryUtil.getLog(UrlRecordPersistenceImpl.class);

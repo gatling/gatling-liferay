@@ -293,6 +293,13 @@ public class RecordLocalServiceWrapper implements RecordLocalService,
 		return _recordLocalService.countByPortletId(portletId);
 	}
 
+	@Override
+	public void update(long recordId, java.lang.String name)
+		throws com.liferay.portal.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
+		_recordLocalService.update(recordId, name);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

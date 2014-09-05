@@ -77,7 +77,11 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.finder.cache.enabled.com.excilys.liferay.gatling.model.UrlRecord"),
 			true);
-	public static final boolean COLUMN_BITMASK_ENABLED = false;
+	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
+				"value.object.column.bitmask.enabled.com.excilys.liferay.gatling.model.UrlRecord"),
+			true);
+	public static long RECORDID_COLUMN_BITMASK = 1L;
+	public static long URLRECORDID_COLUMN_BITMASK = 2L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.excilys.liferay.gatling.model.UrlRecord"));
 
@@ -177,7 +181,19 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 
 	@Override
 	public void setRecordId(long recordId) {
+		_columnBitmask |= RECORDID_COLUMN_BITMASK;
+
+		if (!_setOriginalRecordId) {
+			_setOriginalRecordId = true;
+
+			_originalRecordId = _recordId;
+		}
+
 		_recordId = recordId;
+	}
+
+	public long getOriginalRecordId() {
+		return _originalRecordId;
 	}
 
 	@Override
@@ -218,6 +234,10 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 	@Override
 	public void setOrder(int order) {
 		_order = order;
+	}
+
+	public long getColumnBitmask() {
+		return _columnBitmask;
 	}
 
 	@Override
@@ -302,6 +322,13 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 
 	@Override
 	public void resetOriginalValues() {
+		UrlRecordModelImpl urlRecordModelImpl = this;
+
+		urlRecordModelImpl._originalRecordId = urlRecordModelImpl._recordId;
+
+		urlRecordModelImpl._setOriginalRecordId = false;
+
+		urlRecordModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -392,8 +419,11 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 		};
 	private long _urlRecordId;
 	private long _recordId;
+	private long _originalRecordId;
+	private boolean _setOriginalRecordId;
 	private String _url;
 	private String _type;
 	private int _order;
+	private long _columnBitmask;
 	private UrlRecord _escapedModel;
 }

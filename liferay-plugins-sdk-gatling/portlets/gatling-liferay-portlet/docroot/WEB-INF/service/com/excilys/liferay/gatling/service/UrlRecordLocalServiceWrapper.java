@@ -288,9 +288,9 @@ public class UrlRecordLocalServiceWrapper implements UrlRecordLocalService,
 
 	@Override
 	public java.util.List<com.excilys.liferay.gatling.model.UrlRecord> findByRecordId(
-		long RecordId)
+		long recordId)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _urlRecordLocalService.findByRecordId(RecordId);
+		return _urlRecordLocalService.findByRecordId(recordId);
 	}
 
 	/**

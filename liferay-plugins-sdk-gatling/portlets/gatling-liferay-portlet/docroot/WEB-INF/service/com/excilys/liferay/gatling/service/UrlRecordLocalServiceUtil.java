@@ -276,9 +276,9 @@ public class UrlRecordLocalServiceUtil {
 	}
 
 	public static java.util.List<com.excilys.liferay.gatling.model.UrlRecord> findByRecordId(
-		long RecordId)
+		long recordId)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().findByRecordId(RecordId);
+		return getService().findByRecordId(recordId);
 	}
 
 	public static void clearService() {

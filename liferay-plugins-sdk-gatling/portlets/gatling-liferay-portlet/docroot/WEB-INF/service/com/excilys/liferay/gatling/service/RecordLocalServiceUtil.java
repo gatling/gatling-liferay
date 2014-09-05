@@ -286,6 +286,12 @@ public class RecordLocalServiceUtil {
 		return getService().countByPortletId(portletId);
 	}
 
+	public static void update(long recordId, java.lang.String name)
+		throws com.liferay.portal.NoSuchModelException,
+			com.liferay.portal.kernel.exception.SystemException {
+		getService().update(recordId, name);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}
