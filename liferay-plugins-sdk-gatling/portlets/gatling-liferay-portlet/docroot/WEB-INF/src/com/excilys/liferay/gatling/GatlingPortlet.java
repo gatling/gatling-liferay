@@ -26,7 +26,7 @@ import javax.portlet.ResourceResponse;
 import javax.portlet.ValidatorException;
 import javax.servlet.http.Cookie;
 
-import com.excilys.liferay.gatling.dto.DisplayItemDTO;
+import com.excilys.liferay.gatling.dto.RequestDTO;
 import com.excilys.liferay.gatling.dto.LinkUsecaseRequestDTO;
 import com.excilys.liferay.gatling.dto.PortletConfigDTO;
 import com.excilys.liferay.gatling.dto.PortletConfigDTO.PortletConfigDTOBuilder;
@@ -517,7 +517,7 @@ public class GatlingPortlet extends MVCPortlet {
 				String siteName = GroupLocalServiceUtil.getGroup(groupId).getDescriptiveName();
 
 				//create DisplayLayoutList with actuel layout of the site and old layout added from requests
-				List<DisplayItemDTO> displayItemList = new ArrayList<DisplayItemDTO>();
+				List<RequestDTO> displayItemList = new ArrayList<RequestDTO>();
 				DisplayItemDTOUtil.addLayoutToDisplayItemList(displayItemList, listPublicLayouts);
 				DisplayItemDTOUtil.addLayoutToDisplayItemList(displayItemList, listPrivateLayouts );
 

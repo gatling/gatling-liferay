@@ -24,9 +24,9 @@ import com.liferay.portal.service.PortletLocalServiceUtil;
  * use of {@link IdDisplayItem} as field for identity
  *
  */
-public class DisplayItemDTO {
+public class RequestDTO {
 	
-	private static final Log LOG = LogFactoryUtil.getLog(DisplayItemDTO.class.getName());
+	private static final Log LOG = LogFactoryUtil.getLog(RequestDTO.class.getName());
 	
 	public enum RequestState {
 		OLD_REQUEST, DEFAULT, NEW_REQUEST;
@@ -73,7 +73,7 @@ public class DisplayItemDTO {
 	 * create DisplayLayout from a liferay Layout
 	 * @param layout
 	 */
-	public DisplayItemDTO(PortletPreferences portletPreferences) {
+	public RequestDTO(PortletPreferences portletPreferences) {
 		parentDisplayId = portletPreferences.getPlid();
 		displayId = portletPreferences.getPortletPreferencesId();	
 		name = PortletLocalServiceUtil.getPortletById(portletPreferences.getPortletId()).getDisplayName();
@@ -94,7 +94,7 @@ public class DisplayItemDTO {
 	 * create DisplayLayout from a liferay Layout
 	 * @param layout
 	 */
-	public DisplayItemDTO(Layout layout) {
+	public RequestDTO(Layout layout) {
 		
 		displayId = layout.getPlid();
 		layoutId  = layout.getLayoutId();
@@ -115,7 +115,7 @@ public class DisplayItemDTO {
 	 * create DisplayLayout from a scenario request
 	 * @param request
 	 */
-	public DisplayItemDTO(Request request){
+	public RequestDTO(Request request){
 		displayId = request.getPlId();
 		privateItem = request.isPrivatePage();
 		requestId = request.getRequest_id();
@@ -157,7 +157,7 @@ public class DisplayItemDTO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DisplayItemDTO other = (DisplayItemDTO) obj;
+		RequestDTO other = (RequestDTO) obj;
 		if (displayId != other.displayId)
 			return false;
 		return true;

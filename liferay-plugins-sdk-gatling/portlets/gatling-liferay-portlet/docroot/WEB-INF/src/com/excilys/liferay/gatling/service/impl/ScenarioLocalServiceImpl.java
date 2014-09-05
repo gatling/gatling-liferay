@@ -22,8 +22,8 @@ import java.util.Map;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 
-import com.excilys.liferay.gatling.dto.DisplayItemDTO;
-import com.excilys.liferay.gatling.dto.DisplayItemDTO.RequestState;
+import com.excilys.liferay.gatling.dto.RequestDTO;
+import com.excilys.liferay.gatling.dto.RequestDTO.RequestState;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
@@ -180,9 +180,9 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 			// private page
 			listLayouts.addAll(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), true, 0));
 			
-			List<DisplayItemDTO> listDisplayItems = new ArrayList<DisplayItemDTO>();
+			List<RequestDTO> listDisplayItems = new ArrayList<RequestDTO>();
 			DisplayItemDTOUtil.addLayoutToDisplayItemList(listDisplayItems, listLayouts);
-			for(DisplayItemDTO displayItem: listDisplayItems){
+			for(RequestDTO displayItem: listDisplayItems){
 				RequestLocalServiceUtil.addRequestFromDisplayItem(displayItem, 0, scenario.getScenario_id());
 			}
 			return scenario;
@@ -241,7 +241,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		//get private layout list
 		List<Layout> listPrivateLayouts = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
 
-		List<DisplayItemDTO> displayItemList = new ArrayList<DisplayItemDTO>();
+		List<RequestDTO> displayItemList = new ArrayList<RequestDTO>();
 		
 		// Sorting layout
 		DisplayItemDTOUtil.addLayoutToDisplayItemList(displayItemList, listPublicLayouts);
@@ -262,7 +262,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		 */
 		int layoutId = 0;
 		double weight = 0.0d;
-		DisplayItemDTO displayLayout = null;
+		RequestDTO displayLayout = null;
 		RequestState status = null;
 		Long requestId = null;
 		for (String key : parameters.keySet()){
