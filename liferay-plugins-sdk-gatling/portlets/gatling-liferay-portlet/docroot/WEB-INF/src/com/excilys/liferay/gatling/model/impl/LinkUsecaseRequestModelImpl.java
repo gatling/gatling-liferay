@@ -79,9 +79,10 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.column.bitmask.enabled.com.excilys.liferay.gatling.model.LinkUsecaseRequest"),
 			true);
-	public static long REQUEST_ID_COLUMN_BITMASK = 1L;
-	public static long WEIGHT_COLUMN_BITMASK = 2L;
-	public static long LINKUSECASEREQUESTID_COLUMN_BITMASK = 4L;
+	public static long RECORDID_COLUMN_BITMASK = 1L;
+	public static long REQUEST_ID_COLUMN_BITMASK = 2L;
+	public static long WEIGHT_COLUMN_BITMASK = 4L;
+	public static long LINKUSECASEREQUESTID_COLUMN_BITMASK = 8L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.excilys.liferay.gatling.model.LinkUsecaseRequest"));
 
@@ -203,7 +204,19 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 
 	@Override
 	public void setRecordId(long recordId) {
+		_columnBitmask |= RECORDID_COLUMN_BITMASK;
+
+		if (!_setOriginalRecordId) {
+			_setOriginalRecordId = true;
+
+			_originalRecordId = _recordId;
+		}
+
 		_recordId = recordId;
+	}
+
+	public long getOriginalRecordId() {
+		return _originalRecordId;
 	}
 
 	@Override
@@ -335,6 +348,10 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 
 		linkUsecaseRequestModelImpl._setOriginalRequest_id = false;
 
+		linkUsecaseRequestModelImpl._originalRecordId = linkUsecaseRequestModelImpl._recordId;
+
+		linkUsecaseRequestModelImpl._setOriginalRecordId = false;
+
 		linkUsecaseRequestModelImpl._originalWeight = linkUsecaseRequestModelImpl._weight;
 
 		linkUsecaseRequestModelImpl._setOriginalWeight = false;
@@ -421,6 +438,8 @@ public class LinkUsecaseRequestModelImpl extends BaseModelImpl<LinkUsecaseReques
 	private long _originalRequest_id;
 	private boolean _setOriginalRequest_id;
 	private long _recordId;
+	private long _originalRecordId;
+	private boolean _setOriginalRecordId;
 	private double _weight;
 	private double _originalWeight;
 	private boolean _setOriginalWeight;

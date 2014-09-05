@@ -145,6 +145,10 @@ public class LinkUsecaseRequestLocalServiceClp
 		_methodName25 = "removeByRequestId";
 
 		_methodParameterTypes25 = new String[] { "long" };
+
+		_methodName26 = "removeByRecordId";
+
+		_methodParameterTypes26 = new String[] { "long" };
 	}
 
 	@Override
@@ -906,6 +910,30 @@ public class LinkUsecaseRequestLocalServiceClp
 		}
 	}
 
+	@Override
+	public void removeByRecordId(long recordId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		try {
+			_invokableLocalService.invokeMethod(_methodName26,
+				_methodParameterTypes26, new Object[] { recordId });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -957,4 +985,6 @@ public class LinkUsecaseRequestLocalServiceClp
 	private String[] _methodParameterTypes24;
 	private String _methodName25;
 	private String[] _methodParameterTypes25;
+	private String _methodName26;
+	private String[] _methodParameterTypes26;
 }

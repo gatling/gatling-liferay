@@ -143,6 +143,10 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 		_methodName64 = "removeByRequestId";
 
 		_methodParameterTypes64 = new String[] { "long" };
+
+		_methodName65 = "removeByRecordId";
+
+		_methodParameterTypes65 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -290,6 +294,13 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 			return null;
 		}
 
+		if (_methodName65.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes65, parameterTypes)) {
+			LinkUsecaseRequestLocalServiceUtil.removeByRecordId(((Long)arguments[0]).longValue());
+
+			return null;
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -343,4 +354,6 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 	private String[] _methodParameterTypes63;
 	private String _methodName64;
 	private String[] _methodParameterTypes64;
+	private String _methodName65;
+	private String[] _methodParameterTypes65;
 }

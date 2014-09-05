@@ -76,6 +76,9 @@
 		<finder name="RequestId" return-type="Collection">
 			<finder-column name="request_id" />
 		</finder>
+		<finder name="RecordId" return-type="Collection">
+			<finder-column name="recordId" />
+		</finder>
 	</entity>
 	
 	<!-- use case  -->

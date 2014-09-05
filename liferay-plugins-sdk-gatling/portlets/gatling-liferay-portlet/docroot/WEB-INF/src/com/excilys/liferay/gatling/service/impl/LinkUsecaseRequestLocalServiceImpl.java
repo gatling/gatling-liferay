@@ -130,5 +130,8 @@ public class LinkUsecaseRequestLocalServiceImpl
 		linkUsecaseRequestPersistence.removeByRequestId(requestId);
 	}
 	
+	public void removeByRecordId(long recordId) throws SystemException {
+		linkUsecaseRequestPersistence.removeByRecordId(recordId);
+	}
 
 }

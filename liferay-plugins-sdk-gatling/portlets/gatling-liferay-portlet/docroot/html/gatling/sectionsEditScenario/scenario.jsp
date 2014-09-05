@@ -238,7 +238,6 @@
 		<input id="recording" value="false" type="hidden"/>
 </aui:fieldset>
 
-
 <script type="text/javascript">
 	AUI().use('aui-base','liferay-portlet-url','liferay-util-window', function(A) {
 		var lastChecked = null;

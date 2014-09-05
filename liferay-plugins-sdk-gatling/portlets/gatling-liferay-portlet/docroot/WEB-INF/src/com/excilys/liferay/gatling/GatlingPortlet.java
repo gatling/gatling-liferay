@@ -296,9 +296,8 @@ public class GatlingPortlet extends MVCPortlet {
 
 		final Map<String, String[]> parameters = request.getParameterMap();
 		long recordId = Long.parseLong(StringUtil.merge(parameters.get("recordId")));
-		RecordLocalServiceUtil.deleteRecord(recordId);	
-
-		LOG.info(parameters.keySet());
+		RecordLocalServiceUtil.deleteRecord(recordId);
+		LinkUsecaseRequestLocalServiceUtil.removeByRecordId(recordId);
 		//redirect
 		response.setRenderParameter("page", jspEditPortlet);
 		//hack, only work this way ....
@@ -583,11 +582,7 @@ public class GatlingPortlet extends MVCPortlet {
 			try {
 				availableScript =  ListScript.getList(portletId);
 				arrayLinkUsecaseRequest = GatlingUtil.fillArrayLinkUseCases(requestId);
-				recordList = RecordLocalServiceUtil.findByPortletId(portletId);
-				listRecordsName = GatlingUtil.createJSListOfRecordName(recordList);
-
-				// Add to DTO
-				builder.availableScript(availableScript).linkDTO(arrayLinkUsecaseRequest).listRecordNameJS(listRecordsName);
+				
 			} catch (SystemException e) {
 				if(LOG.isErrorEnabled()){
 					LOG.error("error when search for Record list: "+e.getMessage());
@@ -597,6 +592,17 @@ public class GatlingPortlet extends MVCPortlet {
 					LOG.error("error when search for Record list: "+e.getMessage());
 				}
 			}
+			try {
+				recordList = RecordLocalServiceUtil.findByPortletId(portletId);
+				listRecordsName = GatlingUtil.createJSListOfRecordName(recordList);
+			} catch (SystemException e) {
+				if(LOG.isErrorEnabled()){
+					LOG.error("error findByPortletId : "+e.getMessage());
+				}
+			} 
+			
+			// Add to DTO
+			builder.availableScript(availableScript).linkDTO(arrayLinkUsecaseRequest).listRecordNameJS(listRecordsName);
 
 			renderRequest.setAttribute("listRecord", recordList);
 			

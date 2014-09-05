@@ -8,7 +8,7 @@
 <!-- view List of records -->
 
 <liferay-ui:search-container emptyResultsMessage="record-list-empty">
-	<%--Liste of data to display --%>
+	<%--List of data to display --%>
 	<liferay-ui:search-container-results results="${listRecord }" total="${listRecord.size() }" />
 	<%--for each column --%>
 	<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Record" keyProperty="recordId" modelVar="record">
@@ -23,9 +23,9 @@
 		<liferay-ui:search-container-column-text name="delete" align="center">
 			<portlet:actionURL var="deleteRecordURL" name="removeRecord">
 				<portlet:param name="recordId" value="${record.recordId }" />
-				<portlet:param name="pagePortletId" value="${portletId}" />
-				<portlet:param name="requestId" value="${requestId}" />
-				<portlet:param name="groupId" value="${groupId }"/>
+				<portlet:param name="pagePortletId" value="${portletGatlingDTO.portletId}" />
+				<portlet:param name="requestId" value="${portletGatlingDTO.requestId}" />
+				<portlet:param name="groupId" value="${portletGatlingDTO.groupId }"/>
 			</portlet:actionURL>
 			<liferay-ui:icon-delete url="${deleteRecordURL}" />
 		</liferay-ui:search-container-column-text>
