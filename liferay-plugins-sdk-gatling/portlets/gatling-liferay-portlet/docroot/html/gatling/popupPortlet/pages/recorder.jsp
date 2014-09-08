@@ -20,6 +20,8 @@
 	</c:choose>
 </liferay-portlet:actionURL>
 
+<c:set var="errorMessage"><liferay-ui:message key="record-name-already-used"></liferay-ui:message></c:set>
+
 <h3><liferay-ui:message key="recorder-for" />: ${portletGatlingDTO.portletName}</h3>
 
 <c:if test='${ portletGatlingDTO.portletId != null &&  !"0".equals(portletGatlingDTO.portletId) }'>
@@ -36,7 +38,8 @@
 			 	<input id="checkRecording" type="hidden" value="true"/>
 			</c:when>
 			<c:otherwise>
-				<aui:input name="useCaseRecordName" required="true" inlineField="true">
+				<aui:input name="useCaseRecordName"  inlineField="true">
+					<aui:validator name="required" />
  					<aui:validator name="custom" errorMessage="record-name-already-used" >
  					 	function (val, fieldNode, ruleValue) {
 							var result = false;

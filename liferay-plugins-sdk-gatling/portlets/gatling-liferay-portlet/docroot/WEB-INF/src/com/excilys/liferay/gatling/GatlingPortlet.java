@@ -609,6 +609,7 @@ public class GatlingPortlet extends MVCPortlet {
 			PortletConfigDTOBuilder builder = new PortletConfigDTO.PortletConfigDTOBuilder();
 			
 			String portletId = ParamUtil.getString(renderRequest, "pagePortletId");
+			LOG.info(portletId+" :portletId");
 			String portletName = PortletLocalServiceUtil.getPortletById(portletId).getDisplayName();
 			long  groupId =  ParamUtil.getLong(renderRequest, "groupId");
 			long  plId =  ParamUtil.getLong(renderRequest, "plId");
@@ -700,6 +701,9 @@ public class GatlingPortlet extends MVCPortlet {
 			renderRequest.setAttribute("listRecordUrl", listRecordUrl);
 			renderRequest.setAttribute("recordName", recordName);
 			renderRequest.setAttribute("recordId", recordId);
+			renderRequest.setAttribute("portletId", ParamUtil.getString(renderRequest, "portletId"));
+			renderRequest.setAttribute("requestId", ParamUtil.getString(renderRequest, "requestId"));
+			
 		}
 		/* redirect to jsp page */
 		include(page, renderRequest, renderResponse);
