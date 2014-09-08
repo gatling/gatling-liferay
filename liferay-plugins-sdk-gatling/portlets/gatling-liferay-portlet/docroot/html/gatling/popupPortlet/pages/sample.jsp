@@ -119,14 +119,17 @@
 
 <script type="text/javascript">	
 	AUI().use("aui-base", function(A) {
-		A.one("button[type='submit']").on('click', function(event) {
-			var info = A.one(top.document.getElementById('${portletGatlingDTO.lineId}')).one(".info-config");
-			if(A.one("#bodyEditScript").all("tr").size() > 0) {
-				info.text("<liferay-ui:message key='portlet-configuration-ok' />");
-			} else {
-				info.text("<liferay-ui:message key='portlet-configuration-ko' />");
-			}
-		});
+		var elmt = A.one("button[type='submit']");
+		if (elmt != null){
+			A.one("button[type='submit']").on('click', function(event) {
+				var info = A.one(top.document.getElementById('${portletGatlingDTO.lineId}')).one(".info-config");
+				if(A.one("#bodyEditScript").all("tr").size() > 0) {
+					info.text("<liferay-ui:message key='portlet-configuration-ok' />");
+				} else {
+					info.text("<liferay-ui:message key='portlet-configuration-ko' />");
+				}
+			});
+		}
 	});
 
 
@@ -138,7 +141,7 @@
 			var canAdd = true;
 			A.one("#bodyEditScript").all('.text').each(function(node) {
 				canAdd = canAdd && node.get('title') != value;
-			})
+			});
 			
 			if(canAdd && label != null && label != "" && label != " "){			
 				var value = document.getElementById(idSelect).value.split(',');				
@@ -168,26 +171,29 @@
 	function showWeightPopup() {
 		AUI().use('aui-base', function(A) {
 			var totalRate = parseInt(0);
-			var listePage = A.one("#bodyEditScript").all('.popup_weightPage');
-			listePage.each(function() {
-				if (!(this.val() == "" || isNaN(this.val())) && this.val() > 0) {
-					totalRate += parseFloat(this.val());
-				} else {
-					this.val("0.0");
-					this.ancestor("tr").addClass("empty-weight-color");
-				}
-			});
+			var body =  A.one("#bodyEditScript");
+			if(body != null){
+				var listePage = A.one("#bodyEditScript").all('.popup_weightPage');
+				listePage.each(function() {
+					if (!(this.val() == "" || isNaN(this.val())) && this.val() > 0) {
+						totalRate += parseFloat(this.val());
+					} else {
+						this.val("0.0");
+						this.ancestor("tr").addClass("empty-weight-color");
+					}
+				});
 
-			listePage.each(function() {
-				if (!(this.val() == "" || isNaN(this.val()))) {
-					var perc = (this.val() / totalRate) * 100;
-					//cas du 0/0
-					if (isNaN(perc))
-						this.ancestor("tr").one(".popup_percent").text(	"0.00 %");
-					else
-						this.ancestor("tr").one(".popup_percent").text(	perc.toFixed(2) + " %");
-				}
-			});
+				listePage.each(function() {
+					if (!(this.val() == "" || isNaN(this.val()))) {
+						var perc = (this.val() / totalRate) * 100;
+						//cas du 0/0
+						if (isNaN(perc))
+							this.ancestor("tr").one(".popup_percent").text(	"0.00 %");
+						else
+							this.ancestor("tr").one(".popup_percent").text(	perc.toFixed(2) + " %");
+					}
+				});
+			}
 		});
 	}
 	showWeightPopup();
