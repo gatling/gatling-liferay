@@ -51,7 +51,7 @@ public class ListScript {
 			availableScripts = new String[numberOfRecords][];
 			List<Record> listRecords = RecordLocalServiceUtil.findByPortletId(portletId);
 			for (int i = 0; i < numberOfRecords; i++) {
-				availableScripts[i] = new String[]{listRecords.get(i).getName(), Long.toString(listRecords.get(i-3).getRecordId()), "false"};
+				availableScripts[i] = new String[]{listRecords.get(i).getName(), Long.toString(listRecords.get(i).getRecordId()), "false"};
 			}
 			return availableScripts;
 
