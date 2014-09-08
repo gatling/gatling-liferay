@@ -61,7 +61,7 @@
 								${linkUsecaseRequest.name}
 							</td>
 							<td class="weight">
-								<aui:input name="weightScenarioSample" label="" value="${linkUsecaseRequest.weight}" cssClass="popup_weightPage" onChange="showWeightPopup()" />
+								<aui:input name="weightScenarioSample" ignoreRequestValue="true" label="" type="text"  value="${linkUsecaseRequest.weight}" cssClass="popup_weightPage" onChange="showWeightPopup()" />
 							</td>
 							<td class='popup_percent' />
 
@@ -106,7 +106,7 @@
 					<aui:input name="weightScenarioSample" label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input>
 				</td>
 				<td class='popup_percent'>
-				0.00%
+				0.00 %
 				</td>
 				<td>
 					<aui:a href="#" onClick="removeLine(this);">

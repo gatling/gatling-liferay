@@ -249,14 +249,14 @@ public class GatlingPortlet extends MVCPortlet {
 		LOG.debug("editPortletSample");
 		long requestId = ParamUtil.getLong(request, "requestId");
 		long[] linkUsecaseRequestIds = ParamUtil.getLongValues(request, "idLink");
-		long[] usecaseWeight = ParamUtil.getLongValues(request, "weightScenarioSample");
+		double[] usecaseWeight = ParamUtil.getDoubleValues(request, "weightScenarioSample");
 		long[] recordIds = ParamUtil.getLongValues(request, "recordId");
 		boolean[] areSample = ParamUtil.getBooleanValues(request, "isSample");
 		
 		if(linkUsecaseRequestIds.length == usecaseWeight.length && usecaseWeight.length == areSample.length) {
 			for(int i=0; i<linkUsecaseRequestIds.length;i++) {
 				long id = linkUsecaseRequestIds[i];
-				long weight = usecaseWeight[i];
+				double weight = usecaseWeight[i];
 				long recordId = recordIds[i];
 				boolean isSample = areSample[i];
 				LinkUsecaseRequestLocalServiceUtil.saveLinkUseCase(id, requestId, recordId, weight, isSample);
