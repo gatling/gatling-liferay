@@ -4,15 +4,15 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 <c:set var="title"> 
-	<liferay-ui:message key="configRecord-title" arguments="${listRecord.size()}" />
+	<liferay-ui:message key="configRecord-title" arguments="${portletGatlingDTO.listRecord.size()}" />
 </c:set>
 
 <liferay-ui:header title="${title}" />
 <!-- view List of records -->
 
-<liferay-ui:search-container emptyResultsMessage="record-list-empty">
+<liferay-ui:search-container emptyResultsMessage="record-list-empty" >
 	<%--List of data to display --%>
-	<liferay-ui:search-container-results results="${listRecord }" total="${listRecord.size() }" />
+	<liferay-ui:search-container-results results="${portletGatlingDTO.listRecord }" total="${portletGatlingDTO.listRecord.size() }" />
 	<%--for each column --%>
 	<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Record" keyProperty="recordId" modelVar="record">
 		<%-- EditURl --%>

@@ -2,6 +2,8 @@ package com.excilys.liferay.gatling.dto;
 
 import java.util.List;
 
+import com.excilys.liferay.gatling.model.Record;
+
 
 public class PortletConfigDTO {
 	
@@ -37,6 +39,10 @@ public class PortletConfigDTO {
 	 * List of available Script/Record (select)
 	 */
 	private String[][] availableScript;
+	/**
+	 * List of record
+	 */
+	private List<Record> listRecord;
 	/**
 	 * DTO of table rows
 	 */
@@ -87,6 +93,10 @@ public class PortletConfigDTO {
 		}
 		public PortletConfigDTOBuilder nextStateRecord(String nextRecordState) {
 			config.setNextRecordState(nextRecordState);
+			return this;
+		}
+		public PortletConfigDTOBuilder listRecord(List<Record> listRecord) {
+			config.setListRecord(listRecord);
 			return this;
 		}
 		public PortletConfigDTO build() {
@@ -156,6 +166,12 @@ public class PortletConfigDTO {
 	}
 	public void setNextRecordState(String nextRecordState) {
 		this.nextRecordState = nextRecordState;
+	}
+	public List<Record> getListRecord() {
+		return listRecord;
+	}
+	public void setListRecord(List<Record> recordList) {
+		this.listRecord = recordList;
 	}
 	
 

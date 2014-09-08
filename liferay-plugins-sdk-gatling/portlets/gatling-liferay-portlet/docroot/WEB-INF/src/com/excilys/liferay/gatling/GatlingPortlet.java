@@ -27,10 +27,10 @@ import javax.portlet.ResourceResponse;
 import javax.portlet.ValidatorException;
 import javax.servlet.http.Cookie;
 
-import com.excilys.liferay.gatling.dto.RequestDTO;
 import com.excilys.liferay.gatling.dto.LinkUsecaseRequestDTO;
 import com.excilys.liferay.gatling.dto.PortletConfigDTO;
 import com.excilys.liferay.gatling.dto.PortletConfigDTO.PortletConfigDTOBuilder;
+import com.excilys.liferay.gatling.dto.RequestDTO;
 import com.excilys.liferay.gatling.exception.EmptySimulation;
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Request;
@@ -44,8 +44,8 @@ import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
-import com.excilys.liferay.gatling.util.DisplayItemDTOUtil;
 import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
+import com.excilys.liferay.gatling.util.DisplayItemDTOUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
@@ -247,18 +247,19 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	public void editPortletSample(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException {
 		LOG.debug("editPortletSample");
-		final Map<String, String[]> parameters = request.getParameterMap();
-		long requestId = Long.parseLong(StringUtil.merge(parameters.get("requestId")));
+		long requestId = ParamUtil.getLong(request, "requestId");
+		long[] linkUsecaseRequestIds = ParamUtil.getLongValues(request, "idLink");
+		long[] usecaseWeight = ParamUtil.getLongValues(request, "weightScenarioSample");
+		long[] recordIds = ParamUtil.getLongValues(request, "recordId");
+		boolean[] areSample = ParamUtil.getBooleanValues(request, "isSample");
 		
-		for (String key : parameters.keySet()){
-			if(key.contains("weightScenarioSample")){
-				long linkUsecaseRequestId = Long.parseLong(key.split("weightScenarioSample")[0]);
-				long recordId = Long.parseLong(key.split("weightScenarioSample")[1]);
-				String[] weights = StringUtil.merge(parameters.get(key)).split(",");
-				for(String weight : weights){
-					// add new Link use Case
-					LinkUsecaseRequestLocalServiceUtil.saveLinkUseCase(linkUsecaseRequestId, requestId, recordId, Double.parseDouble(weight), true);
-				}
+		if(linkUsecaseRequestIds.length == usecaseWeight.length && usecaseWeight.length == areSample.length) {
+			for(int i=0; i<linkUsecaseRequestIds.length;i++) {
+				long id = linkUsecaseRequestIds[i];
+				long weight = usecaseWeight[i];
+				long recordId = recordIds[i];
+				boolean isSample = areSample[i];
+				LinkUsecaseRequestLocalServiceUtil.saveLinkUseCase(id, requestId, recordId, weight, isSample);
 			}
 		}
 		
@@ -645,18 +646,8 @@ public class GatlingPortlet extends MVCPortlet {
 			} 
 			
 			// Add to DTO
-			builder.availableScript(availableScript).linkDTO(arrayLinkUsecaseRequest).listRecordNameJS(listRecordsName);
+			builder.availableScript(availableScript).linkDTO(arrayLinkUsecaseRequest).listRecordNameJS(listRecordsName).listRecord(recordList);
 			
-			renderRequest.setAttribute("availableScript", availableScript);
-			renderRequest.setAttribute("portletId", portletId);
-			renderRequest.setAttribute("portletName", portletName);
-			renderRequest.setAttribute("groupId", groupId);
-			renderRequest.setAttribute("plId", plId);
-			renderRequest.setAttribute("requestId", requestId);
-			renderRequest.setAttribute("arrayLinkUsecaseRequest", arrayLinkUsecaseRequest);
-			renderRequest.setAttribute("listRecordsName", listRecordsName);
-			renderRequest.setAttribute("lineId", ParamUtil.getLong(renderRequest, "lineId"));
-			renderRequest.setAttribute("listRecord", recordList);
 
 			// Check state of recording
 			String state = renderRequest.getParameter("recordState");
@@ -709,7 +700,6 @@ public class GatlingPortlet extends MVCPortlet {
 			renderRequest.setAttribute("listRecordUrl", listRecordUrl);
 			renderRequest.setAttribute("recordName", recordName);
 			renderRequest.setAttribute("recordId", recordId);
-			
 		}
 		/* redirect to jsp page */
 		include(page, renderRequest, renderResponse);

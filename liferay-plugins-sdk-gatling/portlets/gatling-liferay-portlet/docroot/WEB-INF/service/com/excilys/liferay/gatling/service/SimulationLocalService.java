@@ -273,7 +273,6 @@ public interface SimulationLocalService extends BaseLocalService,
 	* Add a {@link Simulation} from an {@link ActionRequest}
 	*
 	* @param {@link ActionRequest} request
-	* @param {@link ActionResponse} response
 	* @return {@link Simulation} if added, else null
 	* @throws SystemException
 	*/

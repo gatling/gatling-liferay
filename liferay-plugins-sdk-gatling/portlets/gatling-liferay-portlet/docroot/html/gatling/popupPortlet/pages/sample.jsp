@@ -57,11 +57,11 @@
 							<aui:input name="idLink" type="hidden" value="${linkUsecaseRequest.linkId}"/>
 							<aui:input name="recordId" type="hidden" value="${linkUsecaseRequest.recordId}"/>
 							<aui:input name="isSample" type="hidden" value="${linkUsecaseRequest.sample}"/>
-							<td class="text" title="${linkUsecaseRequest.linkId}" >
+							<td class="text" title="${linkUsecaseRequest.recordId}" >
 								${linkUsecaseRequest.name}
 							</td>
 							<td class="weight">
-								<aui:input name="${linkUsecaseRequest.linkId}weightScenarioSample${linkUsecaseRequest.recordId}" label="" value="${linkUsecaseRequest.weight}" cssClass="popup_weightPage" onChange="showWeightPopup()" />
+								<aui:input name="weightScenarioSample" label="" value="${linkUsecaseRequest.weight}" cssClass="popup_weightPage" onChange="showWeightPopup()" />
 							</td>
 							<td class='popup_percent' />
 
@@ -103,9 +103,10 @@
 				<td class="text" title="">
 				</td>
 				<td class="weight">
-					<aui:input name="0weightScenarioSample" label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input>
+					<aui:input name="weightScenarioSample" label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input>
 				</td>
 				<td class='popup_percent'>
+				0.00%
 				</td>
 				<td>
 					<aui:a href="#" onClick="removeLine(this);">
@@ -121,7 +122,7 @@
 	AUI().use("aui-base", function(A) {
 		var elmt = A.one("button[type='submit']");
 		if (elmt != null){
-			A.one("button[type='submit']").on('click', function(event) {
+			elmt.on('click', function(event) {
 				var info = A.one(top.document.getElementById('${portletGatlingDTO.lineId}')).one(".info-config");
 				if(A.one("#bodyEditScript").all("tr").size() > 0) {
 					info.text("<liferay-ui:message key='portlet-configuration-ok' />");
@@ -135,7 +136,7 @@
 
 	function addLine() {
 		AUI().use('aui-base', 'aui-node-base', function(A){
-			var idSelect = "<portlet:namespace/>"+"selectScript";
+			var idSelect = "<portlet:namespace/>selectScript";
 			var label = document.getElementById(idSelect)[document.getElementById(idSelect).selectedIndex].textContent;
 			var value = document.getElementById(idSelect).value.split(',')[1];
 			var canAdd = true;
@@ -150,9 +151,6 @@
 				//set name of script
 				html.one('.text').html(label);
 				html.one('.text').set('title',value[1]); //sampleId
-				var weightInput = html.one('#weight').one("input");
-				var weightName = weightInput.get('name') + value;
-				weightInput.set('name',weightName); 
 				//Set hidden input
 				html.one('#<portlet:namespace/>recordId').val(value[1]);
 				html.one('#<portlet:namespace/>isSample').val(value[0]);
@@ -173,7 +171,7 @@
 			var totalRate = parseInt(0);
 			var body =  A.one("#bodyEditScript");
 			if(body != null){
-				var listePage = A.one("#bodyEditScript").all('.popup_weightPage');
+				var listePage = body.all('.popup_weightPage');
 				listePage.each(function() {
 					if (!(this.val() == "" || isNaN(this.val())) && this.val() > 0) {
 						totalRate += parseFloat(this.val());

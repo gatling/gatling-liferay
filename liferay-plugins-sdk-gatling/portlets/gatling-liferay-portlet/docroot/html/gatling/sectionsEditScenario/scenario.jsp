@@ -319,7 +319,6 @@
 		
 		A.all(".portlet-popup").each(function() {
 			this.on('click' , function(event) {
-				console.log(this.get("href"));
 				var portletId =this.getData("portletId");
 				var pageName = this.getData("page");
 				var portletName = this.getData("portlet");
