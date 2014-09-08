@@ -40,9 +40,14 @@ public class UrlRecordLocalServiceImpl extends UrlRecordLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil} to access the url record local service.
 	 */
+
+	@Override
+	public List<UrlRecord> findByRecordId(long recordId) throws SystemException{
+		return urlRecordPersistence.findByRecordId(recordId);
+	}
 	
 	@Override
-	public List<UrlRecord> findByRecordId(long recordId) throws SystemException {
-		return  urlRecordPersistence.findByrecordId(recordId);
+	public int countByRecordId(long recordId) throws SystemException{
+		return urlRecordPersistence.countByRecordId(recordId);
 	}
 }

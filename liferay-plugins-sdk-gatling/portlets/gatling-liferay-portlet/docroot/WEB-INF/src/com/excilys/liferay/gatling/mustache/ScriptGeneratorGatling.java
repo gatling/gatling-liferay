@@ -4,19 +4,15 @@
 package com.excilys.liferay.gatling.mustache;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
-import com.excilys.liferay.gatling.mustache.util.AssetPublisher;
-import com.excilys.liferay.gatling.mustache.util.MessageBoard;
 import com.excilys.liferay.gatling.mustache.util.NameAndUrl;
 import com.excilys.liferay.gatling.mustache.util.NameUrlAndPlid;
-import com.excilys.liferay.gatling.mustache.util.WikiDisplay;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
+import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
@@ -27,9 +23,9 @@ public class ScriptGeneratorGatling {
 	private String simuName = "avant";
 	private Long simulationId = 0L; 
 	private List<MustacheScenario> mustacheScenario;
-	private Set<MessageBoard> setMessageBoard = new HashSet<MessageBoard>();
-	private Set<AssetPublisher> setAssetPublisher = new HashSet<AssetPublisher>();
-	private Set<WikiDisplay> setWikiDisplay = new HashSet<WikiDisplay>();
+//	private Set<MessageBoard> setMessageBoard = new HashSet<MessageBoard>();
+//	private Set<AssetPublisher> setAssetPublisher = new HashSet<AssetPublisher>();
+//	private Set<WikiDisplay> setWikiDisplay = new HashSet<WikiDisplay>();
 
 	public ScriptGeneratorGatling(Long simulationId) throws Exception{
 		this.simuName = SimulationLocalServiceUtil.getSimulation(simulationId).getVariableName();
@@ -58,18 +54,6 @@ public class ScriptGeneratorGatling {
 			totalWeight += request.getWeight(); 
 		}
 		return totalWeight;
-	}
-
-	public Set<WikiDisplay> wikiDisplay() {
-		return this.setWikiDisplay;
-	}
-
-	public Set<AssetPublisher> assetPublisher() {
-		return this.setAssetPublisher;
-	}
-
-	public Set<MessageBoard> messageBoard() {
-		return this.setMessageBoard;
 	}
 
 	//give the total weight for a scenario of the requests (excude the portlets)
@@ -114,7 +98,7 @@ public class ScriptGeneratorGatling {
 					}
 
 					int numberOfPortlets = RequestLocalServiceUtil.countByParentPlid(rq.getPlId());						
-					MustacheRequest mustacheRequest = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight , false, numberOfPortlets == 0);
+					MustacheRequest mustacheRequest = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight);
 					if( numberOfPortlets != 0) {
 						List<Request> listPortlets = RequestLocalServiceUtil.findByParentPlid(rq.getPlId());
 						final double totalWeightPortlet = getTotalWeight(listPortlets);
@@ -124,22 +108,36 @@ public class ScriptGeneratorGatling {
 						//loop for the Portlets
 						for (Request portlet : listPortlets) {
 							if (LinkUsecaseRequestLocalServiceUtil.countByRequestIdAndUsed(portlet.getRequest_id()) > 0){
+								mustacheRequest.setRegular(false);
 								weightPortlet = (double) ((int)((int) portlet.getWeight()*10000/totalWeightPortlet))/100;
 								currentSumWeightPortlet += weightPortlet;
 								MustachePortlet mustachePortlet = new MustachePortlet(portlet.getName(), site + portlet.getUrl(), weightPortlet, false);
 
-								List<LinkUsecaseRequest> listUseCaseRequest = LinkUsecaseRequestLocalServiceUtil.findByRequestIdAndUsed(rq.getRequest_id());
+								List<LinkUsecaseRequest> listUseCaseRequest = LinkUsecaseRequestLocalServiceUtil.findByRequestIdAndUsed(portlet.getRequest_id());
 								//loop for the scripts
 								for (LinkUsecaseRequest linkUsecaseRequest : listUseCaseRequest) {
-									if(linkUsecaseRequest.isSample() && linkUsecaseRequest.getRecordId() == 1) {
+									if (!linkUsecaseRequest.isSample()){
+										mustachePortlet.addRecorder(RecordLocalServiceUtil.getRecord(linkUsecaseRequest.getRecordId()), linkUsecaseRequest.getWeight());
+									} else if(linkUsecaseRequest.isSample() && linkUsecaseRequest.getRecordId() == 1) {
 										if("Wiki Display".equals(portlet.getName())) {
-											mustachePortlet.addWikiDisplaySimple(new NameUrlAndPlid(portlet.getName(), rq.getUrl(), portlet.getPlId()));
+											mustachePortlet.addWikiDisplaySimple(new NameUrlAndPlid(portlet.getName(), rq.getUrl(), portlet.getPlId()), linkUsecaseRequest.getWeight());
 										} else if("Asset Publisher".equals(portlet.getName())) {
-											mustachePortlet.addAssetPublisherSimple(new NameAndUrl(portlet.getName(), rq.getUrl()));
+											mustachePortlet.addAssetPublisherSimple(new NameAndUrl(portlet.getName(), rq.getUrl()), linkUsecaseRequest.getWeight());
 										} else if("Message Boards".equals(portlet.getName())) {
-											mustachePortlet.addMessageBoardSimple(new NameAndUrl(portlet.getName(), rq.getUrl()));
+											mustachePortlet.addMessageBoardSimple(new NameAndUrl(portlet.getName(), rq.getUrl()), linkUsecaseRequest.getWeight());
 										} 
 									}
+								}
+								
+								if( ! mustachePortlet.getRecorderGet().isEmpty()){
+									System.out.println("mustachePortlet.getRecorderGet().get(0).getName()" + mustachePortlet.getRecorderGet().get(0).getName());
+								} else {
+									System.out.println("records empty");
+								}
+								
+									
+								if( ! mustachePortlet.getScripts().isEmpty()) {
+									mustachePortlet.setLastScript();
 								}
 								mustacheRequest.addListMustachePortlet(mustachePortlet);
 							}
@@ -174,30 +172,6 @@ public class ScriptGeneratorGatling {
 
 	public void setMustacheScenario(List<MustacheScenario> mustacheScenario) {
 		this.mustacheScenario = mustacheScenario;
-	}
-
-	public Set<MessageBoard> getSetMessageBoard() {
-		return setMessageBoard;
-	}
-
-	public void setSetMessageBoard(Set<MessageBoard> setMessageBoard) {
-		this.setMessageBoard = setMessageBoard;
-	}
-
-	public Set<AssetPublisher> getSetAssetPublisher() {
-		return setAssetPublisher;
-	}
-
-	public void setSetAssetPublisher(Set<AssetPublisher> setAssetPublisher) {
-		this.setAssetPublisher = setAssetPublisher;
-	}
-
-	public Set<WikiDisplay> getSetWikiDisplay() {
-		return setWikiDisplay;
-	}
-
-	public void setSetWikiDisplay(Set<WikiDisplay> setWikiDisplay) {
-		this.setWikiDisplay = setWikiDisplay;
 	}
 
 	public void setSimuName(String simuName) {

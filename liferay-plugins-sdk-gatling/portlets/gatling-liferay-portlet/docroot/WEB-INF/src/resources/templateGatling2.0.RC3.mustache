@@ -3,7 +3,7 @@ import io.gatling.http.Predef._
 import scala.concurrent.duration._
 
 /**
- * Gatling 2.0RC2 Script generated for Liferay by the plugin
+ * Gatling 2.0RC3 Script generated for Liferay by the plugin
  * "Load Test with Gatling"
  */
  
@@ -87,14 +87,14 @@ class {{simuName}} extends Simulation {
                         .pause(1)
 {{/wikiDisplay}}
 
-{{#recoderGet}}
+{{#recorderGet}}
     val {{nameVariable}} = 
 {{#listGet}}
       exec( http("{{name}}").get("{{url}}"))
       .pause(2)
 {{/listGet}}
     )
-{{/recoderGet}}
+{{/recorderGet}}
 
 {{/mustachePortlet}}
   }

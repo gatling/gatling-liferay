@@ -117,6 +117,13 @@ public class UrlRecordLocalServiceClp implements UrlRecordLocalService {
 		_methodName19 = "findByRecordId";
 
 		_methodParameterTypes19 = new String[] { "long" };
+<<<<<<< HEAD
+=======
+
+		_methodName20 = "countByRecordId";
+
+		_methodParameterTypes20 = new String[] { "long" };
+>>>>>>> on the template
 	}
 
 	@Override
@@ -698,6 +705,37 @@ public class UrlRecordLocalServiceClp implements UrlRecordLocalService {
 		return (java.util.List<com.excilys.liferay.gatling.model.UrlRecord>)ClpSerializer.translateOutput(returnObj);
 	}
 
+<<<<<<< HEAD
+=======
+	@Override
+	public int countByRecordId(long recordId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName20,
+					_methodParameterTypes20, new Object[] { recordId });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return ((Integer)returnObj).intValue();
+	}
+
+>>>>>>> on the template
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -737,4 +775,9 @@ public class UrlRecordLocalServiceClp implements UrlRecordLocalService {
 	private String[] _methodParameterTypes17;
 	private String _methodName19;
 	private String[] _methodParameterTypes19;
+<<<<<<< HEAD
+=======
+	private String _methodName20;
+	private String[] _methodParameterTypes20;
+>>>>>>> on the template
 }

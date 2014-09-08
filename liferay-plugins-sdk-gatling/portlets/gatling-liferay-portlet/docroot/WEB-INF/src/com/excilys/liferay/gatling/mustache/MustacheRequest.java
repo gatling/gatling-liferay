@@ -18,13 +18,13 @@ public class MustacheRequest {
 	private long scenarioId;
 	List<MustachePortlet> mustachePortlet = new ArrayList<MustachePortlet>();
 	
-	MustacheRequest(String name, String url, double pourcentage, boolean last, boolean regular) {
+	MustacheRequest(String name, String url, double pourcentage) {
 		this.url = url;
 		this.requestName = name;
 		this.pourcentage = pourcentage;
-		this.last = last;
-		this.regular = regular;
-		this.notRegular = !regular;
+		this.last = false;
+		this.regular = true;
+		this.notRegular = false;
 	}
 	
 	public String getRequestName() {
@@ -104,6 +104,7 @@ public class MustacheRequest {
 
 	public void setRegular(boolean regular) {
 		this.regular = regular;
+		this.notRegular = !regular;
 	}
 
 	public List<MustachePortlet> getMustachePortlet() {

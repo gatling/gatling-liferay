@@ -44,7 +44,11 @@ public interface UrlRecordPersistence extends BasePersistence<UrlRecord> {
 	* @return the matching url records
 	* @throws SystemException if a system exception occurred
 	*/
+<<<<<<< HEAD
 	public java.util.List<com.excilys.liferay.gatling.model.UrlRecord> findByrecordId(
+=======
+	public java.util.List<com.excilys.liferay.gatling.model.UrlRecord> findByRecordId(
+>>>>>>> on the template
 		long recordId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
@@ -61,7 +65,11 @@ public interface UrlRecordPersistence extends BasePersistence<UrlRecord> {
 	* @return the range of matching url records
 	* @throws SystemException if a system exception occurred
 	*/
+<<<<<<< HEAD
 	public java.util.List<com.excilys.liferay.gatling.model.UrlRecord> findByrecordId(
+=======
+	public java.util.List<com.excilys.liferay.gatling.model.UrlRecord> findByRecordId(
+>>>>>>> on the template
 		long recordId, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
@@ -79,7 +87,11 @@ public interface UrlRecordPersistence extends BasePersistence<UrlRecord> {
 	* @return the ordered range of matching url records
 	* @throws SystemException if a system exception occurred
 	*/
+<<<<<<< HEAD
 	public java.util.List<com.excilys.liferay.gatling.model.UrlRecord> findByrecordId(
+=======
+	public java.util.List<com.excilys.liferay.gatling.model.UrlRecord> findByRecordId(
+>>>>>>> on the template
 		long recordId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
@@ -93,7 +105,11 @@ public interface UrlRecordPersistence extends BasePersistence<UrlRecord> {
 	* @throws com.excilys.liferay.gatling.NoSuchUrlRecordException if a matching url record could not be found
 	* @throws SystemException if a system exception occurred
 	*/
+<<<<<<< HEAD
 	public com.excilys.liferay.gatling.model.UrlRecord findByrecordId_First(
+=======
+	public com.excilys.liferay.gatling.model.UrlRecord findByRecordId_First(
+>>>>>>> on the template
 		long recordId,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.excilys.liferay.gatling.NoSuchUrlRecordException,
@@ -107,7 +123,11 @@ public interface UrlRecordPersistence extends BasePersistence<UrlRecord> {
 	* @return the first matching url record, or <code>null</code> if a matching url record could not be found
 	* @throws SystemException if a system exception occurred
 	*/
+<<<<<<< HEAD
 	public com.excilys.liferay.gatling.model.UrlRecord fetchByrecordId_First(
+=======
+	public com.excilys.liferay.gatling.model.UrlRecord fetchByRecordId_First(
+>>>>>>> on the template
 		long recordId,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
@@ -121,7 +141,11 @@ public interface UrlRecordPersistence extends BasePersistence<UrlRecord> {
 	* @throws com.excilys.liferay.gatling.NoSuchUrlRecordException if a matching url record could not be found
 	* @throws SystemException if a system exception occurred
 	*/
+<<<<<<< HEAD
 	public com.excilys.liferay.gatling.model.UrlRecord findByrecordId_Last(
+=======
+	public com.excilys.liferay.gatling.model.UrlRecord findByRecordId_Last(
+>>>>>>> on the template
 		long recordId,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.excilys.liferay.gatling.NoSuchUrlRecordException,
@@ -135,7 +159,11 @@ public interface UrlRecordPersistence extends BasePersistence<UrlRecord> {
 	* @return the last matching url record, or <code>null</code> if a matching url record could not be found
 	* @throws SystemException if a system exception occurred
 	*/
+<<<<<<< HEAD
 	public com.excilys.liferay.gatling.model.UrlRecord fetchByrecordId_Last(
+=======
+	public com.excilys.liferay.gatling.model.UrlRecord fetchByRecordId_Last(
+>>>>>>> on the template
 		long recordId,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
@@ -150,7 +178,11 @@ public interface UrlRecordPersistence extends BasePersistence<UrlRecord> {
 	* @throws com.excilys.liferay.gatling.NoSuchUrlRecordException if a url record with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
+<<<<<<< HEAD
 	public com.excilys.liferay.gatling.model.UrlRecord[] findByrecordId_PrevAndNext(
+=======
+	public com.excilys.liferay.gatling.model.UrlRecord[] findByRecordId_PrevAndNext(
+>>>>>>> on the template
 		long urlRecordId, long recordId,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.excilys.liferay.gatling.NoSuchUrlRecordException,
@@ -162,7 +194,11 @@ public interface UrlRecordPersistence extends BasePersistence<UrlRecord> {
 	* @param recordId the record ID
 	* @throws SystemException if a system exception occurred
 	*/
+<<<<<<< HEAD
 	public void removeByrecordId(long recordId)
+=======
+	public void removeByRecordId(long recordId)
+>>>>>>> on the template
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
@@ -172,7 +208,11 @@ public interface UrlRecordPersistence extends BasePersistence<UrlRecord> {
 	* @return the number of matching url records
 	* @throws SystemException if a system exception occurred
 	*/
+<<<<<<< HEAD
 	public int countByrecordId(long recordId)
+=======
+	public int countByRecordId(long recordId)
+>>>>>>> on the template
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**

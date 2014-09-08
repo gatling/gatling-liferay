@@ -107,7 +107,7 @@
 		<column name="url" type="String" />
 		<column name="type" type="String" />
 		<column name="order" type="int" />
-		<finder name="recordId" return-type="Collection">
+		<finder name="RecordId" return-type="Collection">
 			<finder-column name="recordId" />
 		</finder>
 	</entity>

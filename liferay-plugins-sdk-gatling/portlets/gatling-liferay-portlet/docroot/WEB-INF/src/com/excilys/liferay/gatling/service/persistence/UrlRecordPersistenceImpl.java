@@ -86,7 +86,7 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_RECORDID = new FinderPath(UrlRecordModelImpl.ENTITY_CACHE_ENABLED,
 			UrlRecordModelImpl.FINDER_CACHE_ENABLED, UrlRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByrecordId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByRecordId",
 			new String[] {
 				Long.class.getName(),
 				
@@ -96,12 +96,12 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_RECORDID =
 		new FinderPath(UrlRecordModelImpl.ENTITY_CACHE_ENABLED,
 			UrlRecordModelImpl.FINDER_CACHE_ENABLED, UrlRecordImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByrecordId",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByRecordId",
 			new String[] { Long.class.getName() },
 			UrlRecordModelImpl.RECORDID_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_RECORDID = new FinderPath(UrlRecordModelImpl.ENTITY_CACHE_ENABLED,
 			UrlRecordModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByrecordId",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRecordId",
 			new String[] { Long.class.getName() });
 
 	/**
@@ -112,9 +112,9 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public List<UrlRecord> findByrecordId(long recordId)
+	public List<UrlRecord> findByRecordId(long recordId)
 		throws SystemException {
-		return findByrecordId(recordId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+		return findByRecordId(recordId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 			null);
 	}
 
@@ -132,9 +132,9 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public List<UrlRecord> findByrecordId(long recordId, int start, int end)
+	public List<UrlRecord> findByRecordId(long recordId, int start, int end)
 		throws SystemException {
-		return findByrecordId(recordId, start, end, null);
+		return findByRecordId(recordId, start, end, null);
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public List<UrlRecord> findByrecordId(long recordId, int start, int end,
+	public List<UrlRecord> findByRecordId(long recordId, int start, int end,
 		OrderByComparator orderByComparator) throws SystemException {
 		boolean pagination = true;
 		FinderPath finderPath = null;
@@ -259,10 +259,10 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public UrlRecord findByrecordId_First(long recordId,
+	public UrlRecord findByRecordId_First(long recordId,
 		OrderByComparator orderByComparator)
 		throws NoSuchUrlRecordException, SystemException {
-		UrlRecord urlRecord = fetchByrecordId_First(recordId, orderByComparator);
+		UrlRecord urlRecord = fetchByRecordId_First(recordId, orderByComparator);
 
 		if (urlRecord != null) {
 			return urlRecord;
@@ -289,9 +289,9 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public UrlRecord fetchByrecordId_First(long recordId,
+	public UrlRecord fetchByRecordId_First(long recordId,
 		OrderByComparator orderByComparator) throws SystemException {
-		List<UrlRecord> list = findByrecordId(recordId, 0, 1, orderByComparator);
+		List<UrlRecord> list = findByRecordId(recordId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -310,10 +310,10 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public UrlRecord findByrecordId_Last(long recordId,
+	public UrlRecord findByRecordId_Last(long recordId,
 		OrderByComparator orderByComparator)
 		throws NoSuchUrlRecordException, SystemException {
-		UrlRecord urlRecord = fetchByrecordId_Last(recordId, orderByComparator);
+		UrlRecord urlRecord = fetchByRecordId_Last(recordId, orderByComparator);
 
 		if (urlRecord != null) {
 			return urlRecord;
@@ -340,15 +340,15 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public UrlRecord fetchByrecordId_Last(long recordId,
+	public UrlRecord fetchByRecordId_Last(long recordId,
 		OrderByComparator orderByComparator) throws SystemException {
-		int count = countByrecordId(recordId);
+		int count = countByRecordId(recordId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<UrlRecord> list = findByrecordId(recordId, count - 1, count,
+		List<UrlRecord> list = findByRecordId(recordId, count - 1, count,
 				orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -369,7 +369,7 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public UrlRecord[] findByrecordId_PrevAndNext(long urlRecordId,
+	public UrlRecord[] findByRecordId_PrevAndNext(long urlRecordId,
 		long recordId, OrderByComparator orderByComparator)
 		throws NoSuchUrlRecordException, SystemException {
 		UrlRecord urlRecord = findByPrimaryKey(urlRecordId);
@@ -381,12 +381,12 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 
 			UrlRecord[] array = new UrlRecordImpl[3];
 
-			array[0] = getByrecordId_PrevAndNext(session, urlRecord, recordId,
+			array[0] = getByRecordId_PrevAndNext(session, urlRecord, recordId,
 					orderByComparator, true);
 
 			array[1] = urlRecord;
 
-			array[2] = getByrecordId_PrevAndNext(session, urlRecord, recordId,
+			array[2] = getByRecordId_PrevAndNext(session, urlRecord, recordId,
 					orderByComparator, false);
 
 			return array;
@@ -399,7 +399,7 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 		}
 	}
 
-	protected UrlRecord getByrecordId_PrevAndNext(Session session,
+	protected UrlRecord getByRecordId_PrevAndNext(Session session,
 		UrlRecord urlRecord, long recordId,
 		OrderByComparator orderByComparator, boolean previous) {
 		StringBundler query = null;
@@ -511,8 +511,8 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public void removeByrecordId(long recordId) throws SystemException {
-		for (UrlRecord urlRecord : findByrecordId(recordId, QueryUtil.ALL_POS,
+	public void removeByRecordId(long recordId) throws SystemException {
+		for (UrlRecord urlRecord : findByRecordId(recordId, QueryUtil.ALL_POS,
 				QueryUtil.ALL_POS, null)) {
 			remove(urlRecord);
 		}
@@ -526,7 +526,7 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public int countByrecordId(long recordId) throws SystemException {
+	public int countByRecordId(long recordId) throws SystemException {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_RECORDID;
 
 		Object[] finderArgs = new Object[] { recordId };
