@@ -3,8 +3,11 @@
 --%>
 <%@include file="/html/gatling/header.jsp"%>
 
-<h1>${listRecord.size() } <liferay-ui:message key="records-word" /></h1>
+<c:set var="title"> 
+	<liferay-ui:message key="configRecord-title" arguments="${listRecord.size()}" />
+</c:set>
 
+<liferay-ui:header title="${title}" />
 <!-- view List of records -->
 
 <liferay-ui:search-container emptyResultsMessage="record-list-empty">

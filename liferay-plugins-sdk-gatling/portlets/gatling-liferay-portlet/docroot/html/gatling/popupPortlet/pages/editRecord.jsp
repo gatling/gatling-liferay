@@ -9,6 +9,18 @@
 	<portlet:param name="requestId" value="${requestId}" />
 </portlet:actionURL>
 
+<portlet:renderURL var="backURL" windowState="pop_up" >
+	<portlet:param name="page" value="/html/gatling/popupPortlet/portletConfig.jsp" />
+	<portlet:param name="pagePortletId" value="${portletId}" />
+	<portlet:param name="requestId" value="${requestId}" />
+</portlet:renderURL>
+
+<c:set var="title">
+	<liferay-ui:message key="editRecord-title" arguments="${recordName}" />
+</c:set>
+
+<liferay-ui:header title="${title}" backURL="${backURL}" />
+
 <c:choose>
 
 	<c:when test="${ not empty listRecordUrl}">
@@ -44,11 +56,11 @@
 							</td>
 							
 							<td >
-							<aui:input name="order${recordURL.urlRecordId}" label="" value="${recordURL.order}"></aui:input>	 
+							<aui:input name="order${recordURL.urlRecordId}" label="" value="${recordURL.order}" disabled="true"></aui:input>	 
 							</td>
 							
 							<td class="weight">
-								<aui:input name="weightrecordURL" label="" value="??" cssClass="popup_weightPage" onChange="showWeightPopup()" />
+								<aui:input name="weightrecordURL" label="" value="??" disabled="true" cssClass="popup_weightPage" onChange="showWeightPopup()" />
 							</td>
 							<td class='popup_percent' />
 		

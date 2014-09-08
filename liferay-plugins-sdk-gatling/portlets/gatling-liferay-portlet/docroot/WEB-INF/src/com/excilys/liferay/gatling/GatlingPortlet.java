@@ -101,8 +101,8 @@ public class GatlingPortlet extends MVCPortlet {
 		jspEditScenario = getInitParameter("edit-scenario-jsp");
 		jspFormFirstScenario = getInitParameter("form-first-scenario-jsp");
 		jspHelp = getInitParameter("help-jsp");
-		jspEditPortlet = "/html/gatling/popupPortlet/portletConfig.jsp";
-		jspEditRecord="/html/gatling/popupPortlet/pages/editRecord.jsp";
+		jspEditPortlet = getInitParameter("portletConfig-jsp");
+		jspEditRecord=getInitParameter("editRecord-jsp");
 		super.init();
 	}
 
@@ -428,7 +428,7 @@ public class GatlingPortlet extends MVCPortlet {
 	public void doView(final RenderRequest renderRequest, final RenderResponse renderResponse) throws IOException, PortletException {
 		/* get the path  for next jsp or by  default jspListSimulation */
 		String page = ParamUtil.get(renderRequest, "page", jspListSimulation);
-
+		LOG.info(page);
 		if (page.equals(jspListSimulation)) {
 			/*
 			 * 
