@@ -117,7 +117,7 @@ public class ScriptGeneratorGatling {
 								//loop for the scripts
 								for (LinkUsecaseRequest linkUsecaseRequest : listUseCaseRequest) {
 									if (!linkUsecaseRequest.isSample()){
-										mustachePortlet.addRecorder(RecordLocalServiceUtil.getRecord(linkUsecaseRequest.getRecordId()), linkUsecaseRequest.getWeight());
+										mustachePortlet.addRecorder(RecordLocalServiceUtil.getRecord(linkUsecaseRequest.getRecordId()), linkUsecaseRequest.getWeight(), sc.getUrl_site()+rq.getUrl());
 									} else if(linkUsecaseRequest.isSample() && linkUsecaseRequest.getRecordId() == 1) {
 										if("Wiki Display".equals(portlet.getName())) {
 											mustachePortlet.addWikiDisplaySimple(new NameUrlAndPlid(portlet.getName(), rq.getUrl(), portlet.getPlId()), linkUsecaseRequest.getWeight());

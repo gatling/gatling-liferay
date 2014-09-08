@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecorderGet {
-	private String nameVariable;
+	private String name;
 	private List<NameAndUrl> listGet = new ArrayList<NameAndUrl>();
 	
 	public RecorderGet(String nameVariable, List<NameAndUrl> listGet) {
-		this.nameVariable = nameVariable;
+		this.name = nameVariable;
+		System.out.println(listGet.size());
 		this.listGet = listGet;
 	}
 
@@ -21,11 +22,11 @@ public class RecorderGet {
 	}
 
 	public String getName() {
-		return nameVariable;
+		return name;
 	}
 
 	public void setName(String name) {
-		this.nameVariable = name;
+		this.name = name;
 	}
 	
 	

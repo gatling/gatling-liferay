@@ -52,6 +52,15 @@ class {{simuName}} extends Simulation {
       {{pourcentage}} -> exec({{nameVariable}}){{^last}},{{/last}}
 {{/scripts}}
         )
+
+{{#recorderGet}}
+    val {{name}} = 
+{{#listGet}}
+      {{^beginning}}.{{/beginning}}exec( http("{{nameN}}").get("{{url}}"))
+      .pause(2)
+{{/listGet}}
+{{/recorderGet}}
+
 {{#messageBoard}}
     val {{nameVariable}} = exec(http("{{nameVariable}}")
                           .get("{{url}}")
@@ -87,14 +96,7 @@ class {{simuName}} extends Simulation {
                         .pause(1)
 {{/wikiDisplay}}
 
-{{#recorderGet}}
-    val {{nameVariable}} = 
-{{#listGet}}
-      exec( http("{{name}}").get("{{url}}"))
-      .pause(2)
-{{/listGet}}
-    )
-{{/recorderGet}}
+
 
 {{/mustachePortlet}}
   }

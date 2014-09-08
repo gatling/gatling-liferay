@@ -172,17 +172,19 @@ public class MustachePortlet {
 		return this;
 	}
 
-	public void addRecorder(Record record, double weight) throws Exception{
+	public void addRecorder(Record record, double weight, String beginningUrl) throws Exception{
 		String nameVariable = record.getName();
 		addScript(new MustacheScript(nameVariable, weight));
 		List<NameAndUrl> listNameAndUrl = new ArrayList<NameAndUrl>();
 		List<UrlRecord> listUrlRecord = UrlRecordLocalServiceUtil.findByRecordId(record.getRecordId());
 		System.out.println("listUrlRecord.size():  " + listUrlRecord.size());
-		for (int i = 0; i < listNameAndUrl.size(); i++) {
-			listNameAndUrl.add(new NameAndUrl(nameVariable+i, listUrlRecord.get(i).getUrl()));
+		for (int i = 0; i < listUrlRecord.size(); i++) {
+			listNameAndUrl.add(new NameAndUrl(nameVariable, beginningUrl+listUrlRecord.get(i).getUrl()));
+		}
+		if( ! listNameAndUrl.isEmpty()) {
+			listNameAndUrl.get(0).setBeginning(true);
 		}
 		this.recorderGet.add(new RecorderGet(nameVariable, listNameAndUrl));
-		
 	}	
 	
 }
