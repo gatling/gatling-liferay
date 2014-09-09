@@ -86,6 +86,24 @@ class {{simuName}} extends Simulation {
 {{/mustacheRequests}}
 {{/mustacheScenario}}
   
+/**
+ * List of the differents scenarios
+ */  
+{{#mustacheScenario}}
+  val {{scenarioName}} = scenario("{{scenarioName}}")
+    .randomSwitch(
+{{#mustacheRequests}}
+      {{pourcentage}} -> exec({{^notRegular}}http("{{requestName}}").get("{{url}}"){{/notRegular}}{{^regular}}{{requestName}}.Entrance{{/regular}}){{^last}},{{/last}}
+{{/mustacheRequests}} 
+  )
+{{/mustacheScenario}}
+  
+    
+  setUp(
+{{#mustacheScenario}}
+    {{scenarioName}}.inject( rampUsers({{users}}) over( {{duration}} seconds)){{^last}},{{/last}}
+{{/mustacheScenario}}
+  )
   
   
 }
