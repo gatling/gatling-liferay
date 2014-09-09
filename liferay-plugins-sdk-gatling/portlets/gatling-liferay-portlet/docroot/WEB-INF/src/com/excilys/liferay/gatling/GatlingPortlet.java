@@ -55,7 +55,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
@@ -137,7 +136,7 @@ public class GatlingPortlet extends MVCPortlet {
 		LOG.info("edit Simulation with id : " + simulationId);
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
 		simulation.setName(ParamUtil.getString(request, "simulationName"));
-		String variable = GatlingUtil.createVariableName("Simulation", GatlingUtil.createVariableName("simulation", simulation.getName()));
+		String variable = GatlingUtil.createVariableName("Simulation", simulation.getName());
 		simulation.setVariableName(variable);
 		SimulationLocalServiceUtil.updateSimulation(simulation);
 		response.setRenderParameter("simulationId", Long.toString(simulationId));
@@ -176,7 +175,7 @@ public class GatlingPortlet extends MVCPortlet {
 			response.setRenderParameter("scenarioId", Long.toString(scenario.getScenario_id()));
 			response.setRenderParameter("page", jspEditScenario);
 		} else {
-			response.setRenderParameter("simulationId", Long.toString(ParamUtil.getLong(request, "simulationId")));
+			response.setRenderParameter("simulationId", ParamUtil.getString(request, "simulationId"));
 			response.setRenderParameter("page", !first.equals("") ? jspFormFirstScenario : jspEditSimulation);
 			response.setRenderParameter("page", jspEditSimulation);
 		}
@@ -294,9 +293,7 @@ public class GatlingPortlet extends MVCPortlet {
 	 * @throws PortalException
 	 */
 	public void removeLinkUseCase(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException{
-
-		final Map<String, String[]> parameters = request.getParameterMap();
-		long useCaseId = Long.parseLong(StringUtil.merge(parameters.get("useCaseId")));
+		long useCaseId = ParamUtil.getLong(request,"useCaseId");
 		LinkUsecaseRequestLocalServiceUtil.deleteLinkUsecaseRequest(useCaseId);		
 
 		//redirect
@@ -315,8 +312,7 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	public void removeRecord(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException{
 
-		final Map<String, String[]> parameters = request.getParameterMap();
-		long recordId = Long.parseLong(StringUtil.merge(parameters.get("recordId")));
+		long recordId = ParamUtil.getLong(request, "recordId");
 		RecordLocalServiceUtil.deleteRecord(recordId);
 		LinkUsecaseRequestLocalServiceUtil.removeByRecordId(recordId);
 		UrlRecordLocalServiceUtil.removeByRecordId(recordId);
@@ -335,11 +331,8 @@ public class GatlingPortlet extends MVCPortlet {
 	 * @throws PortalException
 	 */
 	public void removeRecordURL(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException{
-
-		final Map<String, String[]> parameters = request.getParameterMap();
-		long recordURLId = Long.parseLong(StringUtil.merge(parameters.get("recordURLId")));
+		long recordURLId = ParamUtil.getLong(request, "recordURLId");
 		UrlRecordLocalServiceUtil.deleteUrlRecord(recordURLId);
-		
 		//redirect
 		response.setRenderParameter("page", jspEditPortlet);
 		//hack, only work this way ....
@@ -468,7 +461,7 @@ public class GatlingPortlet extends MVCPortlet {
 			 */
 			LOG.debug("DoView : Edit Simulation");
 
-			Long id = (Long) ParamUtil.getLong(renderRequest, "simulationId");
+			Long id = ParamUtil.getLong(renderRequest, "simulationId");
 			if(id==null)
 				throw new NullPointerException("simulation id is null");
 
@@ -560,10 +553,10 @@ public class GatlingPortlet extends MVCPortlet {
 				//create DisplayLayoutList with actuel layout of the site and old layout added from requests
 				List<RequestDTO> displayItemList = new ArrayList<RequestDTO>();
 				DisplayItemDTOUtil.addLayoutToDisplayItemList(displayItemList, listPublicLayouts);
-				DisplayItemDTOUtil.addLayoutToDisplayItemList(displayItemList, listPrivateLayouts );
+				DisplayItemDTOUtil.addLayoutToDisplayItemList(displayItemList, listPrivateLayouts);
 
 				//get list of request to add the old page to DisplayLayout
-				List<Request> listRequests = RequestLocalServiceUtil.findByScenarioId(ParamUtil.get(renderRequest, "scenarioId", 0));
+				List<Request> listRequests = RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id());
 				//Merge Layout and Request in DisplayLayout List
 				displayItemList = DisplayItemDTOUtil.addRequestToDisplayItemList(displayItemList, listRequests);
 
@@ -608,9 +601,9 @@ public class GatlingPortlet extends MVCPortlet {
 			
 			String portletId = ParamUtil.getString(renderRequest, "pagePortletId");
 			String portletName = PortletLocalServiceUtil.getPortletById(portletId).getDisplayName();
-			long  groupId =  ParamUtil.getLong(renderRequest, "groupId");
-			long  plId =  ParamUtil.getLong(renderRequest, "plId");
-			long  requestId =  ParamUtil.getLong(renderRequest, "requestId");
+			long groupId =  ParamUtil.getLong(renderRequest, "groupId");
+			long plId =  ParamUtil.getLong(renderRequest, "plId");
+			long requestId =  ParamUtil.getLong(renderRequest, "requestId");
 			long lineId = ParamUtil.getLong(renderRequest, "lineId");
 			// Add to DTO
 			builder.portletId(portletId).portletName(portletName).groupId(groupId).plId(plId).requestId(requestId).lineId(lineId);
@@ -770,7 +763,7 @@ public class GatlingPortlet extends MVCPortlet {
 				throw new RuntimeException("cannot export script file " + e.getMessage());
 			}
 		} else {
-			//if no one valide simulation id received then error
+			//if no one valid simulation id received then error
 			throw new NullPointerException("nothing to export");
 		}
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
