@@ -1,3 +1,6 @@
+/**
+ * Copyright 2014 eBusiness Information, Groupe Excilys (www.ebusinessinformation.fr)
+ */
 package com.excilys.liferay.gatling.dto;
 
 import java.util.List;

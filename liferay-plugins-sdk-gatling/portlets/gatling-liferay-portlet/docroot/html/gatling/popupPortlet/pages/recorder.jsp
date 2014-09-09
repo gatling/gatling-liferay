@@ -1,3 +1,6 @@
+<%-- 
+	Copyright 2014 eBusiness Information, Groupe Excilys (www.ebusinessinformation.fr)
+--%>
 <%@page import="com.liferay.portal.kernel.util.CookieKeys"%>
 <%@page import="com.liferay.portal.kernel.util.HttpUtil"%>
 <%@include file="/html/gatling/header.jsp"%>

@@ -1,17 +1,17 @@
 /**
- * Copyright 2011-2014 eBusiness Information, Groupe Excilys (www.ebusinessinformation.fr)
+ * Copyright 2014 eBusiness Information, Groupe Excilys (www.ebusinessinformation.fr)
  */
 package com.excilys.liferay.gatling.validator;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.Validator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ScenarioValidator {
 

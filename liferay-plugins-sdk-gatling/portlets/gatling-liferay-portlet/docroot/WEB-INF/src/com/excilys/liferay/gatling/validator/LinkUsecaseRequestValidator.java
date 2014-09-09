@@ -1,16 +1,16 @@
 /**
- * Copyright 2011-2014 eBusiness Information, Groupe Excilys (www.ebusinessinformation.fr)
+ * Copyright 2014 eBusiness Information, Groupe Excilys (www.ebusinessinformation.fr)
  */
 package com.excilys.liferay.gatling.validator;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
 import com.excilys.liferay.gatling.model.Request;
 import com.liferay.portal.kernel.util.Validator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class LinkUsecaseRequestValidator {
 
