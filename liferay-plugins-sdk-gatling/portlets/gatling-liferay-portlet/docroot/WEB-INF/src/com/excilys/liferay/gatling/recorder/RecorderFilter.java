@@ -21,8 +21,9 @@ import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.CookieKeys;
 import com.liferay.portal.kernel.util.HttpUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.SessionParamUtil;
 
 
 /**
@@ -55,65 +56,75 @@ public class RecorderFilter implements Filter {
 	@SuppressWarnings("unchecked")
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
-		//Cookie is only available for our portlet (scope)
-		String cookie = CookieKeys.getCookie(httpRequest, "GATLING_RECORD_STATE");
-
+		HttpSession session = httpRequest.getSession();
+		
+		String actionToggleRecord = ParamUtil.getString(httpRequest, "_gatling_WAR_gatlingliferayportlet_javax.portlet.action",null);
+		if(actionToggleRecord != null && actionToggleRecord.equals("toggleRecord")) {
+			String recordState = ParamUtil.getString(httpRequest, "_gatling_WAR_gatlingliferayportlet_nextRecordState", null);
+			String recordName = ParamUtil.getString(httpRequest, "_gatling_WAR_gatlingliferayportlet_useCaseRecordName", null);
+			String portletId = ParamUtil.getString(httpRequest, "_gatling_WAR_gatlingliferayportlet_pagePortletId", null);
+			if(recordState != null && recordName != null && portletId != null) {
+				session.setAttribute("GATLING_RECORD_STATE", portletId+","+recordState+","+recordName);
+			}
+			else {
+				session.removeAttribute("GATLING_RECORD_STATE");
+			}
+		}
 		/*
 		 * Recording
 		 */
-		if(cookie != null) { // if cookie (ie in our portlet)
-			String[] infos = cookie.split(",");
-			if(cookie != null && infos.length == 3) {  // size cookie correct [portletId,State,NameUsecase]
-				HttpSession session = httpRequest.getSession();
-				if(session.getAttribute("recordURL") == null) { // if empty session recordURL create one
-					session.setAttribute("recordURL", new ArrayList<String>());
+		String infosRecorder = SessionParamUtil.getString(httpRequest, "GATLING_RECORD_STATE", null);
+		if(infosRecorder != null) { 
+			String[] infos = infosRecorder.split(",");
+
+			if(session.getAttribute("recordURL") == null) { // if empty session recordURL create one
+				session.setAttribute("recordURL", new ArrayList<String>());
+			}
+			// get the recorded Urls list
+			List<String> recordURLs = (List<String>) session.getAttribute("recordURL");
+			// cases (Java 6)
+			if (infos[1].equalsIgnoreCase("RECORD")) { 
+				if(httpRequest.getParameter("doAsGroupId") != null) {  // we only record request with doAsGroupId (= portlet tested)
+					// get the parameters
+					String params = HttpUtil.parameterMapToString(request.getParameterMap());
+					// Display for debug
+					LOG.info("URL ("+httpRequest.getMethod()+") : "+params);
+					// Save
+					recordURLs.add(httpRequest.getMethod()+")"+params);
+					// Store it in the session
+					session.setAttribute("recordURL", recordURLs);
 				}
-				// get the recorded Urls list
-				List<String> recordURLs = (List<String>) session.getAttribute("recordURL");
-				// cases of cookie
-				if (infos[1].equalsIgnoreCase("RECORD")) { 
-					if(httpRequest.getParameter("doAsGroupId") != null) {  // we only record request with doAsGroupId (= portlet tested)
-						// get the parameters
-						String params = HttpUtil.parameterMapToString(request.getParameterMap());
-						// Display for debug
-						LOG.info("URL ("+httpRequest.getMethod()+") : "+params);
-						// Save
-						recordURLs.add(httpRequest.getMethod()+")"+params);
-						// Store it in the session
-						session.setAttribute("recordURL", recordURLs);
-					}
-				} else if(infos[1].equalsIgnoreCase("STOP")) {
-					// Remove from session
-					session.removeAttribute("recordURL");
-					// Check if we have something to record
-					if(!recordURLs.isEmpty()) {
-						LOG.info("Saving ...");
-						try {
-							//Save usecase table
-							long primaryKeyRecord = CounterLocalServiceUtil.increment(Record.class.getName());
-							Record record = RecordLocalServiceUtil.createRecord(primaryKeyRecord);
-							record.setName(infos[2]);
-							record.setPortletId(infos[0]);
-							record.setVersionPortlet(1); //TODO get the real version
-							record.persist();
-							LOG.info("...1/2");
-							//Save url table
-							for (int i = 0; i < recordURLs.size(); i++) {
-								String url = recordURLs.get(i).split("\\)")[1];
-								String type = recordURLs.get(i).split("\\)")[0];
-								long primaryKeyUrl = CounterLocalServiceUtil.increment(UrlRecord.class.getName());
-								UrlRecord urlRecord = UrlRecordLocalServiceUtil.createUrlRecord(primaryKeyUrl);
-								urlRecord.setUrl(url);
-								urlRecord.setType(type);
-								urlRecord.setOrder(i);
-								urlRecord.setRecordId(record.getRecordId());
-								urlRecord.persist();
-								LOG.info("...");
-							}
-							LOG.info("...2/2");
-						} catch (SystemException e) {
-							LOG.error("Error saving use case ...\n"+e.getMessage());
+			} else if(infos[1].equalsIgnoreCase("STOP")) {
+				// Remove from session
+				session.removeAttribute("recordURL");
+				// Check if we have something to record
+				if(!recordURLs.isEmpty()) {
+					LOG.info("Saving ...");
+					try {
+						//Save usecase table
+						long primaryKeyRecord = CounterLocalServiceUtil.increment(Record.class.getName());
+						Record record = RecordLocalServiceUtil.createRecord(primaryKeyRecord);
+						record.setName(infos[2]);
+						record.setPortletId(infos[0]);
+						record.setVersionPortlet(1); //TODO get the real version
+						record.persist();
+						LOG.info("...1/2");
+						//Save url table
+						for (int i = 0; i < recordURLs.size(); i++) {
+							String url = recordURLs.get(i).split("\\)")[1];
+							String type = recordURLs.get(i).split("\\)")[0];
+							long primaryKeyUrl = CounterLocalServiceUtil.increment(UrlRecord.class.getName());
+							UrlRecord urlRecord = UrlRecordLocalServiceUtil.createUrlRecord(primaryKeyUrl);
+							urlRecord.setUrl(url);
+							urlRecord.setType(type);
+							urlRecord.setOrder(i);
+							urlRecord.setRecordId(record.getRecordId());
+							urlRecord.persist();
+							LOG.info("...");
 						}
+						LOG.info("...2/2");
+					} catch (SystemException e) {
+						LOG.error("Error saving use case ...\n"+e.getMessage());
 					}
 				}
 			}
@@ -121,5 +132,4 @@ public class RecorderFilter implements Filter {
 		// pass the request along the filter chain
 		chain.doFilter(request, response);
 	}
-
 }

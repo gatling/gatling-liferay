@@ -25,7 +25,6 @@ import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.portlet.ValidatorException;
-import javax.servlet.http.Cookie;
 
 import com.excilys.liferay.gatling.dto.LinkUsecaseRequestDTO;
 import com.excilys.liferay.gatling.dto.PortletConfigDTO;
@@ -55,7 +54,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
-import com.liferay.portal.kernel.util.CookieKeys;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -429,7 +427,6 @@ public class GatlingPortlet extends MVCPortlet {
 	public void doView(final RenderRequest renderRequest, final RenderResponse renderResponse) throws IOException, PortletException {
 		/* get the path  for next jsp or by  default jspListSimulation */
 		String page = ParamUtil.get(renderRequest, "page", jspListSimulation);
-		LOG.info(page);
 		if (page.equals(jspListSimulation)) {
 			/*
 			 * 
@@ -609,7 +606,6 @@ public class GatlingPortlet extends MVCPortlet {
 			PortletConfigDTOBuilder builder = new PortletConfigDTO.PortletConfigDTOBuilder();
 			
 			String portletId = ParamUtil.getString(renderRequest, "pagePortletId");
-			LOG.info(portletId+" :portletId");
 			String portletName = PortletLocalServiceUtil.getPortletById(portletId).getDisplayName();
 			long  groupId =  ParamUtil.getLong(renderRequest, "groupId");
 			long  plId =  ParamUtil.getLong(renderRequest, "plId");
@@ -649,30 +645,18 @@ public class GatlingPortlet extends MVCPortlet {
 			// Add to DTO
 			builder.availableScript(availableScript).linkDTO(arrayLinkUsecaseRequest).listRecordNameJS(listRecordsName).listRecord(recordList);
 			
-
 			// Check state of recording
 			String state = renderRequest.getParameter("recordState");
-			Cookie myCookie;
-			String nameUseCase = ParamUtil.getString(renderRequest, "useCaseRecordName");
 			if(state != null) {
 				renderRequest.setAttribute("tabs1", "record-usecase");
 				if(state.equals("RECORD")) {
-					myCookie = new Cookie("GATLING_RECORD_STATE", portletId+",RECORD,"+nameUseCase);
-					// Add to DTO
 					builder.nextStateRecord("STOP");
 				} else {
-					myCookie = new Cookie("GATLING_RECORD_STATE", portletId+",STOP,"+nameUseCase);
-					// Add to DTO
 					builder.nextStateRecord("RECORD");
 				}
-
 			} else {
-				//Default cookie is stop
-				myCookie = new Cookie("GATLING_RECORD_STATE", portletId+",STOP,USECASE");
-				// Add to DTO
 				builder.nextStateRecord("RECORD");
 			}
-			CookieKeys.addCookie(PortalUtil.getHttpServletRequest(renderRequest), PortalUtil.getHttpServletResponse(renderResponse), myCookie);
 			
 			renderRequest.setAttribute("portletGatlingDTO", builder.build());
 		}
