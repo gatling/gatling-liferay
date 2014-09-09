@@ -13,11 +13,12 @@ class {{simuName}} extends Simulation {
   
 
 /**
- * List of the differents requests that are stressed their inner portlets
+ * List of the differents requests that are stressing their inner portlets
  */   
 {{#mustacheScenario}}
 {{#mustacheRequests}}
 {{^regular}}
+  object {{requestName}} {
 {{#mustachePortlet}}
 {{#recorderGet}}
     val {{name}} = 
@@ -73,7 +74,6 @@ class {{simuName}} extends Simulation {
 
 
 {{/mustachePortlet}}
-  object {{requestName}} {
     val Entrance = exec( http("{{requestName}}").get("{{url}}") ) 
       .pause(1)
       .randomSwitch(  /*list of the portlets with their weight*/

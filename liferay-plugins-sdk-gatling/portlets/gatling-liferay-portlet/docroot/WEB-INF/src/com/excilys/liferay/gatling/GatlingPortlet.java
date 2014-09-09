@@ -723,14 +723,14 @@ public class GatlingPortlet extends MVCPortlet {
 		String template;
 		switch (gatlingVersion) {
 		case 1:
-			template = "resources/templateGatling1.5.mustache";
+			template = "/templateGatling1.5.mustache";
 			break;
 		case 2:
-			template = "resources/templateGatling2.0.M3a.mustache";
+			template = "/templateGatling2.0.M3a.mustache";
 			break;
 		case 3:
 		default:
-			template = "resources/templateGatling2.0.RC4.mustache";
+			template = "/templateGatling2.0.RC4.mustache";
 			break;
 		}
 		
@@ -769,7 +769,10 @@ public class GatlingPortlet extends MVCPortlet {
 				simulation = SimulationLocalServiceUtil.getSimulation(simulationsIds[0]);
 				response.addProperty("Content-Disposition", "attachment; filename=Simulation"  + simulation.getName()  + date.getTime() + ".scala");
 				OutputStream out = response.getPortletOutputStream();
-				//Mustache.compiler().compile(new FileReader(template)).execute(new ScriptGeneratorGatling(simulationsIds[0]), new PrintWriter(out));
+				String currentPath = request.getPortletSession().getPortletContext().getRealPath("/WEB-INF/src/resources") + template;
+				Template tmpl = Mustache.compiler().compile(new FileReader(currentPath));
+				String script = tmpl.execute(new ScriptGeneratorGatling(simulationsIds[0]));
+				out.write(script.getBytes());
 				out.flush();
 				out.close();
 			} catch (Exception e) {
@@ -779,25 +782,6 @@ public class GatlingPortlet extends MVCPortlet {
 			throw new NullPointerException("nothing to export");
 		}
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
-		
-		
-		Template tmpl = null;
-		try {
-			tmpl = Mustache.compiler().compile(new FileReader(template));
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}
-		Map<String, String> data = new HashMap<String, String>();
-		data.put("three", "five");
-		try {
-			System.out.println(tmpl.execute(new ScriptGeneratorGatling(simulationsIds[0])));
-		} catch (MustacheException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
 		
 	}
 	
