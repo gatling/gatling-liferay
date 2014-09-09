@@ -121,6 +121,10 @@ public class RecordLocalServiceClpInvoker {
 		_methodName59 = "countByPortletId";
 
 		_methodParameterTypes59 = new String[] { "java.lang.String" };
+
+		_methodName60 = "update";
+
+		_methodParameterTypes60 = new String[] { "long", "java.lang.String" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -234,6 +238,14 @@ public class RecordLocalServiceClpInvoker {
 			return RecordLocalServiceUtil.countByPortletId((java.lang.String)arguments[0]);
 		}
 
+		if (_methodName60.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
+			RecordLocalServiceUtil.update(((Long)arguments[0]).longValue(),
+				(java.lang.String)arguments[1]);
+
+			return null;
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -277,4 +289,6 @@ public class RecordLocalServiceClpInvoker {
 	private String[] _methodParameterTypes58;
 	private String _methodName59;
 	private String[] _methodParameterTypes59;
+	private String _methodName60;
+	private String[] _methodParameterTypes60;
 }

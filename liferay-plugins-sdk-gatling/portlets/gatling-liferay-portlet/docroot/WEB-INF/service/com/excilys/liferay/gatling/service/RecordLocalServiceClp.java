@@ -121,13 +121,10 @@ public class RecordLocalServiceClp implements RecordLocalService {
 		_methodName20 = "countByPortletId";
 
 		_methodParameterTypes20 = new String[] { "java.lang.String" };
-<<<<<<< HEAD
 
 		_methodName21 = "update";
 
 		_methodParameterTypes21 = new String[] { "long", "java.lang.String" };
-=======
->>>>>>> new template with portlets and usecases
 	}
 
 	@Override
@@ -733,7 +730,6 @@ public class RecordLocalServiceClp implements RecordLocalService {
 		}
 
 		return ((Integer)returnObj).intValue();
-<<<<<<< HEAD
 	}
 
 	@Override
@@ -764,8 +760,6 @@ public class RecordLocalServiceClp implements RecordLocalService {
 					" is not a valid exception");
 			}
 		}
-=======
->>>>>>> new template with portlets and usecases
 	}
 
 	private InvokableLocalService _invokableLocalService;
@@ -809,4 +803,6 @@ public class RecordLocalServiceClp implements RecordLocalService {
 	private String[] _methodParameterTypes19;
 	private String _methodName20;
 	private String[] _methodParameterTypes20;
+	private String _methodName21;
+	private String[] _methodParameterTypes21;
 }

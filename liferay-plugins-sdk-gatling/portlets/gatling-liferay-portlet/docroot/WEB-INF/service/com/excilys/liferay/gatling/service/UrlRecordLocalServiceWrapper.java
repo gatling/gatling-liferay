@@ -293,15 +293,12 @@ public class UrlRecordLocalServiceWrapper implements UrlRecordLocalService,
 		return _urlRecordLocalService.findByRecordId(recordId);
 	}
 
-<<<<<<< HEAD
-=======
 	@Override
 	public int countByRecordId(long recordId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _urlRecordLocalService.countByRecordId(recordId);
 	}
 
->>>>>>> on the template
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

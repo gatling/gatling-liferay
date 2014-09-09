@@ -281,14 +281,11 @@ public class UrlRecordLocalServiceUtil {
 		return getService().findByRecordId(recordId);
 	}
 
-<<<<<<< HEAD
-=======
 	public static int countByRecordId(long recordId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().countByRecordId(recordId);
 	}
 
->>>>>>> on the template
 	public static void clearService() {
 		_service = null;
 	}

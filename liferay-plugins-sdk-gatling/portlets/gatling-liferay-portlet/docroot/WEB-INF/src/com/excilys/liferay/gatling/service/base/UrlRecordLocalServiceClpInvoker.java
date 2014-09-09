@@ -118,7 +118,6 @@ public class UrlRecordLocalServiceClpInvoker {
 
 		_methodParameterTypes58 = new String[] { "long" };
 
-
 		_methodName59 = "countByRecordId";
 
 		_methodParameterTypes59 = new String[] { "long" };
@@ -229,7 +228,6 @@ public class UrlRecordLocalServiceClpInvoker {
 				Arrays.deepEquals(_methodParameterTypes58, parameterTypes)) {
 			return UrlRecordLocalServiceUtil.findByRecordId(((Long)arguments[0]).longValue());
 		}
-
 
 		if (_methodName59.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes59, parameterTypes)) {
