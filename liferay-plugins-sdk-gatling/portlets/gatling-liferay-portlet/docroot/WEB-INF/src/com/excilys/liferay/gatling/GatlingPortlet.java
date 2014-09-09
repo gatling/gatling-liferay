@@ -616,6 +616,12 @@ public class GatlingPortlet extends MVCPortlet {
 			//get record and Sample list in db if exists
 			try {
 				availableScript =  ListScript.getList(portletId);
+			} catch (SystemException e) {
+				if(LOG.isErrorEnabled()){
+					LOG.error("error getting list of script: "+e.getMessage());
+				}
+			}
+			try {
 				arrayLinkUsecaseRequest = GatlingUtil.fillArrayLinkUseCases(requestId);
 				
 			} catch (SystemException e) {

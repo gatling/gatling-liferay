@@ -128,7 +128,7 @@ public class GatlingUtil {
 			double weight = link.getWeight(); //WEIGHT
 			boolean isSample = link.isSample();
 			String name = null;
-			if(link.isSample()){
+			if(isSample){
 				if(link.getRecordId() == 1){
 					name = "Sample (only GETs)"; //NAME
 				} else if(link.getRecordId() == 2){

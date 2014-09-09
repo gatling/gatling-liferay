@@ -39,9 +39,9 @@ public class ListScript {
 		} else if("101".equals(portletId.split("_")[0])) {
 			numberOfRecords += 3;
 			availableScripts = new String[numberOfRecords][];
-			availableScripts[0] = new String[]{"Sample (only GETs)", "1"};
-			availableScripts[1] = new String[]{"Sample (POSTs & GETs)", "2"};
-			availableScripts[2] = new String[]{"Sample (Complex one)", "3"};
+			availableScripts[0] = new String[]{"Sample (only GETs)", "1", "true"};
+			availableScripts[1] = new String[]{"Sample (POSTs & GETs)", "2", "true"};
+			availableScripts[2] = new String[]{"Sample (Complex one)", "3", "true"};
 			List<Record> listRecords = RecordLocalServiceUtil.findByPortletId(portletId);
 			for (int i = 3; i < numberOfRecords; i++) {
 				availableScripts[i] = new String[]{listRecords.get(i-3).getName(), Long.toString(listRecords.get(i-3).getRecordId()), "false"};
