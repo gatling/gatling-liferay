@@ -65,8 +65,7 @@ public class RecorderFilter implements Filter {
 			String portletId = ParamUtil.getString(httpRequest, "_gatling_WAR_gatlingliferayportlet_pagePortletId", null);
 			if(recordState != null && recordName != null && portletId != null) {
 				session.setAttribute("GATLING_RECORD_STATE", portletId+","+recordState+","+recordName);
-			}
-			else {
+			} else {
 				session.removeAttribute("GATLING_RECORD_STATE");
 			}
 		}
@@ -101,7 +100,7 @@ public class RecorderFilter implements Filter {
 				if(!recordURLs.isEmpty()) {
 					LOG.info("Saving ...");
 					try {
-						//Save usecase table
+						//Save use case table
 						long primaryKeyRecord = CounterLocalServiceUtil.increment(Record.class.getName());
 						Record record = RecordLocalServiceUtil.createRecord(primaryKeyRecord);
 						record.setName(infos[2]);

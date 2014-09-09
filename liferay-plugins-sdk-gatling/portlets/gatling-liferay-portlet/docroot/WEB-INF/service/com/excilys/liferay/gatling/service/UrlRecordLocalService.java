@@ -253,6 +253,9 @@ public interface UrlRecordLocalService extends BaseLocalService,
 		long recordId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
+	public void removeByRecordId(long recordId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
 	public int countByRecordId(long recordId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 }

@@ -14,11 +14,11 @@
 
 package com.excilys.liferay.gatling.service.impl;
 
+import java.util.List;
+
 import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.service.base.UrlRecordLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.SystemException;
-
-import java.util.List;
 
 /**
  * The implementation of the url record local service.
@@ -44,6 +44,10 @@ public class UrlRecordLocalServiceImpl extends UrlRecordLocalServiceBaseImpl {
 	@Override
 	public List<UrlRecord> findByRecordId(long recordId) throws SystemException{
 		return urlRecordPersistence.findByRecordId(recordId);
+	}
+	
+	public void removeByRecordId(long recordId) throws SystemException {
+		urlRecordPersistence.removeByRecordId(recordId);
 	}
 	
 	@Override

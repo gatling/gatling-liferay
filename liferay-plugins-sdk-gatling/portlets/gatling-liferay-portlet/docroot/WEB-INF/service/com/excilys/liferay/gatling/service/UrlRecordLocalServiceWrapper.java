@@ -294,6 +294,12 @@ public class UrlRecordLocalServiceWrapper implements UrlRecordLocalService,
 	}
 
 	@Override
+	public void removeByRecordId(long recordId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_urlRecordLocalService.removeByRecordId(recordId);
+	}
+
+	@Override
 	public int countByRecordId(long recordId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _urlRecordLocalService.countByRecordId(recordId);

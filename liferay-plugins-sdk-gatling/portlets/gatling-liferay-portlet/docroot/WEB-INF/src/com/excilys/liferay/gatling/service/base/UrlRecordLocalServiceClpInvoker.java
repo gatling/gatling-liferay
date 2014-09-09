@@ -118,9 +118,13 @@ public class UrlRecordLocalServiceClpInvoker {
 
 		_methodParameterTypes58 = new String[] { "long" };
 
-		_methodName59 = "countByRecordId";
+		_methodName59 = "removeByRecordId";
 
 		_methodParameterTypes59 = new String[] { "long" };
+
+		_methodName60 = "countByRecordId";
+
+		_methodParameterTypes60 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -231,6 +235,13 @@ public class UrlRecordLocalServiceClpInvoker {
 
 		if (_methodName59.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes59, parameterTypes)) {
+			UrlRecordLocalServiceUtil.removeByRecordId(((Long)arguments[0]).longValue());
+
+			return null;
+		}
+
+		if (_methodName60.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
 			return UrlRecordLocalServiceUtil.countByRecordId(((Long)arguments[0]).longValue());
 		}
 
@@ -277,4 +288,6 @@ public class UrlRecordLocalServiceClpInvoker {
 	private String[] _methodParameterTypes58;
 	private String _methodName59;
 	private String[] _methodParameterTypes59;
+	private String _methodName60;
+	private String[] _methodParameterTypes60;
 }

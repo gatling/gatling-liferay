@@ -319,6 +319,7 @@ public class GatlingPortlet extends MVCPortlet {
 		long recordId = Long.parseLong(StringUtil.merge(parameters.get("recordId")));
 		RecordLocalServiceUtil.deleteRecord(recordId);
 		LinkUsecaseRequestLocalServiceUtil.removeByRecordId(recordId);
+		UrlRecordLocalServiceUtil.removeByRecordId(recordId);
 		//redirect
 		response.setRenderParameter("page", jspEditPortlet);
 		//hack, only work this way ....
