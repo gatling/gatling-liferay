@@ -140,7 +140,7 @@
 			<aui:validator name="required" />
 			<aui:validator name="alphanum" />
 			<aui:validator name="custom" errorMessage="simulation-name-already-used">
-			 		function (val, fieldNode, ruleValue) {
+			 	function (val, fieldNode, ruleValue) {
 					var result = false;
 					var list = ${listOfSimulationName};
 					if (list.indexOf(val) == -1) {

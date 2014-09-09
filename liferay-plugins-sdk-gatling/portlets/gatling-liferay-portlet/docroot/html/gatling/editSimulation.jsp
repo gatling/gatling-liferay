@@ -69,7 +69,7 @@
 	<aui:input label="simulation-edit-name-simulation" name="simulationName" inlineLabel="true" inlineField="true" value="${simulation.name }">
 		<aui:validator name="alphanum" />
 		<aui:validator name="custom" errorMessage="simulation-name-already-used">
-		 		function (val, fieldNode, ruleValue) {
+		 	function (val, fieldNode, ruleValue) {
 				var result = false;
 				var list = ${listOfSimulationName};
 				if (list.indexOf(val) == -1 || val == "${simulation.name}") {

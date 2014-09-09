@@ -14,6 +14,6 @@
 		<c:set var="selected3" value="true"/>
 	</c:otherwise>
 </c:choose>
-<aui:option value="3" selected="${selected3 }" >Gatling 2.0 RC2</aui:option>
+<aui:option value="3" selected="${selected3 }" >Gatling 2.0 RC3</aui:option>
 <aui:option value="2" selected="${selected2 }" >Gatling 2.0 M3</aui:option>
 <aui:option value="1" selected="${selected1 }" >Gatling 1.5</aui:option>
