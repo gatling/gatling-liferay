@@ -281,11 +281,14 @@ public class UrlRecordLocalServiceUtil {
 		return getService().findByRecordId(recordId);
 	}
 
+<<<<<<< HEAD
 	public static void removeByRecordId(long recordId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		getService().removeByRecordId(recordId);
 	}
 
+=======
+>>>>>>> switch to jmustache on the way
 	public static int countByRecordId(long recordId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().countByRecordId(recordId);

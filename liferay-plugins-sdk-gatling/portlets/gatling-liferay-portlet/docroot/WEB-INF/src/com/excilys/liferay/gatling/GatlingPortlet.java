@@ -4,6 +4,8 @@
 package com.excilys.liferay.gatling;
 
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -46,9 +48,6 @@ import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
 import com.excilys.liferay.gatling.util.DisplayItemDTOUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
-import com.github.mustachejava.DefaultMustacheFactory;
-import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -64,6 +63,9 @@ import com.liferay.portal.service.PortletLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.MustacheException;
+import com.samskivert.mustache.Template;
 
 
 /**
@@ -76,7 +78,8 @@ public class GatlingPortlet extends MVCPortlet {
 	 * attribute mustacheFoctory.
 	 */
 
-	private MustacheFactory mf = new DefaultMustacheFactory();
+	//private MustacheFactory mf = new DefaultMustacheFactory();
+	
 	/**
 	 * logging.
 	 */
@@ -727,16 +730,18 @@ public class GatlingPortlet extends MVCPortlet {
 			break;
 		case 3:
 		default:
-			template = "resources/templateGatling2.0.RC3.mustache";
+			template = "resources/templateGatling2.0.RC4.mustache";
 			break;
 		}
+		
+		
+		
 		/*
 		 * Get simulations ids
 		 */
 		long[] simulationsIds = ParamUtil.getLongValues(request, "export");
 		Simulation simulation;
 		Date date = new Date();
-		Mustache mustache = mf.compile(template);
 		if (simulationsIds.length > 1) {
 			response.setContentType("application/zip");
 			response.addProperty("Content-Disposition", "attachment; filename = GatlingSimulations" + date.getTime() + ".zip");
@@ -747,7 +752,7 @@ public class GatlingPortlet extends MVCPortlet {
 					if (id  > 0) {
 						simulation = SimulationLocalServiceUtil.getSimulation(id);
 						zipOutputStream.putNextEntry(new ZipEntry("Simulation" + simulation.getName() + date.getTime() + ".scala"));
-						mustache.execute(new PrintWriter(zipOutputStream), new ScriptGeneratorGatling(id)).flush();
+						Mustache.compiler().compile(new FileReader(template)).execute(new ScriptGeneratorGatling(id), new PrintWriter(zipOutputStream));
 						zipOutputStream.closeEntry();
 					}
 				}
@@ -758,21 +763,45 @@ public class GatlingPortlet extends MVCPortlet {
 
 		} else if (simulationsIds.length == 1 && simulationsIds[0] > 0) {
 			//create and export only one file with scenario script for this simulation id
+			System.out.println("simulationsIds.length == 1 && simulationsIds[0] > 0");
 			response.setContentType("application/x-wais-source");
 			try {
 				simulation = SimulationLocalServiceUtil.getSimulation(simulationsIds[0]);
 				response.addProperty("Content-Disposition", "attachment; filename=Simulation"  + simulation.getName()  + date.getTime() + ".scala");
 				OutputStream out = response.getPortletOutputStream();
-				mustache.execute(new PrintWriter(out), new ScriptGeneratorGatling(simulationsIds[0])).flush();
+				//Mustache.compiler().compile(new FileReader(template)).execute(new ScriptGeneratorGatling(simulationsIds[0]), new PrintWriter(out));
+				out.flush();
 				out.close();
 			} catch (Exception e) {
 				throw new RuntimeException("cannot export script file " + e.getMessage());
 			}
 		} else {
-			//if no one valid simulation id received then error
 			throw new NullPointerException("nothing to export");
 		}
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
+		
+		
+		Template tmpl = null;
+		try {
+			tmpl = Mustache.compiler().compile(new FileReader(template));
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		Map<String, String> data = new HashMap<String, String>();
+		data.put("three", "five");
+		try {
+			System.out.println(tmpl.execute(new ScriptGeneratorGatling(simulationsIds[0])));
+		} catch (MustacheException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
 	}
+	
 
 }
+
+

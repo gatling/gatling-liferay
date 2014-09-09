@@ -121,10 +121,13 @@ public class UrlRecordLocalServiceClp implements UrlRecordLocalService {
 		_methodName20 = "removeByRecordId";
 
 		_methodParameterTypes20 = new String[] { "long" };
+<<<<<<< HEAD
 
 		_methodName21 = "countByRecordId";
 
 		_methodParameterTypes21 = new String[] { "long" };
+=======
+>>>>>>> switch to jmustache on the way
 	}
 
 	@Override
@@ -706,6 +709,7 @@ public class UrlRecordLocalServiceClp implements UrlRecordLocalService {
 		return (java.util.List<com.excilys.liferay.gatling.model.UrlRecord>)ClpSerializer.translateOutput(returnObj);
 	}
 
+<<<<<<< HEAD
 	@Override
 	public void removeByRecordId(long recordId)
 		throws com.liferay.portal.kernel.exception.SystemException {
@@ -730,6 +734,8 @@ public class UrlRecordLocalServiceClp implements UrlRecordLocalService {
 		}
 	}
 
+=======
+>>>>>>> switch to jmustache on the way
 	@Override
 	public int countByRecordId(long recordId)
 		throws com.liferay.portal.kernel.exception.SystemException {
@@ -799,6 +805,9 @@ public class UrlRecordLocalServiceClp implements UrlRecordLocalService {
 	private String[] _methodParameterTypes19;
 	private String _methodName20;
 	private String[] _methodParameterTypes20;
+<<<<<<< HEAD
 	private String _methodName21;
 	private String[] _methodParameterTypes21;
+=======
+>>>>>>> switch to jmustache on the way
 }

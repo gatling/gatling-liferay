@@ -293,12 +293,15 @@ public class UrlRecordLocalServiceWrapper implements UrlRecordLocalService,
 		return _urlRecordLocalService.findByRecordId(recordId);
 	}
 
+<<<<<<< HEAD
 	@Override
 	public void removeByRecordId(long recordId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		_urlRecordLocalService.removeByRecordId(recordId);
 	}
 
+=======
+>>>>>>> switch to jmustache on the way
 	@Override
 	public int countByRecordId(long recordId)
 		throws com.liferay.portal.kernel.exception.SystemException {

@@ -179,7 +179,7 @@ public class MustachePortlet {
 		List<UrlRecord> listUrlRecord = UrlRecordLocalServiceUtil.findByRecordId(record.getRecordId());
 		System.out.println("listUrlRecord.size():  " + listUrlRecord.size());
 		for (int i = 0; i < listUrlRecord.size(); i++) {
-			listNameAndUrl.add(new NameAndUrl(nameVariable, beginningUrl+listUrlRecord.get(i).getUrl()));
+			listNameAndUrl.add(new NameAndUrl(nameVariable.replace(" ", "")+i, beginningUrl+listUrlRecord.get(i).getUrl()));
 		}
 		if( ! listNameAndUrl.isEmpty()) {
 			listNameAndUrl.get(0).setBeginning(true);

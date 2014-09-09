@@ -3,7 +3,7 @@ import io.gatling.http.Predef._
 import scala.concurrent.duration._
 
 /**
- * Gatling 2.0RC3 Script generated for Liferay by the plugin
+ * Gatling 2.0RC4 Script generated for Liferay by the plugin
  * "Load Test with Gatling"
  */
  
@@ -11,48 +11,14 @@ import scala.concurrent.duration._
 
 class {{simuName}} extends Simulation {
   
+
 /**
- * List of the differents scenarios
- */  
-{{#mustacheScenario}}
-  val {{scenarioName}} = scenario("{{scenarioName}}")
-    .randomSwitch(
-{{#mustacheRequests}}
-      {{pourcentage}} -> exec({{^notRegular}}http("{{requestName}}").get("{{url}}"){{/notRegular}}{{^regular}}{{requestName}}.Entrance{{/regular}}){{^last}},{{/last}}
-{{/mustacheRequests}}	
-  )
-{{/mustacheScenario}}
-	
-		
-  setUp(
-{{#mustacheScenario}}
-    {{scenarioName}}.inject( rampUsers({{users}}) over( {{duration}} seconds)){{^last}},{{/last}}
-{{/mustacheScenario}}
-  )
-  
-/**
- * List of the differents requests that are stressing their inner portlets
+ * List of the differents requests that are stressed their inner portlets
  */   
 {{#mustacheScenario}}
 {{#mustacheRequests}}
 {{^regular}}
-  object {{requestName}} {
-    val Entrance = exec( http("{{requestName}}").get("{{url}}") ) 
-      .pause(1)
-      .randomSwitch(  /*list of the portlets with their weight*/
 {{#mustachePortlet}}
-         {{pourcentage}} -> exec({{name}}){{^last}},{{/last}}         
-{{/mustachePortlet}}
-      )
-{{#mustachePortlet}}
-    /* script for {{name}} */
-    
-    val {{name}} = randomSwitch(
-{{#scripts}}
-      {{pourcentage}} -> exec({{nameVariable}}){{^last}},{{/last}}
-{{/scripts}}
-        )
-
 {{#recorderGet}}
     val {{name}} = 
 {{#listGet}}
@@ -96,9 +62,25 @@ class {{simuName}} extends Simulation {
                         .pause(1)
 {{/wikiDisplay}}
 
+    /* script for {{name}} */
+    
+    val {{name}} = randomSwitch(
+{{#scripts}}
+      {{pourcentage}} -> exec({{nameVariable}}){{^last}},{{/last}}
+{{/scripts}}
+        )
+
 
 
 {{/mustachePortlet}}
+  object {{requestName}} {
+    val Entrance = exec( http("{{requestName}}").get("{{url}}") ) 
+      .pause(1)
+      .randomSwitch(  /*list of the portlets with their weight*/
+{{#mustachePortlet}}
+         {{pourcentage}} -> exec({{name}}){{^last}},{{/last}}         
+{{/mustachePortlet}}
+      )
   }
 {{/regular}}
 {{/mustacheRequests}}

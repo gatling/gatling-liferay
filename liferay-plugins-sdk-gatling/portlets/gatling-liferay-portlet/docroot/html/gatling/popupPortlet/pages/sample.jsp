@@ -54,9 +54,9 @@
 
  					<c:forEach var="linkUsecaseRequest"	items="${portletGatlingDTO.linkDTO}">
 						<tr>
-							<aui:input name="idLink" type="hidden" value="${linkUsecaseRequest.linkId}"/>
-							<aui:input name="recordId" type="hidden" value="${linkUsecaseRequest.recordId}"/>
-							<aui:input name="isSample" type="hidden" value="${linkUsecaseRequest.sample}"/>
+							<aui:input name="idLink" type="hidden" ignoreRequestValue="true" value="${linkUsecaseRequest.linkId}"/>
+							<aui:input name="recordId" type="hidden" ignoreRequestValue="true" value="${linkUsecaseRequest.recordId}"/>
+							<aui:input name="isSample" type="hidden" ignoreRequestValue="true" value="${linkUsecaseRequest.sample}"/>
 							<td class="text" title="${linkUsecaseRequest.recordId}" >
 								${linkUsecaseRequest.name}
 							</td>
