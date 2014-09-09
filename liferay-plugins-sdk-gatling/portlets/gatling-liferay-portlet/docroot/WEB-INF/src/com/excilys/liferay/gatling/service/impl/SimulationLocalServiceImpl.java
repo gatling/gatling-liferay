@@ -14,6 +14,10 @@
 
 package com.excilys.liferay.gatling.service.impl;
 
+import java.util.List;
+
+import javax.portlet.ActionRequest;
+
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
@@ -28,10 +32,6 @@ import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
-
-import java.util.List;
-
-import javax.portlet.ActionRequest;
 
 /**
  * The implementation of the simulation local service.
@@ -76,7 +76,7 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	 * Count how many {@link Simulation} have this variableName
 	 */
 	public int countByVariableName(String variableName) throws SystemException {
-		return (int) simulationPersistence.countByVariableName(variableName);
+		return simulationPersistence.countByVariableName(variableName);
 	}
 
 	/**

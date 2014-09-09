@@ -169,9 +169,10 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		/*
 		 * Add base url
 		 */
-		String urlSite = GroupLocalServiceUtil.fetchGroup(ParamUtil.getLong(request, "sites")).getIconURL(themeDisplay);	
-		urlSite = urlSite.split("/")[0]+"//"+urlSite.split("/")[2]+"/web"+GroupLocalServiceUtil.fetchGroup(ParamUtil.getLong(request, "sites")).getFriendlyURL();
-		scenario.setUrl_site(urlSite);
+		String urlSite = GroupLocalServiceUtil.fetchGroup(ParamUtil.getLong(request, "sites")).getIconURL(themeDisplay);
+		StringBuffer sb = new StringBuffer();
+		sb.append(urlSite.split("/")[0]).append("//").append(urlSite.split("/")[2]).append("/web").append(GroupLocalServiceUtil.fetchGroup(ParamUtil.getLong(request, "sites")).getFriendlyURL());
+		scenario.setUrl_site(sb.toString());
 		// Saving ...
 		final List<String> errors = ScenarioValidator.validateScenario(scenario);
 		if(errors.isEmpty()) {
@@ -204,6 +205,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	 * @return {@link Scenario} if added, else null
 	 * @throws SystemException
 	 */
+	//TODO Refacto de manière propre et maintenable
 	public Scenario editScenarioFromRequest(ActionRequest request) throws PortalException, SystemException  {
 		final Long idScenario = ParamUtil.getLong(request, "scenarioId");
 

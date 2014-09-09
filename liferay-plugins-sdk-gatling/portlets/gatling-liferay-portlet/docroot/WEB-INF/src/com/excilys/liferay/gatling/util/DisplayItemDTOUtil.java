@@ -25,7 +25,7 @@ import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
 
 public class DisplayItemDTOUtil {
 
-	private final static transient Log LOG = LogFactoryUtil.getLog(DisplayItemDTOUtil.class.getName());
+	private final static Log LOG = LogFactoryUtil.getLog(DisplayItemDTOUtil.class.getName());
 
 	/**
 	 * Add {@link PortletPreferences} list the {@link RequestDTO} list

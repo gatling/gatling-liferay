@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
  */
 public class RecorderFilter implements Filter {
 	private static final Log LOG = LogFactoryUtil.getLog(RecorderFilter.class);
+	private static final String NAMESPACE = "_gatling_WAR_gatlingliferayportlet_";
 	/**
 	 * Default constructor. 
 	 */
@@ -58,11 +59,11 @@ public class RecorderFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		HttpSession session = httpRequest.getSession();
 		
-		String actionToggleRecord = ParamUtil.getString(httpRequest, "_gatling_WAR_gatlingliferayportlet_javax.portlet.action",null);
+		String actionToggleRecord = ParamUtil.getString(httpRequest, NAMESPACE+"javax.portlet.action",null);
 		if(actionToggleRecord != null && actionToggleRecord.equals("toggleRecord")) {
-			String recordState = ParamUtil.getString(httpRequest, "_gatling_WAR_gatlingliferayportlet_nextRecordState", null);
-			String recordName = ParamUtil.getString(httpRequest, "_gatling_WAR_gatlingliferayportlet_useCaseRecordName", null);
-			String portletId = ParamUtil.getString(httpRequest, "_gatling_WAR_gatlingliferayportlet_pagePortletId", null);
+			String recordState = ParamUtil.getString(httpRequest, NAMESPACE+"nextRecordState", null);
+			String recordName = ParamUtil.getString(httpRequest, NAMESPACE+"useCaseRecordName", null);
+			String portletId = ParamUtil.getString(httpRequest, NAMESPACE+"pagePortletId", null);
 			if(recordState != null && recordName != null && portletId != null) {
 				session.setAttribute("GATLING_RECORD_STATE", portletId+","+recordState+","+recordName);
 			} else {
