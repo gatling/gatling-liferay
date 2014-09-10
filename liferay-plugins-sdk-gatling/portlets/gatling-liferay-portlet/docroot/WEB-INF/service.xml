@@ -45,6 +45,10 @@
 		<column name="portetId" type="String"></column>
 		<finder name="ParentPlid" return-type="Collection">
 			<finder-column name="parentPlId" />
+		</finder>	
+		<finder name="ParentPlidAndScenario" return-type="Collection">
+			<finder-column name="parentPlId" />
+			<finder-column name="scenario_id" />
 		</finder>		
 		<finder name="ScenarioId" return-type="Collection">
 			<finder-column name="scenario_id" />

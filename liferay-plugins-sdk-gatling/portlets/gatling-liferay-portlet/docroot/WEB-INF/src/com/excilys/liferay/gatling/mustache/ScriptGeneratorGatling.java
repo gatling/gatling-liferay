@@ -94,11 +94,10 @@ public class ScriptGeneratorGatling {
 					if(rq.isPrivatePage()) {
 						site = site.replace("/web/", "/group/");
 					}
-
-					int numberOfPortlets = RequestLocalServiceUtil.countByParentPlid(rq.getPlId());						
+					int numberOfPortlets = RequestLocalServiceUtil.countByParentPlidAndScenario(rq.getPlId(), sc.getScenario_id());	
 					MustacheRequest mustacheRequest = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight);
 					if( numberOfPortlets != 0) {
-						List<Request> listPortlets = RequestLocalServiceUtil.findByParentPlid(rq.getPlId());
+						List<Request> listPortlets = RequestLocalServiceUtil.findByParentPlidAndScenario(rq.getPlId(), sc.getScenario_id());
 						final double totalWeightPortlet = getTotalWeight(listPortlets);
 						double currentSumWeightPortlet = 0;	
 						double weightPortlet = 0;
@@ -109,7 +108,7 @@ public class ScriptGeneratorGatling {
 								mustacheRequest.setRegular(false);
 								weightPortlet = (double) ((int)((int) portlet.getWeight()*10000/totalWeightPortlet))/100;
 								currentSumWeightPortlet += weightPortlet;
-								MustachePortlet mustachePortlet = new MustachePortlet(portlet.getName().replace(" ", ""), site + portlet.getUrl(), weightPortlet, false);
+								MustachePortlet mustachePortlet = new MustachePortlet(portlet.getName().replace(" ", "")+portlet.getRequest_id(), site + portlet.getUrl(), weightPortlet, false);
 
 								List<LinkUsecaseRequest> listUseCaseRequest = LinkUsecaseRequestLocalServiceUtil.findByRequestIdAndUsed(portlet.getRequest_id());
 								//loop for the scripts
@@ -118,11 +117,11 @@ public class ScriptGeneratorGatling {
 										mustachePortlet.addRecorder(RecordLocalServiceUtil.getRecord(linkUsecaseRequest.getRecordId()), linkUsecaseRequest.getWeight(), sc.getUrl_site()+rq.getUrl());
 									} else if(linkUsecaseRequest.isSample() && linkUsecaseRequest.getRecordId() == 1) {
 										if("Wiki Display".equals(portlet.getName())) {
-											mustachePortlet.addWikiDisplaySimple(new NameUrlAndPlid(portlet.getName().replace(" ", ""), rq.getUrl(), portlet.getPlId()), linkUsecaseRequest.getWeight());
+											mustachePortlet.addWikiDisplaySimple(new NameUrlAndPlid(portlet.getName().replace(" ", "")+"Simple", rq.getUrl(), portlet.getPlId()), linkUsecaseRequest.getWeight());
 										} else if("Asset Publisher".equals(portlet.getName())) {
-											mustachePortlet.addAssetPublisherSimple(new NameAndUrl(portlet.getName().replace(" ", ""), rq.getUrl()), linkUsecaseRequest.getWeight());
+											mustachePortlet.addAssetPublisherSimple(new NameAndUrl(portlet.getName().replace(" ", "")+"Simple", rq.getUrl()), linkUsecaseRequest.getWeight());
 										} else if("Message Boards".equals(portlet.getName())) {
-											mustachePortlet.addMessageBoardSimple(new NameAndUrl(portlet.getName().replace(" ", ""), rq.getUrl()), linkUsecaseRequest.getWeight());
+											mustachePortlet.addMessageBoardSimple(new NameAndUrl(portlet.getName().replace(" ", "")+"Simple", rq.getUrl()), linkUsecaseRequest.getWeight());
 										} 
 									}
 								}

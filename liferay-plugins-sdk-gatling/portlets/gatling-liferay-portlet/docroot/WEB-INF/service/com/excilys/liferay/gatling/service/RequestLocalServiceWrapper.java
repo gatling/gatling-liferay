@@ -297,6 +297,21 @@ public class RequestLocalServiceWrapper implements RequestLocalService,
 	}
 
 	@Override
+	public java.util.List<com.excilys.liferay.gatling.model.Request> findByParentPlidAndScenario(
+		long parentPlid, long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _requestLocalService.findByParentPlidAndScenario(parentPlid,
+			scenarioId);
+	}
+
+	@Override
+	public int countByParentPlidAndScenario(long parentPlid, long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _requestLocalService.countByParentPlidAndScenario(parentPlid,
+			scenarioId);
+	}
+
+	@Override
 	public java.util.List<com.excilys.liferay.gatling.model.Request> findByScenarioId(
 		long scenarioId)
 		throws com.liferay.portal.kernel.exception.SystemException {

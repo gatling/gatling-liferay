@@ -286,6 +286,18 @@ public class RequestLocalServiceUtil {
 		return getService().countByParentPlid(parentPlid);
 	}
 
+	public static java.util.List<com.excilys.liferay.gatling.model.Request> findByParentPlidAndScenario(
+		long parentPlid, long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findByParentPlidAndScenario(parentPlid, scenarioId);
+	}
+
+	public static int countByParentPlidAndScenario(long parentPlid,
+		long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().countByParentPlidAndScenario(parentPlid, scenarioId);
+	}
+
 	public static java.util.List<com.excilys.liferay.gatling.model.Request> findByScenarioId(
 		long scenarioId)
 		throws com.liferay.portal.kernel.exception.SystemException {

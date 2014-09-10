@@ -255,6 +255,13 @@ public interface RequestLocalService extends BaseLocalService,
 	public int countByParentPlid(long parentPlid)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
+	public java.util.List<com.excilys.liferay.gatling.model.Request> findByParentPlidAndScenario(
+		long parentPlid, long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public int countByParentPlidAndScenario(long parentPlid, long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
 	public java.util.List<com.excilys.liferay.gatling.model.Request> findByScenarioId(
 		long scenarioId)
 		throws com.liferay.portal.kernel.exception.SystemException;

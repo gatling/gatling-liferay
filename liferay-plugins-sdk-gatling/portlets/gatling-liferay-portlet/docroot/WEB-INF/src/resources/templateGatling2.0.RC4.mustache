@@ -10,26 +10,21 @@ import scala.concurrent.duration._
  {{#initiate}} {{/initiate}}
 
 class {{simuName}} extends Simulation {
-  
-
 {{#mustacheScenario}}
 /**
  * List of the differents requests for {{scenarioName}} that are stressing their inner portlets
  */   
-{{#mustacheRequests}}
-{{^regular}}
-  object {{requestName}} {
-{{#mustachePortlet}}
-{{#recorderGet}}
+{{#mustacheRequests}}{{^regular}}
+  object {{scenarioName}}{{requestName}} {
+{{#mustachePortlet}}{{#recorderGet}}
     val {{name}} = 
 {{#listGet}}
       {{^-first}}.{{/-first}}exec( http("{{nameN}}").{{typeRequest}}("{{url}}"))
       .pause(2)
-{{/listGet}}
-{{/recorderGet}}
+{{/listGet}}{{/recorderGet}}
 
-{{#messageBoard}}
-    val {{nameVariable}} = exec(http("{{nameVariable}}")
+{{#messageBoardSimple}}
+    val {{nameN}} = exec(http("{{nameN}}")
                           .get("{{url}}")
                           .check(regex("""cell first"> <a href="([^"]+)">""").find(0).saveAs("url")))
                         .pause(1)
@@ -37,10 +32,10 @@ class {{simuName}} extends Simulation {
                           .get("${url}")
                           .check(status.is(200)))
                         .pause(1)
-{{/messageBoard}}
+{{/messageBoardSimple}}
 
-{{#assetPublisher}}
-	val {{nameVariable}} = exec(http("{{nameVariable}}")
+{{#assetPublisherSimple}}
+	val {{nameN}} = exec(http("{{nameN}}")
                           .get("{{url}}")
                           .check(regex("""asset first"> <a href="([^"]+)">""").find(0).saveAs("url")))
                         .pause(1)
@@ -48,10 +43,10 @@ class {{simuName}} extends Simulation {
                           .get("${url}")
                           .check(status.is(200)))
                         .pause(1)
-{{/assetPublisher}}
+{{/assetPublisherSimple}}
 
-{{#wikiDisplay}}  
-    val {{nameVariable}} = exec(http("{{nameVariable}}")
+{{#wikiDisplaySimple}}  
+    val {{name}} = exec(http("{{name}}")
                           .get("{{url}}"))
                         .pause(1)
                         .exec(http("Recent Changes")
@@ -61,7 +56,7 @@ class {{simuName}} extends Simulation {
                           .get("http://localhost:8080/web/ste3/wiki2?p_p_id={{plid}}&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id={{column}}&p_p_col_count=1&_{{plid}}_nodeName=Main&_{{plid}}_struts_action=%2Fwiki_display%2Fview_all_pages")
                           .check(status.is(200)))
                         .pause(1)
-{{/wikiDisplay}}
+{{/wikiDisplaySimple}}
 
     /* script for {{name}} */
     
@@ -70,8 +65,6 @@ class {{simuName}} extends Simulation {
       {{pourcentage}} -> exec({{nameVariable}}){{^-last}},{{/-last}}
 {{/scripts}}
         )
-
-
 
 {{/mustachePortlet}}
     val Entrance = exec( http("{{requestName}}").get("{{url}}") ) 
@@ -82,9 +75,7 @@ class {{simuName}} extends Simulation {
 {{/mustachePortlet}}
       )
   }
-{{/regular}}
-{{/mustacheRequests}}
-{{/mustacheScenario}}
+{{/regular}}  {{/mustacheRequests}}{{/mustacheScenario}}
   
 /**
  * List of the differents scenarios
@@ -93,7 +84,7 @@ class {{simuName}} extends Simulation {
   val {{scenarioName}} = scenario("{{scenarioName}}")
     .randomSwitch(
 {{#mustacheRequests}}
-      {{pourcentage}} -> exec({{^notRegular}}http("{{requestName}}").get("{{url}}"){{/notRegular}}{{^regular}}{{requestName}}.Entrance{{/regular}}){{^last}},{{/last}}
+      {{pourcentage}} -> exec({{^notRegular}}http("{{scenarioName}}{{requestName}}").get("{{url}}"){{/notRegular}}{{^regular}}{{scenarioName}}{{requestName}}.Entrance{{/regular}}){{^last}},{{/last}}
 {{/mustacheRequests}} 
   )
 {{/mustacheScenario}}

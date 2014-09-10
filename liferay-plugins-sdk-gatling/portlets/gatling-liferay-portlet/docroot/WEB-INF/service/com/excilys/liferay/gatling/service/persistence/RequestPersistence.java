@@ -176,6 +176,154 @@ public interface RequestPersistence extends BasePersistence<Request> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
+	* Returns all the requests where parentPlId = &#63; and scenario_id = &#63;.
+	*
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @return the matching requests
+	* @throws SystemException if a system exception occurred
+	*/
+	public java.util.List<com.excilys.liferay.gatling.model.Request> findByParentPlidAndScenario(
+		long parentPlId, long scenario_id)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns a range of all the requests where parentPlId = &#63; and scenario_id = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.RequestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @param start the lower bound of the range of requests
+	* @param end the upper bound of the range of requests (not inclusive)
+	* @return the range of matching requests
+	* @throws SystemException if a system exception occurred
+	*/
+	public java.util.List<com.excilys.liferay.gatling.model.Request> findByParentPlidAndScenario(
+		long parentPlId, long scenario_id, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns an ordered range of all the requests where parentPlId = &#63; and scenario_id = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.RequestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @param start the lower bound of the range of requests
+	* @param end the upper bound of the range of requests (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching requests
+	* @throws SystemException if a system exception occurred
+	*/
+	public java.util.List<com.excilys.liferay.gatling.model.Request> findByParentPlidAndScenario(
+		long parentPlId, long scenario_id, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the first request in the ordered set where parentPlId = &#63; and scenario_id = &#63;.
+	*
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching request
+	* @throws com.excilys.liferay.gatling.NoSuchRequestException if a matching request could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.excilys.liferay.gatling.model.Request findByParentPlidAndScenario_First(
+		long parentPlId, long scenario_id,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.excilys.liferay.gatling.NoSuchRequestException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the first request in the ordered set where parentPlId = &#63; and scenario_id = &#63;.
+	*
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching request, or <code>null</code> if a matching request could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.excilys.liferay.gatling.model.Request fetchByParentPlidAndScenario_First(
+		long parentPlId, long scenario_id,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the last request in the ordered set where parentPlId = &#63; and scenario_id = &#63;.
+	*
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching request
+	* @throws com.excilys.liferay.gatling.NoSuchRequestException if a matching request could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.excilys.liferay.gatling.model.Request findByParentPlidAndScenario_Last(
+		long parentPlId, long scenario_id,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.excilys.liferay.gatling.NoSuchRequestException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the last request in the ordered set where parentPlId = &#63; and scenario_id = &#63;.
+	*
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching request, or <code>null</code> if a matching request could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.excilys.liferay.gatling.model.Request fetchByParentPlidAndScenario_Last(
+		long parentPlId, long scenario_id,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the requests before and after the current request in the ordered set where parentPlId = &#63; and scenario_id = &#63;.
+	*
+	* @param request_id the primary key of the current request
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next request
+	* @throws com.excilys.liferay.gatling.NoSuchRequestException if a request with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.excilys.liferay.gatling.model.Request[] findByParentPlidAndScenario_PrevAndNext(
+		long request_id, long parentPlId, long scenario_id,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.excilys.liferay.gatling.NoSuchRequestException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Removes all the requests where parentPlId = &#63; and scenario_id = &#63; from the database.
+	*
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @throws SystemException if a system exception occurred
+	*/
+	public void removeByParentPlidAndScenario(long parentPlId, long scenario_id)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the number of requests where parentPlId = &#63; and scenario_id = &#63;.
+	*
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @return the number of matching requests
+	* @throws SystemException if a system exception occurred
+	*/
+	public int countByParentPlidAndScenario(long parentPlId, long scenario_id)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
 	* Returns all the requests where scenario_id = &#63;.
 	*
 	* @param scenario_id the scenario_id
