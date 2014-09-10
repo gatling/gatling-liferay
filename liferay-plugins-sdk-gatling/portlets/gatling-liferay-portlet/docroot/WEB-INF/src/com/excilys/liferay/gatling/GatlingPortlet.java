@@ -4,7 +4,6 @@
 package com.excilys.liferay.gatling;
 
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -64,7 +63,6 @@ import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.MustacheException;
 import com.samskivert.mustache.Template;
 
 
