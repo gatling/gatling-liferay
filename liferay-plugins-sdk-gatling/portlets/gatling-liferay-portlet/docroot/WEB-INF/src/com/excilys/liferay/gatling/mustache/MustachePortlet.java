@@ -176,7 +176,7 @@ public class MustachePortlet {
 		List<NameUrlType> listNameUrlType = new ArrayList<NameUrlType>();
 		List<UrlRecord> listUrlRecord = UrlRecordLocalServiceUtil.findByRecordId(record.getRecordId());
 		for (int i = 0; i < listUrlRecord.size(); i++) {
-			listNameUrlType.add(new NameUrlType("record"+nameVariable.replace(" ", "")+i, beginningUrl+listUrlRecord.get(i).getUrl(), listUrlRecord.get(i).getType().toLowerCase()));
+			listNameUrlType.add(new NameUrlType(nameVariable.replace(" ", "")+i, beginningUrl+listUrlRecord.get(i).getUrl(), listUrlRecord.get(i).getType().toLowerCase()));
 		}
 		this.recorderGet.add(new RecorderGet(nameVariable, listNameUrlType));
 	}	

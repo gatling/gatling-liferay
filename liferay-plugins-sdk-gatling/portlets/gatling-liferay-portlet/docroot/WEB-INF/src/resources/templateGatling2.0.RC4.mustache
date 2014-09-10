@@ -26,10 +26,10 @@ class {{simuName}} extends Simulation {
 {{#messageBoardSimple}}
     val {{nameN}} = exec(http("{{nameN}}")
                           .get("{{url}}")
-                          .check(regex("""cell first"> <a href="([^"]+)">""").find(0).saveAs("url")))
+                          .check(regex("""cell first"> <a href="([^"]+)">""").find(0).saveAs("messageBoardSimpleurl")))
                         .pause(1)
                         .exec(http("Select")
-                          .get("${url}")
+                          .get("${messageBoardSimpleurl}")
                           .check(status.is(200)))
                         .pause(1)
 {{/messageBoardSimple}}
@@ -37,10 +37,10 @@ class {{simuName}} extends Simulation {
 {{#assetPublisherSimple}}
 	val {{nameN}} = exec(http("{{nameN}}")
                           .get("{{url}}")
-                          .check(regex("""asset first"> <a href="([^"]+)">""").find(0).saveAs("url")))
+                          .check(regex("""class="asset-title"> <a href="([^"]+)">""").find(0).saveAs("assetPublisherSimpleurl")))
                         .pause(1)
                         .exec(http("Select")
-                          .get("${url}")
+                          .get("${assetPublisherSimpleurl}")
                           .check(status.is(200)))
                         .pause(1)
 {{/assetPublisherSimple}}
