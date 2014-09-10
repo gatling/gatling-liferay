@@ -96,10 +96,10 @@
 <div hidden="true">
 	<table>
 		<tbody id="toPaste">
-			<tr>
+			<tr class="empty-weight-color">
 				<aui:input name="idLink" type="hidden" value="0"/>
 				<aui:input name="recordId" type="hidden" />
-				<aui:input name="isSample" type="hidden" />
+				<aui:input name="isSample" type="hidden" value="true" />
 				<td class="text" title="">
 				</td>
 				<td class="weight">
