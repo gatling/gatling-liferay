@@ -5,19 +5,18 @@ import java.util.List;
 
 public class RecorderGet {
 	private String name;
-	private List<NameAndUrl> listGet = new ArrayList<NameAndUrl>();
+	private List<NameUrlType> listGet = new ArrayList<NameUrlType>();
 	
-	public RecorderGet(String nameVariable, List<NameAndUrl> listGet) {
+	public RecorderGet(String nameVariable, List<NameUrlType> listGet) {
 		this.name = nameVariable;
-		System.out.println(listGet.size());
 		this.listGet = listGet;
 	}
 
-	public List<NameAndUrl> getListGet() {
+	public List<NameUrlType> getListGet() {
 		return listGet;
 	}
 
-	public void setListGet(List<NameAndUrl> listGet) {
+	public void setListGet(List<NameUrlType> listGet) {
 		this.listGet = listGet;
 	}
 

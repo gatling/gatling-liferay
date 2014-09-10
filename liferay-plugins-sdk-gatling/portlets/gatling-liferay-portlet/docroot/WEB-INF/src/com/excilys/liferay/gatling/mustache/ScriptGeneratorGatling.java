@@ -23,18 +23,13 @@ public class ScriptGeneratorGatling {
 	private String simuName = "avant";
 	private Long simulationId = 0L; 
 	private List<MustacheScenario> mustacheScenario;
-//	private Set<MessageBoard> setMessageBoard = new HashSet<MessageBoard>();
-//	private Set<AssetPublisher> setAssetPublisher = new HashSet<AssetPublisher>();
-//	private Set<WikiDisplay> setWikiDisplay = new HashSet<WikiDisplay>();
 
 	public ScriptGeneratorGatling(Long simulationId) throws Exception{
-		System.out.println("ScriptGeneratorGatling constructor");
 		this.simuName = SimulationLocalServiceUtil.getSimulation(simulationId).getVariableName();
 		this.simulationId = simulationId;
 	}
 	
 	public String initiate() throws Exception{
-		System.out.println("ScriptGeneratorGatling initiate");
 		mustacheScenario = new ArrayList<MustacheScenario>();
 		initiateMustacheScenario();
 		return "";
@@ -131,14 +126,6 @@ public class ScriptGeneratorGatling {
 										} 
 									}
 								}
-								
-								if( ! mustachePortlet.getRecorderGet().isEmpty()){
-									System.out.println("mustachePortlet.getRecorderGet().get(0).getName()" + mustachePortlet.getRecorderGet().get(0).getName());
-								} else {
-									System.out.println("records empty");
-								}
-								
-									
 								if( ! mustachePortlet.getScripts().isEmpty()) {
 									mustachePortlet.setLastScript();
 								}
@@ -158,7 +145,7 @@ public class ScriptGeneratorGatling {
 		if( !listMustacheRequest.isEmpty()) {
 			listMustacheRequest.get(listMustacheRequest.size()-1).setWeight(lastWeight).setLast(true).setScenarioId(sc.getScenario_id());
 		}
-		return new MustacheScenario(sc.getVariableName(),sc.getUsers_per_seconds(), sc.getDuration(), (i+1) == size ? true : false, listMustacheRequest);
+		return new MustacheScenario(sc.getVariableName(),sc.getUsers_per_seconds(), sc.getDuration(), listMustacheRequest);
 	}
 
 	public Long getSimulationId() {

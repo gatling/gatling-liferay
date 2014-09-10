@@ -7,9 +7,8 @@ import java.util.List;
 
 public class MustacheScenario {		
 
-	MustacheScenario(String name,long l,long m, boolean last, List<MustacheRequest> mustacheRequests) {
+	MustacheScenario(String name,long l,long m, List<MustacheRequest> mustacheRequests) {
 		this.scenarioName = name;
-		this.last = last;
 		this.mustacheRequests = mustacheRequests;
 		this.users = l;
 		this.duration = m;
@@ -18,7 +17,6 @@ public class MustacheScenario {
 	private String scenarioName;
 	private long users, duration;
 	private List<MustacheRequest> mustacheRequests;
-	private boolean last;
 	
 	public String getScenarioName() {
 		return scenarioName;
@@ -44,13 +42,6 @@ public class MustacheScenario {
 	public void setMustacheRequests(List<MustacheRequest> mustacheRequests) {
 		this.mustacheRequests = mustacheRequests;
 	}
-	public boolean isLast() {
-		return last;
-	}
-	public void setLast(boolean last) {
-		this.last = last;
-	}
-	
 }
 
 

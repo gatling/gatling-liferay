@@ -3,7 +3,6 @@ package com.excilys.liferay.gatling.mustache.util;
 public class NameAndUrl {
 	
 	private String nameN, url;
-	private boolean beginning = false;
 
 	public NameAndUrl(String name, String url) {
 		this.nameN = name;
@@ -32,14 +31,6 @@ public class NameAndUrl {
 
 	public void setNameN(String nameN) {
 		this.nameN = nameN;
-	}
-
-	public boolean isBeginning() {
-		return beginning;
-	}
-
-	public void setBeginning(boolean point) {
-		this.beginning = point;
 	}
 
 }

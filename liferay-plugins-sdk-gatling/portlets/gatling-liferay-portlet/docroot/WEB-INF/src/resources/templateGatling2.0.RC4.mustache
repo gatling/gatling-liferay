@@ -12,10 +12,10 @@ import scala.concurrent.duration._
 class {{simuName}} extends Simulation {
   
 
-/**
- * List of the differents requests that are stressing their inner portlets
- */   
 {{#mustacheScenario}}
+/**
+ * List of the differents requests for {{scenarioName}} that are stressing their inner portlets
+ */   
 {{#mustacheRequests}}
 {{^regular}}
   object {{requestName}} {
@@ -23,7 +23,7 @@ class {{simuName}} extends Simulation {
 {{#recorderGet}}
     val {{name}} = 
 {{#listGet}}
-      {{^beginning}}.{{/beginning}}exec( http("{{nameN}}").get("{{url}}"))
+      {{^-first}}.{{/-first}}exec( http("{{nameN}}").{{typeRequest}}("{{url}}"))
       .pause(2)
 {{/listGet}}
 {{/recorderGet}}
@@ -67,7 +67,7 @@ class {{simuName}} extends Simulation {
     
     val {{name}} = randomSwitch(
 {{#scripts}}
-      {{pourcentage}} -> exec({{nameVariable}}){{^last}},{{/last}}
+      {{pourcentage}} -> exec({{nameVariable}}){{^-last}},{{/-last}}
 {{/scripts}}
         )
 
@@ -78,7 +78,7 @@ class {{simuName}} extends Simulation {
       .pause(1)
       .randomSwitch(  /*list of the portlets with their weight*/
 {{#mustachePortlet}}
-         {{pourcentage}} -> exec({{name}}){{^last}},{{/last}}         
+         {{pourcentage}} -> exec({{name}}){{^-last}},{{/-last}}         
 {{/mustachePortlet}}
       )
   }
@@ -101,7 +101,7 @@ class {{simuName}} extends Simulation {
     
   setUp(
 {{#mustacheScenario}}
-    {{scenarioName}}.inject( rampUsers({{users}}) over( {{duration}} seconds)){{^last}},{{/last}}
+    {{scenarioName}}.inject( rampUsers({{users}}) over( {{duration}} seconds)){{^-last}},{{/-last}}
 {{/mustacheScenario}}
   )
   

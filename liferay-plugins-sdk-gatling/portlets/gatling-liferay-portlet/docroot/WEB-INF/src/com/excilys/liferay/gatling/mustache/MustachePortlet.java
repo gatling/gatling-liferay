@@ -7,6 +7,7 @@ import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.mustache.util.NameAndUrl;
 import com.excilys.liferay.gatling.mustache.util.NameUrlAndPlid;
+import com.excilys.liferay.gatling.mustache.util.NameUrlType;
 import com.excilys.liferay.gatling.mustache.util.RecorderGet;
 import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
 
@@ -54,9 +55,6 @@ public class MustachePortlet {
 	 * transform weight to percentage
 	 */
 	public void setLastScript() {
-		System.out.println("setLastScript");
-		scripts.get(scripts.size()-1).setLast(true);
-		
 		double total = 0;
 		double subTotal = 0;
 		double inter = 0;
@@ -175,16 +173,13 @@ public class MustachePortlet {
 	public void addRecorder(Record record, double weight, String beginningUrl) throws Exception{
 		String nameVariable = record.getName();
 		addScript(new MustacheScript(nameVariable, weight));
-		List<NameAndUrl> listNameAndUrl = new ArrayList<NameAndUrl>();
+		List<NameUrlType> listNameUrlType = new ArrayList<NameUrlType>();
 		List<UrlRecord> listUrlRecord = UrlRecordLocalServiceUtil.findByRecordId(record.getRecordId());
 		System.out.println("listUrlRecord.size():  " + listUrlRecord.size());
 		for (int i = 0; i < listUrlRecord.size(); i++) {
-			listNameAndUrl.add(new NameAndUrl(nameVariable.replace(" ", "")+i, beginningUrl+listUrlRecord.get(i).getUrl()));
+			listNameUrlType.add(new NameUrlType(nameVariable.replace(" ", "")+i, beginningUrl+listUrlRecord.get(i).getUrl(), listUrlRecord.get(i).getType().toLowerCase()));
 		}
-		if( ! listNameAndUrl.isEmpty()) {
-			listNameAndUrl.get(0).setBeginning(true);
-		}
-		this.recorderGet.add(new RecorderGet(nameVariable, listNameAndUrl));
+		this.recorderGet.add(new RecorderGet(nameVariable, listNameUrlType));
 	}	
 	
 }
