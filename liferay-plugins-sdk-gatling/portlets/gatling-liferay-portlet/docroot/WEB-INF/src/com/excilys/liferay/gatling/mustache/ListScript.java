@@ -13,7 +13,7 @@ public class ListScript {
 		int numberOfRecords = RecordLocalServiceUtil.countByPortletId(portletId);
 		String[][] availableScripts = null;
 		
-		if("54".equals(portletId.split("_")[0])) {
+		if("19".equals(portletId.split("_")[0])) {
 			numberOfRecords += 3;
 			availableScripts = new String[numberOfRecords][];
 			availableScripts[0] = new String[]{"Sample (only GETs)", "1", "true"};
@@ -25,7 +25,7 @@ public class ListScript {
 				availableScripts[i] = new String[]{listRecords.get(i-3).getName(), Long.toString(listRecords.get(i-3).getRecordId()), "false"};
 			}
 			return availableScripts;
-		} else if("56".equals(portletId.split("_")[0])) {
+		} else if("54".equals(portletId.split("_")[0])) {
 			numberOfRecords += 3;
 			availableScripts = new String[numberOfRecords][];
 			availableScripts[0] = new String[]{"Sample (only GETs)", "1", "true"};
