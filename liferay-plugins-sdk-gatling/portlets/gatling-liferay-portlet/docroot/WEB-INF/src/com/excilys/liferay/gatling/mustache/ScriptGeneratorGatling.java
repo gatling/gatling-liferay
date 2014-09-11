@@ -117,11 +117,11 @@ public class ScriptGeneratorGatling {
 										mustachePortlet.addRecorder(RecordLocalServiceUtil.getRecord(linkUsecaseRequest.getRecordId()), linkUsecaseRequest.getWeight(), sc.getUrl_site()+rq.getUrl());
 									} else if(linkUsecaseRequest.isSample() && linkUsecaseRequest.getRecordId() == 1) {
 										if("Wiki Display".equals(portlet.getName())) {
-											mustachePortlet.addWikiDisplaySimple(new NameUrlAndPlid(portlet.getName().replace(" ", "")+"Simple", rq.getUrl(), portlet.getPlId()), linkUsecaseRequest.getWeight());
+											mustachePortlet.addWikiDisplaySimple(new NameUrlAndPlid(portlet.getName().replace(" ", "")+"Simple"+portlet.getRequest_id(), sc.getUrl_site()+rq.getUrl(), portlet.getPlId()), linkUsecaseRequest.getWeight());
 										} else if("Asset Publisher".equals(portlet.getName())) {
-											mustachePortlet.addAssetPublisherSimple(new NameAndUrl(portlet.getName().replace(" ", "")+"Simple", rq.getUrl()), linkUsecaseRequest.getWeight());
+											mustachePortlet.addAssetPublisherSimple(new NameAndUrl(portlet.getName().replace(" ", "")+"Simple"+portlet.getRequest_id(), sc.getUrl_site()+rq.getUrl()), linkUsecaseRequest.getWeight());
 										} else if("Message Boards".equals(portlet.getName())) {
-											mustachePortlet.addMessageBoardSimple(new NameAndUrl(portlet.getName().replace(" ", "")+"Simple", rq.getUrl()), linkUsecaseRequest.getWeight());
+											mustachePortlet.addMessageBoardSimple(new NameAndUrl(portlet.getName().replace(" ", "")+"Simple"+portlet.getRequest_id(), sc.getUrl_site()+rq.getUrl()), linkUsecaseRequest.getWeight());
 										} 
 									}
 								}
