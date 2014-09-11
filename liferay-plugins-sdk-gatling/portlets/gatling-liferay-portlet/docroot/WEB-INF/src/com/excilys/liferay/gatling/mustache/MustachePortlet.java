@@ -16,10 +16,12 @@ public class MustachePortlet {
 	private String name, url;
 	private double pourcentage;
 	private boolean last;
-	private List<MustacheScript> scripts;
-	private List<NameAndUrl> assetPublisherSimple, messageBoardSimple;
-	private List<NameUrlAndPlid> wikiDisplaySimple;
+	private NameAndUrl assetPublisherSimple;
+	private NameAndUrl messageBoardSimple;
+	private NameAndUrl messageBoardPost;
+	private NameUrlAndPlid wikiDisplaySimple;
 	private List<RecorderGet> recorderGet;
+	private List<MustacheScript> scripts;
 
 	public MustachePortlet(String name, String url, double pourcentage, boolean last) {
 		this.name = name;
@@ -30,10 +32,7 @@ public class MustachePortlet {
 	
 	{
 		scripts = new ArrayList<MustacheScript>();
-		assetPublisherSimple = new ArrayList<NameAndUrl>();
-		messageBoardSimple = new ArrayList<NameAndUrl>();
 		recorderGet = new ArrayList<RecorderGet>();
-		wikiDisplaySimple = new ArrayList<NameUrlAndPlid>();
 	}
 	
 	/*--- Scripts ---*/
@@ -72,50 +71,44 @@ public class MustachePortlet {
 	
 	/* --- Asset Publisher --- */
 
-	public void addAssetPublisherSimple(NameAndUrl assetPublisherSimple, double weight) {
-		
-		addScript(new MustacheScript(assetPublisherSimple.getName(), weight));
-		this.assetPublisherSimple.add(assetPublisherSimple);
-	}
-	
-	public List<NameAndUrl> getAssetPublisherSimple() {
+	public NameAndUrl getAssetPublisherSimple() {
 		return assetPublisherSimple;
 	}
 
-	public void setAssetPublisherSimple(List<NameAndUrl> assetPublisherSimple) {
-		this.assetPublisherSimple = assetPublisherSimple;
+	public void setAssetPublisherSimple(String name, String url, double weight) {
+		addScript(new MustacheScript(name, weight));
+		this.assetPublisherSimple = new NameAndUrl(name , url);
 	}
 	
 	/* --- Message Board --- */
 
-	public void addMessageBoardSimple(NameAndUrl messageBoardSimple, double weight) {
-		addScript(new MustacheScript(messageBoardSimple.getName(), weight));
-		this.messageBoardSimple.add(messageBoardSimple);
-	}
-
-
-	public List<NameAndUrl> getMessageBoardSimple() {
+	public NameAndUrl getMessageBoardSimple() {
 		return messageBoardSimple;
 	}
 
-	public void setMessageBoardSimple(List<NameAndUrl> messageBoardsimple) {
-		this.messageBoardSimple = messageBoardsimple;
+	public void setMessageBoardSimple(String name, String url, double weight) {
+		addScript(new MustacheScript(name, weight));
+		this.messageBoardSimple = new NameAndUrl(name , url);
 	}
-	
+
+	public NameAndUrl getMessageBoardPost() {
+		return messageBoardPost;
+	}
+
+	public void setMessageBoardPost(String name, String url, double weight) {
+		addScript(new MustacheScript(name, weight));
+		this.messageBoardPost = new NameAndUrl(name , url);
+	}
 	
 	/* --- Wiki Display --- */
 
-	public void addWikiDisplaySimple(NameUrlAndPlid wikiDisplaySimple, double weight) {
-		addScript(new MustacheScript(wikiDisplaySimple.getName(), weight));
-		this.wikiDisplaySimple.add(wikiDisplaySimple);
-	}
-
-	public List<NameUrlAndPlid> getWikiDisplaySimple() {
+	public NameUrlAndPlid getWikiDisplaySimple() {
 		return wikiDisplaySimple;
 	}
 
-	public void setWikiDisplaySimple(List<NameUrlAndPlid> wikiDisplaySimple) {
-		this.wikiDisplaySimple = wikiDisplaySimple;
+	public void setWikiDisplaySimple(String name, String url, long plid, double weight) {
+		addScript(new MustacheScript(name, weight));
+		this.wikiDisplaySimple = new NameUrlAndPlid(name, url, plid);
 	}
 	
 	/* --- Recorder Url --- */
@@ -123,7 +116,7 @@ public class MustachePortlet {
 	public void addRecorderGet(RecorderGet recorderUrl) {
 		this.recorderGet.add(recorderUrl);
 	}
-
+	
 	public List<RecorderGet> getRecorderGet() {
 		return recorderGet;
 	}
