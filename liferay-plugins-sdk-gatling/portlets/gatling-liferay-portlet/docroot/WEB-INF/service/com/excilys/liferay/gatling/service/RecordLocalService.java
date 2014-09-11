@@ -255,4 +255,8 @@ public interface RecordLocalService extends BaseLocalService,
 	public void update(long recordId, java.lang.String name)
 		throws com.liferay.portal.NoSuchModelException,
 			com.liferay.portal.kernel.exception.SystemException;
+
+	public com.excilys.liferay.gatling.model.Record save(
+		java.lang.String name, java.lang.String portletId, long version)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

@@ -300,6 +300,13 @@ public class RecordLocalServiceWrapper implements RecordLocalService,
 		_recordLocalService.update(recordId, name);
 	}
 
+	@Override
+	public com.excilys.liferay.gatling.model.Record save(
+		java.lang.String name, java.lang.String portletId, long version)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _recordLocalService.save(name, portletId, version);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

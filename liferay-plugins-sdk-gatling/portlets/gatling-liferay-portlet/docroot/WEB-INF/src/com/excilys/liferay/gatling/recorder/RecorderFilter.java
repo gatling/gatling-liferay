@@ -17,10 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.excilys.liferay.gatling.model.Record;
-import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
-import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -105,24 +103,13 @@ public class RecorderFilter implements Filter {
 					LOG.info("Saving ...");
 					try {
 						//Save use case table
-						long primaryKeyRecord = CounterLocalServiceUtil.increment(Record.class.getName());
-						Record record = RecordLocalServiceUtil.createRecord(primaryKeyRecord);
-						record.setName(infos[2]);
-						record.setPortletId(infos[0]);
-						record.setVersionPortlet(1); //TODO get the real version
-						record.persist();
+						Record record = RecordLocalServiceUtil.save(infos[2], infos[0], 1);
 						LOG.info("...1/2");
 						//Save url table
 						for (int i = 0; i < recordURLs.size(); i++) {
 							String url = recordURLs.get(i).split("\\)")[1];
 							String type = recordURLs.get(i).split("\\)")[0];
-							long primaryKeyUrl = CounterLocalServiceUtil.increment(UrlRecord.class.getName());
-							UrlRecord urlRecord = UrlRecordLocalServiceUtil.createUrlRecord(primaryKeyUrl);
-							urlRecord.setUrl(url);
-							urlRecord.setType(type);
-							urlRecord.setOrder(i);
-							urlRecord.setRecordId(record.getRecordId());
-							urlRecord.persist();
+							UrlRecordLocalServiceUtil.save(url, type, i, record.getRecordId());
 							LOG.info("...");
 						}
 						LOG.info("...2/2");

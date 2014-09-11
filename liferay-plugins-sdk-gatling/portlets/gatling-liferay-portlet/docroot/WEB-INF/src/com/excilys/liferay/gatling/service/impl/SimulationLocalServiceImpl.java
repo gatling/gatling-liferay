@@ -108,8 +108,7 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		 */
 		List<String> errors = SimulationValidator.validateSimulation(simulation);
 		if(errors.isEmpty()) {
-			// Add scenario
-			simulation = simulationPersistence.update(simulation);
+			simulation.persist();
 			return simulation;
 		}
 		else {

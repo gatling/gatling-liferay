@@ -23,15 +23,15 @@ public class LinkUsecaseRequestValidator {
 		List<String> errors = new ArrayList<String>();
 		
 		if (Validator.isNull(linkUsecaseRequest.getRecordId())) {
-			errors.add("request-url-missing");
+			errors.add("link-recordid-missing");
 		}
 		
 		if (Validator.isNull(linkUsecaseRequest.getWeight())) {
-			errors.add("request-weight-required");
+			errors.add("link-weight-required");
 		}
 		
 		if (Validator.isNull(linkUsecaseRequest.getRequest_id())) {
-			errors.add("request-scenarioid-required");
+			errors.add("link-requestid-missing");
 		}
 
 		return errors;

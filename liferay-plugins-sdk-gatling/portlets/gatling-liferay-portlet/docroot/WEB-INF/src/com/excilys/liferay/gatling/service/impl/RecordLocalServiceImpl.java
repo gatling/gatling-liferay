@@ -18,6 +18,8 @@ import java.util.List;
 
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.service.base.RecordLocalServiceBaseImpl;
+import com.excilys.liferay.gatling.validator.RecordValidator;
+import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.exception.SystemException;
 
@@ -56,6 +58,22 @@ public class RecordLocalServiceImpl extends RecordLocalServiceBaseImpl {
 	public void update(long recordId, String name) throws SystemException, NoSuchModelException{
 		Record record = recordPersistence.findByPrimaryKey(recordId);
 		record.setName(name);
-		recordPersistence.update(record);
+		record.persist();
+	}
+	
+	@Override
+	public Record save(String name, String portletId, long version) throws SystemException{
+		long primaryKeyRecord = CounterLocalServiceUtil.increment(Record.class.getName());
+		Record record = recordPersistence.create(primaryKeyRecord);
+		record.setName(name);
+		record.setPortletId(portletId);
+		record.setVersionPortlet(version); //TODO get the real version
+		
+		List<String> errors = RecordValidator.validateRecord(record);
+		if(errors.isEmpty()) {
+			record.persist();
+			return record;
+		}
+		return null;
 	}
 }

@@ -125,6 +125,12 @@ public class UrlRecordLocalServiceClpInvoker {
 		_methodName60 = "countByRecordId";
 
 		_methodParameterTypes60 = new String[] { "long" };
+
+		_methodName61 = "save";
+
+		_methodParameterTypes61 = new String[] {
+				"java.lang.String", "java.lang.String", "int", "long"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -245,6 +251,16 @@ public class UrlRecordLocalServiceClpInvoker {
 			return UrlRecordLocalServiceUtil.countByRecordId(((Long)arguments[0]).longValue());
 		}
 
+		if (_methodName61.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
+			UrlRecordLocalServiceUtil.save((java.lang.String)arguments[0],
+				(java.lang.String)arguments[1],
+				((Integer)arguments[2]).intValue(),
+				((Long)arguments[3]).longValue());
+
+			return null;
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -290,4 +306,6 @@ public class UrlRecordLocalServiceClpInvoker {
 	private String[] _methodParameterTypes59;
 	private String _methodName60;
 	private String[] _methodParameterTypes60;
+	private String _methodName61;
+	private String[] _methodParameterTypes61;
 }

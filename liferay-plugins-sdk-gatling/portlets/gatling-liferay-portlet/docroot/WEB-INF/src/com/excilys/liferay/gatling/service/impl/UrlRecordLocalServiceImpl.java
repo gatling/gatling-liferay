@@ -18,6 +18,8 @@ import java.util.List;
 
 import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.service.base.UrlRecordLocalServiceBaseImpl;
+import com.excilys.liferay.gatling.validator.UrlRecordValidator;
+import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 
 /**
@@ -42,7 +44,7 @@ public class UrlRecordLocalServiceImpl extends UrlRecordLocalServiceBaseImpl {
 	 */
 
 	@Override
-	public List<UrlRecord> findByRecordId(long recordId) throws SystemException{
+	public List<UrlRecord> findByRecordId(long recordId) throws SystemException {
 		return urlRecordPersistence.findByRecordId(recordId);
 	}
 	
@@ -51,7 +53,21 @@ public class UrlRecordLocalServiceImpl extends UrlRecordLocalServiceBaseImpl {
 	}
 	
 	@Override
-	public int countByRecordId(long recordId) throws SystemException{
+	public int countByRecordId(long recordId) throws SystemException {
 		return urlRecordPersistence.countByRecordId(recordId);
+	}
+	
+	@Override
+	public void save(String url, String type, int order, long recordId) throws SystemException {
+		long primaryKeyUrl = CounterLocalServiceUtil.increment(UrlRecord.class.getName());
+		UrlRecord urlRecord = urlRecordPersistence.create(primaryKeyUrl);
+		urlRecord.setUrl(url);
+		urlRecord.setType(type);
+		urlRecord.setOrder(order);
+		urlRecord.setRecordId(recordId);
+		final List<String> errors = UrlRecordValidator.validateUrlRecord(urlRecord);
+		if(errors.isEmpty()) {
+			urlRecord.persist();
+		}
 	}
 }

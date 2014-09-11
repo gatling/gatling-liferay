@@ -22,8 +22,6 @@ import com.excilys.liferay.gatling.validator.LinkUsecaseRequestValidator;
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 /**
  * The implementation of the link usecase request local service.
@@ -46,31 +44,29 @@ public class LinkUsecaseRequestLocalServiceImpl
 	 *
 	 * Never reference this interface directly. Always use {@link com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil} to access the link usecase request local service.
 	 */
-	private static final Log LOG = LogFactoryUtil.getLog(LinkUsecaseRequestLocalServiceImpl.class);
 	
 	public void saveLinkUseCase(long linkUsecaseRequestId, long requestId, long recordId, double weight, boolean isSample) throws SystemException, PortalException {
 		long primaryKey;
-		final LinkUsecaseRequest newLinkUsecaseRequest;
+		final LinkUsecaseRequest linkUsecaseRequest;
 		if(linkUsecaseRequestId == 0){
 			//Create new LinkUsecaseRequest 
 			primaryKey = CounterLocalServiceUtil.increment(LinkUsecaseRequest.class.getName());
-			newLinkUsecaseRequest = linkUsecaseRequestPersistence.create(primaryKey);
-			newLinkUsecaseRequest.setRequest_id(requestId);
-			newLinkUsecaseRequest.setRecordId(recordId);
-			newLinkUsecaseRequest.setWeight(weight);
-			newLinkUsecaseRequest.setSample(isSample);
-			final List<String> errors = LinkUsecaseRequestValidator.validateLinkUsecaseRequest(newLinkUsecaseRequest);
+			linkUsecaseRequest = linkUsecaseRequestPersistence.create(primaryKey);
+			linkUsecaseRequest.setRequest_id(requestId);
+			linkUsecaseRequest.setRecordId(recordId);
+			linkUsecaseRequest.setWeight(weight);
+			linkUsecaseRequest.setSample(isSample);
+			final List<String> errors = LinkUsecaseRequestValidator.validateLinkUsecaseRequest(linkUsecaseRequest);
 			if(errors.isEmpty()) {
-				linkUsecaseRequestPersistence.update(newLinkUsecaseRequest);
+				linkUsecaseRequest.persist();
 			}
 		}
 		else{
 			//Update LinkUsecaseRequest
-			final LinkUsecaseRequest existingLinkUsecaseRequest = linkUsecaseRequestPersistence.findByPrimaryKey(linkUsecaseRequestId);
-			if(weight != existingLinkUsecaseRequest.getWeight()){
-				LOG.debug("old weight "+existingLinkUsecaseRequest.getWeight()+" new weight "+weight );
-				existingLinkUsecaseRequest.setWeight(weight);
-				linkUsecaseRequestPersistence.update(existingLinkUsecaseRequest);
+			linkUsecaseRequest = linkUsecaseRequestPersistence.findByPrimaryKey(linkUsecaseRequestId);
+			if(weight != linkUsecaseRequest.getWeight()){
+				linkUsecaseRequest.setWeight(weight);
+				linkUsecaseRequest.persist();
 			}
 		}
 	}

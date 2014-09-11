@@ -125,6 +125,12 @@ public class RecordLocalServiceClp implements RecordLocalService {
 		_methodName21 = "update";
 
 		_methodParameterTypes21 = new String[] { "long", "java.lang.String" };
+
+		_methodName22 = "save";
+
+		_methodParameterTypes22 = new String[] {
+				"java.lang.String", "java.lang.String", "long"
+			};
 	}
 
 	@Override
@@ -762,6 +768,42 @@ public class RecordLocalServiceClp implements RecordLocalService {
 		}
 	}
 
+	@Override
+	public com.excilys.liferay.gatling.model.Record save(
+		java.lang.String name, java.lang.String portletId, long version)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName22,
+					_methodParameterTypes22,
+					new Object[] {
+						ClpSerializer.translateInput(name),
+						
+					ClpSerializer.translateInput(portletId),
+						
+					version
+					});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.excilys.liferay.gatling.model.Record)ClpSerializer.translateOutput(returnObj);
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -805,4 +847,6 @@ public class RecordLocalServiceClp implements RecordLocalService {
 	private String[] _methodParameterTypes20;
 	private String _methodName21;
 	private String[] _methodParameterTypes21;
+	private String _methodName22;
+	private String[] _methodParameterTypes22;
 }

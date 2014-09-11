@@ -292,6 +292,12 @@ public class RecordLocalServiceUtil {
 		getService().update(recordId, name);
 	}
 
+	public static com.excilys.liferay.gatling.model.Record save(
+		java.lang.String name, java.lang.String portletId, long version)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().save(name, portletId, version);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}
