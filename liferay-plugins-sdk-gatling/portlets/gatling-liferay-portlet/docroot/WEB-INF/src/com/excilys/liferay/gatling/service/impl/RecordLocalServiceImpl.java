@@ -67,7 +67,7 @@ public class RecordLocalServiceImpl extends RecordLocalServiceBaseImpl {
 		Record record = recordPersistence.create(primaryKeyRecord);
 		record.setName(name);
 		record.setPortletId(portletId);
-		record.setVersionPortlet(version); //TODO get the real version
+		record.setVersionPortlet(version);
 		
 		List<String> errors = RecordValidator.validateRecord(record);
 		if(errors.isEmpty()) {
