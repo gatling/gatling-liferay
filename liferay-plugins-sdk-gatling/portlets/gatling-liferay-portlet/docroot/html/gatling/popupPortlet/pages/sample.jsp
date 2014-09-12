@@ -103,7 +103,7 @@
 				<td class="text" title="">
 				</td>
 				<td class="weight">
-					<aui:input name="weightScenarioSample" label="" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input>
+					<aui:input name="weightScenarioSample" label="" ignoreRequestValue="true" value="0.0" cssClass="popup_weightPage" onChange="showWeightPopup()"></aui:input>
 				</td>
 				<td class='popup_percent'>
 				0.00 %
@@ -151,7 +151,6 @@
 				//set name of script
 				html.one('.text').html(label);
 				html.one('.text').set('title',value[1]); //sampleId
-				html.one('.weight').one("input").set('value', '0.0');
 				//Set hidden input
 				html.one('#<portlet:namespace/>recordId').val(value[1]);
 				html.one('#<portlet:namespace/>isSample').val(value[0]);

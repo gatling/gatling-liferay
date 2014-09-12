@@ -682,7 +682,7 @@ public class GatlingPortlet extends MVCPortlet {
 				throw new NullPointerException("RecordId is null");
 			}
 			
-			
+			LOG.info("portlet id "+ParamUtil.getString(renderRequest, "portletId"));
 			renderRequest.setAttribute("listRecordUrl", listRecordUrl);
 			renderRequest.setAttribute("recordName", recordName);
 			renderRequest.setAttribute("recordId", recordId);

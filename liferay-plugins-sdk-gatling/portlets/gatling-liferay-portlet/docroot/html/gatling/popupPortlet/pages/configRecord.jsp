@@ -7,8 +7,9 @@
 	<liferay-ui:message key="configRecord-title" arguments="${portletGatlingDTO.listRecord.size()}" />
 </c:set>
 
-<liferay-ui:header title="${title}" />
+<liferay-ui:header title="${title}" /> 
 <!-- view List of records -->
+
 
 <liferay-ui:search-container emptyResultsMessage="record-list-empty" >
 	<%--List of data to display --%>
@@ -20,7 +21,7 @@
 			<portlet:param name="page" value="/html/gatling/popupPortlet/pages/editRecord.jsp" />
 			<portlet:param name="recordId" value="${record.recordId }" />
 			<portlet:param name="recordname" value="${record.name }" />
-			<portlet:param name="portletId" value="${portletId }" />
+			<portlet:param name="portletId" value="${portletGatlingDTO.portletId}" />
 			<portlet:param name="requestId" value="${requestId }" />
 		</portlet:renderURL>
 		<liferay-ui:search-container-column-text name="record-edit-table-header-name" value="${record.name}" href="${editRecordURL}" />

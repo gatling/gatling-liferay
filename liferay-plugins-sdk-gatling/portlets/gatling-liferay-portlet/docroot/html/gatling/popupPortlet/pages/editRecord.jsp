@@ -20,7 +20,6 @@
 </c:set>
 
 <liferay-ui:header title="${title}" backURL="${backURL}" />
-
 <c:choose>
 
 	<c:when test="${ not empty listRecordUrl}">
