@@ -18,3 +18,7 @@ docroot/WEB-INF/src/service.properties
 help.txt
 help.txt~
 liferay-plugins-sdk-gatling/portlets/backup/
+docroot/WEB-INF/service/com/excilys/liferay/gatling/service/
+docroot/WEB-INF/server-config.wsdd
+../../build.properties~
+../backup/
