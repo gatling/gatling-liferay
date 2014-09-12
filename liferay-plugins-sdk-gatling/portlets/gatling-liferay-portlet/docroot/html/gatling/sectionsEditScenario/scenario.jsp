@@ -346,8 +346,6 @@
 			            resizable: false,
 			            closeOnEscape: false,
 			         	destroyOnClose : true,
-			         	width:'100%',
-			         	height:'100%',
 			            toolbars: {
 			            	footer: [
 			            	           {
