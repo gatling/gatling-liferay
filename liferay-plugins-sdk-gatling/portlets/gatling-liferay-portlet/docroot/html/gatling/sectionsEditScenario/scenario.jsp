@@ -347,17 +347,19 @@
 			            closeOnEscape: false,
 			         	destroyOnClose : true,
 			            toolbars: {
-			            	footer: [
-			            	           {
-			            	             label: 'Close portlet configuration',
-			            	             cssClass : "btn-info",
-			            	             on: {
-			            	               click: function() {
-			            	            	  checkAndHidePopup();
-			            	               }
-			            	             }
-			            	           }
-			            	         ]
+			            	header: [
+			                         {
+			                             cssClass: 'close',
+			                             label: '\u00D7',
+			                             on: {
+			                                 click: function(event) {
+			                                	 checkAndHidePopup()
+			                                     event.domEvent.stopPropagation();
+			                                 }
+			                             },
+			                             render: true
+			                         }
+			                     ]
 		           			}
 				        },
 			        id : "<portlet:namespace/>pop_up_portlet",
