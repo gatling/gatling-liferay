@@ -151,6 +151,7 @@
 				//set name of script
 				html.one('.text').html(label);
 				html.one('.text').set('title',value[1]); //sampleId
+				html.one('.weight').one("input").set('value', '0.0');
 				//Set hidden input
 				html.one('#<portlet:namespace/>recordId').val(value[1]);
 				html.one('#<portlet:namespace/>isSample').val(value[0]);
