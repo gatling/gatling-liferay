@@ -13,13 +13,14 @@
 	<portlet:param name="page" value="/html/gatling/popupPortlet/portletConfig.jsp" />
 	<portlet:param name="pagePortletId" value="${portletId}" />
 	<portlet:param name="requestId" value="${requestId}" />
+	<portlet:param name="tabs1" value="config-record" />
 </portlet:renderURL>
 
 <c:set var="title">
 	<liferay-ui:message key="editRecord-title" arguments="${recordName}" />
 </c:set>
 
-<liferay-ui:header title="${title}" backURL="${backURL}" />
+<liferay-ui:header title="${title} et portletId ${portletId}" backURL="${backURL}" />
 <c:choose>
 
 	<c:when test="${ not empty listRecordUrl}">
@@ -68,7 +69,7 @@
 									<portlet:param name="page" value="/html/gatling/popupPortlet/pages/editRecord.jsp" />
 									<portlet:param name="recordURLId" value="${recordURL.urlRecordId}"/>
 									<portlet:param name="recordId" value="${recordURL.recordId}"/>
-									<portlet:param name="pagePortletId" value="${portletId}" />
+									<portlet:param name="portletId" value="${portletId}" />
 									<portlet:param name="requestId" value="${requestId}" />
 								</portlet:actionURL>
 								<liferay-ui:icon-delete url="${deleteRecordURLURL}" />

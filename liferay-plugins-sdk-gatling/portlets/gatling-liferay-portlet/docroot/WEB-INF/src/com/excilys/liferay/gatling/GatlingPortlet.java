@@ -338,6 +338,7 @@ public class GatlingPortlet extends MVCPortlet {
 		response.setRenderParameter("page", jspEditPortlet);
 		//hack, only work this way ....
 		response.setRenderParameter("p_p_state", "pop_up");
+		LOG.info("portletid= "+ParamUtil.getString(request, "pagePortletId"));
 		PortalUtil.copyRequestParameters(request, response);
 	}
 	
