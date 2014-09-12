@@ -11,7 +11,7 @@
 	<model name="com.excilys.liferay.gatling.model.Record">
 		<field name="recordId" type="long" />
 		<field name="portletId" type="String" />
-		<field name="versionPortlet" type="long" />
+		<field name="versionPortlet" type="String" />
 		<field name="name" type="String" />
 	</model>
 	<model name="com.excilys.liferay.gatling.model.Request">

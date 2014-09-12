@@ -129,7 +129,7 @@ public class RecordLocalServiceClpInvoker {
 		_methodName61 = "save";
 
 		_methodParameterTypes61 = new String[] {
-				"java.lang.String", "java.lang.String", "long"
+				"java.lang.String", "java.lang.String", "java.lang.String"
 			};
 	}
 
@@ -255,7 +255,7 @@ public class RecordLocalServiceClpInvoker {
 		if (_methodName61.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
 			return RecordLocalServiceUtil.save((java.lang.String)arguments[0],
-				(java.lang.String)arguments[1], ((Long)arguments[2]).longValue());
+				(java.lang.String)arguments[1], (java.lang.String)arguments[2]);
 		}
 
 		throw new UnsupportedOperationException();

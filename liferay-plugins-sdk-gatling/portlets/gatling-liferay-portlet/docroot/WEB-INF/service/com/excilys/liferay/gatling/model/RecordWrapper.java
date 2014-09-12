@@ -70,7 +70,7 @@ public class RecordWrapper implements Record, ModelWrapper<Record> {
 			setPortletId(portletId);
 		}
 
-		Long versionPortlet = (Long)attributes.get("versionPortlet");
+		String versionPortlet = (String)attributes.get("versionPortlet");
 
 		if (versionPortlet != null) {
 			setVersionPortlet(versionPortlet);
@@ -149,7 +149,7 @@ public class RecordWrapper implements Record, ModelWrapper<Record> {
 	* @return the version portlet of this record
 	*/
 	@Override
-	public long getVersionPortlet() {
+	public java.lang.String getVersionPortlet() {
 		return _record.getVersionPortlet();
 	}
 
@@ -159,7 +159,7 @@ public class RecordWrapper implements Record, ModelWrapper<Record> {
 	* @param versionPortlet the version portlet of this record
 	*/
 	@Override
-	public void setVersionPortlet(long versionPortlet) {
+	public void setVersionPortlet(java.lang.String versionPortlet) {
 		_record.setVersionPortlet(versionPortlet);
 	}
 

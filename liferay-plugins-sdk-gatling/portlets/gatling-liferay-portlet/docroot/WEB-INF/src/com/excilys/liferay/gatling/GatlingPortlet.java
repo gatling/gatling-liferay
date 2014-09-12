@@ -338,7 +338,6 @@ public class GatlingPortlet extends MVCPortlet {
 		
 		if (UrlRecordLocalServiceUtil.countByRecordId(recordId) == 0) {
 			RecordLocalServiceUtil.deleteRecord(recordId);
-			System.out.println("record supprimé");
 		}
 		//redirect
 		response.setRenderParameter("page", jspEditPortlet);

@@ -129,7 +129,7 @@ public class RecordLocalServiceClp implements RecordLocalService {
 		_methodName22 = "save";
 
 		_methodParameterTypes22 = new String[] {
-				"java.lang.String", "java.lang.String", "long"
+				"java.lang.String", "java.lang.String", "java.lang.String"
 			};
 	}
 
@@ -770,7 +770,8 @@ public class RecordLocalServiceClp implements RecordLocalService {
 
 	@Override
 	public com.excilys.liferay.gatling.model.Record save(
-		java.lang.String name, java.lang.String portletId, long version)
+		java.lang.String name, java.lang.String portletId,
+		java.lang.String version)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
@@ -782,7 +783,7 @@ public class RecordLocalServiceClp implements RecordLocalService {
 						
 					ClpSerializer.translateInput(portletId),
 						
-					version
+					ClpSerializer.translateInput(version)
 					});
 		}
 		catch (Throwable t) {

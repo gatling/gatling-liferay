@@ -91,14 +91,15 @@ public interface RecordModel extends BaseModel<Record> {
 	 *
 	 * @return the version portlet of this record
 	 */
-	public long getVersionPortlet();
+	@AutoEscape
+	public String getVersionPortlet();
 
 	/**
 	 * Sets the version portlet of this record.
 	 *
 	 * @param versionPortlet the version portlet of this record
 	 */
-	public void setVersionPortlet(long versionPortlet);
+	public void setVersionPortlet(String versionPortlet);
 
 	/**
 	 * Returns the name of this record.

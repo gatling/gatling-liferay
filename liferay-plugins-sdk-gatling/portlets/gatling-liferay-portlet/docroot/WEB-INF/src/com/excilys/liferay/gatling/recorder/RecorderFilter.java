@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.service.PortletLocalServiceUtil;
 
 
 /**
@@ -103,7 +104,9 @@ public class RecorderFilter implements Filter {
 					LOG.info("Saving ...");
 					try {
 						//Save use case table
-						Record record = RecordLocalServiceUtil.save(infos[2], infos[0], 1);
+						String portletVersion = PortletLocalServiceUtil.getPortletById(infos[0]).getPluginPackage().getVersion();
+						LOG.info("version de portlet "+portletVersion);
+						Record record = RecordLocalServiceUtil.save(infos[2], infos[0], portletVersion);
 						LOG.info("...1/2");
 						//Save url table
 						for (int i = 0; i < recordURLs.size(); i++) {

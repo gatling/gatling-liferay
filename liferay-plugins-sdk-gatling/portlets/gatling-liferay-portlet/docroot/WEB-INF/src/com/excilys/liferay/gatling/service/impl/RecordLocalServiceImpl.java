@@ -62,7 +62,7 @@ public class RecordLocalServiceImpl extends RecordLocalServiceBaseImpl {
 	}
 	
 	@Override
-	public Record save(String name, String portletId, long version) throws SystemException{
+	public Record save(String name, String portletId, String version) throws SystemException{
 		long primaryKeyRecord = CounterLocalServiceUtil.increment(Record.class.getName());
 		Record record = recordPersistence.create(primaryKeyRecord);
 		record.setName(name);

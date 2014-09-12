@@ -60,10 +60,10 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "recordId", Types.BIGINT },
 			{ "portletId", Types.VARCHAR },
-			{ "versionPortlet", Types.BIGINT },
+			{ "versionPortlet", Types.VARCHAR },
 			{ "name", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table StressTool_Record (recordId LONG not null primary key,portletId VARCHAR(75) null,versionPortlet LONG,name VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table StressTool_Record (recordId LONG not null primary key,portletId VARCHAR(75) null,versionPortlet VARCHAR(75) null,name VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table StressTool_Record";
 	public static final String ORDER_BY_JPQL = " ORDER BY record.recordId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY StressTool_Record.recordId ASC";
@@ -143,7 +143,7 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 			setPortletId(portletId);
 		}
 
-		Long versionPortlet = (Long)attributes.get("versionPortlet");
+		String versionPortlet = (String)attributes.get("versionPortlet");
 
 		if (versionPortlet != null) {
 			setVersionPortlet(versionPortlet);
@@ -192,12 +192,17 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 	}
 
 	@Override
-	public long getVersionPortlet() {
-		return _versionPortlet;
+	public String getVersionPortlet() {
+		if (_versionPortlet == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _versionPortlet;
+		}
 	}
 
 	@Override
-	public void setVersionPortlet(long versionPortlet) {
+	public void setVersionPortlet(String versionPortlet) {
 		_versionPortlet = versionPortlet;
 	}
 
@@ -324,6 +329,12 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 
 		recordCacheModel.versionPortlet = getVersionPortlet();
 
+		String versionPortlet = recordCacheModel.versionPortlet;
+
+		if ((versionPortlet != null) && (versionPortlet.length() == 0)) {
+			recordCacheModel.versionPortlet = null;
+		}
+
 		recordCacheModel.name = getName();
 
 		String name = recordCacheModel.name;
@@ -387,7 +398,7 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 	private long _recordId;
 	private String _portletId;
 	private String _originalPortletId;
-	private long _versionPortlet;
+	private String _versionPortlet;
 	private String _name;
 	private long _columnBitmask;
 	private Record _escapedModel;

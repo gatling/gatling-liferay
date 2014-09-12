@@ -94,7 +94,7 @@ public class RecordClp extends BaseModelImpl<Record> implements Record {
 			setPortletId(portletId);
 		}
 
-		Long versionPortlet = (Long)attributes.get("versionPortlet");
+		String versionPortlet = (String)attributes.get("versionPortlet");
 
 		if (versionPortlet != null) {
 			setVersionPortlet(versionPortlet);
@@ -154,19 +154,20 @@ public class RecordClp extends BaseModelImpl<Record> implements Record {
 	}
 
 	@Override
-	public long getVersionPortlet() {
+	public String getVersionPortlet() {
 		return _versionPortlet;
 	}
 
 	@Override
-	public void setVersionPortlet(long versionPortlet) {
+	public void setVersionPortlet(String versionPortlet) {
 		_versionPortlet = versionPortlet;
 
 		if (_recordRemoteModel != null) {
 			try {
 				Class<?> clazz = _recordRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setVersionPortlet", long.class);
+				Method method = clazz.getMethod("setVersionPortlet",
+						String.class);
 
 				method.invoke(_recordRemoteModel, versionPortlet);
 			}
@@ -367,7 +368,7 @@ public class RecordClp extends BaseModelImpl<Record> implements Record {
 
 	private long _recordId;
 	private String _portletId;
-	private long _versionPortlet;
+	private String _versionPortlet;
 	private String _name;
 	private BaseModel<?> _recordRemoteModel;
 }

@@ -63,7 +63,12 @@ public class RecordCacheModel implements CacheModel<Record>, Externalizable {
 			recordImpl.setPortletId(portletId);
 		}
 
-		recordImpl.setVersionPortlet(versionPortlet);
+		if (versionPortlet == null) {
+			recordImpl.setVersionPortlet(StringPool.BLANK);
+		}
+		else {
+			recordImpl.setVersionPortlet(versionPortlet);
+		}
 
 		if (name == null) {
 			recordImpl.setName(StringPool.BLANK);
@@ -81,7 +86,7 @@ public class RecordCacheModel implements CacheModel<Record>, Externalizable {
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		recordId = objectInput.readLong();
 		portletId = objectInput.readUTF();
-		versionPortlet = objectInput.readLong();
+		versionPortlet = objectInput.readUTF();
 		name = objectInput.readUTF();
 	}
 
@@ -97,7 +102,12 @@ public class RecordCacheModel implements CacheModel<Record>, Externalizable {
 			objectOutput.writeUTF(portletId);
 		}
 
-		objectOutput.writeLong(versionPortlet);
+		if (versionPortlet == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(versionPortlet);
+		}
 
 		if (name == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -109,6 +119,6 @@ public class RecordCacheModel implements CacheModel<Record>, Externalizable {
 
 	public long recordId;
 	public String portletId;
-	public long versionPortlet;
+	public String versionPortlet;
 	public String name;
 }

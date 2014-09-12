@@ -101,11 +101,11 @@ public class RecordSoap implements Serializable {
 		_portletId = portletId;
 	}
 
-	public long getVersionPortlet() {
+	public String getVersionPortlet() {
 		return _versionPortlet;
 	}
 
-	public void setVersionPortlet(long versionPortlet) {
+	public void setVersionPortlet(String versionPortlet) {
 		_versionPortlet = versionPortlet;
 	}
 
@@ -119,6 +119,6 @@ public class RecordSoap implements Serializable {
 
 	private long _recordId;
 	private String _portletId;
-	private long _versionPortlet;
+	private String _versionPortlet;
 	private String _name;
 }

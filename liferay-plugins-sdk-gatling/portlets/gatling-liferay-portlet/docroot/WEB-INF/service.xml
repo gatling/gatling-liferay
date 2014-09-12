@@ -97,7 +97,7 @@
 	<entity name="Record" remote-service="false" local-service="true">
 		<column name="recordId" type="long" primary="true" />
 		<column name="portletId" type="String" />
-		<column name="versionPortlet" type="long" />
+		<column name="versionPortlet" type="String" />
 		<column name="name" type="String" />
 		<finder name="PortletId" return-type="Collection">
 			<finder-column name="portletId" />
