@@ -20,7 +20,7 @@
 	<liferay-ui:message key="editRecord-title" arguments="${recordName}" />
 </c:set>
 
-<liferay-ui:header title="${title} et portletId ${portletId}" backURL="${backURL}" />
+<liferay-ui:header title="${title}" backURL="${backURL}" />
 <c:choose>
 
 	<c:when test="${ not empty listRecordUrl}">

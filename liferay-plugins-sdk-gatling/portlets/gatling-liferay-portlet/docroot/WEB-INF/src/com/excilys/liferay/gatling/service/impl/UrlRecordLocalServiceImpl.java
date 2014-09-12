@@ -16,7 +16,6 @@ package com.excilys.liferay.gatling.service.impl;
 
 import java.util.List;
 
-import com.excilys.liferay.gatling.NoSuchRecordException;
 import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.service.base.UrlRecordLocalServiceBaseImpl;
 import com.excilys.liferay.gatling.validator.UrlRecordValidator;
@@ -49,11 +48,9 @@ public class UrlRecordLocalServiceImpl extends UrlRecordLocalServiceBaseImpl {
 		return urlRecordPersistence.findByRecordId(recordId);
 	}
 	
-	public void removeByRecordId(long recordId) throws SystemException, NoSuchRecordException {
+	@Override
+	public void removeByRecordId(long recordId) throws SystemException {
 		urlRecordPersistence.removeByRecordId(recordId);
-		if (urlRecordPersistence.countByRecordId(recordId) == 0) {
-			recordPersistence.remove(recordId);
-		}
 	}
 	
 	@Override

@@ -333,12 +333,17 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	public void removeRecordURL(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException{
 		long recordURLId = ParamUtil.getLong(request, "recordURLId");
+		long recordId = ParamUtil.getLong(request, "recordId");
 		UrlRecordLocalServiceUtil.deleteUrlRecord(recordURLId);
+		
+		if (UrlRecordLocalServiceUtil.countByRecordId(recordId) == 0) {
+			RecordLocalServiceUtil.deleteRecord(recordId);
+			System.out.println("record supprimé");
+		}
 		//redirect
 		response.setRenderParameter("page", jspEditPortlet);
 		//hack, only work this way ....
 		response.setRenderParameter("p_p_state", "pop_up");
-		LOG.info("portletid= "+ParamUtil.getString(request, "pagePortletId"));
 		PortalUtil.copyRequestParameters(request, response);
 	}
 	
