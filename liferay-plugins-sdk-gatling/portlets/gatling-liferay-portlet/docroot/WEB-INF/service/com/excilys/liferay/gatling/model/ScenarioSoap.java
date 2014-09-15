@@ -31,11 +31,10 @@ public class ScenarioSoap implements Serializable {
 
 		soapModel.setScenario_id(model.getScenario_id());
 		soapModel.setName(model.getName());
-		soapModel.setVariableName(model.getVariableName());
 		soapModel.setUrl_site(model.getUrl_site());
 		soapModel.setGroup_id(model.getGroup_id());
 		soapModel.setSimulation_id(model.getSimulation_id());
-		soapModel.setUsers_per_seconds(model.getUsers_per_seconds());
+		soapModel.setNumberOfUsers(model.getNumberOfUsers());
 		soapModel.setDuration(model.getDuration());
 
 		return soapModel;
@@ -105,14 +104,6 @@ public class ScenarioSoap implements Serializable {
 		_name = name;
 	}
 
-	public String getVariableName() {
-		return _variableName;
-	}
-
-	public void setVariableName(String variableName) {
-		_variableName = variableName;
-	}
-
 	public String getUrl_site() {
 		return _url_site;
 	}
@@ -137,12 +128,12 @@ public class ScenarioSoap implements Serializable {
 		_simulation_id = simulation_id;
 	}
 
-	public long getUsers_per_seconds() {
-		return _users_per_seconds;
+	public long getNumberOfUsers() {
+		return _numberOfUsers;
 	}
 
-	public void setUsers_per_seconds(long users_per_seconds) {
-		_users_per_seconds = users_per_seconds;
+	public void setNumberOfUsers(long numberOfUsers) {
+		_numberOfUsers = numberOfUsers;
 	}
 
 	public long getDuration() {
@@ -155,10 +146,9 @@ public class ScenarioSoap implements Serializable {
 
 	private long _scenario_id;
 	private String _name;
-	private String _variableName;
 	private String _url_site;
 	private long _group_id;
 	private long _simulation_id;
-	private long _users_per_seconds;
+	private long _numberOfUsers;
 	private long _duration;
 }

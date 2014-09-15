@@ -293,14 +293,6 @@ public class SimulationLocalServiceUtil {
 	}
 
 	/**
-	* Count how many {@link Simulation} have this variableName
-	*/
-	public static int countByVariableName(java.lang.String variableName)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().countByVariableName(variableName);
-	}
-
-	/**
 	* Add a {@link Simulation} from an {@link ActionRequest}
 	*
 	* @param {@link ActionRequest} request

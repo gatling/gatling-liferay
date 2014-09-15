@@ -109,7 +109,7 @@
 		<%-- duration --%>
 		<liferay-ui:search-container-column-text name="simulation-edit-table-header-duration" value="${scenario.duration }" />
 		<%-- users --%>
-		<liferay-ui:search-container-column-text name="simulation-edit-table-header-users" value="${scenario.getUsers_per_seconds() }" />
+		<liferay-ui:search-container-column-text name="simulation-edit-table-header-users" value="${scenario.getNumberOfUsers() }" />
 		<%-- state --%>
 		<liferay-ui:search-container-column-text name="simulation-edit-table-header-state">
 			<c:choose>

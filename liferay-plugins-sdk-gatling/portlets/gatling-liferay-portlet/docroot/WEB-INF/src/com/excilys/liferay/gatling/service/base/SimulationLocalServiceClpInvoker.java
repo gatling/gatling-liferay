@@ -122,13 +122,9 @@ public class SimulationLocalServiceClpInvoker {
 
 		_methodParameterTypes59 = new String[] { "java.lang.String" };
 
-		_methodName60 = "countByVariableName";
+		_methodName60 = "addSimulationFromRequest";
 
-		_methodParameterTypes60 = new String[] { "java.lang.String" };
-
-		_methodName61 = "addSimulationFromRequest";
-
-		_methodParameterTypes61 = new String[] { "javax.portlet.ActionRequest" };
+		_methodParameterTypes60 = new String[] { "javax.portlet.ActionRequest" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -246,11 +242,6 @@ public class SimulationLocalServiceClpInvoker {
 
 		if (_methodName60.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
-			return SimulationLocalServiceUtil.countByVariableName((java.lang.String)arguments[0]);
-		}
-
-		if (_methodName61.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
 			return SimulationLocalServiceUtil.addSimulationFromRequest((javax.portlet.ActionRequest)arguments[0]);
 		}
 
@@ -299,6 +290,4 @@ public class SimulationLocalServiceClpInvoker {
 	private String[] _methodParameterTypes59;
 	private String _methodName60;
 	private String[] _methodParameterTypes60;
-	private String _methodName61;
-	private String[] _methodParameterTypes61;
 }

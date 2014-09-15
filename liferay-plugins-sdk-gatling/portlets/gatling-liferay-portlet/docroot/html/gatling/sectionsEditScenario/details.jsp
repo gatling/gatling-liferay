@@ -20,7 +20,7 @@
 	</aui:input>
 	
 	<aui:input label="scenario-edit-nb-users-per-second" name="scenarioUsers" 
-			value="${scenario.users_per_seconds}" inlineField="true" helpMessage="nbuser-info-help">
+			value="${scenario.numberOfUsers}" inlineField="true" helpMessage="nbuser-info-help">
 		<aui:validator name="required"/>
 		<aui:validator name="number"/>
 		<aui:validator name="min">1</aui:validator>

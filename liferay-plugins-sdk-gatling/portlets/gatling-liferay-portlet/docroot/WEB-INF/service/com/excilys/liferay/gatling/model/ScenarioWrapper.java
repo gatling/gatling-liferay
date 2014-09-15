@@ -50,11 +50,10 @@ public class ScenarioWrapper implements Scenario, ModelWrapper<Scenario> {
 
 		attributes.put("scenario_id", getScenario_id());
 		attributes.put("name", getName());
-		attributes.put("variableName", getVariableName());
 		attributes.put("url_site", getUrl_site());
 		attributes.put("group_id", getGroup_id());
 		attributes.put("simulation_id", getSimulation_id());
-		attributes.put("users_per_seconds", getUsers_per_seconds());
+		attributes.put("numberOfUsers", getNumberOfUsers());
 		attributes.put("duration", getDuration());
 
 		return attributes;
@@ -72,12 +71,6 @@ public class ScenarioWrapper implements Scenario, ModelWrapper<Scenario> {
 
 		if (name != null) {
 			setName(name);
-		}
-
-		String variableName = (String)attributes.get("variableName");
-
-		if (variableName != null) {
-			setVariableName(variableName);
 		}
 
 		String url_site = (String)attributes.get("url_site");
@@ -98,10 +91,10 @@ public class ScenarioWrapper implements Scenario, ModelWrapper<Scenario> {
 			setSimulation_id(simulation_id);
 		}
 
-		Long users_per_seconds = (Long)attributes.get("users_per_seconds");
+		Long numberOfUsers = (Long)attributes.get("numberOfUsers");
 
-		if (users_per_seconds != null) {
-			setUsers_per_seconds(users_per_seconds);
+		if (numberOfUsers != null) {
+			setNumberOfUsers(numberOfUsers);
 		}
 
 		Long duration = (Long)attributes.get("duration");
@@ -172,26 +165,6 @@ public class ScenarioWrapper implements Scenario, ModelWrapper<Scenario> {
 	}
 
 	/**
-	* Returns the variable name of this scenario.
-	*
-	* @return the variable name of this scenario
-	*/
-	@Override
-	public java.lang.String getVariableName() {
-		return _scenario.getVariableName();
-	}
-
-	/**
-	* Sets the variable name of this scenario.
-	*
-	* @param variableName the variable name of this scenario
-	*/
-	@Override
-	public void setVariableName(java.lang.String variableName) {
-		_scenario.setVariableName(variableName);
-	}
-
-	/**
 	* Returns the url_site of this scenario.
 	*
 	* @return the url_site of this scenario
@@ -252,23 +225,23 @@ public class ScenarioWrapper implements Scenario, ModelWrapper<Scenario> {
 	}
 
 	/**
-	* Returns the users_per_seconds of this scenario.
+	* Returns the number of users of this scenario.
 	*
-	* @return the users_per_seconds of this scenario
+	* @return the number of users of this scenario
 	*/
 	@Override
-	public long getUsers_per_seconds() {
-		return _scenario.getUsers_per_seconds();
+	public long getNumberOfUsers() {
+		return _scenario.getNumberOfUsers();
 	}
 
 	/**
-	* Sets the users_per_seconds of this scenario.
+	* Sets the number of users of this scenario.
 	*
-	* @param users_per_seconds the users_per_seconds of this scenario
+	* @param numberOfUsers the number of users of this scenario
 	*/
 	@Override
-	public void setUsers_per_seconds(long users_per_seconds) {
-		_scenario.setUsers_per_seconds(users_per_seconds);
+	public void setNumberOfUsers(long numberOfUsers) {
+		_scenario.setNumberOfUsers(numberOfUsers);
 	}
 
 	/**

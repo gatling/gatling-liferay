@@ -16,6 +16,7 @@ import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
+import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 
 public class ScriptGeneratorGatling {
@@ -25,7 +26,8 @@ public class ScriptGeneratorGatling {
 	private List<MustacheScenario> mustacheScenario;
 
 	public ScriptGeneratorGatling(Long simulationId) throws Exception{
-		this.simuName = SimulationLocalServiceUtil.getSimulation(simulationId).getVariableName();
+		String name = SimulationLocalServiceUtil.getSimulation(simulationId).getName();
+		this.simuName = GatlingUtil.createSimulationVariable(name);
 		this.simulationId = simulationId;
 	}
 	
@@ -68,7 +70,8 @@ public class ScriptGeneratorGatling {
 
 	public void setId(final long id) throws Exception {
 		this.simulationId = id;
-		this.simuName = SimulationLocalServiceUtil.getSimulation(id).getVariableName();		
+		String name = SimulationLocalServiceUtil.getSimulation(simulationId).getName();
+		this.simuName = GatlingUtil.createSimulationVariable(name);
 
 	}
 
@@ -144,7 +147,8 @@ public class ScriptGeneratorGatling {
 		if( !listMustacheRequest.isEmpty()) {
 			listMustacheRequest.get(listMustacheRequest.size()-1).setWeight(lastWeight).setLast(true).setScenarioId(sc.getScenario_id());
 		}
-		return new MustacheScenario(sc.getVariableName(),sc.getUsers_per_seconds(), sc.getDuration(), listMustacheRequest);
+		String variableName = GatlingUtil.createScenarioVariable(sc.getName());
+		return new MustacheScenario(variableName, sc.getNumberOfUsers(), sc.getDuration(), listMustacheRequest);
 	}
 
 	public Long getSimulationId() {

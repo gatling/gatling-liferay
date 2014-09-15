@@ -29,7 +29,6 @@ import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.ScenarioLocalServiceBaseImpl;
 import com.excilys.liferay.gatling.util.DisplayItemDTOUtil;
-import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.excilys.liferay.gatling.validator.RequestValidator;
 import com.excilys.liferay.gatling.validator.ScenarioValidator;
 import com.liferay.counter.service.CounterLocalServiceUtil;
@@ -158,15 +157,6 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		scenario.setGroup_id(ParamUtil.getLong(request, "sites"));
 		
 		/*
-		 *  Set Variable Name
-		 */
-		String variableName = GatlingUtil.createVariableName("scenario", ParamUtil.getString(request, "scenarioName"));
-		final int sizeVar = scenarioPersistence.countByVariableName(variableName, scenario.getSimulation_id());
-		if(sizeVar !=0 ) {
-			variableName = variableName.concat(Integer.toString(sizeVar));
-		}
-		scenario.setVariableName(variableName);
-		/*
 		 * Add base url
 		 */
 		String urlSite = GroupLocalServiceUtil.fetchGroup(ParamUtil.getLong(request, "sites")).getIconURL(themeDisplay);
@@ -225,8 +215,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		Scenario scenario = scenarioPersistence.findByPrimaryKey(idScenario);
 		String scenarioName= ParamUtil.getString(request, "scenarioName");
 		scenario.setName(scenarioName);
-		scenario.setVariableName(GatlingUtil.createVariableName("scenario", scenarioName));
-		scenario.setUsers_per_seconds(ParamUtil.getLong(request, "scenarioUsers"));
+		scenario.setNumberOfUsers(ParamUtil.getLong(request, "scenarioUsers"));
 		scenario.setDuration(ParamUtil.getLong(request, "scenarioDuration"));
 		scenarioToReturn = scenarioPersistence.update(scenario);
 		/*

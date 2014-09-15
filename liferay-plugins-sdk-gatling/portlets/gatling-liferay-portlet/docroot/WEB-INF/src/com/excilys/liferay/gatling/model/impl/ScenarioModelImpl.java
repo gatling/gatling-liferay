@@ -60,14 +60,13 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "scenario_id", Types.BIGINT },
 			{ "name", Types.VARCHAR },
-			{ "variableName", Types.VARCHAR },
 			{ "url_site", Types.VARCHAR },
 			{ "group_id", Types.BIGINT },
 			{ "simulation_id", Types.BIGINT },
-			{ "users_per_seconds", Types.BIGINT },
+			{ "numberOfUsers", Types.BIGINT },
 			{ "duration", Types.BIGINT }
 		};
-	public static final String TABLE_SQL_CREATE = "create table StressTool_Scenario (scenario_id LONG not null primary key,name VARCHAR(75) null,variableName VARCHAR(75) null,url_site VARCHAR(75) null,group_id LONG,simulation_id LONG,users_per_seconds LONG,duration LONG)";
+	public static final String TABLE_SQL_CREATE = "create table StressTool_Scenario (scenario_id LONG not null primary key,name VARCHAR(75) null,url_site VARCHAR(75) null,group_id LONG,simulation_id LONG,numberOfUsers LONG,duration LONG)";
 	public static final String TABLE_SQL_DROP = "drop table StressTool_Scenario";
 	public static final String ORDER_BY_JPQL = " ORDER BY scenario.scenario_id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY StressTool_Scenario.scenario_id ASC";
@@ -84,8 +83,7 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 				"value.object.column.bitmask.enabled.com.excilys.liferay.gatling.model.Scenario"),
 			true);
 	public static long SIMULATION_ID_COLUMN_BITMASK = 1L;
-	public static long VARIABLENAME_COLUMN_BITMASK = 2L;
-	public static long SCENARIO_ID_COLUMN_BITMASK = 4L;
+	public static long SCENARIO_ID_COLUMN_BITMASK = 2L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.excilys.liferay.gatling.model.Scenario"));
 
@@ -128,11 +126,10 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 
 		attributes.put("scenario_id", getScenario_id());
 		attributes.put("name", getName());
-		attributes.put("variableName", getVariableName());
 		attributes.put("url_site", getUrl_site());
 		attributes.put("group_id", getGroup_id());
 		attributes.put("simulation_id", getSimulation_id());
-		attributes.put("users_per_seconds", getUsers_per_seconds());
+		attributes.put("numberOfUsers", getNumberOfUsers());
 		attributes.put("duration", getDuration());
 
 		return attributes;
@@ -150,12 +147,6 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 
 		if (name != null) {
 			setName(name);
-		}
-
-		String variableName = (String)attributes.get("variableName");
-
-		if (variableName != null) {
-			setVariableName(variableName);
 		}
 
 		String url_site = (String)attributes.get("url_site");
@@ -176,10 +167,10 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 			setSimulation_id(simulation_id);
 		}
 
-		Long users_per_seconds = (Long)attributes.get("users_per_seconds");
+		Long numberOfUsers = (Long)attributes.get("numberOfUsers");
 
-		if (users_per_seconds != null) {
-			setUsers_per_seconds(users_per_seconds);
+		if (numberOfUsers != null) {
+			setNumberOfUsers(numberOfUsers);
 		}
 
 		Long duration = (Long)attributes.get("duration");
@@ -212,31 +203,6 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 	@Override
 	public void setName(String name) {
 		_name = name;
-	}
-
-	@Override
-	public String getVariableName() {
-		if (_variableName == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _variableName;
-		}
-	}
-
-	@Override
-	public void setVariableName(String variableName) {
-		_columnBitmask |= VARIABLENAME_COLUMN_BITMASK;
-
-		if (_originalVariableName == null) {
-			_originalVariableName = _variableName;
-		}
-
-		_variableName = variableName;
-	}
-
-	public String getOriginalVariableName() {
-		return GetterUtil.getString(_originalVariableName);
 	}
 
 	@Override
@@ -287,13 +253,13 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 	}
 
 	@Override
-	public long getUsers_per_seconds() {
-		return _users_per_seconds;
+	public long getNumberOfUsers() {
+		return _numberOfUsers;
 	}
 
 	@Override
-	public void setUsers_per_seconds(long users_per_seconds) {
-		_users_per_seconds = users_per_seconds;
+	public void setNumberOfUsers(long numberOfUsers) {
+		_numberOfUsers = numberOfUsers;
 	}
 
 	@Override
@@ -339,11 +305,10 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 
 		scenarioImpl.setScenario_id(getScenario_id());
 		scenarioImpl.setName(getName());
-		scenarioImpl.setVariableName(getVariableName());
 		scenarioImpl.setUrl_site(getUrl_site());
 		scenarioImpl.setGroup_id(getGroup_id());
 		scenarioImpl.setSimulation_id(getSimulation_id());
-		scenarioImpl.setUsers_per_seconds(getUsers_per_seconds());
+		scenarioImpl.setNumberOfUsers(getNumberOfUsers());
 		scenarioImpl.setDuration(getDuration());
 
 		scenarioImpl.resetOriginalValues();
@@ -397,8 +362,6 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 	public void resetOriginalValues() {
 		ScenarioModelImpl scenarioModelImpl = this;
 
-		scenarioModelImpl._originalVariableName = scenarioModelImpl._variableName;
-
 		scenarioModelImpl._originalSimulation_id = scenarioModelImpl._simulation_id;
 
 		scenarioModelImpl._setOriginalSimulation_id = false;
@@ -420,14 +383,6 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 			scenarioCacheModel.name = null;
 		}
 
-		scenarioCacheModel.variableName = getVariableName();
-
-		String variableName = scenarioCacheModel.variableName;
-
-		if ((variableName != null) && (variableName.length() == 0)) {
-			scenarioCacheModel.variableName = null;
-		}
-
 		scenarioCacheModel.url_site = getUrl_site();
 
 		String url_site = scenarioCacheModel.url_site;
@@ -440,7 +395,7 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 
 		scenarioCacheModel.simulation_id = getSimulation_id();
 
-		scenarioCacheModel.users_per_seconds = getUsers_per_seconds();
+		scenarioCacheModel.numberOfUsers = getNumberOfUsers();
 
 		scenarioCacheModel.duration = getDuration();
 
@@ -449,22 +404,20 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{scenario_id=");
 		sb.append(getScenario_id());
 		sb.append(", name=");
 		sb.append(getName());
-		sb.append(", variableName=");
-		sb.append(getVariableName());
 		sb.append(", url_site=");
 		sb.append(getUrl_site());
 		sb.append(", group_id=");
 		sb.append(getGroup_id());
 		sb.append(", simulation_id=");
 		sb.append(getSimulation_id());
-		sb.append(", users_per_seconds=");
-		sb.append(getUsers_per_seconds());
+		sb.append(", numberOfUsers=");
+		sb.append(getNumberOfUsers());
 		sb.append(", duration=");
 		sb.append(getDuration());
 		sb.append("}");
@@ -474,7 +427,7 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(28);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
 		sb.append("com.excilys.liferay.gatling.model.Scenario");
@@ -489,10 +442,6 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 		sb.append(getName());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>variableName</column-name><column-value><![CDATA[");
-		sb.append(getVariableName());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>url_site</column-name><column-value><![CDATA[");
 		sb.append(getUrl_site());
 		sb.append("]]></column-value></column>");
@@ -505,8 +454,8 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 		sb.append(getSimulation_id());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>users_per_seconds</column-name><column-value><![CDATA[");
-		sb.append(getUsers_per_seconds());
+			"<column><column-name>numberOfUsers</column-name><column-value><![CDATA[");
+		sb.append(getNumberOfUsers());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>duration</column-name><column-value><![CDATA[");
@@ -524,14 +473,12 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 		};
 	private long _scenario_id;
 	private String _name;
-	private String _variableName;
-	private String _originalVariableName;
 	private String _url_site;
 	private long _group_id;
 	private long _simulation_id;
 	private long _originalSimulation_id;
 	private boolean _setOriginalSimulation_id;
-	private long _users_per_seconds;
+	private long _numberOfUsers;
 	private long _duration;
 	private long _columnBitmask;
 	private Scenario _escapedModel;

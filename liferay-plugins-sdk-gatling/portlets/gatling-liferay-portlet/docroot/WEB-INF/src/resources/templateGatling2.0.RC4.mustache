@@ -64,7 +64,7 @@ class {{simuName}} extends Simulation {
 {{#scripts}}
       {{pourcentage}} -> exec({{nameVariable}}){{^-last}},{{/-last}}
 {{/scripts}}
-        )
+    )
 
 {{/mustachePortlet}}
     val Entrance = exec( http("{{requestName}}").get("{{url}}") ) 

@@ -35,22 +35,20 @@ import java.io.ObjectOutput;
 public class ScenarioCacheModel implements CacheModel<Scenario>, Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{scenario_id=");
 		sb.append(scenario_id);
 		sb.append(", name=");
 		sb.append(name);
-		sb.append(", variableName=");
-		sb.append(variableName);
 		sb.append(", url_site=");
 		sb.append(url_site);
 		sb.append(", group_id=");
 		sb.append(group_id);
 		sb.append(", simulation_id=");
 		sb.append(simulation_id);
-		sb.append(", users_per_seconds=");
-		sb.append(users_per_seconds);
+		sb.append(", numberOfUsers=");
+		sb.append(numberOfUsers);
 		sb.append(", duration=");
 		sb.append(duration);
 		sb.append("}");
@@ -71,13 +69,6 @@ public class ScenarioCacheModel implements CacheModel<Scenario>, Externalizable 
 			scenarioImpl.setName(name);
 		}
 
-		if (variableName == null) {
-			scenarioImpl.setVariableName(StringPool.BLANK);
-		}
-		else {
-			scenarioImpl.setVariableName(variableName);
-		}
-
 		if (url_site == null) {
 			scenarioImpl.setUrl_site(StringPool.BLANK);
 		}
@@ -87,7 +78,7 @@ public class ScenarioCacheModel implements CacheModel<Scenario>, Externalizable 
 
 		scenarioImpl.setGroup_id(group_id);
 		scenarioImpl.setSimulation_id(simulation_id);
-		scenarioImpl.setUsers_per_seconds(users_per_seconds);
+		scenarioImpl.setNumberOfUsers(numberOfUsers);
 		scenarioImpl.setDuration(duration);
 
 		scenarioImpl.resetOriginalValues();
@@ -99,11 +90,10 @@ public class ScenarioCacheModel implements CacheModel<Scenario>, Externalizable 
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		scenario_id = objectInput.readLong();
 		name = objectInput.readUTF();
-		variableName = objectInput.readUTF();
 		url_site = objectInput.readUTF();
 		group_id = objectInput.readLong();
 		simulation_id = objectInput.readLong();
-		users_per_seconds = objectInput.readLong();
+		numberOfUsers = objectInput.readLong();
 		duration = objectInput.readLong();
 	}
 
@@ -119,13 +109,6 @@ public class ScenarioCacheModel implements CacheModel<Scenario>, Externalizable 
 			objectOutput.writeUTF(name);
 		}
 
-		if (variableName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(variableName);
-		}
-
 		if (url_site == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -135,16 +118,15 @@ public class ScenarioCacheModel implements CacheModel<Scenario>, Externalizable 
 
 		objectOutput.writeLong(group_id);
 		objectOutput.writeLong(simulation_id);
-		objectOutput.writeLong(users_per_seconds);
+		objectOutput.writeLong(numberOfUsers);
 		objectOutput.writeLong(duration);
 	}
 
 	public long scenario_id;
 	public String name;
-	public String variableName;
 	public String url_site;
 	public long group_id;
 	public long simulation_id;
-	public long users_per_seconds;
+	public long numberOfUsers;
 	public long duration;
 }

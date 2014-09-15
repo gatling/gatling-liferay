@@ -123,13 +123,9 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
 
 		_methodParameterTypes20 = new String[] { "java.lang.String" };
 
-		_methodName21 = "countByVariableName";
+		_methodName21 = "addSimulationFromRequest";
 
-		_methodParameterTypes21 = new String[] { "java.lang.String" };
-
-		_methodName22 = "addSimulationFromRequest";
-
-		_methodParameterTypes22 = new String[] { "javax.portlet.ActionRequest" };
+		_methodParameterTypes21 = new String[] { "javax.portlet.ActionRequest" };
 	}
 
 	@Override
@@ -742,43 +738,14 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
 	}
 
 	@Override
-	public int countByVariableName(java.lang.String variableName)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		Object returnObj = null;
-
-		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName21,
-					_methodParameterTypes21,
-					new Object[] { ClpSerializer.translateInput(variableName) });
-		}
-		catch (Throwable t) {
-			t = ClpSerializer.translateThrowable(t);
-
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
-			}
-
-			if (t instanceof RuntimeException) {
-				throw (RuntimeException)t;
-			}
-			else {
-				throw new RuntimeException(t.getClass().getName() +
-					" is not a valid exception");
-			}
-		}
-
-		return ((Integer)returnObj).intValue();
-	}
-
-	@Override
 	public com.excilys.liferay.gatling.model.Simulation addSimulationFromRequest(
 		javax.portlet.ActionRequest request)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName22,
-					_methodParameterTypes22,
+			returnObj = _invokableLocalService.invokeMethod(_methodName21,
+					_methodParameterTypes21,
 					new Object[] { ClpSerializer.translateInput(request) });
 		}
 		catch (Throwable t) {
@@ -843,6 +810,4 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
 	private String[] _methodParameterTypes20;
 	private String _methodName21;
 	private String[] _methodParameterTypes21;
-	private String _methodName22;
-	private String[] _methodParameterTypes22;
 }

@@ -34,9 +34,22 @@ public class GatlingUtil {
 	 * @param name
 	 * @return
 	 */
-	public static String createVariableName(String prefix, String name) {
+	private static String createVariableName(String prefix, String name) {
 		// Create variable name
-		return prefix.concat(StringUtil.upperCaseFirstLetter(name.replaceAll("\\P{Alnum}", "")));
+		String[] tab = name.trim().split("[_\\s]");
+		StringBuffer sb = new StringBuffer(prefix);
+		for (String string : tab) {
+			sb.append(StringUtil.upperCaseFirstLetter(string));
+		}
+		return sb.toString();
+	}
+	
+	public static String createScenarioVariable(String name) {
+		return createVariableName("Scenario", name);
+	}
+	
+	public static String createSimulationVariable(String name) {
+		return createVariableName("Simulation", name);
 	}
 	
 	/**

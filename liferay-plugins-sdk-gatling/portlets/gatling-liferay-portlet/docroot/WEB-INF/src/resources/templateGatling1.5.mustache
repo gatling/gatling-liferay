@@ -16,11 +16,11 @@ class {{simuName}} extends Simulation {
 {{#mustacheScenario}}
   var {{name}} = scenario("{{name}}")
     .randomSwitch(
-		{{#mustacheRequests}}
+    {{#mustacheRequests}}
       {{truncate}} -> exec(http("{{name}}").get("{{url}}")){{^last}},{{/last}}
-{{/mustacheRequests}}	
+    {{/mustacheRequests}}	
   )
-	{{/mustacheScenario}}
+{{/mustacheScenario}}
 	
 		
   setUp(

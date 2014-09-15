@@ -15,8 +15,6 @@ import com.liferay.portal.kernel.util.Validator;
 
 public class ScenarioValidator {
 
-	private static final String PREFIX = "scenario";
-
 	/**
 	 * Validate a {@link Scenario}
 	 * @param {@link Scenario} scenario 
@@ -38,7 +36,7 @@ public class ScenarioValidator {
 			errors.add("scenario-duration-required");
 		}
 
-		if( !Validator.isNumber(Long.toString(scenario.getUsers_per_seconds()))) {
+		if( !Validator.isNumber(Long.toString(scenario.getNumberOfUsers()))) {
 			errors.add("scenario-users_per_seconds-required");
 		}
 
@@ -48,10 +46,6 @@ public class ScenarioValidator {
 		
 		if(Validator.isNull(scenario.getSimulation_id())) {
 			errors.add("scenario-simulationid-missing");
-		}
-
-		if ( Validator.isNull(scenario.getVariableName().substring(PREFIX.length()))) {
-			errors.add("scenario-variable-required");
 		}
 
 		return errors;

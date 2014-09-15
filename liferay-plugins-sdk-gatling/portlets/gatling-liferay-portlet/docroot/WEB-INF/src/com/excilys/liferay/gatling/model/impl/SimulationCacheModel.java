@@ -36,14 +36,12 @@ public class SimulationCacheModel implements CacheModel<Simulation>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(7);
+		StringBundler sb = new StringBundler(5);
 
 		sb.append("{simulation_id=");
 		sb.append(simulation_id);
 		sb.append(", name=");
 		sb.append(name);
-		sb.append(", variableName=");
-		sb.append(variableName);
 		sb.append("}");
 
 		return sb.toString();
@@ -62,13 +60,6 @@ public class SimulationCacheModel implements CacheModel<Simulation>,
 			simulationImpl.setName(name);
 		}
 
-		if (variableName == null) {
-			simulationImpl.setVariableName(StringPool.BLANK);
-		}
-		else {
-			simulationImpl.setVariableName(variableName);
-		}
-
 		simulationImpl.resetOriginalValues();
 
 		return simulationImpl;
@@ -78,7 +69,6 @@ public class SimulationCacheModel implements CacheModel<Simulation>,
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		simulation_id = objectInput.readLong();
 		name = objectInput.readUTF();
-		variableName = objectInput.readUTF();
 	}
 
 	@Override
@@ -92,16 +82,8 @@ public class SimulationCacheModel implements CacheModel<Simulation>,
 		else {
 			objectOutput.writeUTF(name);
 		}
-
-		if (variableName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(variableName);
-		}
 	}
 
 	public long simulation_id;
 	public String name;
-	public String variableName;
 }

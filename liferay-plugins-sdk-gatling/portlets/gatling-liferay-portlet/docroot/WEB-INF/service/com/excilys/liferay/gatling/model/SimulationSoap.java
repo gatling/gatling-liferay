@@ -31,7 +31,6 @@ public class SimulationSoap implements Serializable {
 
 		soapModel.setSimulation_id(model.getSimulation_id());
 		soapModel.setName(model.getName());
-		soapModel.setVariableName(model.getVariableName());
 
 		return soapModel;
 	}
@@ -100,15 +99,6 @@ public class SimulationSoap implements Serializable {
 		_name = name;
 	}
 
-	public String getVariableName() {
-		return _variableName;
-	}
-
-	public void setVariableName(String variableName) {
-		_variableName = variableName;
-	}
-
 	private long _simulation_id;
 	private String _name;
-	private String _variableName;
 }

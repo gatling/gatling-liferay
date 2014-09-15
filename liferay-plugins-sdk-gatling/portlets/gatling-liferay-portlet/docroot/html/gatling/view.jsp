@@ -138,7 +138,11 @@
 		</div>
 		<aui:input label="simulation-list-form-name-simulation" name="simulationName">
 			<aui:validator name="required" />
-			<aui:validator name="alphanum" />
+			<aui:validator name="custom" errorMessage="simulation-name-syntaxe">
+				function (val, fieldNode, ruleValue) {
+					return /^[\w\s]+$/.test(val);
+				}
+			</aui:validator>
 			<aui:validator name="custom" errorMessage="simulation-name-already-used">
 			 	function (val, fieldNode, ruleValue) {
 					var result = false;

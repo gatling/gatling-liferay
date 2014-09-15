@@ -86,21 +86,6 @@ public interface SimulationModel extends BaseModel<Simulation> {
 	 */
 	public void setName(String name);
 
-	/**
-	 * Returns the variable name of this simulation.
-	 *
-	 * @return the variable name of this simulation
-	 */
-	@AutoEscape
-	public String getVariableName();
-
-	/**
-	 * Sets the variable name of this simulation.
-	 *
-	 * @param variableName the variable name of this simulation
-	 */
-	public void setVariableName(String variableName);
-
 	@Override
 	public boolean isNew();
 

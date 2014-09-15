@@ -15,8 +15,6 @@ import com.liferay.portal.kernel.util.Validator;
 
 public class SimulationValidator {
 
-	
-	private static final String PREFIX = "simulation";
 	/**
 	 * Validate a {@link Simulation}
 	 * 
@@ -35,12 +33,6 @@ public class SimulationValidator {
 			errors.add("simulation-name-already-used");
 		}
 
-		if ( Validator.isNull(simulation.getVariableName().substring(PREFIX.length()))) {
-			errors.add("simulation-variable-required");
-		}
-		else if ( ! Validator.isAlphanumericName(simulation.getVariableName())) {
-			errors.add("simulation-variable-syntaxe");
-		}
 		return errors;
 	}
 

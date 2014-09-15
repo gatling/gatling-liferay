@@ -264,12 +264,6 @@ public interface SimulationLocalService extends BaseLocalService,
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Count how many {@link Simulation} have this variableName
-	*/
-	public int countByVariableName(java.lang.String variableName)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	/**
 	* Add a {@link Simulation} from an {@link ActionRequest}
 	*
 	* @param {@link ActionRequest} request

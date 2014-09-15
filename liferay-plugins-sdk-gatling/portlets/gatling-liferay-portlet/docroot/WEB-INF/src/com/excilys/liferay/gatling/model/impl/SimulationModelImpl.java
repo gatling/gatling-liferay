@@ -59,10 +59,9 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 	public static final String TABLE_NAME = "StressTool_Simulation";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "simulation_id", Types.BIGINT },
-			{ "name", Types.VARCHAR },
-			{ "variableName", Types.VARCHAR }
+			{ "name", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table StressTool_Simulation (simulation_id LONG not null primary key,name VARCHAR(75) null,variableName VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table StressTool_Simulation (simulation_id LONG not null primary key,name VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table StressTool_Simulation";
 	public static final String ORDER_BY_JPQL = " ORDER BY simulation.simulation_id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY StressTool_Simulation.simulation_id ASC";
@@ -75,11 +74,7 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.finder.cache.enabled.com.excilys.liferay.gatling.model.Simulation"),
 			true);
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
-				"value.object.column.bitmask.enabled.com.excilys.liferay.gatling.model.Simulation"),
-			true);
-	public static long VARIABLENAME_COLUMN_BITMASK = 1L;
-	public static long SIMULATION_ID_COLUMN_BITMASK = 2L;
+	public static final boolean COLUMN_BITMASK_ENABLED = false;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.excilys.liferay.gatling.model.Simulation"));
 
@@ -122,7 +117,6 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 
 		attributes.put("simulation_id", getSimulation_id());
 		attributes.put("name", getName());
-		attributes.put("variableName", getVariableName());
 
 		return attributes;
 	}
@@ -139,12 +133,6 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 
 		if (name != null) {
 			setName(name);
-		}
-
-		String variableName = (String)attributes.get("variableName");
-
-		if (variableName != null) {
-			setVariableName(variableName);
 		}
 	}
 
@@ -171,35 +159,6 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 	@Override
 	public void setName(String name) {
 		_name = name;
-	}
-
-	@Override
-	public String getVariableName() {
-		if (_variableName == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _variableName;
-		}
-	}
-
-	@Override
-	public void setVariableName(String variableName) {
-		_columnBitmask |= VARIABLENAME_COLUMN_BITMASK;
-
-		if (_originalVariableName == null) {
-			_originalVariableName = _variableName;
-		}
-
-		_variableName = variableName;
-	}
-
-	public String getOriginalVariableName() {
-		return GetterUtil.getString(_originalVariableName);
-	}
-
-	public long getColumnBitmask() {
-		return _columnBitmask;
 	}
 
 	@Override
@@ -231,7 +190,6 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 
 		simulationImpl.setSimulation_id(getSimulation_id());
 		simulationImpl.setName(getName());
-		simulationImpl.setVariableName(getVariableName());
 
 		simulationImpl.resetOriginalValues();
 
@@ -282,11 +240,6 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 
 	@Override
 	public void resetOriginalValues() {
-		SimulationModelImpl simulationModelImpl = this;
-
-		simulationModelImpl._originalVariableName = simulationModelImpl._variableName;
-
-		simulationModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -303,27 +256,17 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 			simulationCacheModel.name = null;
 		}
 
-		simulationCacheModel.variableName = getVariableName();
-
-		String variableName = simulationCacheModel.variableName;
-
-		if ((variableName != null) && (variableName.length() == 0)) {
-			simulationCacheModel.variableName = null;
-		}
-
 		return simulationCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(7);
+		StringBundler sb = new StringBundler(5);
 
 		sb.append("{simulation_id=");
 		sb.append(getSimulation_id());
 		sb.append(", name=");
 		sb.append(getName());
-		sb.append(", variableName=");
-		sb.append(getVariableName());
 		sb.append("}");
 
 		return sb.toString();
@@ -331,7 +274,7 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(10);
 
 		sb.append("<model><model-name>");
 		sb.append("com.excilys.liferay.gatling.model.Simulation");
@@ -345,10 +288,6 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 			"<column><column-name>name</column-name><column-value><![CDATA[");
 		sb.append(getName());
 		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>variableName</column-name><column-value><![CDATA[");
-		sb.append(getVariableName());
-		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -361,8 +300,5 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 		};
 	private long _simulation_id;
 	private String _name;
-	private String _variableName;
-	private String _originalVariableName;
-	private long _columnBitmask;
 	private Simulation _escapedModel;
 }

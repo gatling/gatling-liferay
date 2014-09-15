@@ -307,15 +307,6 @@ public class SimulationLocalServiceWrapper implements SimulationLocalService,
 	}
 
 	/**
-	* Count how many {@link Simulation} have this variableName
-	*/
-	@Override
-	public int countByVariableName(java.lang.String variableName)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _simulationLocalService.countByVariableName(variableName);
-	}
-
-	/**
 	* Add a {@link Simulation} from an {@link ActionRequest}
 	*
 	* @param {@link ActionRequest} request

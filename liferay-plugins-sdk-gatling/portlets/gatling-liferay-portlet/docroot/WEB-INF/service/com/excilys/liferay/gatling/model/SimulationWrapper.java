@@ -50,7 +50,6 @@ public class SimulationWrapper implements Simulation, ModelWrapper<Simulation> {
 
 		attributes.put("simulation_id", getSimulation_id());
 		attributes.put("name", getName());
-		attributes.put("variableName", getVariableName());
 
 		return attributes;
 	}
@@ -67,12 +66,6 @@ public class SimulationWrapper implements Simulation, ModelWrapper<Simulation> {
 
 		if (name != null) {
 			setName(name);
-		}
-
-		String variableName = (String)attributes.get("variableName");
-
-		if (variableName != null) {
-			setVariableName(variableName);
 		}
 	}
 
@@ -134,26 +127,6 @@ public class SimulationWrapper implements Simulation, ModelWrapper<Simulation> {
 	@Override
 	public void setName(java.lang.String name) {
 		_simulation.setName(name);
-	}
-
-	/**
-	* Returns the variable name of this simulation.
-	*
-	* @return the variable name of this simulation
-	*/
-	@Override
-	public java.lang.String getVariableName() {
-		return _simulation.getVariableName();
-	}
-
-	/**
-	* Sets the variable name of this simulation.
-	*
-	* @param variableName the variable name of this simulation
-	*/
-	@Override
-	public void setVariableName(java.lang.String variableName) {
-		_simulation.setVariableName(variableName);
 	}
 
 	@Override

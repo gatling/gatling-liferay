@@ -75,7 +75,6 @@ public class SimulationClp extends BaseModelImpl<Simulation>
 
 		attributes.put("simulation_id", getSimulation_id());
 		attributes.put("name", getName());
-		attributes.put("variableName", getVariableName());
 
 		return attributes;
 	}
@@ -92,12 +91,6 @@ public class SimulationClp extends BaseModelImpl<Simulation>
 
 		if (name != null) {
 			setName(name);
-		}
-
-		String variableName = (String)attributes.get("variableName");
-
-		if (variableName != null) {
-			setVariableName(variableName);
 		}
 	}
 
@@ -140,29 +133,6 @@ public class SimulationClp extends BaseModelImpl<Simulation>
 				Method method = clazz.getMethod("setName", String.class);
 
 				method.invoke(_simulationRemoteModel, name);
-			}
-			catch (Exception e) {
-				throw new UnsupportedOperationException(e);
-			}
-		}
-	}
-
-	@Override
-	public String getVariableName() {
-		return _variableName;
-	}
-
-	@Override
-	public void setVariableName(String variableName) {
-		_variableName = variableName;
-
-		if (_simulationRemoteModel != null) {
-			try {
-				Class<?> clazz = _simulationRemoteModel.getClass();
-
-				Method method = clazz.getMethod("setVariableName", String.class);
-
-				method.invoke(_simulationRemoteModel, variableName);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -241,7 +211,6 @@ public class SimulationClp extends BaseModelImpl<Simulation>
 
 		clone.setSimulation_id(getSimulation_id());
 		clone.setName(getName());
-		clone.setVariableName(getVariableName());
 
 		return clone;
 	}
@@ -290,14 +259,12 @@ public class SimulationClp extends BaseModelImpl<Simulation>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(7);
+		StringBundler sb = new StringBundler(5);
 
 		sb.append("{simulation_id=");
 		sb.append(getSimulation_id());
 		sb.append(", name=");
 		sb.append(getName());
-		sb.append(", variableName=");
-		sb.append(getVariableName());
 		sb.append("}");
 
 		return sb.toString();
@@ -305,7 +272,7 @@ public class SimulationClp extends BaseModelImpl<Simulation>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(10);
 
 		sb.append("<model><model-name>");
 		sb.append("com.excilys.liferay.gatling.model.Simulation");
@@ -319,10 +286,6 @@ public class SimulationClp extends BaseModelImpl<Simulation>
 			"<column><column-name>name</column-name><column-value><![CDATA[");
 		sb.append(getName());
 		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>variableName</column-name><column-value><![CDATA[");
-		sb.append(getVariableName());
-		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -331,6 +294,5 @@ public class SimulationClp extends BaseModelImpl<Simulation>
 
 	private long _simulation_id;
 	private String _name;
-	private String _variableName;
 	private BaseModel<?> _simulationRemoteModel;
 }

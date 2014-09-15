@@ -74,11 +74,10 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 
 		attributes.put("scenario_id", getScenario_id());
 		attributes.put("name", getName());
-		attributes.put("variableName", getVariableName());
 		attributes.put("url_site", getUrl_site());
 		attributes.put("group_id", getGroup_id());
 		attributes.put("simulation_id", getSimulation_id());
-		attributes.put("users_per_seconds", getUsers_per_seconds());
+		attributes.put("numberOfUsers", getNumberOfUsers());
 		attributes.put("duration", getDuration());
 
 		return attributes;
@@ -96,12 +95,6 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 
 		if (name != null) {
 			setName(name);
-		}
-
-		String variableName = (String)attributes.get("variableName");
-
-		if (variableName != null) {
-			setVariableName(variableName);
 		}
 
 		String url_site = (String)attributes.get("url_site");
@@ -122,10 +115,10 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 			setSimulation_id(simulation_id);
 		}
 
-		Long users_per_seconds = (Long)attributes.get("users_per_seconds");
+		Long numberOfUsers = (Long)attributes.get("numberOfUsers");
 
-		if (users_per_seconds != null) {
-			setUsers_per_seconds(users_per_seconds);
+		if (numberOfUsers != null) {
+			setNumberOfUsers(numberOfUsers);
 		}
 
 		Long duration = (Long)attributes.get("duration");
@@ -174,29 +167,6 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 				Method method = clazz.getMethod("setName", String.class);
 
 				method.invoke(_scenarioRemoteModel, name);
-			}
-			catch (Exception e) {
-				throw new UnsupportedOperationException(e);
-			}
-		}
-	}
-
-	@Override
-	public String getVariableName() {
-		return _variableName;
-	}
-
-	@Override
-	public void setVariableName(String variableName) {
-		_variableName = variableName;
-
-		if (_scenarioRemoteModel != null) {
-			try {
-				Class<?> clazz = _scenarioRemoteModel.getClass();
-
-				Method method = clazz.getMethod("setVariableName", String.class);
-
-				method.invoke(_scenarioRemoteModel, variableName);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -274,22 +244,21 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 	}
 
 	@Override
-	public long getUsers_per_seconds() {
-		return _users_per_seconds;
+	public long getNumberOfUsers() {
+		return _numberOfUsers;
 	}
 
 	@Override
-	public void setUsers_per_seconds(long users_per_seconds) {
-		_users_per_seconds = users_per_seconds;
+	public void setNumberOfUsers(long numberOfUsers) {
+		_numberOfUsers = numberOfUsers;
 
 		if (_scenarioRemoteModel != null) {
 			try {
 				Class<?> clazz = _scenarioRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setUsers_per_seconds",
-						long.class);
+				Method method = clazz.getMethod("setNumberOfUsers", long.class);
 
-				method.invoke(_scenarioRemoteModel, users_per_seconds);
+				method.invoke(_scenarioRemoteModel, numberOfUsers);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -391,11 +360,10 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 
 		clone.setScenario_id(getScenario_id());
 		clone.setName(getName());
-		clone.setVariableName(getVariableName());
 		clone.setUrl_site(getUrl_site());
 		clone.setGroup_id(getGroup_id());
 		clone.setSimulation_id(getSimulation_id());
-		clone.setUsers_per_seconds(getUsers_per_seconds());
+		clone.setNumberOfUsers(getNumberOfUsers());
 		clone.setDuration(getDuration());
 
 		return clone;
@@ -445,22 +413,20 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{scenario_id=");
 		sb.append(getScenario_id());
 		sb.append(", name=");
 		sb.append(getName());
-		sb.append(", variableName=");
-		sb.append(getVariableName());
 		sb.append(", url_site=");
 		sb.append(getUrl_site());
 		sb.append(", group_id=");
 		sb.append(getGroup_id());
 		sb.append(", simulation_id=");
 		sb.append(getSimulation_id());
-		sb.append(", users_per_seconds=");
-		sb.append(getUsers_per_seconds());
+		sb.append(", numberOfUsers=");
+		sb.append(getNumberOfUsers());
 		sb.append(", duration=");
 		sb.append(getDuration());
 		sb.append("}");
@@ -470,7 +436,7 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(28);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
 		sb.append("com.excilys.liferay.gatling.model.Scenario");
@@ -485,10 +451,6 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 		sb.append(getName());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>variableName</column-name><column-value><![CDATA[");
-		sb.append(getVariableName());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>url_site</column-name><column-value><![CDATA[");
 		sb.append(getUrl_site());
 		sb.append("]]></column-value></column>");
@@ -501,8 +463,8 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 		sb.append(getSimulation_id());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>users_per_seconds</column-name><column-value><![CDATA[");
-		sb.append(getUsers_per_seconds());
+			"<column><column-name>numberOfUsers</column-name><column-value><![CDATA[");
+		sb.append(getNumberOfUsers());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>duration</column-name><column-value><![CDATA[");
@@ -516,11 +478,10 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 
 	private long _scenario_id;
 	private String _name;
-	private String _variableName;
 	private String _url_site;
 	private long _group_id;
 	private long _simulation_id;
-	private long _users_per_seconds;
+	private long _numberOfUsers;
 	private long _duration;
 	private BaseModel<?> _scenarioRemoteModel;
 }

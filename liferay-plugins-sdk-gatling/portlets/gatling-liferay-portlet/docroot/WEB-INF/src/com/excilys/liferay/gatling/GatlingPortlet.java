@@ -137,8 +137,6 @@ public class GatlingPortlet extends MVCPortlet {
 		LOG.info("edit Simulation with id : " + simulationId);
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
 		simulation.setName(ParamUtil.getString(request, "simulationName"));
-		String variable = GatlingUtil.createVariableName("Simulation", simulation.getName());
-		simulation.setVariableName(variable);
 		SimulationLocalServiceUtil.updateSimulation(simulation);
 		response.setRenderParameter("simulationId", Long.toString(simulationId));
 		response.setRenderParameter("page", jspEditSimulation);
@@ -369,11 +367,11 @@ public class GatlingPortlet extends MVCPortlet {
 	private int scenarioState(Scenario scenario) {
 		try {
 			int count = RequestLocalServiceUtil.countByScenarioIdAndUsedAndIsNotPortlet(scenario.getScenario_id());
-			if (count != 0 && scenario.getDuration() != 0 && scenario.getUsers_per_seconds() != 0) {
+			if (count != 0 && scenario.getDuration() != 0 && scenario.getNumberOfUsers() != 0) {
 				// completed scenario = case if all minimal information are
 				// completed
 				return 2;
-			} else if (count != 0 && (scenario.getDuration() == 0 || scenario.getUsers_per_seconds() == 0)) {
+			} else if (count != 0 && (scenario.getDuration() == 0 || scenario.getNumberOfUsers() == 0)) {
 				// incomplete scenario = case if one or more information detail of
 				// scenario are not completed but there is request selected
 				return 1;

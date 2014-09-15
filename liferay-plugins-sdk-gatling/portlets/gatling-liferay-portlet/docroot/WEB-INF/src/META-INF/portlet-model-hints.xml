@@ -30,17 +30,15 @@
 	<model name="com.excilys.liferay.gatling.model.Scenario">
 		<field name="scenario_id" type="long" />
 		<field name="name" type="String" />
-		<field name="variableName" type="String" />
 		<field name="url_site" type="String" />
 		<field name="group_id" type="long" />
 		<field name="simulation_id" type="long" />
-		<field name="users_per_seconds" type="long" />
+		<field name="numberOfUsers" type="long" />
 		<field name="duration" type="long" />
 	</model>
 	<model name="com.excilys.liferay.gatling.model.Simulation">
 		<field name="simulation_id" type="long" />
 		<field name="name" type="String" />
-		<field name="variableName" type="String" />
 	</model>
 	<model name="com.excilys.liferay.gatling.model.UrlRecord">
 		<field name="urlRecordId" type="long" />

@@ -87,21 +87,6 @@ public interface ScenarioModel extends BaseModel<Scenario> {
 	public void setName(String name);
 
 	/**
-	 * Returns the variable name of this scenario.
-	 *
-	 * @return the variable name of this scenario
-	 */
-	@AutoEscape
-	public String getVariableName();
-
-	/**
-	 * Sets the variable name of this scenario.
-	 *
-	 * @param variableName the variable name of this scenario
-	 */
-	public void setVariableName(String variableName);
-
-	/**
 	 * Returns the url_site of this scenario.
 	 *
 	 * @return the url_site of this scenario
@@ -145,18 +130,18 @@ public interface ScenarioModel extends BaseModel<Scenario> {
 	public void setSimulation_id(long simulation_id);
 
 	/**
-	 * Returns the users_per_seconds of this scenario.
+	 * Returns the number of users of this scenario.
 	 *
-	 * @return the users_per_seconds of this scenario
+	 * @return the number of users of this scenario
 	 */
-	public long getUsers_per_seconds();
+	public long getNumberOfUsers();
 
 	/**
-	 * Sets the users_per_seconds of this scenario.
+	 * Sets the number of users of this scenario.
 	 *
-	 * @param users_per_seconds the users_per_seconds of this scenario
+	 * @param numberOfUsers the number of users of this scenario
 	 */
-	public void setUsers_per_seconds(long users_per_seconds);
+	public void setNumberOfUsers(long numberOfUsers);
 
 	/**
 	 * Returns the duration of this scenario.

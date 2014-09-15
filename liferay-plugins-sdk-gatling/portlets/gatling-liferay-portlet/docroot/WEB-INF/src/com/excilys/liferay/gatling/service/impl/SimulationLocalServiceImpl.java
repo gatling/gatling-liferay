@@ -22,7 +22,6 @@ import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.SimulationLocalServiceBaseImpl;
-import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.excilys.liferay.gatling.validator.SimulationValidator;
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.NoSuchModelException;
@@ -73,13 +72,6 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Count how many {@link Simulation} have this variableName
-	 */
-	public int countByVariableName(String variableName) throws SystemException {
-		return simulationPersistence.countByVariableName(variableName);
-	}
-
-	/**
 	 * Add a {@link Simulation} from an {@link ActionRequest}
 	 * @param {@link ActionRequest} request
 	 * @return {@link Simulation} if added, else null
@@ -92,17 +84,6 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		long primaryKey = CounterLocalServiceUtil.increment(Simulation.class.getName());
 		Simulation simulation = simulationPersistence.create(primaryKey);
 		simulation.setName(ParamUtil.getString(request, "simulationName"));
-		/*
-		 *  Set Variable Name
-		 */
-		String variableName = GatlingUtil.createVariableName("Simulation", ParamUtil.getString(request, "simulationName"));
-		final int count = simulationPersistence.countByVariableName(variableName);
-		// Test if the variable name already exists
-		if(count != 0) {
-			// Add a number at the end to make it unique
-			variableName = variableName.concat(Integer.toString(count));
-		}
-		simulation.setVariableName(variableName);
 		/*
 		 *  Validator Simulation Fields
 		 */
