@@ -67,7 +67,11 @@
 <aui:form action="${editSimulationURL}" name="fm_simulation" cssClass="form-inline" inlineLabels="true">
 	<aui:input name="simulationId" type="hidden" value="${simulation.simulation_id }" />
 	<aui:input label="simulation-edit-name-simulation" name="simulationName" inlineLabel="true" inlineField="true" value="${simulation.name }">
-		<aui:validator name="alphanum" />
+		<aui:validator name="custom" errorMessage="simulation-name-syntaxe">
+			function (val, fieldNode, ruleValue) {
+				return /^[\w\s]+$/.test(val);
+			}
+		</aui:validator>
 		<aui:validator name="custom" errorMessage="simulation-name-already-used">
 		 	function (val, fieldNode, ruleValue) {
 				var result = false;

@@ -11,7 +11,11 @@
 		<aui:input label="simulation-edit-form-name-scenario"
 			name="scenarioName">
 			<aui:validator name="required" />
-			<aui:validator name="alphanum" />
+			<aui:validator name="custom" errorMessage="simulation-name-syntaxe">
+				function (val, fieldNode, ruleValue) {
+					return /^[\w\s]+$/.test(val);
+				}
+			</aui:validator>
 			<aui:validator name="custom"
 				errorMessage="scenario-name-already-used">
 			 		function (val, fieldNode, ruleValue) {
