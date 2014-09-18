@@ -13,19 +13,44 @@ import bootstrap._
 
 class {{simuName}} extends Simulation {
 
+  val httpProtocol = httpConfig
+	.acceptHeader("""text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8""")
+	.acceptEncodingHeader("""gzip, deflate""")
+	.acceptLanguageHeader("""fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3""")
+	.connection("""keep-alive""")
+	.disableWarmUp
+	
 {{#mustacheScenario}}
-  var {{name}} = scenario("{{name}}")
+  var {{scenarioName}} = scenario("{{scenarioName}}")
+  {{#hasPrivatePage}}
+    .exec(http("Home")
+			.get("{{siteURL}}")
+			.check(regex("""<input name="_58_formDate" type="hidden" value="(.+?)" />""").saveAs("formDate")))
+    .pause(1)
+    .exec(http("Login")
+	  .post("{{homePageURL}}?p_p_id=58&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_58_struts_action=%2Flogin%2Flogin")
+	  .headers(headers_0)
+	  .param("_58_formDate", "${formDate}")
+	  .param("_58_saveLastPath", "false")
+	  .param("_58_redirect", "")
+	  .param("_58_doActionAfterLogin", "false")
+	  .param("_58_login", "{{login}}""")
+	  .param("_58_password", "{{password}}")
+	  .param("_58_rememberMe", "false")
+	  .header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8"))
+  {{/hasPrivatePage}}
     .randomSwitch(
-    {{#mustacheRequests}}
-      {{truncate}} -> exec(http("{{name}}").get("{{url}}")){{^last}},{{/last}}
-    {{/mustacheRequests}}	
+
+  {{#mustacheRequests}}
+      {{truncate}} -> exec(http("{{requestName}}").get("{{url}}").check(regex("""{{requestName}}""").exists)){{^last}},{{/last}}
+  {{/mustacheRequests}}	
   )
 {{/mustacheScenario}}
 	
 		
   setUp(
 {{#mustacheScenario}}
-    {{name}}.users({{users}}).ramp({{duration}}){{^last}},{{/last}}
+    {{name}}.users({{users}}).ramp({{duration}}).protocolConfig(httpProtocol){{^last}},{{/last}}
 {{/mustacheScenario}}
   )
 

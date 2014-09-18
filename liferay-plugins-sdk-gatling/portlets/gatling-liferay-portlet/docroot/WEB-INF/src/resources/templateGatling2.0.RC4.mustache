@@ -10,6 +10,14 @@ import scala.concurrent.duration._
  {{#initiate}} {{/initiate}}
 
 class {{simuName}} extends Simulation {
+
+  val httpProtocol = http
+	.acceptHeader("""text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8""")
+	.acceptEncodingHeader("""gzip, deflate""")
+	.acceptLanguageHeader("""fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3""")
+	.connection("""keep-alive""")
+	.disableWarmUp
+
 {{#mustacheScenario}}
 /**
  * List of the differents requests for {{scenarioName}} that are stressing their inner portlets
@@ -88,9 +96,25 @@ class {{simuName}} extends Simulation {
  */  
 {{#mustacheScenario}}
   val {{scenarioName}} = scenario("{{scenarioName}}")
+  {{#hasPrivatePage}}
+    .exec(http("Home")
+	  .get("{{siteURL}}")
+	  .check(regex("""<input name="_58_formDate" type="hidden" value="(.+?)" />""").saveAs("formDate")))
+	.pause(1)
+    .exec(http("Login")
+	  .post("""{{loginPageURL}}?p_p_id=58&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_58_struts_action=%2Flogin%2Flogin""")
+	  .formParam("""_58_formDate""", """${formDate}""")
+	  .formParam("""_58_saveLastPath""", """false""")
+	  .formParam("""_58_redirect""", """""")
+	  .formParam("""_58_doActionAfterLogin""", """false""")
+	  .formParam("""_58_login""", """{{login}}""")
+	  .formParam("""_58_password""", """{{password}}""")
+	  .formParam("""_58_rememberMe""", """false""")
+	  .header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8"))
+  {{/hasPrivatePage}}
     .randomSwitch(
 {{#mustacheRequests}}
-      {{pourcentage}} -> exec({{^notRegular}}http("{{scenarioName}}{{requestName}}").get("{{url}}"){{/notRegular}}{{^regular}}{{scenarioName}}{{requestName}}.Entrance{{/regular}}){{^last}},{{/last}}
+      {{pourcentage}} -> exec({{^notRegular}}http("{{scenarioName}}{{requestName}}").get("{{url}}").check(regex("{{requestName}}")){{/notRegular}}{{^regular}}{{scenarioName}}{{requestName}}.Entrance{{/regular}}){{^last}},{{/last}}
 {{/mustacheRequests}} 
   )
 {{/mustacheScenario}}
@@ -100,7 +124,7 @@ class {{simuName}} extends Simulation {
 {{#mustacheScenario}}
     {{scenarioName}}.inject( rampUsers({{users}}) over( {{duration}} seconds)){{^-last}},{{/-last}}
 {{/mustacheScenario}}
-  )
+  ).protocols(httpProtocol)
   
   
 }

@@ -6,12 +6,9 @@ package com.excilys.liferay.gatling.mustache;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.excilys.liferay.gatling.GatlingPortlet;
 import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
-import com.excilys.liferay.gatling.mustache.util.NameAndUrl;
-import com.excilys.liferay.gatling.mustache.util.NameUrlAndPlid;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
@@ -19,23 +16,28 @@ import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.model.Layout;
+import com.liferay.portal.model.PortletPreferences;
+import com.liferay.portal.model.User;
+import com.liferay.portal.service.LayoutLocalServiceUtil;
+import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
+
 
 public class ScriptGeneratorGatling {
 	/**
 	 * logging.
 	 */
-	private static final Log LOG = LogFactoryUtil.getLog(GatlingPortlet.class);
 
 	private String simuName = "avant";
 	private Long simulationId = 0L; 
 	private List<MustacheScenario> mustacheScenario;
+	private User user;
 
-	public ScriptGeneratorGatling(Long simulationId) throws Exception{
+	public ScriptGeneratorGatling(Long simulationId, User user) throws Exception{
 		String name = SimulationLocalServiceUtil.getSimulation(simulationId).getName();
 		this.simuName = GatlingUtil.createSimulationVariable(name);
 		this.simulationId = simulationId;
+		this.user = user;
 	}
 	
 	public String initiate() throws Exception{
@@ -92,17 +94,38 @@ public class ScriptGeneratorGatling {
 		double totalWeight = getTotalWeight(sc);
 		double currentSumWeight = 0;
 		double weight = 0;
-
+		String site = sc.getUrl_site();
+		
+		boolean hasPrivatePage =false;
+		String loginPageURL= site;
+		
+		//solution temporaire pour trouver l'url d'une page contenant une portlet de login, sinon enregistrer en base ??
+		for ( PortletPreferences pp : PortletPreferencesLocalServiceUtil.getPortletPreferences() ){
+			if(pp.getPortletId().equals("58")){
+				Layout page = LayoutLocalServiceUtil.getLayout(pp.getPlid());
+				loginPageURL += page.getFriendlyURL();
+				System.out.println("path= "+loginPageURL);
+				break;
+			}
+		}
+		String login = ""; 
+		String password = "";
+		if(user != null){
+			login = user.getLogin(); 
+			password = user.getPassword();
+		}
+		 
 		//loop for the request
 		for (int j = 0; j < listRequest.size(); j++) {
 			final Request rq = listRequest.get(j);
 			if(rq.getWeight() > 0) {		
 				if( !rq.isPortlet()) {					
-					String site = sc.getUrl_site();
+					
 					weight = (double) ((int)((int) rq.getWeight()*10000/totalWeight))/100;
 					currentSumWeight += weight;
 					if(rq.isPrivatePage()) {
 						site = site.replace("/web/", "/group/");
+						hasPrivatePage =true;
 					}
 					int numberOfPortlets = RequestLocalServiceUtil.countByParentPlidAndScenario(rq.getPlId(), sc.getScenario_id());	
 					MustacheRequest mustacheRequest = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight);
@@ -159,7 +182,8 @@ public class ScriptGeneratorGatling {
 			listMustacheRequest.get(listMustacheRequest.size()-1).setWeight(lastWeight).setLast(true).setScenarioId(sc.getScenario_id());
 		}
 		String variableName = GatlingUtil.createScenarioVariable(sc.getName());
-		return new MustacheScenario(variableName, sc.getNumberOfUsers(), sc.getDuration(), listMustacheRequest);
+		
+		return new MustacheScenario(variableName,sc.getNumberOfUsers(), sc.getDuration(), listMustacheRequest,  hasPrivatePage, login, password, loginPageURL, site);
 	}
 
 	public Long getSimulationId() {

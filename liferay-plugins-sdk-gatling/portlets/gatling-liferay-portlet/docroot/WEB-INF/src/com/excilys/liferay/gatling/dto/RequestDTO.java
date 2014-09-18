@@ -82,7 +82,8 @@ public class RequestDTO {
 		try {
 			Layout parent = LayoutLocalServiceUtil.getLayout(portletPreferences.getPlid());
 			url = parent.getFriendlyURL() ; //+ portletId
-			groupId = parent.getGroupId(); 
+			groupId = parent.getGroupId();
+			
 		} catch (PortalException e) {
 			new RuntimeException(e.getMessage());
 		} catch (SystemException e) {

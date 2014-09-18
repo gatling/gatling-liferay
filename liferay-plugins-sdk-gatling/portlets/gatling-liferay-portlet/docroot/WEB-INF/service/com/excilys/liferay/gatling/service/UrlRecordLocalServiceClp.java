@@ -125,6 +125,12 @@ public class UrlRecordLocalServiceClp implements UrlRecordLocalService {
 		_methodName21 = "countByRecordId";
 
 		_methodParameterTypes21 = new String[] { "long" };
+
+		_methodName22 = "save";
+
+		_methodParameterTypes22 = new String[] {
+				"java.lang.String", "java.lang.String", "int", "long"
+			};
 	}
 
 	@Override
@@ -758,6 +764,40 @@ public class UrlRecordLocalServiceClp implements UrlRecordLocalService {
 		return ((Integer)returnObj).intValue();
 	}
 
+	@Override
+	public void save(java.lang.String url, java.lang.String type, int order,
+		long recordId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		try {
+			_invokableLocalService.invokeMethod(_methodName22,
+				_methodParameterTypes22,
+				new Object[] {
+					ClpSerializer.translateInput(url),
+					
+				ClpSerializer.translateInput(type),
+					
+				order,
+					
+				recordId
+				});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -801,4 +841,6 @@ public class UrlRecordLocalServiceClp implements UrlRecordLocalService {
 	private String[] _methodParameterTypes20;
 	private String _methodName21;
 	private String[] _methodParameterTypes21;
+	private String _methodName22;
+	private String[] _methodParameterTypes22;
 }

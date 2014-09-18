@@ -305,6 +305,13 @@ public class UrlRecordLocalServiceWrapper implements UrlRecordLocalService,
 		return _urlRecordLocalService.countByRecordId(recordId);
 	}
 
+	@Override
+	public void save(java.lang.String url, java.lang.String type, int order,
+		long recordId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		_urlRecordLocalService.save(url, type, order, recordId);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */
