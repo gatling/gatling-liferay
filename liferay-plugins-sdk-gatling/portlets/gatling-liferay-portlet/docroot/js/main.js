@@ -6,6 +6,7 @@ function createCookie(name,value,days) {
 	}
 	else var expires = "";
 	document.cookie = name+"="+value+expires+"; path=/";
+	console.log("Creating cookie : "+name+"="+value+expires+"; path=/");
 }
 
 function readCookie(name) {

@@ -23,7 +23,7 @@ tourFirstSimu.addStep('create-simulation', {
 var last = tourFirstSimu.addStep('fill-simulation', {
 	title:"Fill simulation",
 	text: 'Create a new simulation ...',
-	attachTo: '#_gatling_WAR_gatlingliferayportlet_simulationName left',
+	attachTo: '#_gatling_WAR_gatlingliferayportlet_simulationName right',
 	buttons:[{
 	    text: 'Hide',
 	    action: tourFirstSimu.hide
