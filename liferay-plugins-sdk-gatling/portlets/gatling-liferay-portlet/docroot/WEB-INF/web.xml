@@ -2,8 +2,8 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:jsp="http://java.sun.com/xml/ns/javaee/jsp" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
   <jsp-config>
     <taglib>
-      	<taglib-uri>http://java.sun.com/portlet_2_0</taglib-uri>
-      	<taglib-location>
+      <taglib-uri>http://java.sun.com/portlet_2_0</taglib-uri>
+      <taglib-location>
 			/WEB-INF/tld/liferay-portlet.tld
 		</taglib-location>
     </taglib>
@@ -12,4 +12,5 @@
       <taglib-location>/WEB-INF/tld/aui.tld</taglib-location>
     </taglib>
   </jsp-config>
+  
 </web-app>

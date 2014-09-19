@@ -1,0 +1,1 @@
+<pre id="scriptGatlingBB" >${script}</pre>

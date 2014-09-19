@@ -38,6 +38,10 @@
 			<name>editRecord-jsp</name>
 			<value>/html/gatling/popupPortlet/pages/editRecord.jsp</value>
 		</init-param>
+		<init-param>
+			<name>webService-jsp</name>
+			<value>/html/gatling/webService.jsp</value>
+		</init-param>
 		<!-- -->
 		<expiration-cache>0</expiration-cache>
 		<supports>

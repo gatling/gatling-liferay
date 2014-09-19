@@ -63,6 +63,7 @@ import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.MustacheException;
 import com.samskivert.mustache.Template;
 
 
@@ -85,7 +86,7 @@ public class GatlingPortlet extends MVCPortlet {
 	/**
 	 * pages of portlet.
 	 */
-	protected String jspListSimulation, jspEditSimulation, jspEditScenario, jspFormFirstScenario, jspHelp, jspEditPortlet, jspEditRecord;
+	protected String jspListSimulation, jspEditSimulation, jspEditScenario, jspFormFirstScenario, jspHelp, jspEditPortlet, jspEditRecord,jspWebService;
 
 	/**
 	 * get all name page
@@ -100,6 +101,7 @@ public class GatlingPortlet extends MVCPortlet {
 		jspHelp = getInitParameter("help-jsp");
 		jspEditPortlet = getInitParameter("portletConfig-jsp");
 		jspEditRecord=getInitParameter("editRecord-jsp");
+		jspWebService=getInitParameter("webService-jsp");
 		super.init();
 	}
 
@@ -705,6 +707,19 @@ public class GatlingPortlet extends MVCPortlet {
 			renderRequest.setAttribute("portletId", ParamUtil.getString(renderRequest, "portletId"));
 			renderRequest.setAttribute("requestId", ParamUtil.getString(renderRequest, "requestId"));
 			
+		} else if (page.equals(jspWebService)) {
+			long simuId = ParamUtil.getLong(renderRequest, "simulationId");
+			String currentPath = renderRequest.getPortletSession().getPortletContext().getRealPath("/WEB-INF/src/resources") + "/templateGatling2.0.RC4.mustache";
+			Template tmpl = Mustache.compiler().compile(new FileReader(currentPath));
+			try {
+				String script = tmpl.execute(new ScriptGeneratorGatling(simuId));
+				renderRequest.setAttribute("script", script);
+				
+			} catch (MustacheException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		/* redirect to jsp page */
 		include(page, renderRequest, renderResponse);
