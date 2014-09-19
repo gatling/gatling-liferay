@@ -320,6 +320,12 @@ public class SimulationLocalServiceWrapper implements SimulationLocalService,
 		return _simulationLocalService.addSimulationFromRequest(request);
 	}
 
+	@Override
+	public int containsPrivatePage(long simulationId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _simulationLocalService.containsPrivatePage(simulationId);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

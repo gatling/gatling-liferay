@@ -305,6 +305,11 @@ public class SimulationLocalServiceUtil {
 		return getService().addSimulationFromRequest(request);
 	}
 
+	public static int containsPrivatePage(long simulationId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().containsPrivatePage(simulationId);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

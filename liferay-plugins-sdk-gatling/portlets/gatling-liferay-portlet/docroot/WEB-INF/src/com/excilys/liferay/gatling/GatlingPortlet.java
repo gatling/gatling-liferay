@@ -56,7 +56,6 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.User;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.service.PortletLocalServiceUtil;
@@ -71,7 +70,6 @@ import com.samskivert.mustache.Template;
  * Portlet implementation class GatlingPortlet.
  */
 public class GatlingPortlet extends MVCPortlet {
-
 
 	/**
 	 * attribute mustacheFoctory.
@@ -441,9 +439,10 @@ public class GatlingPortlet extends MVCPortlet {
 			try {
 				simulationList = SimulationLocalServiceUtil.getSimulations(0, SimulationLocalServiceUtil.getSimulationsCount());
 				for (Simulation simulation : simulationList) {
-					Integer[] simulationInfos = new Integer[2];
+					Integer[] simulationInfos = new Integer[3];
 					simulationInfos[0] = ScenarioLocalServiceUtil.countBySimulationId(simulation.getSimulation_id());
 					simulationInfos[1] = simulationState(simulation);
+					simulationInfos[2] = SimulationLocalServiceUtil.containsPrivatePage(simulation.getSimulation_id());
 					simulationMap.put(simulation, simulationInfos);
 				}
 			} catch (SystemException e) {
@@ -453,10 +452,21 @@ public class GatlingPortlet extends MVCPortlet {
 			final javax.portlet.PortletPreferences prefs = renderRequest.getPreferences();
 			String gatlingVersionString;
 			gatlingVersionString = prefs.getValue("gatlingVersion", null);
+			
+			String authType = "";
+			try{
+				authType = GatlingUtil.getAuthType(renderRequest);
+			} catch (SystemException e) {
+				if(LOG.isErrorEnabled()){
+					LOG.error("enable to get authentication type "+e.getMessage());
+				}
+			}
+			
 			renderRequest.setAttribute("gatlingVersion", gatlingVersionString);
 			renderRequest.setAttribute("listOfSimulationName", JSListName);
 			renderRequest.setAttribute("listSimulation", simulationList);
 			renderRequest.setAttribute("MapSimulation", simulationMap);
+			renderRequest.setAttribute("authType", authType);
 		} else if (page.equals(jspEditSimulation) || page.equals(jspFormFirstScenario)) {
 			/*
 			 * 
@@ -711,7 +721,8 @@ public class GatlingPortlet extends MVCPortlet {
 		int gatlingVersion = ParamUtil.getInteger(request, "gatlingVersion");
 		
 		//get user of portlet
-		User user = (User) request.getAttribute(WebKeys.USER);
+		String login  = ParamUtil.getString(request, "login");
+		String password = ParamUtil.getString(request, "password");
 		
 		//add user preference
 		final PortletPreferences prefs = request.getPreferences();
@@ -758,7 +769,7 @@ public class GatlingPortlet extends MVCPortlet {
 					if (id  > 0) {
 						simulation = SimulationLocalServiceUtil.getSimulation(id);
 						zipOutputStream.putNextEntry(new ZipEntry("Simulation" + simulation.getName() + date.getTime() + ".scala"));
-						Mustache.compiler().compile(new FileReader(template)).execute(new ScriptGeneratorGatling(id, user), new PrintWriter(zipOutputStream));
+						Mustache.compiler().compile(new FileReader(template)).execute(new ScriptGeneratorGatling(id, login, password), new PrintWriter(zipOutputStream));
 						zipOutputStream.closeEntry();
 					}
 				}
@@ -777,7 +788,7 @@ public class GatlingPortlet extends MVCPortlet {
 				OutputStream out = response.getPortletOutputStream();
 				String currentPath = request.getPortletSession().getPortletContext().getRealPath("/WEB-INF/src/resources") + template;
 				Template tmpl = Mustache.compiler().compile(new FileReader(currentPath));
-				String script = tmpl.execute(new ScriptGeneratorGatling(simulationsIds[0], user));
+				String script = tmpl.execute(new ScriptGeneratorGatling(simulationsIds[0], login, password));
 				out.write(script.getBytes());
 				out.flush();
 				out.close();

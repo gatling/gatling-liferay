@@ -14,12 +14,10 @@
 
 package com.excilys.liferay.gatling.service.impl;
 
-import java.util.List;
-
-import javax.portlet.ActionRequest;
-
+import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.SimulationLocalServiceBaseImpl;
 import com.excilys.liferay.gatling.validator.SimulationValidator;
@@ -31,6 +29,10 @@ import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
+
+import java.util.List;
+
+import javax.portlet.ActionRequest;
 
 /**
  * The implementation of the simulation local service.
@@ -77,6 +79,7 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	 * @return {@link Simulation} if added, else null
 	 * @throws SystemException
 	 */
+	@Override
 	public Simulation addSimulationFromRequest(ActionRequest request) throws SystemException  {
 		/*
 		 * Create simulation
@@ -99,5 +102,18 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		}
 		return null;
 
+	}
+	
+	@Override
+	public int containsPrivatePage(long simulationId) throws SystemException {
+		for ( Scenario scenario : ScenarioLocalServiceUtil.findBySimulationId(simulationId)) {
+			for (Request request : RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id())) {
+				if (request.getPrivatePage()) {
+					return 1;
+				}
+			}
+		}
+
+		return 0;
 	}
 }

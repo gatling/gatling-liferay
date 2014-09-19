@@ -125,6 +125,10 @@ public class SimulationLocalServiceClpInvoker {
 		_methodName60 = "addSimulationFromRequest";
 
 		_methodParameterTypes60 = new String[] { "javax.portlet.ActionRequest" };
+
+		_methodName61 = "containsPrivatePage";
+
+		_methodParameterTypes61 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -245,6 +249,11 @@ public class SimulationLocalServiceClpInvoker {
 			return SimulationLocalServiceUtil.addSimulationFromRequest((javax.portlet.ActionRequest)arguments[0]);
 		}
 
+		if (_methodName61.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
+			return SimulationLocalServiceUtil.containsPrivatePage(((Long)arguments[0]).longValue());
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -290,4 +299,6 @@ public class SimulationLocalServiceClpInvoker {
 	private String[] _methodParameterTypes59;
 	private String _methodName60;
 	private String[] _methodParameterTypes60;
+	private String _methodName61;
+	private String[] _methodParameterTypes61;
 }

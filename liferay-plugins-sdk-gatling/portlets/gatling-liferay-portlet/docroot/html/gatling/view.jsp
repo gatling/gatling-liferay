@@ -60,6 +60,9 @@
 <portlet:resourceURL var="resourceUrl" />
 <aui:form action="${resourceUrl}" method="post" name="fmExport">
 	<aui:input type="hidden" name="gatlingVersion"/>
+	<aui:input type="hidden" name="login"/>
+	<aui:input type="hidden" name="password"/>
+	<aui:input type="hidden" name="csv" value="false"/>
 	<%--
 		Search container (table) 
 	--%>
@@ -126,6 +129,9 @@
 	<aui:select label="simulation-list-version-choice" name="gatlingVersionSelect" >
 		<%@include file="/html/gatling/template/gatlingVersionOption.jsp" %>
 	</aui:select>
+	<c:if test ='${MapSimulation.get(simulation)[2] == 1 && !authType.equals("")}'>
+		<%@include file="/html/gatling/template/gatlingAuthForm.jsp" %>
+	</c:if>
 </div>
 
 <%--submit to addSimulation --%>
@@ -154,7 +160,7 @@
 				}
 			</aui:validator>
 		</aui:input>
-		<aui:button type="submit" />
+		<aui:button type="submit"  />
 	</aui:form>
 </div>
 
@@ -204,7 +210,11 @@
 				    	            click: function() {
 				    	            	modalExport.hide();
 				    	            	var version = A.one("#<portlet:namespace/>gatlingVersionSelect").val();
+				    	            	var login = A.one("#<portlet:namespace/>log").val();
+				    	            	var pass = A.one("#<portlet:namespace/>pass").val();
 				    	            	A.one("#<portlet:namespace/>gatlingVersion").val(version);
+				    	            	A.one("#<portlet:namespace/>login").val(login);
+				    	            	A.one("#<portlet:namespace/>password").val(pass);
 				    	            	A.one("#<portlet:namespace/>fmExport").submit();
 				    	            }
 				    	          }

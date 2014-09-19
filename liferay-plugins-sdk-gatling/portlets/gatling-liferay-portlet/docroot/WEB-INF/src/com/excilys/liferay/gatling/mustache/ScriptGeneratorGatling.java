@@ -18,7 +18,6 @@ import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.model.PortletPreferences;
-import com.liferay.portal.model.User;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
 
@@ -31,13 +30,15 @@ public class ScriptGeneratorGatling {
 	private String simuName = "avant";
 	private Long simulationId = 0L; 
 	private List<MustacheScenario> mustacheScenario;
-	private User user;
+	private String login;
+	private String password;
 
-	public ScriptGeneratorGatling(Long simulationId, User user) throws Exception{
+	public ScriptGeneratorGatling(Long simulationId, String login, String password) throws Exception{
 		String name = SimulationLocalServiceUtil.getSimulation(simulationId).getName();
 		this.simuName = GatlingUtil.createSimulationVariable(name);
 		this.simulationId = simulationId;
-		this.user = user;
+		this.login = login;
+		this.password = password;
 	}
 	
 	public String initiate() throws Exception{
@@ -107,12 +108,6 @@ public class ScriptGeneratorGatling {
 				System.out.println("path= "+loginPageURL);
 				break;
 			}
-		}
-		String login = ""; 
-		String password = "";
-		if(user != null){
-			login = user.getLogin(); 
-			password = user.getPassword();
 		}
 		 
 		//loop for the request

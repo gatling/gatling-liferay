@@ -126,6 +126,10 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
 		_methodName21 = "addSimulationFromRequest";
 
 		_methodParameterTypes21 = new String[] { "javax.portlet.ActionRequest" };
+
+		_methodName22 = "containsPrivatePage";
+
+		_methodParameterTypes22 = new String[] { "long" };
 	}
 
 	@Override
@@ -767,6 +771,34 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
 		return (com.excilys.liferay.gatling.model.Simulation)ClpSerializer.translateOutput(returnObj);
 	}
 
+	@Override
+	public int containsPrivatePage(long simulationId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName22,
+					_methodParameterTypes22, new Object[] { simulationId });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return ((Integer)returnObj).intValue();
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -810,4 +842,6 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
 	private String[] _methodParameterTypes20;
 	private String _methodName21;
 	private String[] _methodParameterTypes21;
+	private String _methodName22;
+	private String[] _methodParameterTypes22;
 }

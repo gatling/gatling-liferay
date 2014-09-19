@@ -3,10 +3,6 @@
  */
 package com.excilys.liferay.gatling.util;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import com.excilys.liferay.gatling.dto.LinkUsecaseRequestDTO;
 import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
 import com.excilys.liferay.gatling.model.Record;
@@ -19,15 +15,21 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.model.Company;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.service.GroupLocalServiceUtil;
+import com.liferay.portal.theme.ThemeDisplay;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.portlet.RenderRequest;
 
 public class GatlingUtil {
 	
-	private static final Log LOG = LogFactoryUtil.getLog(GatlingUtil.class);
 	/**
 	 * create variable name for gatling scenario
 	 * @param prefix
@@ -156,4 +158,13 @@ public class GatlingUtil {
 		}
 		return listDisplayLink;
 	}
+		
+	public static String getAuthType(RenderRequest request) throws SystemException{
+		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+		Company company = themeDisplay.getCompany();
+		return company.getAuthType();
+	}
 }
+
+
+
