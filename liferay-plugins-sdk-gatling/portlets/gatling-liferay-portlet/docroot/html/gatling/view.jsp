@@ -27,7 +27,7 @@
 		<i class="icon-share"></i> 
 		<liferay-ui:message key="help-gatling-wiki" />
 	</a> 
-	<a href="#" class="label" id="help">
+	<a href="#" class="label" id="help" onclick="tourFirstSimu.start();">
 		<i class="icon-question-sign"></i> 
 		<liferay-ui:message key="help-how-to-use-portlet" />
 	</a> 
@@ -242,18 +242,6 @@
 			});
 		});
 		
-		A.one("#help").on('click', function(A) {
-			Liferay.Util.openWindow({
-			     dialog : {
-			          	modal : true,
-			           	constrain : true,
-			            cache : true
-			        },
-			        uri : '${helpURL}',
-			        title : '<liferay-ui:message key="help-how-to-use-load-test-portlet"/>'
-			  });
-		});
-		
 		/*
 		 * Multi select
 		 */
@@ -279,3 +267,8 @@
         
 	});
 </script>
+
+<script type="text/javascript">
+<%@ include file="/js/tourSimulation.js" %>
+</script>
+

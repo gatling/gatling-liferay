@@ -13,10 +13,12 @@
 
 		<!-- avoid double post -->
 		<action-url-redirect>true</action-url-redirect>
+		
+		<!-- js/css -->
 		<header-portlet-css>/css/main.css</header-portlet-css>
-		<footer-portlet-javascript>
-			/js/main.js
-		</footer-portlet-javascript>
+		<header-portlet-css>/css/shepherd-theme-arrows.css</header-portlet-css>
+		<header-portlet-javascript>/js/shepherd.min.js</header-portlet-javascript>
+		<header-portlet-javascript>/js/main.js</header-portlet-javascript>
 		<css-class-wrapper>gatling-portlet</css-class-wrapper>
 		
 		<add-default-resource>true</add-default-resource>

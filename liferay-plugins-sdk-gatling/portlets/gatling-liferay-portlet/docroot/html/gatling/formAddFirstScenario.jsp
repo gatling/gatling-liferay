@@ -26,3 +26,7 @@
  --%>
 <c:set var="listOfScenarioName" value="[]"/>
 <%@ include file="/html/gatling/template/formNewScenario.jsp" %>
+
+<script type="text/javascript">
+<%@ include file="/js/tourFirstScenario.js" %>
+</script>

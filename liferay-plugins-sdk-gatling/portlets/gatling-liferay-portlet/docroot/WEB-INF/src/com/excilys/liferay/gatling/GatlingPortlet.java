@@ -254,6 +254,7 @@ public class GatlingPortlet extends MVCPortlet {
 				double weight = usecaseWeight[i];
 				long recordId = recordIds[i];
 				boolean isSample = areSample[i];
+				LOG.debug(id+" "+requestId+" "+recordId+" "+weight+" "+isSample);
 				LinkUsecaseRequestLocalServiceUtil.saveLinkUseCase(id, requestId, recordId, weight, isSample);
 			}
 		}

@@ -143,8 +143,7 @@
 						    	      ]);
 			  	});	
 	}
-	
-	
-
 </script>
-
+<script type="text/javascript">
+<%@ include file="/js/tourEditScenario.js" %>
+</script>
