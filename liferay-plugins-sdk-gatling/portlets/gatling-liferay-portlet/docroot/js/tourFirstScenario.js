@@ -13,18 +13,18 @@ if(readCookie("tour") == "true") {
 	});
 	
 	tourFirstScn.addStep('first-scenario-name', {
-		title:"Name of scenario",
-		text: 'You simulation has been created ! Now you need to add its first scenario. Please name it.',
+		title:"<liferay-ui:message key='tour-first-scenario-name-title' />",
+		text: "<liferay-ui:message key='tour-first-scenario-name' />",
 		attachTo: '#_gatling_WAR_gatlingliferayportlet_scenarioName right',
 		advanceOn: "#_gatling_WAR_gatlingliferayportlet_sites click"
 	});
 	
 	var last = tourFirstScn.addStep('first-scenario-site', {
-		title:"Select the site",
-		text: 'Choose on which site your scenario will apply.',
+		title:"<liferay-ui:message key='tour-first-scenario-site-title' />",
+		text: "<liferay-ui:message key='tour-first-scenario-site' />",
 		attachTo: '#_gatling_WAR_gatlingliferayportlet_sites right',
 		buttons:[{
-		    text: 'Hide',
+		    text: "<liferay-ui:message key='tour-understood' />",
 		    action: tourFirstScn.hide
 		  }]
 	});

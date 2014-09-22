@@ -9,23 +9,23 @@ var tourFirstSimu = new Shepherd.Tour({
 });
 
 tourFirstSimu.addStep('list-simulation', {
-	title:"List of simulations",
-	text: 'Here you can see the list of the existing simulation.<br/>Of course if it is the first time you run this app it will be empty.',
+	title:"<liferay-ui:message key='tour-list-simulation-title' />",
+	text: "<liferay-ui:message key='tour-list-simulation' />",
 	attachTo: '#_gatling_WAR_gatlingliferayportlet_fmExport top',
 });
 tourFirstSimu.addStep('create-simulation', {
-	title:"New simulation",
-	text: "Well, let's start with creating a new simulation ...",
+	title:"<liferay-ui:message key='tour-create-simulation-title' />",
+	text: "<liferay-ui:message key='tour-create-simulation' />",
 	attachTo: '#newSimulation right',
 	advanceOn: "#newSimulation click",
 	buttons:[]
 });
 var last = tourFirstSimu.addStep('fill-simulation', {
-	title:"Your simulation",
-	text: 'This is the name of your new simulation.<br/>Please use only alphanumerics charaters and spaces',
+	title:"<liferay-ui:message key='tour-fill-simulation-title' />",
+	text: "<liferay-ui:message key='tour-fill-simulation' />",
 	attachTo: '#_gatling_WAR_gatlingliferayportlet_simulationName right',
 	buttons:[{
-	    text: 'Hide',
+	    text: "<liferay-ui:message key='tour-understood' />",
 	    action: tourFirstSimu.hide
 	  }]
 });

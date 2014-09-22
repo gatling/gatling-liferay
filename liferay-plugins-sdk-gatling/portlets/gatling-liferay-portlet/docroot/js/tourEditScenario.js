@@ -13,55 +13,51 @@ if(readCookie("tour") == "true") {
  		}
  	});
  	
- 	
  	tourEditScn.addStep('edit-scenario', {
- 		title:"General explanation",
- 		text: 'You created your first scenario, it is the core of your script !<br/> Click next for further explanation',
+ 		title:"<liferay-ui:message key='tour-edit-scenario-title' />",
+ 		text: "<liferay-ui:message key='tour-edit-scenario' />",
  		attachTo: '.header-title>span bottom'
  	});
  	
  	tourEditScn.addStep('edit-scenario-details-users', {
- 		title:"Edit details (1/2)",
- 		text: "Set the scenario's number of users",
+ 		title:"<liferay-ui:message key='tour-edit-scenario-details-users-title' />",
+ 		text: "<liferay-ui:message key='tour-edit-scenario-details-users' />",
  		attachTo: '#_gatling_WAR_gatlingliferayportlet_scenarioUsers bottom'
  	});
  	
  	tourEditScn.addStep('edit-scenario-details-duration', {
- 		title:"Edit details (2/2)",
- 		text: "Set the scenario's duration",
+ 		title:"<liferay-ui:message key='tour-edit-scenario-details-duration-title' />",
+ 		text: "<liferay-ui:message key='tour-edit-scenario-details-duration' />",
  		attachTo: '#_gatling_WAR_gatlingliferayportlet_scenarioDuration bottom'
  	});
  	
  	tourEditScn.addStep('edit-scenario-sitemap', {
  		title:"Use the sitemap",
- 		text: "This table represents your sitemap, every row is a page of your site or a portlet of your site.", // couleur
+ 		text: "<liferay-ui:message key='tour-edit-scenario-sitemap' />", // couleur
  		attachTo: '.table-scenario top'
  	});
  	
  	tourEditScn.addStep('edit-scenario-checkboxes', {
- 		title:"Checkboxes",
- 		text: "Checkboxes are used to select multiple pages at once." +
- 				"<br/>Click next to see why it is useful.", //redo
+ 		title:"<liferay-ui:message key='tour-edit-scenario-checkboxes-title' />",
+ 		text: "<liferay-ui:message key='tour-edit-scenario-checkboxes' />", //redo
  		attachTo: '#checkAll right'
  	});
  	
  	tourEditScn.addStep('edit-scenario-force-weight', {
- 		title:"Force weight",
- 		text: "You can force weight on differents rows at once when used with checkboxes.<br/>What is a weight you say ? Click next to figure it out",
+ 		title:"<liferay-ui:message key='tour-edit-scenario-force-weight-title' />",
+ 		text: "<liferay-ui:message key='tour-edit-scenario-force-weight' />",
  		attachTo: '#force right'
  	});
  	
  	tourEditScn.addStep('edit-scenario-weight', {
- 		title:"Set a weight",
- 		text: "A weight is a number you decide, itself it means nothing, look at the percent" +
- 				"<br/>next to it to understand in what this will affect your scenario.",
+ 		title:"<liferay-ui:message key='tour-edit-scenario-weight-title' />",
+ 		text: "<liferay-ui:message key='tour-edit-scenario-weight' />",
  		attachTo: '#_gatling_WAR_gatlingliferayportlet_weight0 left'
  	});
  	
  	tourEditScn.addStep('edit-scenario-percent', {
- 		title:"Percent",
- 		text: "Here you can see the percent of change" +
- 				"<br/>that a virtual user will load this page.",
+ 		title:"<liferay-ui:message key='tour-edit-scenario-percent-title' />",
+ 		text: "<liferay-ui:message key='tour-edit-scenario-percent' />",
  		attachTo: '.percent left'
  	});
  	
@@ -69,9 +65,8 @@ if(readCookie("tour") == "true") {
  	if(portlets.length > 0) {
 	 	var thePortletPage = portlets[0];
 	 	tourEditScn.addStep('edit-scenario-show-portlet', {
-	 		title:"Show page's portlets",
-	 		text: "If you page contains portlets(s)" +
-	 				"<br/>you can even choose which portlet will be stress-tested.<br/>Click on the button to show this page's portlet(s).",
+	 		title:"<liferay-ui:message key='tour-edit-scenario-show-portlet-title' />",
+	 		text: "<liferay-ui:message key='tour-edit-scenario-show-portlet' />",
 	 		attachTo: {element: thePortletPage, on: 'left'},
 	 		advanceOn: ".show-portlet click",
 	 		buttons:[]
@@ -79,18 +74,15 @@ if(readCookie("tour") == "true") {
 	 	
 	 	var portletLine = document.getElementsByClassName("portlet-popup")[0].parentNode.parentNode;
 	 	tourEditScn.addStep('edit-scenario-edit-portlet', {
-	 		title:"portlet row",
-	 		text: "This new row act like a page row, but you can configure more details.",
+	 		title:"<liferay-ui:message key='tour-edit-scenario-edit-portlet-title' />",
+	 		text: "<liferay-ui:message key='tour-edit-scenario-edit-portlet' />",
 	 		attachTo: {element: portletLine, on: 'bottom'},
 	 		advanceOn: ".show-portlet click"
 	 	});
 	 	
 	 	var last = tourEditScn.addStep('edit-scenario-edit-portlet-popup', {
-	 		title:"Edit portlets",
-	 		text: "Click on the portlet's name will open a popup." +
-	 				"<br/>This popup will help you configure the way " +
-	 				"<br/>you want to stress your portlet. " +
-	 				"<br/>Click on it now.",
+	 		title:"<liferay-ui:message key='tour-edit-scenario-edit-portlet-popup-title' />",
+	 		text: "<liferay-ui:message key='tour-edit-scenario-edit-portlet-popup' />",
 	 		attachTo: {element: ".portlet-popup", on: 'left'},
 	 		advanceOn: ".portlet-popup click",
 		 	buttons:[]
@@ -98,11 +90,11 @@ if(readCookie("tour") == "true") {
  	} 
  	else {
  		var last = tourEditScn.addStep('edit-scenario-no-portlet', {
-	 		title:"No portlet",
-	 		text: "Too bad, you have not any portlet to try.",
+	 		title:"<liferay-ui:message key='tour-edit-scenario-no-portlet-title' />",
+	 		text: "<liferay-ui:message key='tour-edit-scenario-no-portlet' />",
 	 		attachTo: ".table-scenario top",
 			buttons:[{
-			    text: 'Hide',
+			    text: "<liferay-ui:message key='tour-understood' />",
 			    action: tourEditScn.hide
 			  }]
 	 	});	

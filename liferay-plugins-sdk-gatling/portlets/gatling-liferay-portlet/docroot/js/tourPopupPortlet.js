@@ -12,34 +12,30 @@ if(readCookie("tour") == "true") {
  		}
  	});
 
+ 	//"<liferay-ui:message key='edit-scenario-no-portlet' />"
  	var tab = document.getElementsByClassName("tab");
  	
  	var tab1 = tourPopup.addStep('portlet-popup-usecase', {
- 		title:"Select an use case",
- 		text: "On the first tab, you can add usecases. Again it comes with a weight and percent." +
- 				"<br/>If you can't find a usecase that suit your needs, create your own !" +
- 				"<br/>Click now on Record my use case tab to see how.",
+ 		title:"<liferay-ui:message key='tour-portlet-popup-usecase-title' />",
+ 		text: "<liferay-ui:message key='tour-portlet-popup-usecase' />",
  		attachTo: {element: ".nav-tabs", on: 'bottom'},
  		advanceOn: ".nav li:nth-child(2)>a click",
  		buttons:[]
  	});
  	var tab2 = tourPopup.addStep('portlet-popup-record', {
- 		title:"Record an use case",
- 		text: "Here you can create a usecase. Name it and start recording, navigate throught the portlet and once you are done, stop it." +
- 				"<br/> You made a mistake ? You can erase it. " +
- 				"<br/>Click now on the last tab to see how.",
+ 		title:"<liferay-ui:message key='tour-portlet-popup-record-title' />",
+ 		text: "<liferay-ui:message key='tour-portlet-popup-record' />",
  		attachTo: {element: ".nav-tabs", on: 'bottom'},
  		advanceOn: ".nav li:nth-child(3)>a click",
  		buttons:[]
  	});
  	
  	var last = tourPopup.addStep('portlet-popup-configure', {
- 		title:"Configure an use case",
- 		text: "Here you can remove and change details on a usecase," +
- 				"<br/> feel free to change the name of any existing usecase you recorded.",
+ 		title:"<liferay-ui:message key='tour-portlet-popup-configure-title' />",
+ 		text: "<liferay-ui:message key='tour-portlet-popup-configure' />",
  		attachTo: {element:".nav-tabs", on: 'bottom'},
 		buttons:[{
-		    text: 'Hide',
+		    text: "<liferay-ui:message key='tour-understood' />",
 		    action: tourPopup.hide
 		  }]
  	});	 
