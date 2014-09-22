@@ -4,8 +4,14 @@
 package com.excilys.liferay.gatling;
 
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -52,6 +58,10 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.upload.UploadPortletRequest;
+import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
@@ -359,6 +369,78 @@ public class GatlingPortlet extends MVCPortlet {
 		//hack, only work this way ....
 		response.setRenderParameter("p_p_state", "pop_up");
 		PortalUtil.copyRequestParameters(request, response);
+	}
+	
+	
+	/**
+	 * 
+	 * @param actionRequest
+	 * @param actionRresponse
+	 * @throws PortletException
+	 * @throws IOException
+	 */
+	public void uploadCase(ActionRequest actionRequest, ActionResponse actionRresponse) throws PortletException, IOException {
+
+		String folder = getInitParameter("uploadFolder");
+		String realPath = getPortletContext().getRealPath("/");
+
+		LOG.info("RealPath" + realPath + " UploadFolder :" + folder);
+		try {
+			LOG.info("try");
+			UploadPortletRequest uploadRequest = PortalUtil
+					.getUploadPortletRequest(actionRequest);
+			System.out.println("Size: "+uploadRequest.getSize("fileName"));
+
+			if (uploadRequest.getSize("fileName")==0) {
+				SessionErrors.add(actionRequest, "error");
+			}
+
+			String sourceFileName = uploadRequest.getFileName("fileName");
+			File file = uploadRequest.getFile("fileName");
+
+			LOG.info("Name file:" + uploadRequest.getFileName("fileName"));
+			File newFile = null;
+			newFile = new File(folder + sourceFileName);
+			LOG.info("New file name: " + newFile.getName());
+			LOG.info("New file path: " + newFile.getPath());
+
+			InputStream in = new BufferedInputStream(uploadRequest.getFileAsStream("fileName"));
+			FileInputStream fis = new FileInputStream(file);
+			FileOutputStream fos = new FileOutputStream(newFile);
+
+			byte[] bytes_ = FileUtil.getBytes(in);
+			int i = fis.read(bytes_);
+
+			while (i != -1) {
+				fos.write(bytes_, 0, i);
+				i = fis.read(bytes_);
+			}
+			fis.close();
+			fos.close();
+			Float size = (float) newFile.length();
+			System.out.println("file size bytes:" + size);
+			System.out.println("file size Mb:" + size / 1048576);
+
+			LOG.info("File created: " + newFile.getName());
+			SessionMessages.add(actionRequest, "success");
+
+		} catch (FileNotFoundException e) {
+			if (LOG.isErrorEnabled()) {
+				LOG.error("File Not Found.");
+			}
+			SessionMessages.add(actionRequest, "error");
+		} catch (NullPointerException e) {
+			if (LOG.isErrorEnabled()) {
+				LOG.error("File Not Found");
+			}
+			SessionMessages.add(actionRequest, "error");
+		} catch (IOException e1) {
+			if (LOG.isErrorEnabled()) {
+				LOG.error("Error Reading The File.");
+			}
+			SessionMessages.add(actionRequest, "error");
+		}
+
 	}
 
 	/**
@@ -722,10 +804,82 @@ public class GatlingPortlet extends MVCPortlet {
 		 * Get template from version
 		 */
 		int gatlingVersion = ParamUtil.getInteger(request, "gatlingVersion");
+		//get authentification options
+		String login  = "";
+		String password = "";
+		LOG.info(ParamUtil.getString(request, "upload"));
+		if(ParamUtil.getString(request, "upload").equals("true")){
+			LOG.info("fichier csv selectioné");
+			String folder = getInitParameter("uploadFolder");
+			String realPath = getPortletContext().getRealPath("/");
+
+			LOG.info("RealPath" + realPath + " UploadFolder :" + folder);
+			try {
+				LOG.info("try");
+				UploadPortletRequest uploadRequest = PortalUtil
+						.getUploadPortletRequest(request);
+				System.out.println("Size: "+uploadRequest.getSize("fileName"));
+
+				if (uploadRequest.getSize("fileName")==0) {
+					SessionErrors.add(request, "error");
+				}
+
+				String sourceFileName = uploadRequest.getFileName("fileName");
+				File file = uploadRequest.getFile("fileName");
+
+				LOG.info("Name file:" + uploadRequest.getFileName("fileName"));
+				File newFile = null;
+				newFile = new File(folder + sourceFileName);
+				LOG.info("New file name: " + newFile.getName());
+				LOG.info("New file path: " + newFile.getPath());
+
+				InputStream in = new BufferedInputStream(uploadRequest.getFileAsStream("fileName"));
+				FileInputStream fis = new FileInputStream(file);
+				FileOutputStream fos = new FileOutputStream(newFile);
+
+				byte[] bytes_ = FileUtil.getBytes(in);
+				int i = fis.read(bytes_);
+
+				while (i != -1) {
+					fos.write(bytes_, 0, i);
+					i = fis.read(bytes_);
+				}
+				fis.close();
+				fos.close();
+				Float size = (float) newFile.length();
+				System.out.println("file size bytes:" + size);
+				System.out.println("file size Mb:" + size / 1048576);
+
+				LOG.info("File created: " + newFile.getName());
+				SessionMessages.add(request, "success");
+
+			} catch (FileNotFoundException e) {
+				if (LOG.isErrorEnabled()) {
+					LOG.error("File Not Found.");
+				}
+				SessionMessages.add(request, "error");
+			} catch (NullPointerException e) {
+				if (LOG.isErrorEnabled()) {
+					LOG.error("File Not Found");
+				}
+				SessionMessages.add(request, "error");
+			} catch (IOException e1) {
+				if (LOG.isErrorEnabled()) {
+					LOG.error("Error Reading The File.");
+				}
+				SessionMessages.add(request, "error");
+			}
+
+			
+		}
+		else{
+			//get user test authentification parameters
+			login  = ParamUtil.getString(request, "login");
+			password = ParamUtil.getString(request, "password");
+		}
 		
-		//get user of portlet
-		String login  = ParamUtil.getString(request, "login");
-		String password = ParamUtil.getString(request, "password");
+		
+		
 		
 		//add user preference
 		final PortletPreferences prefs = request.getPreferences();
