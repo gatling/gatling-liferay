@@ -45,6 +45,10 @@ if(readCookie("tour") == "true") {
 			title:"<liferay-ui:message key='tour-list-scenario-export-title' />",
 			text: "<liferay-ui:message key='tour-list-scenario-export' />",
 			attachTo: '#exportToggle bottom',
+			buttons:[{
+				text: "<liferay-ui:message key='tour-understood' />",
+				action: tourEditSimu.hide
+			}]
 		});
 	}
 
