@@ -14,14 +14,14 @@ if(readCookie("tour") == "true") {
 	
 	tourFirstScn.addStep('first-scenario-name', {
 		title:"Name of scenario",
-		text: 'Name ...',
+		text: 'You simulation has been created ! Now you need to add its first scenario. Please name it.',
 		attachTo: '#_gatling_WAR_gatlingliferayportlet_scenarioName right',
 		advanceOn: "#_gatling_WAR_gatlingliferayportlet_sites click"
 	});
 	
 	var last = tourFirstScn.addStep('first-scenario-site', {
-		title:"Which site",
-		text: 'choose a site ...',
+		title:"Select the site",
+		text: 'Choose on which site your scenario will apply.',
 		attachTo: '#_gatling_WAR_gatlingliferayportlet_sites right',
 		buttons:[{
 		    text: 'Hide',
