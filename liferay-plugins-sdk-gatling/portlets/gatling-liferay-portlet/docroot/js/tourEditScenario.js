@@ -89,6 +89,17 @@ if(readCookie("tour") == "true") {
 		 	buttons:[]
 	 	});	
  	} 
+ 	else {
+ 		var last = tourEditScn.addStep('edit-scenario-no-portlet', {
+	 		title:"No portlet",
+	 		text: "You have no portlet to test on this site",
+	 		attachTo: ".table-scenario top",
+			buttons:[{
+			    text: 'Hide',
+			    action: tourEditScn.hide
+			  }]
+	 	});	
+ 	}
  	
  	last.on("show", function() {
  		createCookie("tour","true",1); 

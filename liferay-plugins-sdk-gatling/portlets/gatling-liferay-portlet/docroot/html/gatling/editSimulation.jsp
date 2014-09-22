@@ -255,3 +255,6 @@
 
 	});
 </script>
+<script type="text/javascript">
+<%@ include file="/js/tourEditSimulation.js" %>
+</script>

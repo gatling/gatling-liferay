@@ -30,7 +30,7 @@ if(readCookie("tour") == "true") {
  		buttons:[]
  	});
  	
- 	tourPopup.addStep('portlet-popup-configure', {
+ 	var last = tourPopup.addStep('portlet-popup-configure', {
  		title:"Configure an use case",
  		text: "Explanation",
  		attachTo: {element:".nav-tabs", on: 'bottom'},
@@ -39,6 +39,12 @@ if(readCookie("tour") == "true") {
 		    action: tourPopup.hide
 		  }]
  	});	 
+ 	
+	
+	last.on("show", function() {
+		createCookie("tour","true",1); 
+	});
+	
  	
  	tourPopup.next();
 }
