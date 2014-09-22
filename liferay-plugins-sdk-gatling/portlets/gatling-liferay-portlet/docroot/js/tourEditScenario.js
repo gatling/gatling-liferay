@@ -8,13 +8,21 @@ if(readCookie("tour") == "true") {
  	var tourEditScn = new Shepherd.Tour({
  		defaults: {
  		  classes: 'shepherd-theme-arrows',
- 		  scrollTo: true
+ 		  scrollTo: true,
+ 		  showCancelLink:true
  		}
+ 	});
+ 	
+ 	
+ 	tourEditScn.addStep('edit-scenario', {
+ 		title:"General explanation",
+ 		text: 'Explanation',
+ 		attachTo: '.header-title>span bottom'
  	});
  	
  	tourEditScn.addStep('edit-scenario-details-users', {
  		title:"Edit details",
- 		text: 'Set the number of users for this scenario',
+ 		text: "Set the scenario's number of users",
  		attachTo: '#_gatling_WAR_gatlingliferayportlet_scenarioUsers bottom'
  	});
  	
@@ -55,12 +63,35 @@ if(readCookie("tour") == "true") {
  	});
  	
  	var portlets = document.getElementsByClassName("show-portlet");
- 	console.log(portlets[0]);
- 	tourEditScn.addStep('edit-scenario-show-portlet', {
- 		title:"Show page's portlets",
- 		text: "Explanation",
- 		attachTo: {element: portlets[0], on: 'left'},
- 		advanceOn: {selector: portlets[0], event: 'click'},
+ 	if(portlets.length > 0) {
+	 	var thePortletPage = portlets[0];
+	 	tourEditScn.addStep('edit-scenario-show-portlet', {
+	 		title:"Show page's portlets",
+	 		text: "Explanation",
+	 		attachTo: {element: thePortletPage, on: 'left'},
+	 		advanceOn: ".show-portlet click",
+	 		buttons:[]
+	 	});
+	 	
+	 	var portletLine = document.getElementsByClassName("portlet-popup")[0].parentNode.parentNode;
+	 	tourEditScn.addStep('edit-scenario-edit-portlet', {
+	 		title:"Edit portlets",
+	 		text: "Explanation edit",
+	 		attachTo: {element: portletLine, on: 'bottom'},
+	 		advanceOn: ".show-portlet click"
+	 	});
+	 	
+	 	var last = tourEditScn.addStep('edit-scenario-edit-portlet-popup', {
+	 		title:"Edit portlets",
+	 		text: "Explanation edit",
+	 		attachTo: {element: ".portlet-popup", on: 'left'},
+	 		advanceOn: ".portlet-popup click",
+		 	buttons:[]
+	 	});	
+ 	} 
+ 	
+ 	last.on("show", function() {
+ 		createCookie("tour","true",1); 
  	});
  	
  	tourEditScn.next();

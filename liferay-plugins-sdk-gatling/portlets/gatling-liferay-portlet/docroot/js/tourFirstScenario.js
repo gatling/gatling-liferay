@@ -16,12 +16,17 @@ if(readCookie("tour") == "true") {
 		title:"Name of scenario",
 		text: 'Name ...',
 		attachTo: '#_gatling_WAR_gatlingliferayportlet_scenarioName right',
+		advanceOn: "#_gatling_WAR_gatlingliferayportlet_sites click"
 	});
 	
 	var last = tourFirstScn.addStep('first-scenario-site', {
 		title:"Which site",
 		text: 'choose a site ...',
 		attachTo: '#_gatling_WAR_gatlingliferayportlet_sites right',
+		buttons:[{
+		    text: 'Hide',
+		    action: tourFirstScn.hide
+		  }]
 	});
 	
 	last.on("show", function() {

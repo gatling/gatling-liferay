@@ -28,3 +28,7 @@
 			servletContext="<%=this.getServletContext()%>" />
 	</liferay-ui:section>
 </liferay-ui:tabs>
+
+<script type="text/javascript">
+<%@ include file="/js/tourPopupPortlet.js" %>
+</script>
