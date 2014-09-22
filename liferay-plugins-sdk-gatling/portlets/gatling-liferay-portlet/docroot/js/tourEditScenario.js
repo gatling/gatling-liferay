@@ -33,7 +33,11 @@ if(readCookie("tour") == "true") {
  	
  	tourEditScn.addStep('edit-scenario-sitemap', {
  		title:"Use the sitemap",
- 		text: "<liferay-ui:message key='tour-edit-scenario-sitemap' />", // couleur
+ 		text: "<liferay-ui:message key='tour-edit-scenario-sitemap' />" +
+ 				"<br/><liferay-ui:message key='help-use-scenario-colors' />" +
+ 				"<ul><li><liferay-ui:message key='help-use-scenario-empty' />" +
+ 				"<li><liferay-ui:message key='help-use-scenario-green' /></li>" +
+ 				"<li><liferay-ui:message key='help-use-scenario-red' /></li></ul>",
  		attachTo: '.table-scenario top'
  	});
  	
