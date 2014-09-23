@@ -34,7 +34,9 @@ public class WebServiceSimuServiceClpInvoker {
 
 		_methodName42 = "getSimulation";
 
-		_methodParameterTypes42 = new String[] { "long" };
+		_methodParameterTypes42 = new String[] {
+				"long", "java.lang.String", "java.lang.String"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -53,7 +55,8 @@ public class WebServiceSimuServiceClpInvoker {
 
 		if (_methodName42.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes42, parameterTypes)) {
-			return WebServiceSimuServiceUtil.getSimulation(((Long)arguments[0]).longValue());
+			return WebServiceSimuServiceUtil.getSimulation(((Long)arguments[0]).longValue(),
+				(java.lang.String)arguments[1], (java.lang.String)arguments[2]);
 		}
 
 		throw new UnsupportedOperationException();

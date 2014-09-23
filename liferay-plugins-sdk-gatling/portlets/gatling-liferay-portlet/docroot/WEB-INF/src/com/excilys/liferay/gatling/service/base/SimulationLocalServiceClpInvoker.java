@@ -124,6 +124,11 @@ public class SimulationLocalServiceClpInvoker {
 
 		_methodName62 = "addSimulationFromRequest";
 
+		_methodParameterTypes62 = new String[] { "javax.portlet.ActionRequest" };
+
+		_methodName63 = "containsPrivatePage";
+
+		_methodParameterTypes63 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -244,8 +249,8 @@ public class SimulationLocalServiceClpInvoker {
 			return SimulationLocalServiceUtil.addSimulationFromRequest((javax.portlet.ActionRequest)arguments[0]);
 		}
 
-		if (_methodName61.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
+		if (_methodName63.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes63, parameterTypes)) {
 			return SimulationLocalServiceUtil.containsPrivatePage(((Long)arguments[0]).longValue());
 		}
 
@@ -292,9 +297,8 @@ public class SimulationLocalServiceClpInvoker {
 	private String[] _methodParameterTypes60;
 	private String _methodName61;
 	private String[] _methodParameterTypes61;
-<<<<<<< HEAD
-=======
 	private String _methodName62;
 	private String[] _methodParameterTypes62;
->>>>>>> add webservice
+	private String _methodName63;
+	private String[] _methodParameterTypes63;
 }

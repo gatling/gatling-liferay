@@ -48,7 +48,7 @@ public class WebServiceSimuServiceImpl extends WebServiceSimuServiceBaseImpl {
 	 * Never reference this interface directly. Always use {@link com.excilys.liferay.gatling.service.WebServiceSimuServiceUtil} to access the web service simu remote service.
 	 */
 	
-	public String getSimulation(long simuId) {
+	public String getSimulation(long simuId, String login, String password) {
 
 		String location = this.getClass().getResource("").getPath()+"../../../../../../../src/resources";
 		String currentPath = location + "/templateGatling2.0.RC4.mustache";
@@ -60,7 +60,7 @@ public class WebServiceSimuServiceImpl extends WebServiceSimuServiceBaseImpl {
 			e1.printStackTrace();
 		}
 		try {
-			script = tmpl.execute(new ScriptGeneratorGatling(simuId)).replace("\t", "&#13;").replace("\n", "&#10;");
+			script = tmpl.execute(new ScriptGeneratorGatling(simuId, login, password)).replace("\t", "&#13;").replace("\n", "&#10;");
 		} catch (MustacheException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

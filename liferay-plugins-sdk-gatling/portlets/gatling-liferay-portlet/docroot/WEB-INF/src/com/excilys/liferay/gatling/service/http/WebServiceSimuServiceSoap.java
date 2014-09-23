@@ -51,10 +51,12 @@ import java.rmi.RemoteException;
  * @generated
  */
 public class WebServiceSimuServiceSoap {
-	public static java.lang.String getSimulation(long simuId)
+	public static java.lang.String getSimulation(long simuId,
+		java.lang.String login, java.lang.String password)
 		throws RemoteException {
 		try {
-			java.lang.String returnValue = WebServiceSimuServiceUtil.getSimulation(simuId);
+			java.lang.String returnValue = WebServiceSimuServiceUtil.getSimulation(simuId,
+					login, password);
 
 			return returnValue;
 		}
