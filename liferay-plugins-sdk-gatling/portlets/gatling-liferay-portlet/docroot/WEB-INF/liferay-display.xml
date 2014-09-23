@@ -6,4 +6,7 @@
 	<category name="category.hidden">
 		<portlet id="gatling"></portlet>
 	</category>
+	<category name="category.sample">
+		<portlet id="new"></portlet>
+	</category>
 </display>

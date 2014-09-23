@@ -107,7 +107,7 @@
 		</finder>
 	</entity>
 	
-	
-
-
+	<entity name="WebServiceSimu" remote-service="true" local-service="false" cache-enabled="false">
+		
+	</entity>
 </service-builder>

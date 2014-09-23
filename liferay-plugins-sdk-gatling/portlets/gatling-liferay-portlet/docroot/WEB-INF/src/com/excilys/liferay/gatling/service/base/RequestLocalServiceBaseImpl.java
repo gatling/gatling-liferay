@@ -504,6 +504,25 @@ public abstract class RequestLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the web service simu remote service.
+	 *
+	 * @return the web service simu remote service
+	 */
+	public com.excilys.liferay.gatling.service.WebServiceSimuService getWebServiceSimuService() {
+		return webServiceSimuService;
+	}
+
+	/**
+	 * Sets the web service simu remote service.
+	 *
+	 * @param webServiceSimuService the web service simu remote service
+	 */
+	public void setWebServiceSimuService(
+		com.excilys.liferay.gatling.service.WebServiceSimuService webServiceSimuService) {
+		this.webServiceSimuService = webServiceSimuService;
+	}
+
+	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -703,6 +722,8 @@ public abstract class RequestLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected com.excilys.liferay.gatling.service.UrlRecordLocalService urlRecordLocalService;
 	@BeanReference(type = UrlRecordPersistence.class)
 	protected UrlRecordPersistence urlRecordPersistence;
+	@BeanReference(type = com.excilys.liferay.gatling.service.WebServiceSimuService.class)
+	protected com.excilys.liferay.gatling.service.WebServiceSimuService webServiceSimuService;
 	@BeanReference(type = com.liferay.counter.service.CounterLocalService.class)
 	protected com.liferay.counter.service.CounterLocalService counterLocalService;
 	@BeanReference(type = com.liferay.portal.service.ResourceLocalService.class)

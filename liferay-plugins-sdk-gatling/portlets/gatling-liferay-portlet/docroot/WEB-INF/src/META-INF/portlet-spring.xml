@@ -13,4 +13,5 @@
 	<bean id="com.excilys.liferay.gatling.service.persistence.SimulationPersistence" class="com.excilys.liferay.gatling.service.persistence.SimulationPersistenceImpl" parent="basePersistence" />
 	<bean id="com.excilys.liferay.gatling.service.UrlRecordLocalService" class="com.excilys.liferay.gatling.service.impl.UrlRecordLocalServiceImpl" />
 	<bean id="com.excilys.liferay.gatling.service.persistence.UrlRecordPersistence" class="com.excilys.liferay.gatling.service.persistence.UrlRecordPersistenceImpl" parent="basePersistence" />
+	<bean id="com.excilys.liferay.gatling.service.WebServiceSimuService" class="com.excilys.liferay.gatling.service.impl.WebServiceSimuServiceImpl" />
 </beans>

@@ -21,6 +21,7 @@ import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
+import com.excilys.liferay.gatling.service.WebServiceSimuServiceUtil;
 
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.Message;
@@ -51,6 +52,8 @@ public class ClpMessageListener extends BaseMessageListener {
 			SimulationLocalServiceUtil.clearService();
 
 			UrlRecordLocalServiceUtil.clearService();
+
+			WebServiceSimuServiceUtil.clearService();
 		}
 	}
 }

@@ -106,69 +106,69 @@ public class RequestLocalServiceClpInvoker {
 				"com.excilys.liferay.gatling.model.Request"
 			};
 
-		_methodName52 = "getBeanIdentifier";
+		_methodName54 = "getBeanIdentifier";
 
-		_methodParameterTypes52 = new String[] {  };
+		_methodParameterTypes54 = new String[] {  };
 
-		_methodName53 = "setBeanIdentifier";
+		_methodName55 = "setBeanIdentifier";
 
-		_methodParameterTypes53 = new String[] { "java.lang.String" };
+		_methodParameterTypes55 = new String[] { "java.lang.String" };
 
-		_methodName58 = "findByParentPlid";
+		_methodName60 = "findByParentPlid";
 
-		_methodParameterTypes58 = new String[] { "long" };
+		_methodParameterTypes60 = new String[] { "long" };
 
-		_methodName59 = "countByParentPlid";
+		_methodName61 = "countByParentPlid";
 
-		_methodParameterTypes59 = new String[] { "long" };
+		_methodParameterTypes61 = new String[] { "long" };
 
-		_methodName60 = "findByParentPlidAndScenario";
+		_methodName62 = "findByParentPlidAndScenario";
 
-		_methodParameterTypes60 = new String[] { "long", "long" };
+		_methodParameterTypes62 = new String[] { "long", "long" };
 
-		_methodName61 = "countByParentPlidAndScenario";
+		_methodName63 = "countByParentPlidAndScenario";
 
-		_methodParameterTypes61 = new String[] { "long", "long" };
+		_methodParameterTypes63 = new String[] { "long", "long" };
 
-		_methodName62 = "findByScenarioId";
-
-		_methodParameterTypes62 = new String[] { "long" };
-
-		_methodName63 = "countByScenarioId";
-
-		_methodParameterTypes63 = new String[] { "long" };
-
-		_methodName64 = "findByScenarioIdAndUsed";
+		_methodName64 = "findByScenarioId";
 
 		_methodParameterTypes64 = new String[] { "long" };
 
-		_methodName65 = "countByScenarioIdAndUsed";
+		_methodName65 = "countByScenarioId";
 
 		_methodParameterTypes65 = new String[] { "long" };
 
-		_methodName66 = "removeByScenarioId";
+		_methodName66 = "findByScenarioIdAndUsed";
 
 		_methodParameterTypes66 = new String[] { "long" };
 
-		_methodName67 = "findByScenarioIdAndIsNotPortlet";
+		_methodName67 = "countByScenarioIdAndUsed";
 
 		_methodParameterTypes67 = new String[] { "long" };
 
-		_methodName68 = "countByScenarioIdAndIsNotPortlet";
+		_methodName68 = "removeByScenarioId";
 
 		_methodParameterTypes68 = new String[] { "long" };
 
-		_methodName69 = "findByScenarioIdAndUsedAndIsNotPortlet";
+		_methodName69 = "findByScenarioIdAndIsNotPortlet";
 
 		_methodParameterTypes69 = new String[] { "long" };
 
-		_methodName70 = "countByScenarioIdAndUsedAndIsNotPortlet";
+		_methodName70 = "countByScenarioIdAndIsNotPortlet";
 
 		_methodParameterTypes70 = new String[] { "long" };
 
-		_methodName71 = "addRequestFromDisplayItem";
+		_methodName71 = "findByScenarioIdAndUsedAndIsNotPortlet";
 
-		_methodParameterTypes71 = new String[] {
+		_methodParameterTypes71 = new String[] { "long" };
+
+		_methodName72 = "countByScenarioIdAndUsedAndIsNotPortlet";
+
+		_methodParameterTypes72 = new String[] { "long" };
+
+		_methodName73 = "addRequestFromDisplayItem";
+
+		_methodParameterTypes73 = new String[] {
 				"java.lang.Object", "double", "long"
 			};
 	}
@@ -262,89 +262,89 @@ public class RequestLocalServiceClpInvoker {
 			return RequestLocalServiceUtil.updateRequest((com.excilys.liferay.gatling.model.Request)arguments[0]);
 		}
 
-		if (_methodName52.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes52, parameterTypes)) {
+		if (_methodName54.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes54, parameterTypes)) {
 			return RequestLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName53.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes53, parameterTypes)) {
+		if (_methodName55.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes55, parameterTypes)) {
 			RequestLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName58.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes58, parameterTypes)) {
-			return RequestLocalServiceUtil.findByParentPlid(((Long)arguments[0]).longValue());
-		}
-
-		if (_methodName59.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes59, parameterTypes)) {
-			return RequestLocalServiceUtil.countByParentPlid(((Long)arguments[0]).longValue());
-		}
-
 		if (_methodName60.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
-			return RequestLocalServiceUtil.findByParentPlidAndScenario(((Long)arguments[0]).longValue(),
-				((Long)arguments[1]).longValue());
+			return RequestLocalServiceUtil.findByParentPlid(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName61.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
-			return RequestLocalServiceUtil.countByParentPlidAndScenario(((Long)arguments[0]).longValue(),
-				((Long)arguments[1]).longValue());
+			return RequestLocalServiceUtil.countByParentPlid(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName62.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes62, parameterTypes)) {
-			return RequestLocalServiceUtil.findByScenarioId(((Long)arguments[0]).longValue());
+			return RequestLocalServiceUtil.findByParentPlidAndScenario(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue());
 		}
 
 		if (_methodName63.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes63, parameterTypes)) {
-			return RequestLocalServiceUtil.countByScenarioId(((Long)arguments[0]).longValue());
+			return RequestLocalServiceUtil.countByParentPlidAndScenario(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue());
 		}
 
 		if (_methodName64.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes64, parameterTypes)) {
-			return RequestLocalServiceUtil.findByScenarioIdAndUsed(((Long)arguments[0]).longValue());
+			return RequestLocalServiceUtil.findByScenarioId(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName65.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes65, parameterTypes)) {
-			return RequestLocalServiceUtil.countByScenarioIdAndUsed(((Long)arguments[0]).longValue());
+			return RequestLocalServiceUtil.countByScenarioId(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName66.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes66, parameterTypes)) {
+			return RequestLocalServiceUtil.findByScenarioIdAndUsed(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName67.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes67, parameterTypes)) {
+			return RequestLocalServiceUtil.countByScenarioIdAndUsed(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName68.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
 			RequestLocalServiceUtil.removeByScenarioId(((Long)arguments[0]).longValue());
 
 			return null;
 		}
 
-		if (_methodName67.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes67, parameterTypes)) {
-			return RequestLocalServiceUtil.findByScenarioIdAndIsNotPortlet(((Long)arguments[0]).longValue());
-		}
-
-		if (_methodName68.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
-			return RequestLocalServiceUtil.countByScenarioIdAndIsNotPortlet(((Long)arguments[0]).longValue());
-		}
-
 		if (_methodName69.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes69, parameterTypes)) {
-			return RequestLocalServiceUtil.findByScenarioIdAndUsedAndIsNotPortlet(((Long)arguments[0]).longValue());
+			return RequestLocalServiceUtil.findByScenarioIdAndIsNotPortlet(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName70.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes70, parameterTypes)) {
-			return RequestLocalServiceUtil.countByScenarioIdAndUsedAndIsNotPortlet(((Long)arguments[0]).longValue());
+			return RequestLocalServiceUtil.countByScenarioIdAndIsNotPortlet(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName71.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes71, parameterTypes)) {
+			return RequestLocalServiceUtil.findByScenarioIdAndUsedAndIsNotPortlet(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName72.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes72, parameterTypes)) {
+			return RequestLocalServiceUtil.countByScenarioIdAndUsedAndIsNotPortlet(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName73.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes73, parameterTypes)) {
 			RequestLocalServiceUtil.addRequestFromDisplayItem((java.lang.Object)arguments[0],
 				((Double)arguments[1]).doubleValue(),
 				((Long)arguments[2]).longValue());
@@ -387,14 +387,10 @@ public class RequestLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName52;
-	private String[] _methodParameterTypes52;
-	private String _methodName53;
-	private String[] _methodParameterTypes53;
-	private String _methodName58;
-	private String[] _methodParameterTypes58;
-	private String _methodName59;
-	private String[] _methodParameterTypes59;
+	private String _methodName54;
+	private String[] _methodParameterTypes54;
+	private String _methodName55;
+	private String[] _methodParameterTypes55;
 	private String _methodName60;
 	private String[] _methodParameterTypes60;
 	private String _methodName61;
@@ -419,4 +415,8 @@ public class RequestLocalServiceClpInvoker {
 	private String[] _methodParameterTypes70;
 	private String _methodName71;
 	private String[] _methodParameterTypes71;
+	private String _methodName72;
+	private String[] _methodParameterTypes72;
+	private String _methodName73;
+	private String[] _methodParameterTypes73;
 }

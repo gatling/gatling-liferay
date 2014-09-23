@@ -106,47 +106,47 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 				"com.excilys.liferay.gatling.model.LinkUsecaseRequest"
 			};
 
-		_methodName52 = "getBeanIdentifier";
+		_methodName54 = "getBeanIdentifier";
 
-		_methodParameterTypes52 = new String[] {  };
+		_methodParameterTypes54 = new String[] {  };
 
-		_methodName53 = "setBeanIdentifier";
+		_methodName55 = "setBeanIdentifier";
 
-		_methodParameterTypes53 = new String[] { "java.lang.String" };
+		_methodParameterTypes55 = new String[] { "java.lang.String" };
 
-		_methodName58 = "saveLinkUseCase";
+		_methodName60 = "saveLinkUseCase";
 
-		_methodParameterTypes58 = new String[] {
+		_methodParameterTypes60 = new String[] {
 				"long", "long", "long", "double", "boolean"
 			};
 
-		_methodName59 = "findByRecordAndRequest";
+		_methodName61 = "findByRecordAndRequest";
 
-		_methodParameterTypes59 = new String[] { "long", "long" };
+		_methodParameterTypes61 = new String[] { "long", "long" };
 
-		_methodName60 = "countByRequestIdAndUsed";
-
-		_methodParameterTypes60 = new String[] { "long" };
-
-		_methodName61 = "findByRequestIdAndUsed";
-
-		_methodParameterTypes61 = new String[] { "long" };
-
-		_methodName62 = "countByRequestId";
+		_methodName62 = "countByRequestIdAndUsed";
 
 		_methodParameterTypes62 = new String[] { "long" };
 
-		_methodName63 = "findByRequestId";
+		_methodName63 = "findByRequestIdAndUsed";
 
 		_methodParameterTypes63 = new String[] { "long" };
 
-		_methodName64 = "removeByRequestId";
+		_methodName64 = "countByRequestId";
 
 		_methodParameterTypes64 = new String[] { "long" };
 
-		_methodName65 = "removeByRecordId";
+		_methodName65 = "findByRequestId";
 
 		_methodParameterTypes65 = new String[] { "long" };
+
+		_methodName66 = "removeByRequestId";
+
+		_methodParameterTypes66 = new String[] { "long" };
+
+		_methodName67 = "removeByRecordId";
+
+		_methodParameterTypes67 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -238,20 +238,20 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 			return LinkUsecaseRequestLocalServiceUtil.updateLinkUsecaseRequest((com.excilys.liferay.gatling.model.LinkUsecaseRequest)arguments[0]);
 		}
 
-		if (_methodName52.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes52, parameterTypes)) {
+		if (_methodName54.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes54, parameterTypes)) {
 			return LinkUsecaseRequestLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName53.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes53, parameterTypes)) {
+		if (_methodName55.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes55, parameterTypes)) {
 			LinkUsecaseRequestLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName58.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes58, parameterTypes)) {
+		if (_methodName60.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
 			LinkUsecaseRequestLocalServiceUtil.saveLinkUseCase(((Long)arguments[0]).longValue(),
 				((Long)arguments[1]).longValue(),
 				((Long)arguments[2]).longValue(),
@@ -261,41 +261,41 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 			return null;
 		}
 
-		if (_methodName59.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes59, parameterTypes)) {
+		if (_methodName61.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
 			return LinkUsecaseRequestLocalServiceUtil.findByRecordAndRequest(((Long)arguments[0]).longValue(),
 				((Long)arguments[1]).longValue());
 		}
 
-		if (_methodName60.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
-			return LinkUsecaseRequestLocalServiceUtil.countByRequestIdAndUsed(((Long)arguments[0]).longValue());
-		}
-
-		if (_methodName61.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
-			return LinkUsecaseRequestLocalServiceUtil.findByRequestIdAndUsed(((Long)arguments[0]).longValue());
-		}
-
 		if (_methodName62.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes62, parameterTypes)) {
-			return LinkUsecaseRequestLocalServiceUtil.countByRequestId(((Long)arguments[0]).longValue());
+			return LinkUsecaseRequestLocalServiceUtil.countByRequestIdAndUsed(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName63.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes63, parameterTypes)) {
-			return LinkUsecaseRequestLocalServiceUtil.findByRequestId(((Long)arguments[0]).longValue());
+			return LinkUsecaseRequestLocalServiceUtil.findByRequestIdAndUsed(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName64.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes64, parameterTypes)) {
+			return LinkUsecaseRequestLocalServiceUtil.countByRequestId(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName65.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes65, parameterTypes)) {
+			return LinkUsecaseRequestLocalServiceUtil.findByRequestId(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName66.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes66, parameterTypes)) {
 			LinkUsecaseRequestLocalServiceUtil.removeByRequestId(((Long)arguments[0]).longValue());
 
 			return null;
 		}
 
-		if (_methodName65.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes65, parameterTypes)) {
+		if (_methodName67.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes67, parameterTypes)) {
 			LinkUsecaseRequestLocalServiceUtil.removeByRecordId(((Long)arguments[0]).longValue());
 
 			return null;
@@ -336,14 +336,10 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName52;
-	private String[] _methodParameterTypes52;
-	private String _methodName53;
-	private String[] _methodParameterTypes53;
-	private String _methodName58;
-	private String[] _methodParameterTypes58;
-	private String _methodName59;
-	private String[] _methodParameterTypes59;
+	private String _methodName54;
+	private String[] _methodParameterTypes54;
+	private String _methodName55;
+	private String[] _methodParameterTypes55;
 	private String _methodName60;
 	private String[] _methodParameterTypes60;
 	private String _methodName61;
@@ -356,4 +352,8 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
 	private String[] _methodParameterTypes64;
 	private String _methodName65;
 	private String[] _methodParameterTypes65;
+	private String _methodName66;
+	private String[] _methodParameterTypes66;
+	private String _methodName67;
+	private String[] _methodParameterTypes67;
 }
