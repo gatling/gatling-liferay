@@ -16,32 +16,19 @@
 
    
 
-<portlet:actionURL var="uploadURL" name="uploadCase">
-    <portlet:param name="jspPage" value="/edit.jsp" />
+<portlet:actionURL var="uploadURL" name="uploadFile">
+	<portlet:param name="page" value="/html/view.jsp" />
+	
 </portlet:actionURL>
-<liferay-ui:success key="success" message=" YEAH. Case uploaded successfully!" />
-<%-- <liferay-ui:error key="error" --%>
-<%--     message="Sorry, an error prevented the upload. Please try again." /> --%>
-<%--     <liferay-ui:upload-progress --%>
-<%--     id="<%= uploadProgressId %>" --%>
-<%--     message="uploading" --%>
-<%--     redirect="<%= editCaseURL %>" --%>
-<%--   /> --%>
-<%-- <portlet:renderURL var="viewCaseURL"> --%>
-<%--     <portlet:param name="jspPage" value="/view2.jsp" /> --%>
-<%-- </portlet:renderURL> --%>
-
-<%-- <aui:button onClick="<%=viewCaseURL%>" value="view Uploaded Case" /> --%>
 
 	<aui:button  value="gatling-auth-user" onClick="showAuthForm()" /> 		|		 
 	<aui:a id="uploadCsvUser" href="#" onClick="showuploadForm()"><i class="icon-upload"></i> <liferay-ui:message key="upload-auth-csv" /> </aui:a> <liferay-ui:icon-help message="message-help-auth"/>
 	
 	<div hidden="true" id="uploadForm">
-<%-- 		<aui:form action="<%= uploadURL %>" enctype="multipart/form-data" method="post" > --%>
-			<aui:input type="hidden" name="upload" id="upload" value="true"/>
-			<aui:input type="file" name="fileName" 	 size="75"/>
+		<aui:form action="<%= uploadURL %>" enctype="multipart/form-data" method="post" size="75" >
+			<aui:input class="upfile" type="file" name="fileName" 	id="file"  />
 <%-- 			<input type="submit" value="<liferay-ui:message key="upload" />" onClick="<%= uploadProgressId %>.startProgress(); return true;"/> --%>
-<%-- 		</aui:form> --%>
+		</aui:form>
 	</div>
 	
 	<div hidden="true" id="userAuth">
@@ -80,7 +67,7 @@
 					A.one("#<portlet:namespace/>upload").val('true');
 				}
 				else{
-					A.one("#uploadForms").hide();
+					A.one("#uploadForm").hide();
 					A.one("#<portlet:namespace/>upload").val('false');
 				}
 			});

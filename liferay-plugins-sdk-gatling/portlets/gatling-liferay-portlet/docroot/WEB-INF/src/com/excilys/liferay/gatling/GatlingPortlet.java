@@ -63,6 +63,7 @@ import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
@@ -379,20 +380,22 @@ public class GatlingPortlet extends MVCPortlet {
 	 * @throws PortletException
 	 * @throws IOException
 	 */
-	public void uploadCase(ActionRequest actionRequest, ActionResponse actionRresponse) throws PortletException, IOException {
+	public void uploadFile(ActionRequest request, ActionResponse response) throws PortletException, IOException {
 
 		String folder = getInitParameter("uploadFolder");
 		String realPath = getPortletContext().getRealPath("/");
 
 		LOG.info("RealPath" + realPath + " UploadFolder :" + folder);
+		LOG.info("RealPath" + realPath + " UploadFolder :" + folder);
+		
 		try {
-			LOG.info("try");
-			UploadPortletRequest uploadRequest = PortalUtil
-					.getUploadPortletRequest(actionRequest);
+			
+			LOG.info("try to get and save file content");
+			UploadPortletRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
 			System.out.println("Size: "+uploadRequest.getSize("fileName"));
 
 			if (uploadRequest.getSize("fileName")==0) {
-				SessionErrors.add(actionRequest, "error");
+				SessionErrors.add(request, "error");
 			}
 
 			String sourceFileName = uploadRequest.getFileName("fileName");
@@ -400,6 +403,11 @@ public class GatlingPortlet extends MVCPortlet {
 
 			LOG.info("Name file:" + uploadRequest.getFileName("fileName"));
 			File newFile = null;
+			
+			File uploadDirectory = new File (folder);
+			if(!uploadDirectory.exists() || !uploadDirectory.isDirectory()){
+				uploadDirectory.mkdir();
+			}
 			newFile = new File(folder + sourceFileName);
 			LOG.info("New file name: " + newFile.getName());
 			LOG.info("New file path: " + newFile.getPath());
@@ -418,29 +426,30 @@ public class GatlingPortlet extends MVCPortlet {
 			fis.close();
 			fos.close();
 			Float size = (float) newFile.length();
-			System.out.println("file size bytes:" + size);
-			System.out.println("file size Mb:" + size / 1048576);
+			System.out.println("file size :" + size+" bytes");
 
-			LOG.info("File created: " + newFile.getName());
-			SessionMessages.add(actionRequest, "success");
+			LOG.info("File created: " + newFile.getName()+",  path: "+newFile.getPath());
+			SessionMessages.add(request, "success");
 
 		} catch (FileNotFoundException e) {
 			if (LOG.isErrorEnabled()) {
 				LOG.error("File Not Found.");
 			}
-			SessionMessages.add(actionRequest, "error");
+			SessionMessages.add(request, "error");
 		} catch (NullPointerException e) {
 			if (LOG.isErrorEnabled()) {
 				LOG.error("File Not Found");
 			}
-			SessionMessages.add(actionRequest, "error");
+			SessionMessages.add(request, "error");
 		} catch (IOException e1) {
 			if (LOG.isErrorEnabled()) {
 				LOG.error("Error Reading The File.");
 			}
-			SessionMessages.add(actionRequest, "error");
+			SessionMessages.add(request, "error");
 		}
 
+		response.setRenderParameter("page", ParamUtil.getString(request, "page"));
+		PortalUtil.copyRequestParameters(request, response);
 	}
 
 	/**
@@ -807,70 +816,11 @@ public class GatlingPortlet extends MVCPortlet {
 		//get authentification options
 		String login  = "";
 		String password = "";
-		LOG.info(ParamUtil.getString(request, "upload"));
+		String fileName = "";
+
 		if(ParamUtil.getString(request, "upload").equals("true")){
 			LOG.info("fichier csv selectioné");
-			String folder = getInitParameter("uploadFolder");
-			String realPath = getPortletContext().getRealPath("/");
-
-			LOG.info("RealPath" + realPath + " UploadFolder :" + folder);
-			try {
-				LOG.info("try");
-				UploadPortletRequest uploadRequest = PortalUtil
-						.getUploadPortletRequest(request);
-				System.out.println("Size: "+uploadRequest.getSize("fileName"));
-
-				if (uploadRequest.getSize("fileName")==0) {
-					SessionErrors.add(request, "error");
-				}
-
-				String sourceFileName = uploadRequest.getFileName("fileName");
-				File file = uploadRequest.getFile("fileName");
-
-				LOG.info("Name file:" + uploadRequest.getFileName("fileName"));
-				File newFile = null;
-				newFile = new File(folder + sourceFileName);
-				LOG.info("New file name: " + newFile.getName());
-				LOG.info("New file path: " + newFile.getPath());
-
-				InputStream in = new BufferedInputStream(uploadRequest.getFileAsStream("fileName"));
-				FileInputStream fis = new FileInputStream(file);
-				FileOutputStream fos = new FileOutputStream(newFile);
-
-				byte[] bytes_ = FileUtil.getBytes(in);
-				int i = fis.read(bytes_);
-
-				while (i != -1) {
-					fos.write(bytes_, 0, i);
-					i = fis.read(bytes_);
-				}
-				fis.close();
-				fos.close();
-				Float size = (float) newFile.length();
-				System.out.println("file size bytes:" + size);
-				System.out.println("file size Mb:" + size / 1048576);
-
-				LOG.info("File created: " + newFile.getName());
-				SessionMessages.add(request, "success");
-
-			} catch (FileNotFoundException e) {
-				if (LOG.isErrorEnabled()) {
-					LOG.error("File Not Found.");
-				}
-				SessionMessages.add(request, "error");
-			} catch (NullPointerException e) {
-				if (LOG.isErrorEnabled()) {
-					LOG.error("File Not Found");
-				}
-				SessionMessages.add(request, "error");
-			} catch (IOException e1) {
-				if (LOG.isErrorEnabled()) {
-					LOG.error("Error Reading The File.");
-				}
-				SessionMessages.add(request, "error");
-			}
-
-			
+			fileName = ParamUtil.getString(request, "fileName");
 		}
 		else{
 			//get user test authentification parameters

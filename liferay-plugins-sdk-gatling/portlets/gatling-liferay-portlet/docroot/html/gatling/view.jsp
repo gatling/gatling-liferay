@@ -62,11 +62,12 @@
 </div>
 
 <portlet:resourceURL var="resourceUrl" />
-<aui:form action="${resourceUrl}" method="post" name="fmExport">
+<aui:form action="${resourceUrl}" method="post" name="fmExport"   >
 	<aui:input type="hidden" name="gatlingVersion"/>
 	<aui:input type="hidden" name="login"/>
 	<aui:input type="hidden" name="password"/>
-	<aui:input type="hidden" name="csv" value="false"/>
+	<aui:input type="hidden" class="upfile"  name="fileName" />
+	<aui:input type="hidden" name="upload" id="upload" value="true"/>
 	<%--
 		Search container (table) 
 	--%>
@@ -216,9 +217,11 @@
 				    	            	var version = A.one("#<portlet:namespace/>gatlingVersionSelect").val();
 				    	            	var login = A.one("#<portlet:namespace/>log").val();
 				    	            	var pass = A.one("#<portlet:namespace/>pass").val();
+				    	            	var file = A.one("#<portlet:namespace/>file").val();
 				    	            	A.one("#<portlet:namespace/>gatlingVersion").val(version);
 				    	            	A.one("#<portlet:namespace/>login").val(login);
 				    	            	A.one("#<portlet:namespace/>password").val(pass);
+				    	            	A.one("#<portlet:namespace/>fileName").val(file);
 				    	            	A.one("#<portlet:namespace/>fmExport").submit();
 				    	            }
 				    	          }

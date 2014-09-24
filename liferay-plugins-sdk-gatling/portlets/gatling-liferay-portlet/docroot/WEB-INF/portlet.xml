@@ -44,7 +44,7 @@
  		</init-param>
 		<init-param>
 			<name>uploadFolder</name>
-			<value>upload/</value>
+			<value>/upload/</value>
 		</init-param>
 		<!-- -->
 		<expiration-cache>0</expiration-cache>
