@@ -27,11 +27,15 @@ class {{simuName}} extends Simulation {
 {{#mustachePortlet}}{{#recorderGet}}
     val {{name}} = 
 {{#listGet}}
-      {{^-first}}.{{/-first}}exec( http("{{nameN}}").{{typeRequest}}("{{url}}"))
-      .pause(2)
+      {{^-first}}.{{/-first}}exec( http("{{nameN}}").{{typeRequest}}("{{{url}}}"){{^form}}){{/form}}
+{{#form}}
+			      .check(regex("""<input name="{{namespace}}formDate" type="hidden" value="(.+?)" />""").saveAs("formDatePortlet"))
+			      .check(regex("""p_auth=(.+?)&.*{{namespace}}""").saveAs("authPortlet")))
+{{/form}}
+{{^-last}}        .pause(2){{/-last}}
 {{/listGet}}{{/recorderGet}}
-
 {{#messageBoardSimple}}
+
     val {{nameN}} = exec(http("{{nameN}}")
                           .get("{{url}}")
                           .check(regex("""cell first"> <a href="([^"]+)">""").find(0).saveAs("messageBoardSimpleurl")))
@@ -41,14 +45,14 @@ class {{simuName}} extends Simulation {
                           .check(status.is(200)))
                         .pause(1)
 {{/messageBoardSimple}}
-
 {{#messageBoardPost}}
+
     val {{nameN}} = exec(http("{{nameN}}")
-                          .post("{{url}}?p_p_id=19&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_19_mbCategoryId=0&_19_redirect={{url}}%2F-%2Fmessage_boards%2Fmessage-boards-home&_19_struts_action=%2Fmessage_boards%2Fedit_message")
+                          .post("{{{url}}}?p_p_id=19&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_19_mbCategoryId=0&_19_redirect={{url}}%2F-%2Fmessage_boards%2Fmessage-boards-home&_19_struts_action=%2Fmessage_boards%2Fedit_message")
                           .formParamSeq(Seq(("_19_name" , "name"), ( "_19_description" , "description"))))
 {{/messageBoardPost}}
-
 {{#assetPublisherSimple}}
+
 	  val {{nameN}} = exec(http("{{nameN}}")
                           .get("{{url}}")
                           .check(regex("""class="asset-title"> <a href="([^"]+)">""").find(0).saveAs("assetPublisherSimpleurl")))
@@ -58,8 +62,8 @@ class {{simuName}} extends Simulation {
                           .check(status.is(200)))
                         .pause(1)
 {{/assetPublisherSimple}}
-
 {{#wikiDisplaySimple}}  
+
     val {{name}} = exec(http("{{name}}")
                           .get("{{url}}"))
                         .pause(1)
@@ -71,9 +75,7 @@ class {{simuName}} extends Simulation {
                           .check(status.is(200)))
                         .pause(1)
 {{/wikiDisplaySimple}}
-
     /* script for {{name}} */
-    
     val {{name}} = randomSwitch(
 {{#scripts}}
       {{pourcentage}} -> exec({{nameVariable}}){{^-last}},{{/-last}}
@@ -81,7 +83,7 @@ class {{simuName}} extends Simulation {
     )
 
 {{/mustachePortlet}}
-    val Entrance = exec( http("{{requestName}}").get("{{url}}") ) 
+    val Entrance = exec( http("{{requestName}}").get("{{{url}}}") ) 
       .pause(1)
       .randomSwitch(  /*list of the portlets with their weight*/
 {{#mustachePortlet}}
@@ -98,11 +100,11 @@ class {{simuName}} extends Simulation {
   val {{scenarioName}} = scenario("{{scenarioName}}")
   {{#hasPrivatePage}}
     .exec(http("Home")
-	  .get("{{siteURL}}")
+	  .get("{{{siteURL}}}")
 	  .check(regex("""<input name="_58_formDate" type="hidden" value="(.+?)" />""").saveAs("formDate")))
 	.pause(1)
     .exec(http("Login")
-	  .post("""{{loginPageURL}}?p_p_id=58&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_58_struts_action=%2Flogin%2Flogin""")
+	  .post("""{{{loginPageURL}}}?p_p_id=58&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_58_struts_action=%2Flogin%2Flogin""")
 	  .formParam("""_58_formDate""", """${formDate}""")
 	  .formParam("""_58_saveLastPath""", """false""")
 	  .formParam("""_58_redirect""", """""")
@@ -114,7 +116,7 @@ class {{simuName}} extends Simulation {
   {{/hasPrivatePage}}
     .randomSwitch(
 {{#mustacheRequests}}
-      {{pourcentage}} -> exec({{^notRegular}}http("{{scenarioName}}{{requestName}}").get("{{url}}").check(regex("{{requestName}}")){{/notRegular}}{{^regular}}{{scenarioName}}{{requestName}}.Entrance{{/regular}}){{^last}},{{/last}}
+      {{pourcentage}} -> exec({{^notRegular}}http("{{scenarioName}}{{requestName}}").get("{{{url}}}").check(regex("{{requestName}}")){{/notRegular}}{{^regular}}{{scenarioName}}{{requestName}}.Entrance{{/regular}}){{^last}},{{/last}}
 {{/mustacheRequests}} 
   )
 {{/mustacheScenario}}

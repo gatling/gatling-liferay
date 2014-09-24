@@ -1,12 +1,14 @@
 package com.excilys.liferay.gatling.mustache.util;
 
 public class NameUrlType {
-	final private String nameN, url, typeRequest;
+	final private String nameN, url, typeRequest, namespace;
+	private boolean form;
 	
-	public NameUrlType(String name,String url,String typeRequest) {
+	public NameUrlType(String name,String url,String typeRequest, String namespace) {
 		this.nameN = name;
 		this.url = url;
 		this.typeRequest = typeRequest;
+		this.namespace = "_"+namespace+"_";
 	}
 
 	public String getNameN() {
@@ -19,6 +21,18 @@ public class NameUrlType {
 
 	public String getTypeRequest() {
 		return typeRequest;
+	}
+
+	public boolean isForm() {
+		return form;
+	}
+
+	public void setForm(boolean form) {
+		this.form = form;
+	}
+
+	public String getNamespace() {
+		return namespace;
 	}
 	
 }

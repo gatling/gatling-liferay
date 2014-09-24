@@ -3,12 +3,12 @@
  */
 package com.excilys.liferay.gatling.mustache;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MustacheRequest {
 
@@ -120,8 +120,6 @@ public class MustacheRequest {
 		this.mustachePortlet.add(mustachePortlet);
 	}
 	
-
-	
 	private void setLastListMustachePortlet() {
 		if(!mustachePortlet.isEmpty()) {
 			mustachePortlet.get(mustachePortlet.size()-1).setLast(true);
@@ -131,6 +129,5 @@ public class MustacheRequest {
 	public boolean listMustachePortletEmpty() {
 		return mustachePortlet.isEmpty();
 	}
-	
 
 }

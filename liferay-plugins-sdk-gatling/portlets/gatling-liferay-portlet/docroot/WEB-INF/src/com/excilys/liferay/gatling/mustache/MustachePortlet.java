@@ -12,7 +12,7 @@ import com.excilys.liferay.gatling.mustache.util.RecorderGet;
 import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
 
 public class MustachePortlet {
-	
+
 	private String name, url;
 	private double pourcentage;
 	private boolean last;
@@ -29,18 +29,18 @@ public class MustachePortlet {
 		this.pourcentage = pourcentage;
 		this.last = last;
 	}
-	
+
 	{
 		scripts = new ArrayList<MustacheScript>();
 		recorderGet = new ArrayList<RecorderGet>();
 	}
-	
+
 	/*--- Scripts ---*/
-	
+
 	public void addScript(MustacheScript script) {
 		this.scripts.add(script);
 	}
-	
+
 	public List<MustacheScript> getScripts() {
 		return scripts;
 	}
@@ -48,7 +48,7 @@ public class MustachePortlet {
 	public void setScripts(List<MustacheScript> scripts) {
 		this.scripts = scripts;
 	}
-	
+
 	/**
 	 * remove the comma for the last one
 	 * transform weight to percentage
@@ -66,9 +66,9 @@ public class MustachePortlet {
 			mustacheScript.setPourcentage(inter);
 		}
 		scripts.get(scripts.size()-1).setPourcentage((double)((int)((inter+subTotal-100)*100))/100);
-		
+
 	}
-	
+
 	/* --- Asset Publisher --- */
 
 	public NameAndUrl getAssetPublisherSimple() {
@@ -79,7 +79,7 @@ public class MustachePortlet {
 		addScript(new MustacheScript(name, weight));
 		this.assetPublisherSimple = new NameAndUrl(name , url);
 	}
-	
+
 	/* --- Message Board --- */
 
 	public NameAndUrl getMessageBoardSimple() {
@@ -99,7 +99,7 @@ public class MustachePortlet {
 		addScript(new MustacheScript(name, weight));
 		this.messageBoardPost = new NameAndUrl(name , url);
 	}
-	
+
 	/* --- Wiki Display --- */
 
 	public NameUrlAndPlid getWikiDisplaySimple() {
@@ -110,13 +110,13 @@ public class MustachePortlet {
 		addScript(new MustacheScript(name, weight));
 		this.wikiDisplaySimple = new NameUrlAndPlid(name, url, plid);
 	}
-	
+
 	/* --- Recorder Url --- */
 
 	public void addRecorderGet(RecorderGet recorderUrl) {
 		this.recorderGet.add(recorderUrl);
 	}
-	
+
 	public List<RecorderGet> getRecorderGet() {
 		return recorderGet;
 	}
@@ -125,9 +125,9 @@ public class MustachePortlet {
 		this.recorderGet = recorderUrl;
 	}
 
-	
+
 	/* --- getter setter generic --- */
-	
+
 
 	public String getName() {
 		return name;
@@ -169,9 +169,19 @@ public class MustachePortlet {
 		List<NameUrlType> listNameUrlType = new ArrayList<NameUrlType>();
 		List<UrlRecord> listUrlRecord = UrlRecordLocalServiceUtil.findByRecordId(record.getRecordId());
 		for (int i = 0; i < listUrlRecord.size(); i++) {
-			listNameUrlType.add(new NameUrlType(nameVariable.replace(" ", "")+i, beginningUrl+listUrlRecord.get(i).getUrl(), listUrlRecord.get(i).getType().toLowerCase()));
+			String url = listUrlRecord.get(i).getUrl();
+			//if post -> last request was a form
+			if(listUrlRecord.get(i).getType().toLowerCase().equals("post")) {
+				if(i > 0) {
+					listNameUrlType.get(i-1).setForm(true);
+				}
+				/* replace with runtime auth & formDate */
+				url = url.replaceFirst("p_auth=.+?&", "p_auth=\\${authPortlet}&")
+						.replaceFirst("_"+record.getPortletId()+"_formDate=.+?&", "_"+record.getPortletId()+"_formDate=\\${formDatePortlet}&");
+			}
+			listNameUrlType.add(new NameUrlType(nameVariable.replace(" ", "")+i, beginningUrl+url, listUrlRecord.get(i).getType().toLowerCase(), record.getPortletId()));
 		}
 		this.recorderGet.add(new RecorderGet(nameVariable, listNameUrlType));
 	}	
-	
+
 }
