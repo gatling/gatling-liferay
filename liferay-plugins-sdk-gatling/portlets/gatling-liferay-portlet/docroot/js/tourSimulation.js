@@ -4,10 +4,15 @@
 var tourFirstSimu = new Shepherd.Tour({
 	  defaults: {
 	    classes: 'shepherd-theme-arrows',
-	    scrollTo: true
+	    scrollTo: true,
+	    showCancelLink: true
 	  }
 });
-
+tourFirstSimu.addStep('welcome', {
+	title:"<liferay-ui:message key='tour-welcome-title'/>",
+	text: "<liferay-ui:message key='tour-welcome'/>",
+	attachTo: '#controlPanelSubNavgatling_WAR_gatlingliferayportletLink>span bottom',
+});
 tourFirstSimu.addStep('list-simulation', {
 	title:"<liferay-ui:message key='tour-list-simulation-title' />",
 	text: "<liferay-ui:message key='tour-list-simulation' />",
