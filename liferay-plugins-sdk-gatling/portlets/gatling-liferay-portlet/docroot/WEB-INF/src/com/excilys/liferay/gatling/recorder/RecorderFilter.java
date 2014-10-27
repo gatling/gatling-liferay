@@ -25,10 +25,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.service.PortletLocalServiceUtil;
-import com.liferay.util.PwdGenerator;
 
 
 /**
@@ -55,35 +52,10 @@ public class RecorderFilter implements Filter {
 	public void destroy() {
 	}
 
-	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-	 */
-	protected String getSessionAuthenticationToken(
-			HttpServletRequest request, String key, boolean createToken) {
-
-		HttpSession session = request.getSession();
-
-		String tokenKey = WebKeys.AUTHENTICATION_TOKEN.concat(key);
-
-		String sessionAuthenticationToken = (String)session.getAttribute(
-				tokenKey);
-
-		if (createToken && Validator.isNull(sessionAuthenticationToken)) {
-			sessionAuthenticationToken = PwdGenerator.getPassword();
-
-			session.setAttribute(tokenKey, sessionAuthenticationToken);
-		}
-
-		return sessionAuthenticationToken;
-	}
-
 	@SuppressWarnings("unchecked")
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		HttpSession session = httpRequest.getSession();
-
-		String sessionToken = getSessionAuthenticationToken(httpRequest, "#CSRF", false);
-		LOG.info(sessionToken);
 
 		String actionToggleRecord = ParamUtil.getString(httpRequest, NAMESPACE+"javax.portlet.action",null);
 		if(actionToggleRecord != null && actionToggleRecord.equals("toggleRecord")) {
