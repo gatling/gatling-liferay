@@ -34,13 +34,6 @@
 					<tr>
 						<th class="small-column"> <liferay-ui:message key="record-url-name" /> </th>
 						<th class="small-column"><liferay-ui:message key="record-url-type" /> </th>
-						<th class="small-column"><liferay-ui:message key="record-url-order" /> </th>
-						<th class="small-column">
-							<liferay-ui:message	key="scenario-edit-table-header-weight" />
-							<liferay-ui:icon-help message="weight-info-help" />
-						</th>
-						<th class="small-column"><liferay-ui:icon-help message="percent-info-help" /> </th>
-						<th class="small-column"><liferay-ui:message key="delete-message" /> </th>
 					</tr>
 				</thead>
 		
@@ -53,26 +46,6 @@
 							
 							<td >
 								${recordURL.type}
-							</td>
-							
-							<td >
-							<aui:input name="order${recordURL.urlRecordId}" label="" value="${recordURL.order}" disabled="true"></aui:input>	 
-							</td>
-							
-							<td class="weight">
-								<aui:input name="weightrecordURL" label="" value="??" disabled="true" cssClass="popup_weightPage" onChange="showWeightPopup()" />
-							</td>
-							<td class='popup_percent' />
-		
-							<td>
-								<portlet:actionURL var="deleteRecordURLURL" name="removeRecordURL">
-									<portlet:param name="page" value="/html/gatling/popupPortlet/pages/editRecord.jsp" />
-									<portlet:param name="recordURLId" value="${recordURL.urlRecordId}"/>
-									<portlet:param name="recordId" value="${recordURL.recordId}"/>
-									<portlet:param name="portletId" value="${portletId}" />
-									<portlet:param name="requestId" value="${requestId}" />
-								</portlet:actionURL>
-								<liferay-ui:icon-delete url="${deleteRecordURLURL}" />
 							</td>
 						</tr>
 					</c:forEach>
@@ -89,35 +62,3 @@
 		</div>
 	</c:otherwise>
 </c:choose>
-
-
-<script type="text/javascript">	
-	
-	function showWeightPopup() {
-		AUI().use('aui-base', function(A) {
-			var totalRate = parseInt(0);
-			var listePage = A.all('.popup_weightPage');
-			listePage.each(function() {
-				if (!(this.val() == "" || isNaN(this.val())) && this.val() > 0) {
-					totalRate += parseFloat(this.val());
-				} else {
-					this.val("0.0");
-					this.ancestor("tr").addClass("empty-weight-color");
-				}
-			});
-
-			listePage.each(function() {
-				if (!(this.val() == "" || isNaN(this.val()))) {
-					var perc = (this.val() / totalRate) * 100;
-					//cas du 0/0
-					if (isNaN(perc))
-						this.ancestor("tr").one(".popup_percent").text(	"0.00 %");
-					else
-						this.ancestor("tr").one(".popup_percent").text(	perc.toFixed(2) + " %");
-				}
-			});
-		});
-	}
-	showWeightPopup(); 
-
-</script>

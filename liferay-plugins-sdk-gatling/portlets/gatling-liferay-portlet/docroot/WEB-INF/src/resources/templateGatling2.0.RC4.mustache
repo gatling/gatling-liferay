@@ -46,7 +46,6 @@ class {{simuName}} extends Simulation {
                         .pause(1)
 {{/messageBoardSimple}}
 {{#messageBoardPost}}
-
     val {{nameN}} = exec(http("{{nameN}}")
                           .post("{{{url}}}?p_p_id=19&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_19_mbCategoryId=0&_19_redirect={{url}}%2F-%2Fmessage_boards%2Fmessage-boards-home&_19_struts_action=%2Fmessage_boards%2Fedit_message")
                           .formParamSeq(Seq(("_19_name" , "name"), ( "_19_description" , "description"))))
