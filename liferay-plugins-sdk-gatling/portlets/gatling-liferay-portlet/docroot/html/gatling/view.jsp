@@ -134,9 +134,6 @@
 	<aui:select label="simulation-list-version-choice" name="gatlingVersionSelect" >
 		<%@include file="/html/gatling/template/gatlingVersionOption.jsp" %>
 	</aui:select>
-	<c:if test ='${MapSimulation.get(simulation)[2] == 1 && !authType.equals("")}'>
-		<%@include file="/html/gatling/template/gatlingAuthForm.jsp" %>
-	</c:if>
 </div>
 
 <%--submit to addSimulation --%>
