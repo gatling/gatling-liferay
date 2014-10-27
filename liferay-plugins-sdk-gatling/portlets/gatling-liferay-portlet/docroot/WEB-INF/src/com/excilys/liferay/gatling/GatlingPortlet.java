@@ -63,7 +63,6 @@ import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
@@ -74,7 +73,6 @@ import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.MustacheException;
 import com.samskivert.mustache.Template;
 
 
@@ -335,27 +333,6 @@ public class GatlingPortlet extends MVCPortlet {
 		PortalUtil.copyRequestParameters(request, response);
 	}
 	
-	/**
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws SystemException
-	 * @throws PortalException
-	 */
-	public void removeRecordURL(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException{
-		long recordURLId = ParamUtil.getLong(request, "recordURLId");
-		long recordId = ParamUtil.getLong(request, "recordId");
-		UrlRecordLocalServiceUtil.deleteUrlRecord(recordURLId);
-		
-		if (UrlRecordLocalServiceUtil.countByRecordId(recordId) == 0) {
-			RecordLocalServiceUtil.deleteRecord(recordId);
-		}
-		//redirect
-		response.setRenderParameter("page", jspEditPortlet);
-		//hack, only work this way ....
-		response.setRenderParameter("p_p_state", "pop_up");
-		PortalUtil.copyRequestParameters(request, response);
-	}
 	
 	/**
 	 * 
