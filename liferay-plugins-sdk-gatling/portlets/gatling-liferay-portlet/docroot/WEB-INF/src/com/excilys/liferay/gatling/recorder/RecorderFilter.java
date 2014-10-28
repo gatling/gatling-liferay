@@ -15,8 +15,14 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
@@ -33,22 +39,23 @@ import com.liferay.portal.service.PortletLocalServiceUtil;
 /**
  * Servlet Filter implementation class RecordFilter
  */
+@MultipartConfig
 public class RecorderFilter implements Filter {
 	private static final Log LOG = LogFactoryUtil.getLog(RecorderFilter.class);
 	private static final String NAMESPACE = "_gatling_WAR_gatlingliferayportlet_";
 	private static final String URL_CONTROL_PANEL = "/group/control_panel/manage";
 	private static final List<String> FORBIDDEN_PARAMS = new ArrayList<String>();
-	
+
 	static {
 		FORBIDDEN_PARAMS.add("doAsGroupId");
 		FORBIDDEN_PARAMS.add("p_p_auth");
 	}
-	
+
 	protected class RecordURL {
 		private String method;
 		private String url;
 		private String params;
-		
+
 		public RecordURL(String method, String requestURL, String params) {
 			this.method = method;
 			this.url = requestURL;
@@ -84,7 +91,7 @@ public class RecorderFilter implements Filter {
 			return "RecordURL [method=" + method + ", url=" + url + ", params="
 					+ params + "]";
 		}
-		
+
 	}
 	/**
 	 * Default constructor. 
@@ -103,8 +110,8 @@ public class RecorderFilter implements Filter {
 	 */
 	public void destroy() {
 	}
-	
-	
+
+
 	private Map<String,String[]> filterParameters(Map<String,String[]> parameters) {
 		Map<String,String[]> params = new HashMap<String, String[]>(parameters);
 		for (String key : FORBIDDEN_PARAMS) {
@@ -143,12 +150,23 @@ public class RecorderFilter implements Filter {
 			// cases (Java 6)
 			if (infos[1].equalsIgnoreCase("RECORD")) { 
 				if(httpRequest.getParameter("doAsGroupId") != null) {  // we only record request with doAsGroupId (= portlet tested)
-					
 					// get the parameters
-					
 					String params = HttpUtil.parameterMapToString(filterParameters(request.getParameterMap()));
 					String requestURL = httpRequest.getRequestURI().replace(URL_CONTROL_PANEL, "");
 					RecordURL record = new RecordURL(httpRequest.getMethod(), requestURL, params);
+					if(record.getMethod().equalsIgnoreCase("post")) {
+						if(ServletFileUpload.isMultipartContent(httpRequest)) {
+							try {
+								//ON ne peut parser qu'une fois la requête pour récupérer les multipart/form-data :/
+								List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(httpRequest);
+								for (FileItem item : items) {
+									LOG.info("\t"+item.getFieldName()+" : "+item.getString());
+								}
+							} catch (FileUploadException e) {
+								throw new ServletException("Cannot parse multipart request.", e);
+							}
+						}
+					}
 					// Display for debug
 					LOG.info(record);
 					// Save

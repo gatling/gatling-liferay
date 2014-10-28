@@ -164,7 +164,7 @@ public class MustachePortlet {
 	}
 
 	public void addRecorder(Record record, double weight, String beginningUrl) throws Exception{
-		String nameVariable = "record_" + record.getName();
+		String nameVariable = "record_" + record.getName().replace(" ", "");
 		addScript(new MustacheScript(nameVariable, weight));
 		List<NameUrlType> listNameUrlType = new ArrayList<NameUrlType>();
 		List<UrlRecord> listUrlRecord = UrlRecordLocalServiceUtil.findByRecordId(record.getRecordId());
@@ -184,7 +184,7 @@ public class MustachePortlet {
 				url = url.replaceFirst("_"+record.getPortletId()+"_formDate=.+?&", "_"+record.getPortletId()+"_formDate=\\${formDatePortlet}&");
 
 			}
-			listNameUrlType.add(new NameUrlType(nameVariable.replace(" ", "")+i, beginningUrl+url, URLrecord.getType().toLowerCase(), record.getPortletId()));
+			listNameUrlType.add(new NameUrlType(nameVariable+i, beginningUrl+url, URLrecord.getType().toLowerCase(), record.getPortletId()));
 		}
 		this.recorderGet.add(new RecorderGet(nameVariable, listNameUrlType));
 	}	
