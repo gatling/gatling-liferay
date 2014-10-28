@@ -5,7 +5,9 @@ package com.excilys.liferay.gatling.recorder;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -34,6 +36,56 @@ import com.liferay.portal.service.PortletLocalServiceUtil;
 public class RecorderFilter implements Filter {
 	private static final Log LOG = LogFactoryUtil.getLog(RecorderFilter.class);
 	private static final String NAMESPACE = "_gatling_WAR_gatlingliferayportlet_";
+	private static final String URL_CONTROL_PANEL = "/group/control_panel/manage";
+	private static final List<String> FORBIDDEN_PARAMS = new ArrayList<String>();
+	
+	static {
+		FORBIDDEN_PARAMS.add("doAsGroupId");
+		FORBIDDEN_PARAMS.add("p_p_auth");
+	}
+	
+	protected class RecordURL {
+		private String method;
+		private String url;
+		private String params;
+		
+		public RecordURL(String method, String requestURL, String params) {
+			this.method = method;
+			this.url = requestURL;
+			this.params = params;
+		}
+
+		public String getMethod() {
+			return method;
+		}
+
+		public void setMethod(String method) {
+			this.method = method;
+		}
+
+		public String getUrl() {
+			return url;
+		}
+
+		public void setUrl(String url) {
+			this.url = url;
+		}
+
+		public String getParams() {
+			return params;
+		}
+
+		public void setParams(String params) {
+			this.params = params;
+		}
+
+		@Override
+		public String toString() {
+			return "RecordURL [method=" + method + ", url=" + url + ", params="
+					+ params + "]";
+		}
+		
+	}
 	/**
 	 * Default constructor. 
 	 */
@@ -51,7 +103,15 @@ public class RecorderFilter implements Filter {
 	 */
 	public void destroy() {
 	}
-
+	
+	
+	private Map<String,String[]> filterParameters(Map<String,String[]> parameters) {
+		Map<String,String[]> params = new HashMap<String, String[]>(parameters);
+		for (String key : FORBIDDEN_PARAMS) {
+			params.remove(key);
+		}
+		return params;
+	}
 	@SuppressWarnings("unchecked")
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
@@ -79,16 +139,20 @@ public class RecorderFilter implements Filter {
 				session.setAttribute("recordURL", new ArrayList<String>());
 			}
 			// get the recorded Urls list
-			List<String> recordURLs = (List<String>) session.getAttribute("recordURL");
+			List<RecordURL> recordURLs = (List<RecordURL>) session.getAttribute("recordURL");
 			// cases (Java 6)
 			if (infos[1].equalsIgnoreCase("RECORD")) { 
 				if(httpRequest.getParameter("doAsGroupId") != null) {  // we only record request with doAsGroupId (= portlet tested)
+					
 					// get the parameters
-					String params = HttpUtil.parameterMapToString(request.getParameterMap());
+					
+					String params = HttpUtil.parameterMapToString(filterParameters(request.getParameterMap()));
+					String requestURL = httpRequest.getRequestURI().replace(URL_CONTROL_PANEL, "");
+					RecordURL record = new RecordURL(httpRequest.getMethod(), requestURL, params);
 					// Display for debug
-					LOG.info("URL ("+httpRequest.getMethod()+") : "+params);
+					LOG.info(record);
 					// Save
-					recordURLs.add(httpRequest.getMethod()+")"+params);
+					recordURLs.add(record);
 					// Store it in the session
 					session.setAttribute("recordURL", recordURLs);
 				}
@@ -105,9 +169,9 @@ public class RecorderFilter implements Filter {
 						Record record = RecordLocalServiceUtil.save(infos[2], infos[0], portletVersion);
 						LOG.info("...1/2");
 						//Save url table
-						for (int i = 0; i < recordURLs.size(); i++) {
-							String url = recordURLs.get(i).split("\\)")[1];
-							String type = recordURLs.get(i).split("\\)")[0];
+						for (int i = 1; i < recordURLs.size(); i++) {
+							String url = recordURLs.get(i).getUrl()+recordURLs.get(i).getParams();
+							String type = recordURLs.get(i).getMethod();
 							UrlRecordLocalServiceUtil.save(url, type, i, record.getRecordId());
 							LOG.info("...");
 						}

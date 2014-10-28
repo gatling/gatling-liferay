@@ -169,17 +169,22 @@ public class MustachePortlet {
 		List<NameUrlType> listNameUrlType = new ArrayList<NameUrlType>();
 		List<UrlRecord> listUrlRecord = UrlRecordLocalServiceUtil.findByRecordId(record.getRecordId());
 		for (int i = 0; i < listUrlRecord.size(); i++) {
-			String url = listUrlRecord.get(i).getUrl();
+			UrlRecord URLrecord = listUrlRecord.get(i);
+			String url = URLrecord.getUrl();
 			//if post -> last request was a form
 			if(listUrlRecord.get(i).getType().toLowerCase().equals("post")) {
 				if(i > 0) {
 					listNameUrlType.get(i-1).setForm(true);
 				}
-				/* replace with runtime auth & formDate */
-				url = url.replaceFirst("p_auth=.+?&", "p_auth=\\${authPortlet}&")
-						.replaceFirst("_"+record.getPortletId()+"_formDate=.+?&", "_"+record.getPortletId()+"_formDate=\\${formDatePortlet}&");
+				//Remove redirect call
+				if(i < listUrlRecord.size()) {
+					i++;
+				}
+				/* replace with runtime formDate */
+				url = url.replaceFirst("_"+record.getPortletId()+"_formDate=.+?&", "_"+record.getPortletId()+"_formDate=\\${formDatePortlet}&");
+
 			}
-			listNameUrlType.add(new NameUrlType(nameVariable.replace(" ", "")+i, beginningUrl+url, listUrlRecord.get(i).getType().toLowerCase(), record.getPortletId()));
+			listNameUrlType.add(new NameUrlType(nameVariable.replace(" ", "")+i, beginningUrl+url, URLrecord.getType().toLowerCase(), record.getPortletId()));
 		}
 		this.recorderGet.add(new RecorderGet(nameVariable, listNameUrlType));
 	}	
