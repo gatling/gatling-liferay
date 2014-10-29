@@ -25,6 +25,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 
 import com.excilys.liferay.gatling.model.Record;
@@ -116,27 +120,30 @@ public class RecorderFilter implements Filter {
 					// get the parameters
 					String params = HttpUtil.parameterMapToString(filterParameters(request.getParameterMap()));
 					String requestURL = httpRequest.getRequestURI().replace(URL_CONTROL_PANEL, "");
+					
+					if(httpRequest.getMethod().equalsIgnoreCase("post")) {
+						/*
+						 * Get the content of multipart/form-data 
+						 */
+						ResettableStreamHttpServletRequest wrappedRequest = new ResettableStreamHttpServletRequest(httpRequest);
+						
+						if(ServletFileUpload.isMultipartContent(httpRequest)) {
+							try {
+								//ON ne peut lire qu'une fois le stream du coup on reste coincé la
+								List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(httpRequest);
+								StringBuilder sb = new StringBuilder(params);
+								for (FileItem item : items) {
+									LOG.info("\t"+item.getFieldName()+" : "+item.getString());
+									sb.append("&").append(item.getFieldName()).append("=").append(item.getString());
+								}
+								params = sb.toString();
+							} catch (FileUploadException e) {
+								throw new ServletException("Cannot parse multipart request.", e);
+							}
+						}
+						httpRequest = wrappedRequest;
+					}
 					RecordURL record = new RecordURL(httpRequest.getMethod(), requestURL, params);
-//					if(record.getMethod().equalsIgnoreCase("post")) {
-//						/*
-//						 * Get the content of multipart/form-data 
-//						 */
-//						ResettableStreamHttpServletRequest wrappedRequest = new ResettableStreamHttpServletRequest(httpRequest);
-//						
-//						if(ServletFileUpload.isMultipartContent(httpRequest)) {
-//							try {
-//								//ON ne peut lire qu'une fois le stream du coup on reste coincé la
-//								List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(wrappedRequest);
-//								for (FileItem item : items) {
-//									LOG.info("\t"+item.getFieldName()+" : "+item.getString());
-//								}
-//							} catch (FileUploadException e) {
-//								throw new ServletException("Cannot parse multipart request.", e);
-//							}
-//						}
-//						wrappedRequest.resetInputStream();
-//						httpRequest = wrappedRequest;
-//					}
 					// Display for debug
 					LOG.info(record);
 					// Save
