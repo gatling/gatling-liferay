@@ -12,5 +12,4 @@
       <taglib-location>/WEB-INF/tld/aui.tld</taglib-location>
     </taglib>
   </jsp-config>
-  
 </web-app>

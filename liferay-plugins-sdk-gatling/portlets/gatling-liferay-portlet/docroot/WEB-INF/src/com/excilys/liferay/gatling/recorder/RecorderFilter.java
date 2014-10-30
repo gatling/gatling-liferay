@@ -4,11 +4,10 @@
 package com.excilys.liferay.gatling.recorder;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,19 +16,12 @@ import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.IOUtils;
+import javax.servlet.http.Part;
 
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
@@ -120,31 +112,35 @@ public class RecorderFilter implements Filter {
 					// get the parameters
 					String params = HttpUtil.parameterMapToString(filterParameters(request.getParameterMap()));
 					String requestURL = httpRequest.getRequestURI().replace(URL_CONTROL_PANEL, "");
-					
+
 					if(httpRequest.getMethod().equalsIgnoreCase("post")) {
 						/*
 						 * Get the content of multipart/form-data 
 						 */
-						ResettableStreamHttpServletRequest wrappedRequest = new ResettableStreamHttpServletRequest(httpRequest);
-						if(ServletFileUpload.isMultipartContent(wrappedRequest)) {
-							try {
-								//ON ne peut lire qu'une fois le stream du coup on reste coincé la
-								List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(wrappedRequest);
-								StringBuilder sb = new StringBuilder(params);
-								for (FileItem item : items) {
-									LOG.debug("\t"+item.getFieldName()+" : "+item.getString());
-									sb.append("&").append(item.getFieldName()).append("=").append(item.getString());
-								}
-								params = sb.toString();
-							} catch (FileUploadException e) {
-								throw new ServletException("Cannot parse multipart request.", e);
-							}
-							wrappedRequest.resetInputStream();
-							LOG.info(wrappedRequest);
-							LOG.info(request);
-							request = wrappedRequest;
-							LOG.info(request);
+						Collection<Part> parts = null;
+						try {
+							parts = httpRequest.getParts();
+						} catch(Exception e) {
+							//do nothing
 						}
+						if(parts != null && !parts.isEmpty()) {
+							LOG.info("is MultipartContent "+parts.size());
+							StringBuilder sb = new StringBuilder(params);
+							for (Part part : parts) {
+								String name = part.getName();
+								BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream()));
+								StringBuilder value = new StringBuilder();
+								char[] buffer = new char[10240];
+								for (int length = 0; (length = reader.read(buffer)) > 0;) {
+									value.append(buffer, 0, length);
+								}
+								String input = value.toString();
+								LOG.info("\t"+name+" : "+input);
+								sb.append("&").append(name).append("=").append(input);
+							}
+							params = sb.toString();
+						}
+
 					}
 					RecordURL record = new RecordURL(httpRequest.getMethod(), requestURL, params);
 					// Display for debug
@@ -185,57 +181,10 @@ public class RecorderFilter implements Filter {
 		chain.doFilter(request, response);
 	}
 
-	private static class ResettableStreamHttpServletRequest extends
-	HttpServletRequestWrapper {
-
-		private byte[] rawData;
-		private HttpServletRequest request;
-		private ResettableServletInputStream servletStream;
-
-		public ResettableStreamHttpServletRequest(HttpServletRequest request) {
-			super(request);
-			this.request = request;
-			this.servletStream = new ResettableServletInputStream();
-		}
-
-
-		public void resetInputStream() {
-			servletStream.stream = new ByteArrayInputStream(rawData);
-		}
-
-		@Override
-		public ServletInputStream getInputStream() throws IOException {
-			if (rawData == null) {
-				rawData = IOUtils.toByteArray(this.request.getReader());
-				servletStream.stream = new ByteArrayInputStream(rawData);
-			}
-			return servletStream;
-		}
-
-		@Override
-		public BufferedReader getReader() throws IOException {
-			if (rawData == null) {
-				rawData = IOUtils.toByteArray(this.request.getReader());
-				servletStream.stream = new ByteArrayInputStream(rawData);
-			}
-			return new BufferedReader(new InputStreamReader(servletStream));
-		}
-
-		private class ResettableServletInputStream extends ServletInputStream {
-
-			private InputStream stream;
-
-			@Override
-			public int read() throws IOException {
-				return stream.read();
-			}
-		}
-	}
-
 	private class RecordURL {
-		private String method;
-		private String url;
-		private String params;
+		private final String method;
+		private final String url;
+		private final String params;
 
 		public RecordURL(String method, String requestURL, String params) {
 			this.method = method;
@@ -247,24 +196,12 @@ public class RecorderFilter implements Filter {
 			return method;
 		}
 
-		public void setMethod(String method) {
-			this.method = method;
-		}
-
 		public String getUrl() {
 			return url;
 		}
 
-		public void setUrl(String url) {
-			this.url = url;
-		}
-
 		public String getParams() {
 			return params;
-		}
-
-		public void setParams(String params) {
-			this.params = params;
 		}
 
 		@Override
