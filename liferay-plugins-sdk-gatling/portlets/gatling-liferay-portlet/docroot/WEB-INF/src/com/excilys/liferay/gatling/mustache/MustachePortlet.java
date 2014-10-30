@@ -177,7 +177,7 @@ public class MustachePortlet {
 					listNameUrlType.get(i-1).setForm(true);
 				}
 				//Remove redirect call
-				if(i < listUrlRecord.size() && listUrlRecord.get(i+1).getType().equalsIgnoreCase("get")) {
+				if(i < listUrlRecord.size()-1 && listUrlRecord.get(i+1).getType().equalsIgnoreCase("get")) {
 					i++;
 				}
 				/* replace with runtime formDate */
