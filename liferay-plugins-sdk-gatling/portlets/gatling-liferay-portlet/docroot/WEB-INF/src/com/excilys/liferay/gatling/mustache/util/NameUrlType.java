@@ -2,7 +2,7 @@ package com.excilys.liferay.gatling.mustache.util;
 
 public class NameUrlType {
 	final private String nameN, url, typeRequest, namespace;
-	private boolean form;
+	private boolean form, version;
 	
 	public NameUrlType(String name,String url,String typeRequest, String namespace) {
 		this.nameN = name;
@@ -33,6 +33,14 @@ public class NameUrlType {
 
 	public String getNamespace() {
 		return namespace;
+	}
+
+	public boolean isVersion() {
+		return version;
+	}
+
+	public void setVersion(boolean version) {
+		this.version = version;
 	}
 	
 }

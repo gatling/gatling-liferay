@@ -175,6 +175,13 @@ public class MustachePortlet {
 			if(listUrlRecord.get(i).getType().equalsIgnoreCase("post")) {
 				if(i > 0) {
 					listNameUrlType.get(i-1).setForm(true);
+					/*
+					 * Wiki version edit
+					 */
+					if(record.getPortletId().equals("36")) {
+						listNameUrlType.get(i-1).setVersion(true);
+						url = url.replaceFirst("_36_version=.+?&", "_36_version=\\${versionEdit1}.\\${versionEdit2}&");
+					}
 				}
 				//Remove redirect call
 				if(i < listUrlRecord.size()-1 && listUrlRecord.get(i+1).getType().equalsIgnoreCase("get")) {

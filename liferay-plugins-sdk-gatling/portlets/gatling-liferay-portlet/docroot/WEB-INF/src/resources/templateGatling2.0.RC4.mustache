@@ -27,12 +27,17 @@ class {{simuName}} extends Simulation {
 {{#mustachePortlet}}{{#recorderGet}}
     val {{name}} = 
 {{#listGet}}
-      {{^-first}}.{{/-first}}exec( http("{{nameN}}").{{typeRequest}}("{{{url}}}"){{^form}}){{/form}}
+      {{^-first}}.{{/-first}}exec( http("{{nameN}}").{{typeRequest}}("{{{url}}}")
 {{#form}}
-			      .check(regex("""<input name="{{namespace}}formDate" type="hidden" value="(.+?)" />""").saveAs("formDatePortlet"))
-			      .check(regex("""p_auth=(.+?)&.*{{namespace}}""").saveAs("authPortlet")))
+      			  .check(regex("""<input name="{{namespace}}formDate" type="hidden" value="(.+?)" />""").saveAs("formDatePortlet"))
+      			  .check(regex("""p_auth=(.+?)&.*{{namespace}}""").saveAs("authPortlet"))
 {{/form}}
-{{^-last}}        .pause(2){{/-last}}
+{{#version}}
+				  .check(regex("""<input class="field"  id="_36_version"    name="_36_version"     type="hidden" value="(.+?)&#x2e;.+?"   />""").saveAs("versionEdit1"))
+				  .check(regex("""<input class="field"  id="_36_version"    name="_36_version"     type="hidden" value=".+?&#x2e;(.+?)"   />""").saveAs("versionEdit2"))
+{{/version}}
+			)
+{{^-last}}      .pause(2){{/-last}}
 {{/listGet}}{{/recorderGet}}
 {{#messageBoardSimple}}
 
