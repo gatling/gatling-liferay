@@ -126,22 +126,25 @@ public class RecorderFilter implements Filter {
 						 * Get the content of multipart/form-data 
 						 */
 						ResettableStreamHttpServletRequest wrappedRequest = new ResettableStreamHttpServletRequest(httpRequest);
-						
-						if(ServletFileUpload.isMultipartContent(httpRequest)) {
+						if(ServletFileUpload.isMultipartContent(wrappedRequest)) {
 							try {
 								//ON ne peut lire qu'une fois le stream du coup on reste coincé la
-								List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(httpRequest);
+								List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(wrappedRequest);
 								StringBuilder sb = new StringBuilder(params);
 								for (FileItem item : items) {
-									LOG.info("\t"+item.getFieldName()+" : "+item.getString());
+									LOG.debug("\t"+item.getFieldName()+" : "+item.getString());
 									sb.append("&").append(item.getFieldName()).append("=").append(item.getString());
 								}
 								params = sb.toString();
 							} catch (FileUploadException e) {
 								throw new ServletException("Cannot parse multipart request.", e);
 							}
+							wrappedRequest.resetInputStream();
+							LOG.info(wrappedRequest);
+							LOG.info(request);
+							request = wrappedRequest;
+							LOG.info(request);
 						}
-						httpRequest = wrappedRequest;
 					}
 					RecordURL record = new RecordURL(httpRequest.getMethod(), requestURL, params);
 					// Display for debug

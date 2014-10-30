@@ -172,12 +172,12 @@ public class MustachePortlet {
 			UrlRecord URLrecord = listUrlRecord.get(i);
 			String url = URLrecord.getUrl();
 			//if post -> last request was a form
-			if(listUrlRecord.get(i).getType().toLowerCase().equals("post")) {
+			if(listUrlRecord.get(i).getType().equalsIgnoreCase("post")) {
 				if(i > 0) {
 					listNameUrlType.get(i-1).setForm(true);
 				}
 				//Remove redirect call
-				if(i < listUrlRecord.size()) {
+				if(i < listUrlRecord.size() && listUrlRecord.get(i+1).getType().equalsIgnoreCase("get")) {
 					i++;
 				}
 				/* replace with runtime formDate */
