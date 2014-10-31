@@ -124,7 +124,7 @@ public class RecorderFilter implements Filter {
 							//do nothing
 						}
 						if(parts != null && !parts.isEmpty()) {
-							LOG.info("is MultipartContent "+parts.size());
+							LOG.debug("is MultipartContent "+parts.size());
 							StringBuilder sb = new StringBuilder(params);
 							for (Part part : parts) {
 								String name = part.getName();
@@ -135,7 +135,7 @@ public class RecorderFilter implements Filter {
 									value.append(buffer, 0, length);
 								}
 								String input = value.toString();
-								LOG.info("\t"+name+" : "+input);
+								LOG.debug("\t"+name+" : "+input);
 								sb.append("&").append(name).append("=").append(input);
 							}
 							params = sb.toString();

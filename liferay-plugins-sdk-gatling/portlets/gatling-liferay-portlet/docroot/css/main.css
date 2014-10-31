@@ -77,3 +77,17 @@ dd {
 .popup-focus {
 	z-index: 1300;
 }
+
+.textarea-feeder {
+	min-width: 270px !important;
+	min-height: 150px !important;
+}
+
+.inline-feeder {
+	display: inline-block !important;
+	padding: 15px;
+	min-height: 260px;
+	border: 1px solid #E5E5E5;
+	margin: 0px auto;
+	vertical-align: top !important;
+}

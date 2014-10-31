@@ -146,6 +146,8 @@
 	<liferay-ui:search-iterator paginate="false" />
 </liferay-ui:search-container>
 
+<%@include file="/html/gatling/template/feeder.jsp" %>
+
 <%--redirect to addSimulation --%>
 <portlet:actionURL name="addScenario" var="addScenarioURL">
 	<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
