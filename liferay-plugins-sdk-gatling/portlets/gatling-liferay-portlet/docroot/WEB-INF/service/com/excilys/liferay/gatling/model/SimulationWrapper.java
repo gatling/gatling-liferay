@@ -50,6 +50,8 @@ public class SimulationWrapper implements Simulation, ModelWrapper<Simulation> {
 
 		attributes.put("simulation_id", getSimulation_id());
 		attributes.put("name", getName());
+		attributes.put("feederContent", getFeederContent());
+		attributes.put("isFeederAFile", getIsFeederAFile());
 
 		return attributes;
 	}
@@ -66,6 +68,18 @@ public class SimulationWrapper implements Simulation, ModelWrapper<Simulation> {
 
 		if (name != null) {
 			setName(name);
+		}
+
+		String feederContent = (String)attributes.get("feederContent");
+
+		if (feederContent != null) {
+			setFeederContent(feederContent);
+		}
+
+		Boolean isFeederAFile = (Boolean)attributes.get("isFeederAFile");
+
+		if (isFeederAFile != null) {
+			setIsFeederAFile(isFeederAFile);
 		}
 	}
 
@@ -127,6 +141,56 @@ public class SimulationWrapper implements Simulation, ModelWrapper<Simulation> {
 	@Override
 	public void setName(java.lang.String name) {
 		_simulation.setName(name);
+	}
+
+	/**
+	* Returns the feeder content of this simulation.
+	*
+	* @return the feeder content of this simulation
+	*/
+	@Override
+	public java.lang.String getFeederContent() {
+		return _simulation.getFeederContent();
+	}
+
+	/**
+	* Sets the feeder content of this simulation.
+	*
+	* @param feederContent the feeder content of this simulation
+	*/
+	@Override
+	public void setFeederContent(java.lang.String feederContent) {
+		_simulation.setFeederContent(feederContent);
+	}
+
+	/**
+	* Returns the is feeder a file of this simulation.
+	*
+	* @return the is feeder a file of this simulation
+	*/
+	@Override
+	public boolean getIsFeederAFile() {
+		return _simulation.getIsFeederAFile();
+	}
+
+	/**
+	* Returns <code>true</code> if this simulation is is feeder a file.
+	*
+	* @return <code>true</code> if this simulation is is feeder a file; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIsFeederAFile() {
+		return _simulation.isIsFeederAFile();
+	}
+
+	/**
+	* Sets whether this simulation is is feeder a file.
+	*
+	* @param isFeederAFile the is feeder a file of this simulation
+	*/
+	@Override
+	public void setIsFeederAFile(boolean isFeederAFile) {
+		_simulation.setIsFeederAFile(isFeederAFile);
 	}
 
 	@Override

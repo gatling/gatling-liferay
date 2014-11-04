@@ -75,6 +75,8 @@ public class SimulationClp extends BaseModelImpl<Simulation>
 
 		attributes.put("simulation_id", getSimulation_id());
 		attributes.put("name", getName());
+		attributes.put("feederContent", getFeederContent());
+		attributes.put("isFeederAFile", getIsFeederAFile());
 
 		return attributes;
 	}
@@ -91,6 +93,18 @@ public class SimulationClp extends BaseModelImpl<Simulation>
 
 		if (name != null) {
 			setName(name);
+		}
+
+		String feederContent = (String)attributes.get("feederContent");
+
+		if (feederContent != null) {
+			setFeederContent(feederContent);
+		}
+
+		Boolean isFeederAFile = (Boolean)attributes.get("isFeederAFile");
+
+		if (isFeederAFile != null) {
+			setIsFeederAFile(isFeederAFile);
 		}
 	}
 
@@ -133,6 +147,58 @@ public class SimulationClp extends BaseModelImpl<Simulation>
 				Method method = clazz.getMethod("setName", String.class);
 
 				method.invoke(_simulationRemoteModel, name);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public String getFeederContent() {
+		return _feederContent;
+	}
+
+	@Override
+	public void setFeederContent(String feederContent) {
+		_feederContent = feederContent;
+
+		if (_simulationRemoteModel != null) {
+			try {
+				Class<?> clazz = _simulationRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setFeederContent", String.class);
+
+				method.invoke(_simulationRemoteModel, feederContent);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public boolean getIsFeederAFile() {
+		return _isFeederAFile;
+	}
+
+	@Override
+	public boolean isIsFeederAFile() {
+		return _isFeederAFile;
+	}
+
+	@Override
+	public void setIsFeederAFile(boolean isFeederAFile) {
+		_isFeederAFile = isFeederAFile;
+
+		if (_simulationRemoteModel != null) {
+			try {
+				Class<?> clazz = _simulationRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setIsFeederAFile",
+						boolean.class);
+
+				method.invoke(_simulationRemoteModel, isFeederAFile);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -211,6 +277,8 @@ public class SimulationClp extends BaseModelImpl<Simulation>
 
 		clone.setSimulation_id(getSimulation_id());
 		clone.setName(getName());
+		clone.setFeederContent(getFeederContent());
+		clone.setIsFeederAFile(getIsFeederAFile());
 
 		return clone;
 	}
@@ -259,12 +327,16 @@ public class SimulationClp extends BaseModelImpl<Simulation>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(5);
+		StringBundler sb = new StringBundler(9);
 
 		sb.append("{simulation_id=");
 		sb.append(getSimulation_id());
 		sb.append(", name=");
 		sb.append(getName());
+		sb.append(", feederContent=");
+		sb.append(getFeederContent());
+		sb.append(", isFeederAFile=");
+		sb.append(getIsFeederAFile());
 		sb.append("}");
 
 		return sb.toString();
@@ -272,7 +344,7 @@ public class SimulationClp extends BaseModelImpl<Simulation>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(10);
+		StringBundler sb = new StringBundler(16);
 
 		sb.append("<model><model-name>");
 		sb.append("com.excilys.liferay.gatling.model.Simulation");
@@ -286,6 +358,14 @@ public class SimulationClp extends BaseModelImpl<Simulation>
 			"<column><column-name>name</column-name><column-value><![CDATA[");
 		sb.append(getName());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>feederContent</column-name><column-value><![CDATA[");
+		sb.append(getFeederContent());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>isFeederAFile</column-name><column-value><![CDATA[");
+		sb.append(getIsFeederAFile());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -294,5 +374,7 @@ public class SimulationClp extends BaseModelImpl<Simulation>
 
 	private long _simulation_id;
 	private String _name;
+	private String _feederContent;
+	private boolean _isFeederAFile;
 	private BaseModel<?> _simulationRemoteModel;
 }

@@ -31,6 +31,8 @@ public class SimulationSoap implements Serializable {
 
 		soapModel.setSimulation_id(model.getSimulation_id());
 		soapModel.setName(model.getName());
+		soapModel.setFeederContent(model.getFeederContent());
+		soapModel.setIsFeederAFile(model.getIsFeederAFile());
 
 		return soapModel;
 	}
@@ -99,6 +101,28 @@ public class SimulationSoap implements Serializable {
 		_name = name;
 	}
 
+	public String getFeederContent() {
+		return _feederContent;
+	}
+
+	public void setFeederContent(String feederContent) {
+		_feederContent = feederContent;
+	}
+
+	public boolean getIsFeederAFile() {
+		return _isFeederAFile;
+	}
+
+	public boolean isIsFeederAFile() {
+		return _isFeederAFile;
+	}
+
+	public void setIsFeederAFile(boolean isFeederAFile) {
+		_isFeederAFile = isFeederAFile;
+	}
+
 	private long _simulation_id;
 	private String _name;
+	private String _feederContent;
+	private boolean _isFeederAFile;
 }

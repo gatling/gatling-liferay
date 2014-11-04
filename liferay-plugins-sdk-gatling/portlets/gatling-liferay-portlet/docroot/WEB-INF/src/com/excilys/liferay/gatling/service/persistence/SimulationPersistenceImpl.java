@@ -321,6 +321,8 @@ public class SimulationPersistenceImpl extends BasePersistenceImpl<Simulation>
 
 		simulationImpl.setSimulation_id(simulation.getSimulation_id());
 		simulationImpl.setName(simulation.getName());
+		simulationImpl.setFeederContent(simulation.getFeederContent());
+		simulationImpl.setIsFeederAFile(simulation.isIsFeederAFile());
 
 		return simulationImpl;
 	}

@@ -59,9 +59,11 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 	public static final String TABLE_NAME = "StressTool_Simulation";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "simulation_id", Types.BIGINT },
-			{ "name", Types.VARCHAR }
+			{ "name", Types.VARCHAR },
+			{ "feederContent", Types.VARCHAR },
+			{ "isFeederAFile", Types.BOOLEAN }
 		};
-	public static final String TABLE_SQL_CREATE = "create table StressTool_Simulation (simulation_id LONG not null primary key,name VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table StressTool_Simulation (simulation_id LONG not null primary key,name VARCHAR(75) null,feederContent VARCHAR(75) null,isFeederAFile BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table StressTool_Simulation";
 	public static final String ORDER_BY_JPQL = " ORDER BY simulation.simulation_id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY StressTool_Simulation.simulation_id ASC";
@@ -117,6 +119,8 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 
 		attributes.put("simulation_id", getSimulation_id());
 		attributes.put("name", getName());
+		attributes.put("feederContent", getFeederContent());
+		attributes.put("isFeederAFile", getIsFeederAFile());
 
 		return attributes;
 	}
@@ -133,6 +137,18 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 
 		if (name != null) {
 			setName(name);
+		}
+
+		String feederContent = (String)attributes.get("feederContent");
+
+		if (feederContent != null) {
+			setFeederContent(feederContent);
+		}
+
+		Boolean isFeederAFile = (Boolean)attributes.get("isFeederAFile");
+
+		if (isFeederAFile != null) {
+			setIsFeederAFile(isFeederAFile);
 		}
 	}
 
@@ -159,6 +175,36 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 	@Override
 	public void setName(String name) {
 		_name = name;
+	}
+
+	@Override
+	public String getFeederContent() {
+		if (_feederContent == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _feederContent;
+		}
+	}
+
+	@Override
+	public void setFeederContent(String feederContent) {
+		_feederContent = feederContent;
+	}
+
+	@Override
+	public boolean getIsFeederAFile() {
+		return _isFeederAFile;
+	}
+
+	@Override
+	public boolean isIsFeederAFile() {
+		return _isFeederAFile;
+	}
+
+	@Override
+	public void setIsFeederAFile(boolean isFeederAFile) {
+		_isFeederAFile = isFeederAFile;
 	}
 
 	@Override
@@ -190,6 +236,8 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 
 		simulationImpl.setSimulation_id(getSimulation_id());
 		simulationImpl.setName(getName());
+		simulationImpl.setFeederContent(getFeederContent());
+		simulationImpl.setIsFeederAFile(getIsFeederAFile());
 
 		simulationImpl.resetOriginalValues();
 
@@ -256,17 +304,31 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 			simulationCacheModel.name = null;
 		}
 
+		simulationCacheModel.feederContent = getFeederContent();
+
+		String feederContent = simulationCacheModel.feederContent;
+
+		if ((feederContent != null) && (feederContent.length() == 0)) {
+			simulationCacheModel.feederContent = null;
+		}
+
+		simulationCacheModel.isFeederAFile = getIsFeederAFile();
+
 		return simulationCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(5);
+		StringBundler sb = new StringBundler(9);
 
 		sb.append("{simulation_id=");
 		sb.append(getSimulation_id());
 		sb.append(", name=");
 		sb.append(getName());
+		sb.append(", feederContent=");
+		sb.append(getFeederContent());
+		sb.append(", isFeederAFile=");
+		sb.append(getIsFeederAFile());
 		sb.append("}");
 
 		return sb.toString();
@@ -274,7 +336,7 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(10);
+		StringBundler sb = new StringBundler(16);
 
 		sb.append("<model><model-name>");
 		sb.append("com.excilys.liferay.gatling.model.Simulation");
@@ -288,6 +350,14 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 			"<column><column-name>name</column-name><column-value><![CDATA[");
 		sb.append(getName());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>feederContent</column-name><column-value><![CDATA[");
+		sb.append(getFeederContent());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>isFeederAFile</column-name><column-value><![CDATA[");
+		sb.append(getIsFeederAFile());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -300,5 +370,7 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
 		};
 	private long _simulation_id;
 	private String _name;
+	private String _feederContent;
+	private boolean _isFeederAFile;
 	private Simulation _escapedModel;
 }

@@ -151,6 +151,32 @@ public class GatlingPortlet extends MVCPortlet {
 		response.setRenderParameter("simulationId", Long.toString(simulationId));
 		response.setRenderParameter("page", jspEditSimulation);
 	}
+	
+	/**
+	 * Edit Simulation's feeder
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	public void editFeeder(ActionRequest request, ActionResponse response) throws Exception {
+		long simulationId = ParamUtil.getLong(request, "simulationId");
+		LOG.info("Edit Feeder of simulationId "+simulationId);
+		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
+		// isAFile
+		String radioOption = ParamUtil.getString(request, "option");
+		boolean isAFile = radioOption.equals("content2");
+		simulation.setIsFeederAFile(isAFile);
+		// content
+		String content = "manualUsers";
+		if(isAFile) {
+			content="fileUsers";
+		}
+		simulation.setFeederContent(ParamUtil.getString(request,content));
+		SimulationLocalServiceUtil.updateSimulation(simulation);
+		response.setRenderParameter("simulationId", Long.toString(simulationId));
+		response.setRenderParameter("page", jspEditSimulation);
+	}
 
 	/**
 	 * remove simulation method

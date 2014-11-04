@@ -86,6 +86,42 @@ public interface SimulationModel extends BaseModel<Simulation> {
 	 */
 	public void setName(String name);
 
+	/**
+	 * Returns the feeder content of this simulation.
+	 *
+	 * @return the feeder content of this simulation
+	 */
+	@AutoEscape
+	public String getFeederContent();
+
+	/**
+	 * Sets the feeder content of this simulation.
+	 *
+	 * @param feederContent the feeder content of this simulation
+	 */
+	public void setFeederContent(String feederContent);
+
+	/**
+	 * Returns the is feeder a file of this simulation.
+	 *
+	 * @return the is feeder a file of this simulation
+	 */
+	public boolean getIsFeederAFile();
+
+	/**
+	 * Returns <code>true</code> if this simulation is is feeder a file.
+	 *
+	 * @return <code>true</code> if this simulation is is feeder a file; <code>false</code> otherwise
+	 */
+	public boolean isIsFeederAFile();
+
+	/**
+	 * Sets whether this simulation is is feeder a file.
+	 *
+	 * @param isFeederAFile the is feeder a file of this simulation
+	 */
+	public void setIsFeederAFile(boolean isFeederAFile);
+
 	@Override
 	public boolean isNew();
 
