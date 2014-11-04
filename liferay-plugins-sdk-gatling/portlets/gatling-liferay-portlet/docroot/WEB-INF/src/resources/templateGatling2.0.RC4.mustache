@@ -17,6 +17,19 @@ class {{simuName}} extends Simulation {
 	.acceptLanguageHeader("""fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3""")
 	.connection("""keep-alive""")
 	.disableWarmUp
+	
+  /**
+   * User feeder, list of user for this simulation
+   */
+{{#feederFile}} 
+  val feeder = csv("{{feederContent}}").random
+{{/feederFile}}
+{{^-feederFile}}
+  var feeder = Array(
+		  {{#feedMap}}Map("login" -> "{{login}}", "password" -> "{{password}}"){{^-last}},{{/-last}}
+		  {{/feedMap}}).random
+		  
+{{/-feederFile}}
 
 {{#mustacheScenario}}
 /**
@@ -102,11 +115,12 @@ class {{simuName}} extends Simulation {
  */  
 {{#mustacheScenario}}
   val {{scenarioName}} = scenario("{{scenarioName}}")
-  {{#hasPrivatePage}}
+  
     .exec(http("Home")
 	  .get("{{{siteURL}}}")
 	  .check(regex("""<input name="_58_formDate" type="hidden" value="(.+?)" />""").saveAs("formDate")))
 	.pause(1)
+  	.feed(feeder)
     .exec(http("Login")
 	  .post("""{{{loginPageURL}}}?p_p_id=58&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_58_struts_action=%2Flogin%2Flogin""")
 	  .formParam("""_58_formDate""", """${formDate}""")
@@ -117,7 +131,7 @@ class {{simuName}} extends Simulation {
 	  .formParam("""_58_password""", """{{password}}""")
 	  .formParam("""_58_rememberMe""", """false""")
 	  .header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8"))
-  {{/hasPrivatePage}}
+
     .randomSwitch(
 {{#mustacheRequests}}
       {{pourcentage}} -> exec({{^notRegular}}http("{{scenarioName}}{{requestName}}").get("{{{url}}}").check(regex("{{requestName}}")){{/notRegular}}{{^regular}}{{scenarioName}}{{requestName}}.Entrance{{/regular}}){{^last}},{{/last}}

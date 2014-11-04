@@ -816,24 +816,7 @@ public class GatlingPortlet extends MVCPortlet {
 		 * Get template from version
 		 */
 		int gatlingVersion = ParamUtil.getInteger(request, "gatlingVersion");
-		//get authentification options
-		String login  = "";
-		String password = "";
-		String fileName = "";
 
-		if(ParamUtil.getString(request, "upload").equals("true")){
-			LOG.info("fichier csv selectioné");
-			fileName = ParamUtil.getString(request, "fileName");
-		}
-		else{
-			//get user test authentification parameters
-			login  = ParamUtil.getString(request, "login");
-			password = ParamUtil.getString(request, "password");
-		}
-		
-		
-		
-		
 		//add user preference
 		final PortletPreferences prefs = request.getPreferences();
 		try {
@@ -879,7 +862,7 @@ public class GatlingPortlet extends MVCPortlet {
 					if (id  > 0) {
 						simulation = SimulationLocalServiceUtil.getSimulation(id);
 						zipOutputStream.putNextEntry(new ZipEntry("Simulation" + simulation.getName() + date.getTime() + ".scala"));
-						Mustache.compiler().compile(new FileReader(template)).execute(new ScriptGeneratorGatling(id, login, password), new PrintWriter(zipOutputStream));
+						Mustache.compiler().compile(new FileReader(template)).execute(new ScriptGeneratorGatling(id), new PrintWriter(zipOutputStream));
 						zipOutputStream.closeEntry();
 					}
 				}
@@ -898,7 +881,7 @@ public class GatlingPortlet extends MVCPortlet {
 				OutputStream out = response.getPortletOutputStream();
 				String currentPath = request.getPortletSession().getPortletContext().getRealPath("/WEB-INF/src/resources") + template;
 				Template tmpl = Mustache.compiler().compile(new FileReader(currentPath));
-				String script = tmpl.execute(new ScriptGeneratorGatling(simulationsIds[0], login, password));
+				String script = tmpl.execute(new ScriptGeneratorGatling(simulationsIds[0]));
 				out.write(script.getBytes());
 				out.flush();
 				out.close();

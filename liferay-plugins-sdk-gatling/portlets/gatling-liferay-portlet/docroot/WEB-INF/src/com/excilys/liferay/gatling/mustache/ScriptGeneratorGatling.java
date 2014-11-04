@@ -4,11 +4,15 @@
 package com.excilys.liferay.gatling.mustache;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
+import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
@@ -16,6 +20,8 @@ import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.model.PortletPreferences;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
@@ -26,21 +32,39 @@ public class ScriptGeneratorGatling {
 	/**
 	 * logging.
 	 */
+	private static final Log LOG = LogFactoryUtil.getLog(ScriptGeneratorGatling.class);
 
 	private String simuName = "avant";
 	private Long simulationId = 0L; 
 	private List<MustacheScenario> mustacheScenario;
-	private String login;
-	private String password;
+	private boolean feederFile;
+	private String feederContent;
+	private List<Map<String,String>> feedMap;
 
-	public ScriptGeneratorGatling(Long simulationId, String login, String password) throws Exception{
-		String name = SimulationLocalServiceUtil.getSimulation(simulationId).getName();
-		this.simuName = GatlingUtil.createSimulationVariable(name);
+	public ScriptGeneratorGatling(Long simulationId) throws Exception{
+		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
+		this.simuName = GatlingUtil.createSimulationVariable(simulation.getName());
 		this.simulationId = simulationId;
-		this.login = login;
-		this.password = password;
+		this.feederFile = simulation.getIsFeederAFile();
+		this.feederContent = simulation.getFeederContent();
+		if(!this.feederFile) {
+			this.feedMap = new ArrayList<Map<String, String>>();
+			Scanner scanner=new Scanner(feederContent);
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+
+				String[] tab = line.split(",");
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("login",tab[0]);
+				map.put("password", tab[1]);
+				feedMap.add(map);
+			}
+
+			scanner.close();
+			LOG.info(feedMap);
+		}
 	}
-	
+
 	public String initiate() throws Exception{
 		mustacheScenario = new ArrayList<MustacheScenario>();
 		initiateMustacheScenario();
@@ -85,10 +109,6 @@ public class ScriptGeneratorGatling {
 
 	}
 
-	public String getSimuName() {
-		return simuName;
-	}
-
 	private MustacheScenario generateMustacheScenario(Scenario sc, int i, int size) throws Exception {
 		final List<MustacheRequest> listMustacheRequest = new ArrayList<MustacheRequest>();
 		final List<Request> listRequest = RequestLocalServiceUtil.findByScenarioId( sc.getScenario_id());
@@ -96,10 +116,10 @@ public class ScriptGeneratorGatling {
 		double currentSumWeight = 0;
 		double weight = 0;
 		String site = sc.getUrl_site();
-		
+
 		boolean hasPrivatePage =false;
 		String loginPageURL= site;
-		
+
 		//solution temporaire pour trouver l'url d'une page contenant une portlet de login, sinon enregistrer en base ??
 		for ( PortletPreferences pp : PortletPreferencesLocalServiceUtil.getPortletPreferences() ){
 			if(pp.getPortletId().equals("58")){
@@ -109,13 +129,13 @@ public class ScriptGeneratorGatling {
 				break;
 			}
 		}
-		 
+
 		//loop for the request
 		for (int j = 0; j < listRequest.size(); j++) {
 			final Request rq = listRequest.get(j);
 			if(rq.getWeight() > 0) {		
 				if( !rq.isPortlet()) {					
-					
+
 					weight = (double) ((int)((int) rq.getWeight()*10000/totalWeight))/100;
 					currentSumWeight += weight;
 					if(rq.isPrivatePage()) {
@@ -177,8 +197,8 @@ public class ScriptGeneratorGatling {
 			listMustacheRequest.get(listMustacheRequest.size()-1).setWeight(lastWeight).setLast(true).setScenarioId(sc.getScenario_id());
 		}
 		String variableName = GatlingUtil.createScenarioVariable(sc.getName());
-		
-		return new MustacheScenario(variableName,sc.getNumberOfUsers(), sc.getDuration(), listMustacheRequest,  hasPrivatePage, login, password, loginPageURL, site);
+
+		return new MustacheScenario(variableName,sc.getNumberOfUsers(), sc.getDuration(), listMustacheRequest,  hasPrivatePage, "", "", loginPageURL, site);
 	}
 
 	public Long getSimulationId() {
@@ -195,6 +215,10 @@ public class ScriptGeneratorGatling {
 
 	public void setMustacheScenario(List<MustacheScenario> mustacheScenario) {
 		this.mustacheScenario = mustacheScenario;
+	}
+
+	public String getSimuName() {
+		return simuName;
 	}
 
 	public void setSimuName(String simuName) {

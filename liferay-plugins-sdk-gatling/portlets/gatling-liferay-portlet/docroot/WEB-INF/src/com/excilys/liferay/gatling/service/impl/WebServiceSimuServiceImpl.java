@@ -20,8 +20,6 @@ import java.io.FileReader;
 import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
 import com.excilys.liferay.gatling.service.base.WebServiceSimuServiceBaseImpl;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.util.PortalUtil;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.MustacheException;
 import com.samskivert.mustache.Template;
@@ -60,7 +58,7 @@ public class WebServiceSimuServiceImpl extends WebServiceSimuServiceBaseImpl {
 			e1.printStackTrace();
 		}
 		try {
-			script = tmpl.execute(new ScriptGeneratorGatling(simuId, login, password)).replace("\t", "&#13;").replace("\n", "&#10;");
+			script = tmpl.execute(new ScriptGeneratorGatling(simuId)).replace("\t", "&#13;").replace("\n", "&#10;");
 		} catch (MustacheException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
