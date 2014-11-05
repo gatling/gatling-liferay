@@ -58,7 +58,7 @@ public class WebServiceSimuServiceImpl extends WebServiceSimuServiceBaseImpl {
 			e1.printStackTrace();
 		}
 		try {
-			script = tmpl.execute(new ScriptGeneratorGatling(simuId)).replace("\t", "&#13;").replace("\n", "&#10;");
+			script = tmpl.execute(new ScriptGeneratorGatling(simuId,"")).replace("\t", "&#13;").replace("\n", "&#10;");
 		} catch (MustacheException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

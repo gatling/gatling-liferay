@@ -845,7 +845,6 @@ public class GatlingPortlet extends MVCPortlet {
 		}
 		
 		
-		
 		/*
 		 * Get simulations ids
 		 */
@@ -862,7 +861,7 @@ public class GatlingPortlet extends MVCPortlet {
 					if (id  > 0) {
 						simulation = SimulationLocalServiceUtil.getSimulation(id);
 						zipOutputStream.putNextEntry(new ZipEntry("Simulation" + simulation.getName() + date.getTime() + ".scala"));
-						Mustache.compiler().compile(new FileReader(template)).execute(new ScriptGeneratorGatling(id), new PrintWriter(zipOutputStream));
+						Mustache.compiler().compile(new FileReader(template)).execute(new ScriptGeneratorGatling(id,PortalUtil.getPortalURL(request)), new PrintWriter(zipOutputStream));
 						zipOutputStream.closeEntry();
 					}
 				}
@@ -881,7 +880,7 @@ public class GatlingPortlet extends MVCPortlet {
 				OutputStream out = response.getPortletOutputStream();
 				String currentPath = request.getPortletSession().getPortletContext().getRealPath("/WEB-INF/src/resources") + template;
 				Template tmpl = Mustache.compiler().compile(new FileReader(currentPath));
-				String script = tmpl.execute(new ScriptGeneratorGatling(simulationsIds[0]));
+				String script = tmpl.execute(new ScriptGeneratorGatling(simulationsIds[0],PortalUtil.getPortalURL(request)));
 				out.write(script.getBytes());
 				out.flush();
 				out.close();

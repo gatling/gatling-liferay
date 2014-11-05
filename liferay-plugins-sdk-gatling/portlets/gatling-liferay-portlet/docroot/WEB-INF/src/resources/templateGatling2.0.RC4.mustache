@@ -127,8 +127,8 @@ class {{simuName}} extends Simulation {
 	  .formParam("""_58_saveLastPath""", """false""")
 	  .formParam("""_58_redirect""", """""")
 	  .formParam("""_58_doActionAfterLogin""", """false""")
-	  .formParam("""_58_login""", """{{login}}""")
-	  .formParam("""_58_password""", """{{password}}""")
+	  .formParam("""_58_login""", """${login}""")
+	  .formParam("""_58_password""", """${password}""")
 	  .formParam("""_58_rememberMe""", """false""")
 	  .header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8"))
 

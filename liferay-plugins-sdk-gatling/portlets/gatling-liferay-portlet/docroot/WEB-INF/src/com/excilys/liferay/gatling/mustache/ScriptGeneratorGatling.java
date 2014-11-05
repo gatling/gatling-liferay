@@ -40,13 +40,15 @@ public class ScriptGeneratorGatling {
 	private boolean feederFile;
 	private String feederContent;
 	private List<Map<String,String>> feedMap;
+	private final String portalURL;
 
-	public ScriptGeneratorGatling(Long simulationId) throws Exception{
+	public ScriptGeneratorGatling(Long simulationId, String portalURL) throws Exception{
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
 		this.simuName = GatlingUtil.createSimulationVariable(simulation.getName());
 		this.simulationId = simulationId;
 		this.feederFile = simulation.getIsFeederAFile();
 		this.feederContent = simulation.getFeederContent();
+		this.portalURL = portalURL;
 		if(!this.feederFile) {
 			this.feedMap = new ArrayList<Map<String, String>>();
 			Scanner scanner=new Scanner(feederContent);
@@ -61,7 +63,6 @@ public class ScriptGeneratorGatling {
 			}
 
 			scanner.close();
-			LOG.info(feedMap);
 		}
 	}
 
@@ -118,7 +119,8 @@ public class ScriptGeneratorGatling {
 		String site = sc.getUrl_site();
 
 		boolean hasPrivatePage =false;
-		String loginPageURL= site;
+		//on veut juste le host
+		String loginPageURL= portalURL;
 
 		//solution temporaire pour trouver l'url d'une page contenant une portlet de login, sinon enregistrer en base ??
 		for ( PortletPreferences pp : PortletPreferencesLocalServiceUtil.getPortletPreferences() ){
@@ -198,7 +200,7 @@ public class ScriptGeneratorGatling {
 		}
 		String variableName = GatlingUtil.createScenarioVariable(sc.getName());
 
-		return new MustacheScenario(variableName,sc.getNumberOfUsers(), sc.getDuration(), listMustacheRequest,  hasPrivatePage, "", "", loginPageURL, site);
+		return new MustacheScenario(variableName,sc.getNumberOfUsers(), sc.getDuration(), listMustacheRequest,  hasPrivatePage, loginPageURL, portalURL);
 	}
 
 	public Long getSimulationId() {
