@@ -82,8 +82,7 @@
 		<c:if test="${not empty multipartError }">
 			<div class="alert alert-error pull-right" style="z-index: 1203">
 				<p>
-					Your previous form was not recorded. You need to update your server
-					context with : <i>allowCasualMultipartParsing</i> to <b>true</b>!
+					<liferay-ui:message key="multipart-error-message" />
 				</p>
 			</div>
 		</c:if>
