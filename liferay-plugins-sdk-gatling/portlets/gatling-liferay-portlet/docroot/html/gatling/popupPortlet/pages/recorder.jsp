@@ -42,7 +42,13 @@
 <c:if
 	test='${ portletGatlingDTO.portletId != null &&  !"0".equals(portletGatlingDTO.portletId) }'>
 	<aui:form action="${toggleRecordURL}">
-
+		<c:if test="${not empty multipartError }">
+			<div class="alert alert-error pull-right" style="margin-right:50px">
+				<p>
+					<liferay-ui:message key="multipart-error-message" />
+				</p>
+			</div>
+		</c:if>
 		<div class="btn-group" style="z-index: 1202">
 			<c:choose>
 				<c:when test="${portletGatlingDTO.nextRecordState eq 'STOP' }">
@@ -79,13 +85,7 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<c:if test="${not empty multipartError }">
-			<div class="alert alert-error pull-right" style="z-index: 1203">
-				<p>
-					<liferay-ui:message key="multipart-error-message" />
-				</p>
-			</div>
-		</c:if>
+
 	</aui:form>
 	<hr />
 	<liferay-portlet:renderURL var="portletURL"

@@ -772,13 +772,13 @@ public class GatlingPortlet extends MVCPortlet {
 			} else {
 				builder.nextStateRecord("RECORD");
 			}
-			
 			if(CookieKeys.getCookie(PortalUtil.getHttpServletRequest(renderRequest), "multipart-error") != null) {
 				renderRequest.setAttribute("multipartError", true);
 				Cookie cookie = new Cookie("multipart-error", "true");
 				cookie.setMaxAge(1);
 				CookieKeys.addCookie(PortalUtil.getHttpServletRequest(renderRequest), PortalUtil.getHttpServletResponse(renderResponse), cookie);
 				LOG.info("Multipart form is not recorded !");
+				renderRequest.setAttribute("tabs1", "record-usecase");
 			}
 			
 			renderRequest.setAttribute("portletGatlingDTO", builder.build());
@@ -786,7 +786,7 @@ public class GatlingPortlet extends MVCPortlet {
 		
 		else if (page.equals(jspEditRecord)) {
 			
-			//Get the list of UrlRecord that coresponds to the recordId, if requested
+			//Get the list of UrlRecord that corresponds to the recordId, if requested
 			long  recordId = ParamUtil.getLong(renderRequest, "recordId");
 			String recordName = ParamUtil.getString(renderRequest, "recordname");
 			List<UrlRecord> listRecordUrl = new ArrayList<UrlRecord>();
