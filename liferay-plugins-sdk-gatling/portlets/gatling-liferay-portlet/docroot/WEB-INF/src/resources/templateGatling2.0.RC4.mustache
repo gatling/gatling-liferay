@@ -43,7 +43,6 @@ class {{simuName}} extends Simulation {
       {{^-first}}.{{/-first}}exec( http("{{nameN}}").{{typeRequest}}("{{{url}}}")
 {{#form}}
       			  .check(regex("""<input name="{{namespace}}formDate" type="hidden" value="(.+?)" />""").saveAs("formDatePortlet"))
-      			  .check(regex("""p_auth=(.+?)&.*{{namespace}}""").saveAs("authPortlet"))
 {{/form}}
 {{#version}}
 				  .check(regex("""<input class="field"  id="_36_version"    name="_36_version"     type="hidden" value="(.+?)&#x2e;.+?"   />""").saveAs("versionEdit1"))

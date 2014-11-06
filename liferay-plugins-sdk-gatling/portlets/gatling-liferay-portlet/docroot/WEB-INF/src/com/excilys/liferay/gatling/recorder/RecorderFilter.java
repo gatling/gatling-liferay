@@ -19,7 +19,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
@@ -29,6 +31,7 @@ import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.CookieKeys;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
@@ -122,9 +125,10 @@ public class RecorderFilter implements Filter {
 							parts = httpRequest.getParts();
 						} catch(Exception e) {
 							//do nothing
+							LOG.info(e.getMessage());
 						}
 						if(parts != null && !parts.isEmpty()) {
-							LOG.debug("is MultipartContent "+parts.size());
+							LOG.info("is MultipartContent "+parts.size());
 							StringBuilder sb = new StringBuilder(params);
 							for (Part part : parts) {
 								String name = part.getName();
@@ -140,7 +144,12 @@ public class RecorderFilter implements Filter {
 							}
 							params = sb.toString();
 						}
-
+						// Check if param doest NOT contain formDate (ie the form isn't recorded -> multipart didn't work ...)
+						if(!params.contains("_formDate")) {
+							//Create a cookie for error
+							Cookie cookie = new Cookie("multipart-error", "true");
+							CookieKeys.addCookie((HttpServletRequest) request, (HttpServletResponse)response, cookie);
+						}
 					}
 					RecordURL record = new RecordURL(httpRequest.getMethod(), requestURL, params);
 					// Display for debug

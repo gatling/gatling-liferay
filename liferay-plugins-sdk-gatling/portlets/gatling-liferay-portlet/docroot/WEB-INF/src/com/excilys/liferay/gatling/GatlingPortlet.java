@@ -32,6 +32,7 @@ import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.portlet.ValidatorException;
+import javax.servlet.http.Cookie;
 
 import com.excilys.liferay.gatling.dto.LinkUsecaseRequestDTO;
 import com.excilys.liferay.gatling.dto.PortletConfigDTO;
@@ -61,6 +62,7 @@ import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
+import com.liferay.portal.kernel.util.CookieKeys;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -769,6 +771,14 @@ public class GatlingPortlet extends MVCPortlet {
 				}
 			} else {
 				builder.nextStateRecord("RECORD");
+			}
+			
+			if(CookieKeys.getCookie(PortalUtil.getHttpServletRequest(renderRequest), "multipart-error") != null) {
+				renderRequest.setAttribute("multipartError", true);
+				Cookie cookie = new Cookie("multipart-error", "true");
+				cookie.setMaxAge(1);
+				CookieKeys.addCookie(PortalUtil.getHttpServletRequest(renderRequest), PortalUtil.getHttpServletResponse(renderResponse), cookie);
+				LOG.info("Multipart form is not recorded !");
 			}
 			
 			renderRequest.setAttribute("portletGatlingDTO", builder.build());
