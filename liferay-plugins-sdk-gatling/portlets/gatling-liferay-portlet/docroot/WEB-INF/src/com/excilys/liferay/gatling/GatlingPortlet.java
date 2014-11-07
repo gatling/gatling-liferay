@@ -465,11 +465,11 @@ public class GatlingPortlet extends MVCPortlet {
 	private int scenarioState(Scenario scenario) {
 		try {
 			int count = RequestLocalServiceUtil.countByScenarioIdAndUsedAndIsNotPortlet(scenario.getScenario_id());
-			if (count != 0 && scenario.getDuration() != 0 && scenario.getNumberOfUsers() != 0) {
+			if (count != 0 && scenario.isComplete()) {
 				// completed scenario = case if all minimal information are
 				// completed
 				return 2;
-			} else if (count != 0 && (scenario.getDuration() == 0 || scenario.getNumberOfUsers() == 0)) {
+			} else if (count != 0 && !scenario.isComplete()) {
 				// incomplete scenario = case if one or more information detail of
 				// scenario are not completed but there is request selected
 				return 1;
@@ -500,11 +500,11 @@ public class GatlingPortlet extends MVCPortlet {
 			if ((checkNumberCompleted == 0) || (scenariosList.size() == 0)) {
 				//if no one scenario is completed = simulation empty
 				return 0;
-			} else if (checkNumberCompleted == scenariosList.size()) {
-				//if all scenario completed = simulation complited
+			} else if (checkNumberCompleted == scenariosList.size() && simulation.isComplete()) {
+				//if all scenario completed = simulation completed
 				return 2;
 			} else {
-				//other case = simulation incompleted
+				//other case = simulation uncompleted
 				return 1;
 			}
 		} catch (SystemException e) {

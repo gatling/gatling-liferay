@@ -80,7 +80,7 @@
 	</aui:input>
 	<aui:button type="submit" cssClass="inline-button" />
 </aui:form>
-<c:if test="${not empty listScenario }">
+<c:if test="${not empty listScenario && simulation.isComplete() }">
 <c:set var="export" value="true" />
 </c:if>
 <%--Search container (table) --%>
