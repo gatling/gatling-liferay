@@ -8,15 +8,6 @@
 		value='${empty scenario ? "" : scenario.scenario_id }' />
 	<aui:input type="hidden" name="groupId" value='${scenario.group_id}' />
 
-	<portlet:renderURL var="helpURL" windowState="pop_up">
-		<portlet:param name="page" value="/html/gatling/help.jsp" />
-	</portlet:renderURL>
-	<div class="well well-small">
-		<liferay-ui:message key="scenario-edit-help-scenario" />
-		<a href="#help" class="label" id="help"> <i class="icon-question-sign"></i>
-			<liferay-ui:message key="help-use-scenario" />
-		</a>
-	</div>
 
 	<table class="table table-bordered table-scenario">
 		<thead>
@@ -393,18 +384,6 @@
 			A.one(".forceinput").set('disabled', false);
 			A.one("#force").set('disabled', false);
 		}
-		
-		A.one("#help").on('click', function(A) {
-			Liferay.Util.openWindow({
-			     dialog : {
-			          	modal : true,
-			           	constrain : true,
-			            cache : true
-			        },
-			        uri : '${helpURL}#use-scenario',
-			        title : '<liferay-ui:message key="help-how-to-use-load-test-portlet"/>'
-			  });
-		});
 		
 		A.all('.force-weight-children').each(function() {
 		      this.on('click',function(event) {

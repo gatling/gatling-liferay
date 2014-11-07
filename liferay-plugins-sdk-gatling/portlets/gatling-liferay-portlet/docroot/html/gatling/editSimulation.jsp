@@ -37,16 +37,11 @@
 		<i class="icon-question-sign"></i> 
 		<liferay-ui:message key="help-how-to-use-portlet" />
 	</a> 
-	<a href="#" class="toggle label label-info" data-content="help-scenario">
-		<i class="icon-info-sign"></i> 
-		<liferay-ui:message key="help-what-scenario" />
-	</a>
+	<a href="#" class="label label-success" onclick="tourEditSimu.start();">
+		<i class="icon-list-alt"></i> 
+		<liferay-ui:message key="take-a-tour" />
+	</a> 
 </div>
-
-<div id="help-scenario" class="alert alert-info help-text help-content-hidden">
-	<i class="icon-info-sign"></i> <liferay-ui:message key="scenario-explanation" />
-</div>
-
 <div class="navbar">
 	<div class="navbar-inner">
 		<ul class="nav">
@@ -237,24 +232,6 @@
 			        title : '<liferay-ui:message key="help-how-to-use-load-test-portlet"/>'
 			  });
 		});
-
-		A.all(".toggle").each(function() {
-			this.on('click', function(event) {
-				var contentId = this.getData("content");
-				var texts = A.all(".help-content-display");
-				texts.replaceClass("help-content-display", "help-content-hidden");
-				var helpText = A.one("#" + contentId);
-				if (this.hasClass('help-content-selected')) {
-					helpText.replaceClass("help-content-display", "help-content-hidden");
-					this.removeClass("help-content-selected");
-				} else {
-					helpText.replaceClass("help-content-hidden", "help-content-display");
-					this.addClass("help-content-selected");
-				}
-			});
-		});
-		
-
 	});
 </script>
 <script type="text/javascript">

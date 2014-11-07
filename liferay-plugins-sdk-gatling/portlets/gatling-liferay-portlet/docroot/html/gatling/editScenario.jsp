@@ -13,6 +13,27 @@
 	<liferay-ui:message key="scenario-edit" arguments="${headerList}" />
 </c:set>
 <liferay-ui:header title="${titleHeader}" backURL="${backURL }" />
+
+<%--
+	FAQ link
+--%> 
+<portlet:renderURL var="helpURL" windowState="pop_up">
+	<portlet:param name="page" value="/html/gatling/help.jsp" />
+</portlet:renderURL>
+<div class="well well-small">
+	<a target="blank" href='<%=PortletProps.get("gatling-wiki") %>' class="label label-warning">
+		<i class="icon-share"></i> 
+		<liferay-ui:message key="help-gatling-wiki" />
+	</a> 
+	<a href="#help" class="label" id="help"> <i class="icon-question-sign"></i>
+		<liferay-ui:message key="help-use-scenario" />
+	</a>
+	<a href="#" class="label label-success" onclick="tourEditScn.start();">
+		<i class="icon-list-alt"></i> 
+		<liferay-ui:message key="take-a-tour" />
+	</a> 
+
+ </div>
 <%--
 	session errors
  --%>
@@ -24,11 +45,6 @@
 
 <portlet:actionURL name="editScenario" var="editScenarioURL" windowState="normal" />
 <aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario">
-	<div class="well well-small">
-		<liferay-ui:icon-help message="About this page">
-			<liferay-ui:message key="scenario-edit-help" />
-		</liferay-ui:icon-help>
-	</div>
 	<div class="pull-right">
 		<aui:button type="submit" iconAlign="right" onClick="confirmSubmit();return false;" />
 		<aui:button type="cancel" href="${backURL}" iconAlign="right" />
@@ -47,7 +63,20 @@
 
 <%--Upgrade scenario confirmation dialog box --%>
 <script type="text/javascript">
-		
+	AUI().use('aui-base', function(A) {
+		A.one("#help").on('click', function(event) {
+			Liferay.Util.openWindow({
+			     dialog : {
+			          	modal : true,
+			           	constrain : true,
+			            cache : true
+			        },
+			        uri : '${helpURL}#use-scenario',
+			        title : '<liferay-ui:message key="help-how-to-use-load-test-portlet"/>'
+			  });
+		});
+	});
+
 	function confirmSubmit() {
 		AUI().use('aui-base',
 			function(Y) {

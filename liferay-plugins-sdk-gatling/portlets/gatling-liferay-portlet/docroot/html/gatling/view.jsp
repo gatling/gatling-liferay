@@ -35,15 +35,8 @@
 		<i class="icon-list-alt"></i> 
 		<liferay-ui:message key="take-a-tour" />
 	</a> 
-	<a href="#" class="toggle label label-info" data-content="help-simulation">
-		<i class="icon-info-sign"></i> 
-		<liferay-ui:message key="help-what-simulation" />
-	</a>
 </div>
 
-<div id="help-simulation" class="alert alert-info help-text help-content-hidden">
-	<i class="icon-info-sign"></i> <liferay-ui:message key="simulation-explanation" />
-</div>
 <%-- If user has permission --%>
 <%--NavBar --%>
 <div class="navbar">
@@ -242,21 +235,6 @@
 			  });
 		});
 
-		A.all(".toggle").each(function() {
-			this.on('click', function(event) {
-				var contentId = this.getData("content");
-				var texts = A.all(".help-content-display");
-				texts.replaceClass("help-content-display", "help-content-hidden");
-				var helpText = A.one("#" + contentId);
-				if (this.hasClass('help-content-selected')) {
-					helpText.replaceClass("help-content-display", "help-content-hidden");
-					this.removeClass("help-content-selected");
-				} else {
-					helpText.replaceClass("help-content-hidden", "help-content-display");
-					this.addClass("help-content-selected");
-				}
-			});
-		});
 		
 		/*
 		 * Multi select
