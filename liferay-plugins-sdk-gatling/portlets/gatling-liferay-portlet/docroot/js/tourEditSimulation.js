@@ -16,6 +16,12 @@ tourEditSimu.addStep('list-scenario', {
 	attachTo: 'table top',
 });
 
+tourEditSimu.addStep('list-scenario-feeder', {
+	title:"<liferay-ui:message key='tour-list-scenario-select-feeder-title' />",
+	text: "<liferay-ui:message key='tour-list-scenario-select-feeder' />",
+	attachTo: '.accordion-heading top'
+});
+
 tourEditSimu.addStep('list-scenario-new-scenario', {
 	title:"<liferay-ui:message key='tour-list-scenario-new-scenario-title' />",
 	text: "<liferay-ui:message key='tour-list-scenario-new-scenario' />",
