@@ -31,4 +31,5 @@ public interface Scenario extends ScenarioModel, PersistedModel {
 	 *
 	 * Never modify this interface directly. Add methods to {@link com.excilys.liferay.gatling.model.impl.ScenarioImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public boolean isComplete();
 }

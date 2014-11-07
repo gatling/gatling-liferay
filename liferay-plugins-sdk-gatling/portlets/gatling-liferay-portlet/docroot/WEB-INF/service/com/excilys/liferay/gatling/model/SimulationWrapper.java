@@ -299,6 +299,11 @@ public class SimulationWrapper implements Simulation, ModelWrapper<Simulation> {
 	}
 
 	@Override
+	public boolean isComplete() {
+		return _simulation.isComplete();
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;

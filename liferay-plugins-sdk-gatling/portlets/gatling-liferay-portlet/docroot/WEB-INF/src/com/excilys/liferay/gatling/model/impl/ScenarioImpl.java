@@ -31,4 +31,9 @@ public class ScenarioImpl extends ScenarioBaseImpl {
 	 */
 	public ScenarioImpl() {
 	}
+	
+	public boolean isComplete() {
+		return getNumberOfUsers() > 0 && getDuration() > 0;
+	}
+	
 }

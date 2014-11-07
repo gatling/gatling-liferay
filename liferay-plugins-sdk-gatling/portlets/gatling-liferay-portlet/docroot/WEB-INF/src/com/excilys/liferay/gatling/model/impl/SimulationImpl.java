@@ -31,4 +31,8 @@ public class SimulationImpl extends SimulationBaseImpl {
 	 */
 	public SimulationImpl() {
 	}
+	
+	public boolean isComplete() {
+		return !getFeederContent().isEmpty(); 
+	}
 }

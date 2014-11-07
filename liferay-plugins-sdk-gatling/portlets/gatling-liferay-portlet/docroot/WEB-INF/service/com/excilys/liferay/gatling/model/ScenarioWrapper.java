@@ -369,6 +369,11 @@ public class ScenarioWrapper implements Scenario, ModelWrapper<Scenario> {
 	}
 
 	@Override
+	public boolean isComplete() {
+		return _scenario.isComplete();
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;

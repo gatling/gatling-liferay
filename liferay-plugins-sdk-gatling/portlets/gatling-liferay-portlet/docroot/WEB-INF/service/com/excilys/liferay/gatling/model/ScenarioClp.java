@@ -289,6 +289,25 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 		}
 	}
 
+	@Override
+	public boolean isComplete() {
+		try {
+			String methodName = "isComplete";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			Boolean returnObj = (Boolean)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
 	public BaseModel<?> getScenarioRemoteModel() {
 		return _scenarioRemoteModel;
 	}
