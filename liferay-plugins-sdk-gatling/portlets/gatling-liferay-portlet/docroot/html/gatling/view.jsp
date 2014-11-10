@@ -19,7 +19,7 @@
 <%--
 	FAQ link
 --%> 
-<portlet:renderURL var="helpURL" windowState="pop_up">
+<portlet:renderURL var="helpURL" windowState="pop_up" >
 	<portlet:param name="page" value="/html/gatling/help.jsp" />
 </portlet:renderURL>
 <div class="well well-small">
