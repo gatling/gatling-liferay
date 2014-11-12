@@ -7,6 +7,7 @@ liferay-plugins-sdk-gatling/portlets/gatling-liferay-portlet/.project
 liferay-plugins-sdk-gatling/portlets/gatling-liferay-portlet/.settings/
 liferay-plugins-sdk-gatling/portlets/gatling-liferay-portlet/docroot/css/.sass-cache/main.css
 liferay-plugins-sdk-gatling/portlets/gatling-liferay-portlet/docroot/WEB-INF/classes/
+liferay-plugins-sdk-gatling/portlets/gatling-liferay-portlet/docroot/css/.sass-cache/
 liferay-plugins-sdk-gatling/portlets/gatling-liferay-portlet/.checkstyle
 liferay-plugins-sdk-gatling/portlets/gatling-liferay-portlet/bin/
 liferay-plugins-sdk-gatling/portlets/gatling-liferay-portlet/build.xml
