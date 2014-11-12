@@ -456,7 +456,7 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
 	}
 
 	@Override
-	public int compareTo(com.excilys.liferay.gatling.model.Request request) {
+	public int compareTo(Request request) {
 		return _request.compareTo(request);
 	}
 
@@ -466,17 +466,17 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<com.excilys.liferay.gatling.model.Request> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<Request> toCacheModel() {
 		return _request.toCacheModel();
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.Request toEscapedModel() {
+	public Request toEscapedModel() {
 		return new RequestWrapper(_request.toEscapedModel());
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.Request toUnescapedModel() {
+	public Request toUnescapedModel() {
 		return new RequestWrapper(_request.toUnescapedModel());
 	}
 

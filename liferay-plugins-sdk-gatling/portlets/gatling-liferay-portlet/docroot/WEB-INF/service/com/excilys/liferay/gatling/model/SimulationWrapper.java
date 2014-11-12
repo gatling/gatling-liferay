@@ -257,8 +257,7 @@ public class SimulationWrapper implements Simulation, ModelWrapper<Simulation> {
 	}
 
 	@Override
-	public int compareTo(
-		com.excilys.liferay.gatling.model.Simulation simulation) {
+	public int compareTo(Simulation simulation) {
 		return _simulation.compareTo(simulation);
 	}
 
@@ -268,17 +267,17 @@ public class SimulationWrapper implements Simulation, ModelWrapper<Simulation> {
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<com.excilys.liferay.gatling.model.Simulation> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<Simulation> toCacheModel() {
 		return _simulation.toCacheModel();
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.Simulation toEscapedModel() {
+	public Simulation toEscapedModel() {
 		return new SimulationWrapper(_simulation.toEscapedModel());
 	}
 
 	@Override
-	public com.excilys.liferay.gatling.model.Simulation toUnescapedModel() {
+	public Simulation toUnescapedModel() {
 		return new SimulationWrapper(_simulation.toUnescapedModel());
 	}
 
