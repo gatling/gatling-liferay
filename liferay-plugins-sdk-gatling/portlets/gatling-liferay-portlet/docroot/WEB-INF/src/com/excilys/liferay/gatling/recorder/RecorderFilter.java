@@ -80,6 +80,11 @@ public class RecorderFilter implements Filter {
 		}
 		return params;
 	}
+	/**
+	 * Gatling's recorder filter. It records all the url visited from the <i>Portlet Config</i> in the plugin <b>Gatling Liferay</b>.
+	 * 
+	 * It uses session to store all the visited URLs and next saves it in DB.
+	 */
 	@SuppressWarnings("unchecked")
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;

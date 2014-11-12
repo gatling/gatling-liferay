@@ -14,6 +14,10 @@
 
 package com.excilys.liferay.gatling.service.impl;
 
+import java.util.List;
+
+import javax.portlet.ActionRequest;
+
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
@@ -29,10 +33,6 @@ import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
-
-import java.util.List;
-
-import javax.portlet.ActionRequest;
 
 /**
  * The implementation of the simulation local service.
@@ -105,15 +105,15 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	}
 	
 	@Override
-	public int containsPrivatePage(long simulationId) throws SystemException {
+	public boolean containsPrivatePage(long simulationId) throws SystemException {
 		for ( Scenario scenario : ScenarioLocalServiceUtil.findBySimulationId(simulationId)) {
 			for (Request request : RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id())) {
 				if (request.getPrivatePage()) {
-					return 1;
+					return true;
 				}
 			}
 		}
 
-		return 0;
+		return false;
 	}
 }

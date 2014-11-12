@@ -274,6 +274,6 @@ public interface SimulationLocalService extends BaseLocalService,
 		javax.portlet.ActionRequest request)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
-	public int containsPrivatePage(long simulationId)
+	public boolean containsPrivatePage(long simulationId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 }

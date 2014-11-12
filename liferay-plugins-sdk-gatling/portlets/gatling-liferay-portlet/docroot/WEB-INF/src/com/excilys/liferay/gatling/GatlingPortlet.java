@@ -4,14 +4,8 @@
 package com.excilys.liferay.gatling;
 
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -59,11 +53,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
-import com.liferay.portal.kernel.servlet.SessionErrors;
-import com.liferay.portal.kernel.servlet.SessionMessages;
-import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.CookieKeys;
-import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
@@ -83,12 +73,6 @@ import com.samskivert.mustache.Template;
  */
 public class GatlingPortlet extends MVCPortlet {
 
-	/**
-	 * attribute mustacheFoctory.
-	 */
-
-	//private MustacheFactory mf = new DefaultMustacheFactory();
-	
 	/**
 	 * logging.
 	 */
@@ -129,7 +113,7 @@ public class GatlingPortlet extends MVCPortlet {
 		if (simulation != null) {
 			response.setRenderParameter("simulationId", Long.toString(simulation.getSimulation_id()));
 			// If new simulation the redirect to add First scenario page else edit simulation page
-			LOG.info("Simulation added");
+			LOG.debug("Simulation added");
 			response.setRenderParameter("page", jspEditSimulation); 
 		} else {
 			LOG.debug("Simulation fails to add");
@@ -146,7 +130,7 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	public void editSimulation(ActionRequest request, ActionResponse response) throws Exception {
 		long simulationId = ParamUtil.getLong(request, "simulationId");
-		LOG.info("edit Simulation with id : " + simulationId);
+		LOG.debug("edit Simulation with id : " + simulationId);
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
 		simulation.setName(ParamUtil.getString(request, "simulationName"));
 		SimulationLocalServiceUtil.updateSimulation(simulation);
@@ -163,7 +147,7 @@ public class GatlingPortlet extends MVCPortlet {
 	 */
 	public void editFeeder(ActionRequest request, ActionResponse response) throws Exception {
 		long simulationId = ParamUtil.getLong(request, "simulationId");
-		LOG.info("Edit Feeder of simulationId "+simulationId);
+		LOG.debug("Edit Feeder of simulationId "+simulationId);
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
 		// isAFile
 		String radioOption = ParamUtil.getString(request, "option");
@@ -227,7 +211,7 @@ public class GatlingPortlet extends MVCPortlet {
 	 * @throws PortalException
 	 */
 	public void editScenario(final ActionRequest request, final ActionResponse response) throws SystemException, PortalException {
-		LOG.debug("edit scenario controler");
+		LOG.debug("edit scenario controller");
 		Scenario scenario = ScenarioLocalServiceUtil.editScenarioFromRequest(request);
 		response.setRenderParameter("page", scenario != null ? jspEditSimulation : jspListSimulation);
 		if (scenario != null) {
@@ -266,7 +250,7 @@ public class GatlingPortlet extends MVCPortlet {
 	public void removeRequest(final ActionRequest request, final ActionResponse response) throws PortalException, SystemException {
 		long requestId = Long.parseLong(request.getParameter("requestId"));
 		RequestLocalServiceUtil.deleteRequest(requestId);
-		LOG.debug("request deleted succefully ");
+		LOG.debug("request deleted successfully ");
 		response.setRenderParameter("scenarioId", request.getParameter("scenarioId"));
 		response.setRenderParameter("page", jspEditScenario);
 	}
@@ -377,86 +361,6 @@ public class GatlingPortlet extends MVCPortlet {
 		PortalUtil.copyRequestParameters(request, response);
 	}
 	
-	
-	/**
-	 * 
-	 * @param actionRequest
-	 * @param actionRresponse
-	 * @throws PortletException
-	 * @throws IOException
-	 */
-	public void uploadFile(ActionRequest request, ActionResponse response) throws PortletException, IOException {
-
-		String folder = getInitParameter("uploadFolder");
-		String realPath = getPortletContext().getRealPath("/");
-
-		LOG.info("RealPath" + realPath + " UploadFolder :" + folder);
-		LOG.info("RealPath" + realPath + " UploadFolder :" + folder);
-		
-		try {
-			
-			LOG.info("try to get and save file content");
-			UploadPortletRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
-			System.out.println("Size: "+uploadRequest.getSize("fileName"));
-
-			if (uploadRequest.getSize("fileName")==0) {
-				SessionErrors.add(request, "error");
-			}
-
-			String sourceFileName = uploadRequest.getFileName("fileName");
-			File file = uploadRequest.getFile("fileName");
-
-			LOG.info("Name file:" + uploadRequest.getFileName("fileName"));
-			File newFile = null;
-			
-			File uploadDirectory = new File (folder);
-			if(!uploadDirectory.exists() || !uploadDirectory.isDirectory()){
-				uploadDirectory.mkdir();
-			}
-			newFile = new File(folder + sourceFileName);
-			LOG.info("New file name: " + newFile.getName());
-			LOG.info("New file path: " + newFile.getPath());
-
-			InputStream in = new BufferedInputStream(uploadRequest.getFileAsStream("fileName"));
-			FileInputStream fis = new FileInputStream(file);
-			FileOutputStream fos = new FileOutputStream(newFile);
-
-			byte[] bytes_ = FileUtil.getBytes(in);
-			int i = fis.read(bytes_);
-
-			while (i != -1) {
-				fos.write(bytes_, 0, i);
-				i = fis.read(bytes_);
-			}
-			fis.close();
-			fos.close();
-			Float size = (float) newFile.length();
-			System.out.println("file size :" + size+" bytes");
-
-			LOG.info("File created: " + newFile.getName()+",  path: "+newFile.getPath());
-			SessionMessages.add(request, "success");
-
-		} catch (FileNotFoundException e) {
-			if (LOG.isErrorEnabled()) {
-				LOG.error("File Not Found.");
-			}
-			SessionMessages.add(request, "error");
-		} catch (NullPointerException e) {
-			if (LOG.isErrorEnabled()) {
-				LOG.error("File Not Found");
-			}
-			SessionMessages.add(request, "error");
-		} catch (IOException e1) {
-			if (LOG.isErrorEnabled()) {
-				LOG.error("Error Reading The File.");
-			}
-			SessionMessages.add(request, "error");
-		}
-
-		response.setRenderParameter("page", ParamUtil.getString(request, "page"));
-		PortalUtil.copyRequestParameters(request, response);
-	}
-
 	/**
 	 * get the scenario state, if completed or not yet.
 	 * @param scenario
@@ -541,7 +445,7 @@ public class GatlingPortlet extends MVCPortlet {
 					Integer[] simulationInfos = new Integer[3];
 					simulationInfos[0] = ScenarioLocalServiceUtil.countBySimulationId(simulation.getSimulation_id());
 					simulationInfos[1] = simulationState(simulation);
-					simulationInfos[2] = SimulationLocalServiceUtil.containsPrivatePage(simulation.getSimulation_id());
+					simulationInfos[2] = SimulationLocalServiceUtil.containsPrivatePage(simulation.getSimulation_id()) ? 1 : 0;
 					simulationMap.put(simulation, simulationInfos);
 				}
 			} catch (SystemException e) {
@@ -777,7 +681,7 @@ public class GatlingPortlet extends MVCPortlet {
 				Cookie cookie = new Cookie("multipart-error", "true");
 				cookie.setMaxAge(1);
 				CookieKeys.addCookie(PortalUtil.getHttpServletRequest(renderRequest), PortalUtil.getHttpServletResponse(renderResponse), cookie);
-				LOG.info("Multipart form is not recorded !");
+				LOG.debug("Multipart form is not recorded !");
 				renderRequest.setAttribute("tabs1", "record-usecase");
 			}
 			
@@ -882,7 +786,6 @@ public class GatlingPortlet extends MVCPortlet {
 
 		} else if (simulationsIds.length == 1 && simulationsIds[0] > 0) {
 			//create and export only one file with scenario script for this simulation id
-			System.out.println("simulationsIds.length == 1 && simulationsIds[0] > 0");
 			response.setContentType("application/x-wais-source");
 			try {
 				simulation = SimulationLocalServiceUtil.getSimulation(simulationsIds[0]);

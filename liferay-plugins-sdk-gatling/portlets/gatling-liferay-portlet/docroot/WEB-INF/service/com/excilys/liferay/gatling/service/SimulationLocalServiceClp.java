@@ -772,7 +772,7 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
 	}
 
 	@Override
-	public int containsPrivatePage(long simulationId)
+	public boolean containsPrivatePage(long simulationId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
@@ -796,7 +796,7 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
 			}
 		}
 
-		return ((Integer)returnObj).intValue();
+		return ((Boolean)returnObj).booleanValue();
 	}
 
 	private InvokableLocalService _invokableLocalService;

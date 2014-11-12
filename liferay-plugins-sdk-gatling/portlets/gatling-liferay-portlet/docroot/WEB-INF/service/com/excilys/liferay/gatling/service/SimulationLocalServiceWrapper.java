@@ -321,7 +321,7 @@ public class SimulationLocalServiceWrapper implements SimulationLocalService,
 	}
 
 	@Override
-	public int containsPrivatePage(long simulationId)
+	public boolean containsPrivatePage(long simulationId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _simulationLocalService.containsPrivatePage(simulationId);
 	}
