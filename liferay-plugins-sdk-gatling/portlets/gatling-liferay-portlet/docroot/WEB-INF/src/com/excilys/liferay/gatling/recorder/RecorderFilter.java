@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.CookieKeys;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
@@ -144,7 +145,7 @@ public class RecorderFilter implements Filter {
 								}
 								String input = value.toString();
 								LOG.debug("\t"+name+" : "+input);
-								sb.append("&").append(name).append("=").append(input);
+								sb.append("&").append(name).append("=").append(HtmlUtil.escape(input));
 							}
 							params = sb.toString();
 						}
@@ -198,7 +199,6 @@ public class RecorderFilter implements Filter {
 		private final String method;
 		private final String url;
 		private final String params;
-		private String portletId;
 
 		public RecordURL(String method, String requestURL, String params) {
 			this.method = method;
@@ -218,14 +218,6 @@ public class RecorderFilter implements Filter {
 			return params;
 		}
 
-		public String getPortletId() {
-			return portletId;
-		}
-
-		public void setPortletId(String portletId) {
-			this.portletId = portletId;
-		}
-		
 		@Override
 		public String toString() {
 			return "RecordURL [method=" + method + ", url=" + url + ", params="

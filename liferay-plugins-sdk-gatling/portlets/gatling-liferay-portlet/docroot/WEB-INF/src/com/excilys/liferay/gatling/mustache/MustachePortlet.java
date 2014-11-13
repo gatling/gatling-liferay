@@ -12,6 +12,7 @@ import com.excilys.liferay.gatling.mustache.util.NameUrlAndPlid;
 import com.excilys.liferay.gatling.mustache.util.NameUrlType;
 import com.excilys.liferay.gatling.mustache.util.RecorderGet;
 import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 
 public class MustachePortlet {
 
@@ -174,36 +175,44 @@ public class MustachePortlet {
 			UrlRecord URLrecord = listUrlRecord.get(i);
 			String url = URLrecord.getUrl();
 			String namespace = record.getPortletId();
+			/*
+			 * Replace ppid if it is different from the portlet
+			 */
+			Pattern ppid = Pattern.compile("p_p_id=(.+?)&");
+			Matcher m = ppid.matcher(url);
+			if(m.find()) {
+				String ppidUrl = m.group(1).split("_")[0];
+				System.out.println(ppidUrl);
+				if(!record.getPortletId().equals(ppidUrl)) {
+					namespace = ppidUrl;
+				}
+			}
 			//if post -> last request was a form
 			if(listUrlRecord.get(i).getType().equalsIgnoreCase("post")) {
+
+
 				if(i > 0) {
 					listNameUrlType.get(i-1).setForm(true);
 					/*
-					 * Wiki version edit
+					 * If form contains version replace in url
 					 */
-					if(url.matches("_.?+_version=.+?&")) {
+					ppid = Pattern.compile("(.+?)_version=.+?&");
+					m = ppid.matcher(url);
+					if(m.find()) {
 						listNameUrlType.get(i-1).setVersion(true);
-						url = url.replaceFirst("_36_version=.+?&", "_36_version=\\${versionEdit1}.\\${versionEdit2}&");
+						url = url.replaceFirst("_"+namespace+"_version=.+?&", "_"+namespace+"_version=\\${versionEdit1}.\\${versionEdit2}&");
 					}
 				}
 				//Remove redirect call
 				if(i < listUrlRecord.size()-1 && listUrlRecord.get(i+1).getType().equalsIgnoreCase("get")) {
 					i++;
 				}
-				// TODO : check if p_p_pid is different from portletId. If it is, replace namespace
-				Pattern ppid = Pattern.compile("p_p_id=(.+?)&");
-				Matcher m = ppid.matcher(url);
-				if(m.find()) {
-					String ppidUrl = m.group(1);
-					if(!record.getPortletId().contains(ppidUrl+"_")) {
-						namespace = ppidUrl;
-					}
-				}
+
 				/* replace with runtime formDate */
 				url = url.replaceFirst("_"+record.getPortletId()+"_formDate=.+?&", "_"+record.getPortletId()+"_formDate=\\${formDatePortlet}&");
+				url = HtmlUtil.unescape(HtmlUtil.replaceNewLine(url));
 
 			}
-			// TODO: Modify namespace to match p_p_id if necessary
 			listNameUrlType.add(new NameUrlType(nameVariable+i, beginningUrl+url, URLrecord.getType().toLowerCase(), namespace));
 		}
 		this.recorderGet.add(new RecorderGet(nameVariable, listNameUrlType));
