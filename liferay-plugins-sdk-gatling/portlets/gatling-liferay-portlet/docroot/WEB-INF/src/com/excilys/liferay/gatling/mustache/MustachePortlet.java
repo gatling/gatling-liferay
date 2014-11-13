@@ -2,6 +2,8 @@ package com.excilys.liferay.gatling.mustache;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.UrlRecord;
@@ -171,6 +173,7 @@ public class MustachePortlet {
 		for (int i = 0; i < listUrlRecord.size(); i++) {
 			UrlRecord URLrecord = listUrlRecord.get(i);
 			String url = URLrecord.getUrl();
+			String namespace = record.getPortletId();
 			//if post -> last request was a form
 			if(listUrlRecord.get(i).getType().equalsIgnoreCase("post")) {
 				if(i > 0) {
@@ -178,7 +181,7 @@ public class MustachePortlet {
 					/*
 					 * Wiki version edit
 					 */
-					if(record.getPortletId().equals("36")) {
+					if(url.matches("_.?+_version=.+?&")) {
 						listNameUrlType.get(i-1).setVersion(true);
 						url = url.replaceFirst("_36_version=.+?&", "_36_version=\\${versionEdit1}.\\${versionEdit2}&");
 					}
@@ -187,11 +190,21 @@ public class MustachePortlet {
 				if(i < listUrlRecord.size()-1 && listUrlRecord.get(i+1).getType().equalsIgnoreCase("get")) {
 					i++;
 				}
+				// TODO : check if p_p_pid is different from portletId. If it is, replace namespace
+				Pattern ppid = Pattern.compile("p_p_id=(.+?)&");
+				Matcher m = ppid.matcher(url);
+				if(m.find()) {
+					String ppidUrl = m.group(1);
+					if(!record.getPortletId().contains(ppidUrl+"_")) {
+						namespace = ppidUrl;
+					}
+				}
 				/* replace with runtime formDate */
 				url = url.replaceFirst("_"+record.getPortletId()+"_formDate=.+?&", "_"+record.getPortletId()+"_formDate=\\${formDatePortlet}&");
 
 			}
-			listNameUrlType.add(new NameUrlType(nameVariable+i, beginningUrl+url, URLrecord.getType().toLowerCase(), record.getPortletId()));
+			// TODO: Modify namespace to match p_p_id if necessary
+			listNameUrlType.add(new NameUrlType(nameVariable+i, beginningUrl+url, URLrecord.getType().toLowerCase(), namespace));
 		}
 		this.recorderGet.add(new RecorderGet(nameVariable, listNameUrlType));
 	}	

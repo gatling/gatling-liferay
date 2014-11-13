@@ -86,7 +86,7 @@
 			<%--edit url --%>
 			<portlet:renderURL var="editSimulationURL">
 				<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
-				<portlet:param name="simulationId" value="${simulation.simulation_id }" />
+				<portlet:param name="simulationId" value="${simulation.simulation_id}" />
 			</portlet:renderURL>
 			<liferay-ui:search-container-column-text name="simulation-list-table-header-name" value="${simulation.name }" href="${editSimulationURL}" />
 			<%-- number of scenario --%>

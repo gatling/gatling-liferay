@@ -51,6 +51,7 @@
 						</div>
 					</div>
 				</aui:field-wrapper>
+			</div>
 		</aui:form>
 	</liferay-ui:panel>
 </liferay-ui:panel-container>

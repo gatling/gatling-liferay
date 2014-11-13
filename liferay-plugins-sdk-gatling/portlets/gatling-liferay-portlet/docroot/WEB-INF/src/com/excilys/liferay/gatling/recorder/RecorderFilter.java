@@ -120,7 +120,6 @@ public class RecorderFilter implements Filter {
 					// get the parameters
 					String params = HttpUtil.parameterMapToString(filterParameters(request.getParameterMap()));
 					String requestURL = httpRequest.getRequestURI().replace(URL_CONTROL_PANEL, "");
-
 					if(httpRequest.getMethod().equalsIgnoreCase("post")) {
 						/*
 						 * Get the content of multipart/form-data 
@@ -199,6 +198,7 @@ public class RecorderFilter implements Filter {
 		private final String method;
 		private final String url;
 		private final String params;
+		private String portletId;
 
 		public RecordURL(String method, String requestURL, String params) {
 			this.method = method;
@@ -218,11 +218,18 @@ public class RecorderFilter implements Filter {
 			return params;
 		}
 
+		public String getPortletId() {
+			return portletId;
+		}
+
+		public void setPortletId(String portletId) {
+			this.portletId = portletId;
+		}
+		
 		@Override
 		public String toString() {
 			return "RecordURL [method=" + method + ", url=" + url + ", params="
 					+ params + "]";
 		}
-
 	}
 }
