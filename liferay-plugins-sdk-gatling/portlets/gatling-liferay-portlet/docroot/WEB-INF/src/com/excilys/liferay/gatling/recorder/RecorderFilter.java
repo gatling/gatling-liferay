@@ -51,7 +51,6 @@ public class RecorderFilter implements Filter {
 
 	static {
 		FORBIDDEN_PARAMS.add("doAsGroupId");
-		FORBIDDEN_PARAMS.add("p_p_auth");
 	}
 
 

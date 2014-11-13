@@ -52,48 +52,11 @@ class {{simuName}} extends Simulation {
 			)
 {{^-last}}      .pause(2){{/-last}}
 {{/listGet}}{{/recorderGet}}
-{{#messageBoardSimple}}
-
-    val {{nameN}} = exec(http("{{nameN}}")
-                          .get("{{url}}")
-                          .check(regex("""cell first"> <a href="([^"]+)">""").find(0).saveAs("messageBoardSimpleurl")))
-                        .pause(1)
-                        .exec(http("Select")
-                          .get("${messageBoardSimpleurl}")
-                          .check(status.is(200)))
-                        .pause(1)
-{{/messageBoardSimple}}
-{{#messageBoardPost}}
-    val {{nameN}} = exec(http("{{nameN}}")
-                          .post("{{{url}}}?p_p_id=19&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_19_mbCategoryId=0&_19_redirect={{url}}%2F-%2Fmessage_boards%2Fmessage-boards-home&_19_struts_action=%2Fmessage_boards%2Fedit_message")
-                          .formParamSeq(Seq(("_19_name" , "name"), ( "_19_description" , "description"))))
-{{/messageBoardPost}}
-{{#assetPublisherSimple}}
-
-	  val {{nameN}} = exec(http("{{nameN}}")
-                          .get("{{url}}")
-                          .check(regex("""class="asset-title"> <a href="([^"]+)">""").find(0).saveAs("assetPublisherSimpleurl")))
-                        .pause(1)
-                        .exec(http("Select")
-                          .get("${assetPublisherSimpleurl}")
-                          .check(status.is(200)))
-                        .pause(1)
-{{/assetPublisherSimple}}
-{{#wikiDisplaySimple}}  
-
-    val {{name}} = exec(http("{{name}}")
-                          .get("{{url}}"))
-                        .pause(1)
-                        .exec(http("Recent Changes")
-                          .get("http://localhost:8080/web/ste3/wiki2?p_p_id={{plid}}&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id={{column}}&p_p_col_count=1&_{{plid}}_nodeName=Main&_{{plid}}_struts_action=%2Fwiki_display%2Fview_recent_changes")
-                          .check(status.is(200)))
-                        .exec(http("View All Pages")
-                          .get("http://localhost:8080/web/ste3/wiki2?p_p_id={{plid}}&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id={{column}}&p_p_col_count=1&_{{plid}}_nodeName=Main&_{{plid}}_struts_action=%2Fwiki_display%2Fview_all_pages")
-                          .check(status.is(200)))
-                        .pause(1)
-{{/wikiDisplaySimple}}
     /* script for {{name}} */
-    val {{name}} = randomSwitch(
+    val {{name}} = 
+    	exec(http("Auth_{{name}}").get("{{{url}}}")
+			.check(regex("""id="p_p_id_56_INSTANCE_rKrNKVmzAxje.+?class="portlet-body".+?p_auth=(.+?)&""").saveAs("portletAuth"))) 
+		re.randomSwitch(
 {{#scripts}}
       {{pourcentage}} -> exec({{nameVariable}}){{^-last}},{{/-last}}
 {{/scripts}}

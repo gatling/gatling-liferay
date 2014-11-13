@@ -16,7 +16,7 @@ import com.liferay.portal.kernel.util.HtmlUtil;
 
 public class MustachePortlet {
 
-	private String name, url;
+	private String name, url, ppid;
 	private double pourcentage;
 	private boolean last;
 	private NameAndUrl assetPublisherSimple;
@@ -26,11 +26,12 @@ public class MustachePortlet {
 	private List<RecorderGet> recorderGet;
 	private List<MustacheScript> scripts;
 
-	public MustachePortlet(String name, String url, double pourcentage, boolean last) {
+	public MustachePortlet(String name, String url, String portletId, double pourcentage, boolean last) {
 		this.name = name;
 		this.url = url;
 		this.pourcentage = pourcentage;
 		this.last = last;
+		this.ppid = portletId;
 	}
 
 	{
@@ -182,7 +183,6 @@ public class MustachePortlet {
 			Matcher m = ppid.matcher(url);
 			if(m.find()) {
 				String ppidUrl = m.group(1).split("_")[0];
-				System.out.println(ppidUrl);
 				if(!record.getPortletId().equals(ppidUrl)) {
 					namespace = ppidUrl;
 				}
@@ -210,12 +210,21 @@ public class MustachePortlet {
 
 				/* replace with runtime formDate */
 				url = url.replaceFirst("_"+record.getPortletId()+"_formDate=.+?&", "_"+record.getPortletId()+"_formDate=\\${formDatePortlet}&");
+				url = url.replaceFirst("p_p_auth=.+?&", "p_p_auth=\\${portletAuth}&");
 				url = HtmlUtil.unescape(HtmlUtil.replaceNewLine(url));
 
 			}
 			listNameUrlType.add(new NameUrlType(nameVariable+i, beginningUrl+url, URLrecord.getType().toLowerCase(), namespace));
 		}
 		this.recorderGet.add(new RecorderGet(nameVariable, listNameUrlType));
-	}	
+	}
+
+	public String getPpid() {
+		return ppid;
+	}
+
+	public void setPpid(String ppid) {
+		this.ppid = ppid;
+	}
 
 }

@@ -158,8 +158,8 @@ public class ScriptGeneratorGatling {
 								mustacheRequest.setRegular(false);
 								weightPortlet = (double) ((int)((int) portlet.getWeight()*10000/totalWeightPortlet))/100;
 								currentSumWeightPortlet += weightPortlet;
-								MustachePortlet mustachePortlet = new MustachePortlet(portlet.getName().replace(" ", "")+portlet.getRequest_id(), site + portlet.getUrl(), weightPortlet, false);
-
+								MustachePortlet mustachePortlet = new MustachePortlet(portlet.getName().replace(" ", "")+portlet.getRequest_id(), site + portlet.getUrl(),portlet.getPortetId(), weightPortlet, false);
+								LOG.info(mustachePortlet.getPpid());
 								List<LinkUsecaseRequest> listUseCaseRequest = LinkUsecaseRequestLocalServiceUtil.findByRequestIdAndUsed(portlet.getRequest_id());
 								//loop for the scripts
 								for (LinkUsecaseRequest linkUsecaseRequest : listUseCaseRequest) {
