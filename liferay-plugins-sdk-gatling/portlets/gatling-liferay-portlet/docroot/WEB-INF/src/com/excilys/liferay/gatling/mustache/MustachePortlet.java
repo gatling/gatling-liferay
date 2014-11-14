@@ -211,7 +211,8 @@ public class MustachePortlet {
 				/* replace with runtime formDate */
 				url = url.replaceFirst("_"+record.getPortletId()+"_formDate=.+?&", "_"+record.getPortletId()+"_formDate=\\${formDatePortlet}&");
 				url = url.replaceFirst("p_p_auth=.+?&", "p_p_auth=\\${portletAuth}&");
-				url = HtmlUtil.unescape(HtmlUtil.replaceNewLine(url));
+				url = url.replaceFirst("p_auth=.+?&", "p_auth=\\${portletAuth}&");
+				url = HtmlUtil.replaceNewLine(url);
 
 			}
 			listNameUrlType.add(new NameUrlType(nameVariable+i, beginningUrl+url, URLrecord.getType().toLowerCase(), namespace));

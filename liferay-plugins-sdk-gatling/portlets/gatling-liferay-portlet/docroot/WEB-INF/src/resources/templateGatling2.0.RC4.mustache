@@ -55,8 +55,8 @@ class {{simuName}} extends Simulation {
     /* script for {{name}} */
     val {{name}} = 
     	exec(http("Auth_{{name}}").get("{{{url}}}")
-			.check(regex("""id="p_p_id_56_INSTANCE_rKrNKVmzAxje.+?class="portlet-body".+?p_auth=(.+?)&""").saveAs("portletAuth"))) 
-		re.randomSwitch(
+			.check(regex("""id="p_p_id_{{ppid}}.+?class="portlet-body".+?p_auth=(.+?)&""").saveAs("portletAuth"))) 
+		.randomSwitch(
 {{#scripts}}
       {{pourcentage}} -> exec({{nameVariable}}){{^-last}},{{/-last}}
 {{/scripts}}

@@ -32,7 +32,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.CookieKeys;
-import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
@@ -144,7 +143,7 @@ public class RecorderFilter implements Filter {
 								}
 								String input = value.toString();
 								LOG.debug("\t"+name+" : "+input);
-								sb.append("&").append(name).append("=").append(HtmlUtil.escape(input));
+								sb.append("&").append(name).append("=").append(input);
 							}
 							params = sb.toString();
 						}
