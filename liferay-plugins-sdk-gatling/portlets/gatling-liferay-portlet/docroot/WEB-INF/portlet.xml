@@ -25,7 +25,7 @@
 		<init-param>
 			<name>form-first-scenario-jsp</name>
 			<value>/html/gatling/formAddFirstScenario.jsp</value>
-		</init-param>	
+		</init-param>
 		<init-param>
 			<name>help-jsp</name>
 			<value>/html/gatling/help.jsp</value>
@@ -41,8 +41,12 @@
 		<init-param>
 			<name>webService-jsp</name>
 			<value>/html/gatling/webService.jsp</value>
- 		</init-param>
+		</init-param>
 		<!-- -->
+		<init-param>
+			<name>add-process-action-success-action</name>
+			<value>false</value>
+		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>

@@ -116,6 +116,7 @@ public class RecorderFilter implements Filter {
 			// cases (Java 6)
 			if (infos[1].equalsIgnoreCase("RECORD")) { 
 				if(httpRequest.getParameter("doAsGroupId") != null) {  // we only record request with doAsGroupId (= portlet tested)
+					Map<String, String[]> parametersMap = request.getParameterMap();
 					// get the parameters
 					String params = HttpUtil.parameterMapToString(filterParameters(request.getParameterMap()));
 					String requestURL = httpRequest.getRequestURI().replace(URL_CONTROL_PANEL, "");
@@ -135,19 +136,21 @@ public class RecorderFilter implements Filter {
 							StringBuilder sb = new StringBuilder(params);
 							for (Part part : parts) {
 								String name = part.getName();
-								BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream()));
-								StringBuilder value = new StringBuilder();
-								char[] buffer = new char[10240];
-								for (int length = 0; (length = reader.read(buffer)) > 0;) {
-									value.append(buffer, 0, length);
+								if(!name.equals("null") && !parametersMap.containsKey(name)) {
+									BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream()));
+									StringBuilder value = new StringBuilder();
+									char[] buffer = new char[10240];
+									for (int length = 0; (length = reader.read(buffer)) > 0;) {
+										value.append(buffer, 0, length);
+									}
+									String input = value.toString();
+									LOG.info("\t"+name+" : "+input);
+									sb.append("&").append(name).append("=").append(input);
 								}
-								String input = value.toString();
-								LOG.debug("\t"+name+" : "+input);
-								sb.append("&").append(name).append("=").append(input);
 							}
 							params = sb.toString();
 						}
-						// Check if param doest NOT contain formDate (ie the form isn't recorded -> multipart didn't work ...)
+						// Check if param does NOT contain formDate (ie the form isn't recorded -> multipart didn't work ...)
 						if(!params.contains("_formDate")) {
 							//Create a cookie for error
 							Cookie cookie = new Cookie("multipart-error", "true");
