@@ -18,7 +18,7 @@ public class MustachePortlet {
 
 	private String name, url, ppid;
 	private double pourcentage;
-	private boolean last;
+	private boolean last, isJournal;
 	private NameAndUrl assetPublisherSimple;
 	private NameAndUrl messageBoardSimple;
 	private NameAndUrl messageBoardPost;
@@ -202,16 +202,28 @@ public class MustachePortlet {
 						listNameUrlType.get(i-1).setVersion(true);
 						url = url.replaceFirst("_"+namespace+"_version=.+?&", "_"+namespace+"_version=\\${versionEdit1}.\\${versionEdit2}&");
 					}
+					
+					/* pauth */
+					ppid = Pattern.compile("&p_auth=.+?&");
+					m = ppid.matcher(url);
+					if(m.find()) {
+						listNameUrlType.get(i-1).setPauth(true);
+						url = url.replaceFirst("&p_auth=.+?&", "&p_auth=\\${pauth}&");
+					}
 				}
 				//Remove redirect call
 				if(i < listUrlRecord.size()-1 && listUrlRecord.get(i+1).getType().equalsIgnoreCase("get")) {
 					i++;
 				}
-
+				//journal edit case
+				if(namespace.equals("15")) {
+					isJournal = true;
+				}
+				
 				/* replace with runtime formDate */
 				url = url.replaceFirst("&_"+namespace+"_formDate=.+?&", "&_"+namespace+"_formDate=\\${formDatePortlet}&");
 				url = url.replaceFirst("&p_p_auth=.+?&", "&p_p_auth=\\${portletAuth}&");
-				url = url.replaceFirst("&p_auth=.+?&", "&p_auth=\\${pauth}&");
+				
 				url = HtmlUtil.replaceNewLine(url);
 
 			}
@@ -226,6 +238,14 @@ public class MustachePortlet {
 
 	public void setPpid(String ppid) {
 		this.ppid = ppid;
+	}
+
+	public boolean isJournal() {
+		return isJournal;
+	}
+
+	public void setJournal(boolean isJournal) {
+		this.isJournal = isJournal;
 	}
 
 }
