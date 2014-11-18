@@ -43,6 +43,7 @@ class {{simuName}} extends Simulation {
       {{^-first}}.{{/-first}}exec( http("{{nameN}}").{{typeRequest}}("""{{{url}}}""")
 {{#form}}
       	.check(regex("""<input name="{{namespace}}formDate" type="hidden" value="(.+?)" />""").saveAs("formDatePortlet"))
+      	.check(regex("""<form.+?action=".+?p_auth=(.+?)&""").saveAs("pauth"))
 {{/form}}
 {{#version}}
 			  .check(regex("""id="{{namespace}}version".+?value="(.+?)&#x2e;.+?"""").saveAs("versionEdit1"))
@@ -55,7 +56,7 @@ class {{simuName}} extends Simulation {
     /* script for {{name}} */
     val {{name}} = 
     	exec(http("Auth_{{name}}").get("{{{url}}}")
-			.check(regex("""id="p_p_id_{{ppid}}.+?class="portlet-body".+?p_auth=(.+?)&""").saveAs("portletAuth"))) 
+			.check(regex("""id="p_p_id_{{ppid}}.+?class="portlet-body".+?p_p_auth=(.+?)&""").saveAs("portletAuth"))) 
 		.randomSwitch(
 {{#scripts}}
       {{pourcentage}} -> exec({{nameVariable}}){{^-last}},{{/-last}}

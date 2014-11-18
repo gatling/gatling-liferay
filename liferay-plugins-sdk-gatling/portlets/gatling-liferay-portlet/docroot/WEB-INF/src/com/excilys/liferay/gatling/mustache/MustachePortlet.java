@@ -209,9 +209,9 @@ public class MustachePortlet {
 				}
 
 				/* replace with runtime formDate */
-				url = url.replaceFirst("_"+record.getPortletId()+"_formDate=.+?&", "_"+record.getPortletId()+"_formDate=\\${formDatePortlet}&");
-				url = url.replaceFirst("p_p_auth=.+?&", "p_p_auth=\\${portletAuth}&");
-				url = url.replaceFirst("p_auth=.+?&", "p_auth=\\${portletAuth}&");
+				url = url.replaceFirst("&_"+namespace+"_formDate=.+?&", "&_"+namespace+"_formDate=\\${formDatePortlet}&");
+				url = url.replaceFirst("&p_p_auth=.+?&", "&p_p_auth=\\${portletAuth}&");
+				url = url.replaceFirst("&p_auth=.+?&", "&p_auth=\\${pauth}&");
 				url = HtmlUtil.replaceNewLine(url);
 
 			}
