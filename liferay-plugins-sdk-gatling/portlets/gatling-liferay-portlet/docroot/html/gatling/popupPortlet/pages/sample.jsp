@@ -13,6 +13,13 @@
 <div class="well well-small">
 	<liferay-ui:message key="portlet-edit-sample-details" />
 </div>
+<c:if test="${not empty multipartError }">
+	<div class="alert alert-error pull-right" style="margin-right:50px">
+		<p>
+			<liferay-ui:message key="multipart-error-message" />
+		</p>
+	</div>
+</c:if>
 <c:choose>
 	<c:when
 		test="${not empty portletGatlingDTO.availableScript && not empty portletGatlingDTO.availableScript[0] 
@@ -32,6 +39,8 @@
 				value="portlet-edit-sample-add" cssClass="inline-button" />
 
 		</aui:form>
+		
+
 
 		<aui:form action="${editPortletSampleURL}" name="formPortletSample" method="POST">
 			<table class="table table-bordered table-scenario">
