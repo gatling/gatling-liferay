@@ -16,3 +16,4 @@ liferay-plugins-sdk-gatling/portlets/gatling-liferay-portlet/docroot/WEB-INF/ser
 liferay-plugins-sdk-gatling/build.properties~
 liferay-plugins-sdk-gatling/portlets/backup/
 .gitignore~
+liferay-plugins-sdk-gatling/portlets/gatling-liferay-portlet/.tern-project

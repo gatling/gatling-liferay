@@ -32,7 +32,7 @@
 			<table class="table table-bordered">
 				<thead>
 					<tr>
-						<th class="small-column"> <liferay-ui:message key="record-url-name" /> </th>
+						<th class="small-column"><liferay-ui:message key="record-url-name" /> </th>
 						<th class="small-column"><liferay-ui:message key="record-url-type" /> </th>
 					</tr>
 				</thead>
@@ -40,11 +40,11 @@
 				<tbody id="bodyEditRecord">
 					<c:forEach var="recordURL"	items="${listRecordUrl}">
 						<tr>
-							<td >
+							<td>
 								${recordURL.url}
 							</td>
 							
-							<td >
+							<td>
 								${recordURL.type}
 							</td>
 						</tr>

@@ -56,6 +56,7 @@
 		<supported-locale>fr</supported-locale>
 		<supported-locale>de</supported-locale>
 		<resource-bundle>content.Language</resource-bundle>
+
 		<portlet-info>
 			<title>Stress Tool</title>
 			<short-title>Gatling</short-title>

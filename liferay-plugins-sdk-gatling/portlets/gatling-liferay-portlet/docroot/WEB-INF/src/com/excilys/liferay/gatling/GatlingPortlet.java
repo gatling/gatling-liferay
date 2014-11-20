@@ -197,7 +197,7 @@ public class GatlingPortlet extends MVCPortlet {
 			response.setRenderParameter("page", jspEditScenario);
 		} else {
 			response.setRenderParameter("simulationId", ParamUtil.getString(request, "simulationId"));
-			response.setRenderParameter("page", !first.equals("") ? jspFormFirstScenario : jspEditSimulation);
+			response.setRenderParameter("page", first.equals("") ? jspEditSimulation : jspFormFirstScenario);
 			response.setRenderParameter("page", jspEditSimulation);
 		}
 	}
@@ -342,6 +342,7 @@ public class GatlingPortlet extends MVCPortlet {
 		response.setRenderParameter("page", jspEditPortlet);
 		//hack, only work this way ....
 		response.setRenderParameter("p_p_state", "pop_up");
+		response.setRenderParameter("tabs1", "config-record");
 		PortalUtil.copyRequestParameters(request, response);
 	}
 	
@@ -456,20 +457,10 @@ public class GatlingPortlet extends MVCPortlet {
 			String gatlingVersionString;
 			gatlingVersionString = prefs.getValue("gatlingVersion", null);
 			
-			String authType = "";
-			try{
-				authType = GatlingUtil.getAuthType(renderRequest);
-			} catch (SystemException e) {
-				if(LOG.isErrorEnabled()){
-					LOG.error("enable to get authentication type "+e.getMessage());
-				}
-			}
-			
 			renderRequest.setAttribute("gatlingVersion", gatlingVersionString);
 			renderRequest.setAttribute("listOfSimulationName", JSListName);
 			renderRequest.setAttribute("listSimulation", simulationList);
 			renderRequest.setAttribute("MapSimulation", simulationMap);
-			renderRequest.setAttribute("authType", authType);
 		} else if (page.equals(jspEditSimulation) || page.equals(jspFormFirstScenario)) {
 			/*
 			 * 
@@ -500,9 +491,9 @@ public class GatlingPortlet extends MVCPortlet {
 				Map<Scenario, Number[]> scenariosMap = new HashMap<Scenario, Number[]>();
 				for (Scenario scenario : scenarioList) {
 					Number[] info = new Number[3];
-					info[2] = scenarioState(scenario);
 					info[0] = RequestLocalServiceUtil.countByScenarioIdAndUsedAndIsNotPortlet(scenario.getScenario_id());
 					info[1] = RequestLocalServiceUtil.countByScenarioIdAndIsNotPortlet(scenario.getScenario_id());
+					info[2] = scenarioState(scenario);
 					scenariosMap.put(scenario, info);
 				}
 				String JSListName = GatlingUtil.createJSListOfScenarioName(scenarioList);
@@ -721,7 +712,7 @@ public class GatlingPortlet extends MVCPortlet {
 	}
 
 	/**
-	 * 
+	 * ServeResource is used to download gatling's generated files
 	 * 
 	 */
 	@Override
@@ -757,7 +748,6 @@ public class GatlingPortlet extends MVCPortlet {
 			template = "/templateGatling2.0.RC4.mustache";
 			break;
 		}
-		
 		
 		/*
 		 * Get simulations ids
@@ -804,10 +794,7 @@ public class GatlingPortlet extends MVCPortlet {
 			throw new NullPointerException("nothing to export");
 		}
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
-		
 	}
-	
-
 }
 
 

@@ -150,7 +150,6 @@ public class RecorderFilter implements Filter {
 							}
 							params = sb.toString();
 						}
-						//TODO : this is not working
 						// Check if param contains "lifecycle=1" (processAction -> form) 
 						// 		AND if param does NOT contain "formDate"(ie the form isn't recorded -> multipart didn't work ...)
 						if(params.contains("lifecycle=1") && !params.contains("formDate")) {
