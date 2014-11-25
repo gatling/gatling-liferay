@@ -741,11 +741,8 @@ public class GatlingPortlet extends MVCPortlet {
 			template = "/templateGatling1.5.mustache";
 			break;
 		case 2:
-			template = "/templateGatling2.0.M3a.mustache";
-			break;
-		case 3:
 		default:
-			template = "/templateGatling2.0.RC4.mustache";
+			template = "/templateGatling2.0.X.mustache";
 			break;
 		}
 		
@@ -765,7 +762,8 @@ public class GatlingPortlet extends MVCPortlet {
 					if (id  > 0) {
 						simulation = SimulationLocalServiceUtil.getSimulation(id);
 						zipOutputStream.putNextEntry(new ZipEntry("Simulation" + simulation.getName() + date.getTime() + ".scala"));
-						Mustache.compiler().compile(new FileReader(template)).execute(new ScriptGeneratorGatling(id,PortalUtil.getPortalURL(request)), new PrintWriter(zipOutputStream));
+						String currentPath = request.getPortletSession().getPortletContext().getRealPath("/WEB-INF/src/resources") + template;
+						Mustache.compiler().compile(new FileReader(currentPath)).execute(new ScriptGeneratorGatling(id,PortalUtil.getPortalURL(request)), new PrintWriter(zipOutputStream));
 						zipOutputStream.closeEntry();
 					}
 				}

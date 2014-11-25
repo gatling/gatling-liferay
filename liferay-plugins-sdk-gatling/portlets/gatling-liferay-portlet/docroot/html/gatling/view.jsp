@@ -205,13 +205,7 @@
 				    	            click: function() {
 				    	            	modalExport.hide();
 				    	            	var version = A.one("#<portlet:namespace/>gatlingVersionSelect").val();
-				    	            	var login = A.one("#<portlet:namespace/>log").val();
-				    	            	var pass = A.one("#<portlet:namespace/>pass").val();
-				    	            	var file = A.one("#<portlet:namespace/>file").val();
 				    	            	A.one("#<portlet:namespace/>gatlingVersion").val(version);
-				    	            	A.one("#<portlet:namespace/>login").val(login);
-				    	            	A.one("#<portlet:namespace/>password").val(pass);
-				    	            	A.one("#<portlet:namespace/>fileName").val(file);
 				    	            	A.one("#<portlet:namespace/>fmExport").submit();
 				    	            }
 				    	          }
