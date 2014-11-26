@@ -25,7 +25,7 @@
 							<aui:input name="fileUsers" label="name-your-feeder" type="text" value="${simulation.feederContent }"></aui:input>
 						</c:when>
 						<c:otherwise>
-							<aui:input name="fileUsers" label="name-your-feeder" type="text" ></aui:input>
+							<aui:input name="fileUsers" label="name-your-feeder" type="text" disabled="${not simulation.isFeederAFile }"></aui:input>
 						</c:otherwise>
 						</c:choose>
 						</div>
@@ -45,7 +45,7 @@
 						<c:otherwise>
 							<aui:input name="manualUsers"
 								label="write-one-account-and-password-per-line" type="textarea"
-								cssClass="textarea-feeder"></aui:input>
+								cssClass="textarea-feeder" disabled="${simulation.isFeederAFile }"></aui:input>
 						</c:otherwise>
 						</c:choose>
 						</div>
