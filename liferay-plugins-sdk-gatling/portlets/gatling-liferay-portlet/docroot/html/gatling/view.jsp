@@ -24,7 +24,7 @@
 </portlet:renderURL>
 <div class="well well-small">
 	<a target="blank" href='<%=PortletProps.get("gatling-wiki") %>' class="label label-warning">
-		<i class="icon-share"></i> 
+		<i class="icon-share"></i>
 		<liferay-ui:message key="help-gatling-wiki" />
 	</a> 
 	<a href="#" class="label" id="help" >

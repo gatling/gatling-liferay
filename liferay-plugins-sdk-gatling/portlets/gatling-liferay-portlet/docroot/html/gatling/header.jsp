@@ -30,7 +30,7 @@
 <%@ page import="com.excilys.liferay.gatling.service.RequestLocalServiceUtil"%>
 <%@ page import="com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil"%>
 <%@ page import="com.excilys.liferay.gatling.service.SimulationLocalServiceUtil"%>
-<%@ page import="com.excilys.liferay.gatling.util.PortletProps" %>
+<%@ page import="com.liferay.util.portlet.PortletProps" %>
 <%@ page import="com.liferay.portal.service.PortletLocalServiceUtil" %>
 
 <liferay-theme:defineObjects />
