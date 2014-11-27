@@ -42,6 +42,11 @@
 		<finder name="ParentPlidAndScenario" return-type="Collection">
 			<finder-column name="parentPlId" />
 			<finder-column name="scenario_id" />
+		</finder>	
+		<finder name="ParentPlidAndScenarioAndPositif" return-type="Collection">
+			<finder-column name="parentPlId" />
+			<finder-column name="scenario_id" />
+			<finder-column name="weight" comparator=">" />
 		</finder>		
 		<finder name="ScenarioId" return-type="Collection">
 			<finder-column name="scenario_id" />
@@ -49,7 +54,7 @@
 		<finder name="ScenarioIdAndUsed" return-type="Collection">
 			<finder-column name="scenario_id" />
 			<finder-column name="weight" comparator=">" />
-		</finder>	
+		</finder>		
 		<finder name="ScenarioIdAndIsNotPortlet" return-type="Collection">
 			<finder-column name="scenario_id" />
 			<finder-column name="portlet" />
@@ -72,7 +77,7 @@
 		<column name="sample" type="boolean" />	
 		<finder name="RequestIdAndUsed" return-type="Collection">
 			<finder-column name="request_id" />
-			<finder-column name="weight" comparator=">" />
+			<finder-column name="weight" comparator="!=" />
 		</finder>
 		<finder name="RequestIdAndrecordId" return-type="Collection">
 			<finder-column name="request_id" />
