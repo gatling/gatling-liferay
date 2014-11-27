@@ -46,14 +46,14 @@
 		<finder name="ParentPlidAndScenarioAndPositif" return-type="Collection">
 			<finder-column name="parentPlId" />
 			<finder-column name="scenario_id" />
-			<finder-column name="weight" comparator=">" />
+			<finder-column name="weight" comparator="!=" />
 		</finder>		
 		<finder name="ScenarioId" return-type="Collection">
 			<finder-column name="scenario_id" />
 		</finder>		
 		<finder name="ScenarioIdAndUsed" return-type="Collection">
 			<finder-column name="scenario_id" />
-			<finder-column name="weight" comparator=">" />
+			<finder-column name="weight" comparator="!=" />
 		</finder>		
 		<finder name="ScenarioIdAndIsNotPortlet" return-type="Collection">
 			<finder-column name="scenario_id" />
@@ -62,7 +62,7 @@
 		<finder name="ScenarioIdAndUsedAndIsNotPortlet" return-type="Collection">
 			<finder-column name="scenario_id" />
 			<finder-column name="portlet" />
-			<finder-column name="weight" comparator=">" />
+			<finder-column name="weight" comparator="!=" />
 		</finder> 
 	</entity>
 	
