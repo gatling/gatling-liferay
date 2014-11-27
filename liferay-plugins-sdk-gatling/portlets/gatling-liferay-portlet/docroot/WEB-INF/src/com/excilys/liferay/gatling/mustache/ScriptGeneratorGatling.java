@@ -147,7 +147,7 @@ public class ScriptGeneratorGatling {
 					int numberOfPortlets = RequestLocalServiceUtil.countByParentPlidAndScenario(rq.getPlId(), sc.getScenario_id());	
 					MustacheRequest mustacheRequest = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight);
 					if( numberOfPortlets != 0) {
-						List<Request> listPortlets = RequestLocalServiceUtil.findByParentPlidAndScenario(rq.getPlId(), sc.getScenario_id());
+						List<Request> listPortlets = RequestLocalServiceUtil.findByParentPlidAndScenarioAndPositif(rq.getPlId(), sc.getScenario_id());
 						final double totalWeightPortlet = getTotalWeight(listPortlets);
 						double currentSumWeightPortlet = 0;	
 						double weightPortlet = 0;
