@@ -1,14 +1,24 @@
-package com.excilys.liferay.gatling.mustache.util;
+package com.excilys.liferay.gatling.mustache;
 
-public class NameUrlType {
+public class MustacheUrl {
 	final private String nameN, url, typeRequest, namespace;
+	private long plid;
 	private boolean form, version, pauth;
 	
-	public NameUrlType(String name,String url,String typeRequest, String namespace) {
+	public MustacheUrl(String name,String url,String typeRequest, String namespace, long plid) {
 		this.nameN = name;
 		this.url = url;
 		this.typeRequest = typeRequest;
 		this.namespace = "_"+namespace+"_";
+		this.plid = plid;
+	}
+	
+	public long getPlid() {
+		return plid;
+	}
+
+	public void setPlid(long plid) {
+		this.plid = plid;
 	}
 
 	public String getNameN() {
