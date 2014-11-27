@@ -3,21 +3,23 @@ package com.excilys.liferay.gatling.mustache.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.excilys.liferay.gatling.mustache.MustacheUrl;
+
 public class RecorderGet {
 	private String name;
-	private List<NameUrlType> listGet = new ArrayList<NameUrlType>();
+	private List<MustacheUrl> listUrl = new ArrayList<MustacheUrl>();
 	
-	public RecorderGet(String nameVariable, List<NameUrlType> listGet) {
+	public RecorderGet(String nameVariable, List<MustacheUrl> listGet) {
 		this.name = nameVariable;
-		this.listGet = listGet;
+		this.listUrl = listGet;
 	}
 
-	public List<NameUrlType> getListGet() {
-		return listGet;
+	public List<MustacheUrl> getListGet() {
+		return listUrl;
 	}
 
-	public void setListGet(List<NameUrlType> listGet) {
-		this.listGet = listGet;
+	public void setListGet(List<MustacheUrl> listGet) {
+		this.listUrl = listGet;
 	}
 
 	public String getName() {
