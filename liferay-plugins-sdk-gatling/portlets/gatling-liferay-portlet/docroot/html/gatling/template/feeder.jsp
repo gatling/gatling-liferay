@@ -35,7 +35,7 @@
 						<hr>
 						<div id="content2">
 							
-								<c:choose>
+						<c:choose>
 						<c:when test="${not simulation.isFeederAFile }">
 							<aui:input name="manualUsers"
 								label="write-one-account-and-password-per-line" type="textarea"

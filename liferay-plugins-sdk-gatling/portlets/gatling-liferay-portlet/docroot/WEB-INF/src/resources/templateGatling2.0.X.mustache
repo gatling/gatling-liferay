@@ -17,19 +17,19 @@ class {{simuName}} extends Simulation {
 	.acceptLanguageHeader("""fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3""")
 	.connection("""keep-alive""")
 	.disableWarmUp
-	
+
   /**
    * User feeder, list of user for this simulation
    */
 {{#feederFile}} 
   val feeder = csv("{{feederContent}}").random
 {{/feederFile}}
-{{^-feederFile}}
+{{^feederFile}}
   var feeder = Array(
 		  {{#feedMap}}Map("login" -> "{{login}}", "password" -> "{{password}}"){{^-last}},{{/-last}}
 		  {{/feedMap}}).random
 		  
-{{/-feederFile}}
+{{/feederFile}}
 
 {{#mustacheScenario}}
 /**

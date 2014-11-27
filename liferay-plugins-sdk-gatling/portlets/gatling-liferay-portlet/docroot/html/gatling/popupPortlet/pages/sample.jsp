@@ -133,11 +133,19 @@
 		if (elmt != null){
 			elmt.on('click', function(event) {
 				var info = A.one(top.document.getElementById('${portletGatlingDTO.lineId}')).one(".info-config");
+				var weight = A.one(top.document.getElementById('${portletGatlingDTO.lineId}')).one(".weight-portlet");
 				if(A.one("#bodyEditScript").all("tr").size() > 0) {
+					if(weight.val()>0) {
+						weight.ancestor("tr").removeClass("empty-weight-color");
+					}
 					info.text("<liferay-ui:message key='portlet-configuration-ok' />");
+					info.setData("done",true);
 				} else {
+					weight.ancestor("tr").addClass("empty-weight-color");
 					info.text("<liferay-ui:message key='portlet-configuration-ko' />");
+					info.setData("done",false);
 				}
+				console.log(info.getData("done"))
 			});
 		}
 	});

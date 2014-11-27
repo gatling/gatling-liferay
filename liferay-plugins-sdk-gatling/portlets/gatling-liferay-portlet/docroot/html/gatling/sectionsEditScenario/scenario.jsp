@@ -99,7 +99,7 @@
 								 ${layout.name}  <i class="icon-wrench"></i>
 							</a>
 						</td>
-						<td class="info-config muted">
+						<td class="info-config muted" data-done="${layout.portletConfigured }">
 							<c:choose>
 							<c:when test="${layout.portletConfigured }">
 								<liferay-ui:message key='portlet-configuration-ok' />
@@ -489,7 +489,10 @@
 					}
 					var newVal = total[parentId] + parseFloat(weightPortlet);
 					total[parentId] = newVal;
-					this.ancestor("tr").removeClass("empty-weight-color");
+					if(this.ancestor("tr").one(".info-config").getData("done") !== undefined 
+							&& this.ancestor("tr").one(".info-config").getData("done") == 'true') {
+						this.ancestor("tr").removeClass("empty-weight-color");
+					}
 				}
 				else {
 					this.val("0.0");
