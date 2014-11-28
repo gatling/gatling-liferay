@@ -102,7 +102,7 @@ public class LinkUsecaseRequestPersistenceImpl extends BasePersistenceImpl<LinkU
 			new String[] { Long.class.getName(), Double.class.getName() });
 
 	/**
-	 * Returns all the link usecase requests where request_id = &#63; and weight &gt; &#63;.
+	 * Returns all the link usecase requests where request_id = &#63; and weight &ne; &#63;.
 	 *
 	 * @param request_id the request_id
 	 * @param weight the weight
@@ -117,7 +117,7 @@ public class LinkUsecaseRequestPersistenceImpl extends BasePersistenceImpl<LinkU
 	}
 
 	/**
-	 * Returns a range of all the link usecase requests where request_id = &#63; and weight &gt; &#63;.
+	 * Returns a range of all the link usecase requests where request_id = &#63; and weight &ne; &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
@@ -137,7 +137,7 @@ public class LinkUsecaseRequestPersistenceImpl extends BasePersistenceImpl<LinkU
 	}
 
 	/**
-	 * Returns an ordered range of all the link usecase requests where request_id = &#63; and weight &gt; &#63;.
+	 * Returns an ordered range of all the link usecase requests where request_id = &#63; and weight &ne; &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
@@ -172,7 +172,7 @@ public class LinkUsecaseRequestPersistenceImpl extends BasePersistenceImpl<LinkU
 		if ((list != null) && !list.isEmpty()) {
 			for (LinkUsecaseRequest linkUsecaseRequest : list) {
 				if ((request_id != linkUsecaseRequest.getRequest_id()) ||
-						(weight >= linkUsecaseRequest.getWeight())) {
+						(weight == linkUsecaseRequest.getWeight())) {
 					list = null;
 
 					break;
@@ -252,7 +252,7 @@ public class LinkUsecaseRequestPersistenceImpl extends BasePersistenceImpl<LinkU
 	}
 
 	/**
-	 * Returns the first link usecase request in the ordered set where request_id = &#63; and weight &gt; &#63;.
+	 * Returns the first link usecase request in the ordered set where request_id = &#63; and weight &ne; &#63;.
 	 *
 	 * @param request_id the request_id
 	 * @param weight the weight
@@ -288,7 +288,7 @@ public class LinkUsecaseRequestPersistenceImpl extends BasePersistenceImpl<LinkU
 	}
 
 	/**
-	 * Returns the first link usecase request in the ordered set where request_id = &#63; and weight &gt; &#63;.
+	 * Returns the first link usecase request in the ordered set where request_id = &#63; and weight &ne; &#63;.
 	 *
 	 * @param request_id the request_id
 	 * @param weight the weight
@@ -311,7 +311,7 @@ public class LinkUsecaseRequestPersistenceImpl extends BasePersistenceImpl<LinkU
 	}
 
 	/**
-	 * Returns the last link usecase request in the ordered set where request_id = &#63; and weight &gt; &#63;.
+	 * Returns the last link usecase request in the ordered set where request_id = &#63; and weight &ne; &#63;.
 	 *
 	 * @param request_id the request_id
 	 * @param weight the weight
@@ -347,7 +347,7 @@ public class LinkUsecaseRequestPersistenceImpl extends BasePersistenceImpl<LinkU
 	}
 
 	/**
-	 * Returns the last link usecase request in the ordered set where request_id = &#63; and weight &gt; &#63;.
+	 * Returns the last link usecase request in the ordered set where request_id = &#63; and weight &ne; &#63;.
 	 *
 	 * @param request_id the request_id
 	 * @param weight the weight
@@ -376,7 +376,7 @@ public class LinkUsecaseRequestPersistenceImpl extends BasePersistenceImpl<LinkU
 	}
 
 	/**
-	 * Returns the link usecase requests before and after the current link usecase request in the ordered set where request_id = &#63; and weight &gt; &#63;.
+	 * Returns the link usecase requests before and after the current link usecase request in the ordered set where request_id = &#63; and weight &ne; &#63;.
 	 *
 	 * @param linkUsecaseRequestId the primary key of the current link usecase request
 	 * @param request_id the request_id
@@ -531,7 +531,7 @@ public class LinkUsecaseRequestPersistenceImpl extends BasePersistenceImpl<LinkU
 	}
 
 	/**
-	 * Removes all the link usecase requests where request_id = &#63; and weight &gt; &#63; from the database.
+	 * Removes all the link usecase requests where request_id = &#63; and weight &ne; &#63; from the database.
 	 *
 	 * @param request_id the request_id
 	 * @param weight the weight
@@ -547,7 +547,7 @@ public class LinkUsecaseRequestPersistenceImpl extends BasePersistenceImpl<LinkU
 	}
 
 	/**
-	 * Returns the number of link usecase requests where request_id = &#63; and weight &gt; &#63;.
+	 * Returns the number of link usecase requests where request_id = &#63; and weight &ne; &#63;.
 	 *
 	 * @param request_id the request_id
 	 * @param weight the weight
@@ -606,7 +606,7 @@ public class LinkUsecaseRequestPersistenceImpl extends BasePersistenceImpl<LinkU
 	}
 
 	private static final String _FINDER_COLUMN_REQUESTIDANDUSED_REQUEST_ID_2 = "linkUsecaseRequest.request_id = ? AND ";
-	private static final String _FINDER_COLUMN_REQUESTIDANDUSED_WEIGHT_2 = "linkUsecaseRequest.weight > ?";
+	private static final String _FINDER_COLUMN_REQUESTIDANDUSED_WEIGHT_2 = "linkUsecaseRequest.weight != ?";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_REQUESTIDANDRECORDID =
 		new FinderPath(LinkUsecaseRequestModelImpl.ENTITY_CACHE_ENABLED,
 			LinkUsecaseRequestModelImpl.FINDER_CACHE_ENABLED,

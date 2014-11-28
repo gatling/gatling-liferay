@@ -247,7 +247,7 @@ public class RecordWrapper implements Record, ModelWrapper<Record> {
 	}
 
 	@Override
-	public int compareTo(Record record) {
+	public int compareTo(com.excilys.liferay.gatling.model.Record record) {
 		return _record.compareTo(record);
 	}
 
@@ -257,17 +257,17 @@ public class RecordWrapper implements Record, ModelWrapper<Record> {
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<Record> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<com.excilys.liferay.gatling.model.Record> toCacheModel() {
 		return _record.toCacheModel();
 	}
 
 	@Override
-	public Record toEscapedModel() {
+	public com.excilys.liferay.gatling.model.Record toEscapedModel() {
 		return new RecordWrapper(_record.toEscapedModel());
 	}
 
 	@Override
-	public Record toUnescapedModel() {
+	public com.excilys.liferay.gatling.model.Record toUnescapedModel() {
 		return new RecordWrapper(_record.toUnescapedModel());
 	}
 

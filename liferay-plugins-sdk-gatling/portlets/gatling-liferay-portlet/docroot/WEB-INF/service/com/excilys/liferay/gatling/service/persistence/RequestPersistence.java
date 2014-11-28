@@ -324,6 +324,166 @@ public interface RequestPersistence extends BasePersistence<Request> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
+	* Returns all the requests where parentPlId = &#63; and scenario_id = &#63; and weight &ne; &#63;.
+	*
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @param weight the weight
+	* @return the matching requests
+	* @throws SystemException if a system exception occurred
+	*/
+	public java.util.List<com.excilys.liferay.gatling.model.Request> findByParentPlidAndScenarioAndPositif(
+		long parentPlId, long scenario_id, double weight)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns a range of all the requests where parentPlId = &#63; and scenario_id = &#63; and weight &ne; &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.RequestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @param weight the weight
+	* @param start the lower bound of the range of requests
+	* @param end the upper bound of the range of requests (not inclusive)
+	* @return the range of matching requests
+	* @throws SystemException if a system exception occurred
+	*/
+	public java.util.List<com.excilys.liferay.gatling.model.Request> findByParentPlidAndScenarioAndPositif(
+		long parentPlId, long scenario_id, double weight, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns an ordered range of all the requests where parentPlId = &#63; and scenario_id = &#63; and weight &ne; &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.RequestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @param weight the weight
+	* @param start the lower bound of the range of requests
+	* @param end the upper bound of the range of requests (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching requests
+	* @throws SystemException if a system exception occurred
+	*/
+	public java.util.List<com.excilys.liferay.gatling.model.Request> findByParentPlidAndScenarioAndPositif(
+		long parentPlId, long scenario_id, double weight, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the first request in the ordered set where parentPlId = &#63; and scenario_id = &#63; and weight &ne; &#63;.
+	*
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @param weight the weight
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching request
+	* @throws com.excilys.liferay.gatling.NoSuchRequestException if a matching request could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.excilys.liferay.gatling.model.Request findByParentPlidAndScenarioAndPositif_First(
+		long parentPlId, long scenario_id, double weight,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.excilys.liferay.gatling.NoSuchRequestException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the first request in the ordered set where parentPlId = &#63; and scenario_id = &#63; and weight &ne; &#63;.
+	*
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @param weight the weight
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching request, or <code>null</code> if a matching request could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.excilys.liferay.gatling.model.Request fetchByParentPlidAndScenarioAndPositif_First(
+		long parentPlId, long scenario_id, double weight,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the last request in the ordered set where parentPlId = &#63; and scenario_id = &#63; and weight &ne; &#63;.
+	*
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @param weight the weight
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching request
+	* @throws com.excilys.liferay.gatling.NoSuchRequestException if a matching request could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.excilys.liferay.gatling.model.Request findByParentPlidAndScenarioAndPositif_Last(
+		long parentPlId, long scenario_id, double weight,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.excilys.liferay.gatling.NoSuchRequestException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the last request in the ordered set where parentPlId = &#63; and scenario_id = &#63; and weight &ne; &#63;.
+	*
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @param weight the weight
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching request, or <code>null</code> if a matching request could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.excilys.liferay.gatling.model.Request fetchByParentPlidAndScenarioAndPositif_Last(
+		long parentPlId, long scenario_id, double weight,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the requests before and after the current request in the ordered set where parentPlId = &#63; and scenario_id = &#63; and weight &ne; &#63;.
+	*
+	* @param request_id the primary key of the current request
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @param weight the weight
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next request
+	* @throws com.excilys.liferay.gatling.NoSuchRequestException if a request with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public com.excilys.liferay.gatling.model.Request[] findByParentPlidAndScenarioAndPositif_PrevAndNext(
+		long request_id, long parentPlId, long scenario_id, double weight,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.excilys.liferay.gatling.NoSuchRequestException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Removes all the requests where parentPlId = &#63; and scenario_id = &#63; and weight &ne; &#63; from the database.
+	*
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @param weight the weight
+	* @throws SystemException if a system exception occurred
+	*/
+	public void removeByParentPlidAndScenarioAndPositif(long parentPlId,
+		long scenario_id, double weight)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the number of requests where parentPlId = &#63; and scenario_id = &#63; and weight &ne; &#63;.
+	*
+	* @param parentPlId the parent pl ID
+	* @param scenario_id the scenario_id
+	* @param weight the weight
+	* @return the number of matching requests
+	* @throws SystemException if a system exception occurred
+	*/
+	public int countByParentPlidAndScenarioAndPositif(long parentPlId,
+		long scenario_id, double weight)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
 	* Returns all the requests where scenario_id = &#63;.
 	*
 	* @param scenario_id the scenario_id
@@ -462,7 +622,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns all the requests where scenario_id = &#63; and weight &gt; &#63;.
+	* Returns all the requests where scenario_id = &#63; and weight &ne; &#63;.
 	*
 	* @param scenario_id the scenario_id
 	* @param weight the weight
@@ -474,7 +634,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns a range of all the requests where scenario_id = &#63; and weight &gt; &#63;.
+	* Returns a range of all the requests where scenario_id = &#63; and weight &ne; &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.RequestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
@@ -492,7 +652,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns an ordered range of all the requests where scenario_id = &#63; and weight &gt; &#63;.
+	* Returns an ordered range of all the requests where scenario_id = &#63; and weight &ne; &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.RequestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
@@ -512,7 +672,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the first request in the ordered set where scenario_id = &#63; and weight &gt; &#63;.
+	* Returns the first request in the ordered set where scenario_id = &#63; and weight &ne; &#63;.
 	*
 	* @param scenario_id the scenario_id
 	* @param weight the weight
@@ -528,7 +688,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the first request in the ordered set where scenario_id = &#63; and weight &gt; &#63;.
+	* Returns the first request in the ordered set where scenario_id = &#63; and weight &ne; &#63;.
 	*
 	* @param scenario_id the scenario_id
 	* @param weight the weight
@@ -542,7 +702,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the last request in the ordered set where scenario_id = &#63; and weight &gt; &#63;.
+	* Returns the last request in the ordered set where scenario_id = &#63; and weight &ne; &#63;.
 	*
 	* @param scenario_id the scenario_id
 	* @param weight the weight
@@ -558,7 +718,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the last request in the ordered set where scenario_id = &#63; and weight &gt; &#63;.
+	* Returns the last request in the ordered set where scenario_id = &#63; and weight &ne; &#63;.
 	*
 	* @param scenario_id the scenario_id
 	* @param weight the weight
@@ -572,7 +732,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the requests before and after the current request in the ordered set where scenario_id = &#63; and weight &gt; &#63;.
+	* Returns the requests before and after the current request in the ordered set where scenario_id = &#63; and weight &ne; &#63;.
 	*
 	* @param request_id the primary key of the current request
 	* @param scenario_id the scenario_id
@@ -589,7 +749,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Removes all the requests where scenario_id = &#63; and weight &gt; &#63; from the database.
+	* Removes all the requests where scenario_id = &#63; and weight &ne; &#63; from the database.
 	*
 	* @param scenario_id the scenario_id
 	* @param weight the weight
@@ -599,7 +759,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the number of requests where scenario_id = &#63; and weight &gt; &#63;.
+	* Returns the number of requests where scenario_id = &#63; and weight &ne; &#63;.
 	*
 	* @param scenario_id the scenario_id
 	* @param weight the weight
@@ -760,7 +920,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns all the requests where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63;.
+	* Returns all the requests where scenario_id = &#63; and portlet = &#63; and weight &ne; &#63;.
 	*
 	* @param scenario_id the scenario_id
 	* @param portlet the portlet
@@ -773,7 +933,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns a range of all the requests where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63;.
+	* Returns a range of all the requests where scenario_id = &#63; and portlet = &#63; and weight &ne; &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.RequestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
@@ -792,7 +952,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns an ordered range of all the requests where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63;.
+	* Returns an ordered range of all the requests where scenario_id = &#63; and portlet = &#63; and weight &ne; &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.RequestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
@@ -813,7 +973,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the first request in the ordered set where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63;.
+	* Returns the first request in the ordered set where scenario_id = &#63; and portlet = &#63; and weight &ne; &#63;.
 	*
 	* @param scenario_id the scenario_id
 	* @param portlet the portlet
@@ -830,7 +990,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the first request in the ordered set where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63;.
+	* Returns the first request in the ordered set where scenario_id = &#63; and portlet = &#63; and weight &ne; &#63;.
 	*
 	* @param scenario_id the scenario_id
 	* @param portlet the portlet
@@ -845,7 +1005,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the last request in the ordered set where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63;.
+	* Returns the last request in the ordered set where scenario_id = &#63; and portlet = &#63; and weight &ne; &#63;.
 	*
 	* @param scenario_id the scenario_id
 	* @param portlet the portlet
@@ -862,7 +1022,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the last request in the ordered set where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63;.
+	* Returns the last request in the ordered set where scenario_id = &#63; and portlet = &#63; and weight &ne; &#63;.
 	*
 	* @param scenario_id the scenario_id
 	* @param portlet the portlet
@@ -877,7 +1037,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the requests before and after the current request in the ordered set where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63;.
+	* Returns the requests before and after the current request in the ordered set where scenario_id = &#63; and portlet = &#63; and weight &ne; &#63;.
 	*
 	* @param request_id the primary key of the current request
 	* @param scenario_id the scenario_id
@@ -895,7 +1055,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Removes all the requests where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63; from the database.
+	* Removes all the requests where scenario_id = &#63; and portlet = &#63; and weight &ne; &#63; from the database.
 	*
 	* @param scenario_id the scenario_id
 	* @param portlet the portlet
@@ -907,7 +1067,7 @@ public interface RequestPersistence extends BasePersistence<Request> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the number of requests where scenario_id = &#63; and portlet = &#63; and weight &gt; &#63;.
+	* Returns the number of requests where scenario_id = &#63; and portlet = &#63; and weight &ne; &#63;.
 	*
 	* @param scenario_id the scenario_id
 	* @param portlet the portlet

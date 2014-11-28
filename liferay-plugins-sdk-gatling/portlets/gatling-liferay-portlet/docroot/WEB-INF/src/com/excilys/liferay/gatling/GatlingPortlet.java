@@ -7,7 +7,6 @@ package com.excilys.liferay.gatling;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -763,7 +762,8 @@ public class GatlingPortlet extends MVCPortlet {
 						simulation = SimulationLocalServiceUtil.getSimulation(id);
 						zipOutputStream.putNextEntry(new ZipEntry("Simulation" + simulation.getName() + date.getTime() + ".scala"));
 						String currentPath = request.getPortletSession().getPortletContext().getRealPath("/WEB-INF/src/resources") + template;
-						Mustache.compiler().compile(new FileReader(currentPath)).execute(new ScriptGeneratorGatling(id,PortalUtil.getPortalURL(request)), new PrintWriter(zipOutputStream));
+						String tmp = Mustache.compiler().compile(new FileReader(currentPath)).execute(new ScriptGeneratorGatling(id,PortalUtil.getPortalURL(request)));
+						zipOutputStream.write(tmp.getBytes());
 						zipOutputStream.closeEntry();
 					}
 				}

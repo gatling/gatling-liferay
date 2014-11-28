@@ -130,45 +130,53 @@ public class RequestLocalServiceClp implements RequestLocalService {
 
 		_methodParameterTypes22 = new String[] { "long", "long" };
 
-		_methodName23 = "findByScenarioId";
+		_methodName23 = "findByParentPlidAndScenarioAndPositif";
 
-		_methodParameterTypes23 = new String[] { "long" };
+		_methodParameterTypes23 = new String[] { "long", "long" };
 
-		_methodName24 = "countByScenarioId";
+		_methodName24 = "countByParentPlidAndScenarioAndPositif";
 
-		_methodParameterTypes24 = new String[] { "long" };
+		_methodParameterTypes24 = new String[] { "long", "long" };
 
-		_methodName25 = "findByScenarioIdAndUsed";
+		_methodName25 = "findByScenarioId";
 
 		_methodParameterTypes25 = new String[] { "long" };
 
-		_methodName26 = "countByScenarioIdAndUsed";
+		_methodName26 = "countByScenarioId";
 
 		_methodParameterTypes26 = new String[] { "long" };
 
-		_methodName27 = "removeByScenarioId";
+		_methodName27 = "findByScenarioIdAndUsed";
 
 		_methodParameterTypes27 = new String[] { "long" };
 
-		_methodName28 = "findByScenarioIdAndIsNotPortlet";
+		_methodName28 = "countByScenarioIdAndUsed";
 
 		_methodParameterTypes28 = new String[] { "long" };
 
-		_methodName29 = "countByScenarioIdAndIsNotPortlet";
+		_methodName29 = "removeByScenarioId";
 
 		_methodParameterTypes29 = new String[] { "long" };
 
-		_methodName30 = "findByScenarioIdAndUsedAndIsNotPortlet";
+		_methodName30 = "findByScenarioIdAndIsNotPortlet";
 
 		_methodParameterTypes30 = new String[] { "long" };
 
-		_methodName31 = "countByScenarioIdAndUsedAndIsNotPortlet";
+		_methodName31 = "countByScenarioIdAndIsNotPortlet";
 
 		_methodParameterTypes31 = new String[] { "long" };
 
-		_methodName32 = "addRequestFromDisplayItem";
+		_methodName32 = "findByScenarioIdAndUsedAndIsNotPortlet";
 
-		_methodParameterTypes32 = new String[] {
+		_methodParameterTypes32 = new String[] { "long" };
+
+		_methodName33 = "countByScenarioIdAndUsedAndIsNotPortlet";
+
+		_methodParameterTypes33 = new String[] { "long" };
+
+		_methodName34 = "addRequestFromDisplayItem";
+
+		_methodParameterTypes34 = new String[] {
 				"java.lang.Object", "double", "long"
 			};
 	}
@@ -839,14 +847,15 @@ public class RequestLocalServiceClp implements RequestLocalService {
 	}
 
 	@Override
-	public java.util.List<com.excilys.liferay.gatling.model.Request> findByScenarioId(
-		long scenarioId)
+	public java.util.List<com.excilys.liferay.gatling.model.Request> findByParentPlidAndScenarioAndPositif(
+		long parentPlid, long scenarioId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName23,
-					_methodParameterTypes23, new Object[] { scenarioId });
+					_methodParameterTypes23,
+					new Object[] { parentPlid, scenarioId });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -868,13 +877,15 @@ public class RequestLocalServiceClp implements RequestLocalService {
 	}
 
 	@Override
-	public int countByScenarioId(long scenarioId)
+	public int countByParentPlidAndScenarioAndPositif(long parentPlid,
+		long scenarioId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName24,
-					_methodParameterTypes24, new Object[] { scenarioId });
+					_methodParameterTypes24,
+					new Object[] { parentPlid, scenarioId });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -896,7 +907,7 @@ public class RequestLocalServiceClp implements RequestLocalService {
 	}
 
 	@Override
-	public java.util.List<com.excilys.liferay.gatling.model.Request> findByScenarioIdAndUsed(
+	public java.util.List<com.excilys.liferay.gatling.model.Request> findByScenarioId(
 		long scenarioId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
@@ -925,7 +936,7 @@ public class RequestLocalServiceClp implements RequestLocalService {
 	}
 
 	@Override
-	public int countByScenarioIdAndUsed(long scenarioId)
+	public int countByScenarioId(long scenarioId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
@@ -953,12 +964,69 @@ public class RequestLocalServiceClp implements RequestLocalService {
 	}
 
 	@Override
+	public java.util.List<com.excilys.liferay.gatling.model.Request> findByScenarioIdAndUsed(
+		long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName27,
+					_methodParameterTypes27, new Object[] { scenarioId });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<com.excilys.liferay.gatling.model.Request>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public int countByScenarioIdAndUsed(long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName28,
+					_methodParameterTypes28, new Object[] { scenarioId });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return ((Integer)returnObj).intValue();
+	}
+
+	@Override
 	public void removeByScenarioId(long scenarioId)
 		throws com.liferay.portal.NoSuchModelException,
 			com.liferay.portal.kernel.exception.SystemException {
 		try {
-			_invokableLocalService.invokeMethod(_methodName27,
-				_methodParameterTypes27, new Object[] { scenarioId });
+			_invokableLocalService.invokeMethod(_methodName29,
+				_methodParameterTypes29, new Object[] { scenarioId });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -988,63 +1056,6 @@ public class RequestLocalServiceClp implements RequestLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName28,
-					_methodParameterTypes28, new Object[] { scenarioId });
-		}
-		catch (Throwable t) {
-			t = ClpSerializer.translateThrowable(t);
-
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
-			}
-
-			if (t instanceof RuntimeException) {
-				throw (RuntimeException)t;
-			}
-			else {
-				throw new RuntimeException(t.getClass().getName() +
-					" is not a valid exception");
-			}
-		}
-
-		return (java.util.List<com.excilys.liferay.gatling.model.Request>)ClpSerializer.translateOutput(returnObj);
-	}
-
-	@Override
-	public int countByScenarioIdAndIsNotPortlet(long scenarioId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		Object returnObj = null;
-
-		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName29,
-					_methodParameterTypes29, new Object[] { scenarioId });
-		}
-		catch (Throwable t) {
-			t = ClpSerializer.translateThrowable(t);
-
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
-			}
-
-			if (t instanceof RuntimeException) {
-				throw (RuntimeException)t;
-			}
-			else {
-				throw new RuntimeException(t.getClass().getName() +
-					" is not a valid exception");
-			}
-		}
-
-		return ((Integer)returnObj).intValue();
-	}
-
-	@Override
-	public java.util.List<com.excilys.liferay.gatling.model.Request> findByScenarioIdAndUsedAndIsNotPortlet(
-		long scenarioId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		Object returnObj = null;
-
-		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName30,
 					_methodParameterTypes30, new Object[] { scenarioId });
 		}
@@ -1068,7 +1079,7 @@ public class RequestLocalServiceClp implements RequestLocalService {
 	}
 
 	@Override
-	public int countByScenarioIdAndUsedAndIsNotPortlet(long scenarioId)
+	public int countByScenarioIdAndIsNotPortlet(long scenarioId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
@@ -1096,12 +1107,69 @@ public class RequestLocalServiceClp implements RequestLocalService {
 	}
 
 	@Override
+	public java.util.List<com.excilys.liferay.gatling.model.Request> findByScenarioIdAndUsedAndIsNotPortlet(
+		long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName32,
+					_methodParameterTypes32, new Object[] { scenarioId });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<com.excilys.liferay.gatling.model.Request>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public int countByScenarioIdAndUsedAndIsNotPortlet(long scenarioId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName33,
+					_methodParameterTypes33, new Object[] { scenarioId });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return ((Integer)returnObj).intValue();
+	}
+
+	@Override
 	public void addRequestFromDisplayItem(java.lang.Object displayItem1,
 		double weight, long idScenario)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		try {
-			_invokableLocalService.invokeMethod(_methodName32,
-				_methodParameterTypes32,
+			_invokableLocalService.invokeMethod(_methodName34,
+				_methodParameterTypes34,
 				new Object[] {
 					ClpSerializer.translateInput(displayItem1),
 					
@@ -1192,4 +1260,8 @@ public class RequestLocalServiceClp implements RequestLocalService {
 	private String[] _methodParameterTypes31;
 	private String _methodName32;
 	private String[] _methodParameterTypes32;
+	private String _methodName33;
+	private String[] _methodParameterTypes33;
+	private String _methodName34;
+	private String[] _methodParameterTypes34;
 }

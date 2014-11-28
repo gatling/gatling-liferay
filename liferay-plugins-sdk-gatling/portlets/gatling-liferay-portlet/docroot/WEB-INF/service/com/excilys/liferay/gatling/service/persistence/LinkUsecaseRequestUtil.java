@@ -112,7 +112,7 @@ public class LinkUsecaseRequestUtil {
 	}
 
 	/**
-	* Returns all the link usecase requests where request_id = &#63; and weight &gt; &#63;.
+	* Returns all the link usecase requests where request_id = &#63; and weight &ne; &#63;.
 	*
 	* @param request_id the request_id
 	* @param weight the weight
@@ -126,7 +126,7 @@ public class LinkUsecaseRequestUtil {
 	}
 
 	/**
-	* Returns a range of all the link usecase requests where request_id = &#63; and weight &gt; &#63;.
+	* Returns a range of all the link usecase requests where request_id = &#63; and weight &ne; &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
@@ -147,7 +147,7 @@ public class LinkUsecaseRequestUtil {
 	}
 
 	/**
-	* Returns an ordered range of all the link usecase requests where request_id = &#63; and weight &gt; &#63;.
+	* Returns an ordered range of all the link usecase requests where request_id = &#63; and weight &ne; &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
@@ -171,7 +171,7 @@ public class LinkUsecaseRequestUtil {
 	}
 
 	/**
-	* Returns the first link usecase request in the ordered set where request_id = &#63; and weight &gt; &#63;.
+	* Returns the first link usecase request in the ordered set where request_id = &#63; and weight &ne; &#63;.
 	*
 	* @param request_id the request_id
 	* @param weight the weight
@@ -191,7 +191,7 @@ public class LinkUsecaseRequestUtil {
 	}
 
 	/**
-	* Returns the first link usecase request in the ordered set where request_id = &#63; and weight &gt; &#63;.
+	* Returns the first link usecase request in the ordered set where request_id = &#63; and weight &ne; &#63;.
 	*
 	* @param request_id the request_id
 	* @param weight the weight
@@ -209,7 +209,7 @@ public class LinkUsecaseRequestUtil {
 	}
 
 	/**
-	* Returns the last link usecase request in the ordered set where request_id = &#63; and weight &gt; &#63;.
+	* Returns the last link usecase request in the ordered set where request_id = &#63; and weight &ne; &#63;.
 	*
 	* @param request_id the request_id
 	* @param weight the weight
@@ -229,7 +229,7 @@ public class LinkUsecaseRequestUtil {
 	}
 
 	/**
-	* Returns the last link usecase request in the ordered set where request_id = &#63; and weight &gt; &#63;.
+	* Returns the last link usecase request in the ordered set where request_id = &#63; and weight &ne; &#63;.
 	*
 	* @param request_id the request_id
 	* @param weight the weight
@@ -247,7 +247,7 @@ public class LinkUsecaseRequestUtil {
 	}
 
 	/**
-	* Returns the link usecase requests before and after the current link usecase request in the ordered set where request_id = &#63; and weight &gt; &#63;.
+	* Returns the link usecase requests before and after the current link usecase request in the ordered set where request_id = &#63; and weight &ne; &#63;.
 	*
 	* @param linkUsecaseRequestId the primary key of the current link usecase request
 	* @param request_id the request_id
@@ -268,7 +268,7 @@ public class LinkUsecaseRequestUtil {
 	}
 
 	/**
-	* Removes all the link usecase requests where request_id = &#63; and weight &gt; &#63; from the database.
+	* Removes all the link usecase requests where request_id = &#63; and weight &ne; &#63; from the database.
 	*
 	* @param request_id the request_id
 	* @param weight the weight
@@ -280,7 +280,7 @@ public class LinkUsecaseRequestUtil {
 	}
 
 	/**
-	* Returns the number of link usecase requests where request_id = &#63; and weight &gt; &#63;.
+	* Returns the number of link usecase requests where request_id = &#63; and weight &ne; &#63;.
 	*
 	* @param request_id the request_id
 	* @param weight the weight
