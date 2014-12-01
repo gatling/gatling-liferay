@@ -139,11 +139,11 @@
 						weight.ancestor("tr").removeClass("empty-weight-color");
 					}
 					info.text("<liferay-ui:message key='portlet-configuration-ok' />");
-					info.setData("done",true);
+					info.setAttribute("data-done",true);
 				} else {
 					weight.ancestor("tr").addClass("empty-weight-color");
 					info.text("<liferay-ui:message key='portlet-configuration-ko' />");
-					info.setData("done",false);
+					info.setAttribute("data-done",false);
 				}
 				console.log(info.getData("done"))
 			});
