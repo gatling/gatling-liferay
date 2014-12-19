@@ -8,7 +8,7 @@
 	<portlet>
 		<portlet-name>gatling</portlet-name>
 		<display-name>Gatling</display-name>
-		<portlet-class>com.excilys.liferay.gatling.GatlingPortlet</portlet-class>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<!-- Declare init param (pages) -->
 		<init-param>
 			<name>list-simulation-jsp</name>
@@ -42,6 +42,16 @@
 			<name>webService-jsp</name>
 			<value>/html/gatling/webService.jsp</value>
 		</init-param>
+		 <init-param>
+  			<name>contextConfigLocation</name>
+		    <value>/WEB-INF/first-spring-mvc-portlet.xml</value>
+		 </init-param>
+		<!-- -->
+		<init-param>
+			<name>add-process-action-success-action</name>
+			<value>false</value>
+		</init-param>
+
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>

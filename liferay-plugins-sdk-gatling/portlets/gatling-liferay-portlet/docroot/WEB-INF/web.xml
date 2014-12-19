@@ -7,9 +7,18 @@
 			/WEB-INF/tld/liferay-portlet.tld
 		</taglib-location>
     </taglib>
-    <taglib>
-      <taglib-uri>http://liferay.com/tld/aui</taglib-uri>
-      <taglib-location>/WEB-INF/tld/aui.tld</taglib-location>
-    </taglib>
+	<taglib>
+		<taglib-uri>http://liferay.com/tld/aui</taglib-uri>
+		<taglib-location>/WEB-INF/tld/aui.tld</taglib-location>
+	</taglib>
   </jsp-config>
+  <servlet>
+ 	 <servlet-name>view-servlet</servlet-name>
+ 	 <servlet-class>org.springframework.web.servlet.ViewRendererServlet</servlet-class>
+ 	 <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>view-servlet</servlet-name>
+  	<url-pattern>/WEB-INF/servlet/view</url-pattern>
+  </servlet-mapping>
 </web-app>
