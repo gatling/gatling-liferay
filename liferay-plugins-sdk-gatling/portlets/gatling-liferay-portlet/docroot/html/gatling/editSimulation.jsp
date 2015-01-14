@@ -155,7 +155,7 @@
 <c:if test="${export}">
 <%--Export Simulation --%>
 <div id="exportModalTemplate" hidden="true">
-	<portlet:resourceURL var="resourceUrl" />
+	<portlet:resourceURL id="oneScript" var="resourceUrl" />
 	<aui:form action="${resourceUrl}" method="post" name="fmExport">
 		<h5><liferay-ui:message key="simulation-list-export" /></h5>
 		<aui:input name="export" value="${simulation.simulation_id }" type="hidden" />

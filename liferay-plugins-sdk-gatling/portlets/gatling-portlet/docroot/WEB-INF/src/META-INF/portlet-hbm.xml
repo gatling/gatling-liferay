@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="com.excilys.liferay.gatling.model.LinkUsecaseRequest" />
+	<import class="com.excilys.liferay.gatling.model.Record" />
+	<import class="com.excilys.liferay.gatling.model.Request" />
+	<import class="com.excilys.liferay.gatling.model.Scenario" />
+	<import class="com.excilys.liferay.gatling.model.Simulation" />
+	<import class="com.excilys.liferay.gatling.model.UrlRecord" />
+	<class name="com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestImpl" table="GatlingTool_LinkUsecaseRequest">
+		<cache usage="read-write" />
+		<id name="linkUsecaseRequestId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="requestId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="recordId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="weight" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="sample" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.excilys.liferay.gatling.model.impl.RecordImpl" table="GatlingTool_Record">
+		<cache usage="read-write" />
+		<id name="recordId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="portletId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="versionPortlet" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.excilys.liferay.gatling.model.impl.RequestImpl" table="GatlingTool_Request">
+		<cache usage="read-write" />
+		<id name="requestId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="scenarioId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="weight" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="privatePage" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="parentPlId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="layoutId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="plId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="portlet" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="portetId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.excilys.liferay.gatling.model.impl.ScenarioImpl" table="GatlingTool_Scenario">
+		<cache usage="read-write" />
+		<id name="scenarioId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="urlSite" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="group_id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="simulationId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="numberOfUsers" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="duration" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="com.excilys.liferay.gatling.model.impl.SimulationImpl" table="GatlingTool_Simulation">
+		<cache usage="read-write" />
+		<id name="simulationId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="feederContent" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="isFeederAFile" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.excilys.liferay.gatling.model.impl.UrlRecordImpl" table="GatlingTool_UrlRecord">
+		<cache usage="read-write" />
+		<id name="urlRecordId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="recordId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" column="type_" />
+		<property name="order" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="order_" />
+	</class>
+</hibernate-mapping>

@@ -14,6 +14,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import com.excilys.liferay.gatling.GatlingPortlet;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
+import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -27,10 +28,18 @@ public class PortletController {
 
 	private static final Log LOG = LogFactoryUtil.getLog(GatlingPortlet.class);
 	
-	@ActionMapping(params="action=addRecord")
-	public String addeRecordRenderRequest(RenderRequest request, RenderResponse response, Model model){
-		
-		return "view";
+	@ActionMapping(params="action=removeRecord")
+	public String removeRecordRenderRequest(ActionRequest request, ActionResponse response, Model model) throws SystemException, PortalException {
+		long recordId = ParamUtil.getLong(request, "recordId");
+		RecordLocalServiceUtil.deleteRecord(recordId);
+		LinkUsecaseRequestLocalServiceUtil.removeByRecordId(recordId);
+		UrlRecordLocalServiceUtil.removeByRecordId(recordId);
+		//redirect
+		//hack, only work this way ....
+		response.setRenderParameter("p_p_state", "pop_up");
+		response.setRenderParameter("tabs1", "config-record");
+		PortalUtil.copyRequestParameters(request, response);
+		return "editScenario";
 
 	}
 	
@@ -44,14 +53,17 @@ public class PortletController {
 		//hack, only work this way ....
 		response.setRenderParameter("p_p_state", "pop_up");
 		PortalUtil.copyRequestParameters(request, response);
-		return "jspEditRecord";
-
+		return "editScenario";
 	}
 	
 	@ActionMapping(params="action=toggleRecord")
-	public String toggleRecordRenderRequest(RenderRequest request, RenderResponse response, Model model){
-		
-		return "view";
+	public String toggleRecordRenderRequest(ActionRequest request, ActionResponse response, Model model){
+		String recordState = ParamUtil.getString(request, "nextRecordState");
+		response.setRenderParameter("recordState", recordState);
+		//hack, only work this way ....
+		response.setRenderParameter("p_p_state", "pop_up");
+		PortalUtil.copyRequestParameters(request, response);
+		return "editScenario";
 
 	}
 	

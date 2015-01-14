@@ -1,5 +1,9 @@
 package com.excilys.liferay.gatling.controller;
 
+import java.io.FileReader;
+import java.io.OutputStream;
+import java.util.Date;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
@@ -13,13 +17,18 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.excilys.liferay.gatling.GatlingPortlet;
 import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.util.PortalUtil;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 
 @Controller(value="SimulationController")
 @RequestMapping("VIEW")
@@ -88,6 +97,29 @@ public class SimulationController {
 	
 	@ResourceMapping(value="oneScript")
 	public String serveOneScript(RenderRequest request, RenderResponse response, Model model){
+		
+		
+		//create and export only one file with scenario script for this simulation id
+		Simulation simulation = null;
+		Date date = new Date();
+		String template = "/templateGatling2.0.X.mustache";
+		long simulationId = ParamUtil.getLong(request, "export");
+		response.setContentType("application/x-wais-source");
+		try {
+			simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
+			response.addProperty("Content-Disposition", "attachment; filename=Simulation"  + simulation.getName()  + date.getTime() + ".scala");
+			OutputStream out = response.getPortletOutputStream();
+			String currentPath = request.getPortletSession().getPortletContext().getRealPath("/WEB-INF/src/resources") + template;
+			Template tmpl = Mustache.compiler().compile(new FileReader(currentPath));
+			String script = tmpl.execute(new ScriptGeneratorGatling(simulationId,PortalUtil.getPortalURL(request)));
+			out.write(script.getBytes());
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			throw new RuntimeException("cannot export script file " + e.getMessage());
+		}
+		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
+		
 		
 		return "view";
 	}

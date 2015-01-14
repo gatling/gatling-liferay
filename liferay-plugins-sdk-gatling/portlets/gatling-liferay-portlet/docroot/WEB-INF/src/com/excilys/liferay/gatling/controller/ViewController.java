@@ -12,16 +12,23 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 @Controller(value="ViewController")
 @RequestMapping("VIEW")
 public class ViewController {
-	
+
+
 	@RenderMapping(params="render=help")
-	public String helpRenderRequest(RenderRequest request, RenderResponse response, Model model){
-		
+	public String helpRenderRequest(final RenderRequest request, final RenderResponse response, final Model model){
+
 		return "view";
 	}
-	
+
 	@ResourceMapping(value="manyScript")
-	public String serveManyScript(RenderRequest request, RenderResponse response, Model model){
-		
+	public String serveManyScript(final RenderRequest request, final RenderResponse response, final Model model){
+
+		return "view";
+	}
+
+	@RenderMapping
+	public String handleRenderRequest(final RenderRequest request,final RenderResponse response,final Model model){
+
 		return "view";
 	}
 }
