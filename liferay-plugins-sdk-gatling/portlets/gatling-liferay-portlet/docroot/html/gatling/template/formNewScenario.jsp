@@ -19,11 +19,13 @@
 			<aui:validator name="custom"
 				errorMessage="scenario-name-already-used">
 			 		function (val, fieldNode, ruleValue) {
-						var result = false;
-						var list = ${listOfScenarioName};
-						if (list.indexOf(val) == -1) {
-							result = true;
-						}
+						var result = true;
+						<c:if test="${not empty listOfScenarioName}">
+							var list = ${listOfScenarioName};
+							if (list.indexOf(val) != -1) {
+								result = false;
+							}
+						</c:if>
 						return result;
 					}
 				</aui:validator>

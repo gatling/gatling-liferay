@@ -5,21 +5,14 @@
 <%@page import="com.liferay.portal.kernel.util.HttpUtil"%>
 <%@include file="/html/gatling/header.jsp"%>
 
-<liferay-portlet:actionURL var="toggleRecordURL" name="toggleRecord"
-	windowState="pop_up">
+<liferay-portlet:actionURL var="toggleRecordURL" name="toggleRecord" windowState="pop_up">
 
-	<liferay-portlet:param name="page"
-		value="/html/gatling/popupPortlet/portletConfig.jsp" />
-	<liferay-portlet:param name="pagePortletId"
-		value="${portletGatlingDTO.portletId}" />
-	<liferay-portlet:param name="requestId"
-		value="${portletGatlingDTO.requestId}" />
-	<liferay-portlet:param name="groupId"
-		value="${portletGatlingDTO.groupId }" />
-	<liferay-portlet:param name="nextRecordState"
-		value="${portletGatlingDTO.nextRecordState}" />
-	<liferay-portlet:param name="lineId"
-		value="${portletGatlingDTO.lineId}" />
+	<liferay-portlet:param name="action" value="toggleRecord" />
+	<liferay-portlet:param name="pagePortletId"	value="${portletGatlingDTO.portletId}" />
+	<liferay-portlet:param name="requestId"	value="${portletGatlingDTO.requestId}" />
+	<liferay-portlet:param name="groupId" value="${portletGatlingDTO.groupId }" />
+	<liferay-portlet:param name="nextRecordState" value="${portletGatlingDTO.nextRecordState}" />
+	<liferay-portlet:param name="lineId" value="${portletGatlingDTO.lineId}" />
 	<c:choose>
 		<c:when test="${portletGatlingDTO.nextRecordState eq 'STOP' }">
 			<liferay-portlet:param name="tabs1" value="existing-usecase" />
@@ -64,14 +57,15 @@
 				<c:otherwise>
 					<aui:input name="useCaseRecordName" inlineField="true">
 						<aui:validator name="required" />
-						<aui:validator name="custom"
-							errorMessage="record-name-already-used">
+						<aui:validator name="custom" errorMessage="record-name-already-used">
  					 	function (val, fieldNode, ruleValue) {
-							var result = false;
-							var list = ${portletGatlingDTO.listRecordsNameJS};
-							if (list.indexOf(val) == -1) {
-								result = true;
-							}
+							var result = true;
+							<c:if test="${not empty portletGatlingDTO.listRecordsNameJS}">
+								var list = ${portletGatlingDTO.listRecordsNameJS};
+								if (list.indexOf(val) != -1) {
+									result = false;
+								}
+							</c:if>
 							return result;
 						} 
 					</aui:validator>

@@ -27,6 +27,11 @@ import com.liferay.portal.model.PortletPreferences;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
 
+/**
+ * This class handles the generation of the script.
+ * @author pif
+ *
+ */
 
 public class ScriptGeneratorGatling {
 	/**

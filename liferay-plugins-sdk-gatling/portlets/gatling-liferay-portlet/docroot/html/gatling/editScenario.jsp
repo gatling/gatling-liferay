@@ -6,7 +6,7 @@
 	Header
  --%>
 <portlet:renderURL var="backURL">
-	<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
+	<portlet:param name="render" value="renderSimulation" />
 	<portlet:param name="simulationId" value="${scenario.simulation_id }" />
 </portlet:renderURL>
 <c:set var="titleHeader">
@@ -18,7 +18,7 @@
 	FAQ link
 --%> 
 <portlet:renderURL var="helpURL" windowState="pop_up">
-	<portlet:param name="page" value="/html/gatling/help.jsp" />
+	<portlet:param name="render" value="help" />
 </portlet:renderURL>
 <div class="well well-small">
 	<a target="blank" href='<%=PortletProps.get("gatling-wiki") %>' class="label label-warning">
@@ -43,7 +43,9 @@
 	message="request-scenarioid-required" />
 
 
-<portlet:actionURL name="editScenario" var="editScenarioURL" windowState="normal" />
+<portlet:actionURL var="editScenarioURL" windowState="normal" >
+	<portlet:param name="action" value="editScenario"/>
+</portlet:actionURL>
 <aui:form action="${editScenarioURL}" method="POST" name="formulaireScenario">
 	<div class="pull-right">
 		<aui:button type="submit" iconAlign="right" onClick="confirmSubmit();return false;" />

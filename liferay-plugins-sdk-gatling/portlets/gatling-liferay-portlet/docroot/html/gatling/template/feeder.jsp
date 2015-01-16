@@ -6,7 +6,9 @@
 
 <liferay-ui:panel-container accordion="true" extended="true">
 	<liferay-ui:panel title="add-a-feeder" cssClass="accordion-group">
-		<portlet:actionURL var="feederURL" name="editFeeder" />
+		<portlet:actionURL var="feederURL" name="editFeeder" >
+			<portlet:param name="action" value="editFeeder"/>
+		</portlet:actionURL>
 		<aui:form action="${feederURL}" >
 			<aui:input name="simulationId" type="hidden"
 				value="${simulation.simulation_id }" />

@@ -101,12 +101,12 @@
 						</td>
 						<td class="info-config muted" data-done="${layout.portletConfigured }">
 							<c:choose>
-							<c:when test="${layout.portletConfigured }">
-								<liferay-ui:message key='portlet-configuration-ok' />
-							</c:when>
-							<c:otherwise>
-								<liferay-ui:message key='portlet-configuration-ko' />
-							</c:otherwise>
+								<c:when test="${layout.portletConfigured }">
+									<liferay-ui:message key='portlet-configuration-ok' />
+								</c:when>
+								<c:otherwise>
+									<liferay-ui:message key='portlet-configuration-ko' />
+								</c:otherwise>
 							</c:choose>
 						
 						</td>
@@ -164,8 +164,8 @@
 					<tr class="error">
 						<%-- Affichage request pas enregistrée --%>
 						<td>
-							<portlet:actionURL
-								var="deleteRequestURL" name="removeRequest">
+							<portlet:actionURL var="deleteRequestURL">
+								<portlet:param name="action" value="deleteRequest"/>
 								<portlet:param name="requestId" value="${layout.requestId}" />
 								<portlet:param name="scenarioId" value="${scenario.scenario_id}" />
 							</portlet:actionURL> 
@@ -325,7 +325,7 @@
 				renderURL.setParameter("plId", plId);
 				renderURL.setParameter("requestId", requestId);
 				renderURL.setParameter("lineId", lineId);
-				renderURL.setParameter("page","/html/gatling/popupPortlet/portletConfig.jsp");
+				renderURL.setParameter("render","renderPortlet");
 				renderURL.setWindowState("pop_up");
 			
 				

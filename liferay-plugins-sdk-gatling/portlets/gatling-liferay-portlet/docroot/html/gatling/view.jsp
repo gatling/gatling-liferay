@@ -20,7 +20,7 @@
 	FAQ link
 --%> 
 <portlet:renderURL var="helpURL" windowState="pop_up" >
-	<portlet:param name="page" value="/html/gatling/help.jsp" />
+	<portlet:param name="render" value="help"/>
 </portlet:renderURL>
 <div class="well well-small">
 	<a target="blank" href='<%=PortletProps.get("gatling-wiki") %>' class="label label-warning">
@@ -54,7 +54,7 @@
 	</div>
 </div>
 
-<portlet:resourceURL var="resourceUrl" />
+<portlet:resourceURL id="manyScripts" var="resourceUrl" />
 <aui:form action="${resourceUrl}" method="post" name="fmExport"   >
 	<aui:input type="hidden" name="gatlingVersion"/>
 	<aui:input type="hidden" name="login"/>
@@ -66,7 +66,7 @@
 	--%>
 	<liferay-ui:search-container emptyResultsMessage="simulation-list-empty" >
 		<%--List of data to display --%>
-		<liferay-ui:search-container-results results="${listSimulation }" total="${listSimulation.size() }" />
+		<liferay-ui:search-container-results	results="${listSimulations }"	total="${listSimulations.size() }"/>
 		<%--for each  column --%>
 		<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Simulation" keyProperty="simulation_id" modelVar="simulation">
 			<%-- checkbox --%>
@@ -85,7 +85,7 @@
 			</liferay-ui:search-container-column-text>
 			<%--edit url --%>
 			<portlet:renderURL var="editSimulationURL">
-				<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
+				<portlet:param name="render" value="renderSimulation" />
 				<portlet:param name="simulationId" value="${simulation.simulation_id}" />
 			</portlet:renderURL>
 			<liferay-ui:search-container-column-text name="simulation-list-table-header-name" value="${simulation.name }" href="${editSimulationURL}" />
@@ -110,7 +110,8 @@
 			</liferay-ui:search-container-column-text>
 			<%--delete button --%>
 			<liferay-ui:search-container-column-text name="delete" >
-			<portlet:actionURL var="deleteSimulationURL" name="removeSimulation">
+			<portlet:actionURL var="deleteSimulationURL">
+				<portlet:param name="action" value="deleteSimulation"/>
 				<portlet:param name="simulationId" value="${simulation.simulation_id }" />
 			</portlet:actionURL>
 	
@@ -122,6 +123,7 @@
 	</liferay-ui:search-container>
 </aui:form>
 
+
 <div id="exportModalTemplate" hidden="true">
 	<h5><liferay-ui:message key="simulation-list-export" /></h5>
 	<aui:select label="simulation-list-version-choice" name="gatlingVersionSelect" >
@@ -129,11 +131,13 @@
 	</aui:select>
 </div>
 
-<%--submit to addSimulation --%>
-<portlet:actionURL name="addSimulation" var="addSimulationURL" windowState="normal" />
+<%--popup hidden : submit to addSimulation --%>
+<portlet:actionURL var="addSimulationURL">
+	<portlet:param name="action" value="addSimulation"/>
+</portlet:actionURL>
 <%-- add simulation form --%>
 <div id="newFormSimulation" hidden="true">
-	<aui:form action="${addSimulationURL}" name="fm">
+	<aui:form action="${addSimulationURL}" name="fm" method="post">
 		<div class="well well-small">
 			<liferay-ui:message key="create-simulation-help" />
 		</div>
@@ -146,11 +150,13 @@
 			</aui:validator>
 			<aui:validator name="custom" errorMessage="simulation-name-already-used">
 			 	function (val, fieldNode, ruleValue) {
-					var result = false;
-					var list = ${listOfSimulationName};
-					if (list.indexOf(val) == -1) {
-						result = true;
-					}
+					var result = true;
+					<c:if test="${not empty listOfSimulationName}"> 
+						var list = ${listOfSimulationName};
+						if (list.indexOf(val) != -1) {
+							result = false;
+						}
+					</c:if>
 					return result;
 				}
 			</aui:validator>

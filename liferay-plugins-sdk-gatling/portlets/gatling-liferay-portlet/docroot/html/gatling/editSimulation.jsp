@@ -6,7 +6,7 @@
 	header
 --%>
 <portlet:renderURL var="backURL">
-	<portlet:param name="page" value="/html/gatling/view.jsp" />
+	<portlet:param name="render" value="renderView" />
 </portlet:renderURL>
 
 <c:set var="titleHeader">
@@ -26,7 +26,7 @@
 	 FAQ link
 --%>
 <portlet:renderURL var="helpURL" windowState="pop_up">
-	<portlet:param name="page" value="/html/gatling/help.jsp" />
+	<portlet:param name="render" value="help" />
 </portlet:renderURL>
 <div class="well well-small">
 	<a target="_blank" href="<%= PortletProps.get("gatling-wiki") %>" class="label label-warning">
@@ -58,7 +58,9 @@
 	Page content
  --%>
 <%--Simulation Name --%>
-<portlet:actionURL var="editSimulationURL" name="editSimulation" />
+<portlet:actionURL var="editSimulationURL">
+	<portlet:param name="action" value="editSimulation"/>
+</portlet:actionURL>
 <aui:form action="${editSimulationURL}" name="fm_simulation" cssClass="form-inline" inlineLabels="true">
 	<aui:input name="simulationId" type="hidden" value="${simulation.simulation_id }" />
 	<aui:input label="simulation-edit-name-simulation" name="simulationName" inlineLabel="true" inlineField="true" value="${simulation.name }">
@@ -69,11 +71,13 @@
 		</aui:validator>
 		<aui:validator name="custom" errorMessage="simulation-name-already-used">
 		 	function (val, fieldNode, ruleValue) {
-				var result = false;
-				var list = ${listOfSimulationName};
-				if (list.indexOf(val) == -1 || val == "${simulation.name}") {
-					result = true;
-				}
+				var result = true;
+				<c:if test="${not empty listOfSimulationName}">
+					var list = ${listOfSimulationName};
+					if (list.indexOf(val) != -1 && val != "${simulation.name}") {
+						result = false;
+					}
+				</c:if>
 				return result;
 			}
 		</aui:validator>
@@ -91,7 +95,7 @@
 	<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Scenario" keyProperty="scenario_id" modelVar="scenario">
 		<%-- EditURl --%>
 		<portlet:renderURL var="editScenarioURL">
-			<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
+			<portlet:param name="render" value="renderScenario" />
 			<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
 		</portlet:renderURL>
 		<liferay-ui:search-container-column-text name="simulation-edit-table-header-name" value="${scenario.name}" href="${editScenarioURL}" />
@@ -145,7 +149,7 @@
 
 <%--redirect to addSimulation --%>
 <portlet:actionURL name="addScenario" var="addScenarioURL">
-	<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
+	<portlet:param name="action" value="addScenario" />
 	<portlet:param name="simulationId" value="${simulation.simulation_id}" />
 </portlet:actionURL>
 <%-- Add Form --%>

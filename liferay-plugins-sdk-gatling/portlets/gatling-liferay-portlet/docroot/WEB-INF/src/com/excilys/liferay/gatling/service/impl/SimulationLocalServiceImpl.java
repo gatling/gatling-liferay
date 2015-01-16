@@ -31,6 +31,8 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
 
@@ -48,6 +50,8 @@ import com.liferay.portal.kernel.util.ParamUtil;
  * @see com.liferay.sample.service.SimulationLocalServiceUtil
  */
 public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
+
+	private static final Log LOG = LogFactoryUtil.getLog(SimulationLocalServiceImpl.class);
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -57,7 +61,8 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	/**
 	 * remove all {@link Scenario} linked to a simulationId and the simulation
 	 */
-	public void removeSimulationCascade(Long simulationId) throws SystemException, NoSuchModelException {
+	@Override
+	public void removeSimulationCascade(final Long simulationId) throws SystemException, NoSuchModelException {
 		ScenarioLocalServiceUtil.removeBySimulationIdCascade(simulationId);
 		simulationPersistence.remove(simulationId);
 	}
@@ -65,12 +70,13 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	/**
 	 * Check if name is unique for {@link Simulation}
 	 */
-	public boolean isNameUnique(String name) throws SystemException {
+	@Override
+	public boolean isNameUnique(final String name) throws SystemException {
 		final DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Simulation.class)
 				.add(PropertyFactoryUtil.forName("name").eq(name));
 
 		final long count = simulationPersistence.countWithDynamicQuery(dq);
-		return (count == 0);
+		return count == 0;
 	}
 
 	/**
@@ -80,34 +86,36 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	 * @throws SystemException
 	 */
 	@Override
-	public Simulation addSimulationFromRequest(ActionRequest request) throws SystemException  {
+	public Simulation addSimulationFromRequest(final ActionRequest request) throws SystemException  {
 		/*
 		 * Create simulation
 		 */
-		long primaryKey = CounterLocalServiceUtil.increment(Simulation.class.getName());
-		Simulation simulation = simulationPersistence.create(primaryKey);
-		simulation.setName(ParamUtil.getString(request, "simulationName"));
+		final long primaryKey = CounterLocalServiceUtil.increment(Simulation.class.getName());
+		final Simulation simulation = simulationPersistence.create(primaryKey);
+		final String simuName = ParamUtil.getString(request, "simulationName");
+		LOG.info("simulation Name : "+simuName);
+		simulation.setName(simuName);
 		/*
 		 *  Validator Simulation Fields
 		 */
-		List<String> errors = SimulationValidator.validateSimulation(simulation);
+		final List<String> errors = SimulationValidator.validateSimulation(simulation);
 		if(errors.isEmpty()) {
 			simulation.persist();
 			return simulation;
 		}
 		else {
-			for(String error : errors) {
+			for(final String error : errors) {
 				SessionErrors.add(request, error);
 			}
+			return null;
 		}
-		return null;
 
 	}
-	
+
 	@Override
-	public boolean containsPrivatePage(long simulationId) throws SystemException {
-		for ( Scenario scenario : ScenarioLocalServiceUtil.findBySimulationId(simulationId)) {
-			for (Request request : RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id())) {
+	public boolean containsPrivatePage(final long simulationId) throws SystemException {
+		for ( final Scenario scenario : ScenarioLocalServiceUtil.findBySimulationId(simulationId)) {
+			for (final Request request : RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id())) {
 				if (request.getPrivatePage()) {
 					return true;
 				}

@@ -3,14 +3,14 @@
 --%>
 <%@include file="/html/gatling/header.jsp"%>
 
-<portlet:actionURL name="editRecord" var="editRecordURL"
-	windowState="pop_up">
+<portlet:actionURL name="editRecord" var="editRecordURL"	windowState="pop_up">
+	<portlet:param name="action" value="editRecord"/>
 	<portlet:param name="pagePortletId" value="${portletId}" />
 	<portlet:param name="requestId" value="${requestId}" />
 </portlet:actionURL>
 
 <portlet:renderURL var="backURL" windowState="pop_up" >
-	<portlet:param name="page" value="/html/gatling/popupPortlet/portletConfig.jsp" />
+	<portlet:param name="render" value="portletConfig" />
 	<portlet:param name="pagePortletId" value="${portletId}" />
 	<portlet:param name="requestId" value="${requestId}" />
 	<portlet:param name="tabs1" value="config-record" />

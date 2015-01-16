@@ -3,8 +3,8 @@
 --%>
 <%@include file="/html/gatling/header.jsp"%>
 
-<portlet:actionURL name="editPortletSample" var="editPortletSampleURL"
-	windowState="pop_up">
+<portlet:actionURL var="editPortletSampleURL" windowState="pop_up">
+	<portlet:param name="action" value="editSample"/>
 	<portlet:param name="pagePortletId" value="${portletGatlingDTO.portletId}" />
 	<portlet:param name="requestId" value="${portletGatlingDTO.requestId}" />
 	<portlet:param name="lineId" value="${portletGatlingDTO.lineId}" />

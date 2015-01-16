@@ -18,7 +18,7 @@
 	<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Record" keyProperty="recordId" modelVar="record">
 		<%-- EditURl --%>
 		<portlet:renderURL var="editRecordURL">
-			<portlet:param name="page" value="/html/gatling/popupPortlet/pages/editRecord.jsp" />
+			<portlet:param name="render" value="renderRecord" />
 			<portlet:param name="recordId" value="${record.recordId }" />
 			<portlet:param name="recordname" value="${record.name }" />
 			<portlet:param name="portletId" value="${portletGatlingDTO.portletId}" />
@@ -28,7 +28,8 @@
 	
 		<%--delete button --%>
 		<liferay-ui:search-container-column-text name="delete" align="center">
-			<portlet:actionURL var="deleteRecordURL" name="removeRecord">
+			<portlet:actionURL var="deleteRecordURL">
+				<portlet:param name="action" value="deleteRecord"/>
 				<portlet:param name="recordId" value="${record.recordId }" />
 				<portlet:param name="pagePortletId" value="${portletGatlingDTO.portletId}" />
 				<portlet:param name="requestId" value="${portletGatlingDTO.requestId}" />

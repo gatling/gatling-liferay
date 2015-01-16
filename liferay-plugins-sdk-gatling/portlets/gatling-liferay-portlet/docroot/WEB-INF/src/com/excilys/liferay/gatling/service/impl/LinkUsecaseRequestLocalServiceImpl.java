@@ -38,14 +38,20 @@ import com.liferay.portal.kernel.exception.SystemException;
  * @see com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil
  */
 public class LinkUsecaseRequestLocalServiceImpl
-	extends LinkUsecaseRequestLocalServiceBaseImpl {
+extends LinkUsecaseRequestLocalServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil} to access the link usecase request local service.
 	 */
-	
-	public void saveLinkUseCase(long linkUsecaseRequestId, long requestId, long recordId, double weight, boolean isSample) throws SystemException, PortalException {
+
+	/**
+	 * 
+	 * 
+	 * 
+	 */
+	@Override
+	public void saveLinkUseCase(final long linkUsecaseRequestId, final long requestId, final long recordId, final double weight, final boolean isSample) throws SystemException, PortalException {
 		long primaryKey;
 		final LinkUsecaseRequest linkUsecaseRequest;
 		if(linkUsecaseRequestId == 0){
@@ -70,42 +76,46 @@ public class LinkUsecaseRequestLocalServiceImpl
 			}
 		}
 	}
-	
+
 	/**
 	 * get {@link LinkUsecaseRequest} have this requestId
 	 */
-	public List<LinkUsecaseRequest> findByRecordAndRequest(long requestId, long recordId)  throws SystemException {
+	@Override
+	public List<LinkUsecaseRequest> findByRecordAndRequest(final long requestId, final long recordId)  throws SystemException {
 		return linkUsecaseRequestPersistence.findByRequestIdAndrecordId(requestId, recordId);
 	}
-	
+
 	/* --- byRequestIdAndUsed (weight>0) --- */
-	
+
 	@Override
-	public int countByRequestIdAndUsed(long requestId) throws SystemException{
+	public int countByRequestIdAndUsed(final long requestId) throws SystemException{
 		return linkUsecaseRequestPersistence.countByRequestIdAndUsed(requestId, 0);
 	}
-	
+
 	@Override
-	public List<LinkUsecaseRequest> findByRequestIdAndUsed(long requestId) throws SystemException{
+	public List<LinkUsecaseRequest> findByRequestIdAndUsed(final long requestId) throws SystemException{
 		return linkUsecaseRequestPersistence.findByRequestIdAndUsed(requestId, 0);
 	}
-	
+
 	/* --- byRequestId --- */
-	
+
 	@Override
-	public int countByRequestId(long requestId) throws SystemException{
+	public int countByRequestId(final long requestId) throws SystemException{
 		return linkUsecaseRequestPersistence.countByRequestId(requestId);
 	}
-	
-	public List<LinkUsecaseRequest> findByRequestId(long requestId) throws SystemException {
+
+	@Override
+	public List<LinkUsecaseRequest> findByRequestId(final long requestId) throws SystemException {
 		return linkUsecaseRequestPersistence.findByRequestId(requestId);
 	}
-	
-	public void removeByRequestId(long requestId) throws SystemException {
+
+	@Override
+	public void removeByRequestId(final long requestId) throws SystemException {
 		linkUsecaseRequestPersistence.removeByRequestId(requestId);
 	}
-	
-	public void removeByRecordId(long recordId) throws SystemException {
+
+	@Override
+	public void removeByRecordId(final long recordId) throws SystemException {
 		linkUsecaseRequestPersistence.removeByRecordId(recordId);
 	}
 

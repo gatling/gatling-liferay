@@ -8,9 +8,8 @@
 
 <liferay-ui:icon-menu>
 	<portlet:renderURL var="editSimulationURL">
-		<portlet:param name="page" value="/html/gatling/editSimulation.jsp" />
-		<portlet:param name="simulationId"
-			value="${simulation.simulation_id }" />
+		<portlet:param name="render" value="renderSimulation" />
+		<portlet:param name="simulationId" value="${simulation.simulation_id }" />
 	</portlet:renderURL>
 	<liferay-ui:icon image="edit" url="${editSimulationURL}" />
 	<c:if test="${MapSimulation.get(simulation)[1] == 2}">
@@ -20,7 +19,8 @@
 		<liferay-ui:icon image="submit" url="${resourceUrl}" message="Generate Simulation"/>
 	</c:if>
  	
-	<portlet:actionURL var="deleteSimulationURL" name="removeSimulation">
+	<portlet:actionURL var="deleteSimulationURL">
+		<portlet:param name="action" value="deleteSimulation"/>
 		<portlet:param name="simulationId" value="${simulation.simulation_id }" />
 	</portlet:actionURL>
 

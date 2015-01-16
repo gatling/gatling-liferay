@@ -7,14 +7,14 @@
 <c:set var="scenario" value="${row.object}" />
 <liferay-ui:icon-menu>
 	<portlet:renderURL var="editScenarioURL">
-		<portlet:param name="page" value="/html/gatling/editScenario.jsp" />
-		<portlet:param name="scenarioId"
-			value="${scenario.scenario_id }" />
+		<portlet:param name="render" value="renderScenario" />
+		<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
 	</portlet:renderURL>
 
 	<liferay-ui:icon image="edit" url="${editScenarioURL}" />
 
-	<portlet:actionURL var="deleteScenarioURL" name="removeScenario">
+	<portlet:actionURL var="deleteScenarioURL">
+		<portlet:param name="action" value="deleteScenario"/>
 		<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
 		<portlet:param name="simulationId" value="${scenario.simulation_id }" />
 	</portlet:actionURL>

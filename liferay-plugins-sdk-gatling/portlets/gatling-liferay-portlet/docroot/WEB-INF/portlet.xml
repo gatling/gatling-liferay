@@ -9,39 +9,6 @@
 		<portlet-name>gatling</portlet-name>
 		<display-name>Gatling</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
-		<!-- Declare init param (pages) -->
-		<init-param>
-			<name>list-simulation-jsp</name>
-			<value>/html/gatling/view.jsp</value>
-		</init-param>
-		<init-param>
-			<name>edit-simulation-jsp</name>
-			<value>/html/gatling/editSimulation.jsp</value>
-		</init-param>
-		<init-param>
-			<name>edit-scenario-jsp</name>
-			<value>/html/gatling/editScenario.jsp</value>
-		</init-param>
-		<init-param>
-			<name>form-first-scenario-jsp</name>
-			<value>/html/gatling/formAddFirstScenario.jsp</value>
-		</init-param>
-		<init-param>
-			<name>help-jsp</name>
-			<value>/html/gatling/help.jsp</value>
-		</init-param>
-		<init-param>
-			<name>portletConfig-jsp</name>
-			<value>/html/gatling/popupPortlet/portletConfig.jsp</value>
-		</init-param>
-		<init-param>
-			<name>editRecord-jsp</name>
-			<value>/html/gatling/popupPortlet/pages/editRecord.jsp</value>
-		</init-param>
-		<init-param>
-			<name>webService-jsp</name>
-			<value>/html/gatling/webService.jsp</value>
-		</init-param>
 		 <init-param>
   			<name>contextConfigLocation</name>
 		    <value>/WEB-INF/gatling-portlet.xml</value>
