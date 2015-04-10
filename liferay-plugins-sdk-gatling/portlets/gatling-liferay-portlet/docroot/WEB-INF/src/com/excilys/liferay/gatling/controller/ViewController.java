@@ -40,15 +40,14 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.util.PortalUtil;
 import com.samskivert.mustache.Mustache;
 
-@Controller(value="ViewController")
-@RequestMapping("VIEW")
-
 /**
  * This controller handle the default jsp 
  * 
  * @author pif
  *
  */
+@Controller(value="ViewController")
+@RequestMapping("VIEW")
 public class ViewController {
 
 	private static final Log LOG = LogFactoryUtil.getLog(ViewController.class);
@@ -147,8 +146,8 @@ public class ViewController {
 
 		renderRequest.setAttribute("gatlingVersion", gatlingVersionString);
 		renderRequest.setAttribute("listOfSimulationName", JSListName);
-		renderRequest.setAttribute("listSimulation", simulationList);
-		renderRequest.setAttribute("MapSimulation", simulationMap);
+		renderRequest.setAttribute("listSimulations", simulationList);
+		renderRequest.setAttribute("MapSimulations", simulationMap);
 		return "view";
 	}
 
@@ -170,7 +169,7 @@ public class ViewController {
 	 * @param simulation
 	 * @return 0(means empty), 1(incomplete) or 2 (complete)
 	 */
-	public int simulationState(final Simulation simulation) {
+	private int simulationState(final Simulation simulation) {
 		try {
 			final List<Scenario> scenariosList = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
 			int checkNumberCompleted = 0;

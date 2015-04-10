@@ -54,6 +54,7 @@
 		</ul>
 	</div>
 </div>
+
 <%--
 	Page content
  --%>
@@ -134,7 +135,8 @@
 		</liferay-ui:search-container-column-text>
 		<%--delete button --%>
 		<liferay-ui:search-container-column-text name="delete" align="center">
-			<portlet:actionURL var="deleteScenarioURL" name="removeScenario">
+			<portlet:actionURL var="deleteScenarioURL" name="deleteScenario">
+				<portlet:param name="action" value="deleteScenario"/>
 				<portlet:param name="scenarioId" value="${scenario.scenario_id }" />
 				<portlet:param name="simulationId" value="${scenario.simulation_id }" />
 			</portlet:actionURL>

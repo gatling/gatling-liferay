@@ -129,10 +129,10 @@ public class RecorderFilter implements Filter {
 							parts = httpRequest.getParts();
 						} catch(Exception e) {
 							//do nothing
-							LOG.info(e.getMessage());
+							LOG.error(e.getMessage());
 						}
 						if(parts != null && !parts.isEmpty()) {
-							LOG.info("is MultipartContent "+parts.size());
+							LOG.debug("is MultipartContent "+parts.size());
 							StringBuilder sb = new StringBuilder(params);
 							for (Part part : parts) {
 								String name = part.getName();
@@ -144,7 +144,7 @@ public class RecorderFilter implements Filter {
 										value.append(buffer, 0, length);
 									}
 									String input = value.toString();
-									LOG.info("\t"+name+" : "+input);
+									LOG.debug("\t"+name+" : "+input);
 									sb.append("&").append(name).append("=").append(input);
 								}
 							}
@@ -160,7 +160,7 @@ public class RecorderFilter implements Filter {
 					}
 					RecordURL record = new RecordURL(httpRequest.getMethod(), requestURL, params);
 					// Display for debug
-					LOG.info(record);
+					LOG.debug(record);
 					// Save
 					recordURLs.add(record);
 					// Store it in the session
@@ -171,13 +171,13 @@ public class RecorderFilter implements Filter {
 				session.removeAttribute("recordURL");
 				// Check if we have something to record
 				if(!recordURLs.isEmpty()) {
-					LOG.info("Saving ...");
+					LOG.debug("Saving ...");
 					try {
 						//Save use case table
 						String portletVersion = PortletLocalServiceUtil.getPortletById(infos[0]).getPluginPackage().getVersion();
-						LOG.info("version de portlet "+portletVersion);
+						LOG.debug("version de portlet "+portletVersion);
 						Record record = RecordLocalServiceUtil.save(infos[2], infos[0], portletVersion);
-						LOG.info("...1/2");
+						LOG.debug("...1/2");
 						//Save url table
 						for (int i = 1; i < recordURLs.size(); i++) {
 							String url = recordURLs.get(i).getUrl()+recordURLs.get(i).getParams();
@@ -185,7 +185,7 @@ public class RecorderFilter implements Filter {
 							UrlRecordLocalServiceUtil.save(url, type, i, record.getRecordId());
 							LOG.info("...");
 						}
-						LOG.info("...2/2");
+						LOG.debug("...2/2");
 					} catch (SystemException e) {
 						LOG.error("Error saving use case ...\n"+e.getMessage());
 					}

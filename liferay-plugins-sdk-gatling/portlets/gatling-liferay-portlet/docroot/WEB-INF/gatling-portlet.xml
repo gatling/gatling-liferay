@@ -22,11 +22,11 @@
 	<bean class="com.excilys.liferay.gatling.controller.ViewController" ></bean>
 	<bean class="com.excilys.liferay.gatling.controller.ScenarioController" ></bean>
 	
-	<bean id="jspViewResolver"  class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	 <property name="viewClass"   value="org.springframework.web.servlet.view.InternalResourceView" />
-	 <property name="prefix" value="/html/gatling/" />
-	 <property name="suffix" value=".jsp" />
-	 <property name="order" value="1" />
+	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView" />
+		<property name="prefix" value="/html/gatling/" />
+		<property name="suffix" value=".jsp" />
+		<property name="order" value="1" />
 	</bean>
 
 </beans>

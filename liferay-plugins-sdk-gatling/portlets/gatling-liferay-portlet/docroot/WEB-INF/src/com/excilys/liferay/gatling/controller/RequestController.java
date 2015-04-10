@@ -38,7 +38,9 @@ public class RequestController {
 
 		listRecordUrl = UrlRecordLocalServiceUtil.findByRecordId(recordId);
 
-		LOG.info("portlet id "+ParamUtil.getString(renderRequest, "portletId"));
+		if(LOG.isInfoEnabled()) {
+			LOG.info("portlet id "+ParamUtil.getString(renderRequest, "portletId"));
+		}
 		renderRequest.setAttribute("listRecordUrl", listRecordUrl);
 		renderRequest.setAttribute("recordName", recordName);
 		renderRequest.setAttribute("recordId", recordId);

@@ -39,6 +39,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.util.PortalUtil;
@@ -120,9 +121,9 @@ public class SimulationController {
 		simulation.setName(ParamUtil.getString(request, "simulationName"));
 		SimulationLocalServiceUtil.updateSimulation(simulation);
 		response.setRenderParameter("simulationId", Long.toString(simulationId));
-		response.setRenderParameter("action", "renderSimulation");
+		response.setRenderParameter("render", "renderSimulation");
 	}
-
+	
 	@ActionMapping(params="action=editFeeder")
 	public void editFeederAction(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{
 		final long simulationId = ParamUtil.getLong(request, "simulationId");
@@ -152,8 +153,7 @@ public class SimulationController {
 		SimulationLocalServiceUtil.removeSimulationCascade(simulationId);
 		response.setRenderParameter("render", "renderView");
 	}
-
-
+	
 	@ResourceMapping(value="oneScript")
 	public void serveOneScript(final ResourceRequest request, final ResourceResponse response) throws IOException, ReadOnlyException, ValidatorException{
 

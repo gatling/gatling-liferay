@@ -18,7 +18,7 @@
 	<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Record" keyProperty="recordId" modelVar="record">
 		<%-- EditURl --%>
 		<portlet:renderURL var="editRecordURL">
-			<portlet:param name="render" value="renderRecord" />
+			<portlet:param name="render" value="editRecord" />
 			<portlet:param name="recordId" value="${record.recordId }" />
 			<portlet:param name="recordname" value="${record.name }" />
 			<portlet:param name="portletId" value="${portletGatlingDTO.portletId}" />

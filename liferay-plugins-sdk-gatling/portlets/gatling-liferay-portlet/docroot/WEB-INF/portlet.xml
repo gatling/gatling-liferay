@@ -13,12 +13,6 @@
   			<name>contextConfigLocation</name>
 		    <value>/WEB-INF/gatling-portlet.xml</value>
 		 </init-param>
-		<!-- -->
-		<init-param>
-			<name>add-process-action-success-action</name>
-			<value>false</value>
-		</init-param>
-
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
@@ -30,7 +24,7 @@
 		<resource-bundle>content.Language</resource-bundle>
 
 		<portlet-info>
-			<title>Stress Tool</title>
+			<title>Load Test With Gatling</title>
 			<short-title>Gatling</short-title>
 			<keywords></keywords>
 		</portlet-info>

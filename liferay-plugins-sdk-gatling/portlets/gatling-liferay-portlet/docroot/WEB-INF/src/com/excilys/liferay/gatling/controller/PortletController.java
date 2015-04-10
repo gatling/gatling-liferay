@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletConfig;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.Cookie;
@@ -14,11 +15,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 
-import com.excilys.liferay.gatling.GatlingPortlet;
 import com.excilys.liferay.gatling.dto.LinkUsecaseRequestDTO;
 import com.excilys.liferay.gatling.dto.PortletConfigDTO;
 import com.excilys.liferay.gatling.dto.PortletConfigDTO.PortletConfigDTOBuilder;
 import com.excilys.liferay.gatling.model.Record;
+import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.mustache.ListScript;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
@@ -28,7 +29,9 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.CookieKeys;
+import com.liferay.portal.kernel.util.JavaConstants;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.service.PortletLocalServiceUtil;
 import com.liferay.portal.util.PortalUtil;
@@ -37,7 +40,7 @@ import com.liferay.portal.util.PortalUtil;
 @RequestMapping("VIEW")
 public class PortletController {
 
-	private static final Log LOG = LogFactoryUtil.getLog(GatlingPortlet.class);
+	private static final Log LOG = LogFactoryUtil.getLog(PortletController.class);
 
 	@RequestMapping(params="render=renderPortlet")
 	public String renderPortlet(final RenderRequest renderRequest, final RenderResponse renderResponse) throws SystemException, PortalException {
@@ -95,6 +98,36 @@ public class PortletController {
 		renderRequest.setAttribute("portletGatlingDTO", builder.build());
 		return "popupPortlet/portletConfig";
 	}
+	
+	@RequestMapping(params="render=editRecord")
+	public String renderRecord(final RenderRequest renderRequest, final RenderResponse renderResponse) throws SystemException, PortalException {
+		//Get the list of UrlRecord that corresponds to the recordId, if requested
+		final long  recordId = ParamUtil.getLong(renderRequest, "recordId");
+		final String recordName = ParamUtil.getString(renderRequest, "recordname");
+		List<UrlRecord> listRecordUrl = new ArrayList<UrlRecord>();
+
+		if(recordId != 0){
+			try {
+				listRecordUrl = UrlRecordLocalServiceUtil.findByRecordId(recordId);
+			} catch (final SystemException e) {
+				if(LOG.isErrorEnabled()){
+					LOG.error("error when search for UrlRecord list: "+e.getMessage());
+				}
+			}
+		}
+		else{
+			throw new NullPointerException("RecordId is null");
+		}
+
+		LOG.info("portlet id "+ParamUtil.getString(renderRequest, "portletId"));
+		renderRequest.setAttribute("listRecordUrl", listRecordUrl);
+		renderRequest.setAttribute("recordName", recordName);
+		renderRequest.setAttribute("recordId", recordId);
+		renderRequest.setAttribute("portletId", ParamUtil.getString(renderRequest, "portletId"));
+		renderRequest.setAttribute("requestId", ParamUtil.getString(renderRequest, "requestId"));
+		
+		return "popupPortlet/pages/editRecord";
+	}
 
 	@ActionMapping(params="action=deleteRecord")
 	public void deleteRecordAction(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException {
@@ -131,7 +164,8 @@ public class PortletController {
 		response.setRenderParameter("p_p_state", "pop_up");
 		PortalUtil.copyRequestParameters(request, response);
 		response.setRenderParameter("render", "renderPortlet");
-
+		//Hide success message for this action
+		SessionMessages.add(request, PortalUtil.getPortletId(request)+SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_SUCCESS_MESSAGE);
 	}
 
 	@ActionMapping(params="action=editPortletSample")
@@ -149,7 +183,9 @@ public class PortletController {
 				final double weight = usecaseWeight[i];
 				final long recordId = recordIds[i];
 				final boolean isSample = areSample[i];
-				LOG.debug(id+" "+requestId+" "+recordId+" "+weight+" "+isSample);
+				if(LOG.isDebugEnabled()) {
+					LOG.debug(id+" "+requestId+" "+recordId+" "+weight+" "+isSample);
+				}
 				LinkUsecaseRequestLocalServiceUtil.saveLinkUseCase(id, requestId, recordId, weight, isSample);
 			}
 		}

@@ -45,7 +45,7 @@
 			<li>
 				<a id="newSimulation" href="#"> <i class="icon-plus"></i> <liferay-ui:message key="simulation-list-btn-add-simulation" /></a>
 			</li>
-			<c:if test="${not empty listSimulation }">
+			<c:if test="${not empty listSimulations }">
 			<li>
 				<a id="exportToggle" href="#"><i class="icon-print"></i> <liferay-ui:message key="simulation-list-export" /></a>
 			</li>
@@ -72,7 +72,7 @@
 			<%-- checkbox --%>
 			<liferay-ui:search-container-column-text>
 				<c:choose>
-				<c:when test="${MapSimulation.get(simulation)[1] == 2}">
+				<c:when test="${MapSimulations.get(simulation)[1] == 2}">
 					<input type="checkbox" class="checkLine"
 						name="<portlet:namespace/>export" id="<portlet:namespace/>checkAll"
 						value="${simulation.simulation_id}" />
@@ -90,15 +90,15 @@
 			</portlet:renderURL>
 			<liferay-ui:search-container-column-text name="simulation-list-table-header-name" value="${simulation.name }" href="${editSimulationURL}" />
 			<%-- number of scenario --%>
-			<liferay-ui:search-container-column-text name="simulation-list-table-header-scenarionb" value="${MapSimulation.get(simulation)[0] }" />
+			<liferay-ui:search-container-column-text name="simulation-list-table-header-scenarionb" value="${MapSimulations.get(simulation)[0] }" />
 			<%--status --%>
 			<liferay-ui:search-container-column-text name="simulation-list-table-header-state">
 				<c:choose>
-					<c:when test="${MapSimulation.get(simulation)[1] == 2}">
+					<c:when test="${MapSimulations.get(simulation)[1] == 2}">
 						<span class="badge badge-success"><i class="icon-ok"></i></span> 
 						<liferay-ui:icon-help message="message-help-info-state-simulation-success"/>
 					</c:when>
-					<c:when test="${MapSimulation.get(simulation)[1] == 1}">
+					<c:when test="${MapSimulations.get(simulation)[1] == 1}">
 						<span class="badge badge-warning"><i class="icon-pencil"></i></span> 
 						<liferay-ui:icon-help message="message-help-info-state-simulation-warning"/>
 					</c:when>

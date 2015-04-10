@@ -4,7 +4,7 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 <portlet:actionURL var="editPortletSampleURL" windowState="pop_up">
-	<portlet:param name="action" value="editSample"/>
+	<portlet:param name="action" value="editPortletSample"/>
 	<portlet:param name="pagePortletId" value="${portletGatlingDTO.portletId}" />
 	<portlet:param name="requestId" value="${portletGatlingDTO.requestId}" />
 	<portlet:param name="lineId" value="${portletGatlingDTO.lineId}" />
@@ -75,7 +75,8 @@
 							<td class='popup_percent' />
 
 							<td>
-								<portlet:actionURL var="deleteLinkUseCaseURL" name="removeLinkUseCase">
+								<portlet:actionURL var="deleteLinkUseCaseURL">
+									<portlet:param name="action" value="deleteUseCase"/>
 									<portlet:param name="useCaseId" value="${linkUsecaseRequest.linkId}"/>
 									<portlet:param name="pagePortletId" value="${portletGatlingDTO.portletId}" />
 									<portlet:param name="requestId" value="${portletGatlingDTO.requestId}" />

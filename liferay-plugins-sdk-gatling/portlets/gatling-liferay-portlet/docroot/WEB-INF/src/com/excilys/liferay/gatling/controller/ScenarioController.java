@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
-import com.excilys.liferay.gatling.GatlingPortlet;
 import com.excilys.liferay.gatling.dto.RequestDTO;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
@@ -39,7 +38,7 @@ import com.liferay.portal.theme.ThemeDisplay;
 @RequestMapping("VIEW")
 public class ScenarioController {
 
-	private static final Log LOG = LogFactoryUtil.getLog(GatlingPortlet.class);
+	private static final Log LOG = LogFactoryUtil.getLog(ScenarioController.class);
 
 	@RenderMapping(params="render=renderScenario")
 	public String renderScenario(final RenderRequest renderRequest, final RenderResponse renderResponse) throws SystemException , PortalException{
@@ -116,6 +115,7 @@ public class ScenarioController {
 			// redirect to editScenario
 			response.setRenderParameter("scenarioId", Long.toString(scenario.getScenario_id()));
 			response.setRenderParameter("render", "renderScenario");
+			
 		} else {
 			response.setRenderParameter("simulationId", ParamUtil.getString(request, "simulationId"));
 			response.setRenderParameter("render", "renderSimulation");
@@ -123,7 +123,7 @@ public class ScenarioController {
 	}
 
 	@ActionMapping(params="action=deleteScenario")
-	public void deleteScenarioAction(final ActionRequest request, final ActionResponse response, final Model model) throws PortalException, SystemException {
+	public void deleteScenario(final ActionRequest request, final ActionResponse response, final Model model) throws PortalException, SystemException {
 		final long scenarioId = ParamUtil.getLong(request, "scenarioId");
 		final long simulationId = ParamUtil.getLong(request, "simulationId");
 		if (LOG.isDebugEnabled()){
@@ -132,7 +132,7 @@ public class ScenarioController {
 		// cascade delete
 		ScenarioLocalServiceUtil.removeByIdCascade(scenarioId);
 		response.setRenderParameter("simulationId", Long.toString(simulationId));
-		response.setRenderParameter("render", "renderScenario");
+		response.setRenderParameter("render", "renderSimulation");
 	}
 
 	@ActionMapping(params="action=addScenario")

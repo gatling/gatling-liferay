@@ -9,9 +9,13 @@ import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.mustache.util.RecorderGet;
 import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 
 public class MustachePortlet {
+	
+	private static final Log LOG = LogFactoryUtil.getLog(MustachePortlet.class);
 
 	private String name, url, ppid;
 	private double pourcentage;
