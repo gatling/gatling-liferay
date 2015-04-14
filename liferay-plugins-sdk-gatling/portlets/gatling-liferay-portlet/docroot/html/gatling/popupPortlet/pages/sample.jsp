@@ -10,6 +10,8 @@
 	<portlet:param name="lineId" value="${portletGatlingDTO.lineId}" />
 </portlet:actionURL>
 
+<liferay-ui:success key="your-request-completed-successfully" message="your-request-completed-successfully"/>
+
 <div class="well well-small">
 	<liferay-ui:message key="portlet-edit-sample-details" />
 </div>

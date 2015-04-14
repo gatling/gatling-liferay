@@ -13,6 +13,8 @@
 	<liferay-ui:message key="simulation-edit-header" arguments="${simulation.name}" />
 </c:set>
 <liferay-ui:header title="${titleHeader}" backURL="${backURL}" />
+
+<liferay-ui:success key="your-request-completed-successfully" message="your-request-completed-successfully"/>
 <%--
 	session errors 
 --%>

@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Layout;
@@ -115,11 +116,11 @@ public class ScenarioController {
 			// redirect to editScenario
 			response.setRenderParameter("scenarioId", Long.toString(scenario.getScenario_id()));
 			response.setRenderParameter("render", "renderScenario");
-			
 		} else {
 			response.setRenderParameter("simulationId", ParamUtil.getString(request, "simulationId"));
 			response.setRenderParameter("render", "renderSimulation");
 		}
+		SessionMessages.add(request, "your-request-completed-successfully");
 	}
 
 	@ActionMapping(params="action=deleteScenario")
@@ -133,6 +134,7 @@ public class ScenarioController {
 		ScenarioLocalServiceUtil.removeByIdCascade(scenarioId);
 		response.setRenderParameter("simulationId", Long.toString(simulationId));
 		response.setRenderParameter("render", "renderSimulation");
+		SessionMessages.add(request, "your-request-completed-successfully");
 	}
 
 	@ActionMapping(params="action=addScenario")

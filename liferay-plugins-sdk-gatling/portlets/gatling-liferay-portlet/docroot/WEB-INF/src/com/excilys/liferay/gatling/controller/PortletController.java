@@ -193,6 +193,7 @@ public class PortletController {
 		response.setRenderParameter("p_p_state", "pop_up");
 		PortalUtil.copyRequestParameters(request, response);
 		response.setRenderParameter("render", "renderPortlet");
+		SessionMessages.add(request, "your-request-completed-successfully");
 	}
 
 	@ActionMapping(params="action=deleteUseCase")

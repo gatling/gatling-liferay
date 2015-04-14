@@ -122,6 +122,7 @@ public class SimulationController {
 		SimulationLocalServiceUtil.updateSimulation(simulation);
 		response.setRenderParameter("simulationId", Long.toString(simulationId));
 		response.setRenderParameter("render", "renderSimulation");
+		SessionMessages.add(request, "your-request-completed-successfully");
 	}
 	
 	@ActionMapping(params="action=editFeeder")
@@ -141,7 +142,8 @@ public class SimulationController {
 		simulation.setFeederContent(ParamUtil.getString(request,content));
 		SimulationLocalServiceUtil.updateSimulation(simulation);
 		response.setRenderParameter("simulationId", Long.toString(simulationId));
-		response.setRenderParameter("render", "renderSimulation");		
+		response.setRenderParameter("render", "renderSimulation");
+		SessionMessages.add(request, "your-request-completed-successfully");
 	}
 
 	@ActionMapping(params="action=deleteSimulation")
