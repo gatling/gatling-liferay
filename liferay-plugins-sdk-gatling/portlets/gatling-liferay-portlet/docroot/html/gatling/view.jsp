@@ -123,14 +123,6 @@
 	</liferay-ui:search-container>
 </aui:form>
 
-
-<div id="exportModalTemplate" hidden="true">
-	<h5><liferay-ui:message key="simulation-list-export" /></h5>
-	<aui:select label="simulation-list-version-choice" name="gatlingVersionSelect" >
-		<%@include file="/html/gatling/template/gatlingVersionOption.jsp" %>
-	</aui:select>
-</div>
-
 <%--popup hidden : submit to addSimulation --%>
 <portlet:actionURL var="addSimulationURL">
 	<portlet:param name="action" value="addSimulation"/>
@@ -185,40 +177,8 @@
 		
 		A.all('#exportToggle').on('click', function() {
 			if(A.all(".checkLine:checked").size() > 0) {	
-				var modalExport = new A.Modal({
-					bodyContent : A.one("#exportModalTemplate").html(),
-					centered : true,
-					headerContent : '<h3><liferay-ui:message key="simulation-list-export" /></h3>',
-					modal : true,
-					resizable : false,
-					zIndex : 100,
-				}).render();
-				
-				modalExport.addToolbar(
-			    	      [
-			    	        {
-			    	          label: '<liferay-ui:message key="cancel" />',
-			    	          on: {
-			    	            click: function() {
-			    	            	modalExport.hide();
-			    	            }
-			    	          }
-			    	        },
-			    	        {
-			    	          label: '<liferay-ui:message key="export" />',
-			    	          cssClass : 'btn-info',
-			    	          on: {
-				    	            click: function() {
-				    	            	modalExport.hide();
-				    	            	var version = A.one("#<portlet:namespace/>gatlingVersionSelect").val();
-				    	            	A.one("#<portlet:namespace/>gatlingVersion").val(version);
-				    	            	A.one("#<portlet:namespace/>fmExport").submit();
-				    	            }
-				    	          }
-			    	        }
-			    	      ])
-			}
-			else {
+				A.one("#<portlet:namespace/>fmExport").submit();
+			} else {
 				alert("<liferay-ui:message key='no-selected-simulation' />");
 			}
 		});

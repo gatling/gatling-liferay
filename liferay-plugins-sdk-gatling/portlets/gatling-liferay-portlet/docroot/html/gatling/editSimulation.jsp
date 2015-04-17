@@ -89,6 +89,10 @@
 </aui:form>
 <c:if test="${not empty listScenario && simulation.isComplete() }">
 <c:set var="export" value="true" />
+<portlet:resourceURL id="oneScript" var="resourceUrl" />
+<aui:form action="${resourceUrl}" method="post" name="fmExport" style="display:none;">
+	<aui:input name="export" value="${simulation.simulation_id }" type="hidden" />
+</aui:form>
 </c:if>
 <%--Search container (table) --%>
 <liferay-ui:search-container emptyResultsMessage="scenario-list-empty">
@@ -160,19 +164,6 @@
 <div id="newFormScenario" hidden="true">
 	<%@include file="/html/gatling/template/formNewScenario.jsp"%>
 </div>
-<c:if test="${export}">
-<%--Export Simulation --%>
-<div id="exportModalTemplate" hidden="true">
-	<portlet:resourceURL id="oneScript" var="resourceUrl" />
-	<aui:form action="${resourceUrl}" method="post" name="fmExport">
-		<h5><liferay-ui:message key="simulation-list-export" /></h5>
-		<aui:input name="export" value="${simulation.simulation_id }" type="hidden" />
-		<aui:select label="simulation-list-version-choice" name="gatlingVersion" >
-			<%@include file="/html/gatling/template/gatlingVersionOption.jsp" %>
-		</aui:select>
-	</aui:form>
-</div>
-</c:if>
 
 <script type="text/javascript">
 	AUI().use('aui-base','event','aui-modal', function(A) {
@@ -189,36 +180,8 @@
 		A.one("#newFormScenario").empty();
 		
 		A.one('#exportToggle').on('click', function() {
-			if(A.one("#exportModalTemplate") != null) {
-				var modalExport = new A.Modal({
-					bodyContent : A.one("#exportModalTemplate").html(),
-					centered : true,
-					headerContent : '<h3><liferay-ui:message key="simulation-list-export" /></h3>',
-					modal : true,
-					resizable : false,
-					zIndex : 100,
-				}).render();
-				modalExport.addToolbar(
-			    	      [
-			    	        {
-			    	          label: '<liferay-ui:message key="cancel" />',
-			    	          on: {
-			    	            click: function() {
-			    	            	modalExport.hide();
-			    	            }
-			    	          }
-			    	        },
-			    	        {
-			    	          label: '<liferay-ui:message key="export" />',
-			    	          cssClass : 'btn-info',
-			    	          on: {
-				    	            click: function() {
-				    	            	modalExport.hide();
-				    	            	A.one("#<portlet:namespace/>fmExport").submit();
-				    	            }
-				    	          }
-			    	        }
-			    	      ]);
+			if(A.one("#<portlet:namespace/>fmExport") != null) {
+				A.one("#<portlet:namespace/>fmExport").submit();
 			} else {
 				alert("<liferay-ui:message key="message-help-info-state-simulation-important" />");
 			}

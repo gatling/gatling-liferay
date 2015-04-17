@@ -158,25 +158,12 @@ public class SimulationController {
 	
 	@ResourceMapping(value="oneScript")
 	public void serveOneScript(final ResourceRequest request, final ResourceResponse response) throws IOException, ReadOnlyException, ValidatorException{
-
-		final int gatlingVersion = ParamUtil.getInteger(request, "gatlingVersion");
-		final PortletPreferences prefs = request.getPreferences();
-		prefs.setValue("gatlingVersion", Integer.toString(gatlingVersion));
-		prefs.store();
+		String template = "/templateGatling2.0.X.mustache";
 
 		//create and export only one file with scenario script for this simulation id
 		Simulation simulation = null;
 		final Date date = new Date();		
-		String template;
-		switch (gatlingVersion) {
-		case 1:
-			template = "/templateGatling1.5.mustache";
-			break;
-		case 2:
-		default:
-			template = "/templateGatling2.0.X.mustache";
-			break;
-		}
+	
 		final long simulationId = ParamUtil.getLong(request, "export");
 		response.setContentType("application/x-wais-source");
 		try {

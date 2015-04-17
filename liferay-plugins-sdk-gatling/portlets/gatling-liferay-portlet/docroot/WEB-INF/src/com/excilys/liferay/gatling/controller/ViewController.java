@@ -79,23 +79,10 @@ public class ViewController {
 	 */
 	@ResourceMapping(value="manyScripts")	
 	public void serveManyScript(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
-		final int gatlingVersion = ParamUtil.getInteger(request, "gatlingVersion");
-		final PortletPreferences prefs = request.getPreferences();
-		prefs.setValue("gatlingVersion", Integer.toString(gatlingVersion));
-		prefs.store();
-
+		String template = "/templateGatling2.0.X.mustache";
 		//create and export only one file with scenario script for this simulation id
 		Simulation simulation = null;
 		final Date date = new Date();		
-		String template;
-		switch (gatlingVersion) {
-		case 1:
-			template = "/templateGatling1.5.mustache";
-			break;
-		default:
-			template = "/templateGatling2.0.X.mustache";
-			break;
-		}
 		final long[] simulationsIds = ParamUtil.getLongValues(request, "export");
 		response.setContentType("application/zip");
 		response.addProperty("Content-Disposition", "attachment; filename = GatlingSimulations" + date.getTime() + ".zip");
