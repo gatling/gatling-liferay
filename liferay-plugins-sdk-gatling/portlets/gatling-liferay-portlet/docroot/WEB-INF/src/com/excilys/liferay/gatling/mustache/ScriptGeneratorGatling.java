@@ -192,7 +192,9 @@ public class ScriptGeneratorGatling {
 								if( ! mustachePortlet.getScripts().isEmpty()) {
 									mustachePortlet.setLastScript();
 								}
-								mustacheRequest.addListMustachePortlet(mustachePortlet);
+								if( ! mustachePortlet.getRecorderGet().isEmpty()) {
+									mustacheRequest.addListMustachePortlet(mustachePortlet);
+								}
 							}
 						}
 						final double lastWeightPortlet = (double) (int)( (100-currentSumWeightPortlet+weightPortlet)*100)/100;

@@ -14,7 +14,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 
 public class MustachePortlet {
-	
+
 	private static final Log LOG = LogFactoryUtil.getLog(MustachePortlet.class);
 
 	private String name, url, ppid;
@@ -170,64 +170,66 @@ public class MustachePortlet {
 		addScript(new MustacheScript(nameVariable, weight));
 		List<MustacheUrl> listNameUrlType = new ArrayList<MustacheUrl>();
 		List<UrlRecord> listUrlRecord = UrlRecordLocalServiceUtil.findByRecordId(record.getRecordId());
-		for (int i = 0; i < listUrlRecord.size(); i++) {
-			UrlRecord URLrecord = listUrlRecord.get(i);
-			String url = URLrecord.getUrl();
-			String namespace = record.getPortletId();
-			/*
-			 * Replace ppid if it is different from the portlet
-			 */
-			Pattern ppid = Pattern.compile("p_p_id=(.+?)&");
-			Matcher m = ppid.matcher(url);
-			if(m.find()) {
-				String ppidUrl = m.group(1).split("_")[0];
-				if(!record.getPortletId().equals(ppidUrl)) {
-					namespace = ppidUrl;
-				}
-			}
-			//if post -> last request was a form
-			if(listUrlRecord.get(i).getType().equalsIgnoreCase("post")) {
-
-
-				if(i > 0) {
-					listNameUrlType.get(i-1).setForm(true);
-					/*
-					 * If form contains version replace in url
-					 */
-					ppid = Pattern.compile("(.+?)_version=.+?&");
-					m = ppid.matcher(url);
-					if(m.find()) {
-						listNameUrlType.get(i-1).setVersion(true);
-						url = url.replaceFirst("_"+namespace+"_version=.+?&", "_"+namespace+"_version=\\${versionEdit1}.\\${versionEdit2}&");
-					}
-					
-					/* pauth */
-					ppid = Pattern.compile("&p_auth=.+?&");
-					m = ppid.matcher(url);
-					if(m.find()) {
-						listNameUrlType.get(i-1).setPauth(true);
-						url = url.replaceFirst("&p_auth=.+?&", "&p_auth=\\${pauth}&");
+		if(!listUrlRecord.isEmpty()) {
+			for (int i = 0; i < listUrlRecord.size(); i++) {
+				UrlRecord URLrecord = listUrlRecord.get(i);
+				String url = URLrecord.getUrl();
+				String namespace = record.getPortletId();
+				/*
+				 * Replace ppid if it is different from the portlet
+				 */
+				Pattern ppid = Pattern.compile("p_p_id=(.+?)&");
+				Matcher m = ppid.matcher(url);
+				if(m.find()) {
+					String ppidUrl = m.group(1).split("_")[0];
+					if(!record.getPortletId().equals(ppidUrl)) {
+						namespace = ppidUrl;
 					}
 				}
-				//Remove redirect call
-				if(i < listUrlRecord.size()-1 && listUrlRecord.get(i+1).getType().equalsIgnoreCase("get")) {
-					i++;
-				}
-				//journal edit case
-				if(namespace.equals("15")) {
-					isJournal = true;
-				}
-				
-				/* replace with runtime formDate */
-				url = url.replaceFirst("&_"+namespace+"_formDate=.+?&", "&_"+namespace+"_formDate=\\${formDatePortlet}&");
-				url = url.replaceFirst("&p_p_auth=.+?&", "&p_p_auth=\\${portletAuth}&");
-				
-				url = HtmlUtil.replaceNewLine(url);
+				//if post -> last request was a form
+				if(listUrlRecord.get(i).getType().equalsIgnoreCase("post")) {
 
+
+					if(i > 0) {
+						listNameUrlType.get(i-1).setForm(true);
+						/*
+						 * If form contains version replace in url
+						 */
+						ppid = Pattern.compile("(.+?)_version=.+?&");
+						m = ppid.matcher(url);
+						if(m.find()) {
+							listNameUrlType.get(i-1).setVersion(true);
+							url = url.replaceFirst("_"+namespace+"_version=.+?&", "_"+namespace+"_version=\\${versionEdit1}.\\${versionEdit2}&");
+						}
+
+						/* pauth */
+						ppid = Pattern.compile("&p_auth=.+?&");
+						m = ppid.matcher(url);
+						if(m.find()) {
+							listNameUrlType.get(i-1).setPauth(true);
+							url = url.replaceFirst("&p_auth=.+?&", "&p_auth=\\${pauth}&");
+						}
+					}
+					//Remove redirect call
+					if(i < listUrlRecord.size()-1 && listUrlRecord.get(i+1).getType().equalsIgnoreCase("get")) {
+						i++;
+					}
+					//journal edit case
+					if(namespace.equals("15")) {
+						isJournal = true;
+					}
+
+					/* replace with runtime formDate */
+					url = url.replaceFirst("&_"+namespace+"_formDate=.+?&", "&_"+namespace+"_formDate=\\${formDatePortlet}&");
+					url = url.replaceFirst("&p_p_auth=.+?&", "&p_p_auth=\\${portletAuth}&");
+
+					url = HtmlUtil.replaceNewLine(url);
+
+				}
+				listNameUrlType.add(new MustacheUrl(nameVariable+i, beginningUrl+url, URLrecord.getType().toLowerCase(), namespace, 0L));
 			}
-			listNameUrlType.add(new MustacheUrl(nameVariable+i, beginningUrl+url, URLrecord.getType().toLowerCase(), namespace, 0L));
-		}
 		this.recorderGet.add(new RecorderGet(nameVariable, listNameUrlType));
+		}
 	}
 
 	public String getPpid() {

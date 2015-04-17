@@ -114,13 +114,13 @@ public class ScenarioController {
 		final Scenario scenario = ScenarioLocalServiceUtil.editScenarioFromRequest(request);
 		if (scenario != null) {
 			// redirect to editScenario
-			response.setRenderParameter("scenarioId", Long.toString(scenario.getScenario_id()));
-			response.setRenderParameter("render", "renderScenario");
-		} else {
-			response.setRenderParameter("simulationId", ParamUtil.getString(request, "simulationId"));
+			SessionMessages.add(request, "your-request-completed-successfully");
+			response.setRenderParameter("simulationId", Long.toString(scenario.getSimulation_id()));
 			response.setRenderParameter("render", "renderSimulation");
+		} else {
+			response.setRenderParameter("render", "renderView");
 		}
-		SessionMessages.add(request, "your-request-completed-successfully");
+		
 	}
 
 	@ActionMapping(params="action=deleteScenario")
