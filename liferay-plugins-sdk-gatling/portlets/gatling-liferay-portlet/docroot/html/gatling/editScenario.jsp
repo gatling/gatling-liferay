@@ -18,17 +18,11 @@
 <%--
 	FAQ link
 --%> 
-<portlet:renderURL var="helpURL" windowState="pop_up">
-	<portlet:param name="render" value="help" />
-</portlet:renderURL>
 <div class="well well-small">
 	<a target="blank" href='<%=PortletProps.get("gatling-wiki") %>' class="label label-warning">
 		<i class="icon-share"></i> 
 		<liferay-ui:message key="help-gatling-wiki" />
 	</a> 
-	<a href="#help" class="label" id="help"> <i class="icon-question-sign"></i>
-		<liferay-ui:message key="help-use-scenario" />
-	</a>
 	<a href="#" class="label label-success" onclick="tourEditScn.start();">
 		<i class="icon-list-alt"></i> 
 		<liferay-ui:message key="take-a-tour" />
@@ -66,19 +60,6 @@
 
 <%--Upgrade scenario confirmation dialog box --%>
 <script type="text/javascript">
-	AUI().use('aui-base', function(A) {
-		A.one("#help").on('click', function(event) {
-			Liferay.Util.openWindow({
-			     dialog : {
-			          	modal : true,
-			           	constrain : true,
-			            cache : true
-			        },
-			        uri : '${helpURL}#use-scenario',
-			        title : '<liferay-ui:message key="help-how-to-use-load-test-portlet"/>'
-			  });
-		});
-	});
 
 	function confirmSubmit() {
 		AUI().use('aui-base',

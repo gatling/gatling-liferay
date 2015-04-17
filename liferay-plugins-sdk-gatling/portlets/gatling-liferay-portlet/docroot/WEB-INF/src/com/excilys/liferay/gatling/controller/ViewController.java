@@ -53,19 +53,6 @@ public class ViewController {
 	private static final Log LOG = LogFactoryUtil.getLog(ViewController.class);
 
 	/**
-	 * Display the help content in a popup.
-	 * 
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @return
-	 */
-	@RenderMapping(params="render=help")
-	public String helpRenderRequest(final RenderRequest request, final RenderResponse response, final Model model){
-		return "help";
-	}
-
-	/**
 	 * Allow the user to download the different scripts Gatling he selected on the left column.
 	 * 
 	 * @param request

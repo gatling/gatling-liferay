@@ -19,17 +19,10 @@
 <%--
 	FAQ link
 --%> 
-<portlet:renderURL var="helpURL" windowState="pop_up" >
-	<portlet:param name="render" value="help"/>
-</portlet:renderURL>
 <div class="well well-small">
 	<a target="blank" href='<%=PortletProps.get("gatling-wiki") %>' class="label label-warning">
 		<i class="icon-share"></i>
 		<liferay-ui:message key="help-gatling-wiki" />
-	</a> 
-	<a href="#" class="label" id="help" >
-		<i class="icon-question-sign"></i> 
-		<liferay-ui:message key="help-how-to-use-portlet" />
 	</a> 
 	<a href="#" class="label label-success" onclick="tourFirstSimu.start();">
 		<i class="icon-list-alt"></i> 
@@ -182,20 +175,7 @@
 				alert("<liferay-ui:message key='no-selected-simulation' />");
 			}
 		});
-		
-		A.one("#help").on('click', function(A) {
-			Liferay.Util.openWindow({
-		     dialog : {
-		          	modal : true,
-			           	constrain : true,
-			            cache : true
-			        },
-			        uri : '${helpURL}',
-			        title : '<liferay-ui:message key="help-how-to-use-load-test-portlet"/>'
-			  });
-		});
-
-		
+	
 		/*
 		 * Multi select
 		 */
