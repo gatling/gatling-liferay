@@ -31,11 +31,13 @@ class {{simuName}} extends Simulation {
 {{/feederFile}}
 {{#mustacheScenario}}
 	/**
- 	 * List of the differents requests for {{scenarioName}} that are stressing their inner portlets
+ 	 * List of the different requests for {{scenarioName}} that are stressing their inner portlets
  	 */   
-{{#mustacheRequests}}{{^regular}}
+{{#mustacheRequests}}
+{{^regular}}
   	object {{scenarioName}}{{requestName}} {
-{{#mustachePortlet}}{{#recorderGet}}
+{{#mustachePortlet}}
+{{#recorderGet}}
 		val {{name}} = 
 {{#listGet}}
 			{{^-first}}.{{/-first}}exec( http("{{nameN}}").{{typeRequest}}("""{{{url}}}""")
@@ -53,7 +55,8 @@ class {{simuName}} extends Simulation {
 {{^-last}}
 			.pause(2)
 {{/-last}}
-{{/listGet}}{{/recorderGet}}
+{{/listGet}}
+{{/recorderGet}}
 {{#messageBoardSimple}}
 		val {{nameN}} = 
 			exec(http("{{nameN}}")
@@ -99,7 +102,7 @@ class {{simuName}} extends Simulation {
     		val {{name}} = 
     			exec(http("Auth_{{name}}").get("{{{url}}}")
 {{#isJournal}}
-				.check(regex("""id="p_p_id_{{ppid}}.+?class="portlet-body".+?p_p_auth=(.+?)&""").saveAs("portletAuth"))
+				.check(regex("""id="p_p_id_{{ppid}}.+?class="portlet-body".+?p_p_auth&#x3d;(.+?)&""").saveAs("portletAuth"))
 {{/isJournal}}
 			).randomSwitch(
 {{#scripts}}
@@ -117,7 +120,9 @@ class {{simuName}} extends Simulation {
 {{/mustachePortlet}}
 			)
 	}
-{{/regular}}{{/mustacheRequests}}{{/mustacheScenario}}
+{{/regular}}
+{{/mustacheRequests}}
+{{/mustacheScenario}}
   
 /**
  * List of the differents scenarios

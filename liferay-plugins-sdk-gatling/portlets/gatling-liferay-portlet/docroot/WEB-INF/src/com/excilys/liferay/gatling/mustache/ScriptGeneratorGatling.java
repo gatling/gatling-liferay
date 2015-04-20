@@ -167,8 +167,6 @@ public class ScriptGeneratorGatling {
 						for (Request portlet : listPortlets) {
 							if (LinkUsecaseRequestLocalServiceUtil.countByRequestIdAndUsed(portlet.getRequest_id()) > 0){
 								mustacheRequest.setRegular(false);
-								weightPortlet = (double) ((int)((int) portlet.getWeight()*10000/totalWeightPortlet))/100;
-								currentSumWeightPortlet += weightPortlet;
 								MustachePortlet mustachePortlet = new MustachePortlet(portlet.getName().replace(" ", "")+portlet.getRequest_id(), site + portlet.getUrl(),portlet.getPortetId(), weightPortlet, false);
 								List<LinkUsecaseRequest> listUseCaseRequest = LinkUsecaseRequestLocalServiceUtil.findByRequestIdAndUsed(portlet.getRequest_id());
 								//loop for the scripts
@@ -194,6 +192,8 @@ public class ScriptGeneratorGatling {
 								}
 								if( ! mustachePortlet.getRecorderGet().isEmpty()) {
 									mustacheRequest.addListMustachePortlet(mustachePortlet);
+									weightPortlet = (double) ((int)((int) portlet.getWeight()*10000/totalWeightPortlet))/100;
+									currentSumWeightPortlet += weightPortlet;
 								}
 							}
 						}
