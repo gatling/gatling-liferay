@@ -1,0 +1,163 @@
+import io.gatling.core.Predef._
+import io.gatling.http.Predef._
+import scala.concurrent.duration._
+
+/**
+ * Gatling 2.0.X Script generated for Liferay by the plugin
+ * "Load Test with Gatling"
+ */
+ 
+{{#initiate}} {{/initiate}}
+
+class {{simuName}} extends Simulation {
+
+	val httpProtocol = http
+		.acceptHeader("""text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8""")
+		.acceptEncodingHeader("""gzip, deflate""")
+		.acceptLanguageHeader("""fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3""")
+		.connection("""keep-alive""")
+		.disableWarmUp
+
+ 	/**
+   	 * User feeder, list of user for this simulation
+   	 */
+{{#feederFile}} 
+  	val feeder = csv("{{feederContent}}").random
+{{/feederFile}}
+{{^feederFile}}
+  	var feeder = Array(
+		{{#feedMap}}Map("login" -> "{{login}}", "password" -> "{{password}}"){{^-last}},{{/-last}}
+		{{/feedMap}}).random
+{{/feederFile}}
+{{#mustacheScenario}}
+	/**
+ 	 * List of the different requests for {{scenarioName}} that are stressing their inner portlets
+ 	 */   
+{{#mustacheRequests}}
+{{^regular}}
+  	object {{scenarioName}}{{requestName}} {
+{{#mustachePortlet}}
+{{#recorderGet}}
+		val {{name}} = 
+{{#listGet}}
+			{{^-first}}.{{/-first}}exec( http("{{nameN}}").{{typeRequest}}("""{{{url}}}""")
+{{#form}}
+				.check(regex("""<input name="{{namespace}}formDate" type="hidden" value="(.+?)" />""").saveAs("formDatePortlet"))
+{{#pauth}}
+				.check(regex("""<form.+?action=".+?p_auth=(.+?)&""").saveAs("pauth"))
+{{/pauth}}
+{{/form}}
+{{#version}}
+				.check(regex("""id="{{namespace}}version".+?value="(.+?)&#x2e;.+?"""").saveAs("versionEdit1"))
+				.check(regex("""id="{{namespace}}version".+?value=".+?&#x2e;(.+?)"""").saveAs("versionEdit2"))
+{{/version}}
+			)
+{{^-last}}
+			.pause(2)
+{{/-last}}
+{{/listGet}}
+{{/recorderGet}}
+{{#messageBoardSimple}}
+		val {{nameN}} = 
+			exec(http("{{nameN}}")
+				.get("{{url}}")
+				.check(regex("""cell first"> <a href="([^"]+)">""").find(0).saveAs("messageBoardSimpleurl")))
+			.pause(1)
+			.exec(http("Select")
+				.get("${messageBoardSimpleurl}")
+				.check(status.is(200)))
+			.pause(1)
+{{/messageBoardSimple}}
+{{#messageBoardPost}}
+		val {{nameN}} = 
+			exec(http("{{nameN}}")
+				.post("{{{url}}}?p_p_id=19&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_19_mbCategoryId=0&_19_redirect={{url}}%2F-%2Fmessage_boards%2Fmessage-boards-home&_19_struts_action=%2Fmessage_boards%2Fedit_message")
+				.formParamSeq(Seq(("_19_name" , "name"), ( "_19_description" , "description"))))
+{{/messageBoardPost}}
+{{#assetPublisherSimple}}
+		val {{nameN}} = 
+			exec(http("{{nameN}}")
+				.get("{{url}}")
+				.check(regex("""class="asset-title"> <a href="([^"]+)">""").find(0).saveAs("assetPublisherSimpleurl")))
+			.pause(1)
+			.exec(http("Select")
+				.get("${assetPublisherSimpleurl}")
+				.check(status.is(200)))
+			.pause(1)
+{{/assetPublisherSimple}}
+{{#wikiDisplaySimple}}  
+		val {{name}} = 
+			exec(http("{{name}}")
+					.get("{{url}}"))
+				.pause(1)
+				.exec(http("Recent Changes")
+					.get("http://localhost:8080/web/ste3/wiki2?p_p_id={{plid}}&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id={{column}}&p_p_col_count=1&_{{plid}}_nodeName=Main&_{{plid}}_struts_action=%2Fwiki_display%2Fview_recent_changes")
+					.check(status.is(200)))
+				.exec(http("View All Pages")
+					.get("http://localhost:8080/web/ste3/wiki2?p_p_id={{plid}}&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id={{column}}&p_p_col_count=1&_{{plid}}_nodeName=Main&_{{plid}}_struts_action=%2Fwiki_display%2Fview_all_pages")
+					.check(status.is(200)))
+				.pause(1)
+{{/wikiDisplaySimple}}
+   		/* script for {{name}} */
+    		val {{name}} = 
+    			exec(http("Auth_{{name}}").get("{{{url}}}")
+{{#isJournal}}
+				.check(regex("""id="p_p_id_{{ppid}}.+?class="portlet-body".+?p_p_auth&#x3d;(.+?)&""").saveAs("portletAuth"))
+{{/isJournal}}
+			).randomSwitch(
+{{#scripts}}
+				{{pourcentage}} -> exec({{nameVariable}}){{^-last}},{{/-last}}
+{{/scripts}}
+			)
+
+{{/mustachePortlet}}
+		val Entrance = 
+			exec( http("{{requestName}}").get("{{{url}}}") ) 
+			.pause(1)
+{{#mustachePortlet.size}}
+			.randomSwitch(  /*list of the portlets with their weight*/
+{{#mustachePortlet}}
+				{{pourcentage}} -> exec({{name}}){{^-last}},{{/-last}}         
+{{/mustachePortlet}}
+			)
+{{/mustachePortlet.size}}
+	}
+{{/regular}}
+{{/mustacheRequests}}
+{{/mustacheScenario}}
+  
+/**
+ * List of the differents scenarios
+ */  
+{{#mustacheScenario}}
+	val {{scenarioName}} = scenario("{{scenarioName}}")
+	    .exec(http("Home")
+			.get("{{{siteURL}}}")
+			.check(regex("""<input name="_58_formDate" type="hidden" value="(.+?)" />""").saveAs("formDate")))
+		.pause(1)
+	  	.feed(feeder)
+	    .exec(http("Login")
+			.post("""{{{loginPageURL}}}?p_p_id=58&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_58_struts_action=%2Flogin%2Flogin""")
+			.formParam("""_58_formDate""", """${formDate}""")
+			.formParam("""_58_saveLastPath""", """false""")
+			.formParam("""_58_redirect""", """""")
+			.formParam("""_58_doActionAfterLogin""", """false""")
+			.formParam("""_58_login""", """${login}""")
+			.formParam("""_58_password""", """${password}""")
+			.formParam("""_58_rememberMe""", """false""")
+			.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8"))
+	    .randomSwitch(
+{{#mustacheRequests}}
+    		{{pourcentage}} -> exec({{^notRegular}}http("{{scenarioName}}{{requestName}}").get("{{{url}}}").check(regex("{{requestName}}")){{/notRegular}}{{^regular}}{{scenarioName}}{{requestName}}.Entrance{{/regular}}){{^last}},{{/last}}
+{{/mustacheRequests}} 
+  		)
+{{/mustacheScenario}}
+  
+    
+ 	 setUp(
+{{#mustacheScenario}}
+   		{{scenarioName}}.inject( rampUsers({{users}}) over( {{duration}} seconds)){{^-last}},{{/-last}}
+{{/mustacheScenario}}
+  	).protocols(httpProtocol)
+  
+}

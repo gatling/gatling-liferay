@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd">
+	<persistence-unit-metadata>
+		<xml-mapping-metadata-complete/>
+		<persistence-unit-defaults>
+			<access>PROPERTY</access>
+		</persistence-unit-defaults>
+	</persistence-unit-metadata>
+	<mapped-superclass class="com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestModelImpl">
+		<attributes>
+			<id name="linkUsecaseRequestId" />
+			<basic name="request_id" />
+			<basic name="recordId" />
+			<basic name="weight" />
+			<basic name="sample" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.excilys.liferay.gatling.model.impl.RecordModelImpl">
+		<attributes>
+			<id name="recordId" />
+			<basic name="portletId" />
+			<basic name="versionPortlet" />
+			<basic name="name" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.excilys.liferay.gatling.model.impl.RequestModelImpl">
+		<attributes>
+			<id name="request_id" />
+			<basic name="scenario_id" />
+			<basic name="name" />
+			<basic name="url" />
+			<basic name="weight" />
+			<basic name="privatePage" />
+			<basic name="parentPlId" />
+			<basic name="layoutId" />
+			<basic name="plId" />
+			<basic name="portlet" />
+			<basic name="portetId" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.excilys.liferay.gatling.model.impl.ScenarioModelImpl">
+		<attributes>
+			<id name="scenario_id" />
+			<basic name="name" />
+			<basic name="url_site" />
+			<basic name="group_id" />
+			<basic name="simulation_id" />
+			<basic name="numberOfUsers" />
+			<basic name="duration" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.excilys.liferay.gatling.model.impl.SimulationModelImpl">
+		<attributes>
+			<id name="simulation_id" />
+			<basic name="name" />
+			<basic name="feederContent" />
+			<basic name="isFeederAFile" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.excilys.liferay.gatling.model.impl.UrlRecordModelImpl">
+		<attributes>
+			<id name="urlRecordId" />
+			<basic name="recordId" />
+			<basic name="url" />
+			<basic name="type">
+				<column name="TYPE_" />
+			</basic>
+			<basic name="order">
+				<column name="ORDER_" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<entity class="com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestImpl" name="LinkUsecaseRequest">
+		<table name="StressTool_LinkUsecaseRequest" />
+		<attributes />
+	</entity>
+	<entity class="com.excilys.liferay.gatling.model.impl.RecordImpl" name="Record">
+		<table name="StressTool_Record" />
+		<attributes />
+	</entity>
+	<entity class="com.excilys.liferay.gatling.model.impl.RequestImpl" name="Request">
+		<table name="StressTool_Request" />
+		<attributes />
+	</entity>
+	<entity class="com.excilys.liferay.gatling.model.impl.ScenarioImpl" name="Scenario">
+		<table name="StressTool_Scenario" />
+		<attributes />
+	</entity>
+	<entity class="com.excilys.liferay.gatling.model.impl.SimulationImpl" name="Simulation">
+		<table name="StressTool_Simulation" />
+		<attributes />
+	</entity>
+	<entity class="com.excilys.liferay.gatling.model.impl.UrlRecordImpl" name="UrlRecord">
+		<table name="StressTool_UrlRecord" />
+		<attributes />
+	</entity>
+</entity-mappings>

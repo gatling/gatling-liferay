@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="com.excilys.liferay.gatling.model.LinkUsecaseRequest" />
+	<import class="com.excilys.liferay.gatling.model.Record" />
+	<import class="com.excilys.liferay.gatling.model.Request" />
+	<import class="com.excilys.liferay.gatling.model.Scenario" />
+	<import class="com.excilys.liferay.gatling.model.Simulation" />
+	<import class="com.excilys.liferay.gatling.model.UrlRecord" />
+	<class name="com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestImpl" table="StressTool_LinkUsecaseRequest">
+		<cache usage="read-write" />
+		<id name="linkUsecaseRequestId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="request_id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="recordId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="weight" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="sample" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.excilys.liferay.gatling.model.impl.RecordImpl" table="StressTool_Record">
+		<cache usage="read-write" />
+		<id name="recordId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="portletId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="versionPortlet" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.excilys.liferay.gatling.model.impl.RequestImpl" table="StressTool_Request">
+		<cache usage="read-write" />
+		<id name="request_id" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="scenario_id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="weight" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="privatePage" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="parentPlId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="layoutId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="plId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="portlet" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="portetId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.excilys.liferay.gatling.model.impl.ScenarioImpl" table="StressTool_Scenario">
+		<cache usage="read-write" />
+		<id name="scenario_id" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="url_site" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="group_id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="simulation_id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="numberOfUsers" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="duration" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="com.excilys.liferay.gatling.model.impl.SimulationImpl" table="StressTool_Simulation">
+		<cache usage="read-write" />
+		<id name="simulation_id" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="feederContent" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="isFeederAFile" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.excilys.liferay.gatling.model.impl.UrlRecordImpl" table="StressTool_UrlRecord">
+		<cache usage="read-write" />
+		<id name="urlRecordId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="recordId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" column="type_" />
+		<property name="order" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="order_" />
+	</class>
+</hibernate-mapping>
