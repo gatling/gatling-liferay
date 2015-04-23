@@ -56,26 +56,24 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 		<dependency>
 			<groupId>com.samskivert</groupId>
 			<artifactId>jmustache</artifactId>
-			<version>1.10</version>
+			<version>${jmustache.version}</version>
 		</dependency>
 		<!-- JSTL -->
 		<dependency>
 		  <groupId>jstl</groupId>
 		  <artifactId>jstl</artifactId>
-		  <version>1.2</version>
-		  <scope>compile</scope>
+		  <version>${jstl.version}</version>
 		</dependency>
 		<dependency>
 		  <groupId>taglibs</groupId>
 		  <artifactId>standard</artifactId>
-		  <version>1.1.2</version>
-		  <scope>compile</scope>
+		  <version>${taglib.version}</version>
 		</dependency>
 		<!-- Servlet API -->
 		<dependency>
 		    <groupId>javax.servlet</groupId>
 		    <artifactId>javax.servlet-api</artifactId>
-		    <version>3.0.1</version>
+		    <version>${servlet-api.version}</version>
 		    <scope>provided</scope>
 		</dependency>
 		<!-- Spring Framework Dependencies -->
@@ -112,19 +110,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 		<dependency>
 			<groupId>javax.portlet</groupId>
 			<artifactId>portlet-api</artifactId>
-			<version>2.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.4</version>
+			<version>${portlet-api.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
-			<version>2.0</version>
+			<version>${jsp.version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
@@ -139,6 +131,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 			<liferay.app.server.lib.global.dir>/home/bben/Documents/Excilys/liferay-portal-6.2-ce-ga3/tomcat-7.0.42/lib/ext</liferay.app.server.lib.global.dir>
 			<liferay.app.server.portal.dir>/home/bben/Documents/Excilys/liferay-portal-6.2-ce-ga3/tomcat-7.0.42/webapps/ROOT</liferay.app.server.portal.dir>
 			<springframework.version>3.0.7.RELEASE</springframework.version>
+			<jmustache.version>1.10</jmustache.version>
+			<taglib.version>1.1.2</taglib.version>
+			<jstl.version>1.2</jstl.version>
+			<jsp.version>2.0</jsp.version>
+			<servlet-api.version>3.0.1</servlet-api.version>
+			<portlet-api.version>2.0</portlet-api.version>
 		</properties>
 		</profile>
 	</profiles>
