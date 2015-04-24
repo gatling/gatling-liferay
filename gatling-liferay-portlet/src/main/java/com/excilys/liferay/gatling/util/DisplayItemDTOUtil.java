@@ -70,7 +70,7 @@ public class DisplayItemDTOUtil {
 			}
 			displayItemList.size();
 			
-			//Recusive call
+			//Recursive call
 			try {
 				// Get its children
 				if(!layout.getChildren().isEmpty())
@@ -84,7 +84,7 @@ public class DisplayItemDTOUtil {
 	/**
 	 * Add {@link Request} list to a {@link RequestDTO} list
 	 * <br>
-	 * This will add requests in the proper order (by hierachy)
+	 * This will add requests in the proper order (by hierarchy)
 	 * @param displayLayoutList
 	 * @param listRequests
 	 * @return the new list sorted and indent

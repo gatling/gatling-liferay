@@ -25,7 +25,7 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import com.excilys.liferay.gatling.exception.EmptySimulation;
+import com.excilys.liferay.gatling.EmptySimulation;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
@@ -143,7 +143,7 @@ public class SimulationController {
 		SimulationLocalServiceUtil.updateSimulation(simulation);
 		response.setRenderParameter("simulationId", Long.toString(simulationId));
 		response.setRenderParameter("render", "renderSimulation");
-		SessionMessages.add(request, "your-request-completed-successfully");
+		SessionMessages.add(request, "your-feeder-has-been-saved");
 	}
 
 	@ActionMapping(params="action=deleteSimulation")

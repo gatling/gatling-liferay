@@ -1,7 +1,7 @@
 /**
  * Copyright 2014 eBusiness Information, Groupe Excilys (www.ebusinessinformation.fr)
  */
-package com.excilys.liferay.gatling.exception;
+package com.excilys.liferay.gatling;
 
 public class EmptySimulation extends Exception {
 

@@ -144,7 +144,9 @@ public class RecorderFilter implements Filter {
 										value.append(buffer, 0, length);
 									}
 									String input = value.toString();
-									LOG.debug("\t"+name+" : "+input);
+									if(LOG.isDebugEnabled()) {
+										LOG.debug("\t"+name+" : "+input);
+									}
 									sb.append("&").append(name).append("=").append(input);
 								}
 							}
@@ -183,7 +185,7 @@ public class RecorderFilter implements Filter {
 							String url = recordURLs.get(i).getUrl()+recordURLs.get(i).getParams();
 							String type = recordURLs.get(i).getMethod();
 							UrlRecordLocalServiceUtil.save(url, type, i, record.getRecordId());
-							LOG.info("...");
+							LOG.debug("...");
 						}
 						LOG.debug("...2/2");
 					} catch (SystemException e) {
