@@ -10,7 +10,6 @@ import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-import javax.portlet.PortletPreferences;
 import javax.portlet.ReadOnlyException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -32,6 +31,7 @@ import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
+import com.excilys.liferay.gatling.util.ControllerUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -77,7 +77,7 @@ public class SimulationController {
 			final Number[] info = new Number[3];
 			info[0] = RequestLocalServiceUtil.countByScenarioIdAndUsedAndIsNotPortlet(scenario.getScenario_id());
 			info[1] = RequestLocalServiceUtil.countByScenarioIdAndIsNotPortlet(scenario.getScenario_id());
-			info[2] = scenarioState(scenario);
+			info[2] = ControllerUtil.scenarioState(scenario);
 			scenariosMap.put(scenario, info);
 		}
 		final String JSListName = GatlingUtil.createJSListOfScenarioName(scenarioList);
@@ -101,7 +101,7 @@ public class SimulationController {
 
 
 		final Simulation simulation = SimulationLocalServiceUtil.addSimulationFromRequest(request);
-		LOG.info(simulation);
+		LOG.debug(simulation);
 		if (simulation != null) {
 			response.setRenderParameter("simulationId", Long.toString(simulation.getSimulation_id()));
 			response.setRenderParameter("render", "renderSimulation");
@@ -116,7 +116,9 @@ public class SimulationController {
 	public void editSimulationAction(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{
 
 		final long simulationId = ParamUtil.getLong(request, "simulationId");
-		LOG.debug("edit Simulation with id : " + simulationId);
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("edit Simulation with id : " + simulationId);
+		}
 		final Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
 		simulation.setName(ParamUtil.getString(request, "simulationName"));
 		SimulationLocalServiceUtil.updateSimulation(simulation);
@@ -128,7 +130,9 @@ public class SimulationController {
 	@ActionMapping(params="action=editFeeder")
 	public void editFeederAction(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{
 		final long simulationId = ParamUtil.getLong(request, "simulationId");
-		LOG.debug("Edit Feeder of simulationId "+simulationId);
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("Edit Feeder of simulationId "+simulationId);
+		}
 		final Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
 		// isAFile
 		final String radioOption = ParamUtil.getString(request, "option");
@@ -181,27 +185,6 @@ public class SimulationController {
 		}
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 
-
-	}
-
-
-	/**
-	 * get the scenario state, if completed or not yet.
-	 * @param scenario
-	 * @return
-	 */
-	private int scenarioState(final Scenario scenario) throws SystemException {
-		final int count = RequestLocalServiceUtil.countByScenarioIdAndUsedAndIsNotPortlet(scenario.getScenario_id());
-		if (count != 0 && scenario.isComplete()) {
-			// completed scenario = case if all minimal information are
-			// completed
-			return 2;
-		} else if (count != 0 && !scenario.isComplete()) {
-			// incomplete scenario = case if one or more information detail of
-			// scenario are not completed but there is request selected
-			return 1;
-		}
-		// case if not request selected to that scenario = empty scenario
-		return 0;
 	}
 }
+

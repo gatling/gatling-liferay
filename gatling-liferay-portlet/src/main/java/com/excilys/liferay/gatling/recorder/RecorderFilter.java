@@ -72,6 +72,11 @@ public class RecorderFilter implements Filter {
 	}
 
 
+	/**
+	 * Remove forbidden parameters from URL. We return a cleaner URL for Gatling Scripts
+	 * @param parameters
+	 * @return
+	 */
 	private Map<String,String[]> filterParameters(Map<String,String[]> parameters) {
 		Map<String,String[]> params = new HashMap<String, String[]>(parameters);
 		for (String key : FORBIDDEN_PARAMS) {
@@ -120,6 +125,9 @@ public class RecorderFilter implements Filter {
 					// get the parameters
 					String params = HttpUtil.parameterMapToString(filterParameters(request.getParameterMap()));
 					String requestURL = httpRequest.getRequestURI().replace(URL_CONTROL_PANEL, "");
+					/*
+					 * Handling mutlipart forms (ie form with upload input)
+					 */
 					if(httpRequest.getMethod().equalsIgnoreCase("post")) {
 						/*
 						 * Get the content of multipart/form-data 

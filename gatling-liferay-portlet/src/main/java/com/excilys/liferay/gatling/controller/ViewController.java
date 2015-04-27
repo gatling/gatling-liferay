@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.portlet.PortletPreferences;
 import javax.portlet.ReadOnlyException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -24,12 +23,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
-import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
+import com.excilys.liferay.gatling.util.ControllerUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -86,7 +84,7 @@ public class ViewController {
 		}
 		zipOutputStream.close();
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
-
+		LOG.debug("Zip generated ...");
 	}
 
 	/**
@@ -109,7 +107,7 @@ public class ViewController {
 		for (final Simulation simulation : simulationList) {
 			final Integer[] simulationInfos = new Integer[3];
 			simulationInfos[0] = ScenarioLocalServiceUtil.countBySimulationId(simulation.getSimulation_id());
-			simulationInfos[1] = simulationState(simulation);
+			simulationInfos[1] = ControllerUtil.simulationState(simulation);
 			simulationInfos[2] = SimulationLocalServiceUtil.containsPrivatePage(simulation.getSimulation_id()) ? 1 : 0;
 			simulationMap.put(simulation, simulationInfos);
 		}
@@ -124,7 +122,7 @@ public class ViewController {
 		renderRequest.setAttribute("MapSimulations", simulationMap);
 		return "view";
 	}
-
+	
 	/**
 	 * Takes all the renders without param.
 	 * 
@@ -137,57 +135,4 @@ public class ViewController {
 	public String handleRenderRequest(final RenderRequest request,final RenderResponse response,final Model model) throws SystemException {
 		return renderRequest(request, response, model);
 	}	
-
-	/**
-	 * Get the simulation state in order to display the correct icon.
-	 * @param simulation
-	 * @return 0(means empty), 1(incomplete) or 2 (complete)
-	 */
-	private int simulationState(final Simulation simulation) {
-		try {
-			final List<Scenario> scenariosList = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
-			int checkNumberCompleted = 0;
-			for (final Scenario scenario : scenariosList) {
-				if (scenarioState(scenario) == 2) {
-					checkNumberCompleted++;
-				}
-			}
-			if (checkNumberCompleted == 0 || scenariosList.size() == 0) {
-				//if no one scenario is completed = simulation empty
-				return 0;
-			} else if (checkNumberCompleted == scenariosList.size() && simulation.isComplete()) {
-				//if all scenario completed = simulation completed
-				return 2;
-			} else {
-				//other case = simulation uncompleted
-				return 1;
-			}
-		} catch (final SystemException e) {
-			if (LOG.isErrorEnabled()) {
-				LOG.error("enable to determine Simulation state " + e.getMessage());
-			}
-			return 0;
-		}
-	}
-
-	/**
-	 * Get the scenario state in order to display the correct icon.
-	 * @param scenario
-	 * @return 0 (means empty), 1(incomplete) or 2(complete) 
-	 */
-	private int scenarioState(final Scenario scenario) throws SystemException {
-		final int count = RequestLocalServiceUtil.countByScenarioIdAndUsedAndIsNotPortlet(scenario.getScenario_id());
-		if (count != 0 && scenario.isComplete()) {
-			// completed scenario = case if all minimal information are
-			// completed
-			return 2;
-		} else if (count != 0 && !scenario.isComplete()) {
-			// incomplete scenario = case if one or more information detail of
-			// scenario are not completed but there is request selected
-			return 1;
-		}
-		// case if not request selected to that scenario = empty scenario
-		return 0;
-	}
-
 }
