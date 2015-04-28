@@ -195,7 +195,6 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	 * @return {@link Scenario} if added, else null
 	 * @throws SystemException
 	 */
-	//TODO Refacto de manière propre et maintenable
 	public Scenario editScenarioFromRequest(ActionRequest request) throws PortalException, SystemException  {
 		final Long idScenario = ParamUtil.getLong(request, "scenarioId");
 
