@@ -1,3 +1,6 @@
+/**
+ * Copyright 2015 eBusiness Information, Groupe Excilys (www.ebusinessinformation.fr)
+ */
 package com.excilys.liferay.gatling.validator;
 
 import com.excilys.liferay.gatling.model.Record;
