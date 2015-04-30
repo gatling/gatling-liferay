@@ -1,5 +1,5 @@
 <%-- 
-	Copyright 2015 eBusiness Information, Groupe Excilys (www.ebusinessinformation.fr)
+	Copyright 2015 Altendis, Groupe Excilys (www.altendis.fr)
 --%>
 <%@include file="/html/gatling/header.jsp"%>
 <%--

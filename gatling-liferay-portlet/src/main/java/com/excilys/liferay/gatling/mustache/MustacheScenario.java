@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 eBusiness Information, Groupe Excilys (www.ebusinessinformation.fr)
+ * Copyright 2015 Altendis, Groupe Excilys (www.altendis.fr)
  */
 package com.excilys.liferay.gatling.mustache;
 
