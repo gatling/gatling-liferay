@@ -39,7 +39,9 @@
 	<model name="com.excilys.liferay.gatling.model.Simulation">
 		<field name="simulation_id" type="long" />
 		<field name="name" type="String" />
-		<field name="feederContent" type="String" />
+		<field name="feederContent" type="String">
+			<hint name="max-length">4000</hint>
+		</field>
 		<field name="isFeederAFile" type="boolean" />
 	</model>
 	<model name="com.excilys.liferay.gatling.model.UrlRecord">

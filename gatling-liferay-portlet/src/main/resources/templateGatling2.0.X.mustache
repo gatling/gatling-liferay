@@ -132,7 +132,7 @@ class {{simuName}} extends Simulation {
 {{#mustacheScenario}}
 	val {{scenarioName}} = scenario("{{scenarioName}}")
 	    .exec(http("Home")
-			.get("{{{siteURL}}}")
+			.get("{{{loginPageURL}}}")
 			.check(regex("""<input name="_58_formDate" type="hidden" value="(.+?)" />""").saveAs("formDate")))
 		.pause(1)
 	  	.feed(feeder)

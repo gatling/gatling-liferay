@@ -40,7 +40,7 @@ create table StressTool_Scenario (
 create table StressTool_Simulation (
 	simulation_id LONG not null primary key,
 	name VARCHAR(75) null,
-	feederContent VARCHAR(75) null,
+	feederContent STRING null,
 	isFeederAFile BOOLEAN
 );
 
