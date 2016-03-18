@@ -67,11 +67,14 @@ dd {
 	margin-bottom: 10px;
 }
 
+#portletRecordDiv {
+	min-height: 600px;
+}
+
 #portletRecordFrame {
 	min-height: 600px;
 	padding: 10px;
 	padding-right: 0px;
-	position: fixed;
 }
 
 .popup-focus {

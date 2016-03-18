@@ -86,8 +86,10 @@
 		portletName="${portletGatlingDTO.portletId }" windowState="pop_up"
 		doAsGroupId="${ portletGatlingDTO.groupId }"
 		plid="${ portletGatlingDTO.plId }" />
-	<iframe id="portletRecordFrame" src="${portletURL }" width="95%"
-		class="popup-focus"></iframe>
+	<div id="portletRecordDiv">
+		<iframe id="portletRecordFrame" src="${portletURL }" width="95%"
+			class="popup-focus"></iframe>
+	</div>
 
 	<c:if test="${portletGatlingDTO.nextRecordState eq 'STOP' }">
 		<div
