@@ -134,15 +134,13 @@ public class RequestLocalServiceImpl extends RequestLocalServiceBaseImpl {
 			final long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
 			final Request newRequest = requestPersistence.create(primaryKey);
 			newRequest.setPlId(displayItem.getDisplayId());
-			newRequest.setName(displayItem.getName());
-			newRequest.setUrl(displayItem.getUrl());
 			newRequest.setWeight(weight);
 			newRequest.setScenario_id(idScenario);
 			newRequest.setPrivatePage(displayItem.isPrivateItem());
 			newRequest.setLayoutId(displayItem.getLayoutId());
 			newRequest.setParentPlId(displayItem.getParentDisplayId());
 			newRequest.setPortlet(displayItem.isPortlet());
-			newRequest.setPortetId(displayItem.getPortletId());
+			newRequest.setPortletId(displayItem.getPortletId());
 			// Saving ...
 			final List<String> errors = RequestValidator.validateRequest(newRequest);
 			if(errors.isEmpty()) {

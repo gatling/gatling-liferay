@@ -3,12 +3,6 @@
  */
 package com.excilys.liferay.gatling.mustache;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-
 import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
@@ -22,10 +16,19 @@ import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.model.Layout;
+import com.liferay.portal.model.Portlet;
 import com.liferay.portal.model.PortletPreferences;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
+import com.liferay.portal.service.PortletLocalServiceUtil;
 import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 /**
  * This class handles the generation of the script.
@@ -149,8 +152,12 @@ public class ScriptGeneratorGatling {
 						site = site.replace("/web/", "/group/");
 						hasPrivatePage =true;
 					}
-					int numberOfPortlets = RequestLocalServiceUtil.countByParentPlidAndScenario(rq.getPlId(), sc.getScenario_id());	
-					MustacheRequest mustacheRequest = new MustacheRequest(rq.getName(), site + rq.getUrl(), weight);
+					int numberOfPortlets = RequestLocalServiceUtil.countByParentPlidAndScenario(rq.getPlId(), sc.getScenario_id());
+					
+					Layout layout = LayoutLocalServiceUtil.getLayout(rq.getPlId());
+					String layoutName = layout.getName(LocaleUtil.getDefault());
+					
+					MustacheRequest mustacheRequest = new MustacheRequest(layoutName, site + layout.getFriendlyURL(), weight);
 					if( numberOfPortlets != 0) {
 						final List<Request> listPortlets = RequestLocalServiceUtil.findByParentPlidAndScenarioAndPositif(rq.getPlId(), sc.getScenario_id());
 						double totalWeightPortlet = getTotalWeight(listPortlets);
@@ -164,25 +171,28 @@ public class ScriptGeneratorGatling {
 						double weightPortlet = 0;
 
 						//loop for the Portlets
-						for (Request portlet : listPortlets) {
-							if (LinkUsecaseRequestLocalServiceUtil.countByRequestIdAndUsed(portlet.getRequest_id()) > 0){
+						for (Request portletRequest : listPortlets) {
+							if (LinkUsecaseRequestLocalServiceUtil.countByRequestIdAndUsed(portletRequest.getRequest_id()) > 0){
+								
+								Portlet portlet = PortletLocalServiceUtil.getPortletById(portletRequest.getPortletId());
+								
 								mustacheRequest.setRegular(false);
-								MustachePortlet mustachePortlet = new MustachePortlet(portlet.getName().replace(" ", "")+portlet.getRequest_id(), site + portlet.getUrl(),portlet.getPortetId(), weightPortlet, false);
-								List<LinkUsecaseRequest> listUseCaseRequest = LinkUsecaseRequestLocalServiceUtil.findByRequestIdAndUsed(portlet.getRequest_id());
+								MustachePortlet mustachePortlet = new MustachePortlet(portlet.getDisplayName().replace(" ", "")+portletRequest.getRequest_id(), site + layout.getFriendlyURL(),portletRequest.getPortletId(), weightPortlet, false);
+								List<LinkUsecaseRequest> listUseCaseRequest = LinkUsecaseRequestLocalServiceUtil.findByRequestIdAndUsed(portletRequest.getRequest_id());
 								//loop for the scripts
 								for (LinkUsecaseRequest linkUsecaseRequest : listUseCaseRequest) {
 									if (!linkUsecaseRequest.isSample()){
-										mustachePortlet.addRecorder(RecordLocalServiceUtil.getRecord(linkUsecaseRequest.getRecordId()), linkUsecaseRequest.getWeight(), sc.getUrl_site()+rq.getUrl());
+										mustachePortlet.addRecorder(RecordLocalServiceUtil.getRecord(linkUsecaseRequest.getRecordId()), linkUsecaseRequest.getWeight(), sc.getUrl_site()+layout.getFriendlyURL());
 									} else if(linkUsecaseRequest.isSample()) {
-										if("Wiki Display".equals(portlet.getName())) {
-											mustachePortlet.setWikiDisplaySimple(portlet.getName().replace(" ", "")+"Simple"+portlet.getRequest_id(), sc.getUrl_site()+rq.getUrl(), portlet.getPlId(), linkUsecaseRequest.getWeight());
-										} else if("Asset Publisher".equals(portlet.getName())) {
-											mustachePortlet.setAssetPublisherSimple(portlet.getName().replace(" ", "")+"Simple"+portlet.getRequest_id(), sc.getUrl_site()+rq.getUrl(), linkUsecaseRequest.getWeight());
-										} else if("Message Boards".equals(portlet.getName())) {
+										if("Wiki Display".equals(portlet.getDisplayName())) {
+											mustachePortlet.setWikiDisplaySimple(portlet.getDisplayName().replace(" ", "")+"Simple"+portletRequest.getRequest_id(), sc.getUrl_site()+layout.getFriendlyURL(), portletRequest.getPlId(), linkUsecaseRequest.getWeight());
+										} else if("Asset Publisher".equals(portlet.getDisplayName())) {
+											mustachePortlet.setAssetPublisherSimple(portlet.getDisplayName().replace(" ", "")+"Simple"+portletRequest.getRequest_id(), sc.getUrl_site()+layout.getFriendlyURL(), linkUsecaseRequest.getWeight());
+										} else if("Message Boards".equals(portlet.getDisplayName())) {
 											if(linkUsecaseRequest.getRecordId() == 1) {
-												mustachePortlet.setMessageBoardSimple(portlet.getName().replace(" ", "")+"Simple"+portlet.getRequest_id(), sc.getUrl_site()+rq.getUrl(), linkUsecaseRequest.getWeight());
+												mustachePortlet.setMessageBoardSimple(portlet.getDisplayName().replace(" ", "")+"Simple"+portletRequest.getRequest_id(), sc.getUrl_site()+layout.getFriendlyURL(), linkUsecaseRequest.getWeight());
 											} else if(linkUsecaseRequest.getRecordId() == 2) {
-												mustachePortlet.setMessageBoardPost(portlet.getName().replace(" ", "")+"Post"+portlet.getRequest_id(), sc.getUrl_site()+rq.getUrl(), linkUsecaseRequest.getWeight());
+												mustachePortlet.setMessageBoardPost(portlet.getDisplayName().replace(" ", "")+"Post"+portletRequest.getRequest_id(), sc.getUrl_site()+layout.getFriendlyURL(), linkUsecaseRequest.getWeight());
 											}
 										} 
 									}
@@ -192,7 +202,7 @@ public class ScriptGeneratorGatling {
 								}
 								if( ! mustachePortlet.getRecorderGet().isEmpty()) {
 									mustacheRequest.addListMustachePortlet(mustachePortlet);
-									weightPortlet = (double) ((int)((int) portlet.getWeight()*10000/totalWeightPortlet))/100;
+									weightPortlet = (double) ((int)((int) portletRequest.getWeight()*10000/totalWeightPortlet))/100;
 									currentSumWeightPortlet += weightPortlet;
 								}
 							}

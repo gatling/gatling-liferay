@@ -38,7 +38,7 @@
 			<li>
 				<a id="newSimulation" href="#"> <i class="icon-plus"></i> <liferay-ui:message key="simulation-list-btn-add-simulation" /></a>
 			</li>
-			<c:if test="${not empty listSimulations }">
+			<c:if test="${not empty listSimulations}">
 			<li>
 				<a id="exportToggle" href="#"><i class="icon-print"></i> <liferay-ui:message key="simulation-list-export" /></a>
 			</li>
@@ -59,7 +59,7 @@
 	--%>
 	<liferay-ui:search-container emptyResultsMessage="simulation-list-empty" >
 		<%--List of data to display --%>
-		<liferay-ui:search-container-results	results="${listSimulations }"	total="${listSimulations.size() }"/>
+		<liferay-ui:search-container-results	results="${listSimulations}"	total="${listSimulations.size() }"/>
 		<%--for each  column --%>
 		<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Simulation" keyProperty="simulation_id" modelVar="simulation">
 			<%-- checkbox --%>

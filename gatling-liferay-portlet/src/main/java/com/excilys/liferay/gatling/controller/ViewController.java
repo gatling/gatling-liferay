@@ -3,6 +3,22 @@
  */
 package com.excilys.liferay.gatling.controller;
 
+import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.model.impl.SimulationImpl;
+import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
+import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
+import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
+import com.excilys.liferay.gatling.util.ControllerUtil;
+import com.excilys.liferay.gatling.util.GatlingUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.HttpHeaders;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.util.PortalUtil;
+import com.samskivert.mustache.Mustache;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,21 +41,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
-
-import com.excilys.liferay.gatling.model.Simulation;
-import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
-import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
-import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
-import com.excilys.liferay.gatling.util.ControllerUtil;
-import com.excilys.liferay.gatling.util.GatlingUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.servlet.HttpHeaders;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.util.PortalUtil;
-import com.samskivert.mustache.Mustache;
 
 /**
  * This controller handle the default jsp 
@@ -106,7 +107,7 @@ public class ViewController {
 	public String renderRequest(final RenderRequest renderRequest,final RenderResponse renderResponse,final Model model) throws SystemException {
 		List<Simulation> simulationList = new ArrayList<Simulation>();
 		final Map<Simulation, Integer[]> simulationMap = new HashMap<Simulation, Integer[]>();
-		simulationList = SimulationLocalServiceUtil.getSimulations(0, SimulationLocalServiceUtil.getSimulationsCount());
+		simulationList.addAll(SimulationLocalServiceUtil.getSimulations(0, SimulationLocalServiceUtil.getSimulationsCount()));
 		for (final Simulation simulation : simulationList) {
 			final Integer[] simulationInfos = new Integer[3];
 			simulationInfos[0] = ScenarioLocalServiceUtil.countBySimulationId(simulation.getSimulation_id());
@@ -118,11 +119,12 @@ public class ViewController {
 		final javax.portlet.PortletPreferences prefs = renderRequest.getPreferences();
 		String gatlingVersionString;
 		gatlingVersionString = prefs.getValue("gatlingVersion", null);
-
+		
 		renderRequest.setAttribute("gatlingVersion", gatlingVersionString);
 		renderRequest.setAttribute("listOfSimulationName", JSListName);
 		renderRequest.setAttribute("listSimulations", simulationList);
 		renderRequest.setAttribute("MapSimulations", simulationMap);
+		
 		return "view";
 	}
 	

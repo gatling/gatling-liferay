@@ -21,28 +21,22 @@ import java.io.ObjectOutput;
 public class RequestCacheModel implements CacheModel<Request>, Externalizable {
     public long request_id;
     public long scenario_id;
-    public String name;
-    public String url;
     public double weight;
     public boolean privatePage;
     public long parentPlId;
     public long layoutId;
     public long plId;
     public boolean portlet;
-    public String portetId;
+    public String portletId;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(23);
+        StringBundler sb = new StringBundler(19);
 
         sb.append("{request_id=");
         sb.append(request_id);
         sb.append(", scenario_id=");
         sb.append(scenario_id);
-        sb.append(", name=");
-        sb.append(name);
-        sb.append(", url=");
-        sb.append(url);
         sb.append(", weight=");
         sb.append(weight);
         sb.append(", privatePage=");
@@ -55,8 +49,8 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
         sb.append(plId);
         sb.append(", portlet=");
         sb.append(portlet);
-        sb.append(", portetId=");
-        sb.append(portetId);
+        sb.append(", portletId=");
+        sb.append(portletId);
         sb.append("}");
 
         return sb.toString();
@@ -68,19 +62,6 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
 
         requestImpl.setRequest_id(request_id);
         requestImpl.setScenario_id(scenario_id);
-
-        if (name == null) {
-            requestImpl.setName(StringPool.BLANK);
-        } else {
-            requestImpl.setName(name);
-        }
-
-        if (url == null) {
-            requestImpl.setUrl(StringPool.BLANK);
-        } else {
-            requestImpl.setUrl(url);
-        }
-
         requestImpl.setWeight(weight);
         requestImpl.setPrivatePage(privatePage);
         requestImpl.setParentPlId(parentPlId);
@@ -88,10 +69,10 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
         requestImpl.setPlId(plId);
         requestImpl.setPortlet(portlet);
 
-        if (portetId == null) {
-            requestImpl.setPortetId(StringPool.BLANK);
+        if (portletId == null) {
+            requestImpl.setPortletId(StringPool.BLANK);
         } else {
-            requestImpl.setPortetId(portetId);
+            requestImpl.setPortletId(portletId);
         }
 
         requestImpl.resetOriginalValues();
@@ -103,15 +84,13 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
     public void readExternal(ObjectInput objectInput) throws IOException {
         request_id = objectInput.readLong();
         scenario_id = objectInput.readLong();
-        name = objectInput.readUTF();
-        url = objectInput.readUTF();
         weight = objectInput.readDouble();
         privatePage = objectInput.readBoolean();
         parentPlId = objectInput.readLong();
         layoutId = objectInput.readLong();
         plId = objectInput.readLong();
         portlet = objectInput.readBoolean();
-        portetId = objectInput.readUTF();
+        portletId = objectInput.readUTF();
     }
 
     @Override
@@ -119,19 +98,6 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
         throws IOException {
         objectOutput.writeLong(request_id);
         objectOutput.writeLong(scenario_id);
-
-        if (name == null) {
-            objectOutput.writeUTF(StringPool.BLANK);
-        } else {
-            objectOutput.writeUTF(name);
-        }
-
-        if (url == null) {
-            objectOutput.writeUTF(StringPool.BLANK);
-        } else {
-            objectOutput.writeUTF(url);
-        }
-
         objectOutput.writeDouble(weight);
         objectOutput.writeBoolean(privatePage);
         objectOutput.writeLong(parentPlId);
@@ -139,10 +105,10 @@ public class RequestCacheModel implements CacheModel<Request>, Externalizable {
         objectOutput.writeLong(plId);
         objectOutput.writeBoolean(portlet);
 
-        if (portetId == null) {
+        if (portletId == null) {
             objectOutput.writeUTF(StringPool.BLANK);
         } else {
-            objectOutput.writeUTF(portetId);
+            objectOutput.writeUTF(portletId);
         }
     }
 }

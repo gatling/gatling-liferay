@@ -3986,15 +3986,13 @@ public class RequestPersistenceImpl extends BasePersistenceImpl<Request>
 
         requestImpl.setRequest_id(request.getRequest_id());
         requestImpl.setScenario_id(request.getScenario_id());
-        requestImpl.setName(request.getName());
-        requestImpl.setUrl(request.getUrl());
         requestImpl.setWeight(request.getWeight());
         requestImpl.setPrivatePage(request.isPrivatePage());
         requestImpl.setParentPlId(request.getParentPlId());
         requestImpl.setLayoutId(request.getLayoutId());
         requestImpl.setPlId(request.getPlId());
         requestImpl.setPortlet(request.isPortlet());
-        requestImpl.setPortetId(request.getPortetId());
+        requestImpl.setPortletId(request.getPortletId());
 
         return requestImpl;
     }

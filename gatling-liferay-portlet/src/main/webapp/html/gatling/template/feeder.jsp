@@ -15,7 +15,10 @@
 			<aui:button type="submit" value="save-my-feeder"
 				cssClass="pull-right" />
 			<div class="text-center">
-				<aui:field-wrapper name="option" label="you-can-add-a-list-of-users">
+				<aui:field-wrapper name="option" label="">
+					<div>
+						<liferay-ui:message key="you-can-add-a-list-of-users" />
+					</div>
 					<div id="uploadFeeder" class="inline-feeder">
 						<aui:input name="option" type="radio" value="content2"
 							label="use-my-file" checked="${simulation.isFeederAFile }" />

@@ -89,13 +89,13 @@
 	<div id="portletRecordDiv">
 		<iframe id="portletRecordFrame" src="${portletURL }" width="95%"
 			class="popup-focus"></iframe>
+		<c:if test="${portletGatlingDTO.nextRecordState eq 'STOP' }">
+			<div
+				style="position: fixed; width: 100%; height: 100%; top: 0px; left: 0px; z-index: 1201;"
+				class="yui3-widget-mask"></div>
+		</c:if>
 	</div>
 
-	<c:if test="${portletGatlingDTO.nextRecordState eq 'STOP' }">
-		<div
-			style="position: fixed; width: 100%; height: 100%; top: 0px; left: 0px; z-index: 1201;"
-			class="yui3-widget-mask"></div>
-	</c:if>
 
 </c:if>
 

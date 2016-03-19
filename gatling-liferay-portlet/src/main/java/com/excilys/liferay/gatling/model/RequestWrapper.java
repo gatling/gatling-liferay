@@ -38,15 +38,13 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
 
         attributes.put("request_id", getRequest_id());
         attributes.put("scenario_id", getScenario_id());
-        attributes.put("name", getName());
-        attributes.put("url", getUrl());
         attributes.put("weight", getWeight());
         attributes.put("privatePage", getPrivatePage());
         attributes.put("parentPlId", getParentPlId());
         attributes.put("layoutId", getLayoutId());
         attributes.put("plId", getPlId());
         attributes.put("portlet", getPortlet());
-        attributes.put("portetId", getPortetId());
+        attributes.put("portletId", getPortletId());
 
         return attributes;
     }
@@ -63,18 +61,6 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
 
         if (scenario_id != null) {
             setScenario_id(scenario_id);
-        }
-
-        String name = (String) attributes.get("name");
-
-        if (name != null) {
-            setName(name);
-        }
-
-        String url = (String) attributes.get("url");
-
-        if (url != null) {
-            setUrl(url);
         }
 
         Double weight = (Double) attributes.get("weight");
@@ -113,10 +99,10 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
             setPortlet(portlet);
         }
 
-        String portetId = (String) attributes.get("portetId");
+        String portletId = (String) attributes.get("portletId");
 
-        if (portetId != null) {
-            setPortetId(portetId);
+        if (portletId != null) {
+            setPortletId(portletId);
         }
     }
 
@@ -178,46 +164,6 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
     @Override
     public void setScenario_id(long scenario_id) {
         _request.setScenario_id(scenario_id);
-    }
-
-    /**
-    * Returns the name of this request.
-    *
-    * @return the name of this request
-    */
-    @Override
-    public java.lang.String getName() {
-        return _request.getName();
-    }
-
-    /**
-    * Sets the name of this request.
-    *
-    * @param name the name of this request
-    */
-    @Override
-    public void setName(java.lang.String name) {
-        _request.setName(name);
-    }
-
-    /**
-    * Returns the url of this request.
-    *
-    * @return the url of this request
-    */
-    @Override
-    public java.lang.String getUrl() {
-        return _request.getUrl();
-    }
-
-    /**
-    * Sets the url of this request.
-    *
-    * @param url the url of this request
-    */
-    @Override
-    public void setUrl(java.lang.String url) {
-        _request.setUrl(url);
     }
 
     /**
@@ -361,23 +307,23 @@ public class RequestWrapper implements Request, ModelWrapper<Request> {
     }
 
     /**
-    * Returns the portet ID of this request.
+    * Returns the portlet ID of this request.
     *
-    * @return the portet ID of this request
+    * @return the portlet ID of this request
     */
     @Override
-    public java.lang.String getPortetId() {
-        return _request.getPortetId();
+    public java.lang.String getPortletId() {
+        return _request.getPortletId();
     }
 
     /**
-    * Sets the portet ID of this request.
+    * Sets the portlet ID of this request.
     *
-    * @param portetId the portet ID of this request
+    * @param portletId the portlet ID of this request
     */
     @Override
-    public void setPortetId(java.lang.String portetId) {
-        _request.setPortetId(portetId);
+    public void setPortletId(java.lang.String portletId) {
+        _request.setPortletId(portletId);
     }
 
     @Override

@@ -46,17 +46,15 @@ public class RequestModelImpl extends BaseModelImpl<Request>
     public static final Object[][] TABLE_COLUMNS = {
             { "request_id", Types.BIGINT },
             { "scenario_id", Types.BIGINT },
-            { "name", Types.VARCHAR },
-            { "url", Types.VARCHAR },
             { "weight", Types.DOUBLE },
             { "privatePage", Types.BOOLEAN },
             { "parentPlId", Types.BIGINT },
             { "layoutId", Types.BIGINT },
             { "plId", Types.BIGINT },
             { "portlet", Types.BOOLEAN },
-            { "portetId", Types.VARCHAR }
+            { "portletId", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table StressTool_Request (request_id LONG not null primary key,scenario_id LONG,name VARCHAR(75) null,url VARCHAR(75) null,weight DOUBLE,privatePage BOOLEAN,parentPlId LONG,layoutId LONG,plId LONG,portlet BOOLEAN,portetId VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table StressTool_Request (request_id LONG not null primary key,scenario_id LONG,weight DOUBLE,privatePage BOOLEAN,parentPlId LONG,layoutId LONG,plId LONG,portlet BOOLEAN,portletId VARCHAR(75) null)";
     public static final String TABLE_SQL_DROP = "drop table StressTool_Request";
     public static final String ORDER_BY_JPQL = " ORDER BY request.request_id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY StressTool_Request.request_id ASC";
@@ -87,8 +85,6 @@ public class RequestModelImpl extends BaseModelImpl<Request>
     private long _scenario_id;
     private long _originalScenario_id;
     private boolean _setOriginalScenario_id;
-    private String _name;
-    private String _url;
     private double _weight;
     private double _originalWeight;
     private boolean _setOriginalWeight;
@@ -101,7 +97,7 @@ public class RequestModelImpl extends BaseModelImpl<Request>
     private boolean _portlet;
     private boolean _originalPortlet;
     private boolean _setOriginalPortlet;
-    private String _portetId;
+    private String _portletId;
     private long _columnBitmask;
     private Request _escapedModel;
 
@@ -144,15 +140,13 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
         attributes.put("request_id", getRequest_id());
         attributes.put("scenario_id", getScenario_id());
-        attributes.put("name", getName());
-        attributes.put("url", getUrl());
         attributes.put("weight", getWeight());
         attributes.put("privatePage", getPrivatePage());
         attributes.put("parentPlId", getParentPlId());
         attributes.put("layoutId", getLayoutId());
         attributes.put("plId", getPlId());
         attributes.put("portlet", getPortlet());
-        attributes.put("portetId", getPortetId());
+        attributes.put("portletId", getPortletId());
 
         return attributes;
     }
@@ -169,18 +163,6 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
         if (scenario_id != null) {
             setScenario_id(scenario_id);
-        }
-
-        String name = (String) attributes.get("name");
-
-        if (name != null) {
-            setName(name);
-        }
-
-        String url = (String) attributes.get("url");
-
-        if (url != null) {
-            setUrl(url);
         }
 
         Double weight = (Double) attributes.get("weight");
@@ -219,10 +201,10 @@ public class RequestModelImpl extends BaseModelImpl<Request>
             setPortlet(portlet);
         }
 
-        String portetId = (String) attributes.get("portetId");
+        String portletId = (String) attributes.get("portletId");
 
-        if (portetId != null) {
-            setPortetId(portetId);
+        if (portletId != null) {
+            setPortletId(portletId);
         }
     }
 
@@ -256,34 +238,6 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
     public long getOriginalScenario_id() {
         return _originalScenario_id;
-    }
-
-    @Override
-    public String getName() {
-        if (_name == null) {
-            return StringPool.BLANK;
-        } else {
-            return _name;
-        }
-    }
-
-    @Override
-    public void setName(String name) {
-        _name = name;
-    }
-
-    @Override
-    public String getUrl() {
-        if (_url == null) {
-            return StringPool.BLANK;
-        } else {
-            return _url;
-        }
-    }
-
-    @Override
-    public void setUrl(String url) {
-        _url = url;
     }
 
     @Override
@@ -393,17 +347,17 @@ public class RequestModelImpl extends BaseModelImpl<Request>
     }
 
     @Override
-    public String getPortetId() {
-        if (_portetId == null) {
+    public String getPortletId() {
+        if (_portletId == null) {
             return StringPool.BLANK;
         } else {
-            return _portetId;
+            return _portletId;
         }
     }
 
     @Override
-    public void setPortetId(String portetId) {
-        _portetId = portetId;
+    public void setPortletId(String portletId) {
+        _portletId = portletId;
     }
 
     public long getColumnBitmask() {
@@ -439,15 +393,13 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
         requestImpl.setRequest_id(getRequest_id());
         requestImpl.setScenario_id(getScenario_id());
-        requestImpl.setName(getName());
-        requestImpl.setUrl(getUrl());
         requestImpl.setWeight(getWeight());
         requestImpl.setPrivatePage(getPrivatePage());
         requestImpl.setParentPlId(getParentPlId());
         requestImpl.setLayoutId(getLayoutId());
         requestImpl.setPlId(getPlId());
         requestImpl.setPortlet(getPortlet());
-        requestImpl.setPortetId(getPortetId());
+        requestImpl.setPortletId(getPortletId());
 
         requestImpl.resetOriginalValues();
 
@@ -524,22 +476,6 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
         requestCacheModel.scenario_id = getScenario_id();
 
-        requestCacheModel.name = getName();
-
-        String name = requestCacheModel.name;
-
-        if ((name != null) && (name.length() == 0)) {
-            requestCacheModel.name = null;
-        }
-
-        requestCacheModel.url = getUrl();
-
-        String url = requestCacheModel.url;
-
-        if ((url != null) && (url.length() == 0)) {
-            requestCacheModel.url = null;
-        }
-
         requestCacheModel.weight = getWeight();
 
         requestCacheModel.privatePage = getPrivatePage();
@@ -552,12 +488,12 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
         requestCacheModel.portlet = getPortlet();
 
-        requestCacheModel.portetId = getPortetId();
+        requestCacheModel.portletId = getPortletId();
 
-        String portetId = requestCacheModel.portetId;
+        String portletId = requestCacheModel.portletId;
 
-        if ((portetId != null) && (portetId.length() == 0)) {
-            requestCacheModel.portetId = null;
+        if ((portletId != null) && (portletId.length() == 0)) {
+            requestCacheModel.portletId = null;
         }
 
         return requestCacheModel;
@@ -565,16 +501,12 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(23);
+        StringBundler sb = new StringBundler(19);
 
         sb.append("{request_id=");
         sb.append(getRequest_id());
         sb.append(", scenario_id=");
         sb.append(getScenario_id());
-        sb.append(", name=");
-        sb.append(getName());
-        sb.append(", url=");
-        sb.append(getUrl());
         sb.append(", weight=");
         sb.append(getWeight());
         sb.append(", privatePage=");
@@ -587,8 +519,8 @@ public class RequestModelImpl extends BaseModelImpl<Request>
         sb.append(getPlId());
         sb.append(", portlet=");
         sb.append(getPortlet());
-        sb.append(", portetId=");
-        sb.append(getPortetId());
+        sb.append(", portletId=");
+        sb.append(getPortletId());
         sb.append("}");
 
         return sb.toString();
@@ -596,7 +528,7 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(37);
+        StringBundler sb = new StringBundler(31);
 
         sb.append("<model><model-name>");
         sb.append("com.excilys.liferay.gatling.model.Request");
@@ -609,14 +541,6 @@ public class RequestModelImpl extends BaseModelImpl<Request>
         sb.append(
             "<column><column-name>scenario_id</column-name><column-value><![CDATA[");
         sb.append(getScenario_id());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>name</column-name><column-value><![CDATA[");
-        sb.append(getName());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>url</column-name><column-value><![CDATA[");
-        sb.append(getUrl());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>weight</column-name><column-value><![CDATA[");
@@ -643,8 +567,8 @@ public class RequestModelImpl extends BaseModelImpl<Request>
         sb.append(getPortlet());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>portetId</column-name><column-value><![CDATA[");
-        sb.append(getPortetId());
+            "<column><column-name>portletId</column-name><column-value><![CDATA[");
+        sb.append(getPortletId());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

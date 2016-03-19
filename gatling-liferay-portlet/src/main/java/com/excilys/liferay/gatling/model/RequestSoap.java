@@ -14,15 +14,13 @@ import java.util.List;
 public class RequestSoap implements Serializable {
     private long _request_id;
     private long _scenario_id;
-    private String _name;
-    private String _url;
     private double _weight;
     private boolean _privatePage;
     private long _parentPlId;
     private long _layoutId;
     private long _plId;
     private boolean _portlet;
-    private String _portetId;
+    private String _portletId;
 
     public RequestSoap() {
     }
@@ -32,15 +30,13 @@ public class RequestSoap implements Serializable {
 
         soapModel.setRequest_id(model.getRequest_id());
         soapModel.setScenario_id(model.getScenario_id());
-        soapModel.setName(model.getName());
-        soapModel.setUrl(model.getUrl());
         soapModel.setWeight(model.getWeight());
         soapModel.setPrivatePage(model.getPrivatePage());
         soapModel.setParentPlId(model.getParentPlId());
         soapModel.setLayoutId(model.getLayoutId());
         soapModel.setPlId(model.getPlId());
         soapModel.setPortlet(model.getPortlet());
-        soapModel.setPortetId(model.getPortetId());
+        soapModel.setPortletId(model.getPortletId());
 
         return soapModel;
     }
@@ -105,22 +101,6 @@ public class RequestSoap implements Serializable {
         _scenario_id = scenario_id;
     }
 
-    public String getName() {
-        return _name;
-    }
-
-    public void setName(String name) {
-        _name = name;
-    }
-
-    public String getUrl() {
-        return _url;
-    }
-
-    public void setUrl(String url) {
-        _url = url;
-    }
-
     public double getWeight() {
         return _weight;
     }
@@ -177,11 +157,11 @@ public class RequestSoap implements Serializable {
         _portlet = portlet;
     }
 
-    public String getPortetId() {
-        return _portetId;
+    public String getPortletId() {
+        return _portletId;
     }
 
-    public void setPortetId(String portetId) {
-        _portetId = portetId;
+    public void setPortletId(String portletId) {
+        _portletId = portletId;
     }
 }

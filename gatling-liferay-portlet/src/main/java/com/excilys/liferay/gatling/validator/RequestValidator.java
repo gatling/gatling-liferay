@@ -21,10 +21,6 @@ public class RequestValidator {
 	public static List<String> validateRequest(Request request) {
 		List<String> errors = new ArrayList<String>();
 		
-		if (Validator.isNull(request.getUrl())) {
-			errors.add("request-url-missing");
-		}
-		
 		if (Validator.isNull(request.getWeight())) {
 			errors.add("request-weight-required");
 		}

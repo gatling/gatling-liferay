@@ -16,15 +16,13 @@ create table StressTool_Record (
 create table StressTool_Request (
 	request_id LONG not null primary key,
 	scenario_id LONG,
-	name VARCHAR(75) null,
-	url VARCHAR(75) null,
 	weight DOUBLE,
 	privatePage BOOLEAN,
 	parentPlId LONG,
 	layoutId LONG,
 	plId LONG,
 	portlet BOOLEAN,
-	portetId VARCHAR(75) null
+	portletId VARCHAR(75) null
 );
 
 create table StressTool_Scenario (

@@ -70,7 +70,7 @@ public class RequestDTO {
 	}
 	
 	/**
-	 * create DisplayLayout from a liferay Layout
+	 * create DisplayLayout from portlet prefs
 	 * @param layout
 	 */
 	public RequestDTO(PortletPreferences portletPreferences) {
@@ -121,11 +121,27 @@ public class RequestDTO {
 		privateItem = request.isPrivatePage();
 		requestId = request.getRequest_id();
 		parentDisplayId = request.getParentPlId();
-		name = request.getName();
-		url = request.getUrl();
 		weight = request.getWeight();
 		portlet = request.isPortlet();
-		portletId = request.getPortetId();
+		portletId = request.getPortletId();
+
+		try {
+			Layout layout = null;
+			if (portlet) {
+				layout = LayoutLocalServiceUtil.getLayout(parentDisplayId);
+				name = PortletLocalServiceUtil.getPortletById(portletId).getDisplayName();
+			} else {
+				layout = LayoutLocalServiceUtil.getLayout(displayId);
+				name = layout.getName(LocaleUtil.getDefault());
+			}
+			url = layout.getFriendlyURL();
+			groupId = layout.getGroupId();
+		} catch (PortalException e) {
+			LOG.error(e.getMessage());
+		} catch (SystemException e) {
+			LOG.error(e.getMessage());
+		}
+		
 		try {
 			int size = LinkUsecaseRequestLocalServiceUtil.countByRequestId(requestId);
 			if(size > 0) {

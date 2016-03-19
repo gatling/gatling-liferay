@@ -34,15 +34,13 @@
 		<attributes>
 			<id name="request_id" />
 			<basic name="scenario_id" />
-			<basic name="name" />
-			<basic name="url" />
 			<basic name="weight" />
 			<basic name="privatePage" />
 			<basic name="parentPlId" />
 			<basic name="layoutId" />
 			<basic name="plId" />
 			<basic name="portlet" />
-			<basic name="portetId" />
+			<basic name="portletId" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />

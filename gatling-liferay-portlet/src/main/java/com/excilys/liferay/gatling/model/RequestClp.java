@@ -21,15 +21,13 @@ import java.util.Map;
 public class RequestClp extends BaseModelImpl<Request> implements Request {
     private long _request_id;
     private long _scenario_id;
-    private String _name;
-    private String _url;
     private double _weight;
     private boolean _privatePage;
     private long _parentPlId;
     private long _layoutId;
     private long _plId;
     private boolean _portlet;
-    private String _portetId;
+    private String _portletId;
     private BaseModel<?> _requestRemoteModel;
     private Class<?> _clpSerializerClass = com.excilys.liferay.gatling.service.ClpSerializer.class;
 
@@ -72,15 +70,13 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 
         attributes.put("request_id", getRequest_id());
         attributes.put("scenario_id", getScenario_id());
-        attributes.put("name", getName());
-        attributes.put("url", getUrl());
         attributes.put("weight", getWeight());
         attributes.put("privatePage", getPrivatePage());
         attributes.put("parentPlId", getParentPlId());
         attributes.put("layoutId", getLayoutId());
         attributes.put("plId", getPlId());
         attributes.put("portlet", getPortlet());
-        attributes.put("portetId", getPortetId());
+        attributes.put("portletId", getPortletId());
 
         return attributes;
     }
@@ -97,18 +93,6 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 
         if (scenario_id != null) {
             setScenario_id(scenario_id);
-        }
-
-        String name = (String) attributes.get("name");
-
-        if (name != null) {
-            setName(name);
-        }
-
-        String url = (String) attributes.get("url");
-
-        if (url != null) {
-            setUrl(url);
         }
 
         Double weight = (Double) attributes.get("weight");
@@ -147,10 +131,10 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
             setPortlet(portlet);
         }
 
-        String portetId = (String) attributes.get("portetId");
+        String portletId = (String) attributes.get("portletId");
 
-        if (portetId != null) {
-            setPortetId(portetId);
+        if (portletId != null) {
+            setPortletId(portletId);
         }
     }
 
@@ -192,50 +176,6 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
                 Method method = clazz.getMethod("setScenario_id", long.class);
 
                 method.invoke(_requestRemoteModel, scenario_id);
-            } catch (Exception e) {
-                throw new UnsupportedOperationException(e);
-            }
-        }
-    }
-
-    @Override
-    public String getName() {
-        return _name;
-    }
-
-    @Override
-    public void setName(String name) {
-        _name = name;
-
-        if (_requestRemoteModel != null) {
-            try {
-                Class<?> clazz = _requestRemoteModel.getClass();
-
-                Method method = clazz.getMethod("setName", String.class);
-
-                method.invoke(_requestRemoteModel, name);
-            } catch (Exception e) {
-                throw new UnsupportedOperationException(e);
-            }
-        }
-    }
-
-    @Override
-    public String getUrl() {
-        return _url;
-    }
-
-    @Override
-    public void setUrl(String url) {
-        _url = url;
-
-        if (_requestRemoteModel != null) {
-            try {
-                Class<?> clazz = _requestRemoteModel.getClass();
-
-                Method method = clazz.getMethod("setUrl", String.class);
-
-                method.invoke(_requestRemoteModel, url);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -385,21 +325,21 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
     }
 
     @Override
-    public String getPortetId() {
-        return _portetId;
+    public String getPortletId() {
+        return _portletId;
     }
 
     @Override
-    public void setPortetId(String portetId) {
-        _portetId = portetId;
+    public void setPortletId(String portletId) {
+        _portletId = portletId;
 
         if (_requestRemoteModel != null) {
             try {
                 Class<?> clazz = _requestRemoteModel.getClass();
 
-                Method method = clazz.getMethod("setPortetId", String.class);
+                Method method = clazz.getMethod("setPortletId", String.class);
 
-                method.invoke(_requestRemoteModel, portetId);
+                method.invoke(_requestRemoteModel, portletId);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -475,15 +415,13 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 
         clone.setRequest_id(getRequest_id());
         clone.setScenario_id(getScenario_id());
-        clone.setName(getName());
-        clone.setUrl(getUrl());
         clone.setWeight(getWeight());
         clone.setPrivatePage(getPrivatePage());
         clone.setParentPlId(getParentPlId());
         clone.setLayoutId(getLayoutId());
         clone.setPlId(getPlId());
         clone.setPortlet(getPortlet());
-        clone.setPortetId(getPortetId());
+        clone.setPortletId(getPortletId());
 
         return clone;
     }
@@ -533,16 +471,12 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(23);
+        StringBundler sb = new StringBundler(19);
 
         sb.append("{request_id=");
         sb.append(getRequest_id());
         sb.append(", scenario_id=");
         sb.append(getScenario_id());
-        sb.append(", name=");
-        sb.append(getName());
-        sb.append(", url=");
-        sb.append(getUrl());
         sb.append(", weight=");
         sb.append(getWeight());
         sb.append(", privatePage=");
@@ -555,8 +489,8 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
         sb.append(getPlId());
         sb.append(", portlet=");
         sb.append(getPortlet());
-        sb.append(", portetId=");
-        sb.append(getPortetId());
+        sb.append(", portletId=");
+        sb.append(getPortletId());
         sb.append("}");
 
         return sb.toString();
@@ -564,7 +498,7 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(37);
+        StringBundler sb = new StringBundler(31);
 
         sb.append("<model><model-name>");
         sb.append("com.excilys.liferay.gatling.model.Request");
@@ -577,14 +511,6 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
         sb.append(
             "<column><column-name>scenario_id</column-name><column-value><![CDATA[");
         sb.append(getScenario_id());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>name</column-name><column-value><![CDATA[");
-        sb.append(getName());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>url</column-name><column-value><![CDATA[");
-        sb.append(getUrl());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>weight</column-name><column-value><![CDATA[");
@@ -611,8 +537,8 @@ public class RequestClp extends BaseModelImpl<Request> implements Request {
         sb.append(getPortlet());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>portetId</column-name><column-value><![CDATA[");
-        sb.append(getPortetId());
+            "<column><column-name>portletId</column-name><column-value><![CDATA[");
+        sb.append(getPortletId());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

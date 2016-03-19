@@ -14,6 +14,7 @@
 
 package com.excilys.liferay.gatling.model.impl;
 
+
 /**
  * The extended model implementation for the Request service. Represents a row in the &quot;StressTool_Request&quot; database table, with each column mapped to a property of this class.
  *

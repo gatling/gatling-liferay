@@ -175,7 +175,7 @@ public class SimulationController {
 		response.setContentType("application/x-wais-source");
 		try {
 			simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
-			response.addProperty("Content-Disposition", "attachment; filename=Simulation"  + simulation.getName()  + date.getTime() + ".scala");
+			response.addProperty("Content-Disposition", "attachment; filename=Simulation"  + simulation.getName().replace(" ", "")  + date.getTime() + ".scala");
 			final OutputStream out = response.getPortletOutputStream();
 			final String currentPath = request.getPortletSession().getPortletContext().getRealPath("/WEB-INF/classes") + template;
 			final Template tmpl = Mustache.compiler().compile(new FileReader(currentPath));

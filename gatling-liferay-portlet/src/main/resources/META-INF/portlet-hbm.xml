@@ -33,15 +33,13 @@
 			<generator class="assigned" />
 		</id>
 		<property name="scenario_id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="weight" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="privatePage" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="parentPlId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="layoutId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="plId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="portlet" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
-		<property name="portetId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="portletId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="com.excilys.liferay.gatling.model.impl.ScenarioImpl" table="StressTool_Scenario">
 		<cache usage="read-write" />

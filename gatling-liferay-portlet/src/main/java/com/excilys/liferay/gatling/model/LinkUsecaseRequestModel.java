@@ -156,19 +156,20 @@ public interface LinkUsecaseRequestModel extends BaseModel<LinkUsecaseRequest> {
     public Object clone();
 
     @Override
-    public int compareTo(LinkUsecaseRequest linkUsecaseRequest);
+    public int compareTo(
+        com.excilys.liferay.gatling.model.LinkUsecaseRequest linkUsecaseRequest);
 
     @Override
     public int hashCode();
 
     @Override
-    public CacheModel<LinkUsecaseRequest> toCacheModel();
+    public CacheModel<com.excilys.liferay.gatling.model.LinkUsecaseRequest> toCacheModel();
 
     @Override
-    public LinkUsecaseRequest toEscapedModel();
+    public com.excilys.liferay.gatling.model.LinkUsecaseRequest toEscapedModel();
 
     @Override
-    public LinkUsecaseRequest toUnescapedModel();
+    public com.excilys.liferay.gatling.model.LinkUsecaseRequest toUnescapedModel();
 
     @Override
     public String toString();

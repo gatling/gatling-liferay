@@ -72,36 +72,6 @@ public interface RequestModel extends BaseModel<Request> {
     public void setScenario_id(long scenario_id);
 
     /**
-     * Returns the name of this request.
-     *
-     * @return the name of this request
-     */
-    @AutoEscape
-    public String getName();
-
-    /**
-     * Sets the name of this request.
-     *
-     * @param name the name of this request
-     */
-    public void setName(String name);
-
-    /**
-     * Returns the url of this request.
-     *
-     * @return the url of this request
-     */
-    @AutoEscape
-    public String getUrl();
-
-    /**
-     * Sets the url of this request.
-     *
-     * @param url the url of this request
-     */
-    public void setUrl(String url);
-
-    /**
      * Returns the weight of this request.
      *
      * @return the weight of this request
@@ -200,19 +170,19 @@ public interface RequestModel extends BaseModel<Request> {
     public void setPortlet(boolean portlet);
 
     /**
-     * Returns the portet ID of this request.
+     * Returns the portlet ID of this request.
      *
-     * @return the portet ID of this request
+     * @return the portlet ID of this request
      */
     @AutoEscape
-    public String getPortetId();
+    public String getPortletId();
 
     /**
-     * Sets the portet ID of this request.
+     * Sets the portlet ID of this request.
      *
-     * @param portetId the portet ID of this request
+     * @param portletId the portlet ID of this request
      */
-    public void setPortetId(String portetId);
+    public void setPortletId(String portletId);
 
     @Override
     public boolean isNew();
@@ -251,19 +221,19 @@ public interface RequestModel extends BaseModel<Request> {
     public Object clone();
 
     @Override
-    public int compareTo(Request request);
+    public int compareTo(com.excilys.liferay.gatling.model.Request request);
 
     @Override
     public int hashCode();
 
     @Override
-    public CacheModel<Request> toCacheModel();
+    public CacheModel<com.excilys.liferay.gatling.model.Request> toCacheModel();
 
     @Override
-    public Request toEscapedModel();
+    public com.excilys.liferay.gatling.model.Request toEscapedModel();
 
     @Override
-    public Request toUnescapedModel();
+    public com.excilys.liferay.gatling.model.Request toUnescapedModel();
 
     @Override
     public String toString();

@@ -145,19 +145,20 @@ public interface SimulationModel extends BaseModel<Simulation> {
     public Object clone();
 
     @Override
-    public int compareTo(Simulation simulation);
+    public int compareTo(
+        com.excilys.liferay.gatling.model.Simulation simulation);
 
     @Override
     public int hashCode();
 
     @Override
-    public CacheModel<Simulation> toCacheModel();
+    public CacheModel<com.excilys.liferay.gatling.model.Simulation> toCacheModel();
 
     @Override
-    public Simulation toEscapedModel();
+    public com.excilys.liferay.gatling.model.Simulation toEscapedModel();
 
     @Override
-    public Simulation toUnescapedModel();
+    public com.excilys.liferay.gatling.model.Simulation toUnescapedModel();
 
     @Override
     public String toString();
