@@ -68,7 +68,7 @@ public class ViewController {
 	 */
 	@ResourceMapping(value="manyScripts")	
 	public void serveManyScript(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
-		String template = "/templateGatling2.0.X.mustache";
+		String template = "/templateGatling2.X.X.mustache";
 		//create and export only one file with scenario script for this simulation id
 		Simulation simulation = null;
 		final Date date = new Date();		

@@ -165,7 +165,7 @@ public class SimulationController {
 	
 	@ResourceMapping(value="oneScript")
 	public void serveOneScript(final ResourceRequest request, final ResourceResponse response) throws IOException, ReadOnlyException, ValidatorException{
-		String template = "/templateGatling2.0.X.mustache";
+		String template = "/templateGatling2.X.X.mustache";
 
 		//create and export only one file with scenario script for this simulation id
 		Simulation simulation = null;

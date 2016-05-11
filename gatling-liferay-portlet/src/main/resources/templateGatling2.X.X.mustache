@@ -3,7 +3,7 @@ import io.gatling.http.Predef._
 import scala.concurrent.duration._
 
 /**
- * Gatling 2.0.X Script generated for Liferay by the plugin
+ * Gatling 2.0.X to 2.2.X Script generated for Liferay by the plugin
  * "Load Test with Gatling"
  */
  
@@ -15,7 +15,6 @@ class {{simuName}} extends Simulation {
 		.acceptHeader("""text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8""")
 		.acceptEncodingHeader("""gzip, deflate""")
 		.acceptLanguageHeader("""fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3""")
-		.connection("""keep-alive""")
 		.disableWarmUp
 
  	/**
