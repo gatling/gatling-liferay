@@ -16,7 +16,7 @@ class Login extends Simulation {
 		.userAgentHeader("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0")
 
 	val validUsers = scenario("Valid users login and logout").exec(HomePage.scenario, Signin.successfulLogin, Logout.scenario)
-	val invalidUsers = scenario("Invalid users login and logout").exec(HomePage.scenario, Signin.unsuccessfulLogin, Logout.scenario)
+	val invalidUsers = scenario("Invalid users login and logout").exec(HomePage.scenario, Signin.unsuccessfulLogin)
 
 	//TODO: Export user numbers into property files
 
@@ -35,8 +35,8 @@ object HomePage {
 
 object Signin {
 
-	val validUsers = "validUsers.csv"
-	val invalidUsers = "invalidUsers.csv"
+	val validUsers = "feeders/validUsers.csv"
+	val invalidUsers = "feeders/invalidUsers.csv"
   val loginFailRegex = regex("""<div class="alert alert-error"> Authentication failed.* <\/div>""");
 
   val successfulLogin = scenario(validUsers, loginFailRegex.notExists)
