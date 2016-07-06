@@ -1,9 +1,9 @@
 
-import scala.concurrent.duration._
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import io.gatling.jdbc.Predef._
+import io.gatling.http.check.HttpCheck
+
 
 class Login extends Simulation {
 
@@ -15,8 +15,8 @@ class Login extends Simulation {
 		.acceptLanguageHeader("en-US,en;q=0.5")
 		.userAgentHeader("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0")
 
-	val validUsers = scenario("Valid users login and logout").exec(HomePage.scenario, Signin.scenario(Signin.validUsers), Logout.scenario)
-	val invalidUsers = scenario("Invalid users login and logout").exec(HomePage.scenario, Signin.scenario(Signin.invalidUsers), Logout.scenario)
+	val validUsers = scenario("Valid users login and logout").exec(HomePage.scenario, Signin.successfulLogin, Logout.scenario)
+	val invalidUsers = scenario("Invalid users login and logout").exec(HomePage.scenario, Signin.unsuccessfulLogin, Logout.scenario)
 
 	//TODO: Export user numbers into property files
 
@@ -37,20 +37,20 @@ object Signin {
 
 	val validUsers = "validUsers.csv"
 	val invalidUsers = "invalidUsers.csv"
+  val loginFailRegex = regex("""<div class="alert alert-error"> Authentication failed.* <\/div>""");
 
-	println(status.is(200).getClass.getName)
+  val successfulLogin = scenario(validUsers, loginFailRegex.notExists)
+  val unsuccessfulLogin = scenario(invalidUsers, loginFailRegex.exists)
 
-	def scenario(feederName: String/*, loginCheck: ???*/) =
+	def scenario(feederName: String, loginCheck: HttpCheck) =
 		feed(csv(feederName).random)
 		.exec(http("Login")
 			.post("/web/guest/home?p_p_id=58&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_58_struts_action=%2Flogin%2Flogin")
 			.formParam("_58_login", "${name}")
 			.formParam("_58_password", "${password}")
-			.check(status.is(200)))
-		//	.check(loginCheck))
+			.check(status.is(200))
+		  .check(loginCheck))
 		.pause(30)
-
-		//def validScenario = scenario
 
 }
 
