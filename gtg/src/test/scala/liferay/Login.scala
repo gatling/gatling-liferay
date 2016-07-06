@@ -1,3 +1,4 @@
+package liferay
 
 
 import io.gatling.core.Predef._
