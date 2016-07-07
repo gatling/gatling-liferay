@@ -12,6 +12,7 @@ object GetPage {
     exec(http(title).get(page))
       .pause(5)
 
+
   def basicPage(page: String) : ChainBuilder =
     basicPage("Page " + page, page)
 
