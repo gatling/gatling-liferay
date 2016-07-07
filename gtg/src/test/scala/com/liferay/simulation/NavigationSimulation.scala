@@ -8,10 +8,7 @@ import io.gatling.core.Predef._
 
 class NavigationSimulation extends Simulation {
 
-
-  val pages = Array("/web/guest/home", "/web/guest/about-us", "/web/guest/parts")
-
-  val scn = scenario("Navigate through pages").exec(GetPage.homePage, Login.successfulLogin, Navigate.scenario(pages), Logout.scenario)
+  val scn = scenario("Navigate through pages").exec(GetPage.homePage, Login.successfulLogin, Navigate.scenario(Navigate.pageFeeder, 5), Logout.scenario)
 
 
   setUp(scn.inject(atOnceUsers(1))).protocols(HttpConfiguration.httpConf)

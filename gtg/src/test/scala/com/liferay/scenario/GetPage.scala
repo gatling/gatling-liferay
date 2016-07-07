@@ -10,7 +10,7 @@ object GetPage {
 
   def basicPage(title: String, page: String) : ChainBuilder =
     exec(http(title).get(page))
-      .pause(20)
+      .pause(5)
 
   def basicPage(page: String) : ChainBuilder =
     basicPage("Page " + page, page)
