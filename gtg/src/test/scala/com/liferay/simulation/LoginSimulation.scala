@@ -5,8 +5,15 @@ import com.liferay.util.HttpConfiguration
 import io.gatling.core.Predef._
 import io.gatling.core.scenario.Simulation
 
-//TODO: Document Me !
 
+/**
+	* This test simulates the login-logout process.
+  * It simulates two population of users, valid and invalid (ie : A valid has a valid name and password),
+  * that will be simulated in the same time.
+  *
+  * Valid users hit the homepage. Then, it login with randomly valid username and password before logout.
+  * Invalid users hit the homepage. It tries then to login and raise an error page.
+  */
 class LoginSimulation extends Simulation {
 
 	val validUsers = scenario("Valid users login and logout").exec(GetPage.homePage, Login.successfulLogin, Logout.scenario)
