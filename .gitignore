@@ -1,2 +1,8 @@
 gatling-liferay-portlet/.*
 gatling-liferay-portlet/target/
+
+*.idea
+*.iml
+*target
+*~
+*.swp
