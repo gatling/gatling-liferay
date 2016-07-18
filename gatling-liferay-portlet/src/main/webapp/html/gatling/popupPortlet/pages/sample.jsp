@@ -15,7 +15,7 @@
 <div class="well well-small">
 	<liferay-ui:message key="portlet-edit-sample-details" />
 </div>
-<c:if test="${not empty multipartError }">
+<c:if test="${renderRequest.getAttribute('multipartError')}">
 	<div class="alert alert-error pull-right" style="margin-right:50px">
 		<p>
 			<liferay-ui:message key="multipart-error-message" />
