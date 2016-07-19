@@ -35,7 +35,7 @@ public class RecorderFilter implements Filter {
 	private static final String URL_CONTROL_PANEL = "/group/control_panel/manage";
 	private static final List<String> FORBIDDEN_PARAMS = new ArrayList<String>();
 	private static boolean multipartError;
-	private static State state;
+	private static State state = State.IDLE;
 	
 	/**
 	 * The list of the currents URL that has been recorded
@@ -79,7 +79,9 @@ public class RecorderFilter implements Filter {
 	 */
 	@SuppressWarnings("unchecked")
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		LOG.debug("doFilter"+isMultipartError());
+		LOG.debug("doFilter ");
+		LOG.debug("isMultipartError() " + isMultipartError());
+		LOG.debug("State " + state);
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		HttpSession session = httpRequest.getSession();
 		
@@ -96,6 +98,7 @@ public class RecorderFilter implements Filter {
 			
 			if (infos[1].equalsIgnoreCase("RECORD")) {
 				if (state == State.IDLE) {
+					LOG.debug("Changing State : RECORDING");
 					state = State.RECORDING;
 					multipartError = false;
 				}
@@ -103,6 +106,7 @@ public class RecorderFilter implements Filter {
 					saveURL(httpRequest, response, session);
 				}
 			} else if(infos[1].equalsIgnoreCase("STOP")) {
+				LOG.debug("Changing State : IDLE");
 				state = State.IDLE;
 				stopRecording(session, infos);
 			}
@@ -156,14 +160,14 @@ public class RecorderFilter implements Filter {
 			
 			params = computeParametersFromMultiParts(params, parts, parametersMap.keySet());
 			
-			// Check if param contains "lifecycle=1" (processAction -> form) 
 			// 		AND if param does NOT contain "formDate"(ie the form isn't recorded -> multipart didn't work ...)
-			if(params.contains("lifecycle=1") && !params.contains("formDate")) {
-				//Create a cookie for error
+			
+			/**
+			 * The "p_p_lifecycle=???" deals with the cycle of the portlet (0/1/2)
+			 * The 1 value means that the portlet is on action phase (A form is processed)
+			 */
+			if(params.contains("p_p_lifecycle=1") && !params.contains("formDate")) {
 				multipartError = true;
-				//TODO: Check valid substitution (static boolean vs Cookie param) and remove following commented lines
-				//Cookie cookie = new Cookie("multipart-error", "true");
-				//CookieKeys.addCookie((HttpServletRequest) request, (HttpServletResponse)response, cookie);
 			}
 		}
 		RecordURL record = new RecordURL(request.getMethod(), requestURL, params);
