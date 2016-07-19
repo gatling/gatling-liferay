@@ -1,5 +1,6 @@
 package com.excilys.liferay.gatling.service;
 
+import com.excilys.liferay.gatling.model.FormParamClp;
 import com.excilys.liferay.gatling.model.LinkUsecaseRequestClp;
 import com.excilys.liferay.gatling.model.RecordClp;
 import com.excilys.liferay.gatling.model.RequestClp;
@@ -93,6 +94,10 @@ public class ClpSerializer {
 
         String oldModelClassName = oldModelClass.getName();
 
+        if (oldModelClassName.equals(FormParamClp.class.getName())) {
+            return translateInputFormParam(oldModel);
+        }
+
         if (oldModelClassName.equals(LinkUsecaseRequestClp.class.getName())) {
             return translateInputLinkUsecaseRequest(oldModel);
         }
@@ -130,6 +135,16 @@ public class ClpSerializer {
         }
 
         return newList;
+    }
+
+    public static Object translateInputFormParam(BaseModel<?> oldModel) {
+        FormParamClp oldClpModel = (FormParamClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getFormParamRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
     }
 
     public static Object translateInputLinkUsecaseRequest(BaseModel<?> oldModel) {
@@ -206,6 +221,41 @@ public class ClpSerializer {
         Class<?> oldModelClass = oldModel.getClass();
 
         String oldModelClassName = oldModelClass.getName();
+
+        if (oldModelClassName.equals(
+                    "com.excilys.liferay.gatling.model.impl.FormParamImpl")) {
+            return translateOutputFormParam(oldModel);
+        } else if (oldModelClassName.endsWith("Clp")) {
+            try {
+                ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+                Method getClpSerializerClassMethod = oldModelClass.getMethod(
+                        "getClpSerializerClass");
+
+                Class<?> oldClpSerializerClass = (Class<?>) getClpSerializerClassMethod.invoke(oldModel);
+
+                Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+                Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+                        BaseModel.class);
+
+                Class<?> oldModelModelClass = oldModel.getModelClass();
+
+                Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+                        oldModelModelClass.getSimpleName() + "RemoteModel");
+
+                Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+                BaseModel<?> newModel = (BaseModel<?>) translateOutputMethod.invoke(null,
+                        oldRemoteModel);
+
+                return newModel;
+            } catch (Throwable t) {
+                if (_log.isInfoEnabled()) {
+                    _log.info("Unable to translate " + oldModelClassName, t);
+                }
+            }
+        }
 
         if (oldModelClassName.equals(
                     "com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestImpl")) {
@@ -494,6 +544,11 @@ public class ClpSerializer {
         }
 
         if (className.equals(
+                    "com.excilys.liferay.gatling.NoSuchFormParamException")) {
+            return new com.excilys.liferay.gatling.NoSuchFormParamException();
+        }
+
+        if (className.equals(
                     "com.excilys.liferay.gatling.NoSuchLinkUsecaseRequestException")) {
             return new com.excilys.liferay.gatling.NoSuchLinkUsecaseRequestException();
         }
@@ -524,6 +579,16 @@ public class ClpSerializer {
         }
 
         return throwable;
+    }
+
+    public static Object translateOutputFormParam(BaseModel<?> oldModel) {
+        FormParamClp newModel = new FormParamClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setFormParamRemoteModel(oldModel);
+
+        return newModel;
     }
 
     public static Object translateOutputLinkUsecaseRequest(

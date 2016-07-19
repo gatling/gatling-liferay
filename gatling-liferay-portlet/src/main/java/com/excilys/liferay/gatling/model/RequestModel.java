@@ -221,19 +221,19 @@ public interface RequestModel extends BaseModel<Request> {
     public Object clone();
 
     @Override
-    public int compareTo(com.excilys.liferay.gatling.model.Request request);
+    public int compareTo(Request request);
 
     @Override
     public int hashCode();
 
     @Override
-    public CacheModel<com.excilys.liferay.gatling.model.Request> toCacheModel();
+    public CacheModel<Request> toCacheModel();
 
     @Override
-    public com.excilys.liferay.gatling.model.Request toEscapedModel();
+    public Request toEscapedModel();
 
     @Override
-    public com.excilys.liferay.gatling.model.Request toUnescapedModel();
+    public Request toUnescapedModel();
 
     @Override
     public String toString();

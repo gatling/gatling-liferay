@@ -2,12 +2,22 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="com.excilys.liferay.gatling.model.FormParam" />
 	<import class="com.excilys.liferay.gatling.model.LinkUsecaseRequest" />
 	<import class="com.excilys.liferay.gatling.model.Record" />
 	<import class="com.excilys.liferay.gatling.model.Request" />
 	<import class="com.excilys.liferay.gatling.model.Scenario" />
 	<import class="com.excilys.liferay.gatling.model.Simulation" />
 	<import class="com.excilys.liferay.gatling.model.UrlRecord" />
+	<class name="com.excilys.liferay.gatling.model.impl.FormParamImpl" table="StressTool_FormParam">
+		<cache usage="read-write" />
+		<id name="formParamId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="urlRecordId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="key" type="com.liferay.portal.dao.orm.hibernate.StringType" column="key_" />
+		<property name="value" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
 	<class name="com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestImpl" table="StressTool_LinkUsecaseRequest">
 		<cache usage="read-write" />
 		<id name="linkUsecaseRequestId" type="long">

@@ -180,19 +180,19 @@ public interface ScenarioModel extends BaseModel<Scenario> {
     public Object clone();
 
     @Override
-    public int compareTo(com.excilys.liferay.gatling.model.Scenario scenario);
+    public int compareTo(Scenario scenario);
 
     @Override
     public int hashCode();
 
     @Override
-    public CacheModel<com.excilys.liferay.gatling.model.Scenario> toCacheModel();
+    public CacheModel<Scenario> toCacheModel();
 
     @Override
-    public com.excilys.liferay.gatling.model.Scenario toEscapedModel();
+    public Scenario toEscapedModel();
 
     @Override
-    public com.excilys.liferay.gatling.model.Scenario toUnescapedModel();
+    public Scenario toUnescapedModel();
 
     @Override
     public String toString();

@@ -41,18 +41,10 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName52;
-    private String[] _methodParameterTypes52;
-    private String _methodName53;
-    private String[] _methodParameterTypes53;
-    private String _methodName58;
-    private String[] _methodParameterTypes58;
-    private String _methodName59;
-    private String[] _methodParameterTypes59;
-    private String _methodName60;
-    private String[] _methodParameterTypes60;
-    private String _methodName61;
-    private String[] _methodParameterTypes61;
+    private String _methodName56;
+    private String[] _methodParameterTypes56;
+    private String _methodName57;
+    private String[] _methodParameterTypes57;
     private String _methodName62;
     private String[] _methodParameterTypes62;
     private String _methodName63;
@@ -61,6 +53,14 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
     private String[] _methodParameterTypes64;
     private String _methodName65;
     private String[] _methodParameterTypes65;
+    private String _methodName66;
+    private String[] _methodParameterTypes66;
+    private String _methodName67;
+    private String[] _methodParameterTypes67;
+    private String _methodName68;
+    private String[] _methodParameterTypes68;
+    private String _methodName69;
+    private String[] _methodParameterTypes69;
 
     public LinkUsecaseRequestLocalServiceClpInvoker() {
         _methodName0 = "addLinkUsecaseRequest";
@@ -145,47 +145,47 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
                 "com.excilys.liferay.gatling.model.LinkUsecaseRequest"
             };
 
-        _methodName52 = "getBeanIdentifier";
+        _methodName56 = "getBeanIdentifier";
 
-        _methodParameterTypes52 = new String[] {  };
+        _methodParameterTypes56 = new String[] {  };
 
-        _methodName53 = "setBeanIdentifier";
+        _methodName57 = "setBeanIdentifier";
 
-        _methodParameterTypes53 = new String[] { "java.lang.String" };
+        _methodParameterTypes57 = new String[] { "java.lang.String" };
 
-        _methodName58 = "saveLinkUseCase";
+        _methodName62 = "saveLinkUseCase";
 
-        _methodParameterTypes58 = new String[] {
+        _methodParameterTypes62 = new String[] {
                 "long", "long", "long", "double", "boolean"
             };
 
-        _methodName59 = "findByRecordAndRequest";
+        _methodName63 = "findByRecordAndRequest";
 
-        _methodParameterTypes59 = new String[] { "long", "long" };
+        _methodParameterTypes63 = new String[] { "long", "long" };
 
-        _methodName60 = "countByRequestIdAndUsed";
-
-        _methodParameterTypes60 = new String[] { "long" };
-
-        _methodName61 = "findByRequestIdAndUsed";
-
-        _methodParameterTypes61 = new String[] { "long" };
-
-        _methodName62 = "countByRequestId";
-
-        _methodParameterTypes62 = new String[] { "long" };
-
-        _methodName63 = "findByRequestId";
-
-        _methodParameterTypes63 = new String[] { "long" };
-
-        _methodName64 = "removeByRequestId";
+        _methodName64 = "countByRequestIdAndUsed";
 
         _methodParameterTypes64 = new String[] { "long" };
 
-        _methodName65 = "removeByRecordId";
+        _methodName65 = "findByRequestIdAndUsed";
 
         _methodParameterTypes65 = new String[] { "long" };
+
+        _methodName66 = "countByRequestId";
+
+        _methodParameterTypes66 = new String[] { "long" };
+
+        _methodName67 = "findByRequestId";
+
+        _methodParameterTypes67 = new String[] { "long" };
+
+        _methodName68 = "removeByRequestId";
+
+        _methodParameterTypes68 = new String[] { "long" };
+
+        _methodName69 = "removeByRecordId";
+
+        _methodParameterTypes69 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -277,20 +277,20 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
             return LinkUsecaseRequestLocalServiceUtil.updateLinkUsecaseRequest((com.excilys.liferay.gatling.model.LinkUsecaseRequest) arguments[0]);
         }
 
-        if (_methodName52.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes52, parameterTypes)) {
+        if (_methodName56.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes56, parameterTypes)) {
             return LinkUsecaseRequestLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName53.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes53, parameterTypes)) {
+        if (_methodName57.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes57, parameterTypes)) {
             LinkUsecaseRequestLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName58.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes58, parameterTypes)) {
+        if (_methodName62.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes62, parameterTypes)) {
             LinkUsecaseRequestLocalServiceUtil.saveLinkUseCase(((Long) arguments[0]).longValue(),
                 ((Long) arguments[1]).longValue(),
                 ((Long) arguments[2]).longValue(),
@@ -300,41 +300,41 @@ public class LinkUsecaseRequestLocalServiceClpInvoker {
             return null;
         }
 
-        if (_methodName59.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes59, parameterTypes)) {
+        if (_methodName63.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes63, parameterTypes)) {
             return LinkUsecaseRequestLocalServiceUtil.findByRecordAndRequest(((Long) arguments[0]).longValue(),
                 ((Long) arguments[1]).longValue());
         }
 
-        if (_methodName60.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
+        if (_methodName64.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes64, parameterTypes)) {
             return LinkUsecaseRequestLocalServiceUtil.countByRequestIdAndUsed(((Long) arguments[0]).longValue());
         }
 
-        if (_methodName61.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
+        if (_methodName65.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes65, parameterTypes)) {
             return LinkUsecaseRequestLocalServiceUtil.findByRequestIdAndUsed(((Long) arguments[0]).longValue());
         }
 
-        if (_methodName62.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes62, parameterTypes)) {
+        if (_methodName66.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes66, parameterTypes)) {
             return LinkUsecaseRequestLocalServiceUtil.countByRequestId(((Long) arguments[0]).longValue());
         }
 
-        if (_methodName63.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes63, parameterTypes)) {
+        if (_methodName67.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes67, parameterTypes)) {
             return LinkUsecaseRequestLocalServiceUtil.findByRequestId(((Long) arguments[0]).longValue());
         }
 
-        if (_methodName64.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes64, parameterTypes)) {
+        if (_methodName68.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
             LinkUsecaseRequestLocalServiceUtil.removeByRequestId(((Long) arguments[0]).longValue());
 
             return null;
         }
 
-        if (_methodName65.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes65, parameterTypes)) {
+        if (_methodName69.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes69, parameterTypes)) {
             LinkUsecaseRequestLocalServiceUtil.removeByRecordId(((Long) arguments[0]).longValue());
 
             return null;

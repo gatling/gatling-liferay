@@ -112,4 +112,15 @@
 		</finder>
 	</entity>
 	
+	<!-- Form parameters -->
+	<entity name="FormParam" remote-service="false" local-service="true">
+		<column name="formParamId" type="long" primary="true" />
+		<column name="urlRecordId" type="long" />
+		<column name="key" type="String" />
+		<column name="value" type="String" />
+		<finder name="UrlRecordId" return-type="Collection" >
+			<finder-column name="urlRecordId" />
+		</finder>
+	</entity>
+	
 </service-builder>

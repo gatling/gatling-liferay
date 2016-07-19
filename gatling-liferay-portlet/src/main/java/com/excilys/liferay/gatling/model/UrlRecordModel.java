@@ -152,19 +152,19 @@ public interface UrlRecordModel extends BaseModel<UrlRecord> {
     public Object clone();
 
     @Override
-    public int compareTo(com.excilys.liferay.gatling.model.UrlRecord urlRecord);
+    public int compareTo(UrlRecord urlRecord);
 
     @Override
     public int hashCode();
 
     @Override
-    public CacheModel<com.excilys.liferay.gatling.model.UrlRecord> toCacheModel();
+    public CacheModel<UrlRecord> toCacheModel();
 
     @Override
-    public com.excilys.liferay.gatling.model.UrlRecord toEscapedModel();
+    public UrlRecord toEscapedModel();
 
     @Override
-    public com.excilys.liferay.gatling.model.UrlRecord toUnescapedModel();
+    public UrlRecord toUnescapedModel();
 
     @Override
     public String toString();

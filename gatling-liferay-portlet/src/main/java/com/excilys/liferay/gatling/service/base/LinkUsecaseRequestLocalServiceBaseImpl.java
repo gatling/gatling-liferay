@@ -2,6 +2,7 @@ package com.excilys.liferay.gatling.service.base;
 
 import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalService;
+import com.excilys.liferay.gatling.service.persistence.FormParamPersistence;
 import com.excilys.liferay.gatling.service.persistence.LinkUsecaseRequestPersistence;
 import com.excilys.liferay.gatling.service.persistence.RecordPersistence;
 import com.excilys.liferay.gatling.service.persistence.RequestPersistence;
@@ -47,6 +48,10 @@ import javax.sql.DataSource;
 public abstract class LinkUsecaseRequestLocalServiceBaseImpl
     extends BaseLocalServiceImpl implements LinkUsecaseRequestLocalService,
         IdentifiableBean {
+    @BeanReference(type = com.excilys.liferay.gatling.service.FormParamLocalService.class)
+    protected com.excilys.liferay.gatling.service.FormParamLocalService formParamLocalService;
+    @BeanReference(type = FormParamPersistence.class)
+    protected FormParamPersistence formParamPersistence;
     @BeanReference(type = com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalService.class)
     protected com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalService linkUsecaseRequestLocalService;
     @BeanReference(type = LinkUsecaseRequestPersistence.class)
@@ -308,6 +313,44 @@ public abstract class LinkUsecaseRequestLocalServiceBaseImpl
     public LinkUsecaseRequest updateLinkUsecaseRequest(
         LinkUsecaseRequest linkUsecaseRequest) throws SystemException {
         return linkUsecaseRequestPersistence.update(linkUsecaseRequest);
+    }
+
+    /**
+     * Returns the form param local service.
+     *
+     * @return the form param local service
+     */
+    public com.excilys.liferay.gatling.service.FormParamLocalService getFormParamLocalService() {
+        return formParamLocalService;
+    }
+
+    /**
+     * Sets the form param local service.
+     *
+     * @param formParamLocalService the form param local service
+     */
+    public void setFormParamLocalService(
+        com.excilys.liferay.gatling.service.FormParamLocalService formParamLocalService) {
+        this.formParamLocalService = formParamLocalService;
+    }
+
+    /**
+     * Returns the form param persistence.
+     *
+     * @return the form param persistence
+     */
+    public FormParamPersistence getFormParamPersistence() {
+        return formParamPersistence;
+    }
+
+    /**
+     * Sets the form param persistence.
+     *
+     * @param formParamPersistence the form param persistence
+     */
+    public void setFormParamPersistence(
+        FormParamPersistence formParamPersistence) {
+        this.formParamPersistence = formParamPersistence;
     }
 
     /**

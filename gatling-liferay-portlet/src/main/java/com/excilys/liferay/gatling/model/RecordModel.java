@@ -139,19 +139,19 @@ public interface RecordModel extends BaseModel<Record> {
     public Object clone();
 
     @Override
-    public int compareTo(com.excilys.liferay.gatling.model.Record record);
+    public int compareTo(Record record);
 
     @Override
     public int hashCode();
 
     @Override
-    public CacheModel<com.excilys.liferay.gatling.model.Record> toCacheModel();
+    public CacheModel<Record> toCacheModel();
 
     @Override
-    public com.excilys.liferay.gatling.model.Record toEscapedModel();
+    public Record toEscapedModel();
 
     @Override
-    public com.excilys.liferay.gatling.model.Record toUnescapedModel();
+    public Record toUnescapedModel();
 
     @Override
     public String toString();

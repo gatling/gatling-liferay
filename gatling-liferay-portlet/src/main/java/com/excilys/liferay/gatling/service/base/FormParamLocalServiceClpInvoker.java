@@ -1,6 +1,6 @@
 package com.excilys.liferay.gatling.service.base;
 
-import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
+import com.excilys.liferay.gatling.service.FormParamLocalServiceUtil;
 
 import java.util.Arrays;
 
@@ -8,7 +8,7 @@ import java.util.Arrays;
  * @author Brian Wing Shun Chan
  * @generated
  */
-public class RecordLocalServiceClpInvoker {
+public class FormParamLocalServiceClpInvoker {
     private String _methodName0;
     private String[] _methodParameterTypes0;
     private String _methodName1;
@@ -49,30 +49,26 @@ public class RecordLocalServiceClpInvoker {
     private String[] _methodParameterTypes62;
     private String _methodName63;
     private String[] _methodParameterTypes63;
-    private String _methodName64;
-    private String[] _methodParameterTypes64;
-    private String _methodName65;
-    private String[] _methodParameterTypes65;
 
-    public RecordLocalServiceClpInvoker() {
-        _methodName0 = "addRecord";
+    public FormParamLocalServiceClpInvoker() {
+        _methodName0 = "addFormParam";
 
         _methodParameterTypes0 = new String[] {
-                "com.excilys.liferay.gatling.model.Record"
+                "com.excilys.liferay.gatling.model.FormParam"
             };
 
-        _methodName1 = "createRecord";
+        _methodName1 = "createFormParam";
 
         _methodParameterTypes1 = new String[] { "long" };
 
-        _methodName2 = "deleteRecord";
+        _methodName2 = "deleteFormParam";
 
         _methodParameterTypes2 = new String[] { "long" };
 
-        _methodName3 = "deleteRecord";
+        _methodName3 = "deleteFormParam";
 
         _methodParameterTypes3 = new String[] {
-                "com.excilys.liferay.gatling.model.Record"
+                "com.excilys.liferay.gatling.model.FormParam"
             };
 
         _methodName4 = "dynamicQuery";
@@ -111,11 +107,11 @@ public class RecordLocalServiceClpInvoker {
                 "com.liferay.portal.kernel.dao.orm.Projection"
             };
 
-        _methodName10 = "fetchRecord";
+        _methodName10 = "fetchFormParam";
 
         _methodParameterTypes10 = new String[] { "long" };
 
-        _methodName11 = "getRecord";
+        _methodName11 = "getFormParam";
 
         _methodParameterTypes11 = new String[] { "long" };
 
@@ -123,18 +119,18 @@ public class RecordLocalServiceClpInvoker {
 
         _methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-        _methodName13 = "getRecords";
+        _methodName13 = "getFormParams";
 
         _methodParameterTypes13 = new String[] { "int", "int" };
 
-        _methodName14 = "getRecordsCount";
+        _methodName14 = "getFormParamsCount";
 
         _methodParameterTypes14 = new String[] {  };
 
-        _methodName15 = "updateRecord";
+        _methodName15 = "updateFormParam";
 
         _methodParameterTypes15 = new String[] {
-                "com.excilys.liferay.gatling.model.Record"
+                "com.excilys.liferay.gatling.model.FormParam"
             };
 
         _methodName56 = "getBeanIdentifier";
@@ -145,67 +141,59 @@ public class RecordLocalServiceClpInvoker {
 
         _methodParameterTypes57 = new String[] { "java.lang.String" };
 
-        _methodName62 = "findByPortletId";
+        _methodName62 = "save";
 
-        _methodParameterTypes62 = new String[] { "java.lang.String" };
-
-        _methodName63 = "countByPortletId";
-
-        _methodParameterTypes63 = new String[] { "java.lang.String" };
-
-        _methodName64 = "update";
-
-        _methodParameterTypes64 = new String[] { "long", "java.lang.String" };
-
-        _methodName65 = "save";
-
-        _methodParameterTypes65 = new String[] {
-                "java.lang.String", "java.lang.String", "java.lang.String"
+        _methodParameterTypes62 = new String[] {
+                "long", "java.lang.String", "java.lang.String"
             };
+
+        _methodName63 = "save";
+
+        _methodParameterTypes63 = new String[] { "long", "java.util.Map" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
         Object[] arguments) throws Throwable {
         if (_methodName0.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes0, parameterTypes)) {
-            return RecordLocalServiceUtil.addRecord((com.excilys.liferay.gatling.model.Record) arguments[0]);
+            return FormParamLocalServiceUtil.addFormParam((com.excilys.liferay.gatling.model.FormParam) arguments[0]);
         }
 
         if (_methodName1.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes1, parameterTypes)) {
-            return RecordLocalServiceUtil.createRecord(((Long) arguments[0]).longValue());
+            return FormParamLocalServiceUtil.createFormParam(((Long) arguments[0]).longValue());
         }
 
         if (_methodName2.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes2, parameterTypes)) {
-            return RecordLocalServiceUtil.deleteRecord(((Long) arguments[0]).longValue());
+            return FormParamLocalServiceUtil.deleteFormParam(((Long) arguments[0]).longValue());
         }
 
         if (_methodName3.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes3, parameterTypes)) {
-            return RecordLocalServiceUtil.deleteRecord((com.excilys.liferay.gatling.model.Record) arguments[0]);
+            return FormParamLocalServiceUtil.deleteFormParam((com.excilys.liferay.gatling.model.FormParam) arguments[0]);
         }
 
         if (_methodName4.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes4, parameterTypes)) {
-            return RecordLocalServiceUtil.dynamicQuery();
+            return FormParamLocalServiceUtil.dynamicQuery();
         }
 
         if (_methodName5.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes5, parameterTypes)) {
-            return RecordLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery) arguments[0]);
+            return FormParamLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery) arguments[0]);
         }
 
         if (_methodName6.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes6, parameterTypes)) {
-            return RecordLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery) arguments[0],
+            return FormParamLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery) arguments[0],
                 ((Integer) arguments[1]).intValue(),
                 ((Integer) arguments[2]).intValue());
         }
 
         if (_methodName7.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes7, parameterTypes)) {
-            return RecordLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery) arguments[0],
+            return FormParamLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery) arguments[0],
                 ((Integer) arguments[1]).intValue(),
                 ((Integer) arguments[2]).intValue(),
                 (com.liferay.portal.kernel.util.OrderByComparator) arguments[3]);
@@ -213,80 +201,72 @@ public class RecordLocalServiceClpInvoker {
 
         if (_methodName8.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes8, parameterTypes)) {
-            return RecordLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery) arguments[0]);
+            return FormParamLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery) arguments[0]);
         }
 
         if (_methodName9.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes9, parameterTypes)) {
-            return RecordLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery) arguments[0],
+            return FormParamLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery) arguments[0],
                 (com.liferay.portal.kernel.dao.orm.Projection) arguments[1]);
         }
 
         if (_methodName10.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes10, parameterTypes)) {
-            return RecordLocalServiceUtil.fetchRecord(((Long) arguments[0]).longValue());
+            return FormParamLocalServiceUtil.fetchFormParam(((Long) arguments[0]).longValue());
         }
 
         if (_methodName11.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes11, parameterTypes)) {
-            return RecordLocalServiceUtil.getRecord(((Long) arguments[0]).longValue());
+            return FormParamLocalServiceUtil.getFormParam(((Long) arguments[0]).longValue());
         }
 
         if (_methodName12.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes12, parameterTypes)) {
-            return RecordLocalServiceUtil.getPersistedModel((java.io.Serializable) arguments[0]);
+            return FormParamLocalServiceUtil.getPersistedModel((java.io.Serializable) arguments[0]);
         }
 
         if (_methodName13.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes13, parameterTypes)) {
-            return RecordLocalServiceUtil.getRecords(((Integer) arguments[0]).intValue(),
+            return FormParamLocalServiceUtil.getFormParams(((Integer) arguments[0]).intValue(),
                 ((Integer) arguments[1]).intValue());
         }
 
         if (_methodName14.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes14, parameterTypes)) {
-            return RecordLocalServiceUtil.getRecordsCount();
+            return FormParamLocalServiceUtil.getFormParamsCount();
         }
 
         if (_methodName15.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes15, parameterTypes)) {
-            return RecordLocalServiceUtil.updateRecord((com.excilys.liferay.gatling.model.Record) arguments[0]);
+            return FormParamLocalServiceUtil.updateFormParam((com.excilys.liferay.gatling.model.FormParam) arguments[0]);
         }
 
         if (_methodName56.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes56, parameterTypes)) {
-            return RecordLocalServiceUtil.getBeanIdentifier();
+            return FormParamLocalServiceUtil.getBeanIdentifier();
         }
 
         if (_methodName57.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes57, parameterTypes)) {
-            RecordLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
+            FormParamLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
         if (_methodName62.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes62, parameterTypes)) {
-            return RecordLocalServiceUtil.findByPortletId((java.lang.String) arguments[0]);
-        }
-
-        if (_methodName63.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes63, parameterTypes)) {
-            return RecordLocalServiceUtil.countByPortletId((java.lang.String) arguments[0]);
-        }
-
-        if (_methodName64.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes64, parameterTypes)) {
-            RecordLocalServiceUtil.update(((Long) arguments[0]).longValue(),
-                (java.lang.String) arguments[1]);
+            FormParamLocalServiceUtil.save(((Long) arguments[0]).longValue(),
+                (java.lang.String) arguments[1], (java.lang.String) arguments[2]);
 
             return null;
         }
 
-        if (_methodName65.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes65, parameterTypes)) {
-            return RecordLocalServiceUtil.save((java.lang.String) arguments[0],
-                (java.lang.String) arguments[1], (java.lang.String) arguments[2]);
+        if (_methodName63.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes63, parameterTypes)) {
+            FormParamLocalServiceUtil.save(((Long) arguments[0]).longValue(),
+                (java.util.Map<java.lang.String, java.lang.String>) arguments[1]);
+
+            return null;
         }
 
         throw new UnsupportedOperationException();

@@ -4,6 +4,7 @@
 package com.excilys.liferay.gatling.recorder;
 
 import com.excilys.liferay.gatling.model.Record;
+import com.excilys.liferay.gatling.service.FormParamLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -19,6 +20,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -87,9 +89,14 @@ public class RecorderFilter implements Filter {
 		
 		toogleRecord(httpRequest, session);
 		
+		/**
+		 * A string with the following content : "{The portlet id},{The state of the record},{The name of the record}"
+		 */
 		String infosRecorder = SessionParamUtil.getString(httpRequest, "GATLING_RECORD_STATE", null);
+		
 		if(infosRecorder != null) {
 			String[] infos = infosRecorder.split(",");
+			LOG.debug("infosRecorder " + infosRecorder);
 			
 			currentRecords = (List<RecordURL>) session.getAttribute("recordURL");
 			if(currentRecords == null) { // if empty session recordURL create one
@@ -189,15 +196,15 @@ public class RecorderFilter implements Filter {
 		if(!currentRecords.isEmpty()) {
 			LOG.debug("Saving...");
 			try {
-				//Save use case table
 				String portletVersion = PortletLocalServiceUtil.getPortletById(info[0]).getPluginPackage().getVersion();
 				LOG.debug("version de portlet "+portletVersion);
+				//Save the record with the record name, the portlet id and the portlet version
 				Record record = RecordLocalServiceUtil.save(info[2], info[0], portletVersion);
 				LOG.debug("...1/2");
-				//Save url table
 				for (int i = 1; i < currentRecords.size(); i++) {
 					String url = currentRecords.get(i).getUrl()+currentRecords.get(i).getParams();
 					String type = currentRecords.get(i).getMethod();
+					//Save url table
 					UrlRecordLocalServiceUtil.save(url, type, i, record.getRecordId());
 					LOG.debug("...");
 				}

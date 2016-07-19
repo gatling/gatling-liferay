@@ -1,3 +1,5 @@
+create index IX_5FD9C16F on StressTool_FormParam (urlRecordId);
+
 create index IX_462AC7AB on StressTool_LinkUsecaseRequest (recordId);
 create index IX_587C282A on StressTool_LinkUsecaseRequest (request_id);
 create index IX_A5AE18EA on StressTool_LinkUsecaseRequest (request_id, recordId);

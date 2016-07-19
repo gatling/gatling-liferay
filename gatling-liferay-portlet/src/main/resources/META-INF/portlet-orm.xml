@@ -7,6 +7,19 @@
 			<access>PROPERTY</access>
 		</persistence-unit-defaults>
 	</persistence-unit-metadata>
+	<mapped-superclass class="com.excilys.liferay.gatling.model.impl.FormParamModelImpl">
+		<attributes>
+			<id name="formParamId" />
+			<basic name="urlRecordId" />
+			<basic name="key">
+				<column name="KEY_" />
+			</basic>
+			<basic name="value" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestModelImpl">
 		<attributes>
 			<id name="linkUsecaseRequestId" />
@@ -87,6 +100,10 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<entity class="com.excilys.liferay.gatling.model.impl.FormParamImpl" name="FormParam">
+		<table name="StressTool_FormParam" />
+		<attributes />
+	</entity>
 	<entity class="com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestImpl" name="LinkUsecaseRequest">
 		<table name="StressTool_LinkUsecaseRequest" />
 		<attributes />
