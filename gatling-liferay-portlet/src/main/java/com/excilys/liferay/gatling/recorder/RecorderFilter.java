@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.service.PortletLocalServiceUtil;
+import com.liferay.portal.util.PortalUtil;
 
 import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
@@ -81,7 +82,8 @@ public class RecorderFilter implements Filter {
 	 */
 	@SuppressWarnings("unchecked")
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		LOG.debug("doFilter ");
+		LOG.debug("+--------------------------------------------------------------------------------------");
+		LOG.debug("doFilter");
 		LOG.debug("isMultipartError() " + isMultipartError());
 		LOG.debug("State " + state);
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
@@ -96,8 +98,6 @@ public class RecorderFilter implements Filter {
 		
 		if(infosRecorder != null) {
 			String[] infos = infosRecorder.split(",");
-			LOG.debug("infosRecorder " + infosRecorder);
-			
 			currentRecords = (List<RecordURL>) session.getAttribute("recordURL");
 			if(currentRecords == null) { // if empty session recordURL create one
 				currentRecords = new ArrayList<RecordURL>();
@@ -133,6 +133,7 @@ public class RecorderFilter implements Filter {
 			String recordState = ParamUtil.getString(httpRequest, NAMESPACE+"nextRecordState", null);
 			String recordName = ParamUtil.getString(httpRequest, NAMESPACE+"useCaseRecordName", null);
 			String portletId = ParamUtil.getString(httpRequest, NAMESPACE+"pagePortletId", null);
+			
 			if(recordState != null && recordName != null && portletId != null) {
 				session.setAttribute("GATLING_RECORD_STATE", portletId+","+recordState+","+recordName);
 			} else {
@@ -151,33 +152,35 @@ public class RecorderFilter implements Filter {
 	 */
 	private void saveURL(HttpServletRequest request, ServletResponse response, HttpSession session) throws IOException{
 		Map<String, String[]> parametersMap = request.getParameterMap();
+
+		String type = request.getContentType();
 		String params = HttpUtil.parameterMapToString(filterParameters(request.getParameterMap()));
 		String requestURL = request.getRequestURI().replace(URL_CONTROL_PANEL, "");
+		String formData = null;
 		
 		if(request.getMethod().equalsIgnoreCase("post")) {
 			
-			//TODO: Find a way to remove silent exception throw
-			Collection<Part> parts = null;
-			try {
-				parts = request.getParts();
-			} catch(Exception e) {
-				LOG.error("Parts were not found");
-				LOG.error(e.getMessage());
+			if (type != null && type.toLowerCase().contains("multipart/form-data")) {
+				LOG.debug("multipart form detected");
+				/*
+				 */
+				BufferedReader buffer = request.getReader();
+				StringBuilder sb = new StringBuilder();
+				String line;
+				while ( ( line = buffer.readLine()) != null) {
+					sb.append(line);
+				}
+				formData = sb.toString();
+				
 			}
 			
-			params = computeParametersFromMultiParts(params, parts, parametersMap.keySet());
-			
-			// 		AND if param does NOT contain "formDate"(ie the form isn't recorded -> multipart didn't work ...)
-			
-			/**
-			 * The "p_p_lifecycle=???" deals with the cycle of the portlet (0/1/2)
-			 * The 1 value means that the portlet is on action phase (A form is processed)
-			 */
-			if(params.contains("p_p_lifecycle=1") && !params.contains("formDate")) {
+			else {
 				multipartError = true;
+				//TODO replace this code to process post params
 			}
+			
 		}
-		RecordURL record = new RecordURL(request.getMethod(), requestURL, params);
+		RecordURL record = new RecordURL(request.getMethod(), requestURL, params, formData);
 		LOG.debug(record);
 		currentRecords.add(record);
 		session.setAttribute("recordURL", currentRecords);
@@ -196,6 +199,7 @@ public class RecorderFilter implements Filter {
 		if(!currentRecords.isEmpty()) {
 			LOG.debug("Saving...");
 			try {
+				//TODO if multipart (ie: formData != null) then use multipart persistence
 				String portletVersion = PortletLocalServiceUtil.getPortletById(info[0]).getPluginPackage().getVersion();
 				LOG.debug("version de portlet "+portletVersion);
 				//Save the record with the record name, the portlet id and the portlet version
@@ -212,39 +216,6 @@ public class RecorderFilter implements Filter {
 			} catch (SystemException e) {
 				LOG.error("Error saving use case ...\n"+e.getMessage());
 			}
-		}
-	}
-	
-	/**
-	 * Computes the String that will hold all the multiparts form parameters if those parts are valid.
-	 * @param initialParameters The initial parameters that will be present in the final result
-	 * @param parts The several parts of the form
-	 * @param validParameters A set that contains all the validParameters'names
-	 * @return The computed parameters string
-	 * @throws IOException If an error occurs while extracting parts content
-	 */
-	private static String computeParametersFromMultiParts(String initialParameters, Collection<Part> parts, Set<String> validParameters) throws IOException{
-		if(parts != null && !parts.isEmpty()) {
-			LOG.debug("is MultipartContent "+parts.size());
-			StringBuilder result = new StringBuilder(initialParameters);
-			for (Part part : parts) {
-				String name = part.getName();
-				if(!name.equals("null") && !validParameters.contains(name)) {
-					BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream()));
-					StringBuilder value = new StringBuilder();
-					char[] buffer = new char[10240]; //TODO: Find out why 10240
-					for (int length = 0; (length = reader.read(buffer)) > 0;) {
-						value.append(buffer, 0, length);
-					}
-					String input = value.toString();
-					LOG.debug("\t"+name+" : "+input);
-					result.append("&").append(name).append("=").append(input);
-				}
-			}
-			return result.toString();
-		}
-		else {
-			return initialParameters;
 		}
 	}
 	
@@ -266,11 +237,13 @@ public class RecorderFilter implements Filter {
 		private final String method;
 		private final String url;
 		private final String params;
-
-		public RecordURL(String method, String requestURL, String params) {
+		private final String formData;
+		
+		public RecordURL(String method, String requestURL, String params,String formData) {
 			this.method = method;
 			this.url = requestURL;
 			this.params = params;
+			this.formData = formData;
 		}
 
 		public String getMethod() {
@@ -285,14 +258,22 @@ public class RecorderFilter implements Filter {
 			return params;
 		}
 
+		public String getFormData() {
+			return formData;
+		}
+		
 		@Override
 		public String toString() {
 			return "RecordURL [method=" + method + ", url=" + url + ", params="
-					+ params + "]";
+					+ params + ", formData="+formData+"]";
 		}
 	}
 
 	private enum State {
 		RECORDING,IDLE;
+	}
+	
+	private void parseRequestParams(StringBuilder sb) {
+		LOG.debug("Received: "+sb);
 	}
 }
