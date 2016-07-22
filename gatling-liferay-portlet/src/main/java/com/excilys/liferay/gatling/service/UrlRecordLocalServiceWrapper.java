@@ -294,10 +294,10 @@ public class UrlRecordLocalServiceWrapper implements UrlRecordLocalService,
     }
 
     @Override
-    public void save(java.lang.String url, java.lang.String type, int order,
+    public long save(java.lang.String url, java.lang.String type, int order,
         long recordId)
         throws com.liferay.portal.kernel.exception.SystemException {
-        _urlRecordLocalService.save(url, type, order, recordId);
+        return _urlRecordLocalService.save(url, type, order, recordId);
     }
 
     /**

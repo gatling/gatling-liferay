@@ -14,8 +14,8 @@ import java.util.List;
 public class FormParamSoap implements Serializable {
     private long _formParamId;
     private long _urlRecordId;
-    private String _key;
-    private String _value;
+    private String _data;
+    private String _type;
 
     public FormParamSoap() {
     }
@@ -25,8 +25,8 @@ public class FormParamSoap implements Serializable {
 
         soapModel.setFormParamId(model.getFormParamId());
         soapModel.setUrlRecordId(model.getUrlRecordId());
-        soapModel.setKey(model.getKey());
-        soapModel.setValue(model.getValue());
+        soapModel.setData(model.getData());
+        soapModel.setType(model.getType());
 
         return soapModel;
     }
@@ -91,19 +91,19 @@ public class FormParamSoap implements Serializable {
         _urlRecordId = urlRecordId;
     }
 
-    public String getKey() {
-        return _key;
+    public String getData() {
+        return _data;
     }
 
-    public void setKey(String key) {
-        _key = key;
+    public void setData(String data) {
+        _data = data;
     }
 
-    public String getValue() {
-        return _value;
+    public String getType() {
+        return _type;
     }
 
-    public void setValue(String value) {
-        _value = value;
+    public void setType(String type) {
+        _type = type;
     }
 }

@@ -241,11 +241,7 @@ public interface FormParamLocalService extends BaseLocalService,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable;
 
-    public void save(long urlRecordId, java.lang.String key,
-        java.lang.String value)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    public void save(long urlRecordId,
-        java.util.Map<java.lang.String, java.lang.String> params)
+    public void save(long urlRecordId, java.lang.String data,
+        java.lang.String type)
         throws com.liferay.portal.kernel.exception.SystemException;
 }

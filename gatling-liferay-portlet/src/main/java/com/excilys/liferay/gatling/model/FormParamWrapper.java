@@ -38,8 +38,8 @@ public class FormParamWrapper implements FormParam, ModelWrapper<FormParam> {
 
         attributes.put("formParamId", getFormParamId());
         attributes.put("urlRecordId", getUrlRecordId());
-        attributes.put("key", getKey());
-        attributes.put("value", getValue());
+        attributes.put("data", getData());
+        attributes.put("type", getType());
 
         return attributes;
     }
@@ -58,16 +58,16 @@ public class FormParamWrapper implements FormParam, ModelWrapper<FormParam> {
             setUrlRecordId(urlRecordId);
         }
 
-        String key = (String) attributes.get("key");
+        String data = (String) attributes.get("data");
 
-        if (key != null) {
-            setKey(key);
+        if (data != null) {
+            setData(data);
         }
 
-        String value = (String) attributes.get("value");
+        String type = (String) attributes.get("type");
 
-        if (value != null) {
-            setValue(value);
+        if (type != null) {
+            setType(type);
         }
     }
 
@@ -132,43 +132,43 @@ public class FormParamWrapper implements FormParam, ModelWrapper<FormParam> {
     }
 
     /**
-    * Returns the key of this form param.
+    * Returns the data of this form param.
     *
-    * @return the key of this form param
+    * @return the data of this form param
     */
     @Override
-    public java.lang.String getKey() {
-        return _formParam.getKey();
+    public java.lang.String getData() {
+        return _formParam.getData();
     }
 
     /**
-    * Sets the key of this form param.
+    * Sets the data of this form param.
     *
-    * @param key the key of this form param
+    * @param data the data of this form param
     */
     @Override
-    public void setKey(java.lang.String key) {
-        _formParam.setKey(key);
+    public void setData(java.lang.String data) {
+        _formParam.setData(data);
     }
 
     /**
-    * Returns the value of this form param.
+    * Returns the type of this form param.
     *
-    * @return the value of this form param
+    * @return the type of this form param
     */
     @Override
-    public java.lang.String getValue() {
-        return _formParam.getValue();
+    public java.lang.String getType() {
+        return _formParam.getType();
     }
 
     /**
-    * Sets the value of this form param.
+    * Sets the type of this form param.
     *
-    * @param value the value of this form param
+    * @param type the type of this form param
     */
     @Override
-    public void setValue(java.lang.String value) {
-        _formParam.setValue(value);
+    public void setType(java.lang.String type) {
+        _formParam.setType(type);
     }
 
     @Override

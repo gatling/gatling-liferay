@@ -284,12 +284,10 @@ public class UrlRecordLocalServiceClpInvoker {
 
         if (_methodName65.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes65, parameterTypes)) {
-            UrlRecordLocalServiceUtil.save((java.lang.String) arguments[0],
+            return UrlRecordLocalServiceUtil.save((java.lang.String) arguments[0],
                 (java.lang.String) arguments[1],
                 ((Integer) arguments[2]).intValue(),
                 ((Long) arguments[3]).longValue());
-
-            return null;
         }
 
         throw new UnsupportedOperationException();

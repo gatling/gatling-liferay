@@ -1,8 +1,8 @@
 create table StressTool_FormParam (
 	formParamId LONG not null primary key,
 	urlRecordId LONG,
-	key_ VARCHAR(75) null,
-	value VARCHAR(75) null
+	data_ VARCHAR(75) null,
+	type_ VARCHAR(75) null
 );
 
 create table StressTool_LinkUsecaseRequest (

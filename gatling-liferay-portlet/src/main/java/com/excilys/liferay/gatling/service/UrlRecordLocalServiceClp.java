@@ -755,21 +755,23 @@ public class UrlRecordLocalServiceClp implements UrlRecordLocalService {
     }
 
     @Override
-    public void save(java.lang.String url, java.lang.String type, int order,
+    public long save(java.lang.String url, java.lang.String type, int order,
         long recordId)
         throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
         try {
-            _invokableLocalService.invokeMethod(_methodName22,
-                _methodParameterTypes22,
-                new Object[] {
-                    ClpSerializer.translateInput(url),
-                    
-                ClpSerializer.translateInput(type),
-                    
-                order,
-                    
-                recordId
-                });
+            returnObj = _invokableLocalService.invokeMethod(_methodName22,
+                    _methodParameterTypes22,
+                    new Object[] {
+                        ClpSerializer.translateInput(url),
+                        
+                    ClpSerializer.translateInput(type),
+                        
+                    order,
+                        
+                    recordId
+                    });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -784,5 +786,7 @@ public class UrlRecordLocalServiceClp implements UrlRecordLocalService {
                     " is not a valid exception");
             }
         }
+
+        return ((Long) returnObj).longValue();
     }
 }

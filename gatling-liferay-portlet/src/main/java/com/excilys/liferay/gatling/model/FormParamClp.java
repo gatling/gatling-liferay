@@ -21,8 +21,8 @@ import java.util.Map;
 public class FormParamClp extends BaseModelImpl<FormParam> implements FormParam {
     private long _formParamId;
     private long _urlRecordId;
-    private String _key;
-    private String _value;
+    private String _data;
+    private String _type;
     private BaseModel<?> _formParamRemoteModel;
     private Class<?> _clpSerializerClass = com.excilys.liferay.gatling.service.ClpSerializer.class;
 
@@ -65,8 +65,8 @@ public class FormParamClp extends BaseModelImpl<FormParam> implements FormParam 
 
         attributes.put("formParamId", getFormParamId());
         attributes.put("urlRecordId", getUrlRecordId());
-        attributes.put("key", getKey());
-        attributes.put("value", getValue());
+        attributes.put("data", getData());
+        attributes.put("type", getType());
 
         return attributes;
     }
@@ -85,16 +85,16 @@ public class FormParamClp extends BaseModelImpl<FormParam> implements FormParam 
             setUrlRecordId(urlRecordId);
         }
 
-        String key = (String) attributes.get("key");
+        String data = (String) attributes.get("data");
 
-        if (key != null) {
-            setKey(key);
+        if (data != null) {
+            setData(data);
         }
 
-        String value = (String) attributes.get("value");
+        String type = (String) attributes.get("type");
 
-        if (value != null) {
-            setValue(value);
+        if (type != null) {
+            setType(type);
         }
     }
 
@@ -143,21 +143,21 @@ public class FormParamClp extends BaseModelImpl<FormParam> implements FormParam 
     }
 
     @Override
-    public String getKey() {
-        return _key;
+    public String getData() {
+        return _data;
     }
 
     @Override
-    public void setKey(String key) {
-        _key = key;
+    public void setData(String data) {
+        _data = data;
 
         if (_formParamRemoteModel != null) {
             try {
                 Class<?> clazz = _formParamRemoteModel.getClass();
 
-                Method method = clazz.getMethod("setKey", String.class);
+                Method method = clazz.getMethod("setData", String.class);
 
-                method.invoke(_formParamRemoteModel, key);
+                method.invoke(_formParamRemoteModel, data);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -165,21 +165,21 @@ public class FormParamClp extends BaseModelImpl<FormParam> implements FormParam 
     }
 
     @Override
-    public String getValue() {
-        return _value;
+    public String getType() {
+        return _type;
     }
 
     @Override
-    public void setValue(String value) {
-        _value = value;
+    public void setType(String type) {
+        _type = type;
 
         if (_formParamRemoteModel != null) {
             try {
                 Class<?> clazz = _formParamRemoteModel.getClass();
 
-                Method method = clazz.getMethod("setValue", String.class);
+                Method method = clazz.getMethod("setType", String.class);
 
-                method.invoke(_formParamRemoteModel, value);
+                method.invoke(_formParamRemoteModel, type);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -255,8 +255,8 @@ public class FormParamClp extends BaseModelImpl<FormParam> implements FormParam 
 
         clone.setFormParamId(getFormParamId());
         clone.setUrlRecordId(getUrlRecordId());
-        clone.setKey(getKey());
-        clone.setValue(getValue());
+        clone.setData(getData());
+        clone.setType(getType());
 
         return clone;
     }
@@ -312,10 +312,10 @@ public class FormParamClp extends BaseModelImpl<FormParam> implements FormParam 
         sb.append(getFormParamId());
         sb.append(", urlRecordId=");
         sb.append(getUrlRecordId());
-        sb.append(", key=");
-        sb.append(getKey());
-        sb.append(", value=");
-        sb.append(getValue());
+        sb.append(", data=");
+        sb.append(getData());
+        sb.append(", type=");
+        sb.append(getType());
         sb.append("}");
 
         return sb.toString();
@@ -338,12 +338,12 @@ public class FormParamClp extends BaseModelImpl<FormParam> implements FormParam 
         sb.append(getUrlRecordId());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>key</column-name><column-value><![CDATA[");
-        sb.append(getKey());
+            "<column><column-name>data</column-name><column-value><![CDATA[");
+        sb.append(getData());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>value</column-name><column-value><![CDATA[");
-        sb.append(getValue());
+            "<column><column-name>type</column-name><column-value><![CDATA[");
+        sb.append(getType());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

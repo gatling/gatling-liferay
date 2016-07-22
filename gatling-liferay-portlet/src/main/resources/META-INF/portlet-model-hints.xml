@@ -4,8 +4,8 @@
 	<model name="com.excilys.liferay.gatling.model.FormParam">
 		<field name="formParamId" type="long" />
 		<field name="urlRecordId" type="long" />
-		<field name="key" type="String" />
-		<field name="value" type="String" />
+		<field name="data" type="String" />
+		<field name="type" type="String" />
 	</model>
 	<model name="com.excilys.liferay.gatling.model.LinkUsecaseRequest">
 		<field name="linkUsecaseRequestId" type="long" />

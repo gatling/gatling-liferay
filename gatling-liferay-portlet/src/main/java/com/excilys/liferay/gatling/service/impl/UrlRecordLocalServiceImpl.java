@@ -59,7 +59,7 @@ public class UrlRecordLocalServiceImpl extends UrlRecordLocalServiceBaseImpl {
 	}
 	
 	@Override
-	public void save(String url, String type, int order, long recordId) throws SystemException {
+	public long save(String url, String type, int order, long recordId) throws SystemException {
 		long primaryKeyUrl = CounterLocalServiceUtil.increment(UrlRecord.class.getName());
 		UrlRecord urlRecord = urlRecordPersistence.create(primaryKeyUrl);
 		urlRecord.setUrl(url);
@@ -70,5 +70,6 @@ public class UrlRecordLocalServiceImpl extends UrlRecordLocalServiceBaseImpl {
 		if(errors.isEmpty()) {
 			urlRecord.persist();
 		}
+		return primaryKeyUrl;
 	}
 }

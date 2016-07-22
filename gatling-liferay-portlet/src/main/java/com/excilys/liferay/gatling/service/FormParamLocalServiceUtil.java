@@ -263,16 +263,10 @@ public class FormParamLocalServiceUtil {
         return getService().invokeMethod(name, parameterTypes, arguments);
     }
 
-    public static void save(long urlRecordId, java.lang.String key,
-        java.lang.String value)
+    public static void save(long urlRecordId, java.lang.String data,
+        java.lang.String type)
         throws com.liferay.portal.kernel.exception.SystemException {
-        getService().save(urlRecordId, key, value);
-    }
-
-    public static void save(long urlRecordId,
-        java.util.Map<java.lang.String, java.lang.String> params)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getService().save(urlRecordId, params);
+        getService().save(urlRecordId, data, type);
     }
 
     public static void clearService() {

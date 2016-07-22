@@ -72,34 +72,34 @@ public interface FormParamModel extends BaseModel<FormParam> {
     public void setUrlRecordId(long urlRecordId);
 
     /**
-     * Returns the key of this form param.
+     * Returns the data of this form param.
      *
-     * @return the key of this form param
+     * @return the data of this form param
      */
     @AutoEscape
-    public String getKey();
+    public String getData();
 
     /**
-     * Sets the key of this form param.
+     * Sets the data of this form param.
      *
-     * @param key the key of this form param
+     * @param data the data of this form param
      */
-    public void setKey(String key);
+    public void setData(String data);
 
     /**
-     * Returns the value of this form param.
+     * Returns the type of this form param.
      *
-     * @return the value of this form param
+     * @return the type of this form param
      */
     @AutoEscape
-    public String getValue();
+    public String getType();
 
     /**
-     * Sets the value of this form param.
+     * Sets the type of this form param.
      *
-     * @param value the value of this form param
+     * @param type the type of this form param
      */
-    public void setValue(String value);
+    public void setType(String type);
 
     @Override
     public boolean isNew();

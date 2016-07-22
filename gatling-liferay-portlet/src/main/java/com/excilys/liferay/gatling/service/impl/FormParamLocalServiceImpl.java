@@ -34,12 +34,12 @@ public class FormParamLocalServiceImpl extends FormParamLocalServiceBaseImpl {
      */
 	
 	@Override
-	public void save(long urlRecordId, String key, String value) throws SystemException{
+	public void save(long urlRecordId, String data, String type) throws SystemException{
 		long primaryKeyUrl = CounterLocalServiceUtil.increment(FormParam.class.getName());
 		FormParam formParam = formParamPersistence.create(primaryKeyUrl);
 		formParam.setUrlRecordId(urlRecordId);
-		formParam.setKey(key);
-		formParam.setValue(value);
+		formParam.setData(data);
+		formParam.setType(type);
 		//final List<String> errors = FormParamValidator.validateFormParam(formParam);
 		//TODO: Create Validator
 		final List<String> errors = new ArrayList<String>();
@@ -48,10 +48,4 @@ public class FormParamLocalServiceImpl extends FormParamLocalServiceBaseImpl {
 		}
 	}
 	
-	@Override
-	public void save(long urlRecordId, Map<String, String> params) throws SystemException{
-		for (String key : params.keySet()) {
-			save(urlRecordId, key, params.get(key));
-		}
-	}
 }

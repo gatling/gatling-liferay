@@ -22,8 +22,8 @@ public class FormParamCacheModel implements CacheModel<FormParam>,
     Externalizable {
     public long formParamId;
     public long urlRecordId;
-    public String key;
-    public String value;
+    public String data;
+    public String type;
 
     @Override
     public String toString() {
@@ -33,10 +33,10 @@ public class FormParamCacheModel implements CacheModel<FormParam>,
         sb.append(formParamId);
         sb.append(", urlRecordId=");
         sb.append(urlRecordId);
-        sb.append(", key=");
-        sb.append(key);
-        sb.append(", value=");
-        sb.append(value);
+        sb.append(", data=");
+        sb.append(data);
+        sb.append(", type=");
+        sb.append(type);
         sb.append("}");
 
         return sb.toString();
@@ -49,16 +49,16 @@ public class FormParamCacheModel implements CacheModel<FormParam>,
         formParamImpl.setFormParamId(formParamId);
         formParamImpl.setUrlRecordId(urlRecordId);
 
-        if (key == null) {
-            formParamImpl.setKey(StringPool.BLANK);
+        if (data == null) {
+            formParamImpl.setData(StringPool.BLANK);
         } else {
-            formParamImpl.setKey(key);
+            formParamImpl.setData(data);
         }
 
-        if (value == null) {
-            formParamImpl.setValue(StringPool.BLANK);
+        if (type == null) {
+            formParamImpl.setType(StringPool.BLANK);
         } else {
-            formParamImpl.setValue(value);
+            formParamImpl.setType(type);
         }
 
         formParamImpl.resetOriginalValues();
@@ -70,8 +70,8 @@ public class FormParamCacheModel implements CacheModel<FormParam>,
     public void readExternal(ObjectInput objectInput) throws IOException {
         formParamId = objectInput.readLong();
         urlRecordId = objectInput.readLong();
-        key = objectInput.readUTF();
-        value = objectInput.readUTF();
+        data = objectInput.readUTF();
+        type = objectInput.readUTF();
     }
 
     @Override
@@ -80,16 +80,16 @@ public class FormParamCacheModel implements CacheModel<FormParam>,
         objectOutput.writeLong(formParamId);
         objectOutput.writeLong(urlRecordId);
 
-        if (key == null) {
+        if (data == null) {
             objectOutput.writeUTF(StringPool.BLANK);
         } else {
-            objectOutput.writeUTF(key);
+            objectOutput.writeUTF(data);
         }
 
-        if (value == null) {
+        if (type == null) {
             objectOutput.writeUTF(StringPool.BLANK);
         } else {
-            objectOutput.writeUTF(value);
+            objectOutput.writeUTF(type);
         }
     }
 }
