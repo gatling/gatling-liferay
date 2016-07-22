@@ -16,10 +16,13 @@ import com.liferay.portal.service.PortletLocalServiceUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -30,6 +33,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 
 /**
@@ -161,11 +165,12 @@ public class RecorderFilter implements Filter {
 		String params = HttpUtil.parameterMapToString(filterParameters(request.getParameterMap()));
 		String requestURL = request.getRequestURI().replace(URL_CONTROL_PANEL, "");
 		String formData = null;
+		RecordURL record = null;
 		
 		if(request.getMethod().equalsIgnoreCase("post")) {
 			
 			if (type != null && type.toLowerCase().contains("multipart/form-data")) {
-				LOG.debug("multipart form detected");
+				LOG.debug("POST multipart form detected...");
 				/*
 				 */
 				BufferedReader buffer = request.getReader();
@@ -175,16 +180,35 @@ public class RecorderFilter implements Filter {
 					sb.append(line);
 				}
 				formData = sb.toString();
-				
+				record = new PostMultipartURL(request.getMethod(), requestURL, params, formData);
 			}
 			
 			else {
-				multipartError = true;
+				LOG.debug("Post...");
+				Collection<Part> parts = null;
+				try {
+					parts = request.getParts();
+					LOG.debug(parts);
+				} catch(Exception e) {
+					LOG.error("Parts were not found");
+					LOG.error(e.getMessage());
+				}
+
+				
+				params = computeParametersFromMultiParts(params, parts, parametersMap.keySet());
+				record = new GetURL(request.getMethod(), requestURL, params);
+				LOG.debug("/!\\/!\\ multiple part not processed yet");
+				//multipartError = true;
 				//TODO replace this code to process post params
 			}
 			
 		}
-		RecordURL record = new RecordURL(request.getMethod(), requestURL, params, formData);
+		else {
+			LOG.debug("Get....");
+			record = new GetURL(request.getMethod(), requestURL, params);
+		}
+		
+		//RecordURL record = new RecordURL(request.getMethod(), requestURL, params, formData);
 		LOG.debug(record);
 		currentRecords.add(record);
 		session.setAttribute("recordURL", currentRecords);
@@ -210,10 +234,12 @@ public class RecorderFilter implements Filter {
 				Record record = RecordLocalServiceUtil.save(info[2], info[0], portletVersion);
 				LOG.debug("...1/2");
 				for (int i = 1; i < currentRecords.size(); i++) {
-					String url = currentRecords.get(i).getUrl()+currentRecords.get(i).getParams();
+					//String url = currentRecords.get(i).getUrl()+currentRecords.get(i).getParams();
 					String type = currentRecords.get(i).getMethod();
+					
 					//Save url table
-					UrlRecordLocalServiceUtil.save(url, type, i, record.getRecordId());
+					currentRecords.get(i).saveURL(i, record.getRecordId());
+					//UrlRecordLocalServiceUtil.save(url, type, i, record.getRecordId());
 					LOG.debug("...");
 				}
 				LOG.debug("...2/2");
@@ -237,13 +263,13 @@ public class RecorderFilter implements Filter {
 	}
 	
 
-	private class RecordURL {
+	/*private class RecordURL {
 		private final String method;
 		private final String url;
 		private final String params;
 		private final String formData;
 		
-		public RecordURL(String method, String requestURL, String params,String formData) {
+		public RecordURL(String method, String requestURL, String params, String formData) {
 			this.method = method;
 			this.url = requestURL;
 			this.params = params;
@@ -271,13 +297,43 @@ public class RecorderFilter implements Filter {
 			return "RecordURL [method=" + method + ", url=" + url + ", params="
 					+ params + ", formData="+formData+"]";
 		}
-	}
+	}*/
 
 	private enum State {
 		RECORDING,IDLE;
 	}
 	
-	private void parseRequestParams(StringBuilder sb) {
-		LOG.debug("Received: "+sb);
+	/**
+	 * Computes the String that will hold all the multiparts form parameters if those parts are valid.
+	 * @param initialParameters The initial parameters that will be present in the final result
+	 * @param parts The several parts of the form
+	 * @param validParameters A set that contains all the validParameters'names
+	 * @return The computed parameters string
+	 * @throws IOException If an error occurs while extracting parts content
+	 */
+	private static String computeParametersFromMultiParts(String initialParameters, Collection<Part> parts, Set<String> validParameters) throws IOException{
+		if(parts != null && !parts.isEmpty()) {
+			LOG.debug("is MultipartContent "+parts.size());
+			StringBuilder result = new StringBuilder(initialParameters);
+			for (Part part : parts) {
+				String name = part.getName();
+				if(!name.equals("null") && !validParameters.contains(name)) {
+					BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream()));
+					StringBuilder value = new StringBuilder();
+					char[] buffer = new char[10240]; //TODO: Find out why 10240
+					for (int length = 0; (length = reader.read(buffer)) > 0;) {
+						value.append(buffer, 0, length);
+					}
+					String input = value.toString();
+					LOG.debug("\t"+name+" : "+input);
+					result.append("&").append(name).append("=").append(input);
+				}
+			}
+			return result.toString();
+		}
+		else {
+			return initialParameters;
+		}
 	}
+
 }
