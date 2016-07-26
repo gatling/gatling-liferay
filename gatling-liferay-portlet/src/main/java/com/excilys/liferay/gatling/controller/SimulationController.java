@@ -50,7 +50,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
 @Controller(value="SimulationController")
-@RequestMapping("VIEW")
+@RequestMapping("2VIEW")
 public class SimulationController {
 
 	private static final Log LOG = LogFactoryUtil.getLog(SimulationController.class);
