@@ -1,19 +1,19 @@
-package com.excilys.liferay.gatling.recorder;
+package com.excilys.liferay.gatling.recorder.records;
 
 import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 
+//TODO: Comment Me !
+
 public abstract class RecordURL {
 	protected String method;
 	protected String url;
-	protected String type;
 	protected String params;
 	
-	protected RecordURL(String method, String requestURL, String params, String type) {
+	protected RecordURL(String method, String requestURL, String params) {
 		this.method = method;
 		this.url = requestURL;
 		this.params = params;
-		this.type = type;
 	}
 
 	public String getMethod() {
@@ -32,16 +32,15 @@ public abstract class RecordURL {
 	@Override
 	public String toString() {
 		return "RecordURL [method=" + method + ", url=" + url + ", params="
-				+ params + ", type="+type+"]";
+				+ params + "]";
 	}
 
-	
 	public final void saveURL(int order, long recordId) throws SystemException {
-		//long primaryKey = UrlRecordLocalServiceUtil.save(url, method, order, recordId);
-		//persistData(primaryKey);
+		long primaryKey = UrlRecordLocalServiceUtil.save(url, method, order, recordId);
+		saveData(primaryKey);
 	}
 	
-	protected void persistData(long primaryKey) throws SystemException{
+	protected void saveData(long primaryKey) throws SystemException{
 		//DOES nothing, custom behaviour has to be implemented in child classes
 	}
 }

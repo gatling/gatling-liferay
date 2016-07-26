@@ -4,7 +4,6 @@
 package com.excilys.liferay.gatling.controller;
 
 import com.excilys.liferay.gatling.model.Simulation;
-import com.excilys.liferay.gatling.model.impl.SimulationImpl;
 import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
