@@ -3,25 +3,33 @@
  */
 package com.excilys.liferay.gatling.controller;
 
+import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.liferay.portal.NoSuchModelException;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.HttpHeaders;
+import com.liferay.portal.kernel.util.ParamUtil;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.ReadOnlyException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.portlet.ValidatorException;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 @Controller(value = "ViewController")
 @RequestMapping("VIEW")
@@ -40,9 +48,29 @@ public class ViewController {
 	@ActionMapping(params="action=debugYann")
 	public void debugYann(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, NoSuchModelException{
 		LOG.debug("Debug Yann called");
-	
+
+
+		
 		response.setRenderParameter("render", "renderView");
 	}
+	
+	@ResourceMapping(value="generateZip")	
+	public void serveManyScript(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
+		String template = "/templateGatling2.X.X.mustache";
+		//create and export only one file with scenario script for this simulation id
+		Simulation simulation = null;
+		//final Date date = new Date();		
+		final long[] simulationsIds = ParamUtil.getLongValues(request, "export");
+		
+		response.setContentType("application/zip");
+		response.addProperty("Content-Disposition", "attachment; filename = GatlingSimulations_it_works.zip");
+		
+		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader());
+		
+		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
+		LOG.debug("Zip generated ...");
+	}
+
 	
 	@ActionMapping(params="action=debugNico")
 	public void debugNico(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, NoSuchModelException{
@@ -53,40 +81,6 @@ public class ViewController {
 	
 	
 	
-	
-	
-	
-	
-	//TODO: Move me in a right way!
-	// Get file loads a specific file from WEB-INF/classes
-	// https://web.liferay.com/community/forums/-/message_boards/message/10307074
-	private String getFile(String path) {
-
-		StringBuilder result = new StringBuilder("");
-
-		// Get file from resources folder
-		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource(path).getFile());
-
-		// File f = new File(
-		// getClass().getClassLoader().getResource("/file.txt").getFile());
-		try (Scanner scanner = new Scanner(file)) {
-
-			while (scanner.hasNextLine()) {
-				String line = scanner.nextLine();
-				result.append(line).append("\n");
-			}
-
-			scanner.close();
-			System.out.println(result);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return result.toString();
-
-	}
-
 	/**
 	 * Takes all the renders without param.
 	 * 

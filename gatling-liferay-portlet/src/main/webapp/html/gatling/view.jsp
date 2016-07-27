@@ -13,13 +13,18 @@ Hello world
 <liferay-ui:icon image="edit" message="renderAdvancedView"
             url="${renderAdvancedView}" />
             
+
+<div align="right">
+
 <portlet:actionURL var="debugButton1">
 	<portlet:param name="action" value="debugYann" />
 </portlet:actionURL>
 
-<div align="right">
+<portlet:resourceURL id="manyScriptsY" var="resourceUrl" />
+
 <liferay-ui:icon iconCssClass="icon-film" message="debugYann"
-            url="${debugButton1}" />      
+            url="${resourceUrl}" />      
+      
             
 <portlet:actionURL var="debugButton2">
 	<portlet:param name="action" value="debugNico" />
