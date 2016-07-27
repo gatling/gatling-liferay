@@ -3,6 +3,8 @@
  */
 package com.excilys.liferay.gatling.controller;
 
+import com.liferay.portal.NoSuchModelException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
@@ -10,12 +12,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 @Controller(value = "ViewController")
@@ -31,6 +36,27 @@ public class ViewController {
 		return "view";
 	}
 
+	
+	@ActionMapping(params="action=debugYann")
+	public void debugYann(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, NoSuchModelException{
+		LOG.debug("Debug Yann called");
+	
+		response.setRenderParameter("render", "renderView");
+	}
+	
+	@ActionMapping(params="action=debugNico")
+	public void debugNico(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, NoSuchModelException{
+		LOG.debug("Debug Nico called");
+		response.setRenderParameter("render", "renderView");
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	//TODO: Move me in a right way!
 	// Get file loads a specific file from WEB-INF/classes
 	// https://web.liferay.com/community/forums/-/message_boards/message/10307074
