@@ -19,9 +19,9 @@
 	<bean class="com.excilys.liferay.gatling.controller.SimulationController" ></bean>
 	<bean class="com.excilys.liferay.gatling.controller.PortletController" ></bean>
 	<bean class="com.excilys.liferay.gatling.controller.RequestController" ></bean>
-	<bean class="com.excilys.liferay.gatling.controller.ViewController" ></bean>
+	<bean class="com.excilys.liferay.gatling.controller.AdvancedViewController" ></bean>
 	<bean class="com.excilys.liferay.gatling.controller.ScenarioController" ></bean>
-	<bean class="com.excilys.liferay.gatling.controller.DefaultSimulationController" ></bean>
+	<bean class="com.excilys.liferay.gatling.controller.ViewController" ></bean>
 	
 	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView" />

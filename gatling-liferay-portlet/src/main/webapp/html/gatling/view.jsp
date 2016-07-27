@@ -6,9 +6,9 @@
 Hello world
 
 
-<portlet:renderURL var="seeOldPortlet">
-<portlet:param name="render" value="seeOldPortlet" />
+<portlet:renderURL var="renderAdvancedView">
+	<portlet:param name="render" value="renderAdvancedView" />
 </portlet:renderURL>
 
-<liferay-ui:icon image="edit" message="seeOldStuff"
-            url="<%= seeOldPortlet%>" />
+<liferay-ui:icon image="edit" message="renderAdvancedView"
+            url="${renderAdvancedView}" />

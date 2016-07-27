@@ -6,7 +6,7 @@
 	header
 --%>
 <portlet:renderURL var="backURL">
-	<portlet:param name="render" value="renderView" />
+	<portlet:param name="render" value="renderAdvancedView" />
 </portlet:renderURL>
 
 <c:set var="titleHeader">

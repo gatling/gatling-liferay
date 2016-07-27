@@ -121,7 +121,7 @@ public class ScenarioController {
 			response.setRenderParameter("simulationId", Long.toString(scenario.getSimulation_id()));
 			response.setRenderParameter("render", "renderSimulation");
 		} else {
-			response.setRenderParameter("render", "renderView");
+			response.setRenderParameter("render", "renderAdvancedView");
 		}
 		
 	}

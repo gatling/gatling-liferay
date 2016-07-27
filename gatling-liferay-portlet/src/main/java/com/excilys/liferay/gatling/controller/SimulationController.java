@@ -50,7 +50,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
 @Controller(value="SimulationController")
-@RequestMapping("2VIEW")
+@RequestMapping("VIEW")
 public class SimulationController {
 
 	private static final Log LOG = LogFactoryUtil.getLog(SimulationController.class);
@@ -110,7 +110,7 @@ public class SimulationController {
 			response.setRenderParameter("render", "renderSimulation");
 			LOG.debug("Simulation added"); 
 		} else {
-			response.setRenderParameter("render", "renderView");
+			response.setRenderParameter("render", "renderAdvancedView");
 			LOG.debug("Simulation fails to add");
 		}
 	}
@@ -160,7 +160,7 @@ public class SimulationController {
 			LOG.debug("remove Simulation with id : " + simulationId);
 		}
 		SimulationLocalServiceUtil.removeSimulationCascade(simulationId);
-		response.setRenderParameter("render", "renderView");
+		response.setRenderParameter("render", "renderAdvancedView");
 	}
 	
 	@ResourceMapping(value="oneScript")
