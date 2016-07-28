@@ -1,4 +1,4 @@
-package com.liferay.scenario
+package com.ebusiness.liferay.scenarios
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
@@ -8,12 +8,10 @@ import io.gatling.http.check.HttpCheck
 
 object Login {
 
-	val validUsers = "feeders/validUsers.csv"
-	val invalidUsers = "feeders/invalidUsers.csv"
-  val loginFailRegex = regex("""<div class="alert alert-error"> Authentication failed.* <\/div>""");
+  	val loginFailRegex = regex("""<div class="alert alert-error"> Authentication failed.* <\/div>""");
 
-  val successfulLogin = scenario(validUsers, loginFailRegex.notExists)
-  val unsuccessfulLogin = scenario(invalidUsers, loginFailRegex.exists)
+  	def successfulLogin(loginPageUrl: String, feederName: String) =
+  		scenario(loginPageUrl, feederName, loginFailRegex.notExists)
 
 	def scenario(loginPageUrl: String, feederName: String, loginCheck: HttpCheck) =
 		feed(csv(feederName).random)

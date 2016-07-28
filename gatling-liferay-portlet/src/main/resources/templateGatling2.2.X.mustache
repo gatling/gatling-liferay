@@ -3,7 +3,7 @@ import io.gatling.http.Predef._
 import scala.concurrent.duration._
 
 // TODO: Check import
-import com.ebusiness.liferay.simulations._
+import com.ebusiness.liferay.scenarios._
 
 /**
  * Gatling 2.2.X Script generated for Liferay by the plugin
@@ -135,32 +135,10 @@ class {{simuName}} extends Simulation {
  */
 {{#mustacheScenario}}
 	val {{scenarioName}} = scenario("{{scenarioName}}")
-	    .exec(http("Home")
-			.get("{{{loginPageURL}}}")
-			.check(regex("""<input name="_58_formDate" type="hidden" value="(.+?)" />""").saveAs("formDate")))
-		.pause(1)
-	  	.feed(feeder)
 	  	//TODO: check new login scenario
-	  	.exec(Login.scenario("""{{{loginPageURL}}}""", """feeders/siteMapPages.csv""", Login.loginFailRegex.notExists)
-	  	//TODO: remove old login once Login.scenario works
-	    .exec(http("Login")
-			.post("""{{{loginPageURL}}}?p_p_id=58&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_58_struts_action=%2Flogin%2Flogin""")
-			.formParam("""_58_formDate""", """${formDate}""")
-			.formParam("""_58_saveLastPath""", """false""")
-			.formParam("""_58_redirect""", """""")
-			.formParam("""_58_doActionAfterLogin""", """false""")
-			.formParam("""_58_login""", """${login}""")
-			.formParam("""_58_password""", """${password}""")
-			.formParam("""_58_rememberMe""", """false""")
-			.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8"))
-      // TODO remove following execution (random switch+content), replace with getPage instead
-	    .randomSwitch(
-{{#mustacheRequests}}
-    		{{pourcentage}} -> exec({{^notRegular}}http("{{scenarioName}}{{requestName}}").get("{{{url}}}").check(regex("{{requestName}}")){{/notRegular}}{{^regular}}{{scenarioName}}{{requestName}}.Entrance{{/regular}}){{^last}},{{/last}}
-{{/mustacheRequests}}
-  		)
-      .exec(getPage(feederFile)) //TODO complete call
-      .exec(Logout.scenario) //TODO check call (portal URL might be need)
+	  	.exec(Login.successfulLogin("""{{{loginPageURL}}}""", TODO generate feeder)
+      .exec(getPage("""feeders/siteMapPages.csv""")) //TODO complete call
+      .exec(Logout.scenario({{{loginPageURL}}})) //TODO check call (portal URL might be need)
 {{/mustacheScenario}}
 
 

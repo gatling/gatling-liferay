@@ -1,10 +1,10 @@
-package com.liferay.scenario
+package com.ebusiness.liferay.scenarios
 
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ChainBuilder
 import io.gatling.http.Predef._
 
-//TODO: Document Me !
+//TODO: Document Me!
 
 object GetPage {
 
@@ -15,6 +15,9 @@ object GetPage {
 
   def basicPage(page: String) : ChainBuilder =
     basicPage("Page " + page, page)
+   
+  def basicPage(feederName : String) : ChainBuilder = 
+  	//TODO getfeeder
 
   val homePage = basicPage("Home Page", "/web/guest/home")
 
