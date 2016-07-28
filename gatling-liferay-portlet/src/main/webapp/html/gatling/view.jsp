@@ -45,7 +45,6 @@
 		Nico
 	</a>
 	
-	
 </div>
 
 <%-- NavBar --%>
@@ -60,7 +59,7 @@
 </div>
 
 <aui:fieldset class="fieldset">
-	<aui:input name="simulationId" type="hidden" value="${simulation.simulation_id }" />
+	<aui:input name="simulationId" type="hidden" value="${simulationId}" />
 	<aui:button type="submit" value="Save the Scenario" cssClass="pull-right" />
 
 	<legend class="fieldset-legend">
@@ -82,12 +81,14 @@
 <aui:fieldset label="Details">
 	<aui:select label="simulation-edit-form-sites" name="Site" required="true">
 		<c:forEach var="group" items="${listGroup}">
-			<aui:option label="${group.descriptiveName}" value="${group.groupId}" />
+			<c:set var="isSelected" scope="request" value="${group.groupId eq scenarioGroupId}" />
+			<aui:option label="${group.descriptiveName}" value="${group.groupId}"
+				selected="isSelected" />
 		</c:forEach>
 	</aui:select>
 
 	<aui:input label="scenario-edit-nb-users-per-second"
-		name="scenarioUsers" value="${scenario.numberOfUsers}"
+		name="scenarioUsers" value="${numberOfUsers}"
 		inlineField="true" helpMessage="nbuser-info-help">
 		<aui:validator name="required" />
 		<aui:validator name="number" />
@@ -95,7 +96,7 @@
 	</aui:input>
 
 	<aui:input label="scenario-edit-duration" name="Ramp over duration"
-		value="${scenario.duration}" inlineField="true"
+		value="${rampUp}" inlineField="true"
 		helpMessage="duration-info-help">
 		<aui:validator name="required" />
 		<aui:validator name="number" />
@@ -105,28 +106,17 @@
 </aui:fieldset>
 
 <aui:fieldset label="Login Feeder">
-		<c:choose>
-			<c:when test="${not simulation.isFeederAFile }">
-				<aui:input name="manualUsers"
-					label="write-one-account-and-password-per-line" type="textarea"
-					cssClass="textarea-feeder" value="${simulation.feederContent }"></aui:input>
-			</c:when>
-			
-			<c:otherwise>
-				<aui:input name="manualUsers"
-					label="write-one-account-and-password-per-line" type="textarea"
-					cssClass="textarea-feeder" disabled="${simulation.isFeederAFile }"></aui:input>
-			</c:otherwise>
-		</c:choose>
-</aui:fieldset>
 
+			
+	<aui:input name="manualUsers"
+		label="write-one-account-and-password-per-line" type="textarea"
+		cssClass="textarea-feeder" value="${feederContent}"></aui:input>
+			
+</aui:fieldset>
 
 
 <style>
 
-.user-story {
-	
-}
 
 .scenario {
 	display:inline-block;

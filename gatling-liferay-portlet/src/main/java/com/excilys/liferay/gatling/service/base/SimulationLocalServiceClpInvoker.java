@@ -53,6 +53,8 @@ public class SimulationLocalServiceClpInvoker {
     private String[] _methodParameterTypes64;
     private String _methodName65;
     private String[] _methodParameterTypes65;
+    private String _methodName66;
+    private String[] _methodParameterTypes66;
 
     public SimulationLocalServiceClpInvoker() {
         _methodName0 = "addSimulation";
@@ -149,17 +151,21 @@ public class SimulationLocalServiceClpInvoker {
 
         _methodParameterTypes62 = new String[] { "java.lang.Long" };
 
-        _methodName63 = "isNameUnique";
+        _methodName63 = "getByName";
 
         _methodParameterTypes63 = new String[] { "java.lang.String" };
 
-        _methodName64 = "addSimulationFromRequest";
+        _methodName64 = "isNameUnique";
 
-        _methodParameterTypes64 = new String[] { "javax.portlet.ActionRequest" };
+        _methodParameterTypes64 = new String[] { "java.lang.String" };
 
-        _methodName65 = "containsPrivatePage";
+        _methodName65 = "addSimulationFromRequest";
 
-        _methodParameterTypes65 = new String[] { "long" };
+        _methodParameterTypes65 = new String[] { "javax.portlet.ActionRequest" };
+
+        _methodName66 = "containsPrivatePage";
+
+        _methodParameterTypes66 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -272,16 +278,21 @@ public class SimulationLocalServiceClpInvoker {
 
         if (_methodName63.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes63, parameterTypes)) {
-            return SimulationLocalServiceUtil.isNameUnique((java.lang.String) arguments[0]);
+            return SimulationLocalServiceUtil.getByName((java.lang.String) arguments[0]);
         }
 
         if (_methodName64.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes64, parameterTypes)) {
-            return SimulationLocalServiceUtil.addSimulationFromRequest((javax.portlet.ActionRequest) arguments[0]);
+            return SimulationLocalServiceUtil.isNameUnique((java.lang.String) arguments[0]);
         }
 
         if (_methodName65.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes65, parameterTypes)) {
+            return SimulationLocalServiceUtil.addSimulationFromRequest((javax.portlet.ActionRequest) arguments[0]);
+        }
+
+        if (_methodName66.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes66, parameterTypes)) {
             return SimulationLocalServiceUtil.containsPrivatePage(((Long) arguments[0]).longValue());
         }
 

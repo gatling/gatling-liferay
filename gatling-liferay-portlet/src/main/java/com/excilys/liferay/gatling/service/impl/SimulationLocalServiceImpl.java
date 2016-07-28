@@ -14,6 +14,7 @@
 
 package com.excilys.liferay.gatling.service.impl;
 
+import java.security.Provider.Service;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -30,6 +31,7 @@ import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -66,6 +68,18 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		ScenarioLocalServiceUtil.removeBySimulationIdCascade(simulationId);
 		simulationPersistence.remove(simulationId);
 	}
+	
+	
+	public Simulation getByName(String name) throws SystemException {
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(Simulation.class)
+			.add(PropertyFactoryUtil.forName("name").eq(name));
+		List<?> simulations = simulationPersistence.findWithDynamicQuery(dynamicQuery);
+		if(simulations != null && !simulations.isEmpty()){
+			return (Simulation) simulations.get(0);
+		}
+		return null;
+	}
+	
 
 	/**
 	 * Check if name is unique for {@link Simulation}

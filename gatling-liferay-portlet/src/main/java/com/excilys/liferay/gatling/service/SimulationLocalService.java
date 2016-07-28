@@ -248,6 +248,11 @@ public interface SimulationLocalService extends BaseLocalService,
         throws com.liferay.portal.NoSuchModelException,
             com.liferay.portal.kernel.exception.SystemException;
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public com.excilys.liferay.gatling.model.Simulation getByName(
+        java.lang.String name)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
     /**
     * Check if name is unique for {@link Simulation}
     */

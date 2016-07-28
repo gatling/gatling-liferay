@@ -272,6 +272,12 @@ public class SimulationLocalServiceUtil {
         getService().removeSimulationCascade(simulationId);
     }
 
+    public static com.excilys.liferay.gatling.model.Simulation getByName(
+        java.lang.String name)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().getByName(name);
+    }
+
     /**
     * Check if name is unique for {@link Simulation}
     */

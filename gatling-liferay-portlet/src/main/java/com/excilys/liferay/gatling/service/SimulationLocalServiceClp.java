@@ -52,6 +52,8 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
     private String[] _methodParameterTypes21;
     private String _methodName22;
     private String[] _methodParameterTypes22;
+    private String _methodName23;
+    private String[] _methodParameterTypes23;
 
     public SimulationLocalServiceClp(
         InvokableLocalService invokableLocalService) {
@@ -151,17 +153,21 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
 
         _methodParameterTypes19 = new String[] { "java.lang.Long" };
 
-        _methodName20 = "isNameUnique";
+        _methodName20 = "getByName";
 
         _methodParameterTypes20 = new String[] { "java.lang.String" };
 
-        _methodName21 = "addSimulationFromRequest";
+        _methodName21 = "isNameUnique";
 
-        _methodParameterTypes21 = new String[] { "javax.portlet.ActionRequest" };
+        _methodParameterTypes21 = new String[] { "java.lang.String" };
 
-        _methodName22 = "containsPrivatePage";
+        _methodName22 = "addSimulationFromRequest";
 
-        _methodParameterTypes22 = new String[] { "long" };
+        _methodParameterTypes22 = new String[] { "javax.portlet.ActionRequest" };
+
+        _methodName23 = "containsPrivatePage";
+
+        _methodParameterTypes23 = new String[] { "long" };
     }
 
     @Override
@@ -707,13 +713,41 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
     }
 
     @Override
-    public boolean isNameUnique(java.lang.String name)
+    public com.excilys.liferay.gatling.model.Simulation getByName(
+        java.lang.String name)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
             returnObj = _invokableLocalService.invokeMethod(_methodName20,
                     _methodParameterTypes20,
+                    new Object[] { ClpSerializer.translateInput(name) });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (com.excilys.liferay.gatling.model.Simulation) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
+    public boolean isNameUnique(java.lang.String name)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName21,
+                    _methodParameterTypes21,
                     new Object[] { ClpSerializer.translateInput(name) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -740,8 +774,8 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName21,
-                    _methodParameterTypes21,
+            returnObj = _invokableLocalService.invokeMethod(_methodName22,
+                    _methodParameterTypes22,
                     new Object[] { ClpSerializer.translateInput(request) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -767,8 +801,8 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName22,
-                    _methodParameterTypes22, new Object[] { simulationId });
+            returnObj = _invokableLocalService.invokeMethod(_methodName23,
+                    _methodParameterTypes23, new Object[] { simulationId });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
