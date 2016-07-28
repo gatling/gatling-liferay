@@ -29,7 +29,7 @@
 		<portlet:param name="action" value="debugYann" />
 	</portlet:actionURL>
 
-	<portlet:resourceURL id="manyScriptsY" var="resourceUrl" />
+	<portlet:resourceURL id="generateZip" var="resourceUrl" />
 
 	<a href="${debugButton1}" class="label label-success">
 		<i class="icon-heart"></i> 
@@ -53,7 +53,7 @@
 	<div class="navbar-inner">
 		<ul class="nav">
 			<li>
-				<a id="exportToggle" href="#"><i class="icon-print"></i> Export the simulation</a>
+				<a id="exportToggle" href="${resourceUrl}"><i class="icon-print"></i> Export the simulation</a>
 			</li>
 		</ul>
 	</div>

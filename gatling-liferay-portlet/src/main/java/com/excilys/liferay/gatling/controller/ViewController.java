@@ -12,6 +12,8 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.theme.ThemeDisplay;
 
 import java.io.IOException;
 
@@ -49,13 +51,12 @@ public class ViewController {
 	public void debugYann(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, NoSuchModelException{
 		LOG.debug("Debug Yann called");
 
-
-		
 		response.setRenderParameter("render", "renderView");
 	}
 	
 	@ResourceMapping(value="generateZip")	
 	public void serveManyScript(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
+		LOG.debug("Generating zip file...");
 		String template = "/templateGatling2.X.X.mustache";
 		//create and export only one file with scenario script for this simulation id
 		Simulation simulation = null;
@@ -65,7 +66,9 @@ public class ViewController {
 		response.setContentType("application/zip");
 		response.addProperty("Content-Disposition", "attachment; filename = GatlingSimulations_it_works.zip");
 		
-		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader());
+		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+		
+		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), themeDisplay, 20182);
 		
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 		LOG.debug("Zip generated ...");

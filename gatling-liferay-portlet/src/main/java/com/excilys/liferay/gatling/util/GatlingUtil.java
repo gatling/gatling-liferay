@@ -188,27 +188,26 @@ public class GatlingUtil {
 	/*
 	 * Zip the test environment: simulations + predifined scenarios
 	 */
-	public static void zipMyEnvironment(OutputStream os, ClassLoader classLoader)
-			throws IOException {
+	public static void zipMyEnvironment(OutputStream os, ClassLoader classLoader, ThemeDisplay themeDisplay, long groupId)
+			throws IOException, SystemException {
 
 		// final ZipOutputStream zipOutputStream = new
 		// ZipOutputStream(response.getPortletOutputStream());
 		final ZipOutputStream zipOutputStream = new ZipOutputStream(os);
 
-		//TODO: add a README -> Hey I just met you, and this is crazy, but here're my scalas, so readme maybe
+		// TODO: add a README -> Hey I just met you, and this is crazy, but
+		// here're my scalas, so readme maybe
 		// Get file from resources folder
 		File[] files = new File(classLoader.getResource("gatling").getFile())
 				.listFiles();
 		// Goes through the sources directories (scenario and feeder)
 		for (File rootDirectory : files) {
-			System.out.println(rootDirectory.getName());
 			File[] sources = rootDirectory.listFiles();
 			for (File source : sources) {
 				zipOutputStream.putNextEntry(new ZipEntry(rootDirectory
 						.getName() + "/" + source.getName()));
 				zipOutputStream.write((getFile(source)).getBytes());
 				zipOutputStream.closeEntry();
-				;
 			}
 		}
 
@@ -229,6 +228,17 @@ public class GatlingUtil {
 		 * } }
 		 */
 
+		// Saving feeders:
+		zipOutputStream.putNextEntry(new ZipEntry("feeders/siteMapPages.csv"));
+		zipOutputStream.write("site,URL\n".getBytes());
+		for (Layout layout : getSiteMap(groupId)) {
+			String currentFriendlyURL = GroupLocalServiceUtil.fetchGroup(layout.getGroupId()).getIconURL(themeDisplay);
+			StringBuilder sb = new StringBuilder(currentFriendlyURL.split("/")[0]);
+			sb.append("//").append(currentFriendlyURL.split("/")[2]).append("/web").append(GroupLocalServiceUtil.fetchGroup(layout.getGroupId()).getFriendlyURL()).append(layout.getFriendlyURL());
+			zipOutputStream.write((layout.getFriendlyURL().substring(1)+","+sb.toString()+"\n").getBytes());
+		}
+		zipOutputStream.closeEntry();
+		
 		zipOutputStream.close();
 	}
 
@@ -259,7 +269,6 @@ public class GatlingUtil {
 			}
 
 			scanner.close();
-			System.out.println(result);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -267,22 +276,36 @@ public class GatlingUtil {
 		return result.toString();
 	}
 
-	//TODO: Move me in a right way!
-		//TODO: find a way to use the Layout (friendlyURL? NAME?...)
-		// NOTE get scenario group id -> scenario.getGroup_id();
-		private void getSiteMap(long groupId) throws SystemException {
-			List<Layout> listPublicLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false, 0);
-			//get private layout list
-			List<Layout> listPrivateLayouts = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
-			
-			for (Layout l : listPrivateLayouts) {
-				System.out.println("Private Layout: "+l.getFriendlyURL());
-			}
-			
-			for (Layout l : listPublicLayouts) {
-				System.out.println("Public Layout: "+l.getName());
-			}
-			
-		}
+	// NOTE get scenario group id -> scenario.getGroup_id();
+	public static List<Layout> getSiteMap(long groupId) throws SystemException {
 		
+		// get private layout list
+
+
+		List<Layout> layouts = new ArrayList<>();
+		layouts.addAll(LayoutLocalServiceUtil.getLayouts(
+				groupId, true, 0));
+		layouts.addAll(LayoutLocalServiceUtil.getLayouts(
+				groupId, false, 0));		
+		return layouts;
+		/*
+		//Note: String concatenation copied fomr ScenarioController
+		for (Layout l : listPrivateLayouts) {
+			
+			String currentFriendlyURL = GroupLocalServiceUtil.fetchGroup(l.getGroupId()).getIconURL(themeDisplay);
+			StringBuilder sb = new StringBuilder(currentFriendlyURL.split("/")[0]);
+			sb.append("//").append(currentFriendlyURL.split("/")[2]).append("/web").append(GroupLocalServiceUtil.fetchGroup(l.getGroupId()).getFriendlyURL()).append(l.getName());
+			pagesURL.add(sb.toString());
+		}
+
+		for (Layout l : listPublicLayouts) {
+			
+			String currentFriendlyURL = GroupLocalServiceUtil.fetchGroup(l.getGroupId()).getIconURL(themeDisplay);
+			StringBuilder sb = new StringBuilder(currentFriendlyURL.split("/")[0]);
+			sb.append("//").append(currentFriendlyURL.split("/")[2]).append("/web").append(GroupLocalServiceUtil.fetchGroup(l.getGroupId()).getFriendlyURL()).append(l.getFriendlyURL());
+			pagesURL.add(sb.toString());
+		}*/
+
+	}
+
 }
