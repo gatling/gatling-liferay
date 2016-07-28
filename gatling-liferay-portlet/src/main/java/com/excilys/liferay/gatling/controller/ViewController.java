@@ -3,6 +3,7 @@
  */
 package com.excilys.liferay.gatling.controller;
 
+import com.excilys.liferay.gatling.NoSuchScenarioException;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
@@ -17,6 +18,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
@@ -115,6 +117,35 @@ public class ViewController {
 		scenario.setDuration(5);
 		scenario.persist();
 		return scenario;
+	}
+	
+	
+	@ActionMapping(params="action=saveDefaultSimulation")
+	public void editFeederAction(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{
+		LOG.debug("Action Triggered : Save Default Simulation");
+		
+		long simulationId = ParamUtil.getLong(request, "simulationId");
+		long scenarioGroupId = ParamUtil.getLong(request, "scenarioGroupId");
+		long numberOfUsers = ParamUtil.getLong(request, "numberOfUsers");
+		long rampUp = ParamUtil.getLong(request, "rampUp");
+		String feederContent = ParamUtil.getString(request, "feederContent");
+		
+		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
+		List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
+		if(scenarios == null || scenarios.isEmpty()) {
+			throw new NoSuchScenarioException();
+		}
+		Scenario scenario = scenarios.get(0);
+		
+		scenario.setGroup_id(scenarioGroupId);
+		scenario.setNumberOfUsers(numberOfUsers);
+		scenario.setDuration(rampUp);
+		simulation.setFeederContent(feederContent);
+		
+		SimulationLocalServiceUtil.updateSimulation(simulation);
+		ScenarioLocalServiceUtil.updateScenario(scenario);
+		
+		response.setRenderParameter("render", "renderView");
 	}
 
 	
