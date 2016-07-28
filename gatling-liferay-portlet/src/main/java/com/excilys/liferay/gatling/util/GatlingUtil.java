@@ -8,13 +8,16 @@ import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
+import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Company;
@@ -23,11 +26,16 @@ import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.util.PortalUtil;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.MustacheException;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -35,6 +43,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.portlet.RenderRequest;
+import javax.portlet.ResourceRequest;
 
 public class GatlingUtil {
 
@@ -185,21 +194,31 @@ public class GatlingUtil {
 		return company.getAuthType();
 	}
 
-	/*
-	 * Zip the test environment: simulations + predifined scenarios
+	/**
+	 * Zip the test environment in 3 steps (predifined scenarios, simulations, feeders)
+	 * 	
+	 *  1 -> Copies the predefined scenarios from resources to the zip environment
+	 *  2 -> Generates the simulations based on the gatlingTemplate and mustache engine
+	 *  3 -> Prepares all the feeders used for the execution
+	 *  
+	 * @param os: the outputStream used to transfer the zip
+	 * @param classLoader: used for coping resources file
+	 * @param request: resourcesRequest containing needed data (themeDisplay, path and portalURL)
+	 * @param groupId
+	 * @param simulationIds
 	 */
-	public static void zipMyEnvironment(OutputStream os, ClassLoader classLoader, ThemeDisplay themeDisplay, long groupId)
-			throws IOException, SystemException {
+	
+	public static void zipMyEnvironment(OutputStream os, ClassLoader classLoader, ResourceRequest request, long groupId, long[] simulationsIds )
+			throws MustacheException, Exception {
 
-		// final ZipOutputStream zipOutputStream = new
-		// ZipOutputStream(response.getPortletOutputStream());
+		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		final ZipOutputStream zipOutputStream = new ZipOutputStream(os);
-
-		// TODO: add a README -> Hey I just met you, and this is crazy, but
-		// here're my scalas, so readme maybe
+		
+		// TODO: add a README -> Hey I just met you, and this is crazy, but here're my scalas, so readme maybe
+		
 		// Get file from resources folder
-		File[] files = new File(classLoader.getResource("gatling").getFile())
-				.listFiles();
+		//-------------------------------------------------------------------------------------------------------------------------------------
+		File[] files = new File(classLoader.getResource("gatling").getFile()).listFiles();
 		// Goes through the sources directories (scenario and feeder)
 		for (File rootDirectory : files) {
 			File[] sources = rootDirectory.listFiles();
@@ -211,24 +230,26 @@ public class GatlingUtil {
 			}
 		}
 
-		// TODO: receive the simulation ids
-		// long[] simulationsIds = ParamUtil.getLongValues(request, "export");
 		// Adds the generated simulations
-		/*
-		 * for (final long id : simulationsIds) { if (id > 0) { simulation =
-		 * SimulationLocalServiceUtil.getSimulation(id);
-		 * zipOutputStream.putNextEntry(new ZipEntry("Simulation" +
-		 * simulation.getName() + date.getTime() + ".scala")); final String
-		 * currentPath =
-		 * request.getPortletSession().getPortletContext().getRealPath
-		 * ("/WEB-INF/classes") + template; final String tmp =
-		 * Mustache.compiler().compile(new FileReader(currentPath)).execute(new
-		 * ScriptGeneratorGatling(id,PortalUtil.getPortalURL(request)));
-		 * zipOutputStream.write(tmp.getBytes()); zipOutputStream.closeEntry();
-		 * } }
-		 */
+		//-------------------------------------------------------------------------------------------------------------------------------------
+		final Date date = new Date();
+		String template = "/templateGatling2.2.X.mustache";
+		Simulation simulation = null;
+		
+		//create and export only one file with scenario script for this simulation id
+		 for (final long id : simulationsIds) { if (id > 0) {
+			 simulation = SimulationLocalServiceUtil.getSimulation(id);
+			 zipOutputStream.putNextEntry(new ZipEntry("Simulation" +
+			 simulation.getName() + date.getTime() + ".scala")); 
+			 final String currentPath =request.getPortletSession().getPortletContext().getRealPath("/WEB-INF/classes") + template; 
+			 final String tmp = Mustache.compiler().compile(
+				new FileReader(currentPath)).execute(new ScriptGeneratorGatling(id,PortalUtil.getPortalURL(request)));
+			 zipOutputStream.write(tmp.getBytes()); zipOutputStream.closeEntry();
+		 } }
+		 
 
 		// Saving feeders:
+		//-------------------------------------------------------------------------------------------------------------------------------------
 		zipOutputStream.putNextEntry(new ZipEntry("feeders/siteMapPages.csv"));
 		zipOutputStream.write("site,URL\n".getBytes());
 		for (Layout layout : getSiteMap(groupId)) {
@@ -239,21 +260,17 @@ public class GatlingUtil {
 		}
 		zipOutputStream.closeEntry();
 		
+		
 		zipOutputStream.close();
 	}
 
-	// TODO: Move me in a right way!
 	// Get file loads a specific file from WEB-INF/classes
 	// https://web.liferay.com/community/forums/-/message_boards/message/10307074
 	public static String getFile(String path, ClassLoader classLoader) {
 
-		StringBuilder result = new StringBuilder("");
-
 		// Get file from resources folder
 		File file = new File(classLoader.getResource(path).getFile());
-
 		return getFile(file);
-
 	}
 
 	public static String getFile(File file) {
@@ -276,36 +293,14 @@ public class GatlingUtil {
 		return result.toString();
 	}
 
-	// NOTE get scenario group id -> scenario.getGroup_id();
+	// Combines all the private (true) and public (false) layouts
 	public static List<Layout> getSiteMap(long groupId) throws SystemException {
-		
-		// get private layout list
-
-
+		// NOTE get scenario group id -> scenario.getGroup_id();
 		List<Layout> layouts = new ArrayList<>();
-		layouts.addAll(LayoutLocalServiceUtil.getLayouts(
-				groupId, true, 0));
-		layouts.addAll(LayoutLocalServiceUtil.getLayouts(
-				groupId, false, 0));		
+		layouts.addAll(LayoutLocalServiceUtil.getLayouts(groupId, true, 0));
+		layouts.addAll(LayoutLocalServiceUtil.getLayouts(groupId, false, 0));		
 		return layouts;
-		/*
-		//Note: String concatenation copied fomr ScenarioController
-		for (Layout l : listPrivateLayouts) {
-			
-			String currentFriendlyURL = GroupLocalServiceUtil.fetchGroup(l.getGroupId()).getIconURL(themeDisplay);
-			StringBuilder sb = new StringBuilder(currentFriendlyURL.split("/")[0]);
-			sb.append("//").append(currentFriendlyURL.split("/")[2]).append("/web").append(GroupLocalServiceUtil.fetchGroup(l.getGroupId()).getFriendlyURL()).append(l.getName());
-			pagesURL.add(sb.toString());
-		}
-
-		for (Layout l : listPublicLayouts) {
-			
-			String currentFriendlyURL = GroupLocalServiceUtil.fetchGroup(l.getGroupId()).getIconURL(themeDisplay);
-			StringBuilder sb = new StringBuilder(currentFriendlyURL.split("/")[0]);
-			sb.append("//").append(currentFriendlyURL.split("/")[2]).append("/web").append(GroupLocalServiceUtil.fetchGroup(l.getGroupId()).getFriendlyURL()).append(l.getFriendlyURL());
-			pagesURL.add(sb.toString());
-		}*/
-
+	
 	}
 
 }

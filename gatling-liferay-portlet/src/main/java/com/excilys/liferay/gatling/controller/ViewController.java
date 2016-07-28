@@ -119,20 +119,20 @@ public class ViewController {
 
 	
 	@ResourceMapping(value="generateZip")	
-	public void serveManyScript(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
+	public void exportZippedSimulation(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
 		LOG.debug("Generating zip file...");
-		String template = "/templateGatling2.X.X.mustache";
-		//create and export only one file with scenario script for this simulation id
-		Simulation simulation = null;
+
 		//final Date date = new Date();		
-		final long[] simulationsIds = ParamUtil.getLongValues(request, "export");
+		long[] simulationsIds = ParamUtil.getLongValues(request, "export");
+		simulationsIds = new long[]{501};
 		
 		response.setContentType("application/zip");
 		response.addProperty("Content-Disposition", "attachment; filename = GatlingSimulations_it_works.zip");
 		
-		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		
-		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), themeDisplay, 20182);
+		
+		//TODO: change the magic number with the currend scenario group id
+		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, 20182, simulationsIds);
 		
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 		LOG.debug("Zip generated ...");
