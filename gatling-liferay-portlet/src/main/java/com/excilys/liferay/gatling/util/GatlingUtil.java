@@ -221,8 +221,6 @@ public class GatlingUtil {
 		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		final ZipOutputStream zipOutputStream = new ZipOutputStream(os);
 		
-		// TODO: add a README -> Hey I just met you, and this is crazy, but here're my scalas, so readme maybe
-		
 		// Get file from resources folder
 		//-------------------------------------------------------------------------------------------------------------------------------------
 		File[] files = new File(classLoader.getResource("gatling/"+packageFolder).getFile()).listFiles();
@@ -262,7 +260,7 @@ public class GatlingUtil {
 		// Saving feeders:
 		//-------------------------------------------------------------------------------------------------------------------------------------
 		// SiteMapFeeder
-		zipOutputStream.putNextEntry(new ZipEntry(packageFolder+"feeders/siteMapPages.csv"));
+		zipOutputStream.putNextEntry(new ZipEntry(packageFolder+"feeders/siteMapPage.csv"));
 		zipOutputStream.write("site,URL\n".getBytes());
 		for (Layout layout : getSiteMap(groupId)) {
 			String currentFriendlyURL = GroupLocalServiceUtil.fetchGroup(layout.getGroupId()).getIconURL(themeDisplay);

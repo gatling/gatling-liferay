@@ -18,9 +18,9 @@ object Login {
 		val postUrl = loginPageUrl + "?p_p_id=58&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_58_struts_action=%2Flogin%2Flogin"
 
 		feed(csv(feederName).random)
-			.exec(http("Login ${name}")
+			.exec(http("Login ${user}")
 				.post(postUrl)
-				.formParam("_58_login", "${name}")
+				.formParam("_58_login", "${user}")
 				.formParam("_58_password", "${password}")
 				.formParam("_58_redirect", "false")
 				.formParam("_58_saveLastPath", "false")

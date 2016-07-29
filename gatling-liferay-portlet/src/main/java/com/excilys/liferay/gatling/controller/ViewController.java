@@ -151,7 +151,7 @@ public class ViewController {
 
 	
 	@ResourceMapping(value="generateZip")	
-	public void serveManyScript(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
+	public void exportZippedEnvironment(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
 		LOG.debug("Generating zip file...");
 
 		//long[] simulationsIds = ParamUtil.getLongValues(request, "export");
@@ -166,7 +166,7 @@ public class ViewController {
 		long[] simulationsIds = new long[]{simulation.getSimulation_id()};
 
 		response.setContentType("application/zip");
-		response.addProperty("Content-Disposition", "attachment; filename = GatlingSimulations_it_works.zip");
+		response.addProperty("Content-Disposition", "attachment; filename = GatlingSimulations.zip");
 		
 		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, scenario.getGroup_id(), simulationsIds);
 
