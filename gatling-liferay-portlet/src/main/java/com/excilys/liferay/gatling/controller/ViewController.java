@@ -111,7 +111,7 @@ public class ViewController {
 	public static Scenario createDefaultScenario(Simulation simulation) throws SystemException {
 		Scenario scenario = ScenarioUtil.create(CounterLocalServiceUtil.increment(Scenario.class.getName()));
 		scenario.setName("_default_scenario_");
-		scenario.setGroup_id(0);
+		scenario.setGroup_id(0); //TODO change default value or warn user when export is done with id=0
 		scenario.setSimulation_id(simulation.getSimulation_id());
 		scenario.setNumberOfUsers(10);
 		scenario.setDuration(5);
@@ -153,17 +153,20 @@ public class ViewController {
 	public void exportZippedSimulation(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
 		LOG.debug("Generating zip file...");
 
-		//final Date date = new Date();		
-		long[] simulationsIds = ParamUtil.getLongValues(request, "export");
-		simulationsIds = new long[]{501};
+		//long[] simulationsIds = ParamUtil.getLongValues(request, "export");
+		Simulation simulation = SimulationLocalServiceUtil.getByName("_default_simulation_");
 		
+		List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
+		if(scenarios == null || scenarios.isEmpty()) {
+			throw new NoSuchScenarioException();
+		}
+		Scenario scenario = scenarios.get(0);
+		long[] simulationsIds = new long[]{simulation.getSimulation_id()};
+
 		response.setContentType("application/zip");
 		response.addProperty("Content-Disposition", "attachment; filename = GatlingSimulations_it_works.zip");
 		
-		
-		
-		//TODO: change the magic number with the currend scenario group id
-		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, 20182, simulationsIds);
+		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, scenario.getGroup_id(), simulationsIds);
 		
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 		LOG.debug("Zip generated ...");

@@ -1,7 +1,7 @@
 package com.excilys.liferay.gatling.recorder.records;
 
 
-//TODO: Comment Me !
+//TODO: Comment Me!
 
 public class GetURL extends RecordURL{
 	

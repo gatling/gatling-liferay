@@ -17,7 +17,6 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Company;
@@ -55,6 +54,12 @@ public class GatlingUtil {
 	 * @return
 	 */
 	private static String createVariableName(String prefix, String name) {
+		
+		if (!name.isEmpty() && name.charAt(0)=='_') {
+			//Hack if the name starts with '_' which causes an Error if not processed
+			name = name.substring(1); 
+		}
+		
 		// Create variable name
 		String[] tab = name.trim().split("[_\\s]");
 		StringBuffer sb = new StringBuffer(prefix);
@@ -211,6 +216,8 @@ public class GatlingUtil {
 	public static void zipMyEnvironment(OutputStream os, ClassLoader classLoader, ResourceRequest request, long groupId, long[] simulationsIds )
 			throws MustacheException, Exception {
 
+		final String packageFolder = "com/ebusiness/liferay/";
+		
 		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		final ZipOutputStream zipOutputStream = new ZipOutputStream(os);
 		
@@ -218,12 +225,12 @@ public class GatlingUtil {
 		
 		// Get file from resources folder
 		//-------------------------------------------------------------------------------------------------------------------------------------
-		File[] files = new File(classLoader.getResource("gatling").getFile()).listFiles();
+		File[] files = new File(classLoader.getResource("gatling/"+packageFolder).getFile()).listFiles();
 		// Goes through the sources directories (scenario and feeder)
 		for (File rootDirectory : files) {
 			File[] sources = rootDirectory.listFiles();
 			for (File source : sources) {
-				zipOutputStream.putNextEntry(new ZipEntry(rootDirectory
+				zipOutputStream.putNextEntry(new ZipEntry(packageFolder+rootDirectory
 						.getName() + "/" + source.getName()));
 				zipOutputStream.write((getFile(source)).getBytes());
 				zipOutputStream.closeEntry();
@@ -232,25 +239,27 @@ public class GatlingUtil {
 
 		// Adds the generated simulations
 		//-------------------------------------------------------------------------------------------------------------------------------------
-		final Date date = new Date();
+		final long date = new Date().getTime();
 		String template = "/templateGatling2.2.X.mustache";
 		Simulation simulation = null;
 		
 		//create and export only one file with scenario script for this simulation id
 		 for (final long id : simulationsIds) { if (id > 0) {
 			 simulation = SimulationLocalServiceUtil.getSimulation(id);
-			 zipOutputStream.putNextEntry(new ZipEntry("Simulation" +
-			 simulation.getName() + date.getTime() + ".scala")); 
+			 zipOutputStream.putNextEntry(new ZipEntry(packageFolder+"simulations/"+"Simulation" +
+					 createSimulationVariable(simulation.getName()) + date + ".scala")); 
 			 final String currentPath =request.getPortletSession().getPortletContext().getRealPath("/WEB-INF/classes") + template; 
+			 ScriptGeneratorGatling script = new ScriptGeneratorGatling(id,PortalUtil.getPortalURL(request));
+			 script.setSimuName(script.getSimuName()+date);
 			 final String tmp = Mustache.compiler().compile(
-				new FileReader(currentPath)).execute(new ScriptGeneratorGatling(id,PortalUtil.getPortalURL(request)));
+				new FileReader(currentPath)).execute(script);
 			 zipOutputStream.write(tmp.getBytes()); zipOutputStream.closeEntry();
 		 } }
 		 
 
 		// Saving feeders:
 		//-------------------------------------------------------------------------------------------------------------------------------------
-		zipOutputStream.putNextEntry(new ZipEntry("feeders/siteMapPages.csv"));
+		zipOutputStream.putNextEntry(new ZipEntry(packageFolder+"feeders/siteMapPages.csv"));
 		zipOutputStream.write("site,URL\n".getBytes());
 		for (Layout layout : getSiteMap(groupId)) {
 			String currentFriendlyURL = GroupLocalServiceUtil.fetchGroup(layout.getGroupId()).getIconURL(themeDisplay);
@@ -260,6 +269,17 @@ public class GatlingUtil {
 		}
 		zipOutputStream.closeEntry();
 		
+		zipOutputStream.putNextEntry(new ZipEntry(packageFolder+"feeders/loginFeeder.csv"));
+		zipOutputStream.write("user,password\n".getBytes());
+		String feederContent = simulation.getFeederContent();
+		Scanner scanner=new Scanner(feederContent);
+		while (scanner.hasNextLine()) {
+			String line = scanner.nextLine();
+			zipOutputStream.write(line.getBytes());
+		}
+
+		scanner.close();
+		zipOutputStream.closeEntry();
 		
 		zipOutputStream.close();
 	}

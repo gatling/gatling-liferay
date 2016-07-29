@@ -1,7 +1,7 @@
 package com.excilys.liferay.gatling.recorder.records;
 
-//TODO: Comment Me !
-//TODO: Split data from the url !!!
+//TODO: Comment Me!
+//TODO: Split data from the url!!!
 
 public class PostURL extends RecordURL {
 	
