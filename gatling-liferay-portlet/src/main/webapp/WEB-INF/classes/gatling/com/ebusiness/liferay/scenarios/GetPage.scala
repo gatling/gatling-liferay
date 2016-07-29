@@ -16,8 +16,12 @@ object GetPage {
   def basicPage(page: String) : ChainBuilder =
     basicPage("Page " + page, page)
    
-  def basicPage(feederName : String) : ChainBuilder = 
-  	//TODO getfeeder
+  def randomPage(feederName : String) : ChainBuilder =
+    feed(csv(feederName).random)
+      .exec(http("Random page : ${site}")
+          .get("${URL}")
+      )
+      .pause(3)
 
   val homePage = basicPage("Home Page", "/web/guest/home")
 

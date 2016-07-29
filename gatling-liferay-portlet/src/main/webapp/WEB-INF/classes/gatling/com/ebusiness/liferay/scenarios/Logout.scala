@@ -7,7 +7,7 @@ import io.gatling.http.Predef._
 
 object Logout {
 
-	val scenario(logoutPageUrl: String) =
+	def scenario(logoutPageUrl: String) =
 		exec(http("Logout").get(s"""${logoutPageUrl}/c/portal/logout"""))
 	  .pause(2)
 

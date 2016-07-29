@@ -1,5 +1,6 @@
-package com.liferay.scenario
+package com.ebusiness.liferay.scenario
 
+import com.ebusiness.liferay.scenarios.GetPage
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ChainBuilder
 import io.gatling.http.Predef._

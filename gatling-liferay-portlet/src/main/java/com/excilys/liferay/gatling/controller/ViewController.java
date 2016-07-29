@@ -18,7 +18,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
-import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
@@ -88,6 +87,7 @@ public class ViewController {
 		return "view";
 	}
 	
+	
 	/**
 	 * Creates the empty default simulation, persists it and returns it.
 	 * @return The fresh default simulation
@@ -101,6 +101,7 @@ public class ViewController {
 		simulation.persist();
 		return simulation;
 	}
+	
 	
 	/**
 	 * Creates the empty default scenario, persists it and returns it.
@@ -150,11 +151,12 @@ public class ViewController {
 
 	
 	@ResourceMapping(value="generateZip")	
-	public void exportZippedSimulation(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
+	public void serveManyScript(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
 		LOG.debug("Generating zip file...");
 
 		//long[] simulationsIds = ParamUtil.getLongValues(request, "export");
 		Simulation simulation = SimulationLocalServiceUtil.getByName("_default_simulation_");
+
 		
 		List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
 		if(scenarios == null || scenarios.isEmpty()) {
@@ -167,7 +169,7 @@ public class ViewController {
 		response.addProperty("Content-Disposition", "attachment; filename = GatlingSimulations_it_works.zip");
 		
 		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, scenario.getGroup_id(), simulationsIds);
-		
+
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 		LOG.debug("Zip generated ...");
 	}
