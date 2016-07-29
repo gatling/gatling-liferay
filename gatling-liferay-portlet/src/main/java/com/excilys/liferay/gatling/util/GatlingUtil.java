@@ -251,8 +251,10 @@ public class GatlingUtil {
 			 final String currentPath =request.getPortletSession().getPortletContext().getRealPath("/WEB-INF/classes") + template; 
 			 ScriptGeneratorGatling script = new ScriptGeneratorGatling(id,PortalUtil.getPortalURL(request));
 			 script.setSimuName(script.getSimuName()+date);
+
 			 final String tmp = Mustache.compiler().compile(
 				new FileReader(currentPath)).execute(script);
+			 
 			 zipOutputStream.write(tmp.getBytes()); zipOutputStream.closeEntry();
 		 } }
 		 
@@ -270,8 +272,7 @@ public class GatlingUtil {
 		}
 		zipOutputStream.closeEntry();
 		
-		// LoginFeeder
-		zipOutputStream.putNextEntry(new ZipEntry(packageFolder+"feeders/loginFeeder.csv"));
+		zipOutputStream.putNextEntry(new ZipEntry(packageFolder+"feeders/login.csv"));
 		zipOutputStream.write("user,password\n".getBytes());
 		String feederContent = simulation.getFeederContent();
 		Scanner scanner=new Scanner(feederContent);

@@ -139,6 +139,8 @@ public class ScriptGeneratorGatling {
 				break;
 			}
 		}
+		
+		String logoutPageURL = loginPageURL.replace("/home", "");
 
 		//loop for the request
 		for (int j = 0; j < listRequest.size(); j++) {
@@ -222,7 +224,7 @@ public class ScriptGeneratorGatling {
 		}
 		String variableName = GatlingUtil.createScenarioVariable(sc.getName());
 
-		return new MustacheScenario(variableName,sc.getNumberOfUsers(), sc.getDuration(), listMustacheRequest,  hasPrivatePage, loginPageURL, portalURL);
+		return new MustacheScenario(variableName,sc.getNumberOfUsers(), sc.getDuration(), listMustacheRequest,  hasPrivatePage, loginPageURL, portalURL, logoutPageURL);
 	}
 
 	public Long getSimulationId() {
