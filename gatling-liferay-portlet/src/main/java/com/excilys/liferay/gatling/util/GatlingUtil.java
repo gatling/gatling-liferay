@@ -259,6 +259,7 @@ public class GatlingUtil {
 
 		// Saving feeders:
 		//-------------------------------------------------------------------------------------------------------------------------------------
+		// SiteMapFeeder
 		zipOutputStream.putNextEntry(new ZipEntry(packageFolder+"feeders/siteMapPages.csv"));
 		zipOutputStream.write("site,URL\n".getBytes());
 		for (Layout layout : getSiteMap(groupId)) {
@@ -269,6 +270,7 @@ public class GatlingUtil {
 		}
 		zipOutputStream.closeEntry();
 		
+		// LoginFeeder
 		zipOutputStream.putNextEntry(new ZipEntry(packageFolder+"feeders/loginFeeder.csv"));
 		zipOutputStream.write("user,password\n".getBytes());
 		String feederContent = simulation.getFeederContent();
@@ -277,9 +279,21 @@ public class GatlingUtil {
 			String line = scanner.nextLine();
 			zipOutputStream.write(line.getBytes());
 		}
-
 		scanner.close();
 		zipOutputStream.closeEntry();
+		
+		// Properties file:
+		//-------------------------------------------------------------------------------------------------------------------------------------	
+		File[] properties = new File(classLoader.getResource("gatling/").getFile()).listFiles();
+		for (File f : properties) {
+			if (f.isFile()) {
+				zipOutputStream.putNextEntry(new ZipEntry(f.getName()));
+				zipOutputStream.write(getFile(f).getBytes());
+				zipOutputStream.closeEntry();
+			}
+				
+			
+		}
 		
 		zipOutputStream.close();
 	}
