@@ -4,12 +4,22 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.http.check.HttpCheck
 
-//TODO: Document Me !
-
+/**
+ * Regroups different scenario builders to log in liferay portal.
+ */
 object Login {
 
 	val loginFailRegex = regex("""<div class="alert alert-error"> Authentication failed.* <\/div>""");
 
+	/**
+	 * Constructs a scenario builder to login the portal with a random user.
+	 * This user is choosen from a feeder file. The scenario check that the authentification
+	 * is successful and the test will fail if not.
+   	 * @param loginPageUrl The URL of the login page to hit
+   	 * @param feederName The name of the feeder file. It must be a csv file with to columns :
+     * 	user (which must be the mail of the user) and password
+     * @return the scenario builder to log
+     */
 	def successfulLogin(loginPageUrl: String, feederName: String) =
 		scenario(loginPageUrl, feederName, loginFailRegex.notExists)
 
