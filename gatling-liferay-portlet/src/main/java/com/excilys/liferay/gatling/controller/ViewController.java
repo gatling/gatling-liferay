@@ -19,9 +19,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
-import com.liferay.portal.theme.ThemeDisplay;
 
 import java.io.IOException;
 import java.util.List;
@@ -112,7 +110,15 @@ public class ViewController {
 	public static Scenario createDefaultScenario(Simulation simulation) throws SystemException {
 		Scenario scenario = ScenarioUtil.create(CounterLocalServiceUtil.increment(Scenario.class.getName()));
 		scenario.setName("_default_scenario_");
-		scenario.setGroup_id(0); //TODO change default value or warn user when export is done with id=0
+		List<Group> listGroups = GatlingUtil.getListOfSites();
+		if (listGroups.isEmpty()) {
+			scenario.setGroup_id(0);
+		}
+		else {
+			scenario.setGroup_id(listGroups.get(0).getGroupId());
+		}
+		
+		
 		scenario.setSimulation_id(simulation.getSimulation_id());
 		scenario.setNumberOfUsers(10);
 		scenario.setDuration(5);
