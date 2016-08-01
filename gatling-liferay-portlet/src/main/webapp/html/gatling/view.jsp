@@ -20,36 +20,29 @@
 	<portlet:renderURL var="renderAdvancedView">
 		<portlet:param name="render" value="renderAdvancedView" />
 	</portlet:renderURL>
-	<a href="${renderAdvancedView}" class="label label-info"> <i
+	<a href="${renderAdvancedView}" id="advancedButon" class="label label-info"> <i
 		class="icon-wrench"></i> Advanced Test Loading
 	</a>
-
-	<portlet:actionURL var="debugButton1">
-		<portlet:param name="action" value="debugYann" />
-	</portlet:actionURL>
-
+	<a href="#" class="label label-success" onclick="tourDefaultFirstSimu.start();">
+		<i class="icon-list-alt"></i> 
+		<liferay-ui:message key="take-a-tour" />
+	</a> 
 	<portlet:resourceURL id="generateZip" var="resourceUrl" />
 
-	<a href="${debugButton1}" class="label label-success"> <i
-		class="icon-heart"></i> Yann
-	</a>
 
-	<portlet:actionURL var="debugButton2">
-		<portlet:param name="action" value="debugNico" />
-	</portlet:actionURL>
-
-	<a href="${debugButton2}" class="label label-danger"> <i
-		class="icon-fire"></i> Nico
-	</a>
-
+	
 </div>
 
 <%-- NavBar --%>
 <div class="navbar">
 	<div class="navbar-inner">
 		<ul class="nav">
-			<li><a id="exportToggle" href="${resourceUrl}"><i
-					class="icon-print"></i> Export the simulation</a></li>
+			
+			<li>
+				<portlet:resourceURL id="generateZip" var="resourceUrl" />
+				<a id="exportToggle" href="${resourceUrl}"><i
+					class="icon-print"></i> Export the simulation</a>
+			</li>
 		</ul>
 	</div>
 </div>
@@ -68,10 +61,10 @@
 			<span class="legend">Scenario</span>
 		</legend>
 
-		<div class="user-strory">
+		<div class="user-strory" >
 			<div class="scenario">Login</div>
 			<div class="icon-chevron-right"></div>
-			<div class="scenario">Random Page</div>
+			<div class="scenario" id="scenario-flow">Random Page</div>
 			<div class="icon-chevron-right"></div>
 			<div class="scenario">Logout</div>
 		</div>
@@ -129,3 +122,6 @@
 }
 </style>
 
+<script type="text/javascript">
+<%@ include file="/js/defaultTourSimulation.js" %>
+</script>

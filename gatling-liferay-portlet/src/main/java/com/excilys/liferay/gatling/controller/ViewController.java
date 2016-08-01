@@ -194,25 +194,5 @@ public class ViewController {
 			final RenderResponse response, final Model model) throws SystemException {
 		return renderRequest(request, response, model);
 	}
-	
-	
-	
-	/* Test functions : Need to be removed */
-	
-	@ActionMapping(params="action=debugNico")
-	public void debugNico(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, NoSuchModelException{
-		LOG.debug("Debug Nico called");
-		response.setRenderParameter("render", "renderView");
-	}
-	
-
-	@ActionMapping(params="action=debugYann")
-	public void debugYann(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, NoSuchModelException{
-		LOG.debug("Debug Yann called");
-
-		response.setRenderParameter("render", "renderView");
-	}
-	
-	/* Test functions : Need to be removed */
 
 }
