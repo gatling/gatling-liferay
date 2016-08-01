@@ -12,12 +12,6 @@ public class PostURL extends RecordURL {
 		super("POST", requestURL, params);
 	}
 
-//	@Override
-//	protected void saveData(long primaryKey) throws SystemException {
-//		//TODO: Persist Data
-//		//FormParamLocalServiceUtil.save(primaryKey, formData, type);
-//	}
-	
 	@Override
 	public String toString() {
 		return "RecordURL [method=" + method + ", url=" + url + ", params="
