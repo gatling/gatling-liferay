@@ -24,6 +24,15 @@
 		<i class="icon-share"></i>
 		<liferay-ui:message key="help-gatling-wiki" />
 	</a> 
+	
+	<%-- Default View Link --%>
+	<portlet:renderURL var="renderView">
+		<portlet:param name="render" value="renderView" />
+	</portlet:renderURL>
+	<a href="${renderView}" class="label label-info"> <i
+		class="icon-wrench"></i> Default Test Loading
+	</a>
+	
 	<a href="#" class="label label-success" onclick="tourFirstSimu.start();">
 		<i class="icon-list-alt"></i> 
 		<liferay-ui:message key="take-a-tour" />
