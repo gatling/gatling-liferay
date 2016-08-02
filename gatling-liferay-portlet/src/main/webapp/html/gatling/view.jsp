@@ -8,6 +8,32 @@
 
 <liferay-ui:header title="Default Simulations"></liferay-ui:header>
 
+<style>
+
+.scenario {
+	display: inline-block;
+	background: #ffdd99;
+	height: 60px;
+	line-height: 60px;
+	margin: 15px 20px;
+	padding: 0px 20px;
+	border-radius: 10px;
+	text-align: center;
+}
+
+.time-separator-container {
+	display: inline-block ;
+	height: 60px;
+	text-align: center;
+}
+
+.time-separator {
+	vertical-align: middle;
+	display: inline-block;
+}
+
+</style>
+
 <%-- FAQ link --%>
 <div class="well well-small">
 	<%-- Wiki Gatling Link --%>
@@ -62,10 +88,25 @@
 		</legend>
 
 		<div class="user-strory" >
+		
 			<div class="scenario">Login</div>
-			<div class="icon-chevron-right"></div>
+
+			<div class="time-separator-container">
+				<div class="time-separator">
+					<div class="icon-chevron-right"></div>
+					<div class="time">3s</div>
+				</div>
+			</div>
+
 			<div class="scenario" id="scenario-flow">Random Page</div>
-			<div class="icon-chevron-right"></div>
+
+			<div class="time-separator-container">
+				<div class="time-separator">
+					<div class="icon-chevron-right"></div>
+					<div class="time">3s</div>
+				</div>
+			</div>
+
 			<div class="scenario">Logout</div>
 		</div>
 
@@ -92,8 +133,8 @@
 			<aui:validator name="min">1</aui:validator>
 		</aui:input>
 
-		<aui:input label="Ramp over duration" name="rampUp"
-			value="${rampUp}" inlineField="true" helpMessage="duration-info-help">
+		<aui:input label="Ramp over duration" name="rampUp" value="${rampUp}"
+			inlineField="true" helpMessage="duration-info-help">
 			<aui:validator name="required" />
 			<aui:validator name="number" />
 			<aui:validator name="min">1</aui:validator>
@@ -109,18 +150,6 @@
 	</aui:fieldset>
 </aui:form>
 
-<style>
-.scenario {
-	display: inline-block;
-	background: #ffdd99;
-	height: 60px;
-	line-height: 60px;
-	margin: 15px;
-	padding: 0px 20px;
-	border-radius: 10px;
-	text-align: center;
-}
-</style>
 
 <script type="text/javascript">
 <%@ include file="/js/defaultTourSimulation.js" %>
