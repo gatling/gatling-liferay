@@ -228,7 +228,7 @@ public class GatlingUtil {
 		for (File rootDirectory : files) {
 			File[] sources = rootDirectory.listFiles();
 			for (File source : sources) {
-				zipOutputStream.putNextEntry(new ZipEntry(packageFolder+rootDirectory
+				zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+rootDirectory
 						.getName() + "/" + source.getName()));
 				zipOutputStream.write((getFile(source)).getBytes());
 				zipOutputStream.closeEntry();
@@ -244,7 +244,7 @@ public class GatlingUtil {
 		//create and export only one file with scenario script for this simulation id
 		 for (final long id : simulationsIds) { if (id > 0) {
 			 simulation = SimulationLocalServiceUtil.getSimulation(id);
-			 zipOutputStream.putNextEntry(new ZipEntry(packageFolder+"simulations/"+"Simulation" +
+			 zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"simulations/"+"Simulation" +
 					 createSimulationVariable(simulation.getName()) + date + ".scala")); 
 			 final String currentPath =request.getPortletSession().getPortletContext().getRealPath("/WEB-INF/classes") + template; 
 			 ScriptGeneratorGatling script = new ScriptGeneratorGatling(id,PortalUtil.getPortalURL(request));
@@ -260,7 +260,7 @@ public class GatlingUtil {
 		// Saving feeders:
 		//-------------------------------------------------------------------------------------------------------------------------------------
 		// SiteMapFeeder
-		zipOutputStream.putNextEntry(new ZipEntry(packageFolder+"feeders/siteMapPage.csv"));
+		zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"feeders/siteMapPage.csv"));
 		zipOutputStream.write("site,URL\n".getBytes());
 		for (Layout layout : getSiteMap(groupId)) {
 			String currentFriendlyURL = GroupLocalServiceUtil.fetchGroup(layout.getGroupId()).getIconURL(themeDisplay);
@@ -270,7 +270,7 @@ public class GatlingUtil {
 		}
 		zipOutputStream.closeEntry();
 		
-		zipOutputStream.putNextEntry(new ZipEntry(packageFolder+"feeders/login.csv"));
+		zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"feeders/login.csv"));
 		zipOutputStream.write("user,password\n".getBytes());
 		String feederContent = simulation.getFeederContent();
 		Scanner scanner=new Scanner(feederContent);
@@ -286,7 +286,7 @@ public class GatlingUtil {
 		File[] properties = new File(classLoader.getResource("gatling/").getFile()).listFiles();
 		for (File f : properties) {
 			if (f.isFile()) {
-				zipOutputStream.putNextEntry(new ZipEntry(f.getName()));
+				zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+f.getName()));
 				zipOutputStream.write(getFile(f).getBytes());
 				zipOutputStream.closeEntry();
 			}
