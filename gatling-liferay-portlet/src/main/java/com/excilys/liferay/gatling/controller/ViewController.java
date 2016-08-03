@@ -12,7 +12,6 @@ import com.excilys.liferay.gatling.service.persistence.ScenarioUtil;
 import com.excilys.liferay.gatling.service.persistence.SimulationUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.liferay.counter.service.CounterLocalServiceUtil;
-import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -40,6 +39,10 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+
+/**
+ * Controller linked to the default view
+ */
 @Controller(value = "ViewController")
 @RequestMapping("VIEW")
 public class ViewController {
@@ -126,7 +129,7 @@ public class ViewController {
 		return scenario;
 	}
 	
-	
+
 	@ActionMapping(params="action=saveDefaultSimulation")
 	public void editFeederAction(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{
 		LOG.debug("Action Triggered : Save Default Simulation");
@@ -163,12 +166,13 @@ public class ViewController {
 		//long[] simulationsIds = ParamUtil.getLongValues(request, "export");
 		Simulation simulation = SimulationLocalServiceUtil.getByName("_default_simulation_");
 
-		
+		// Retreives the defaut scenario frim the simulation id (expected single result)
 		List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
 		if(scenarios == null || scenarios.isEmpty()) {
 			throw new NoSuchScenarioException();
 		}
 		Scenario scenario = scenarios.get(0);
+		
 		long[] simulationsIds = new long[]{simulation.getSimulation_id()};
 
 		response.setContentType("application/zip");

@@ -200,15 +200,16 @@ public class GatlingUtil {
 	}
 
 	/**
-	 * Zip the test environment in 3 steps (predifined scenarios, simulations, feeders)
+	 * Zip the test environment in 4 steps (predifined scenarios, simulations, feeders, properties)
 	 * 	
 	 *  1 -> Copies the predefined scenarios from resources to the zip environment
 	 *  2 -> Generates the simulations based on the gatlingTemplate and mustache engine
 	 *  3 -> Prepares all the feeders used for the execution
+	 *  4 -> Copies all the propertie files
 	 *  
 	 * @param os: the outputStream used to transfer the zip
-	 * @param classLoader: used for coping resources file
-	 * @param request: resourcesRequest containing needed data (themeDisplay, path and portalURL)
+	 * @param classLoader: used to retreive the resource files' path
+	 * @param request: resourcesRequest containing needed data (themeDisplay and portalURL)
 	 * @param groupId
 	 * @param simulationIds
 	 */
@@ -217,14 +218,14 @@ public class GatlingUtil {
 			throws MustacheException, Exception {
 
 		final String packageFolder = "com/ebusiness/liferay/";
-		
+		final long date = new Date().getTime();
 		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		final ZipOutputStream zipOutputStream = new ZipOutputStream(os);
 		
-		// Get file from resources folder
+		// Get scenarios from resources folder
 		//-------------------------------------------------------------------------------------------------------------------------------------
 		File[] files = new File(classLoader.getResource("gatling/"+packageFolder).getFile()).listFiles();
-		// Goes through the sources directories (scenario and feeder)
+		// Goes through the sources directories
 		for (File rootDirectory : files) {
 			File[] sources = rootDirectory.listFiles();
 			for (File source : sources) {
@@ -237,7 +238,6 @@ public class GatlingUtil {
 
 		// Adds the generated simulations
 		//-------------------------------------------------------------------------------------------------------------------------------------
-		final long date = new Date().getTime();
 		String template = "/templateGatling2.2.X.mustache";
 		Simulation simulation = null;
 		
@@ -253,7 +253,8 @@ public class GatlingUtil {
 			 final String tmp = Mustache.compiler().compile(
 				new FileReader(currentPath)).execute(script);
 			 
-			 zipOutputStream.write(tmp.getBytes()); zipOutputStream.closeEntry();
+			 zipOutputStream.write(tmp.getBytes());
+			 zipOutputStream.closeEntry();
 		 } }
 		 
 
@@ -270,6 +271,7 @@ public class GatlingUtil {
 		}
 		zipOutputStream.closeEntry();
 		
+		// LoginFeeder
 		zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"feeders/login.csv"));
 		zipOutputStream.write("user,password\n".getBytes());
 		String feederContent = simulation.getFeederContent();
@@ -290,8 +292,6 @@ public class GatlingUtil {
 				zipOutputStream.write(getFile(f).getBytes());
 				zipOutputStream.closeEntry();
 			}
-				
-			
 		}
 		
 		zipOutputStream.close();
@@ -306,11 +306,11 @@ public class GatlingUtil {
 		return getFile(file);
 	}
 
+	
+	/* Returnes the file's content */
 	public static String getFile(File file) {
 		StringBuilder result = new StringBuilder("");
 
-		// File f = new File(
-		// getClass().getClassLoader().getResource("/file.txt").getFile());
 		try (Scanner scanner = new Scanner(file)) {
 
 			while (scanner.hasNextLine()) {
