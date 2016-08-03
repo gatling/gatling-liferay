@@ -6,7 +6,7 @@
 
 <%-- Header --%>
 
-<liferay-ui:header title="Default Simulations"></liferay-ui:header>
+<liferay-ui:header title="default-simulations"></liferay-ui:header>
 
 <style>
 
@@ -47,7 +47,7 @@
 		<portlet:param name="render" value="renderAdvancedView" />
 	</portlet:renderURL>
 	<a href="${renderAdvancedView}" id="advancedButon" class="label label-info"> <i
-		class="icon-wrench"></i> Advanced Test Loading
+		class="icon-wrench"></i> <liferay-ui:message key="advanced-test-btn"/>
 	</a>
 	<a href="#" class="label label-success" onclick="tourDefaultFirstSimu.start();">
 		<i class="icon-list-alt"></i> 
@@ -67,7 +67,7 @@
 			<li>
 				<portlet:resourceURL id="generateZip" var="resourceUrl" />
 				<a id="exportToggle" href="${resourceUrl}"><i
-					class="icon-print"></i> Export the simulation</a>
+					class="icon-print"></i> <liferay-ui:message key="simulation-export"/></a>
 			</li>
 		</ul>
 	</div>
@@ -80,7 +80,7 @@
 <aui:form action="${saveDefaultSimulation}" method="post">
 	<aui:fieldset class="fieldset">
 		<aui:input name="simulationId" type="hidden" value="${simulationId}" />
-		<aui:button type="submit" value="Save the Scenario"
+		<aui:button type="submit" value="save-scenario"
 			cssClass="pull-right" />
 
 		<legend class="fieldset-legend">
@@ -89,7 +89,7 @@
 
 		<div class="user-strory" >
 		
-			<div class="scenario">Login</div>
+			<div class="scenario"><liferay-ui:message key="login"/></div>
 
 			<div class="time-separator-container">
 				<div class="time-separator">
@@ -98,7 +98,7 @@
 				</div>
 			</div>
 
-			<div class="scenario" id="scenario-flow">Random Page</div>
+			<div class="scenario" id="scenario-flow"><liferay-ui:message key="random-page"/></div>
 
 			<div class="time-separator-container">
 				<div class="time-separator">
@@ -107,14 +107,14 @@
 				</div>
 			</div>
 
-			<div class="scenario">Logout</div>
+			<div class="scenario"><liferay-ui:message key="logout"/></div>
 		</div>
 
 	</aui:fieldset>
 
 
 	<%-- Simulation Form --%>
-	<aui:fieldset label="Details">
+	<aui:fieldset label="details">
 		<aui:select label="simulation-edit-form-sites" name="scenarioGroupId"
 			required="true">
 			<c:forEach var="group" items="${listGroup}">
@@ -133,7 +133,7 @@
 			<aui:validator name="min">1</aui:validator>
 		</aui:input>
 
-		<aui:input label="Ramp over duration" name="rampUp" value="${rampUp}"
+		<aui:input label="ramp-over-duration" name="rampUp" value="${rampUp}"
 			inlineField="true" helpMessage="duration-info-help">
 			<aui:validator name="required" />
 			<aui:validator name="number" />
@@ -142,7 +142,7 @@
 
 	</aui:fieldset>
 
-	<aui:fieldset label="Login Feeder">
+	<aui:fieldset label="login-feeder">
 		<aui:input name="feederContent"
 			label="write-one-account-and-password-per-line" type="textarea"
 			cssClass="textarea-feeder" value="${feederContent}"></aui:input>
