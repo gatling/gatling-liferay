@@ -9,7 +9,7 @@ import io.gatling.http.check.HttpCheck
  */
 object Login {
 
-	val loginFailRegex = regex("""<div class="alert alert-error"> Authentication failed.* <\/div>""");
+	val loginFailRegex = css("""section#portlet_58 div.alert""");
 
 	/**
 	 * Constructs a scenario builder to login the portal with a random user.
@@ -28,24 +28,29 @@ object Login {
 		//val postUrl = loginPageUrl + "?p_p_id=58&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_58_struts_action=%2Flogin%2Flogin"
 
 		feed(csv(feederName).random)
+            .exec(http("Home Page")
+                .get("http://localhost:8080/web/guest/home")
+                .check(status.is(200))
+            )
 			.exec(http("Login ${user}")
 				.post(loginPageUrl)
+
 				.queryParam("p_p_id","58")
 				.queryParam("p_p_lifecycle","1")
 				.queryParam("p_p_state","normal")
 				.queryParam("p_p_mode","view")
 				.queryParam("p_p_col_id","column-1")
 				.queryParam("p_p_col_count","1")
-				.queryParam("_58_struts_action","%2Flogin%2Flogin")
-				
+				.queryParam("_58_struts_action","/login/login")
+
 				.formParam("_58_login", "${user}")
 				.formParam("_58_password", "${password}")
-				.formParam("_58_redirect", "false")
+				.formParam("_58_redirect", "")
 				.formParam("_58_saveLastPath", "false")
 				.formParam("_58_rememberMe", "false")
 				.formParam("_58_doActionAfterLogin", "false")
 				.check(status.is(200))
-				//.check(loginCheck))
+				.check(loginCheck)
 			)
 			.pause(2)
 	}
