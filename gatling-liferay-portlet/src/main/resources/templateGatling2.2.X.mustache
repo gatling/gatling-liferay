@@ -27,7 +27,7 @@ class {{simuName}} extends Simulation {
 	  .exec(
 	  	Login.successfulLogin("{{loginPageURL}}", "feeders/login.csv"),
 		GetPage.randomPage("feeders/siteMapPage.csv"),
-		Logout.scenario("{{logoutPageURL}}")
+		Logout.logout("{{logoutPageURL}}")
       )
 	{{/mustacheScenario}}
 

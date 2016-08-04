@@ -27,7 +27,7 @@ object GetPage {
    */
   def basicPage(page: String) : ChainBuilder =
     basicPage("Page " + page, page)
-   
+
   /**
    * Constructs a scenario builder to hit a random page from a set of pages
    * registered into a feeder file.

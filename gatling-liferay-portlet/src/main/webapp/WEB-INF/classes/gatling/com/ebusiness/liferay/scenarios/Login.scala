@@ -9,7 +9,7 @@ import io.gatling.http.check.HttpCheck
  */
 object Login {
 
-	val loginFailRegex = css("""section#portlet_58 div.alert""");
+	val loginFailRegex = css("section#portlet_58 div.alert");
 
 	/**
 	 * Constructs a scenario builder to login the portal with a random user.
@@ -21,11 +21,9 @@ object Login {
      * @return the scenario builder to log
      */
 	def successfulLogin(loginPageUrl: String, feederName: String) =
-		scenario(loginPageUrl, feederName, loginFailRegex.notExists)
+		login(loginPageUrl, feederName, loginFailRegex.notExists)
 
-	def scenario(loginPageUrl: String, feederName: String, loginCheck: HttpCheck) = {
-
-		//val postUrl = loginPageUrl + "?p_p_id=58&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_58_struts_action=%2Flogin%2Flogin"
+	def login(loginPageUrl: String, feederName: String, loginCheck: HttpCheck) = {
 
 		feed(csv(feederName).random)
             .exec(http("Home Page")
