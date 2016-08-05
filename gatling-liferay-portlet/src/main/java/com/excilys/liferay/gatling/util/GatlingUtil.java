@@ -218,7 +218,7 @@ public class GatlingUtil {
 			throws MustacheException, Exception {
 
 		final String packageFolder = "user-files/";
-		final long date = new Date().getTime();
+		//final long date = new Date().getTime();
 		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		final ZipOutputStream zipOutputStream = new ZipOutputStream(os);
 		
@@ -241,10 +241,10 @@ public class GatlingUtil {
 		 for (final long id : simulationsIds) { if (id > 0) {
 			 simulation = SimulationLocalServiceUtil.getSimulation(id);
 			 zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"simulations/liferay/Simulation" +
-					 createSimulationVariable(simulation.getName()) + date + ".scala")); 
+					 createSimulationVariable(simulation.getName())+ ".scala")); 
 			 final String currentPath =request.getPortletSession().getPortletContext().getRealPath("/WEB-INF/classes") + template; 
 			 ScriptGeneratorGatling script = new ScriptGeneratorGatling(id,PortalUtil.getPortalURL(request));
-			 script.setSimuName(script.getSimuName()+date);
+			 script.setSimuName(script.getSimuName());
 
 			 final String tmp = Mustache.compiler().compile(
 				new FileReader(currentPath)).execute(script);
