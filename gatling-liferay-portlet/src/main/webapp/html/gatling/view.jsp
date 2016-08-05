@@ -4,13 +4,9 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 
-<%-- Header --%>
-
-<liferay-ui:header title="default-simulations"></liferay-ui:header>
-
 <style>
 
-.scenario {
+.action {
 	display: inline-block;
 	background: #ffdd99;
 	height: 60px;
@@ -34,12 +30,18 @@
 
 </style>
 
-<%-- FAQ link --%>
+
+<%-- Title --%>
+<liferay-ui:header title="default-simulations"></liferay-ui:header>
+
+
+<%-- Top Menu --%>
 <div class="well well-small">
+
 	<%-- Wiki Gatling Link --%>
 	<a target="blank" href='<%=PortletProps.get("gatling-wiki")%>'
-		class="label label-warning"> <i class="icon-share"></i> <liferay-ui:message
-			key="help-gatling-wiki" />
+		class="label label-warning">
+		<i class="icon-share"></i> <liferay-ui:message key="help-gatling-wiki" />
 	</a>
 
 	<%-- Advanced View Link --%>
@@ -49,47 +51,60 @@
 	<a href="${renderAdvancedView}" id="advancedButon" class="label label-info"> <i
 		class="icon-wrench"></i> <liferay-ui:message key="advanced-test-btn"/>
 	</a>
-	<a href="#" class="label label-success" onclick="tourDefaultFirstSimu.start();">
-		<i class="icon-list-alt"></i> 
-		<liferay-ui:message key="take-a-tour" />
-	</a> 
-	<portlet:resourceURL id="generateZip" var="resourceUrl" />
-
-
 	
+	<%--Take a tour view link --%>
+	<a href="#" class="label label-success" onclick="tourDefaultFirstSimu.start();">
+		<i class="icon-list-alt"></i> <liferay-ui:message key="take-a-tour" />
+	</a> 
+
 </div>
+
 
 <%-- NavBar --%>
 <div class="navbar">
 	<div class="navbar-inner">
 		<ul class="nav">
-			
 			<li>
+				
+				<%-- Export Button --%>
 				<portlet:resourceURL id="generateZip" var="resourceUrl" />
-				<a id="exportToggle" href="${resourceUrl}"><i
-					class="icon-print"></i> <liferay-ui:message key="simulation-export"/></a>
+				<a id="exportToggle" href="${resourceUrl}">
+					<i class="icon-print"></i><liferay-ui:message key="simulation-export"/>
+				</a>
+				
 			</li>
 		</ul>
 	</div>
 </div>
+
+
+<%-- Simulation Form --%>
 
 <portlet:actionURL var="saveDefaultSimulation">
 	<portlet:param name="action" value="saveDefaultSimulation" />
 </portlet:actionURL>
 
 <aui:form action="${saveDefaultSimulation}" method="post">
+
+	<%-- Scenario FieldSet --%>
 	<aui:fieldset class="fieldset">
+	
 		<aui:input name="simulationId" type="hidden" value="${simulationId}" />
+		
+		<%-- Submit/Save Button --%>
 		<aui:button type="submit" value="save-scenario"
 			cssClass="pull-right" />
 
+		<%-- Scenario Title --%>
 		<legend class="fieldset-legend">
 			<span class="legend">Scenario</span>
 		</legend>
 
-		<div class="user-strory" >
+
+		<%-- Scenario --%>
+		<div class="scenario" >
 		
-			<div class="scenario"><liferay-ui:message key="login"/></div>
+			<div class="action"><liferay-ui:message key="login"/></div>
 
 			<div class="time-separator-container">
 				<div class="time-separator">
@@ -98,7 +113,7 @@
 				</div>
 			</div>
 
-			<div class="scenario" id="scenario-flow"><liferay-ui:message key="random-page"/></div>
+			<div class="action" id="scenario-flow"><liferay-ui:message key="random-page"/></div>
 
 			<div class="time-separator-container">
 				<div class="time-separator">
@@ -107,13 +122,13 @@
 				</div>
 			</div>
 
-			<div class="scenario"><liferay-ui:message key="logout"/></div>
+			<div class="action"><liferay-ui:message key="logout"/></div>
 		</div>
 
 	</aui:fieldset>
 
 
-	<%-- Simulation Form --%>
+	<%-- Details Fieldset --%>
 	<aui:fieldset label="details">
 		<aui:select label="simulation-edit-form-sites" name="scenarioGroupId"
 			required="true">
@@ -142,12 +157,15 @@
 
 	</aui:fieldset>
 
+	
+	<%-- Login Feeder Fieldset --%>
 	<aui:fieldset label="login-feeder">
 		<aui:input name="feederContent"
 			label="write-one-account-and-password-per-line" type="textarea"
 			cssClass="textarea-feeder" value="${feederContent}"></aui:input>
 
 	</aui:fieldset>
+	
 </aui:form>
 
 
