@@ -48,7 +48,7 @@ public class ScriptGeneratorGatling {
 	private boolean feederFile;
 	private String feederContent;
 	private List<Map<String,String>> feedMap;
-	private final String portalURL;
+	protected final String portalURL;
 
 	public ScriptGeneratorGatling(Long simulationId, String portalURL) throws Exception{
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
@@ -139,8 +139,6 @@ public class ScriptGeneratorGatling {
 				break;
 			}
 		}
-		
-		String logoutPageURL = loginPageURL.replace("/home", "");
 
 		//loop for the request
 		for (int j = 0; j < listRequest.size(); j++) {
@@ -224,7 +222,7 @@ public class ScriptGeneratorGatling {
 		}
 		String variableName = GatlingUtil.createScenarioVariable(sc.getName());
 
-		return new MustacheScenario(variableName,sc.getNumberOfUsers(), sc.getDuration(), listMustacheRequest,  hasPrivatePage, loginPageURL, portalURL, logoutPageURL);
+		return new MustacheScenario(variableName,sc.getNumberOfUsers(), sc.getDuration(), listMustacheRequest,  hasPrivatePage, loginPageURL, portalURL);
 	}
 
 	public Long getSimulationId() {

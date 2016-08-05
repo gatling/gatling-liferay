@@ -7,7 +7,7 @@ import java.util.List;
 
 public class MustacheScenario {		
 
-	MustacheScenario(String name,long l,long m, List<MustacheRequest> mustacheRequests, boolean hasPrivatePage, String loginPageURL, String siteURL, String logoutPageURL) {
+	MustacheScenario(String name,long l,long m, List<MustacheRequest> mustacheRequests, boolean hasPrivatePage, String loginPageURL, String siteURL) {
 		this.scenarioName = name;
 		this.mustacheRequests = mustacheRequests;
 		this.users = l;
@@ -15,7 +15,6 @@ public class MustacheScenario {
 		this.hasPrivatePage = hasPrivatePage;
 		this.loginPageURL = loginPageURL;
 		this.siteURL = siteURL;
-		this.logoutPageURL = logoutPageURL;
 	}
 	
 	private String scenarioName;
@@ -23,7 +22,6 @@ public class MustacheScenario {
 	private List<MustacheRequest> mustacheRequests;
 	private boolean hasPrivatePage;
 	private String loginPageURL;
-	private String logoutPageURL;
 	private String siteURL;
 	
 	public String getScenarioName() {
@@ -67,12 +65,6 @@ public class MustacheScenario {
 	}
 	public void setSiteURL(String siteURL) {
 		this.siteURL = siteURL;
-	}
-	public String getLogoutPageURL() {
-		return logoutPageURL;
-	}
-	public void setLogoutPageURL(String logoutPageURL) {
-		this.logoutPageURL = logoutPageURL;
 	}
 	
 }

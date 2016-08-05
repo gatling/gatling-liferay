@@ -8,6 +8,7 @@ import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.mustache.DefaultMustachScript;
 import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
@@ -243,8 +244,7 @@ public class GatlingUtil {
 			 zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"simulations/liferay/Simulation" +
 					 createSimulationVariable(simulation.getName())+ ".scala")); 
 			 final String currentPath =request.getPortletSession().getPortletContext().getRealPath("/WEB-INF/classes") + template; 
-			 ScriptGeneratorGatling script = new ScriptGeneratorGatling(id,PortalUtil.getPortalURL(request));
-			 script.setSimuName(script.getSimuName());
+			 DefaultMustachScript script = new DefaultMustachScript(id,PortalUtil.getPortalURL(request));
 
 			 final String tmp = Mustache.compiler().compile(
 				new FileReader(currentPath)).execute(script);

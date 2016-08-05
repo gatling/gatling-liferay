@@ -5,13 +5,11 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import scala.concurrent.duration._
 
-{{#initiate}} {{/initiate}}
-
 /**
  * Gatling 2.2.X Script generated for Liferay by the plugin
  * "Load Test with Gatling"
  */
-class {{simuName}} extends Simulation {
+class {{simulationName}} extends Simulation {
 
   val httpProtocol = http
     .acceptHeader("""text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8""")
@@ -22,20 +20,20 @@ class {{simuName}} extends Simulation {
   /**
    * List of the differents scenarios
    */
-  {{#mustacheScenario}}
+  {{#mustacheScenarios}}
   val {{scenarioName}} = scenario("{{scenarioName}}")
     .exec(
       Login.successfulLogin("{{loginPageURL}}", "feeders/login.csv"),
       GetPage.randomPage("feeders/siteMapPage.csv"),
       Logout.logout("{{logoutPageURL}}")
     )
-  {{/mustacheScenario}}
+  {{/mustacheScenarios}}
 
 
   setUp(
-    {{#mustacheScenario}}
-    {{scenarioName}}.inject(rampUsers({{users}}) over({{duration}} seconds))
-    {{/mustacheScenario}}
+    {{#mustacheScenarios}}
+    {{scenarioName}}.inject(rampUsers({{users}}) over({{rampUp}} seconds))
+    {{/mustacheScenarios}}
   ).protocols(httpProtocol)
 
 }
