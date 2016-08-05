@@ -10,14 +10,14 @@ import io.gatling.http.Predef._
 object Logout {
 
 	/**
-     * Constructs a scenario builder to log out of the portal.
-     * @param logoutPageUrl The URL of the logout page to hit
-     * @return the scenario builder to logout
-     */
+	 * Constructs a scenario builder to log out of the portal.
+	 * @param logoutPageUrl The URL of the logout page to hit
+	 * @return the scenario builder to logout
+	 */
 	def logout(logoutPageUrl: String) =
 		exec(http("Logout").get(s"${logoutPageUrl}/c/portal/logout")
-          .check(status.is(200))
-        )
-	  .pause(2)
+			.check(status.is(200))
+		)
+		.pause(2)
 
 }
