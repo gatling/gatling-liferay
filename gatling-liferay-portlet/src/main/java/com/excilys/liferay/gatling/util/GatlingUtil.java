@@ -217,23 +217,19 @@ public class GatlingUtil {
 	public static void zipMyEnvironment(OutputStream os, ClassLoader classLoader, ResourceRequest request, long groupId, long[] simulationsIds )
 			throws MustacheException, Exception {
 
-		final String packageFolder = "com/ebusiness/liferay/";
+		final String packageFolder = "user-files/";
 		final long date = new Date().getTime();
 		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		final ZipOutputStream zipOutputStream = new ZipOutputStream(os);
 		
-		// Get scenarios from resources folder
+		// Get actions from resources folder
 		//-------------------------------------------------------------------------------------------------------------------------------------
-		File[] files = new File(classLoader.getResource("gatling/"+packageFolder).getFile()).listFiles();
+		File[] sources = new File(classLoader.getResource("gatling/actions/").getFile()).listFiles();
 		// Goes through the sources directories
-		for (File rootDirectory : files) {
-			File[] sources = rootDirectory.listFiles();
 			for (File source : sources) {
-				zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+rootDirectory
-						.getName() + "/" + source.getName()));
+				zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"simulations/liferay/actions/" + source.getName()));
 				zipOutputStream.write((getFile(source)).getBytes());
 				zipOutputStream.closeEntry();
-			}
 		}
 
 		// Adds the generated simulations
@@ -244,7 +240,7 @@ public class GatlingUtil {
 		//create and export only one file with scenario script for this simulation id
 		 for (final long id : simulationsIds) { if (id > 0) {
 			 simulation = SimulationLocalServiceUtil.getSimulation(id);
-			 zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"simulations/"+"Simulation" +
+			 zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"simulations/liferay/Simulation" +
 					 createSimulationVariable(simulation.getName()) + date + ".scala")); 
 			 final String currentPath =request.getPortletSession().getPortletContext().getRealPath("/WEB-INF/classes") + template; 
 			 ScriptGeneratorGatling script = new ScriptGeneratorGatling(id,PortalUtil.getPortalURL(request));
@@ -261,7 +257,7 @@ public class GatlingUtil {
 		// Saving feeders:
 		//-------------------------------------------------------------------------------------------------------------------------------------
 		// SiteMapFeeder
-		zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"feeders/siteMapPage.csv"));
+		zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"data/feeders/siteMapPage.csv"));
 		zipOutputStream.write("site,URL\n".getBytes());
 		for (Layout layout : getSiteMap(groupId)) {
 			String currentFriendlyURL = GroupLocalServiceUtil.fetchGroup(layout.getGroupId()).getIconURL(themeDisplay);
@@ -272,7 +268,7 @@ public class GatlingUtil {
 		zipOutputStream.closeEntry();
 		
 		// LoginFeeder
-		zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"feeders/login.csv"));
+		zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"data/feeders/login.csv"));
 		zipOutputStream.write("user,password\n".getBytes());
 		String feederContent = simulation.getFeederContent();
 		Scanner scanner=new Scanner(feederContent);

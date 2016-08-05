@@ -1,17 +1,17 @@
 #!/bin/bash
 
 # Generated destination directories
-simulationDir=user-files/simulations/liferay/simulations
-scenarioDir=user-files/simulations/liferay/scenarios
-feederDir=user-files/data/feeders
+simulationsDir=user-files/simulations/liferay/
+actionsDir=user-files/simulations/liferay/actions
+feedersDir=user-files/data/feeders
 
 # Copies all the scala files
-mkdir -p $GATLING_HOME/$simulationDir
-mkdir -p $GATLING_HOME/$scenarioDir
-cp com/ebusiness/liferay/simulations/* $GATLING_HOME/$simulationDir
-cp com/ebusiness/liferay/scenarios/* $GATLING_HOME/$scenarioDir
+mkdir -p $GATLING_HOME/$simulationsDir
+mkdir -p $GATLING_HOME/$actionsDir
+cp $simulationsDir/*.scala $GATLING_HOME/$simulationsDir
+cp $actionsDir/* $GATLING_HOME/$actionsDir
 
 # Copies all the feeders
-mkdir -p $GATLING_HOME/$feederDir
-cp com/ebusiness/liferay/feeders/* $GATLING_HOME/$feederDir
+mkdir -p $GATLING_HOME/$feedersDir
+cp $feedersDir/* $GATLING_HOME/$feedersDir
 

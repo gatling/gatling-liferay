@@ -1,4 +1,4 @@
-package com.ebusiness.liferay.scenarios
+package liferay.actions
 
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ChainBuilder
