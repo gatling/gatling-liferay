@@ -13,29 +13,29 @@ import scala.concurrent.duration._
  */
 class {{simuName}} extends Simulation {
 
-	val httpProtocol = http
-		.acceptHeader("""text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8""")
-		.acceptEncodingHeader("""gzip, deflate""")
-		.acceptLanguageHeader("""fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3""")
-		.disableWarmUp
+  val httpProtocol = http
+    .acceptHeader("""text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8""")
+    .acceptEncodingHeader("""gzip, deflate""")
+    .acceptLanguageHeader("""fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3""")
+    .disableWarmUp
 
-	/**
- 	 * List of the differents scenarios
- 	 */
-	{{#mustacheScenario}}
-	val {{scenarioName}} = scenario("{{scenarioName}}")
-	  .exec(
-	  	Login.successfulLogin("{{loginPageURL}}", "feeders/login.csv"),
-		GetPage.randomPage("feeders/siteMapPage.csv"),
-		Logout.logout("{{logoutPageURL}}")
-      )
-	{{/mustacheScenario}}
+  /**
+   * List of the differents scenarios
+   */
+  {{#mustacheScenario}}
+  val {{scenarioName}} = scenario("{{scenarioName}}")
+    .exec(
+      Login.successfulLogin("{{loginPageURL}}", "feeders/login.csv"),
+      GetPage.randomPage("feeders/siteMapPage.csv"),
+      Logout.logout("{{logoutPageURL}}")
+    )
+  {{/mustacheScenario}}
 
 
- 	 setUp(
-		{{#mustacheScenario}}
-   		{{scenarioName}}.inject(rampUsers({{users}}) over({{duration}} seconds))
-		{{/mustacheScenario}}
-  	).protocols(httpProtocol)
+  setUp(
+    {{#mustacheScenario}}
+    {{scenarioName}}.inject(rampUsers({{users}}) over({{duration}} seconds))
+    {{/mustacheScenario}}
+  ).protocols(httpProtocol)
 
 }
