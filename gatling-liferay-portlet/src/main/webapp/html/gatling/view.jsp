@@ -69,7 +69,7 @@
 				<%-- Export Button --%>
 				<portlet:resourceURL id="generateZip" var="resourceUrl" />
 				<a id="exportToggle" href="${resourceUrl}">
-					<i class="icon-print"></i><liferay-ui:message key="simulation-export"/>
+					<i class="icon-print"></i> <liferay-ui:message key="simulation-export"/>
 				</a>
 				
 			</li>
