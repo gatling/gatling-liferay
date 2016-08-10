@@ -49,7 +49,7 @@ public class FormParamModelImpl extends BaseModelImpl<FormParam>
             { "data_", Types.VARCHAR },
             { "type_", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table StressTool_FormParam (formParamId LONG not null primary key,urlRecordId LONG,data_ VARCHAR(75) null,type_ VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table StressTool_FormParam (formParamId LONG not null primary key,urlRecordId LONG,data_ TEXT null,type_ VARCHAR(75) null)";
     public static final String TABLE_SQL_DROP = "drop table StressTool_FormParam";
     public static final String ORDER_BY_JPQL = " ORDER BY formParam.formParamId ASC";
     public static final String ORDER_BY_SQL = " ORDER BY StressTool_FormParam.formParamId ASC";

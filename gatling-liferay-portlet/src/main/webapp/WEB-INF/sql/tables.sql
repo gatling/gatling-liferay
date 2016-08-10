@@ -1,7 +1,7 @@
 create table StressTool_FormParam (
 	formParamId LONG not null primary key,
 	urlRecordId LONG,
-	data_ VARCHAR(75) null,
+	data_ TEXT null,
 	type_ VARCHAR(75) null
 );
 
