@@ -56,6 +56,15 @@
 	<a href="#" class="label label-success" onclick="tourDefaultFirstSimu.start();">
 		<i class="icon-list-alt"></i> <liferay-ui:message key="take-a-tour" />
 	</a> 
+	
+	
+	<%-- Portlet View --%>
+	<portlet:renderURL var="renderRecorderView">
+		<portlet:param name="render" value="renderRecorderView" />
+	</portlet:renderURL>
+	<a href="${renderRecorderView}" class="label label-success">
+		<i class="icon-heart"></i> Recorder
+	</a>
 
 </div>
 

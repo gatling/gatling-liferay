@@ -17,10 +17,13 @@ package com.excilys.liferay.gatling.service.impl;
 import java.util.List;
 
 import com.excilys.liferay.gatling.model.UrlRecord;
+import com.excilys.liferay.gatling.recorder.RecorderFilter;
 import com.excilys.liferay.gatling.service.base.UrlRecordLocalServiceBaseImpl;
 import com.excilys.liferay.gatling.validator.UrlRecordValidator;
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 /**
  * The implementation of the url record local service.
@@ -43,6 +46,8 @@ public class UrlRecordLocalServiceImpl extends UrlRecordLocalServiceBaseImpl {
 	 * Never reference this interface directly. Always use {@link com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil} to access the url record local service.
 	 */
 
+	private static final Log LOG = LogFactoryUtil.getLog(UrlRecordLocalServiceImpl.class);
+	
 	@Override
 	public List<UrlRecord> findByRecordId(long recordId) throws SystemException {
 		return urlRecordPersistence.findByRecordId(recordId);
@@ -69,6 +74,9 @@ public class UrlRecordLocalServiceImpl extends UrlRecordLocalServiceBaseImpl {
 		final List<String> errors = UrlRecordValidator.validateUrlRecord(urlRecord);
 		if(errors.isEmpty()) {
 			urlRecord.persist();
+		}
+		else {
+			LOG.error("Invalid UrlRecord : The UrlRecord could not be saved");
 		}
 		return primaryKeyUrl;
 	}
