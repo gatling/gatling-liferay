@@ -1,4 +1,4 @@
-package liferay.actions
+package liferay.processes
 
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ChainBuilder

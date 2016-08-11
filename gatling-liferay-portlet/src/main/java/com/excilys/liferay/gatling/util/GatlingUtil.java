@@ -223,12 +223,12 @@ public class GatlingUtil {
 		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		final ZipOutputStream zipOutputStream = new ZipOutputStream(os);
 		
-		// Get actions from resources folder
+		// Get processes from resources folder
 		//-------------------------------------------------------------------------------------------------------------------------------------
-		File[] sources = new File(classLoader.getResource("gatling/actions/").getFile()).listFiles();
+		File[] sources = new File(classLoader.getResource("gatling/processes/").getFile()).listFiles();
 		// Goes through the sources directories
 			for (File source : sources) {
-				zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"simulations/liferay/actions/" + source.getName()));
+				zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"simulations/liferay/processes/" + source.getName()));
 				zipOutputStream.write((getFile(source)).getBytes());
 				zipOutputStream.closeEntry();
 		}
@@ -241,7 +241,7 @@ public class GatlingUtil {
 		//create and export only one file with scenario script for this simulation id
 		 for (final long id : simulationsIds) { if (id > 0) {
 			 simulation = SimulationLocalServiceUtil.getSimulation(id);
-			 zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"simulations/liferay/Simulation" +
+			 zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"simulations/liferay/" +
 					 createSimulationVariable(simulation.getName())+ ".scala")); 
 			 final String currentPath =request.getPortletSession().getPortletContext().getRealPath("/WEB-INF/classes") + template; 
 			 DefaultMustachScript script = new DefaultMustachScript(id,PortalUtil.getPortalURL(request));
