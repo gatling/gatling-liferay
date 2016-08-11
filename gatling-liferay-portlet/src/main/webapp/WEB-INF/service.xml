@@ -21,6 +21,15 @@
 		<column name="duration" type="long"></column>		
 		<finder name="SimulationId" return-type="Collection">
 			<finder-column name="simulation_id" />
+		</finder>
+			
+	</entity>
+		<entity name="Process" local-service="true" remote-service="false">
+		<column name="process_id" type="long" primary="true"></column>
+		<column name="name" type="String" ></column>
+		<column name="pause_time" type="long"></column>		
+		<finder name="ScenarioId" return-type="Collection">
+			<finder-column name="scenario_id" />
 		</finder>	
 	</entity>
 	
