@@ -42,6 +42,8 @@ public class PortletController {
 
 	@RequestMapping(params="render=renderPortlet")
 	public String renderPortlet(final RenderRequest renderRequest, final RenderResponse renderResponse) throws SystemException, PortalException {
+		
+		LOG.debug("renderPortlet from PortletController called");
 
 		if (ParamUtil.getString(renderRequest, "pagePortletId") == null) {
 			throw new NullPointerException("portlet id is null");
@@ -159,6 +161,7 @@ public class PortletController {
 	@ActionMapping(params="action=toggleRecord")
 	public void toggleRecordAction(final ActionRequest request, final ActionResponse response, final Model model){
 		final String recordState = ParamUtil.getString(request, "nextRecordState");
+		LOG.debug("Toggle Record from PortletController called");
 		response.setRenderParameter("recordState", recordState);
 		//hack, only work this way ....
 		response.setRenderParameter("p_p_state", "pop_up");
@@ -170,7 +173,7 @@ public class PortletController {
 
 	@ActionMapping(params="action=editPortletSample")
 	public void editSampleAction(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException {
-		LOG.debug("editPortletSample");
+		LOG.debug("editPortletSample PortletController");
 		final long requestId = ParamUtil.getLong(request, "requestId");
 		final long[] linkUsecaseRequestIds = ParamUtil.getLongValues(request, "idLink");
 		final double[] usecaseWeight = ParamUtil.getDoubleValues(request, "weightScenarioSample");
