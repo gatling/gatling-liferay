@@ -55,7 +55,7 @@ public class SmoothRecorderController {
 		LOG.debug("Toggle Record from smooth called");
 		response.setRenderParameter("recordState", recordState);
 		//hack, only work this way ....
-		response.setRenderParameter("p_p_state", "pop_up");
+		//response.setRenderParameter("p_p_state", "pop_up");
 		PortalUtil.copyRequestParameters(request, response);
 		response.setRenderParameter("render", "renderRecorderView");
 		//Hide success message for this action

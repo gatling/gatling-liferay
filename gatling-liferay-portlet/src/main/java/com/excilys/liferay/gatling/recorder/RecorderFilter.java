@@ -119,6 +119,8 @@ public class RecorderFilter implements Filter {
 		String actionToggleRecord = ParamUtil.getString(httpRequest, NAMESPACE+"javax.portlet.action",null);
 		Boolean isSmoothy = ParamUtil.getBoolean(httpRequest, NAMESPACE+"smoothy", false);
 		LOG.debug("isSmoothy"+isSmoothy);
+		
+		//TODO check if isSMoothy (if) is required
 		if(isSmoothy || (actionToggleRecord != null && actionToggleRecord.equals("toggleRecord"))) {
 			String recordState = ParamUtil.getString(httpRequest, NAMESPACE+"nextRecordState", null);
 			String recordName = ParamUtil.getString(httpRequest, NAMESPACE+"useCaseRecordName", null);

@@ -10,7 +10,7 @@
 
 
 <%-- URL of button --%>
-<liferay-portlet:actionURL var="toggleRecordURL" name="toggleRecord" windowState="pop_up">
+<liferay-portlet:actionURL var="toggleRecordURL" name="toggleRecord" >
 	<liferay-portlet:param name="action" value="toggleRecord2" />
 	<liferay-portlet:param name="smoothy" value="true" />
 	<liferay-portlet:param name="javax.portlet.action" value="toggleRecord" />
@@ -29,7 +29,7 @@
 				</p>
 			</div>
 		</c:if>
-		<div class="btn-group" style="z-index: 1202">
+		<div class="btn-group">
 					<aui:input name="useCaseRecordName" inlineField="true">
 						<aui:validator name="required" />
 					</aui:input>
@@ -44,5 +44,5 @@
 	</aui:form>
 
 <div id="portletRecordDiv">
-	<iframe id="portletRecordFrame" src="http://localhost:8080/home?doAsGroupId=${groupId}" width="95%" class="popup-focus"></iframe>
+	<iframe id="portletRecordFrame" src="http://localhost:8080/home?doAsGroupId=${groupId}" width="95%" ></iframe>
 </div>
