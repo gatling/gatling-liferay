@@ -78,4 +78,18 @@ public class SmoothRecorderController {
 		SessionMessages.add(request, PortalUtil.getPortletId(request)+SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_SUCCESS_MESSAGE);
 	}
 
+	/**
+	 * Takes all the renders without param.
+	 * 
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 * @throws SystemException 
+	 */
+	@RenderMapping
+	public String handleRenderRequest(final RenderRequest request,
+			final RenderResponse response, final Model model) throws SystemException {
+		return renderRequest(request, response, model);
+	}
 }

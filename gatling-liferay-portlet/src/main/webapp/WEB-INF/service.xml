@@ -71,6 +71,9 @@
 			<finder-column name="portlet" />
 			<finder-column name="weight" comparator="!=" />
 		</finder> 
+		<finder name="portletId" return-type="Collection">
+			<finder-column name="portletId"  />
+		</finder>
 	</entity>
 	
 	

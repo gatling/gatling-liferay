@@ -184,6 +184,34 @@ public class ViewController {
 		LOG.debug("Zip generated ...");
 	}
 	
+	@ResourceMapping(value="generateProcessZip")	
+	public void exportZippedProcess(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
+		LOG.debug("\\o/ Generating zip file...");
+
+		/* //long[] simulationsIds = ParamUtil.getLongValues(request, "export");
+		Simulation simulation = SimulationLocalServiceUtil.getByName("_default_simulation_");
+
+		// Retreives the defaut scenario frim the simulation id (expected single result)
+		List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
+		if(scenarios == null || scenarios.isEmpty()) {
+			throw new NoSuchScenarioException();
+		}
+		Scenario scenario = scenarios.get(0);
+		
+		long[] simulationsIds = new long[]{simulation.getSimulation_id()};
+	*/
+		response.setContentType("application/zip");
+		response.addProperty("Content-Disposition", "attachment; filename = GatlingProcess.zip");
+		
+		//GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, scenario.getGroup_id(), simulationsIds);
+		GatlingUtil.zipMyEnvironment2(response.getPortletOutputStream(),getClass().getClassLoader(), request, 42,null);
+		
+		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
+		LOG.debug("Zip generated ...");
+		
+	}
+	
+	
 	/**
 	 * Takes all the renders without param.
 	 * 

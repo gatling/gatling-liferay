@@ -8,16 +8,19 @@ import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.mustache.DefaultMustachScript;
-import com.excilys.liferay.gatling.mustache.ScriptGeneratorGatling;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
+import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Company;
@@ -35,7 +38,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -46,6 +48,8 @@ import javax.portlet.RenderRequest;
 import javax.portlet.ResourceRequest;
 
 public class GatlingUtil {
+
+	private static final Log LOG = LogFactoryUtil.getLog(GatlingUtil.class);
 
 	/**
 	 * create variable name for gatling scenario
@@ -200,6 +204,34 @@ public class GatlingUtil {
 		return company.getAuthType();
 	}
 
+	public static void zipMyEnvironment2(OutputStream os, ClassLoader classLoader, ResourceRequest request, long groupId, long[] simulationsIds )
+			throws MustacheException, Exception {
+
+		final String packageFolder = "user-files/";
+		//final long date = new Date().getTime();
+		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+		final ZipOutputStream zipOutputStream = new ZipOutputStream(os);
+		
+		List<Record> records = RecordLocalServiceUtil.findByPortletId("_default_");
+		
+		// Get processes from resources folder
+		//-------------------------------------------------------------------------------------------------------------------------------------
+		zipOutputStream.putNextEntry(new ZipEntry("myFeeder.txt"));
+		zipOutputStream.write("pageName,URL,type,datafile\n".getBytes());
+		//Records is supposed to be unic
+		for (Record record : records) {
+			LOG.debug(record.getName());
+			List<UrlRecord> urls = UrlRecordLocalServiceUtil.findByRecordId(record.getPrimaryKey());
+			for (UrlRecord url : urls) {
+				zipOutputStream.write((url.getUrl()+","+url.getType()+"\n").getBytes());
+			}
+			
+
+		}
+		
+		zipOutputStream.close();
+	}
+	
 	/**
 	 * Zip the test environment in 4 steps (predifined scenarios, simulations, feeders, properties)
 	 * 	

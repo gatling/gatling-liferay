@@ -21,6 +21,11 @@
 
 </liferay-portlet:actionURL>
 
+<portlet:resourceURL id="generateProcessZip" var="resourceUrl" />
+	<a id="exportToggle" href="${resourceUrl}" style="float: right" >
+		<i class="icon-print"></i> <liferay-ui:message key="simulation-export"/>
+	</a>
+				
 	<aui:form action="${toggleRecordURL}">
 		<c:if test="${not empty multipartError }">
 			<div class="alert alert-error pull-right" style="margin-right:50px">
