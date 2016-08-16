@@ -47,6 +47,10 @@ public class RecorderFilter implements Filter {
 	private static final String URL_CONTROL_PANEL = "/group/control_panel/manage";
 	private static final List<String> FORBIDDEN_PARAMS = new ArrayList<String>();
 
+	//When we are not focused on a portlet but we are on a page, we put the id to -1
+	private static final String INEXISTANT_PORTLET_ID = "_default_";
+	private static final String CURRENT_VERSION = "6.2";
+	
 	static {
 		FORBIDDEN_PARAMS.add("doAsGroupId");
 	}
@@ -92,16 +96,7 @@ public class RecorderFilter implements Filter {
 			}
 			
 			if (infos[1].equalsIgnoreCase("RECORD")) { 
-				if(httpRequest.getParameter("doAsGroupId") != null) {  // we only record request with doAsGroupId (= portlet tested)
-					if (ParamUtil.getBoolean(httpRequest, NAMESPACE+"smoothy", false)) {
-						smoothSave(httpRequest, response, session, currentRecords);
-					}
-					else {
-						saveURL(httpRequest, response, session, currentRecords);
-
-					}
-					LOG.debug("Saving URL");
-				}
+				saveURL(httpRequest, response, session, currentRecords);	
 			} else if(infos[1].equalsIgnoreCase("STOP")) {
 				stopRecording(session, infos, currentRecords);
 			}
@@ -117,20 +112,18 @@ public class RecorderFilter implements Filter {
 	 */
 	private static void toogleRecord(HttpServletRequest httpRequest, HttpSession session){
 		String actionToggleRecord = ParamUtil.getString(httpRequest, NAMESPACE+"javax.portlet.action",null);
-		Boolean isSmoothy = ParamUtil.getBoolean(httpRequest, NAMESPACE+"smoothy", false);
-		LOG.debug("isSmoothy"+isSmoothy);
 		
-		//TODO check if isSMoothy (if) is required
-		if(isSmoothy || (actionToggleRecord != null && actionToggleRecord.equals("toggleRecord"))) {
+		if((actionToggleRecord != null && actionToggleRecord.equals("toggleRecord"))) {
 			String recordState = ParamUtil.getString(httpRequest, NAMESPACE+"nextRecordState", null);
 			String recordName = ParamUtil.getString(httpRequest, NAMESPACE+"useCaseRecordName", null);
 			String portletId = ParamUtil.getString(httpRequest, NAMESPACE+"pagePortletId", null);
-			LOG.debug("recordState: "+recordState+",\trecordeName: "+recordName+"\tportletId:"+portletId+"\tisSmoothy: "+isSmoothy);
+			LOG.debug("recordState: "+recordState+",\trecordeName: "+recordName+"\tportletId:"+portletId);
 			if(recordState != null && recordName != null && portletId != null) {
 				session.setAttribute("GATLING_RECORD_STATE", portletId+","+recordState+","+recordName);
 			}
-			else if (isSmoothy && recordState != null && recordName != null ) {
-				session.setAttribute("GATLING_RECORD_STATE", "0"+","+recordState+","+recordName);
+			else if (recordState != null && recordName != null ) {
+				
+				session.setAttribute("GATLING_RECORD_STATE", INEXISTANT_PORTLET_ID +","+recordState+","+recordName);
 			}
 			else {
 				session.removeAttribute("GATLING_RECORD_STATE");
@@ -138,41 +131,7 @@ public class RecorderFilter implements Filter {
 		}
 	}
 	
-	/**
-	 * Save the URL of the request in the currentRecords and update the recordURL session attribute.
-	 * If a form is invalid, the function stores an error in a cookie.
-	 * @param request The HTTP request
-	 * @param response The HTTP Response
-	 * @param session The current session
-	 * @param currentRecords The current recorded urls
-	 * @throws IOException If a buffering action failed
-	 */
-	private static void smoothSave(HttpServletRequest request, ServletResponse response, HttpSession session, List<RecordURL> currentRecords) throws IOException{
-		Map<String, String[]> parametersMap = request.getParameterMap();
-		String params = HttpUtil.parameterMapToString(filterParameters(parametersMap));
-		String requestURL = request.getRequestURI().replace(URL_CONTROL_PANEL, "");
-		
-		RecordURL record = null;
-		if(request.getMethod().equalsIgnoreCase("post")) {	
-			if (request.getContentType() != null && request.getContentType().toLowerCase().contains("multipart/form-data")) {
-				//Multipart Form case
-				record = computeDataFromMultiParts(request, requestURL, params);
-			}
-			else {
-				//Normal Form case
-				//TODO: Split the parameters!
-				record = computeParamsFromNormalForm(request, requestURL, params);
-			}
-		}
-		else {
-			//Get Case
-			record = new GetURL(requestURL, params);
-		} 
-		
-		LOG.debug(record);
-		currentRecords.add(record);
-		session.setAttribute("recordURL", currentRecords);
-	}
+	
 	
 	/**
 	 * Save the URL of the request in the currentRecords and update the recordURL session attribute.
@@ -184,6 +143,9 @@ public class RecorderFilter implements Filter {
 	 * @throws IOException If a buffering action failed
 	 */
 	private static void saveURL(HttpServletRequest request, ServletResponse response, HttpSession session, List<RecordURL> currentRecords) throws IOException{
+		
+		LOG.info("Save the URL");
+		
 		Map<String, String[]> parametersMap = request.getParameterMap();
 		String params = HttpUtil.parameterMapToString(filterParameters(parametersMap));
 		String requestURL = request.getRequestURI().replace(URL_CONTROL_PANEL, "");
@@ -225,8 +187,17 @@ public class RecorderFilter implements Filter {
 			LOG.debug("Saving ...");
 			try {
 				//Save use case table
-				String portletVersion = PortletLocalServiceUtil.getPortletById(infos[0]).getPluginPackage().getVersion();
+				
+				String portletVersion;
+				if(infos[0].equals(INEXISTANT_PORTLET_ID)){
+					portletVersion = CURRENT_VERSION;
+					currentRecords.remove(0);
+				}
+				else {
+					portletVersion = PortletLocalServiceUtil.getPortletById(infos[0]).getPluginPackage().getVersion();
+				}
 				LOG.debug("version de portlet "+portletVersion);
+				
 				Record record = RecordLocalServiceUtil.save(infos[2], infos[0], portletVersion);
 				LOG.debug("...1/2");
 				//Save url table
