@@ -30,8 +30,10 @@ import javax.servlet.http.HttpSession;
 
 public class RecorderManager {
 
-	protected static final Log LOG = LogFactoryUtil.getLog(RecorderFilter.class);
-	protected static final String NAMESPACE = "_gatling_WAR_gatlingliferayportlet_";
+	protected static final Log LOG = LogFactoryUtil.getLog(RecorderManager.class);
+	
+	public static final String NAMESPACE = "_gatling_WAR_gatlingliferayportlet_";
+	
 	protected static final String URL_CONTROL_PANEL = "/group/control_panel/manage";
 	protected static final List<String> FORBIDDEN_PARAMS = new ArrayList<String>();
 
@@ -55,10 +57,7 @@ public class RecorderManager {
 			}
 			
 			if (infos[1].equalsIgnoreCase("RECORD")) { 
-				if(httpRequest.getParameter("doAsGroupId") != null) {  // we only record request with doAsGroupId (= portlet tested)
-					saveURL(httpRequest, response, session, currentRecords);
-					LOG.debug("Saving URL");
-				}
+				saveURL(httpRequest, response, session, currentRecords);
 			} else if(infos[1].equalsIgnoreCase("STOP")) {
 				stopRecording(session, infos, currentRecords);
 			}
@@ -71,24 +70,19 @@ public class RecorderManager {
 	 * @param session The current session
 	 */
 	protected void toogleRecord(HttpServletRequest httpRequest, HttpSession session){
-		String actionToggleRecord = ParamUtil.getString(httpRequest, NAMESPACE+"javax.portlet.action",null);
-
-		//Boolean isSmoothy = ParamUtil.getBoolean(httpRequest, NAMESPACE+"smoothy", false);
-		//LOG.debug("isSmoothy"+isSmoothy);
-		if(/*isSmoothy || */(actionToggleRecord != null && actionToggleRecord.equals("toggleRecord"))) {
-			String recordState = ParamUtil.getString(httpRequest, NAMESPACE+"nextRecordState", null);
-			String recordName = ParamUtil.getString(httpRequest, NAMESPACE+"useCaseRecordName", null);
-			String portletId = ParamUtil.getString(httpRequest, NAMESPACE+"pagePortletId", null);
-			LOG.debug("recordState: "+recordState+",\trecordeName: "+recordName+"\tportletId:"+portletId/*+"\tisSmoothy: "+isSmoothy*/);
-			if(recordState != null && recordName != null && portletId != null) {
-				session.setAttribute("GATLING_RECORD_STATE", portletId+","+recordState+","+recordName);
-			}
-			else if (/*isSmoothy && */recordState != null && recordName != null ) {
-				session.setAttribute("GATLING_RECORD_STATE", "0"+","+recordState+","+recordName);
-			}
-			else {
-				session.removeAttribute("GATLING_RECORD_STATE");
-			}
+		String recordState = ParamUtil.getString(httpRequest, NAMESPACE+"nextRecordState", null);
+		
+		String recordName = ParamUtil.getString(httpRequest, NAMESPACE+"useCaseRecordName", null);
+		String portletId = ParamUtil.getString(httpRequest, NAMESPACE+"pagePortletId", null);
+		LOG.debug("recordState: "+recordState+",\trecordeName: "+recordName+"\tportletId:"+portletId);
+		if(recordState != null && recordName != null && portletId != null) {
+			session.setAttribute("GATLING_RECORD_STATE", portletId+","+recordState+","+recordName);
+		}
+		else if (recordState != null && recordName != null ) {
+			session.setAttribute("GATLING_RECORD_STATE", "0"+","+recordState+","+recordName);
+		}
+		else {
+			session.removeAttribute("GATLING_RECORD_STATE");
 		}
 	}
 	
@@ -102,30 +96,34 @@ public class RecorderManager {
 	 * @throws IOException If a buffering action failed
 	 */
 	protected void saveURL(HttpServletRequest request, ServletResponse response, HttpSession session, List<RecordURL> currentRecords) throws IOException{
-		Map<String, String[]> parametersMap = request.getParameterMap();
-		String params = HttpUtil.parameterMapToString(filterParameters(parametersMap));
-		String requestURL = request.getRequestURI().replace(URL_CONTROL_PANEL, "");
-		
-		RecordURL record = null;
-		if(request.getMethod().equalsIgnoreCase("post")) {	
-			if (request.getContentType() != null && request.getContentType().toLowerCase().contains("multipart/form-data")) {
-				//Multipart Form case
-				record = computeDataFromMultiParts(request, requestURL, params);
+		if (request.getParameter("doAsGroupId") != null) {
+			Map<String, String[]> parametersMap = request.getParameterMap();
+			String params = HttpUtil
+					.parameterMapToString(filterParameters(parametersMap));
+			String requestURL = request.getRequestURI().replace(
+					URL_CONTROL_PANEL, "");
+
+			RecordURL record = null;
+			if (request.getMethod().equalsIgnoreCase("post")) {
+				if (request.getContentType() != null && request.getContentType().toLowerCase().contains("multipart/form-data")) {
+					// Multipart Form case
+					record = computeDataFromMultiParts(request, requestURL,
+							params);
+				} else {
+					// Normal Form case
+					// TODO: Split the parameters!
+					record = computeParamsFromNormalForm(request, requestURL,
+							params);
+				}
+			} else {
+				// Get Case
+				record = new GetURL(requestURL, params);
 			}
-			else {
-				//Normal Form case
-				//TODO: Split the parameters!
-				record = computeParamsFromNormalForm(request, requestURL, params);
-			}
+
+			LOG.debug(record);
+			currentRecords.add(record);
+			session.setAttribute("recordURL", currentRecords);
 		}
-		else {
-			//Get Case
-			record = new GetURL(requestURL, params);
-		} 
-		
-		LOG.debug(record);
-		currentRecords.add(record);
-		session.setAttribute("recordURL", currentRecords);
 	}
 	
 	

@@ -60,5 +60,5 @@
 	</aui:form>
 
 <div id="portletRecordDiv">
-	<iframe id="portletRecordFrame" src="http://localhost:8080/home?doAsGroupId=${groupId}" width="95%" ></iframe>
+	<iframe id="portletRecordFrame" src="http://localhost:8080/home" width="95%" ></iframe>
 </div>

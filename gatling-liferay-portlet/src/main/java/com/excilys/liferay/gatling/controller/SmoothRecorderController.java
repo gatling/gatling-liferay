@@ -16,6 +16,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +39,6 @@ public class SmoothRecorderController {
 			final RenderResponse renderResponse, final Model model) throws SystemException {
 		LOG.debug("render View");
 		
-		
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		renderRequest.setAttribute("groupId", themeDisplay.getScopeGroupId());
 		
@@ -48,6 +48,7 @@ public class SmoothRecorderController {
 				LOG.debug("current state:"+state );
 				if(state != null) {
 					if(state.equals("RECORD")) {
+						
 						nextState ="STOP";
 					} else {
 						nextState = "RECORD";

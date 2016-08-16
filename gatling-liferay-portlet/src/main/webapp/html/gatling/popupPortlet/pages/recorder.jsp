@@ -7,11 +7,13 @@
 
 <liferay-portlet:actionURL var="toggleRecordURL" name="toggleRecord" windowState="pop_up">
 
-	<liferay-portlet:param name="action" value="toggleRecord" />
 	<liferay-portlet:param name="pagePortletId"	value="${portletGatlingDTO.portletId}" />
 	<liferay-portlet:param name="requestId"	value="${portletGatlingDTO.requestId}" />
 	<liferay-portlet:param name="groupId" value="${portletGatlingDTO.groupId }" />
-	<liferay-portlet:param name="nextRecordState" value="${portletGatlingDTO.nextRecordState}" />
+	
+	<liferay-portlet:param name="action" value="toggleRecord" />
+<%-- 	<liferay-portlet:param name="nextRecordState" value="${portletGatlingDTO.nextRecordState}" /> --%>
+	
 	<liferay-portlet:param name="lineId" value="${portletGatlingDTO.lineId}" />
 	<c:choose>
 		<c:when test="${portletGatlingDTO.nextRecordState eq 'STOP' }">

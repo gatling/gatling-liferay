@@ -2,6 +2,8 @@ package com.excilys.liferay.gatling.recorder;
 
 import com.excilys.liferay.gatling.recorder.records.GetURL;
 import com.excilys.liferay.gatling.recorder.records.RecordURL;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 
 import java.io.IOException;
@@ -14,6 +16,9 @@ import javax.servlet.http.HttpSession;
 
 public class SmoothRecorderManager extends RecorderManager {
 
+	protected static final Log LOG = LogFactoryUtil.getLog(SmoothRecorderManager.class);
+
+	
 	@Override
 	protected void saveURL(HttpServletRequest request,
 			ServletResponse response, HttpSession session,
