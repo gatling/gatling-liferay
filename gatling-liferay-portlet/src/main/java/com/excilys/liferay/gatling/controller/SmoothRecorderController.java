@@ -38,14 +38,26 @@ public class SmoothRecorderController {
 			final RenderResponse renderResponse, final Model model) throws SystemException {
 		LOG.debug("render View");
 		
-		String state = (String) renderRequest.getAttribute("NEXT_STATE");
-		if (state !=null) {
-			LOG.debug("current state:"+state );
-		}
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		renderRequest.setAttribute("groupId", themeDisplay.getScopeGroupId());
 		
+		// Check state of recording
+				String nextState;
+				final String state = renderRequest.getParameter("recordState");
+				LOG.debug("current state:"+state );
+				if(state != null) {
+					if(state.equals("RECORD")) {
+						nextState ="STOP";
+					} else {
+						nextState = "RECORD";
+					}
+				} else {
+					nextState = "RECORD";
+				}
+				LOG.debug("nextState is "+nextState);
+				renderRequest.setAttribute("NEXT_STATE", nextState);
+				
 		return "smoothRecorderView";
 	}
 	
@@ -61,19 +73,7 @@ public class SmoothRecorderController {
 		//Hide success message for this action
 		
 		//
-		// Check state of recording
-		String nextState;
-		final String state = request.getParameter("recordState");
-		if(state != null) {
-			if(state.equals("RECORD")) {
-				nextState ="STOP";
-			} else {
-				nextState = "RECORD";
-			}
-		} else {
-			nextState = "RECORD";
-		}
-		response.setRenderParameter("NEXT_STATE", nextState);
+		
 		//request.setAttribute("NEXT_STATE", nextState);
 		SessionMessages.add(request, PortalUtil.getPortletId(request)+SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_SUCCESS_MESSAGE);
 	}

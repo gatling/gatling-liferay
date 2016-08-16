@@ -30,15 +30,31 @@
 			</div>
 		</c:if>
 		<div class="btn-group">
-					<aui:input name="useCaseRecordName" inlineField="true">
-						<aui:validator name="required" />
-					</aui:input>
+		<c:choose>
+				<c:when test="${NEXT_STATE eq 'STOP' }">
+				<aui:input name="useCaseRecordName" inlineField="true"
+						readonly="true" />
 					<liferay-util:buffer var="btnRecordText">
-						<liferay-ui:message key="record" />
+						<liferay-ui:message key="stop" />
 					</liferay-util:buffer>
 					<aui:button cssClass="btn btn-warning inline-button" type="submit"
-						value="${btnRecordText }" icon="icon-play" />
-					<input id="checkRecording" type="hidden" value="false" />
+						value="${btnRecordText}" icon="icon-stop" />
+					<input id="checkRecording" type="hidden" value="true" />
+				</c:when>
+				
+				<c:otherwise>
+					<aui:input name="useCaseRecordName" inlineField="true">
+							<aui:validator name="required" />
+						</aui:input>
+						<liferay-util:buffer var="btnRecordText">
+							<liferay-ui:message key="record" />
+						</liferay-util:buffer>
+						<aui:button cssClass="btn btn-warning inline-button" type="submit"
+							value="${btnRecordText }" icon="icon-play" />
+						<input id="checkRecording" type="hidden" value="false" />
+				</c:otherwise>
+		</c:choose>
+					
 		</div>
 
 	</aui:form>
