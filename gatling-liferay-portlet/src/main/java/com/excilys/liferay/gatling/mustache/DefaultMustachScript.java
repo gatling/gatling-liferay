@@ -2,6 +2,7 @@ package com.excilys.liferay.gatling.mustache;
 
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.model.AST.ScenarioAST;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
@@ -13,7 +14,7 @@ import java.util.List;
 public class DefaultMustachScript {
 
 	private String simulationName;
-	private List<DefaultMustachScenario> mustacheScenarios;
+	private List<ScenarioAST> mustacheScenarios;
 	private String loginPageURL;
 	private String logoutPageURL;
 	
@@ -52,11 +53,11 @@ public class DefaultMustachScript {
 		this.logoutPageURL = logoutPageURL;
 	}
 
-	public List<DefaultMustachScenario> getMustacheScenarios() {
+	public List<ScenarioAST> getMustacheScenarios() {
 		return mustacheScenarios;
 	}
 
-	public void setMustacheScenarios(List<DefaultMustachScenario> scenario) {
+	public void setMustacheScenarios(List<ScenarioAST> scenario) {
 		this.mustacheScenarios = scenario;
 	}
 	
@@ -68,7 +69,7 @@ public class DefaultMustachScript {
 		mustacheScenarios = new ArrayList<>();
 		for (Scenario scenario : listScenario) {
 			String name = GatlingUtil.createScenarioVariable(scenario.getName());
-			DefaultMustachScenario dms = new DefaultMustachScenario(name, scenario.getNumberOfUsers(), scenario.getDuration());
+			ScenarioAST dms = new ScenarioAST(name, scenario.getNumberOfUsers(), scenario.getDuration());
 			mustacheScenarios.add(dms);
 		}
 	}
