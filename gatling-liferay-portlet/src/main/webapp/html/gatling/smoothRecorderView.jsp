@@ -21,7 +21,10 @@
 
 </liferay-portlet:actionURL>
 
-<portlet:resourceURL id="generateProcessZip" var="resourceUrl" />
+<portlet:resourceURL id="generateProcessZip" var="resourceUrl" >
+	<liferay-portlet:param name="recordName" value="1234" />
+</portlet:resourceURL>
+
 	<a id="exportToggle" href="${resourceUrl}" style="float: right" >
 		<i class="icon-print"></i> <liferay-ui:message key="simulation-export"/>
 	</a>

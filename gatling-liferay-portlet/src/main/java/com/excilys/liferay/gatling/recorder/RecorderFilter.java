@@ -98,6 +98,7 @@ public class RecorderFilter implements Filter {
 			if (infos[1].equalsIgnoreCase("RECORD")) { 
 				saveURL(httpRequest, response, session, currentRecords);	
 			} else if(infos[1].equalsIgnoreCase("STOP")) {
+				request.setAttribute("recordName", infos[2]);
 				stopRecording(session, infos, currentRecords);
 			}
 		}

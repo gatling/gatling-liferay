@@ -36,7 +36,8 @@ public class SmoothRecorderController {
 	@RenderMapping(params = "render=renderRecorderView")
 	public String renderRequest(final RenderRequest renderRequest,
 			final RenderResponse renderResponse, final Model model) throws SystemException {
-		LOG.debug("render View");
+		String recordName = ParamUtil.getString(renderRequest,"recordName","doesntWork");
+		LOG.debug("render View"+recordName);
 		
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
