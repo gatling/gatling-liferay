@@ -24,6 +24,9 @@ class {{simulationName}} extends Simulation {
   val {{scenarioName}} = scenario("{{scenarioName}}")
     .exec(
       Login.successfulLogin("{{loginPageURL}}", "feeders/login.csv"),
+      {{#processes}}
+      {{printCode}},
+      {{/processes}}
       GetPage.randomPage("feeders/siteMapPage.csv"),
       Logout.logout("{{logoutPageURL}}")
     )
