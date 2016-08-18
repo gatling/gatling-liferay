@@ -239,16 +239,4 @@ public interface ProcessLocalService extends BaseLocalService,
     public java.lang.Object invokeMethod(java.lang.String name,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable;
-
-    /**
-    * Find the record linked with the given process
-    *
-    * @param id The id of the process
-    * @return The record linked with the process if it exists, else null
-    * @throws PortalException
-    * @throws SystemException
-    */
-    public com.excilys.liferay.gatling.model.Record findRecordFromId(long id)
-        throws com.liferay.portal.kernel.exception.PortalException,
-            com.liferay.portal.kernel.exception.SystemException;
 }

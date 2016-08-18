@@ -45,8 +45,6 @@ public class ProcessLocalServiceClpInvoker {
     private String[] _methodParameterTypes60;
     private String _methodName61;
     private String[] _methodParameterTypes61;
-    private String _methodName66;
-    private String[] _methodParameterTypes66;
 
     public ProcessLocalServiceClpInvoker() {
         _methodName0 = "addProcess";
@@ -138,10 +136,6 @@ public class ProcessLocalServiceClpInvoker {
         _methodName61 = "setBeanIdentifier";
 
         _methodParameterTypes61 = new String[] { "java.lang.String" };
-
-        _methodName66 = "findRecordFromId";
-
-        _methodParameterTypes66 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -243,11 +237,6 @@ public class ProcessLocalServiceClpInvoker {
             ProcessLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
-        }
-
-        if (_methodName66.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes66, parameterTypes)) {
-            return ProcessLocalServiceUtil.findRecordFromId(((Long) arguments[0]).longValue());
         }
 
         throw new UnsupportedOperationException();

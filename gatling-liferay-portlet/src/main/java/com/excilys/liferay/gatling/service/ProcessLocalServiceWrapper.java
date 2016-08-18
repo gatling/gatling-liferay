@@ -272,21 +272,6 @@ public class ProcessLocalServiceWrapper implements ProcessLocalService,
     }
 
     /**
-    * Find the record linked with the given process
-    *
-    * @param id The id of the process
-    * @return The record linked with the process if it exists, else null
-    * @throws PortalException
-    * @throws SystemException
-    */
-    @Override
-    public com.excilys.liferay.gatling.model.Record findRecordFromId(long id)
-        throws com.liferay.portal.kernel.exception.PortalException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return _processLocalService.findRecordFromId(id);
-    }
-
-    /**
      * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
      */
     public ProcessLocalService getWrappedProcessLocalService() {
