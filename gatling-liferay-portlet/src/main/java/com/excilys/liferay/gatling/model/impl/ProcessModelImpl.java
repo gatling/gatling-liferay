@@ -48,9 +48,10 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
             { "name", Types.VARCHAR },
             { "type_", Types.VARCHAR },
             { "order_", Types.INTEGER },
-            { "scenario_id", Types.BIGINT }
+            { "scenario_id", Types.BIGINT },
+            { "recordId", Types.BIGINT }
         };
-    public static final String TABLE_SQL_CREATE = "create table StressTool_Process (process_id LONG not null primary key,name VARCHAR(75) null,type_ VARCHAR(75) null,order_ INTEGER,scenario_id LONG)";
+    public static final String TABLE_SQL_CREATE = "create table StressTool_Process (process_id LONG not null primary key,name VARCHAR(75) null,type_ VARCHAR(75) null,order_ INTEGER,scenario_id LONG,recordId LONG)";
     public static final String TABLE_SQL_DROP = "drop table StressTool_Process";
     public static final String ORDER_BY_JPQL = " ORDER BY process.process_id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY StressTool_Process.process_id ASC";
@@ -81,6 +82,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
     private long _scenario_id;
     private long _originalScenario_id;
     private boolean _setOriginalScenario_id;
+    private Long _recordId;
     private long _columnBitmask;
     private Process _escapedModel;
 
@@ -126,6 +128,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         attributes.put("type", getType());
         attributes.put("order", getOrder());
         attributes.put("scenario_id", getScenario_id());
+        attributes.put("recordId", getRecordId());
 
         return attributes;
     }
@@ -160,6 +163,12 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
         if (scenario_id != null) {
             setScenario_id(scenario_id);
+        }
+
+        Long recordId = (Long) attributes.get("recordId");
+
+        if (recordId != null) {
+            setRecordId(recordId);
         }
     }
 
@@ -233,6 +242,16 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         return _originalScenario_id;
     }
 
+    @Override
+    public Long getRecordId() {
+        return _recordId;
+    }
+
+    @Override
+    public void setRecordId(Long recordId) {
+        _recordId = recordId;
+    }
+
     public long getColumnBitmask() {
         return _columnBitmask;
     }
@@ -269,6 +288,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         processImpl.setType(getType());
         processImpl.setOrder(getOrder());
         processImpl.setScenario_id(getScenario_id());
+        processImpl.setRecordId(getRecordId());
 
         processImpl.resetOriginalValues();
 
@@ -351,12 +371,14 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
         processCacheModel.scenario_id = getScenario_id();
 
+        processCacheModel.recordId = getRecordId();
+
         return processCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(11);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("{process_id=");
         sb.append(getProcess_id());
@@ -368,6 +390,8 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         sb.append(getOrder());
         sb.append(", scenario_id=");
         sb.append(getScenario_id());
+        sb.append(", recordId=");
+        sb.append(getRecordId());
         sb.append("}");
 
         return sb.toString();
@@ -375,7 +399,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(19);
+        StringBundler sb = new StringBundler(22);
 
         sb.append("<model><model-name>");
         sb.append("com.excilys.liferay.gatling.model.Process");
@@ -400,6 +424,10 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         sb.append(
             "<column><column-name>scenario_id</column-name><column-value><![CDATA[");
         sb.append(getScenario_id());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>recordId</column-name><column-value><![CDATA[");
+        sb.append(getRecordId());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

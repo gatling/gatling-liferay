@@ -54,6 +54,8 @@ public class RecordLocalServiceClp implements RecordLocalService {
     private String[] _methodParameterTypes22;
     private String _methodName23;
     private String[] _methodParameterTypes23;
+    private String _methodName24;
+    private String[] _methodParameterTypes24;
 
     public RecordLocalServiceClp(InvokableLocalService invokableLocalService) {
         _invokableLocalService = invokableLocalService;
@@ -148,25 +150,29 @@ public class RecordLocalServiceClp implements RecordLocalService {
 
         _methodParameterTypes17 = new String[] { "java.lang.String" };
 
-        _methodName19 = "findByPortletId";
+        _methodName19 = "findByProcessId";
 
-        _methodParameterTypes19 = new String[] { "java.lang.String" };
+        _methodParameterTypes19 = new String[] { "long" };
 
-        _methodName20 = "findByName";
+        _methodName20 = "findByPortletId";
 
         _methodParameterTypes20 = new String[] { "java.lang.String" };
 
-        _methodName21 = "countByPortletId";
+        _methodName21 = "findByName";
 
         _methodParameterTypes21 = new String[] { "java.lang.String" };
 
-        _methodName22 = "update";
+        _methodName22 = "countByPortletId";
 
-        _methodParameterTypes22 = new String[] { "long", "java.lang.String" };
+        _methodParameterTypes22 = new String[] { "java.lang.String" };
 
-        _methodName23 = "save";
+        _methodName23 = "update";
 
-        _methodParameterTypes23 = new String[] {
+        _methodParameterTypes23 = new String[] { "long", "java.lang.String" };
+
+        _methodName24 = "save";
+
+        _methodParameterTypes24 = new String[] {
                 "java.lang.String", "java.lang.String", "java.lang.String"
             };
     }
@@ -682,14 +688,51 @@ public class RecordLocalServiceClp implements RecordLocalService {
     }
 
     @Override
+    public com.excilys.liferay.gatling.model.Record findByProcessId(
+        long processId)
+        throws com.excilys.liferay.gatling.NoSuchProcessException,
+            com.liferay.portal.NoSuchModelException,
+            com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName19,
+                    _methodParameterTypes19, new Object[] { processId });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.excilys.liferay.gatling.NoSuchProcessException) {
+                throw (com.excilys.liferay.gatling.NoSuchProcessException) t;
+            }
+
+            if (t instanceof com.liferay.portal.NoSuchModelException) {
+                throw (com.liferay.portal.NoSuchModelException) t;
+            }
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (com.excilys.liferay.gatling.model.Record) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
     public java.util.List<com.excilys.liferay.gatling.model.Record> findByPortletId(
         java.lang.String portletId)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName19,
-                    _methodParameterTypes19,
+            returnObj = _invokableLocalService.invokeMethod(_methodName20,
+                    _methodParameterTypes20,
                     new Object[] { ClpSerializer.translateInput(portletId) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -717,8 +760,8 @@ public class RecordLocalServiceClp implements RecordLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName20,
-                    _methodParameterTypes20,
+            returnObj = _invokableLocalService.invokeMethod(_methodName21,
+                    _methodParameterTypes21,
                     new Object[] { ClpSerializer.translateInput(name) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -748,8 +791,8 @@ public class RecordLocalServiceClp implements RecordLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName21,
-                    _methodParameterTypes21,
+            returnObj = _invokableLocalService.invokeMethod(_methodName22,
+                    _methodParameterTypes22,
                     new Object[] { ClpSerializer.translateInput(portletId) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -774,8 +817,8 @@ public class RecordLocalServiceClp implements RecordLocalService {
         throws com.liferay.portal.NoSuchModelException,
             com.liferay.portal.kernel.exception.SystemException {
         try {
-            _invokableLocalService.invokeMethod(_methodName22,
-                _methodParameterTypes22,
+            _invokableLocalService.invokeMethod(_methodName23,
+                _methodParameterTypes23,
                 new Object[] { recordId, ClpSerializer.translateInput(name) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -805,8 +848,8 @@ public class RecordLocalServiceClp implements RecordLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName23,
-                    _methodParameterTypes23,
+            returnObj = _invokableLocalService.invokeMethod(_methodName24,
+                    _methodParameterTypes24,
                     new Object[] {
                         ClpSerializer.translateInput(name),
                         

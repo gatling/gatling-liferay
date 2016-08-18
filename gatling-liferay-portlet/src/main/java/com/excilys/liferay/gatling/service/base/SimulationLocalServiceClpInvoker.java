@@ -41,20 +41,20 @@ public class SimulationLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName64;
-    private String[] _methodParameterTypes64;
-    private String _methodName65;
-    private String[] _methodParameterTypes65;
+    private String _methodName60;
+    private String[] _methodParameterTypes60;
+    private String _methodName61;
+    private String[] _methodParameterTypes61;
+    private String _methodName66;
+    private String[] _methodParameterTypes66;
+    private String _methodName67;
+    private String[] _methodParameterTypes67;
+    private String _methodName68;
+    private String[] _methodParameterTypes68;
+    private String _methodName69;
+    private String[] _methodParameterTypes69;
     private String _methodName70;
     private String[] _methodParameterTypes70;
-    private String _methodName71;
-    private String[] _methodParameterTypes71;
-    private String _methodName72;
-    private String[] _methodParameterTypes72;
-    private String _methodName73;
-    private String[] _methodParameterTypes73;
-    private String _methodName74;
-    private String[] _methodParameterTypes74;
 
     public SimulationLocalServiceClpInvoker() {
         _methodName0 = "addSimulation";
@@ -139,33 +139,33 @@ public class SimulationLocalServiceClpInvoker {
                 "com.excilys.liferay.gatling.model.Simulation"
             };
 
-        _methodName64 = "getBeanIdentifier";
+        _methodName60 = "getBeanIdentifier";
 
-        _methodParameterTypes64 = new String[] {  };
+        _methodParameterTypes60 = new String[] {  };
 
-        _methodName65 = "setBeanIdentifier";
+        _methodName61 = "setBeanIdentifier";
 
-        _methodParameterTypes65 = new String[] { "java.lang.String" };
+        _methodParameterTypes61 = new String[] { "java.lang.String" };
 
-        _methodName70 = "removeSimulationCascade";
+        _methodName66 = "removeSimulationCascade";
 
-        _methodParameterTypes70 = new String[] { "java.lang.Long" };
+        _methodParameterTypes66 = new String[] { "java.lang.Long" };
 
-        _methodName71 = "getByName";
+        _methodName67 = "getByName";
 
-        _methodParameterTypes71 = new String[] { "java.lang.String" };
+        _methodParameterTypes67 = new String[] { "java.lang.String" };
 
-        _methodName72 = "isNameUnique";
+        _methodName68 = "isNameUnique";
 
-        _methodParameterTypes72 = new String[] { "java.lang.String" };
+        _methodParameterTypes68 = new String[] { "java.lang.String" };
 
-        _methodName73 = "addSimulationFromRequest";
+        _methodName69 = "addSimulationFromRequest";
 
-        _methodParameterTypes73 = new String[] { "javax.portlet.ActionRequest" };
+        _methodParameterTypes69 = new String[] { "javax.portlet.ActionRequest" };
 
-        _methodName74 = "containsPrivatePage";
+        _methodName70 = "containsPrivatePage";
 
-        _methodParameterTypes74 = new String[] { "long" };
+        _methodParameterTypes70 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -257,42 +257,42 @@ public class SimulationLocalServiceClpInvoker {
             return SimulationLocalServiceUtil.updateSimulation((com.excilys.liferay.gatling.model.Simulation) arguments[0]);
         }
 
-        if (_methodName64.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes64, parameterTypes)) {
+        if (_methodName60.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
             return SimulationLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName65.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes65, parameterTypes)) {
+        if (_methodName61.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
             SimulationLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName70.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes70, parameterTypes)) {
+        if (_methodName66.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes66, parameterTypes)) {
             SimulationLocalServiceUtil.removeSimulationCascade((java.lang.Long) arguments[0]);
 
             return null;
         }
 
-        if (_methodName71.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes71, parameterTypes)) {
+        if (_methodName67.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes67, parameterTypes)) {
             return SimulationLocalServiceUtil.getByName((java.lang.String) arguments[0]);
         }
 
-        if (_methodName72.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes72, parameterTypes)) {
+        if (_methodName68.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
             return SimulationLocalServiceUtil.isNameUnique((java.lang.String) arguments[0]);
         }
 
-        if (_methodName73.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes73, parameterTypes)) {
+        if (_methodName69.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes69, parameterTypes)) {
             return SimulationLocalServiceUtil.addSimulationFromRequest((javax.portlet.ActionRequest) arguments[0]);
         }
 
-        if (_methodName74.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes74, parameterTypes)) {
+        if (_methodName70.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes70, parameterTypes)) {
             return SimulationLocalServiceUtil.containsPrivatePage(((Long) arguments[0]).longValue());
         }
 

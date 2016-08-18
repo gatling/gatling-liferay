@@ -115,6 +115,20 @@ public interface ProcessModel extends BaseModel<Process> {
      */
     public void setScenario_id(long scenario_id);
 
+    /**
+     * Returns the record ID of this process.
+     *
+     * @return the record ID of this process
+     */
+    public Long getRecordId();
+
+    /**
+     * Sets the record ID of this process.
+     *
+     * @param recordId the record ID of this process
+     */
+    public void setRecordId(Long recordId);
+
     @Override
     public boolean isNew();
 

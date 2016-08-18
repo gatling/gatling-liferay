@@ -263,6 +263,14 @@ public class RecordLocalServiceUtil {
         return getService().invokeMethod(name, parameterTypes, arguments);
     }
 
+    public static com.excilys.liferay.gatling.model.Record findByProcessId(
+        long processId)
+        throws com.excilys.liferay.gatling.NoSuchProcessException,
+            com.liferay.portal.NoSuchModelException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getService().findByProcessId(processId);
+    }
+
     public static java.util.List<com.excilys.liferay.gatling.model.Record> findByPortletId(
         java.lang.String portletId)
         throws com.liferay.portal.kernel.exception.SystemException {

@@ -1,7 +1,6 @@
 package com.excilys.liferay.gatling.service;
 
 import com.excilys.liferay.gatling.model.FormParamClp;
-import com.excilys.liferay.gatling.model.LinkProcessRecordClp;
 import com.excilys.liferay.gatling.model.LinkUsecaseRequestClp;
 import com.excilys.liferay.gatling.model.ProcessClp;
 import com.excilys.liferay.gatling.model.RecordClp;
@@ -100,10 +99,6 @@ public class ClpSerializer {
             return translateInputFormParam(oldModel);
         }
 
-        if (oldModelClassName.equals(LinkProcessRecordClp.class.getName())) {
-            return translateInputLinkProcessRecord(oldModel);
-        }
-
         if (oldModelClassName.equals(LinkUsecaseRequestClp.class.getName())) {
             return translateInputLinkUsecaseRequest(oldModel);
         }
@@ -151,16 +146,6 @@ public class ClpSerializer {
         FormParamClp oldClpModel = (FormParamClp) oldModel;
 
         BaseModel<?> newModel = oldClpModel.getFormParamRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLinkProcessRecord(BaseModel<?> oldModel) {
-        LinkProcessRecordClp oldClpModel = (LinkProcessRecordClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLinkProcessRecordRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -255,41 +240,6 @@ public class ClpSerializer {
         if (oldModelClassName.equals(
                     "com.excilys.liferay.gatling.model.impl.FormParamImpl")) {
             return translateOutputFormParam(oldModel);
-        } else if (oldModelClassName.endsWith("Clp")) {
-            try {
-                ClassLoader classLoader = ClpSerializer.class.getClassLoader();
-
-                Method getClpSerializerClassMethod = oldModelClass.getMethod(
-                        "getClpSerializerClass");
-
-                Class<?> oldClpSerializerClass = (Class<?>) getClpSerializerClassMethod.invoke(oldModel);
-
-                Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
-
-                Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
-                        BaseModel.class);
-
-                Class<?> oldModelModelClass = oldModel.getModelClass();
-
-                Method getRemoteModelMethod = oldModelClass.getMethod("get" +
-                        oldModelModelClass.getSimpleName() + "RemoteModel");
-
-                Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
-
-                BaseModel<?> newModel = (BaseModel<?>) translateOutputMethod.invoke(null,
-                        oldRemoteModel);
-
-                return newModel;
-            } catch (Throwable t) {
-                if (_log.isInfoEnabled()) {
-                    _log.info("Unable to translate " + oldModelClassName, t);
-                }
-            }
-        }
-
-        if (oldModelClassName.equals(
-                    "com.excilys.liferay.gatling.model.impl.LinkProcessRecordImpl")) {
-            return translateOutputLinkProcessRecord(oldModel);
         } else if (oldModelClassName.endsWith("Clp")) {
             try {
                 ClassLoader classLoader = ClpSerializer.class.getClassLoader();
@@ -649,11 +599,6 @@ public class ClpSerializer {
         }
 
         if (className.equals(
-                    "com.excilys.liferay.gatling.NoSuchLinkProcessRecordException")) {
-            return new com.excilys.liferay.gatling.NoSuchLinkProcessRecordException();
-        }
-
-        if (className.equals(
                     "com.excilys.liferay.gatling.NoSuchLinkUsecaseRequestException")) {
             return new com.excilys.liferay.gatling.NoSuchLinkUsecaseRequestException();
         }
@@ -697,16 +642,6 @@ public class ClpSerializer {
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setFormParamRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLinkProcessRecord(BaseModel<?> oldModel) {
-        LinkProcessRecordClp newModel = new LinkProcessRecordClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLinkProcessRecordRemoteModel(oldModel);
 
         return newModel;
     }

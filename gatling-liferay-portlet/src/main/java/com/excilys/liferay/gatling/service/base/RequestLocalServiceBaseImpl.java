@@ -3,7 +3,6 @@ package com.excilys.liferay.gatling.service.base;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.service.RequestLocalService;
 import com.excilys.liferay.gatling.service.persistence.FormParamPersistence;
-import com.excilys.liferay.gatling.service.persistence.LinkProcessRecordPersistence;
 import com.excilys.liferay.gatling.service.persistence.LinkUsecaseRequestPersistence;
 import com.excilys.liferay.gatling.service.persistence.ProcessPersistence;
 import com.excilys.liferay.gatling.service.persistence.RecordPersistence;
@@ -53,10 +52,6 @@ public abstract class RequestLocalServiceBaseImpl extends BaseLocalServiceImpl
     protected com.excilys.liferay.gatling.service.FormParamLocalService formParamLocalService;
     @BeanReference(type = FormParamPersistence.class)
     protected FormParamPersistence formParamPersistence;
-    @BeanReference(type = com.excilys.liferay.gatling.service.LinkProcessRecordLocalService.class)
-    protected com.excilys.liferay.gatling.service.LinkProcessRecordLocalService linkProcessRecordLocalService;
-    @BeanReference(type = LinkProcessRecordPersistence.class)
-    protected LinkProcessRecordPersistence linkProcessRecordPersistence;
     @BeanReference(type = com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalService.class)
     protected com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalService linkUsecaseRequestLocalService;
     @BeanReference(type = LinkUsecaseRequestPersistence.class)
@@ -353,44 +348,6 @@ public abstract class RequestLocalServiceBaseImpl extends BaseLocalServiceImpl
     public void setFormParamPersistence(
         FormParamPersistence formParamPersistence) {
         this.formParamPersistence = formParamPersistence;
-    }
-
-    /**
-     * Returns the link process record local service.
-     *
-     * @return the link process record local service
-     */
-    public com.excilys.liferay.gatling.service.LinkProcessRecordLocalService getLinkProcessRecordLocalService() {
-        return linkProcessRecordLocalService;
-    }
-
-    /**
-     * Sets the link process record local service.
-     *
-     * @param linkProcessRecordLocalService the link process record local service
-     */
-    public void setLinkProcessRecordLocalService(
-        com.excilys.liferay.gatling.service.LinkProcessRecordLocalService linkProcessRecordLocalService) {
-        this.linkProcessRecordLocalService = linkProcessRecordLocalService;
-    }
-
-    /**
-     * Returns the link process record persistence.
-     *
-     * @return the link process record persistence
-     */
-    public LinkProcessRecordPersistence getLinkProcessRecordPersistence() {
-        return linkProcessRecordPersistence;
-    }
-
-    /**
-     * Sets the link process record persistence.
-     *
-     * @param linkProcessRecordPersistence the link process record persistence
-     */
-    public void setLinkProcessRecordPersistence(
-        LinkProcessRecordPersistence linkProcessRecordPersistence) {
-        this.linkProcessRecordPersistence = linkProcessRecordPersistence;
     }
 
     /**

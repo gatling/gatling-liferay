@@ -41,6 +41,7 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
         attributes.put("type", getType());
         attributes.put("order", getOrder());
         attributes.put("scenario_id", getScenario_id());
+        attributes.put("recordId", getRecordId());
 
         return attributes;
     }
@@ -75,6 +76,12 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 
         if (scenario_id != null) {
             setScenario_id(scenario_id);
+        }
+
+        Long recordId = (Long) attributes.get("recordId");
+
+        if (recordId != null) {
+            setRecordId(recordId);
         }
     }
 
@@ -196,6 +203,26 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
     @Override
     public void setScenario_id(long scenario_id) {
         _process.setScenario_id(scenario_id);
+    }
+
+    /**
+    * Returns the record ID of this process.
+    *
+    * @return the record ID of this process
+    */
+    @Override
+    public java.lang.Long getRecordId() {
+        return _process.getRecordId();
+    }
+
+    /**
+    * Sets the record ID of this process.
+    *
+    * @param recordId the record ID of this process
+    */
+    @Override
+    public void setRecordId(java.lang.Long recordId) {
+        _process.setRecordId(recordId);
     }
 
     @Override

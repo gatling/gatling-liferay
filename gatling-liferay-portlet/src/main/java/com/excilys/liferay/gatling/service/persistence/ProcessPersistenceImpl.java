@@ -827,6 +827,7 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
         processImpl.setType(process.getType());
         processImpl.setOrder(process.getOrder());
         processImpl.setScenario_id(process.getScenario_id());
+        processImpl.setRecordId(process.getRecordId());
 
         return processImpl;
     }

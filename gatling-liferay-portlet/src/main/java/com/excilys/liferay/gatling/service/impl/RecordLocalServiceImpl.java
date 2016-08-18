@@ -14,8 +14,7 @@
 
 package com.excilys.liferay.gatling.service.impl;
 
-import java.util.List;
-
+import com.excilys.liferay.gatling.NoSuchProcessException;
 import com.excilys.liferay.gatling.NoSuchRecordException;
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.service.base.RecordLocalServiceBaseImpl;
@@ -23,6 +22,8 @@ import com.excilys.liferay.gatling.validator.RecordValidator;
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.exception.SystemException;
+
+import java.util.List;
 
 /**
  * The implementation of the record local service.
@@ -45,6 +46,16 @@ public class RecordLocalServiceImpl extends RecordLocalServiceBaseImpl {
 	 * Never reference this interface directly. Always use {@link com.excilys.liferay.gatling.service.RecordLocalServiceUtil} to access the record local service.
 	 */
 
+	@Override
+	public Record findByProcessId(long processId) throws SystemException, NoSuchModelException, NoSuchProcessException {
+		com.excilys.liferay.gatling.model.Process process = processPersistence.findByPrimaryKey(processId);
+		Long recordId = process.getRecordId();
+		if(recordId == null){
+			return null;
+		}
+		return recordPersistence.findByPrimaryKey(recordId);
+	}
+	
 	@Override
 	public List<Record> findByPortletId(String portletId) throws SystemException{
 		return recordPersistence.findByPortletId(portletId);

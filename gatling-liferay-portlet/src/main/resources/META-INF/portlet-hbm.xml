@@ -3,7 +3,6 @@
 
 <hibernate-mapping default-lazy="false" auto-import="false">
 	<import class="com.excilys.liferay.gatling.model.FormParam" />
-	<import class="com.excilys.liferay.gatling.model.LinkProcessRecord" />
 	<import class="com.excilys.liferay.gatling.model.LinkUsecaseRequest" />
 	<import class="com.excilys.liferay.gatling.model.Process" />
 	<import class="com.excilys.liferay.gatling.model.Record" />
@@ -19,14 +18,6 @@
 		<property name="urlRecordId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="data" type="com.liferay.portal.dao.orm.hibernate.StringType" column="data_" />
 		<property name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" column="type_" />
-	</class>
-	<class name="com.excilys.liferay.gatling.model.impl.LinkProcessRecordImpl" table="StressTool_LinkProcessRecord">
-		<cache usage="read-write" />
-		<id name="link_process_record_id" type="long">
-			<generator class="assigned" />
-		</id>
-		<property name="process_id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="recordId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestImpl" table="StressTool_LinkUsecaseRequest">
 		<cache usage="read-write" />
@@ -47,6 +38,7 @@
 		<property name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" column="type_" />
 		<property name="order" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="order_" />
 		<property name="scenario_id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="recordId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="com.excilys.liferay.gatling.model.impl.RecordImpl" table="StressTool_Record">
 		<cache usage="read-write" />
