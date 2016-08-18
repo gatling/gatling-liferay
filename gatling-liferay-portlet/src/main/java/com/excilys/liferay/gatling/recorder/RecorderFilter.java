@@ -51,6 +51,10 @@ public class RecorderFilter implements Filter {
 	private static final String INEXISTANT_PORTLET_ID = "_default_";
 	private static final String CURRENT_VERSION = "6.2";
 	
+	private static final int INFO_PORTLET_ID = 0;
+	private static final int INFO_RECORD_STATE = 1;
+	private static final int INFO_RECORD_NAME = 2;
+	
 	static {
 		FORBIDDEN_PARAMS.add("doAsGroupId");
 	}
@@ -97,8 +101,8 @@ public class RecorderFilter implements Filter {
 			
 			if (infos[1].equalsIgnoreCase("RECORD")) { 
 				saveURL(httpRequest, response, session, currentRecords);	
-			} else if(infos[1].equalsIgnoreCase("STOP")) {
-				request.setAttribute("recordName", infos[2]);
+			} else if(infos[INFO_RECORD_STATE].equalsIgnoreCase("STOP")) {
+				request.setAttribute("recordName", infos[INFO_RECORD_NAME]);
 				stopRecording(session, infos, currentRecords);
 			}
 		}
@@ -185,28 +189,35 @@ public class RecorderFilter implements Filter {
 		session.removeAttribute("recordURL");
 		// Check if we have something to record
 		if(!currentRecords.isEmpty()) {
-			LOG.debug("Saving ...");
 			try {
-				//Save use case table
 				
-				String portletVersion;
-				if(infos[0].equals(INEXISTANT_PORTLET_ID)){
-					portletVersion = CURRENT_VERSION;
+				Record record;
+				
+				if(infos[INFO_PORTLET_ID].equals(INEXISTANT_PORTLET_ID)){
+					LOG.debug("Saving Smoothy record...");
 					currentRecords.remove(0);
+					
+					//If the default record already exists, erase all his instances in BDD
+					List<Record> records = RecordLocalServiceUtil.findByPortletId(INEXISTANT_PORTLET_ID);
+					for (Record defaultRecord : records) {
+						RecordLocalServiceUtil.deleteRecord(defaultRecord);
+					}
+					
+					record = RecordLocalServiceUtil.save(infos[INFO_RECORD_NAME], INEXISTANT_PORTLET_ID, CURRENT_VERSION);
 				}
-				else {
-					portletVersion = PortletLocalServiceUtil.getPortletById(infos[0]).getPluginPackage().getVersion();
-				}
-				LOG.debug("version de portlet "+portletVersion);
 				
-				Record record = RecordLocalServiceUtil.save(infos[2], infos[0], portletVersion);
-				LOG.debug("...1/2");
-				//Save url table
+				/* Advanced case */
+				else {
+					String portletVersion = PortletLocalServiceUtil.getPortletById(infos[INFO_PORTLET_ID]).getPluginPackage().getVersion();
+					record = RecordLocalServiceUtil.save(infos[INFO_RECORD_NAME], infos[INFO_PORTLET_ID], portletVersion);
+				}
+				
+				LOG.debug("Record saved !");
 				for (int i = 1; i < currentRecords.size(); i++) {
 					currentRecords.get(i).saveURL(i, record.getRecordId());
-					LOG.debug("...");
 				}
-				LOG.debug("...2/2");
+				LOG.debug("Urls saved !");
+
 			} catch (SystemException e) {
 				LOG.error("Error saving use case ...\n"+e.getMessage());
 			}
