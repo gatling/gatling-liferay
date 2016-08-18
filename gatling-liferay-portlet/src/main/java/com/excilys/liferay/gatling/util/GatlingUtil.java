@@ -204,27 +204,24 @@ public class GatlingUtil {
 		return company.getAuthType();
 	}
 
-	public static void zipMyEnvironment2(OutputStream os, ClassLoader classLoader, ResourceRequest request, long groupId, long[] simulationsIds )
+	public static void zipMyProcess(OutputStream os, ClassLoader classLoader, ResourceRequest request, String recordName )
 			throws MustacheException, Exception {
 
-		final String packageFolder = "user-files/";
-		//final long date = new Date().getTime();
-		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		final ZipOutputStream zipOutputStream = new ZipOutputStream(os);
 		
 		List<Record> records = RecordLocalServiceUtil.findByPortletId("_default_");
+		//TODO find record with the recordName
+		Record record = records.get(0);
 		
 		// Get processes from resources folder
 		//-------------------------------------------------------------------------------------------------------------------------------------
-		zipOutputStream.putNextEntry(new ZipEntry("myFeeder.txt"));
-		zipOutputStream.write("pageName,URL,type,datafile\n".getBytes());
-		//Records is supposed to be unic
-		for (Record record : records) {
-			LOG.debug(record.getName());
-			List<UrlRecord> urls = UrlRecordLocalServiceUtil.findByRecordId(record.getPrimaryKey());
-			for (UrlRecord url : urls) {
-				zipOutputStream.write((url.getUrl()+","+url.getType()+"\n").getBytes());
-			}
+		zipOutputStream.putNextEntry(new ZipEntry("record"+recordName+".csv"));
+		zipOutputStream.write("url,type,datafile\n".getBytes());
+		
+		LOG.debug(record.getName());
+		List<UrlRecord> urls = UrlRecordLocalServiceUtil.findByRecordId(record.getPrimaryKey());
+		for (UrlRecord url : urls) {
+			zipOutputStream.write((url.getUrl()+","+url.getType()+"\n").getBytes());
 			
 
 		}
