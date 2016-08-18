@@ -222,10 +222,8 @@ public class GatlingUtil {
 		List<UrlRecord> urls = UrlRecordLocalServiceUtil.findByRecordId(record.getPrimaryKey());
 		for (UrlRecord url : urls) {
 			zipOutputStream.write((url.getUrl()+","+url.getType()+"\n").getBytes());
-			
-
 		}
-		
+		zipOutputStream.closeEntry();
 		zipOutputStream.close();
 	}
 	

@@ -2,10 +2,13 @@ package com.excilys.liferay.gatling.mustache;
 
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.model.AST.MapperAST;
 import com.excilys.liferay.gatling.model.AST.ScenarioAST;
+import com.excilys.liferay.gatling.service.ProcessLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 
 import java.util.ArrayList;
@@ -21,8 +24,9 @@ public class DefaultMustachScript {
 	
 	public DefaultMustachScript(Long simulationId, String portalURL) throws Exception {
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
+		//TODO change class to simulationAST, with service calls done before
 		this.simulationName = GatlingUtil.createSimulationVariable(simulation.getName());
-		initScenarios(simulationId);
+		mustacheScenarios = MapperAST.initScenarios(simulationId);
 		this.loginPageURL = new StringBuilder(portalURL).append("/home").toString();
 		this.logoutPageURL = portalURL;
 	}
@@ -62,16 +66,6 @@ public class DefaultMustachScript {
 	}
 	
 	
-	/* Script Generation */
 	
-	private void initScenarios(Long simulationId) throws SystemException {
-		List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
-		mustacheScenarios = new ArrayList<>();
-		for (Scenario scenario : listScenario) {
-			String name = GatlingUtil.createScenarioVariable(scenario.getName());
-			ScenarioAST dms = new ScenarioAST(name, scenario.getNumberOfUsers(), scenario.getDuration());
-			mustacheScenarios.add(dms);
-		}
-	}
 
 }
