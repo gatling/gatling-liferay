@@ -65,8 +65,9 @@ public class RecordModelImpl extends BaseModelImpl<Record>
     public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
                 "value.object.column.bitmask.enabled.com.excilys.liferay.gatling.model.Record"),
             true);
-    public static long PORTLETID_COLUMN_BITMASK = 1L;
-    public static long RECORDID_COLUMN_BITMASK = 2L;
+    public static long NAME_COLUMN_BITMASK = 1L;
+    public static long PORTLETID_COLUMN_BITMASK = 2L;
+    public static long RECORDID_COLUMN_BITMASK = 4L;
     public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
                 "lock.expiration.time.com.excilys.liferay.gatling.model.Record"));
     private static ClassLoader _classLoader = Record.class.getClassLoader();
@@ -76,6 +77,7 @@ public class RecordModelImpl extends BaseModelImpl<Record>
     private String _originalPortletId;
     private String _versionPortlet;
     private String _name;
+    private String _originalName;
     private long _columnBitmask;
     private Record _escapedModel;
 
@@ -210,7 +212,17 @@ public class RecordModelImpl extends BaseModelImpl<Record>
 
     @Override
     public void setName(String name) {
+        _columnBitmask |= NAME_COLUMN_BITMASK;
+
+        if (_originalName == null) {
+            _originalName = _name;
+        }
+
         _name = name;
+    }
+
+    public String getOriginalName() {
+        return GetterUtil.getString(_originalName);
     }
 
     public long getColumnBitmask() {
@@ -298,6 +310,8 @@ public class RecordModelImpl extends BaseModelImpl<Record>
         RecordModelImpl recordModelImpl = this;
 
         recordModelImpl._originalPortletId = recordModelImpl._portletId;
+
+        recordModelImpl._originalName = recordModelImpl._name;
 
         recordModelImpl._columnBitmask = 0;
     }

@@ -1,7 +1,9 @@
 package com.excilys.liferay.gatling.service;
 
 import com.excilys.liferay.gatling.model.FormParamClp;
+import com.excilys.liferay.gatling.model.LinkProcessRecordClp;
 import com.excilys.liferay.gatling.model.LinkUsecaseRequestClp;
+import com.excilys.liferay.gatling.model.ProcessClp;
 import com.excilys.liferay.gatling.model.RecordClp;
 import com.excilys.liferay.gatling.model.RequestClp;
 import com.excilys.liferay.gatling.model.ScenarioClp;
@@ -98,8 +100,16 @@ public class ClpSerializer {
             return translateInputFormParam(oldModel);
         }
 
+        if (oldModelClassName.equals(LinkProcessRecordClp.class.getName())) {
+            return translateInputLinkProcessRecord(oldModel);
+        }
+
         if (oldModelClassName.equals(LinkUsecaseRequestClp.class.getName())) {
             return translateInputLinkUsecaseRequest(oldModel);
+        }
+
+        if (oldModelClassName.equals(ProcessClp.class.getName())) {
+            return translateInputProcess(oldModel);
         }
 
         if (oldModelClassName.equals(RecordClp.class.getName())) {
@@ -147,10 +157,30 @@ public class ClpSerializer {
         return newModel;
     }
 
+    public static Object translateInputLinkProcessRecord(BaseModel<?> oldModel) {
+        LinkProcessRecordClp oldClpModel = (LinkProcessRecordClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLinkProcessRecordRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
     public static Object translateInputLinkUsecaseRequest(BaseModel<?> oldModel) {
         LinkUsecaseRequestClp oldClpModel = (LinkUsecaseRequestClp) oldModel;
 
         BaseModel<?> newModel = oldClpModel.getLinkUsecaseRequestRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
+    public static Object translateInputProcess(BaseModel<?> oldModel) {
+        ProcessClp oldClpModel = (ProcessClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getProcessRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -258,8 +288,78 @@ public class ClpSerializer {
         }
 
         if (oldModelClassName.equals(
+                    "com.excilys.liferay.gatling.model.impl.LinkProcessRecordImpl")) {
+            return translateOutputLinkProcessRecord(oldModel);
+        } else if (oldModelClassName.endsWith("Clp")) {
+            try {
+                ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+                Method getClpSerializerClassMethod = oldModelClass.getMethod(
+                        "getClpSerializerClass");
+
+                Class<?> oldClpSerializerClass = (Class<?>) getClpSerializerClassMethod.invoke(oldModel);
+
+                Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+                Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+                        BaseModel.class);
+
+                Class<?> oldModelModelClass = oldModel.getModelClass();
+
+                Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+                        oldModelModelClass.getSimpleName() + "RemoteModel");
+
+                Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+                BaseModel<?> newModel = (BaseModel<?>) translateOutputMethod.invoke(null,
+                        oldRemoteModel);
+
+                return newModel;
+            } catch (Throwable t) {
+                if (_log.isInfoEnabled()) {
+                    _log.info("Unable to translate " + oldModelClassName, t);
+                }
+            }
+        }
+
+        if (oldModelClassName.equals(
                     "com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestImpl")) {
             return translateOutputLinkUsecaseRequest(oldModel);
+        } else if (oldModelClassName.endsWith("Clp")) {
+            try {
+                ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+                Method getClpSerializerClassMethod = oldModelClass.getMethod(
+                        "getClpSerializerClass");
+
+                Class<?> oldClpSerializerClass = (Class<?>) getClpSerializerClassMethod.invoke(oldModel);
+
+                Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+                Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+                        BaseModel.class);
+
+                Class<?> oldModelModelClass = oldModel.getModelClass();
+
+                Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+                        oldModelModelClass.getSimpleName() + "RemoteModel");
+
+                Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+                BaseModel<?> newModel = (BaseModel<?>) translateOutputMethod.invoke(null,
+                        oldRemoteModel);
+
+                return newModel;
+            } catch (Throwable t) {
+                if (_log.isInfoEnabled()) {
+                    _log.info("Unable to translate " + oldModelClassName, t);
+                }
+            }
+        }
+
+        if (oldModelClassName.equals(
+                    "com.excilys.liferay.gatling.model.impl.ProcessImpl")) {
+            return translateOutputProcess(oldModel);
         } else if (oldModelClassName.endsWith("Clp")) {
             try {
                 ClassLoader classLoader = ClpSerializer.class.getClassLoader();
@@ -549,8 +649,18 @@ public class ClpSerializer {
         }
 
         if (className.equals(
+                    "com.excilys.liferay.gatling.NoSuchLinkProcessRecordException")) {
+            return new com.excilys.liferay.gatling.NoSuchLinkProcessRecordException();
+        }
+
+        if (className.equals(
                     "com.excilys.liferay.gatling.NoSuchLinkUsecaseRequestException")) {
             return new com.excilys.liferay.gatling.NoSuchLinkUsecaseRequestException();
+        }
+
+        if (className.equals(
+                    "com.excilys.liferay.gatling.NoSuchProcessException")) {
+            return new com.excilys.liferay.gatling.NoSuchProcessException();
         }
 
         if (className.equals(
@@ -591,6 +701,16 @@ public class ClpSerializer {
         return newModel;
     }
 
+    public static Object translateOutputLinkProcessRecord(BaseModel<?> oldModel) {
+        LinkProcessRecordClp newModel = new LinkProcessRecordClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLinkProcessRecordRemoteModel(oldModel);
+
+        return newModel;
+    }
+
     public static Object translateOutputLinkUsecaseRequest(
         BaseModel<?> oldModel) {
         LinkUsecaseRequestClp newModel = new LinkUsecaseRequestClp();
@@ -598,6 +718,16 @@ public class ClpSerializer {
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setLinkUsecaseRequestRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputProcess(BaseModel<?> oldModel) {
+        ProcessClp newModel = new ProcessClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setProcessRemoteModel(oldModel);
 
         return newModel;
     }

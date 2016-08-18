@@ -22,16 +22,35 @@
 		<finder name="SimulationId" return-type="Collection">
 			<finder-column name="simulation_id" />
 		</finder>
-			
 	</entity>
-		<entity name="Process" local-service="true" remote-service="false">
+			
+	<!-- Smoothy System -->
+	
+	<entity name="Process" local-service="true" remote-service="false">
 		<column name="process_id" type="long" primary="true"></column>
 		<column name="name" type="String" ></column>
-		<column name="pause_time" type="long"></column>		
+		<column name="type" type="String" ></column>
+		<column name="order" type="int"	></column>
+		<column name="scenario_id" type="long"></column>
 		<finder name="ScenarioId" return-type="Collection">
 			<finder-column name="scenario_id" />
-		</finder>	
+		</finder>
 	</entity>
+	
+	<entity name="LinkProcessRecord" local-service="true" remote-service="false">
+		<column name="link_process_record_id" type="long" primary="true"></column>
+        <column name="process_id" type="long"></column>
+		<column name="recordId" type="long"></column>
+		<finder name="ProcessId" return-type="LinkProcessRecord" unique="true">
+			<finder-column name="process_id"/>
+		</finder>
+		<finder name="RecordId" return-type="LinkProccessRecord" unique="true">
+			<finder-column name="recordId"/>
+		</finder>
+	</entity>
+	
+	
+	<!-- Advanced System -->
 	
 	<entity name="Request" local-service="true" remote-service="false">
 		<column name="request_id" type="long" primary="true"></column>
@@ -101,7 +120,8 @@
 		</finder>
 	</entity>
 	
-	<!-- use case  -->
+	<!-- Records  -->
+	
 	<entity name="Record" remote-service="false" local-service="true">
 		<column name="recordId" type="long" primary="true" />
 		<column name="portletId" type="String" />
@@ -109,6 +129,9 @@
 		<column name="name" type="String" />
 		<finder name="PortletId" return-type="Collection">
 			<finder-column name="portletId" />
+		</finder>
+		<finder name="Name" return-type="Record" unique="true">
+			<finder-column name="name" />
 		</finder>
 	</entity>
 	

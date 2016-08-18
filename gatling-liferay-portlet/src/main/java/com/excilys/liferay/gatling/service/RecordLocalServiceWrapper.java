@@ -276,6 +276,14 @@ public class RecordLocalServiceWrapper implements RecordLocalService,
     }
 
     @Override
+    public com.excilys.liferay.gatling.model.Record findByName(
+        java.lang.String name)
+        throws com.excilys.liferay.gatling.NoSuchRecordException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return _recordLocalService.findByName(name);
+    }
+
+    @Override
     public int countByPortletId(java.lang.String portletId)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _recordLocalService.countByPortletId(portletId);

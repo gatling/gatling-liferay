@@ -93,6 +93,18 @@ public class RecordPersistenceImpl extends BasePersistenceImpl<Record>
     private static final String _FINDER_COLUMN_PORTLETID_PORTLETID_1 = "record.portletId IS NULL";
     private static final String _FINDER_COLUMN_PORTLETID_PORTLETID_2 = "record.portletId = ?";
     private static final String _FINDER_COLUMN_PORTLETID_PORTLETID_3 = "(record.portletId IS NULL OR record.portletId = '')";
+    public static final FinderPath FINDER_PATH_FETCH_BY_NAME = new FinderPath(RecordModelImpl.ENTITY_CACHE_ENABLED,
+            RecordModelImpl.FINDER_CACHE_ENABLED, RecordImpl.class,
+            FINDER_CLASS_NAME_ENTITY, "fetchByName",
+            new String[] { String.class.getName() },
+            RecordModelImpl.NAME_COLUMN_BITMASK);
+    public static final FinderPath FINDER_PATH_COUNT_BY_NAME = new FinderPath(RecordModelImpl.ENTITY_CACHE_ENABLED,
+            RecordModelImpl.FINDER_CACHE_ENABLED, Long.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByName",
+            new String[] { String.class.getName() });
+    private static final String _FINDER_COLUMN_NAME_NAME_1 = "record.name IS NULL";
+    private static final String _FINDER_COLUMN_NAME_NAME_2 = "record.name = ?";
+    private static final String _FINDER_COLUMN_NAME_NAME_3 = "(record.name IS NULL OR record.name = '')";
     private static final String _SQL_SELECT_RECORD = "SELECT record FROM Record record";
     private static final String _SQL_SELECT_RECORD_WHERE = "SELECT record FROM Record record WHERE ";
     private static final String _SQL_COUNT_RECORD = "SELECT COUNT(record) FROM Record record";
@@ -610,6 +622,224 @@ public class RecordPersistenceImpl extends BasePersistenceImpl<Record>
     }
 
     /**
+     * Returns the record where name = &#63; or throws a {@link com.excilys.liferay.gatling.NoSuchRecordException} if it could not be found.
+     *
+     * @param name the name
+     * @return the matching record
+     * @throws com.excilys.liferay.gatling.NoSuchRecordException if a matching record could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public Record findByName(String name)
+        throws NoSuchRecordException, SystemException {
+        Record record = fetchByName(name);
+
+        if (record == null) {
+            StringBundler msg = new StringBundler(4);
+
+            msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+            msg.append("name=");
+            msg.append(name);
+
+            msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+            if (_log.isWarnEnabled()) {
+                _log.warn(msg.toString());
+            }
+
+            throw new NoSuchRecordException(msg.toString());
+        }
+
+        return record;
+    }
+
+    /**
+     * Returns the record where name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+     *
+     * @param name the name
+     * @return the matching record, or <code>null</code> if a matching record could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public Record fetchByName(String name) throws SystemException {
+        return fetchByName(name, true);
+    }
+
+    /**
+     * Returns the record where name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+     *
+     * @param name the name
+     * @param retrieveFromCache whether to use the finder cache
+     * @return the matching record, or <code>null</code> if a matching record could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public Record fetchByName(String name, boolean retrieveFromCache)
+        throws SystemException {
+        Object[] finderArgs = new Object[] { name };
+
+        Object result = null;
+
+        if (retrieveFromCache) {
+            result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_NAME,
+                    finderArgs, this);
+        }
+
+        if (result instanceof Record) {
+            Record record = (Record) result;
+
+            if (!Validator.equals(name, record.getName())) {
+                result = null;
+            }
+        }
+
+        if (result == null) {
+            StringBundler query = new StringBundler(3);
+
+            query.append(_SQL_SELECT_RECORD_WHERE);
+
+            boolean bindName = false;
+
+            if (name == null) {
+                query.append(_FINDER_COLUMN_NAME_NAME_1);
+            } else if (name.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_NAME_NAME_3);
+            } else {
+                bindName = true;
+
+                query.append(_FINDER_COLUMN_NAME_NAME_2);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (bindName) {
+                    qPos.add(name);
+                }
+
+                List<Record> list = q.list();
+
+                if (list.isEmpty()) {
+                    FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_NAME,
+                        finderArgs, list);
+                } else {
+                    Record record = list.get(0);
+
+                    result = record;
+
+                    cacheResult(record);
+
+                    if ((record.getName() == null) ||
+                            !record.getName().equals(name)) {
+                        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_NAME,
+                            finderArgs, record);
+                    }
+                }
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_NAME,
+                    finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        if (result instanceof List<?>) {
+            return null;
+        } else {
+            return (Record) result;
+        }
+    }
+
+    /**
+     * Removes the record where name = &#63; from the database.
+     *
+     * @param name the name
+     * @return the record that was removed
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public Record removeByName(String name)
+        throws NoSuchRecordException, SystemException {
+        Record record = findByName(name);
+
+        return remove(record);
+    }
+
+    /**
+     * Returns the number of records where name = &#63;.
+     *
+     * @param name the name
+     * @return the number of matching records
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByName(String name) throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_NAME;
+
+        Object[] finderArgs = new Object[] { name };
+
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler(2);
+
+            query.append(_SQL_COUNT_RECORD_WHERE);
+
+            boolean bindName = false;
+
+            if (name == null) {
+                query.append(_FINDER_COLUMN_NAME_NAME_1);
+            } else if (name.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_NAME_NAME_3);
+            } else {
+                bindName = true;
+
+                query.append(_FINDER_COLUMN_NAME_NAME_2);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (bindName) {
+                    qPos.add(name);
+                }
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
+    }
+
+    /**
      * Caches the record in the entity cache if it is enabled.
      *
      * @param record the record
@@ -618,6 +848,9 @@ public class RecordPersistenceImpl extends BasePersistenceImpl<Record>
     public void cacheResult(Record record) {
         EntityCacheUtil.putResult(RecordModelImpl.ENTITY_CACHE_ENABLED,
             RecordImpl.class, record.getPrimaryKey(), record);
+
+        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_NAME,
+            new Object[] { record.getName() }, record);
 
         record.resetOriginalValues();
     }
@@ -674,6 +907,8 @@ public class RecordPersistenceImpl extends BasePersistenceImpl<Record>
 
         FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
         FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+        clearUniqueFindersCache(record);
     }
 
     @Override
@@ -684,6 +919,47 @@ public class RecordPersistenceImpl extends BasePersistenceImpl<Record>
         for (Record record : records) {
             EntityCacheUtil.removeResult(RecordModelImpl.ENTITY_CACHE_ENABLED,
                 RecordImpl.class, record.getPrimaryKey());
+
+            clearUniqueFindersCache(record);
+        }
+    }
+
+    protected void cacheUniqueFindersCache(Record record) {
+        if (record.isNew()) {
+            Object[] args = new Object[] { record.getName() };
+
+            FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_NAME, args,
+                Long.valueOf(1));
+            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_NAME, args, record);
+        } else {
+            RecordModelImpl recordModelImpl = (RecordModelImpl) record;
+
+            if ((recordModelImpl.getColumnBitmask() &
+                    FINDER_PATH_FETCH_BY_NAME.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] { record.getName() };
+
+                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_NAME, args,
+                    Long.valueOf(1));
+                FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_NAME, args,
+                    record);
+            }
+        }
+    }
+
+    protected void clearUniqueFindersCache(Record record) {
+        RecordModelImpl recordModelImpl = (RecordModelImpl) record;
+
+        Object[] args = new Object[] { record.getName() };
+
+        FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_NAME, args);
+        FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_NAME, args);
+
+        if ((recordModelImpl.getColumnBitmask() &
+                FINDER_PATH_FETCH_BY_NAME.getColumnBitmask()) != 0) {
+            args = new Object[] { recordModelImpl.getOriginalName() };
+
+            FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_NAME, args);
+            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_NAME, args);
         }
     }
 
@@ -839,6 +1115,9 @@ public class RecordPersistenceImpl extends BasePersistenceImpl<Record>
 
         EntityCacheUtil.putResult(RecordModelImpl.ENTITY_CACHE_ENABLED,
             RecordImpl.class, record.getPrimaryKey(), record);
+
+        clearUniqueFindersCache(record);
+        cacheUniqueFindersCache(record);
 
         return record;
     }

@@ -16,6 +16,7 @@ package com.excilys.liferay.gatling.service.impl;
 
 import java.util.List;
 
+import com.excilys.liferay.gatling.NoSuchRecordException;
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.service.base.RecordLocalServiceBaseImpl;
 import com.excilys.liferay.gatling.validator.RecordValidator;
@@ -47,6 +48,11 @@ public class RecordLocalServiceImpl extends RecordLocalServiceBaseImpl {
 	@Override
 	public List<Record> findByPortletId(String portletId) throws SystemException{
 		return recordPersistence.findByPortletId(portletId);
+	}
+	
+	@Override
+	public Record findByName(String name) throws NoSuchRecordException, SystemException {
+		return recordPersistence.findByName(name);
 	}
 	
 	@Override

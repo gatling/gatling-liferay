@@ -22,6 +22,16 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="com.excilys.liferay.gatling.model.impl.LinkProcessRecordModelImpl">
+		<attributes>
+			<id name="link_process_record_id" />
+			<basic name="process_id" />
+			<basic name="recordId" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestModelImpl">
 		<attributes>
 			<id name="linkUsecaseRequestId" />
@@ -29,6 +39,22 @@
 			<basic name="recordId" />
 			<basic name="weight" />
 			<basic name="sample" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.excilys.liferay.gatling.model.impl.ProcessModelImpl">
+		<attributes>
+			<id name="process_id" />
+			<basic name="name" />
+			<basic name="type">
+				<column name="TYPE_" />
+			</basic>
+			<basic name="order">
+				<column name="ORDER_" />
+			</basic>
+			<basic name="scenario_id" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -106,8 +132,16 @@
 		<table name="StressTool_FormParam" />
 		<attributes />
 	</entity>
+	<entity class="com.excilys.liferay.gatling.model.impl.LinkProcessRecordImpl" name="LinkProcessRecord">
+		<table name="StressTool_LinkProcessRecord" />
+		<attributes />
+	</entity>
 	<entity class="com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestImpl" name="LinkUsecaseRequest">
 		<table name="StressTool_LinkUsecaseRequest" />
+		<attributes />
+	</entity>
+	<entity class="com.excilys.liferay.gatling.model.impl.ProcessImpl" name="Process">
+		<table name="StressTool_Process" />
 		<attributes />
 	</entity>
 	<entity class="com.excilys.liferay.gatling.model.impl.RecordImpl" name="Record">

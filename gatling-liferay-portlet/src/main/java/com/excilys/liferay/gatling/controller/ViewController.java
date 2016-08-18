@@ -193,7 +193,7 @@ public class ViewController {
 		
 		String recordName = ParamUtil.getString(request,"recordName","doesntWork");
 		LOG.debug("Received:"+recordName);
-		GatlingUtil.zipMyProcess(response.getPortletOutputStream(),getClass().getClassLoader(), request, recordName);
+//		GatlingUtil.zipMyProcess(response.getPortletOutputStream(),getClass().getClassLoader(), request, recordName);
 		
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 		LOG.debug("Zip process generated ...");

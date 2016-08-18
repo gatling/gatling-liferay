@@ -3,7 +3,9 @@ package com.excilys.liferay.gatling.service.base;
 import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.service.UrlRecordLocalService;
 import com.excilys.liferay.gatling.service.persistence.FormParamPersistence;
+import com.excilys.liferay.gatling.service.persistence.LinkProcessRecordPersistence;
 import com.excilys.liferay.gatling.service.persistence.LinkUsecaseRequestPersistence;
+import com.excilys.liferay.gatling.service.persistence.ProcessPersistence;
 import com.excilys.liferay.gatling.service.persistence.RecordPersistence;
 import com.excilys.liferay.gatling.service.persistence.RequestPersistence;
 import com.excilys.liferay.gatling.service.persistence.ScenarioPersistence;
@@ -51,10 +53,18 @@ public abstract class UrlRecordLocalServiceBaseImpl extends BaseLocalServiceImpl
     protected com.excilys.liferay.gatling.service.FormParamLocalService formParamLocalService;
     @BeanReference(type = FormParamPersistence.class)
     protected FormParamPersistence formParamPersistence;
+    @BeanReference(type = com.excilys.liferay.gatling.service.LinkProcessRecordLocalService.class)
+    protected com.excilys.liferay.gatling.service.LinkProcessRecordLocalService linkProcessRecordLocalService;
+    @BeanReference(type = LinkProcessRecordPersistence.class)
+    protected LinkProcessRecordPersistence linkProcessRecordPersistence;
     @BeanReference(type = com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalService.class)
     protected com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalService linkUsecaseRequestLocalService;
     @BeanReference(type = LinkUsecaseRequestPersistence.class)
     protected LinkUsecaseRequestPersistence linkUsecaseRequestPersistence;
+    @BeanReference(type = com.excilys.liferay.gatling.service.ProcessLocalService.class)
+    protected com.excilys.liferay.gatling.service.ProcessLocalService processLocalService;
+    @BeanReference(type = ProcessPersistence.class)
+    protected ProcessPersistence processPersistence;
     @BeanReference(type = com.excilys.liferay.gatling.service.RecordLocalService.class)
     protected com.excilys.liferay.gatling.service.RecordLocalService recordLocalService;
     @BeanReference(type = RecordPersistence.class)
@@ -351,6 +361,44 @@ public abstract class UrlRecordLocalServiceBaseImpl extends BaseLocalServiceImpl
     }
 
     /**
+     * Returns the link process record local service.
+     *
+     * @return the link process record local service
+     */
+    public com.excilys.liferay.gatling.service.LinkProcessRecordLocalService getLinkProcessRecordLocalService() {
+        return linkProcessRecordLocalService;
+    }
+
+    /**
+     * Sets the link process record local service.
+     *
+     * @param linkProcessRecordLocalService the link process record local service
+     */
+    public void setLinkProcessRecordLocalService(
+        com.excilys.liferay.gatling.service.LinkProcessRecordLocalService linkProcessRecordLocalService) {
+        this.linkProcessRecordLocalService = linkProcessRecordLocalService;
+    }
+
+    /**
+     * Returns the link process record persistence.
+     *
+     * @return the link process record persistence
+     */
+    public LinkProcessRecordPersistence getLinkProcessRecordPersistence() {
+        return linkProcessRecordPersistence;
+    }
+
+    /**
+     * Sets the link process record persistence.
+     *
+     * @param linkProcessRecordPersistence the link process record persistence
+     */
+    public void setLinkProcessRecordPersistence(
+        LinkProcessRecordPersistence linkProcessRecordPersistence) {
+        this.linkProcessRecordPersistence = linkProcessRecordPersistence;
+    }
+
+    /**
      * Returns the link usecase request local service.
      *
      * @return the link usecase request local service
@@ -386,6 +434,43 @@ public abstract class UrlRecordLocalServiceBaseImpl extends BaseLocalServiceImpl
     public void setLinkUsecaseRequestPersistence(
         LinkUsecaseRequestPersistence linkUsecaseRequestPersistence) {
         this.linkUsecaseRequestPersistence = linkUsecaseRequestPersistence;
+    }
+
+    /**
+     * Returns the process local service.
+     *
+     * @return the process local service
+     */
+    public com.excilys.liferay.gatling.service.ProcessLocalService getProcessLocalService() {
+        return processLocalService;
+    }
+
+    /**
+     * Sets the process local service.
+     *
+     * @param processLocalService the process local service
+     */
+    public void setProcessLocalService(
+        com.excilys.liferay.gatling.service.ProcessLocalService processLocalService) {
+        this.processLocalService = processLocalService;
+    }
+
+    /**
+     * Returns the process persistence.
+     *
+     * @return the process persistence
+     */
+    public ProcessPersistence getProcessPersistence() {
+        return processPersistence;
+    }
+
+    /**
+     * Sets the process persistence.
+     *
+     * @param processPersistence the process persistence
+     */
+    public void setProcessPersistence(ProcessPersistence processPersistence) {
+        this.processPersistence = processPersistence;
     }
 
     /**

@@ -72,9 +72,10 @@ public class RequestModelImpl extends BaseModelImpl<Request>
             true);
     public static long PARENTPLID_COLUMN_BITMASK = 1L;
     public static long PORTLET_COLUMN_BITMASK = 2L;
-    public static long SCENARIO_ID_COLUMN_BITMASK = 4L;
-    public static long WEIGHT_COLUMN_BITMASK = 8L;
-    public static long REQUEST_ID_COLUMN_BITMASK = 16L;
+    public static long PORTLETID_COLUMN_BITMASK = 4L;
+    public static long SCENARIO_ID_COLUMN_BITMASK = 8L;
+    public static long WEIGHT_COLUMN_BITMASK = 16L;
+    public static long REQUEST_ID_COLUMN_BITMASK = 32L;
     public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
                 "lock.expiration.time.com.excilys.liferay.gatling.model.Request"));
     private static ClassLoader _classLoader = Request.class.getClassLoader();
@@ -98,6 +99,7 @@ public class RequestModelImpl extends BaseModelImpl<Request>
     private boolean _originalPortlet;
     private boolean _setOriginalPortlet;
     private String _portletId;
+    private String _originalPortletId;
     private long _columnBitmask;
     private Request _escapedModel;
 
@@ -357,7 +359,17 @@ public class RequestModelImpl extends BaseModelImpl<Request>
 
     @Override
     public void setPortletId(String portletId) {
+        _columnBitmask |= PORTLETID_COLUMN_BITMASK;
+
+        if (_originalPortletId == null) {
+            _originalPortletId = _portletId;
+        }
+
         _portletId = portletId;
+    }
+
+    public String getOriginalPortletId() {
+        return GetterUtil.getString(_originalPortletId);
     }
 
     public long getColumnBitmask() {
@@ -464,6 +476,8 @@ public class RequestModelImpl extends BaseModelImpl<Request>
         requestModelImpl._originalPortlet = requestModelImpl._portlet;
 
         requestModelImpl._setOriginalPortlet = false;
+
+        requestModelImpl._originalPortletId = requestModelImpl._portletId;
 
         requestModelImpl._columnBitmask = 0;
     }

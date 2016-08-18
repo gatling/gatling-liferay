@@ -269,6 +269,13 @@ public class RecordLocalServiceUtil {
         return getService().findByPortletId(portletId);
     }
 
+    public static com.excilys.liferay.gatling.model.Record findByName(
+        java.lang.String name)
+        throws com.excilys.liferay.gatling.NoSuchRecordException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getService().findByName(name);
+    }
+
     public static int countByPortletId(java.lang.String portletId)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getService().countByPortletId(portletId);

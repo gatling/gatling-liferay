@@ -52,6 +52,8 @@ public class RecordLocalServiceClp implements RecordLocalService {
     private String[] _methodParameterTypes21;
     private String _methodName22;
     private String[] _methodParameterTypes22;
+    private String _methodName23;
+    private String[] _methodParameterTypes23;
 
     public RecordLocalServiceClp(InvokableLocalService invokableLocalService) {
         _invokableLocalService = invokableLocalService;
@@ -150,17 +152,21 @@ public class RecordLocalServiceClp implements RecordLocalService {
 
         _methodParameterTypes19 = new String[] { "java.lang.String" };
 
-        _methodName20 = "countByPortletId";
+        _methodName20 = "findByName";
 
         _methodParameterTypes20 = new String[] { "java.lang.String" };
 
-        _methodName21 = "update";
+        _methodName21 = "countByPortletId";
 
-        _methodParameterTypes21 = new String[] { "long", "java.lang.String" };
+        _methodParameterTypes21 = new String[] { "java.lang.String" };
 
-        _methodName22 = "save";
+        _methodName22 = "update";
 
-        _methodParameterTypes22 = new String[] {
+        _methodParameterTypes22 = new String[] { "long", "java.lang.String" };
+
+        _methodName23 = "save";
+
+        _methodParameterTypes23 = new String[] {
                 "java.lang.String", "java.lang.String", "java.lang.String"
             };
     }
@@ -704,13 +710,46 @@ public class RecordLocalServiceClp implements RecordLocalService {
     }
 
     @Override
-    public int countByPortletId(java.lang.String portletId)
-        throws com.liferay.portal.kernel.exception.SystemException {
+    public com.excilys.liferay.gatling.model.Record findByName(
+        java.lang.String name)
+        throws com.excilys.liferay.gatling.NoSuchRecordException,
+            com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
             returnObj = _invokableLocalService.invokeMethod(_methodName20,
                     _methodParameterTypes20,
+                    new Object[] { ClpSerializer.translateInput(name) });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.excilys.liferay.gatling.NoSuchRecordException) {
+                throw (com.excilys.liferay.gatling.NoSuchRecordException) t;
+            }
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (com.excilys.liferay.gatling.model.Record) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
+    public int countByPortletId(java.lang.String portletId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName21,
+                    _methodParameterTypes21,
                     new Object[] { ClpSerializer.translateInput(portletId) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -735,8 +774,8 @@ public class RecordLocalServiceClp implements RecordLocalService {
         throws com.liferay.portal.NoSuchModelException,
             com.liferay.portal.kernel.exception.SystemException {
         try {
-            _invokableLocalService.invokeMethod(_methodName21,
-                _methodParameterTypes21,
+            _invokableLocalService.invokeMethod(_methodName22,
+                _methodParameterTypes22,
                 new Object[] { recordId, ClpSerializer.translateInput(name) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -766,8 +805,8 @@ public class RecordLocalServiceClp implements RecordLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName22,
-                    _methodParameterTypes22,
+            returnObj = _invokableLocalService.invokeMethod(_methodName23,
+                    _methodParameterTypes23,
                     new Object[] {
                         ClpSerializer.translateInput(name),
                         

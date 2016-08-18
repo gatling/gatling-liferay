@@ -5,12 +5,26 @@ create table StressTool_FormParam (
 	type_ VARCHAR(75) null
 );
 
+create table StressTool_LinkProcessRecord (
+	link_process_record_id LONG not null primary key,
+	process_id LONG,
+	recordId LONG
+);
+
 create table StressTool_LinkUsecaseRequest (
 	linkUsecaseRequestId LONG not null primary key,
 	request_id LONG,
 	recordId LONG,
 	weight DOUBLE,
 	sample BOOLEAN
+);
+
+create table StressTool_Process (
+	process_id LONG not null primary key,
+	name VARCHAR(75) null,
+	type_ VARCHAR(75) null,
+	order_ INTEGER,
+	scenario_id LONG
 );
 
 create table StressTool_Record (
