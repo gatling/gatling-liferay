@@ -1,17 +1,11 @@
 package com.excilys.liferay.gatling.mustache;
 
-import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.model.AST.MapperAST;
 import com.excilys.liferay.gatling.model.AST.ScenarioAST;
-import com.excilys.liferay.gatling.service.ProcessLocalServiceUtil;
-import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultMustachScript {

@@ -263,6 +263,11 @@ public class ProcessLocalServiceUtil {
         return getService().invokeMethod(name, parameterTypes, arguments);
     }
 
+    public static java.util.List<com.excilys.liferay.gatling.model.Process> findProcessFromScenarioId(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().findProcessFromScenarioId(id);
+    }
+
     public static void clearService() {
         _service = null;
     }

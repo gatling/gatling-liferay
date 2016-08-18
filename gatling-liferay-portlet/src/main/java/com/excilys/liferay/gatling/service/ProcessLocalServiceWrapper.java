@@ -271,6 +271,12 @@ public class ProcessLocalServiceWrapper implements ProcessLocalService,
         return _processLocalService.invokeMethod(name, parameterTypes, arguments);
     }
 
+    @Override
+    public java.util.List<com.excilys.liferay.gatling.model.Process> findProcessFromScenarioId(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return _processLocalService.findProcessFromScenarioId(id);
+    }
+
     /**
      * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
      */

@@ -239,4 +239,7 @@ public interface ProcessLocalService extends BaseLocalService,
     public java.lang.Object invokeMethod(java.lang.String name,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable;
+
+    public java.util.List<com.excilys.liferay.gatling.model.Process> findProcessFromScenarioId(
+        long id) throws com.liferay.portal.kernel.exception.SystemException;
 }

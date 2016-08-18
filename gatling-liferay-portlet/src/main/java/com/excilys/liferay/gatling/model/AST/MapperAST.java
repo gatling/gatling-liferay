@@ -38,7 +38,7 @@ public class MapperAST {
 		mustacheScenarios = new ArrayList<>();
 		for (Scenario scenario : listScenario) {
 			String name = GatlingUtil.createScenarioVariable(scenario.getName());
-			List<com.excilys.liferay.gatling.model.Process> processes = new ArrayList<>();//ProcessLocalServiceUtil.findProcessFromScenarioId(scenario.getScenario_id());
+			List<com.excilys.liferay.gatling.model.Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(scenario.getScenario_id());
 			List<ProcessAST> processASTs = new ArrayList<>();
 			for (com.excilys.liferay.gatling.model.Process process : processes) {
 				processASTs.add(mapProcessToAST(process));
