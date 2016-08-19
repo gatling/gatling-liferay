@@ -5,6 +5,7 @@ import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.AST.feeder.RecordFeederFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.data.RecordDataAST;
+import com.excilys.liferay.gatling.model.AST.process.LoginAST;
 import com.excilys.liferay.gatling.model.AST.process.LogoutAST;
 import com.excilys.liferay.gatling.model.AST.process.ProcessAST;
 import com.excilys.liferay.gatling.model.AST.process.RecorderAST;
@@ -35,6 +36,10 @@ public class MapperAST {
 				RecordFeederFileAST feeder = mapRecordToAST(record);
 				ast = new RecorderAST(feeder);
 				break;
+			case LOGIN:
+				//TODO handle feeder
+				ast = new LoginAST();
+				break;
 			default:
 				ast = new LogoutAST();
 				break;
@@ -49,27 +54,5 @@ public class MapperAST {
 		List<RecordDataAST> data = new ArrayList<>();
 		
 		return new RecordFeederFileAST(name, data);
-	}
-	
-	
-	
-	/* Script Generation */
-	public static List<ScenarioAST> initScenarios(Long simulationId) throws SystemException, PortalException {
-		List<ScenarioAST> mustacheScenarios;
-		List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
-		mustacheScenarios = new ArrayList<>();
-		for (Scenario scenario : listScenario) {
-			String name = GatlingUtil.createScenarioVariable(scenario.getName());
-			List<com.excilys.liferay.gatling.model.Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(scenario.getScenario_id());
-			List<ProcessAST> processASTs = new ArrayList<>();
-			for (com.excilys.liferay.gatling.model.Process process : processes) {
-				processASTs.add(mapProcessToAST(process));
-			}
-			//DEBUG mode for test;
-			processASTs.add(new LogoutAST());
-			ScenarioAST dms = new ScenarioAST(name, scenario.getNumberOfUsers(), scenario.getDuration(),processASTs);
-			mustacheScenarios.add(dms);
-		}
-		return mustacheScenarios;
 	}
 }

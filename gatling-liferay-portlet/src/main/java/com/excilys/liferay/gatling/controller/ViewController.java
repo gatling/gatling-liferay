@@ -10,6 +10,7 @@ import com.excilys.liferay.gatling.model.AST.SimulationAST;
 import com.excilys.liferay.gatling.service.ASTService;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
+import com.excilys.liferay.gatling.service.persistence.ProcessUtil;
 import com.excilys.liferay.gatling.service.persistence.ScenarioUtil;
 import com.excilys.liferay.gatling.service.persistence.SimulationUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
@@ -43,7 +44,7 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-
+import com.excilys.liferay.gatling.model.Process;
 /**
  * Controller linked to the default view
  */
@@ -130,6 +131,21 @@ public class ViewController {
 		scenario.setNumberOfUsers(10);
 		scenario.setDuration(5);
 		scenario.persist();
+		
+		Process login = ProcessUtil.create(CounterLocalServiceUtil.increment(Process.class.getName()));
+		login.setName("Login");
+		login.setType("LOGIN");
+		login.setOrder(0);
+		login.setScenario_id(scenario.getScenario_id());
+		login.persist();
+		
+		Process logout = ProcessUtil.create(CounterLocalServiceUtil.increment(Process.class.getName()));
+		logout.setName("logout");
+		logout.setType("LOGOUT");
+		logout.setOrder(1);
+		logout.setScenario_id(scenario.getScenario_id());
+		logout.persist();	
+		
 		return scenario;
 	}
 	

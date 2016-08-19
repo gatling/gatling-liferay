@@ -53,7 +53,7 @@ public class SimulationAST {
 	
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder("\n");
 		sb.append("Simulation name: ");
 		sb.append(this.simulationName);
 		sb.append("Scenarios: \n[");

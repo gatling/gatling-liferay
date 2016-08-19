@@ -13,7 +13,7 @@ public abstract class FeederFileAST {
 	/** The type of the feederFile */
 	protected String type;
 	
-	public FeederFileAST(String name, String type) {
+	protected FeederFileAST(String name, String type) {
 		this.name = name;
 		this.type = type;
 	}

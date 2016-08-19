@@ -8,7 +8,7 @@ public abstract class ProcessAST {
 	protected String scalaObject;
 	protected String scalaFunction;
 	
-	public ProcessAST(String scalaObject, String scalaFunction){
+	protected ProcessAST(String scalaObject, String scalaFunction){
 		this.scalaObject = scalaObject;
 		this.scalaFunction = scalaFunction;
 	}
