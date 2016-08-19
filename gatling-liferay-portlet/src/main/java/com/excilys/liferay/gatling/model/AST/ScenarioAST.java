@@ -1,5 +1,7 @@
 package com.excilys.liferay.gatling.model.AST;
 
+import com.excilys.liferay.gatling.model.AST.process.ProcessAST;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,4 +1,6 @@
-package com.excilys.liferay.gatling.model.AST;
+package com.excilys.liferay.gatling.model.AST.process;
+
+import com.excilys.liferay.gatling.model.AST.feeder.FeederFileAST;
 
 import java.util.List;
 
@@ -21,6 +23,12 @@ public abstract class ProcessAST {
 		
 		return scalaObject + "." + scalaFunction + "(" +paramContent+ ")";
 	}
+	
+	/**
+	 * Return the several feeders that contains the data associated with the process
+	 * @return the process's feeder
+	 */
+	public abstract List<FeederFileAST> getFeederFiles();
 	
 	@Override
 	public String toString() {
