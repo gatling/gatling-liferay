@@ -1,8 +1,5 @@
 package com.excilys.liferay.gatling.model.AST;
 
-import com.excilys.liferay.gatling.model.Simulation;
-import com.excilys.liferay.gatling.util.GatlingUtil;
-
 import java.util.List;
 
 public class SimulationAST {
@@ -13,8 +10,8 @@ public class SimulationAST {
 	private String logoutPageURL;
 	
 	
-	public SimulationAST(Simulation simulation, List<ScenarioAST> scenarios, String portalURL) throws Exception {
-		this.simulationName = GatlingUtil.createSimulationVariable(simulation.getName());
+	public SimulationAST(String simulationName, List<ScenarioAST> scenarios, String portalURL) throws Exception {
+		this.simulationName = simulationName;
 		scenariosAST = scenarios;
 		this.loginPageURL = new StringBuilder(portalURL).append("/home").toString();
 		this.logoutPageURL = portalURL;

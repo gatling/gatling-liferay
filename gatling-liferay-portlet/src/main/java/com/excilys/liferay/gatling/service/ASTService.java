@@ -12,6 +12,6 @@ public class ASTService {
 	public static SimulationAST generateScriptAST(long simulationId,String portalURL) throws Exception {
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
 		List<ScenarioAST> scenarios = MapperAST.initScenarios(simulationId);
-		return  new SimulationAST(simulation, scenarios, portalURL);
+		return  new SimulationAST(simulation.getName(), scenarios, portalURL);
 	}
 }
