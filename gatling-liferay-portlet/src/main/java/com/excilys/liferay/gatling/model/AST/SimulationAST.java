@@ -43,7 +43,7 @@ public class SimulationAST {
 		this.logoutPageURL = logoutPageURL;
 	}
 
-	public List<ScenarioAST> getMustacheScenarios() {
+	public List<ScenarioAST> getScenarios() {
 		return scenariosAST;
 	}
 

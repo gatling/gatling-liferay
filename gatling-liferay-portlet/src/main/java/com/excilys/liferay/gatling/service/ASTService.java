@@ -2,12 +2,9 @@ package com.excilys.liferay.gatling.service;
 
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
-import com.excilys.liferay.gatling.model.AST.SimulationAST;
 import com.excilys.liferay.gatling.model.AST.MapperAST;
 import com.excilys.liferay.gatling.model.AST.ScenarioAST;
-import com.excilys.liferay.gatling.util.GatlingUtil;
-import com.excilys.liferay.gatling.model.AST.process.LoginAST;
-import com.excilys.liferay.gatling.model.AST.process.LogoutAST;
+import com.excilys.liferay.gatling.model.AST.SimulationAST;
 import com.excilys.liferay.gatling.model.AST.process.ProcessAST;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.liferay.portal.kernel.exception.PortalException;

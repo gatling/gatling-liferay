@@ -9,7 +9,10 @@ import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.model.UrlRecord;
+import com.excilys.liferay.gatling.model.AST.ScenarioAST;
 import com.excilys.liferay.gatling.model.AST.SimulationAST;
+import com.excilys.liferay.gatling.model.AST.feeder.FeederFileAST;
+import com.excilys.liferay.gatling.model.AST.process.ProcessAST;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
@@ -279,7 +282,7 @@ public class GatlingUtil {
 
 		// Saving feeders:
 		//-------------------------------------------------------------------------------------------------------------------------------------
-		zipMyFeeders(packageFolder, groupId, themeDisplay, classLoader, zipOutputStream);
+		zipMyFeeders(packageFolder, groupId, themeDisplay, classLoader, zipOutputStream, scripts);
 		
 		// Properties file:
 		//-------------------------------------------------------------------------------------------------------------------------------------	
@@ -319,9 +322,21 @@ public class GatlingUtil {
 	
 	// Feeder files:
 	//-------------------------------------------------------------------------------------------------------------------------------------	
-	private static void zipMyFeeders(String packageFolder, long groupId, ThemeDisplay themeDisplay, ClassLoader classLoader, ZipOutputStream zipOutputStream) throws IOException, SystemException {
+	private static void zipMyFeeders(String packageFolder, long groupId, ThemeDisplay themeDisplay, ClassLoader classLoader, ZipOutputStream zipOutputStream, List<SimulationAST> simulations) throws IOException, SystemException {
+		
 		// Saving feeders:
 		//-------------------------------------------------------------------------------------------------------------------------------------
+		for (SimulationAST simulationAST : simulations) {
+			for (ScenarioAST scenarioAST : simulationAST.getScenarios()) {
+				for (ProcessAST processAST : scenarioAST.getProcesses()) {
+					for (FeederFileAST feederFileAST : processAST.getFeederFiles()) {
+						zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"data/feeders/"+feederFileAST.getName()));
+						zipOutputStream.write(feederFileAST.getContent().getBytes());
+						zipOutputStream.closeEntry();
+					}
+				}
+			}
+		}
 		
 		// SiteMapFeeder
 		//TODO move siteMap creation to Database, it must be present in AST
