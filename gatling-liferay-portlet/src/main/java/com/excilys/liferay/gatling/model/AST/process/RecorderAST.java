@@ -9,8 +9,7 @@ public class RecorderAST extends ProcessAST {
 	FeederFileAST recordFeeder;
 	
 	public RecorderAST(FeederFileAST recordFeeder) {
-		this.scalaObject = "Record";
-		this.scalaFunction = "record";
+		super("Record", "record");
 		this.recordFeeder = recordFeeder;
 	}
 

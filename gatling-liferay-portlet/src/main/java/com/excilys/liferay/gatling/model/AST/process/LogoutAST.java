@@ -5,15 +5,17 @@ import com.excilys.liferay.gatling.model.AST.feeder.FeederFileAST;
 import java.util.List;
 
 public class LogoutAST extends ProcessAST {
-
+	
+	//TODO: Make this final string configurable
+	private static final String URL_BASE="http://localhost:8080";
+	
 	public LogoutAST() {
-		this.scalaObject = "Logout";
-		this.scalaFunction = "logout";
+		super("Logout", "logout");
 	}
+	
 	@Override
 	protected String computeArguments() {
-		//No arguments
-		return "";
+		return '"' + URL_BASE + '"';
 	}
 
 	@Override
