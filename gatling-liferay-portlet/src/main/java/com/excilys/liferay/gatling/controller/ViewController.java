@@ -6,7 +6,7 @@ package com.excilys.liferay.gatling.controller;
 import com.excilys.liferay.gatling.NoSuchScenarioException;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
-import com.excilys.liferay.gatling.mustache.DefaultMustachScript;
+import com.excilys.liferay.gatling.model.AST.SimulationAST;
 import com.excilys.liferay.gatling.service.ASTService;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
@@ -182,7 +182,7 @@ public class ViewController {
 		response.setContentType("application/zip");
 		response.addProperty("Content-Disposition", "attachment; filename = GatlingSimulations.zip");
 		
-		List<DefaultMustachScript> scriptASTs = new ArrayList<>();
+		List<SimulationAST> scriptASTs = new ArrayList<>();
 		for( long simulationId : simulationsIds) {
 			scriptASTs.add(ASTService.generateScriptAST(simulationId, PortalUtil.getPortalURL(request)));
 		}

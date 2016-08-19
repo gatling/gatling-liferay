@@ -1,24 +1,21 @@
-package com.excilys.liferay.gatling.mustache;
+package com.excilys.liferay.gatling.model.AST;
 
 import com.excilys.liferay.gatling.model.Simulation;
-import com.excilys.liferay.gatling.model.AST.MapperAST;
-import com.excilys.liferay.gatling.model.AST.ScenarioAST;
-import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 
 import java.util.List;
 
-public class DefaultMustachScript {
+public class SimulationAST {
 
 	private String simulationName;
-	private List<ScenarioAST> mustacheScenarios;
+	private List<ScenarioAST> scenariosAST;
 	private String loginPageURL;
 	private String logoutPageURL;
 	
 	
-	public DefaultMustachScript(Simulation simulation, List<ScenarioAST> scenarios, String portalURL) throws Exception {
+	public SimulationAST(Simulation simulation, List<ScenarioAST> scenarios, String portalURL) throws Exception {
 		this.simulationName = GatlingUtil.createSimulationVariable(simulation.getName());
-		mustacheScenarios = scenarios;
+		scenariosAST = scenarios;
 		this.loginPageURL = new StringBuilder(portalURL).append("/home").toString();
 		this.logoutPageURL = portalURL;
 	}
@@ -50,11 +47,11 @@ public class DefaultMustachScript {
 	}
 
 	public List<ScenarioAST> getMustacheScenarios() {
-		return mustacheScenarios;
+		return scenariosAST;
 	}
 
 	public void setMustacheScenarios(List<ScenarioAST> scenario) {
-		this.mustacheScenarios = scenario;
+		this.scenariosAST = scenario;
 	}
 	
 	@Override
@@ -63,7 +60,7 @@ public class DefaultMustachScript {
 		sb.append("Simulation name: ");
 		sb.append(this.simulationName);
 		sb.append("Scenarios: \n[");
-		for(ScenarioAST scenarioAST : mustacheScenarios) {
+		for(ScenarioAST scenarioAST : scenariosAST) {
 			sb.append(scenarioAST.toString());
 			sb.append(",\t");
 		}

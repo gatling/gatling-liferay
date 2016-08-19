@@ -9,7 +9,7 @@ import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.model.UrlRecord;
-import com.excilys.liferay.gatling.mustache.DefaultMustachScript;
+import com.excilys.liferay.gatling.model.AST.SimulationAST;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
@@ -243,8 +243,8 @@ public class GatlingUtil {
 	 * @param groupId
 	 * @param simulationIds
 	 */
-	
-	public static void zipMyEnvironment(OutputStream os, ClassLoader classLoader, ResourceRequest request, long groupId, List<DefaultMustachScript> scripts )
+	//TODO many parameters need to be removed, siteMap generation will soon be done somewhere else
+	public static void zipMyEnvironment(OutputStream os, ClassLoader classLoader, ResourceRequest request, long groupId, List<SimulationAST> scripts )
 			throws MustacheException, Exception {
 
 		final String packageFolder = "user-files/";
@@ -262,7 +262,7 @@ public class GatlingUtil {
 		String template = "/templateGatling2.2.X.mustache";
 		
 		//create and export only one file with scenario script for this simulation id
-		 for (DefaultMustachScript script : scripts) { 
+		 for (SimulationAST script : scripts) { 
 			 //simulation = SimulationLocalServiceUtil.getSimulation(id);
 			 zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"simulations/liferay/" +
 					 createSimulationVariable(script.getSimulationName())+ ".scala")); 

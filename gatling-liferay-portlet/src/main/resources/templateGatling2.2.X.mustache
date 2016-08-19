@@ -20,7 +20,7 @@ class {{simulationName}} extends Simulation {
   /**
    * List of the differents scenarios
    */
-  {{#mustacheScenarios}}
+  {{#scenariosAST}}
   val {{scenarioName}} = scenario("{{scenarioName}}")
     .exec(
       Login.successfulLogin("{{loginPageURL}}", "feeders/login.csv"),
@@ -30,13 +30,13 @@ class {{simulationName}} extends Simulation {
       GetPage.randomPage("feeders/siteMapPage.csv"),
       Logout.logout("{{logoutPageURL}}")
     )
-  {{/mustacheScenarios}}
+  {{/scenariosAST}}
 
 
   setUp(
-    {{#mustacheScenarios}}
+    {{#scenariosAST}}
     {{scenarioName}}.inject(rampUsers({{users}}) over({{rampUp}} seconds))
-    {{/mustacheScenarios}}
+    {{/scenariosAST}}
   ).protocols(httpProtocol)
 
 }
