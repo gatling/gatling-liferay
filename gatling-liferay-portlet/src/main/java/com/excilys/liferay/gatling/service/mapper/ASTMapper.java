@@ -1,4 +1,4 @@
-package com.excilys.liferay.gatling.model.AST;
+package com.excilys.liferay.gatling.service.mapper;
 
 import com.excilys.liferay.gatling.model.ProcessType;
 import com.excilys.liferay.gatling.model.Record;
@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapperAST {
+public class ASTMapper {
 
 	public static ProcessAST mapProcessToAST(com.excilys.liferay.gatling.model.Process process) throws PortalException, SystemException {
 		ProcessAST ast = null;

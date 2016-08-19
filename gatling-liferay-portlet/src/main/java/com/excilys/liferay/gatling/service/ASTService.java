@@ -2,10 +2,10 @@ package com.excilys.liferay.gatling.service;
 
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
-import com.excilys.liferay.gatling.model.AST.MapperAST;
 import com.excilys.liferay.gatling.model.AST.ScenarioAST;
 import com.excilys.liferay.gatling.model.AST.SimulationAST;
 import com.excilys.liferay.gatling.model.AST.process.ProcessAST;
+import com.excilys.liferay.gatling.service.mapper.ASTMapper;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -32,7 +32,7 @@ public class ASTService {
 			List<com.excilys.liferay.gatling.model.Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(scenario.getScenario_id());
 			List<ProcessAST> processASTs = new ArrayList<>();
 			for (com.excilys.liferay.gatling.model.Process process : processes) {
-				processASTs.add(MapperAST.mapProcessToAST(process));
+				processASTs.add(ASTMapper.mapProcessToAST(process));
 			}
 			
 			//DEBUG mode for test;
