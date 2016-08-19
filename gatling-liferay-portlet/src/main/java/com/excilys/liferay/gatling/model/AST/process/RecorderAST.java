@@ -12,15 +12,15 @@ public class RecorderAST extends ProcessAST {
 		super("Record", "record");
 		this.recordFeeder = recordFeeder;
 	}
-
+	
+	@Override
+	protected String computeArguments() {
+		return '"' + recordFeeder.getName() + '"';
+	}
+	
 	@Override
 	public List<FeederFileAST> getFeederFiles() {
 		return recordFeeder.flatWithSubsequentFeeders();
 	}
 
-	@Override
-	protected String computeArguments() {
-		return recordFeeder.getName();
-	}
-	
 }
