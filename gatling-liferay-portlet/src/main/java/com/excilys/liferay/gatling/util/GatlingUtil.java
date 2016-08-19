@@ -30,8 +30,10 @@ import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
+import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.MustacheException;
+import com.samskivert.mustache.Mustache.Formatter;
 
 import java.io.File;
 import java.io.FileReader;
@@ -272,8 +274,9 @@ public class GatlingUtil {
 					 createSimulationVariable(simulation.getName())+ ".scala")); 
 			 final String currentPath =request.getPortletSession().getPortletContext().getRealPath("/WEB-INF/classes") + template; 
 			 DefaultMustachScript script = new DefaultMustachScript(id,PortalUtil.getPortalURL(request));
-
-			 final String tmp = Mustache.compiler().compile(
+			 Mustache.Compiler c = Mustache.compiler().withEscaper(Escapers.NONE);
+			 
+			 final String tmp = c.compile(
 				new FileReader(currentPath)).execute(script);
 			 
 			 zipOutputStream.write(tmp.getBytes());

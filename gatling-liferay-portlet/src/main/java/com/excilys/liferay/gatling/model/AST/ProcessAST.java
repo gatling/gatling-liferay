@@ -12,7 +12,7 @@ public abstract class ProcessAST {
 		
 		//Following code set the param content in an ugly way, java8 improvement would clean this up with Streams
 		for (String param : params) {
-			paramContent += ("\\\""+param+"\"\"\""+", ");
+			paramContent += ("\""+param+"\""+", ");
 		}
 		
 		// Remove the comma for the last param 
