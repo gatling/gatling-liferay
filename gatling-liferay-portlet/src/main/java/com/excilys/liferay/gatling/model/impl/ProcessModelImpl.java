@@ -53,8 +53,8 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         };
     public static final String TABLE_SQL_CREATE = "create table StressTool_Process (process_id LONG not null primary key,name VARCHAR(75) null,type_ VARCHAR(75) null,order_ INTEGER,scenario_id LONG,recordId LONG)";
     public static final String TABLE_SQL_DROP = "drop table StressTool_Process";
-    public static final String ORDER_BY_JPQL = " ORDER BY process.process_id ASC";
-    public static final String ORDER_BY_SQL = " ORDER BY StressTool_Process.process_id ASC";
+    public static final String ORDER_BY_JPQL = " ORDER BY process.order ASC";
+    public static final String ORDER_BY_SQL = " ORDER BY StressTool_Process.order_ ASC";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
     public static final String TX_MANAGER = "liferayTransactionManager";
@@ -68,7 +68,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
                 "value.object.column.bitmask.enabled.com.excilys.liferay.gatling.model.Process"),
             true);
     public static long SCENARIO_ID_COLUMN_BITMASK = 1L;
-    public static long PROCESS_ID_COLUMN_BITMASK = 2L;
+    public static long ORDER_COLUMN_BITMASK = 2L;
     public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
                 "lock.expiration.time.com.excilys.liferay.gatling.model.Process"));
     private static ClassLoader _classLoader = Process.class.getClassLoader();
@@ -217,6 +217,8 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
     @Override
     public void setOrder(int order) {
+        _columnBitmask = -1L;
+
         _order = order;
     }
 
@@ -297,15 +299,21 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
     @Override
     public int compareTo(Process process) {
-        long primaryKey = process.getPrimaryKey();
+        int value = 0;
 
-        if (getPrimaryKey() < primaryKey) {
-            return -1;
-        } else if (getPrimaryKey() > primaryKey) {
-            return 1;
+        if (getOrder() < process.getOrder()) {
+            value = -1;
+        } else if (getOrder() > process.getOrder()) {
+            value = 1;
         } else {
-            return 0;
+            value = 0;
         }
+
+        if (value != 0) {
+            return value;
+        }
+
+        return 0;
     }
 
     @Override

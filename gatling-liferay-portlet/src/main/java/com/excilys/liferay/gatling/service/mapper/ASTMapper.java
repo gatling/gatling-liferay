@@ -2,17 +2,14 @@ package com.excilys.liferay.gatling.service.mapper;
 
 import com.excilys.liferay.gatling.model.ProcessType;
 import com.excilys.liferay.gatling.model.Record;
-import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.AST.feeder.RecordFeederFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.data.RecordDataAST;
 import com.excilys.liferay.gatling.model.AST.process.LoginAST;
 import com.excilys.liferay.gatling.model.AST.process.LogoutAST;
 import com.excilys.liferay.gatling.model.AST.process.ProcessAST;
+import com.excilys.liferay.gatling.model.AST.process.RandomPageAST;
 import com.excilys.liferay.gatling.model.AST.process.RecorderAST;
-import com.excilys.liferay.gatling.service.ProcessLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
-import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
-import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 
@@ -39,6 +36,10 @@ public class ASTMapper {
 			case LOGIN:
 				//TODO handle feeder
 				ast = new LoginAST();
+				break;
+			case RANDOMPAGE:
+				//TODO handle feeder
+				ast = new RandomPageAST();
 				break;
 			default:
 				ast = new LogoutAST();

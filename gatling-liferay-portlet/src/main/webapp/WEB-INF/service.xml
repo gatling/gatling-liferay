@@ -33,6 +33,7 @@
 		<column name="order" type="int"	></column>
 		<column name="scenario_id" type="long"></column>
 		<column name="recordId" type="Long" convert-null="false"></column>
+		<order by="asc"> <order-column name="order" /></order>
 		<finder name="ScenarioId" return-type="Collection">
 			<finder-column name="scenario_id" />
 		</finder>

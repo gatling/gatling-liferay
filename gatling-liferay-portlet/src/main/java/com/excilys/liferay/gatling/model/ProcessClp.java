@@ -325,15 +325,21 @@ public class ProcessClp extends BaseModelImpl<Process> implements Process {
 
     @Override
     public int compareTo(Process process) {
-        long primaryKey = process.getPrimaryKey();
+        int value = 0;
 
-        if (getPrimaryKey() < primaryKey) {
-            return -1;
-        } else if (getPrimaryKey() > primaryKey) {
-            return 1;
+        if (getOrder() < process.getOrder()) {
+            value = -1;
+        } else if (getOrder() > process.getOrder()) {
+            value = 1;
         } else {
-            return 0;
+            value = 0;
         }
+
+        if (value != 0) {
+            return value;
+        }
+
+        return 0;
     }
 
     @Override

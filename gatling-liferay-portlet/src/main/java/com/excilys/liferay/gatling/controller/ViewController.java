@@ -142,9 +142,16 @@ public class ViewController {
 		Process logout = ProcessUtil.create(CounterLocalServiceUtil.increment(Process.class.getName()));
 		logout.setName("logout");
 		logout.setType("LOGOUT");
-		logout.setOrder(1);
+		logout.setOrder(2);
 		logout.setScenario_id(scenario.getScenario_id());
 		logout.persist();	
+
+		Process random = ProcessUtil.create(CounterLocalServiceUtil.increment(Process.class.getName()));
+		random.setName("randomPage");
+		random.setType("RANDOMPAGE");
+		random.setOrder(1);
+		random.setScenario_id(scenario.getScenario_id());
+		random.persist();	
 		
 		return scenario;
 	}

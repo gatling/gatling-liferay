@@ -86,7 +86,8 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
             ProcessModelImpl.FINDER_CACHE_ENABLED, ProcessImpl.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByScenarioId",
             new String[] { Long.class.getName() },
-            ProcessModelImpl.SCENARIO_ID_COLUMN_BITMASK);
+            ProcessModelImpl.SCENARIO_ID_COLUMN_BITMASK |
+            ProcessModelImpl.ORDER_COLUMN_BITMASK);
     public static final FinderPath FINDER_PATH_COUNT_BY_SCENARIOID = new FinderPath(ProcessModelImpl.ENTITY_CACHE_ENABLED,
             ProcessModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByScenarioId",

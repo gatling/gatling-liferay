@@ -5,23 +5,20 @@ import com.excilys.liferay.gatling.model.AST.feeder.FeederFileAST;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LogoutAST extends ProcessAST {
-	
-	//TODO: Make this final string configurable
-	private static final String URL_BASE="http://localhost:8080";
-	
-	public LogoutAST() {
-		super("Logout", "logout");
+public class RandomPageAST extends ProcessAST {
+
+	public RandomPageAST() {
+		super("GetPage", "randomPage");
 	}
-	
+
 	@Override
 	protected String computeArguments() {
-		return '"' + URL_BASE + '"';
+		// TODO handdle feeder
+		return "\"feeders/siteMapPage.csv\"";
 	}
 
 	@Override
 	public List<FeederFileAST> getFeederFiles() {
-		//No feederFile 
 		return new ArrayList<>();
 	}
 

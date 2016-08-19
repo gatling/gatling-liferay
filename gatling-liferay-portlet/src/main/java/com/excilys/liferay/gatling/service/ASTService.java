@@ -11,6 +11,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ASTService {
@@ -26,6 +27,7 @@ public class ASTService {
 	public static List<ScenarioAST> initScenarios(Long simulationId) throws SystemException, PortalException {
 		List<ScenarioAST> mustacheScenarios;
 		List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
+		
 		mustacheScenarios = new ArrayList<>();
 		for (Scenario scenario : listScenario) {
 			String name = GatlingUtil.createScenarioVariable(scenario.getName());
