@@ -6,6 +6,10 @@ import java.util.List;
 
 public class LogoutAST extends ProcessAST {
 
+	public LogoutAST() {
+		this.scalaObject = "Logout";
+		this.scalaFunction = "logout";
+	}
 	@Override
 	protected String computeArguments() {
 		//No arguments
