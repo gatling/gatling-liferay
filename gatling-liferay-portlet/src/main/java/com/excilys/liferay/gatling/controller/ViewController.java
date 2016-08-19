@@ -207,7 +207,7 @@ public class ViewController {
 		
 		List<SimulationAST> scriptASTs = new ArrayList<>();
 		for( long simulationId : simulationsIds) {
-			scriptASTs.add(ASTService.generateScriptAST(simulationId, PortalUtil.getPortalURL(request)));
+			scriptASTs.add(ASTService.computesSimulationAST(simulationId, PortalUtil.getPortalURL(request)));
 		}
 		
 		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, scenario.getGroup_id(), scriptASTs);

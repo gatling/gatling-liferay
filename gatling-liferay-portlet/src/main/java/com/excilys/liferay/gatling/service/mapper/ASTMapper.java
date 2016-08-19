@@ -2,6 +2,7 @@ package com.excilys.liferay.gatling.service.mapper;
 
 import com.excilys.liferay.gatling.model.ProcessType;
 import com.excilys.liferay.gatling.model.Record;
+import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.model.AST.feeder.RecordFeederFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.data.RecordDataAST;
 import com.excilys.liferay.gatling.model.AST.process.LoginAST;
@@ -9,7 +10,7 @@ import com.excilys.liferay.gatling.model.AST.process.LogoutAST;
 import com.excilys.liferay.gatling.model.AST.process.ProcessAST;
 import com.excilys.liferay.gatling.model.AST.process.RandomPageAST;
 import com.excilys.liferay.gatling.model.AST.process.RecorderAST;
-import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
+import com.excilys.liferay.gatling.service.ASTService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 
@@ -26,11 +27,7 @@ public class ASTMapper {
 		
 		switch(ProcessType.valueOf(process.getType())) {
 			case RECORD:
-				
-				//TODO: Move the service Call in ServiceAST (Not the job of the mapper)
-				Record record = RecordLocalServiceUtil.getRecord(process.getRecordId());
-				
-				RecordFeederFileAST feeder = mapRecordToAST(record);
+				RecordFeederFileAST feeder = ASTService.computesRecordFeederFileAST(process.getRecordId());
 				ast = new RecorderAST(feeder);
 				break;
 			case LOGIN:
@@ -48,12 +45,21 @@ public class ASTMapper {
 		return ast;
 	}
 	
-	public static RecordFeederFileAST mapRecordToAST(Record record){
+	public static RecordFeederFileAST mapRecordToAST(Record record) throws SystemException{
 		String name = record.getName();
-		
-		//TODO: Compute the data
-		List<RecordDataAST> data = new ArrayList<>();
-		
+		List<RecordDataAST> data = ASTService.computesRecordDataAST(record.getRecordId());
 		return new RecordFeederFileAST(name, data);
 	}
+
+	public static List<RecordDataAST> mapUrlRecordsToAST(List<UrlRecord> urlRecords) {
+		List<RecordDataAST> dataList = new ArrayList<>();
+		for (UrlRecord urlRecord : urlRecords) {
+			//TODO: Add a feeder when necessary !!!
+			RecordDataAST data = new RecordDataAST(urlRecord.getUrl(), urlRecord.getType(), null);
+			dataList.add(data);
+		}
+		return dataList;
+	}
+	
+	
 }

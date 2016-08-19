@@ -1,9 +1,13 @@
 package com.excilys.liferay.gatling.service;
 
+import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.model.AST.ScenarioAST;
 import com.excilys.liferay.gatling.model.AST.SimulationAST;
+import com.excilys.liferay.gatling.model.AST.feeder.RecordFeederFileAST;
+import com.excilys.liferay.gatling.model.AST.feeder.data.RecordDataAST;
 import com.excilys.liferay.gatling.model.AST.process.ProcessAST;
 import com.excilys.liferay.gatling.service.mapper.ASTMapper;
 import com.excilys.liferay.gatling.util.GatlingUtil;
@@ -16,12 +20,24 @@ import java.util.List;
 
 public class ASTService {
 
-	public static SimulationAST generateScriptAST(long simulationId,String portalURL) throws Exception {
+	public static SimulationAST computesSimulationAST(long simulationId, String portalURL) throws Exception {
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
 		List<ScenarioAST> scenarios = initScenarios(simulationId);
 		String simulationName = GatlingUtil.createSimulationVariable(simulation.getName());
 		return  new SimulationAST(simulationName, scenarios, portalURL);
 	}
+	
+	public static RecordFeederFileAST computesRecordFeederFileAST(long recordId) throws PortalException, SystemException{
+		Record record = RecordLocalServiceUtil.getRecord(recordId);
+		return ASTMapper.mapRecordToAST(record);
+	}
+	
+	public static List<RecordDataAST> computesRecordDataAST(long recordId) throws SystemException {
+		List<UrlRecord> urlRecords = UrlRecordLocalServiceUtil.findByRecordId(recordId);
+		return ASTMapper.mapUrlRecordsToAST(urlRecords);
+	}
+	
+	
 	
 	/* Script Generation */
 	public static List<ScenarioAST> initScenarios(Long simulationId) throws SystemException, PortalException {
