@@ -1,5 +1,6 @@
 package com.excilys.liferay.gatling.model.AST.feeder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserFeederFileAST extends FeederFileAST {
@@ -20,9 +21,10 @@ public class UserFeederFileAST extends FeederFileAST {
 	}
 
 	@Override
-	public List<FeederFileAST> flatSubsequentFeeders() {
-		/* This has no subsequentFeeders */
-		return null;
+	public List<FeederFileAST> flatWithSubsequentFeeders() {
+		List<FeederFileAST> feeders = new ArrayList<>(1);
+		feeders.add(this);
+		return feeders;
 	}
 	
 }

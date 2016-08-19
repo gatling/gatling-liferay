@@ -2,6 +2,8 @@ package com.excilys.liferay.gatling.model.AST;
 
 import com.excilys.liferay.gatling.model.ProcessType;
 import com.excilys.liferay.gatling.model.Scenario;
+import com.excilys.liferay.gatling.model.AST.process.ProcessAST;
+import com.excilys.liferay.gatling.model.AST.process.RecorderAST;
 import com.excilys.liferay.gatling.service.ProcessLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;

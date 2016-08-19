@@ -34,18 +34,19 @@ public class RecordFeederFileAST extends FeederFileAST {
 	}
 
 	@Override
-	public List<FeederFileAST> flatSubsequentFeeders() {
+	public List<FeederFileAST> flatWithSubsequentFeeders() {
 		List<FeederFileAST> feeders = new ArrayList<>();
 		for (RecordDataAST recordDataAST: data) {
 			FeederFileAST feeder = recordDataAST.getData();
 			if(feeder != null){
-				List<FeederFileAST> subsequentFeeders = feeder.flatSubsequentFeeders();
+				List<FeederFileAST> subsequentFeeders = feeder.flatWithSubsequentFeeders();
 				if(subsequentFeeders != null) {
 					feeders.addAll(subsequentFeeders);
 				}
 				feeders.add(feeder);
 			}
 		}
+		feeders.add(this);
 		return feeders;
 	}
 

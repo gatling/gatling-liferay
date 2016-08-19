@@ -28,9 +28,9 @@ public abstract class FeederFileAST {
 	public abstract String getContent();
 	
 	/**
-	 * Returns the feeders that the current feeder depends on.
+	 * Returns this feeder plus the feeders that this feeder depends on.
 	 * @return the referenced feeders
 	 */
-	public abstract List<FeederFileAST> flatSubsequentFeeders();
+	public abstract List<FeederFileAST> flatWithSubsequentFeeders();
 	
 }

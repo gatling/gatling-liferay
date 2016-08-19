@@ -1,5 +1,6 @@
 package com.excilys.liferay.gatling.model.AST.feeder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,9 +23,10 @@ private static final String TYPE = "SiteMap";
 	}
 
 	@Override
-	public List<FeederFileAST> flatSubsequentFeeders() {
-		/* This has no subsequentFeeders */
-		return null;
+	public List<FeederFileAST> flatWithSubsequentFeeders() {
+		List<FeederFileAST> feeders = new ArrayList<>(1);
+		feeders.add(this);
+		return feeders;
 	}
 	
 }
