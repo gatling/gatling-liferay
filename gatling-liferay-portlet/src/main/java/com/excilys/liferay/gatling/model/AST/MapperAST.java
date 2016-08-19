@@ -3,7 +3,6 @@ package com.excilys.liferay.gatling.model.AST;
 import com.excilys.liferay.gatling.model.ProcessType;
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Scenario;
-import com.excilys.liferay.gatling.model.AST.feeder.FeederFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.RecordFeederFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.data.RecordDataAST;
 import com.excilys.liferay.gatling.model.AST.process.LogoutAST;

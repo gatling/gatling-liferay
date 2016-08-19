@@ -16,11 +16,9 @@ public class DefaultMustachScript {
 	private String logoutPageURL;
 	
 	
-	public DefaultMustachScript(Long simulationId, String portalURL) throws Exception {
-		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
-		//TODO change class to simulationAST, with service calls done before
+	public DefaultMustachScript(Simulation simulation, List<ScenarioAST> scenarios, String portalURL) throws Exception {
 		this.simulationName = GatlingUtil.createSimulationVariable(simulation.getName());
-		mustacheScenarios = MapperAST.initScenarios(simulationId);
+		mustacheScenarios = scenarios;
 		this.loginPageURL = new StringBuilder(portalURL).append("/home").toString();
 		this.logoutPageURL = portalURL;
 	}
@@ -59,7 +57,23 @@ public class DefaultMustachScript {
 		this.mustacheScenarios = scenario;
 	}
 	
-	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Simulation name: ");
+		sb.append(this.simulationName);
+		sb.append("Scenarios: \n[");
+		for(ScenarioAST scenarioAST : mustacheScenarios) {
+			sb.append(scenarioAST.toString());
+			sb.append(",\t");
+		}
+		sb.append("\n]");
+		sb.append("LoginPage: ");
+		sb.append(this.loginPageURL);
+		sb.append("LogoutPage: ");
+		sb.append(this.logoutPageURL);
+		return sb.toString();
+	}
 	
 
 }

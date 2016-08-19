@@ -3,25 +3,35 @@
  */
 package com.excilys.liferay.gatling.controller;
 
+import com.excilys.liferay.gatling.util.GatlingUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 
+import java.io.IOException;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.ReadOnlyException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.portlet.ValidatorException;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 
 /**
@@ -79,6 +89,22 @@ public class SmoothRecorderController {
 		SessionMessages.add(request, PortalUtil.getPortletId(request)+SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_SUCCESS_MESSAGE);
 	}
 
+	@ResourceMapping(value="generateProcessZip")	
+	public void exportZippedProcess(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
+		LOG.debug("\\o/ Generating zip process...");
+
+		//response.setContentType("application/zip");
+		response.addProperty("Content-Disposition", "attachment; filename = GatlingProcess.zip");
+		
+		String recordName = ParamUtil.getString(request,"recordName","doesntWork");
+		LOG.debug("Received:"+recordName);
+		GatlingUtil.zipMyProcess(response.getPortletOutputStream(),getClass().getClassLoader(), request, recordName);
+		
+		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
+		LOG.debug("Zip process generated ...");
+		
+	}
+	
 	/**
 	 * Takes all the renders without param.
 	 * 

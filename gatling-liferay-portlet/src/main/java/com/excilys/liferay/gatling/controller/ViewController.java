@@ -6,6 +6,8 @@ package com.excilys.liferay.gatling.controller;
 import com.excilys.liferay.gatling.NoSuchScenarioException;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.mustache.DefaultMustachScript;
+import com.excilys.liferay.gatling.service.ASTService;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.service.persistence.ScenarioUtil;
@@ -19,8 +21,10 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.model.Group;
+import com.liferay.portal.util.PortalUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -178,26 +182,15 @@ public class ViewController {
 		response.setContentType("application/zip");
 		response.addProperty("Content-Disposition", "attachment; filename = GatlingSimulations.zip");
 		
-		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, scenario.getGroup_id(), simulationsIds);
+		List<DefaultMustachScript> scriptASTs = new ArrayList<>();
+		for( long simulationId : simulationsIds) {
+			scriptASTs.add(ASTService.generateScriptAST(simulationId, PortalUtil.getPortalURL(request)));
+		}
+		
+		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, scenario.getGroup_id(), scriptASTs);
 
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 		LOG.debug("Zip generated ...");
-	}
-	
-	@ResourceMapping(value="generateProcessZip")	
-	public void exportZippedProcess(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
-		LOG.debug("\\o/ Generating zip process...");
-
-		//response.setContentType("application/zip");
-		response.addProperty("Content-Disposition", "attachment; filename = GatlingProcess.zip");
-		
-		String recordName = ParamUtil.getString(request,"recordName","doesntWork");
-		LOG.debug("Received:"+recordName);
-//		GatlingUtil.zipMyProcess(response.getPortletOutputStream(),getClass().getClassLoader(), request, recordName);
-		
-		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
-		LOG.debug("Zip process generated ...");
-		
 	}
 	
 	

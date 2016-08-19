@@ -55,4 +55,13 @@ public class ScenarioAST {
 		this.processes = processes;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Scenario name: ");
+		sb.append(this.scenarioName);
+		//TODO append other properties: ramp up and feeders
+		//NOTE rampUp or not Rampup, that is the question (attribute related to scenarios or simulations?)
+		return sb.toString();
+	}
 }
