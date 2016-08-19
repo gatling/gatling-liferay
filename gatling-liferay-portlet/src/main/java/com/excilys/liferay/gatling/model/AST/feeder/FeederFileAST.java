@@ -8,11 +8,16 @@ import java.util.List;
 public abstract class FeederFileAST {
 	
 	/** The name of the feederFile */
-	protected String name = "";
+	protected String name;
 	
 	/** The type of the feederFile */
-	protected String type = "";
+	protected String type;
 	
+	public FeederFileAST(String name, String type) {
+		this.name = name;
+		this.type = type;
+	}
+
 	/**
 	 * Computes the name of the feeder file
 	 * @return the feeder file name

@@ -10,8 +10,7 @@ public class UserFeederFileAST extends FeederFileAST {
 	private String content;
 	
 	public UserFeederFileAST(String name, String content) {
-		this.name = name;
-		this.type = TYPE;
+		super(name, TYPE);
 		this.content = content;
 	}
 

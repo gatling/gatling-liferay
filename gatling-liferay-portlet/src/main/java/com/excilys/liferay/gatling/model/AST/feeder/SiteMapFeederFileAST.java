@@ -12,8 +12,7 @@ private static final String TYPE = "SiteMap";
 	private String content;
 	
 	public SiteMapFeederFileAST(String name, String content) {
-		this.name = name;
-		this.type = TYPE;
+		super(name, TYPE);
 		this.content = content;
 	}
 

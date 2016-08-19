@@ -12,8 +12,7 @@ public class RecordFeederFileAST extends FeederFileAST {
 	private List<RecordDataAST> data;
 	
 	public RecordFeederFileAST(String name, List<RecordDataAST> data) {
-		this.name = name;
-		this.type = TYPE;
+		super(name, TYPE);
 		this.data = data;
 	}
 	
