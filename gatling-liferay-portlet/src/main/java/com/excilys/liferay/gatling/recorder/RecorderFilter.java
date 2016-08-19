@@ -99,7 +99,7 @@ public class RecorderFilter implements Filter {
 				currentRecords = new ArrayList<RecordURL>();
 			}
 			
-			if (infos[1].equalsIgnoreCase("RECORD")) { 
+			if (infos[INFO_RECORD_STATE].equalsIgnoreCase("RECORD")) { 
 				saveURL(httpRequest, response, session, currentRecords);	
 			} else if(infos[INFO_RECORD_STATE].equalsIgnoreCase("STOP")) {
 				request.setAttribute("recordName", infos[INFO_RECORD_NAME]);
