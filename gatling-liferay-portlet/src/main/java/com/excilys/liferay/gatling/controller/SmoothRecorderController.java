@@ -3,6 +3,15 @@
  */
 package com.excilys.liferay.gatling.controller;
 
+import com.excilys.liferay.gatling.model.Record;
+import com.excilys.liferay.gatling.model.AST.MapperAST;
+import com.excilys.liferay.gatling.model.AST.ScenarioAST;
+import com.excilys.liferay.gatling.model.AST.SimulationAST;
+import com.excilys.liferay.gatling.model.AST.feeder.FeederFileAST;
+import com.excilys.liferay.gatling.model.AST.feeder.RecordFeederFileAST;
+import com.excilys.liferay.gatling.model.AST.process.ProcessAST;
+import com.excilys.liferay.gatling.model.AST.process.RecorderAST;
+import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -16,6 +25,8 @@ import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -93,17 +104,46 @@ public class SmoothRecorderController {
 	public void exportZippedProcess(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
 		LOG.debug("\\o/ Generating zip process...");
 
-		//response.setContentType("application/zip");
+		response.setContentType("application/zip");
 		response.addProperty("Content-Disposition", "attachment; filename = GatlingProcess.zip");
 		
 		String recordName = ParamUtil.getString(request,"recordName","doesntWork");
 		LOG.debug("Received:"+recordName);
-		GatlingUtil.zipMyProcess(response.getPortletOutputStream(),getClass().getClassLoader(), request, recordName);
 		
+		List<SimulationAST> asts = new ArrayList<>();
+		SimulationAST ast = createDefaultAST();
+		asts.add(ast);
+		
+		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, 0, asts);
+		 		
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 		LOG.debug("Zip process generated ...");
-		
+	
 	}
+	
+	private static SimulationAST createDefaultAST() throws Exception{
+		
+		Record record = RecordLocalServiceUtil.findByPortletId("_default_").get(0);
+		
+		FeederFileAST recordFeeder = MapperAST.mapRecordToAST(record);
+		
+		ProcessAST processAST = new RecorderAST(recordFeeder);
+		
+		List<ProcessAST> processList = new ArrayList<>();
+		processList.add(processAST);
+		
+		List<ScenarioAST> scenarios = new ArrayList<>();
+		scenarios.add(new ScenarioAST("RecordScenario", 10, 10, processList));
+		
+		SimulationAST ast = new SimulationAST(
+			"RecordSimulation", 
+			scenarios, 
+			"unusedURL"
+		);
+		return ast;
+	}
+	
+	
 	
 	/**
 	 * Takes all the renders without param.
