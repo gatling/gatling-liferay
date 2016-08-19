@@ -163,7 +163,6 @@ public class RecorderFilter implements Filter {
 			}
 			else {
 				//Normal Form case
-				//TODO: Split the parameters!
 				record = computeParamsFromNormalForm(request, requestURL, params);
 			}
 		}
@@ -246,9 +245,14 @@ public class RecorderFilter implements Filter {
 	 * @return the current url as a normal post url with his parameters
 	 */
 	private static RecordURL computeParamsFromNormalForm(HttpServletRequest request, String RequestURL, String params){
-		//TODO: split the form params
-		return new PostURL(RequestURL, params);
+		
+		//TODO: Yann: Substract from URL parameters, Thank You <3
+		Map<String, String[]> form = request.getParameterMap();
+		
+		Map<String, String> formParams = new HashMap<>();
+		return new PostURL(RequestURL, params, formParams);
 	}
+	
 	
 	
 	/**
