@@ -275,6 +275,14 @@ public class FormParamLocalServiceWrapper implements FormParamLocalService,
     }
 
     @Override
+    public com.excilys.liferay.gatling.model.FormParam findByUrlRecordId(
+        long urlRecordId)
+        throws com.excilys.liferay.gatling.NoSuchFormParamException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return _formParamLocalService.findByUrlRecordId(urlRecordId);
+    }
+
+    @Override
     public void save(long urlRecordId, java.lang.String data,
         java.lang.String type)
         throws com.liferay.portal.kernel.exception.SystemException {

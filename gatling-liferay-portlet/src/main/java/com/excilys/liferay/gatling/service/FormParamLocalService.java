@@ -241,6 +241,11 @@ public interface FormParamLocalService extends BaseLocalService,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable;
 
+    public com.excilys.liferay.gatling.model.FormParam findByUrlRecordId(
+        long urlRecordId)
+        throws com.excilys.liferay.gatling.NoSuchFormParamException,
+            com.liferay.portal.kernel.exception.SystemException;
+
     public void save(long urlRecordId, java.lang.String data,
         java.lang.String type)
         throws com.liferay.portal.kernel.exception.SystemException;

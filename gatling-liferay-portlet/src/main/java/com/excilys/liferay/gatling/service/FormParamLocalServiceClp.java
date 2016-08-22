@@ -46,6 +46,8 @@ public class FormParamLocalServiceClp implements FormParamLocalService {
     private String[] _methodParameterTypes17;
     private String _methodName19;
     private String[] _methodParameterTypes19;
+    private String _methodName20;
+    private String[] _methodParameterTypes20;
 
     public FormParamLocalServiceClp(InvokableLocalService invokableLocalService) {
         _invokableLocalService = invokableLocalService;
@@ -140,9 +142,13 @@ public class FormParamLocalServiceClp implements FormParamLocalService {
 
         _methodParameterTypes17 = new String[] { "java.lang.String" };
 
-        _methodName19 = "save";
+        _methodName19 = "findByUrlRecordId";
 
-        _methodParameterTypes19 = new String[] {
+        _methodParameterTypes19 = new String[] { "long" };
+
+        _methodName20 = "save";
+
+        _methodParameterTypes20 = new String[] {
                 "long", "java.lang.String", "java.lang.String"
             };
     }
@@ -662,12 +668,44 @@ public class FormParamLocalServiceClp implements FormParamLocalService {
     }
 
     @Override
+    public com.excilys.liferay.gatling.model.FormParam findByUrlRecordId(
+        long urlRecordId)
+        throws com.excilys.liferay.gatling.NoSuchFormParamException,
+            com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName19,
+                    _methodParameterTypes19, new Object[] { urlRecordId });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.excilys.liferay.gatling.NoSuchFormParamException) {
+                throw (com.excilys.liferay.gatling.NoSuchFormParamException) t;
+            }
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (com.excilys.liferay.gatling.model.FormParam) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
     public void save(long urlRecordId, java.lang.String data,
         java.lang.String type)
         throws com.liferay.portal.kernel.exception.SystemException {
         try {
-            _invokableLocalService.invokeMethod(_methodName19,
-                _methodParameterTypes19,
+            _invokableLocalService.invokeMethod(_methodName20,
+                _methodParameterTypes20,
                 new Object[] {
                     urlRecordId,
                     

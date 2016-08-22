@@ -263,6 +263,13 @@ public class FormParamLocalServiceUtil {
         return getService().invokeMethod(name, parameterTypes, arguments);
     }
 
+    public static com.excilys.liferay.gatling.model.FormParam findByUrlRecordId(
+        long urlRecordId)
+        throws com.excilys.liferay.gatling.NoSuchFormParamException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getService().findByUrlRecordId(urlRecordId);
+    }
+
     public static void save(long urlRecordId, java.lang.String data,
         java.lang.String type)
         throws com.liferay.portal.kernel.exception.SystemException {

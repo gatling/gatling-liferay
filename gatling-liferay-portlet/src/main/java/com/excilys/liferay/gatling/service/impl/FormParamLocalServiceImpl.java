@@ -1,5 +1,6 @@
 package com.excilys.liferay.gatling.service.impl;
 
+import com.excilys.liferay.gatling.NoSuchFormParamException;
 import com.excilys.liferay.gatling.model.FormParam;
 import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.service.base.FormParamLocalServiceBaseImpl;
@@ -32,6 +33,11 @@ public class FormParamLocalServiceImpl extends FormParamLocalServiceBaseImpl {
      *
      * Never reference this interface directly. Always use {@link com.excilys.liferay.gatling.service.FormParamLocalServiceUtil} to access the form param local service.
      */
+	
+	@Override
+	public FormParam findByUrlRecordId(long urlRecordId) throws SystemException, NoSuchFormParamException {
+		return formParamPersistence.findByUrlRecordId(urlRecordId);
+	}
 	
 	@Override
 	public void save(long urlRecordId, String data, String type) throws SystemException{
