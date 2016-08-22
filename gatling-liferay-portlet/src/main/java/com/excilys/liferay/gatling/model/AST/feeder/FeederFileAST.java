@@ -6,13 +6,15 @@ package com.excilys.liferay.gatling.model.AST.feeder;
  */
 public abstract class FeederFileAST extends ResourceFileAST {
 	
+	private static final String LOCATION = "data/feeders/";
+	
 	protected FeederFileAST(String name, String type) {
-		super(name, type);
+		super(name, type, LOCATION);
 	}
 
 	@Override
 	public String getName() {
-		return type + name + ".csv";
+		return super.getName() + ".csv";
 	}
 	
 }

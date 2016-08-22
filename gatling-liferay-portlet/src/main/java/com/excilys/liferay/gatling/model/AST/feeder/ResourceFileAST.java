@@ -10,16 +10,22 @@ public abstract class ResourceFileAST {
 	/** The type of the resource File */
 	protected String type;
 	
-	protected ResourceFileAST(String name, String type) {
+	/** The folder where the resource File is */
+	protected String location;
+	
+	protected ResourceFileAST(String name, String type, String location) {
 		this.name = name;
 		this.type = type;
+		this.location = location;
 	}
 	
 	/**
 	 * Computes the name of the resource file
 	 * @return the resource file name
 	 */
-	public abstract String getName();
+	public String getName() {
+		return location + type + name;
+	}
 	
 	/**
 	 * Computes the Resource file content.
@@ -32,6 +38,5 @@ public abstract class ResourceFileAST {
 	 * @return the referenced resource files
 	 */
 	public abstract List<ResourceFileAST> flatWithSubsequentRessourceFile();
-	
 	
 }
