@@ -28,4 +28,9 @@ public class RecordDataAST {
 		return data;
 	}
 	
+	@Override
+	public String toString() {
+		return "URL: " + url + ", DATA: " + (data != null ? data.toString() : "none");
+	}
+	
 }

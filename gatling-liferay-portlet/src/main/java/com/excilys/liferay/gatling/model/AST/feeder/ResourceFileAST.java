@@ -45,4 +45,9 @@ public abstract class ResourceFileAST {
 		return resource;
 	}
 	
+	@Override
+	public String toString() {
+		return this.getName();
+	}
+	
 }

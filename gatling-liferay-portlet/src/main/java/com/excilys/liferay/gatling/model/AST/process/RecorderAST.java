@@ -24,4 +24,9 @@ public class RecorderAST extends ProcessAST {
 		return recordFeeder.flatWithSubsequentRessourceFile();
 	}
 
+	@Override
+	public String toString() {
+		return "Object: " + scalaObject + "\tFunction: " + scalaFunction + "\tFeeder: " + recordFeeder;
+	}
+	
 }

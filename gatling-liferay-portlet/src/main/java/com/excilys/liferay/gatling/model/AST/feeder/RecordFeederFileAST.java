@@ -42,13 +42,15 @@ public class RecordFeederFileAST extends FeederFileAST {
 				if(subsequentFeeders != null) {
 					feeders.addAll(subsequentFeeders);
 				}
-				feeders.add(feeder);
 			}
 		}
 		feeders.add(this);
 		return feeders;
 	}
 
-	
+	@Override
+	public String toString() {
+		return super.toString() + "[" + data.toString() + "]";
+	}
 	
 }

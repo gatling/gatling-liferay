@@ -1,5 +1,7 @@
 package com.excilys.liferay.gatling.service;
 
+import com.excilys.liferay.gatling.NoSuchFormParamException;
+import com.excilys.liferay.gatling.model.FormParam;
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
@@ -7,6 +9,7 @@ import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.model.AST.ScenarioAST;
 import com.excilys.liferay.gatling.model.AST.SimulationAST;
 import com.excilys.liferay.gatling.model.AST.feeder.RecordFeederFileAST;
+import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.data.RecordDataAST;
 import com.excilys.liferay.gatling.model.AST.process.ProcessAST;
 import com.excilys.liferay.gatling.service.mapper.ASTMapper;
@@ -15,7 +18,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ASTService {
@@ -32,11 +34,24 @@ public class ASTService {
 		return ASTMapper.mapRecordToAST(record);
 	}
 	
-	public static List<RecordDataAST> computesRecordDataAST(long recordId) throws SystemException {
+	public static List<RecordDataAST> computesRecordDataAST(long recordId) throws SystemException, NoSuchFormParamException {
 		List<UrlRecord> urlRecords = UrlRecordLocalServiceUtil.findByRecordId(recordId);
 		return ASTMapper.mapUrlRecordsToAST(urlRecords);
 	}
 	
+	/*
+	 * TODO: Get FormParams :
+	 * 		- Use finder in BDD [DONE]
+	 * 		- Add unicity [DONE]
+	 * 		- Get it from services [DONE]
+	 * 		- Construct the FeederFileAST from it [DONE]
+	 * 		- Use it in Mapper to construct the AST
+	 * 		- Check that it generates the file
+	 */
+	public static ResourceFileAST computesFormFeeder(long urlRecordId) throws NoSuchFormParamException, SystemException {
+		FormParam params = FormParamLocalServiceUtil.findByUrlRecordId(urlRecordId);
+		return ASTMapper.mapFormParamToAST(params, String.valueOf(urlRecordId));
+	}
 	
 	
 	/* Script Generation */
@@ -61,4 +76,6 @@ public class ASTService {
 		}
 		return mustacheScenarios;
 	}
+
+	
 }
