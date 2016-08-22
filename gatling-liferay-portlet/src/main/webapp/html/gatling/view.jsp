@@ -19,13 +19,17 @@
 
 .time-separator-container {
 	display: inline-block ;
-	height: 60px;
+ 	height: 60px;
+	vertical-align: middle;
 	text-align: center;
 }
 
 .time-separator {
+	margin-top:5px;
+ 	display: block ;
 	vertical-align: middle;
-	display: inline-block;
+	text-align: center;
+	height: 50px;
 }
 
 </style>
@@ -119,7 +123,9 @@
 				<div class="time-separator-container">
 					<div class="time-separator">
 						<div class="icon-chevron-right"></div>
-						<div class="time">${process.pause}s</div>
+						<div class="time">
+						<aui:input 	type="number" style="width:2em" label="" inlineLabel="left" name="${process.process_id}" value="${process.pause}" inlineField="true"/>s
+						</div>
 					</div>
 				</div>
 				</c:if>

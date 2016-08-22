@@ -172,6 +172,7 @@ public class ViewController {
 		long scenarioGroupId = ParamUtil.getLong(request, "scenarioGroupId");
 		long numberOfUsers = ParamUtil.getLong(request, "numberOfUsers");
 		long rampUp = ParamUtil.getLong(request, "rampUp");
+		
 		String feederContent = ParamUtil.getString(request, "feederContent");
 		
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
@@ -185,6 +186,15 @@ public class ViewController {
 		scenario.setNumberOfUsers(numberOfUsers);
 		scenario.setDuration(rampUp);
 		simulation.setFeederContent(feederContent);
+	
+		List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(scenario.getScenario_id());
+		for (Process process : processes) {
+			int time = ParamUtil.getInteger(request, process.getProcess_id()+"");
+			if(time != process.getPause()) {
+				process.setPause(time);
+				ProcessLocalServiceUtil.updateProcess(process);
+			}
+		}
 		
 		SimulationLocalServiceUtil.updateSimulation(simulation);
 		ScenarioLocalServiceUtil.updateScenario(scenario);
