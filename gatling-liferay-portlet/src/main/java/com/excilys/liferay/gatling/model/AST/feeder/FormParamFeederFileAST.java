@@ -16,14 +16,6 @@ public class FormParamFeederFileAST extends FeederFileAST {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public List<ResourceFileAST> flatWithSubsequentRessourceFile() {
-		List<ResourceFileAST> feeders = new ArrayList<>();
-		feeders.add(this);
-		return feeders;
-	}
-	
 	
 
 }

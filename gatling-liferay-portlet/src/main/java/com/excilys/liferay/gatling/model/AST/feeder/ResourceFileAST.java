@@ -1,5 +1,6 @@
 package com.excilys.liferay.gatling.model.AST.feeder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ResourceFileAST {
@@ -35,8 +36,13 @@ public abstract class ResourceFileAST {
 	
 	/**
 	 * Returns this resource file plus the resource files that this one depends on.
+	 * The default comportment is to return a list containing this resource file
 	 * @return the referenced resource files
 	 */
-	public abstract List<ResourceFileAST> flatWithSubsequentRessourceFile();
+	public List<ResourceFileAST> flatWithSubsequentRessourceFile() {
+		List<ResourceFileAST> resource = new ArrayList<>(1);
+		resource.add(this);
+		return resource;
+	}
 	
 }

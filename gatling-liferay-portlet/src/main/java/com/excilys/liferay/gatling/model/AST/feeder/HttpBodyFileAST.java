@@ -1,16 +1,29 @@
 package com.excilys.liferay.gatling.model.AST.feeder;
 
-public abstract class HttpBodyFileAST extends ResourceFileAST {
+
+public class HttpBodyFileAST extends ResourceFileAST {
 
 	private static final String LOCATION = "body/";
+	private static final String TYPE = "HttpBody";
 	
-	public HttpBodyFileAST(String name, String type) {
-		super(name, type, LOCATION);
+	private String content;
+	
+	
+	public HttpBodyFileAST(String name, String content) {
+		super(name, TYPE, LOCATION);
+		this.content = content;
 	}
 
 	@Override
 	public String getName() {
 		return super.getName() + ".txt";
 	}
+
+	@Override
+	public String getContent() {
+		return content;
+	}
+
+	
 	
 }
