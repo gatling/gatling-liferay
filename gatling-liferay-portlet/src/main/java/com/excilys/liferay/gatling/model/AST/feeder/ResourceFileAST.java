@@ -31,7 +31,7 @@ public abstract class ResourceFileAST {
 	 * Returns this resource file plus the resource files that this one depends on.
 	 * @return the referenced resource files
 	 */
-	public abstract List<FeederFileAST> flatWithSubsequentRessourceFile();
+	public abstract List<ResourceFileAST> flatWithSubsequentRessourceFile();
 	
 	
 }

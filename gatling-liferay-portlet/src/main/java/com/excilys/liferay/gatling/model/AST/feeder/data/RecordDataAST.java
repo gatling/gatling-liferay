@@ -1,6 +1,6 @@
 package com.excilys.liferay.gatling.model.AST.feeder.data;
 
-import com.excilys.liferay.gatling.model.AST.feeder.FeederFileAST;
+import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
 
 public class RecordDataAST {
 	
@@ -8,9 +8,9 @@ public class RecordDataAST {
 	
 	private String url;
 	private String type;
-	private FeederFileAST data;
+	private ResourceFileAST data;
 	
-	public RecordDataAST(String url, String type, FeederFileAST data) {
+	public RecordDataAST(String url, String type, ResourceFileAST data) {
 		this.url = url;
 		this.type = type;
 		this.data = data;
@@ -24,7 +24,7 @@ public class RecordDataAST {
 		return type;
 	}
 	
-	public FeederFileAST getData() {
+	public ResourceFileAST getData() {
 		return data;
 	}
 	

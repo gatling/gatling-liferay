@@ -20,8 +20,8 @@ public class MultiPartDataAST extends FeederFileAST {
 	}
 
 	@Override
-	public List<FeederFileAST> flatWithSubsequentRessourceFile() {
-		List<FeederFileAST> feeders = new ArrayList<>();
+	public List<ResourceFileAST> flatWithSubsequentRessourceFile() {
+		List<ResourceFileAST> feeders = new ArrayList<>();
 		feeders.add(this);
 		return feeders;
 	}

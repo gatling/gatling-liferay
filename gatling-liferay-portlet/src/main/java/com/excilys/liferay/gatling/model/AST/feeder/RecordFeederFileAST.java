@@ -23,9 +23,9 @@ public class RecordFeederFileAST extends FeederFileAST {
 			contentBuilder.append(recordDataAST.getUrl()).append(",")
 				.append(recordDataAST.getType()).append(",");
 			
-			FeederFileAST feeder = recordDataAST.getData();
-			String feederContent = feeder != null ? feeder.getContent() : "null";
-			contentBuilder.append(feederContent);
+			ResourceFileAST resource = recordDataAST.getData();
+			String resourceName = resource != null ? resource.getName() : "null";
+			contentBuilder.append(resourceName);
 			contentBuilder.append("\n");
 			
 		}
@@ -33,12 +33,12 @@ public class RecordFeederFileAST extends FeederFileAST {
 	}
 
 	@Override
-	public List<FeederFileAST> flatWithSubsequentRessourceFile() {
-		List<FeederFileAST> feeders = new ArrayList<>();
+	public List<ResourceFileAST> flatWithSubsequentRessourceFile() {
+		List<ResourceFileAST> feeders = new ArrayList<>();
 		for (RecordDataAST recordDataAST: data) {
-			FeederFileAST feeder = recordDataAST.getData();
+			ResourceFileAST feeder = recordDataAST.getData();
 			if(feeder != null){
-				List<FeederFileAST> subsequentFeeders = feeder.flatWithSubsequentRessourceFile();
+				List<ResourceFileAST> subsequentFeeders = feeder.flatWithSubsequentRessourceFile();
 				if(subsequentFeeders != null) {
 					feeders.addAll(subsequentFeeders);
 				}

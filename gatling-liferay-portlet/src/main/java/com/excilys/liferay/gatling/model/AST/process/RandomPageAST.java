@@ -1,6 +1,6 @@
 package com.excilys.liferay.gatling.model.AST.process;
 
-import com.excilys.liferay.gatling.model.AST.feeder.FeederFileAST;
+import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class RandomPageAST extends ProcessAST {
 	}
 
 	@Override
-	public List<FeederFileAST> getFeederFiles() {
+	public List<ResourceFileAST> getFeederFiles() {
 		return new ArrayList<>();
 	}
 

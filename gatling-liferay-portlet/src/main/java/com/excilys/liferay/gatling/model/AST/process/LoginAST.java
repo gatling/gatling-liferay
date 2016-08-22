@@ -1,6 +1,6 @@
 package com.excilys.liferay.gatling.model.AST.process;
 
-import com.excilys.liferay.gatling.model.AST.feeder.FeederFileAST;
+import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +18,9 @@ public class LoginAST extends ProcessAST{
 	}
 
 	@Override
-	public List<FeederFileAST> getFeederFiles() {
+	public List<ResourceFileAST> getFeederFiles() {
 		//TODO add Loginfeeder
-		return new ArrayList<FeederFileAST>();
+		return new ArrayList<ResourceFileAST>();
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.excilys.liferay.gatling.model.AST.process;
 
 import com.excilys.liferay.gatling.model.AST.feeder.FeederFileAST;
+import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public abstract class ProcessAST {
 	 * 
 	 * @return the process's feeder
 	 */
-	public abstract List<FeederFileAST> getFeederFiles();
+	public abstract List<ResourceFileAST> getFeederFiles();
 
 	@Override
 	public String toString() {
