@@ -20,7 +20,7 @@ public class RecorderAST extends ProcessAST {
 	
 	@Override
 	public List<FeederFileAST> getFeederFiles() {
-		return recordFeeder.flatWithSubsequentFeeders();
+		return recordFeeder.flatWithSubsequentRessourceFile();
 	}
 
 }

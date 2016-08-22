@@ -33,12 +33,12 @@ public class RecordFeederFileAST extends FeederFileAST {
 	}
 
 	@Override
-	public List<FeederFileAST> flatWithSubsequentFeeders() {
+	public List<FeederFileAST> flatWithSubsequentRessourceFile() {
 		List<FeederFileAST> feeders = new ArrayList<>();
 		for (RecordDataAST recordDataAST: data) {
 			FeederFileAST feeder = recordDataAST.getData();
 			if(feeder != null){
-				List<FeederFileAST> subsequentFeeders = feeder.flatWithSubsequentFeeders();
+				List<FeederFileAST> subsequentFeeders = feeder.flatWithSubsequentRessourceFile();
 				if(subsequentFeeders != null) {
 					feeders.addAll(subsequentFeeders);
 				}

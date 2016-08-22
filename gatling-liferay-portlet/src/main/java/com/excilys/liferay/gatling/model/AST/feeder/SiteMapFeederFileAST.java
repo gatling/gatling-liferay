@@ -22,7 +22,7 @@ private static final String TYPE = "SiteMap";
 	}
 
 	@Override
-	public List<FeederFileAST> flatWithSubsequentFeeders() {
+	public List<FeederFileAST> flatWithSubsequentRessourceFile() {
 		List<FeederFileAST> feeders = new ArrayList<>(1);
 		feeders.add(this);
 		return feeders;

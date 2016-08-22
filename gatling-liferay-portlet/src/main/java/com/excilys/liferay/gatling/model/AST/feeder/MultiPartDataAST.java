@@ -3,17 +3,17 @@ package com.excilys.liferay.gatling.model.AST.feeder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserFeederFileAST extends FeederFileAST {
-	
-	private static final String TYPE = "User";
+public class MultiPartDataAST extends FeederFileAST {
+
+	private static final String TYPE = "MultiPart";
 	
 	private String content;
 	
-	public UserFeederFileAST(String name, String content) {
+	public MultiPartDataAST(String name, String content) {
 		super(name, TYPE);
 		this.content = content;
 	}
-
+	
 	@Override
 	public String getContent() {
 		return content;
@@ -21,9 +21,11 @@ public class UserFeederFileAST extends FeederFileAST {
 
 	@Override
 	public List<FeederFileAST> flatWithSubsequentRessourceFile() {
-		List<FeederFileAST> feeders = new ArrayList<>(1);
+		List<FeederFileAST> feeders = new ArrayList<>();
 		feeders.add(this);
 		return feeders;
 	}
 	
+	
+
 }
