@@ -12,6 +12,7 @@ import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.model.AST.ScenarioAST;
 import com.excilys.liferay.gatling.model.AST.SimulationAST;
 import com.excilys.liferay.gatling.model.AST.feeder.FeederFileAST;
+import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
 import com.excilys.liferay.gatling.model.AST.process.ProcessAST;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
@@ -329,7 +330,7 @@ public class GatlingUtil {
 		for (SimulationAST simulationAST : simulations) {
 			for (ScenarioAST scenarioAST : simulationAST.getScenarios()) {
 				for (ProcessAST processAST : scenarioAST.getProcesses()) {
-					for (FeederFileAST feederFileAST : processAST.getFeederFiles()) {
+					for (ResourceFileAST feederFileAST : processAST.getFeederFiles()) {
 						zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"data/feeders/"+feederFileAST.getName()));
 						zipOutputStream.write(feederFileAST.getContent().getBytes());
 						zipOutputStream.closeEntry();
