@@ -142,7 +142,7 @@
 		<column name="urlRecordId" type="long" />
 		<column name="data" type="String" />
 		<column name="type" type="String" />
-		<finder name="UrlRecordId" return-type="Collection" >
+		<finder name="UrlRecordId" return-type="FormParam" unique="true" >
 			<finder-column name="urlRecordId" />
 		</finder>
 	</entity>

@@ -1,4 +1,4 @@
-create index IX_5FD9C16F on StressTool_FormParam (urlRecordId);
+create unique index IX_5FD9C16F on StressTool_FormParam (urlRecordId);
 
 create unique index IX_3B711FD8 on StressTool_LinkProcessRecord (process_id);
 create unique index IX_48C20AB9 on StressTool_LinkProcessRecord (recordId);
