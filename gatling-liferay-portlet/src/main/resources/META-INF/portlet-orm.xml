@@ -44,6 +44,7 @@
 			<basic name="order">
 				<column name="ORDER_" />
 			</basic>
+			<basic name="pause" />
 			<basic name="scenario_id" />
 			<basic name="recordId" />
 			<transient name="modelAttributes" />

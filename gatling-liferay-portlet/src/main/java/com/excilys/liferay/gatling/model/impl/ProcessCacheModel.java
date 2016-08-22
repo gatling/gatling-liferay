@@ -23,12 +23,13 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
     public String name;
     public String type;
     public int order;
+    public int pause;
     public long scenario_id;
     public Long recordId;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(15);
 
         sb.append("{process_id=");
         sb.append(process_id);
@@ -38,6 +39,8 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
         sb.append(type);
         sb.append(", order=");
         sb.append(order);
+        sb.append(", pause=");
+        sb.append(pause);
         sb.append(", scenario_id=");
         sb.append(scenario_id);
         sb.append(", recordId=");
@@ -66,6 +69,7 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
         }
 
         processImpl.setOrder(order);
+        processImpl.setPause(pause);
         processImpl.setScenario_id(scenario_id);
         processImpl.setRecordId(recordId);
 
@@ -80,6 +84,7 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
         name = objectInput.readUTF();
         type = objectInput.readUTF();
         order = objectInput.readInt();
+        pause = objectInput.readInt();
         scenario_id = objectInput.readLong();
         recordId = objectInput.readLong();
     }
@@ -102,6 +107,7 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
         }
 
         objectOutput.writeInt(order);
+        objectOutput.writeInt(pause);
         objectOutput.writeLong(scenario_id);
         objectOutput.writeLong(recordId);
     }

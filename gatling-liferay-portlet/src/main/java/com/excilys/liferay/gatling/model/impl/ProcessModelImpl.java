@@ -48,10 +48,11 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
             { "name", Types.VARCHAR },
             { "type_", Types.VARCHAR },
             { "order_", Types.INTEGER },
+            { "pause", Types.INTEGER },
             { "scenario_id", Types.BIGINT },
             { "recordId", Types.BIGINT }
         };
-    public static final String TABLE_SQL_CREATE = "create table StressTool_Process (process_id LONG not null primary key,name VARCHAR(75) null,type_ VARCHAR(75) null,order_ INTEGER,scenario_id LONG,recordId LONG)";
+    public static final String TABLE_SQL_CREATE = "create table StressTool_Process (process_id LONG not null primary key,name VARCHAR(75) null,type_ VARCHAR(75) null,order_ INTEGER,pause INTEGER,scenario_id LONG,recordId LONG)";
     public static final String TABLE_SQL_DROP = "drop table StressTool_Process";
     public static final String ORDER_BY_JPQL = " ORDER BY process.order ASC";
     public static final String ORDER_BY_SQL = " ORDER BY StressTool_Process.order_ ASC";
@@ -79,6 +80,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
     private String _name;
     private String _type;
     private int _order;
+    private int _pause;
     private long _scenario_id;
     private long _originalScenario_id;
     private boolean _setOriginalScenario_id;
@@ -127,6 +129,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         attributes.put("name", getName());
         attributes.put("type", getType());
         attributes.put("order", getOrder());
+        attributes.put("pause", getPause());
         attributes.put("scenario_id", getScenario_id());
         attributes.put("recordId", getRecordId());
 
@@ -157,6 +160,12 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
         if (order != null) {
             setOrder(order);
+        }
+
+        Integer pause = (Integer) attributes.get("pause");
+
+        if (pause != null) {
+            setPause(pause);
         }
 
         Long scenario_id = (Long) attributes.get("scenario_id");
@@ -220,6 +229,16 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         _columnBitmask = -1L;
 
         _order = order;
+    }
+
+    @Override
+    public int getPause() {
+        return _pause;
+    }
+
+    @Override
+    public void setPause(int pause) {
+        _pause = pause;
     }
 
     @Override
@@ -289,6 +308,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         processImpl.setName(getName());
         processImpl.setType(getType());
         processImpl.setOrder(getOrder());
+        processImpl.setPause(getPause());
         processImpl.setScenario_id(getScenario_id());
         processImpl.setRecordId(getRecordId());
 
@@ -377,6 +397,8 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
         processCacheModel.order = getOrder();
 
+        processCacheModel.pause = getPause();
+
         processCacheModel.scenario_id = getScenario_id();
 
         processCacheModel.recordId = getRecordId();
@@ -386,7 +408,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(15);
 
         sb.append("{process_id=");
         sb.append(getProcess_id());
@@ -396,6 +418,8 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         sb.append(getType());
         sb.append(", order=");
         sb.append(getOrder());
+        sb.append(", pause=");
+        sb.append(getPause());
         sb.append(", scenario_id=");
         sb.append(getScenario_id());
         sb.append(", recordId=");
@@ -407,7 +431,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(22);
+        StringBundler sb = new StringBundler(25);
 
         sb.append("<model><model-name>");
         sb.append("com.excilys.liferay.gatling.model.Process");
@@ -428,6 +452,10 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         sb.append(
             "<column><column-name>order</column-name><column-value><![CDATA[");
         sb.append(getOrder());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>pause</column-name><column-value><![CDATA[");
+        sb.append(getPause());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>scenario_id</column-name><column-value><![CDATA[");

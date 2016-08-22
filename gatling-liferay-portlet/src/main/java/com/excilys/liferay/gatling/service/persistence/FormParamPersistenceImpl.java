@@ -71,9 +71,20 @@ public class FormParamPersistenceImpl extends BasePersistenceImpl<FormParam>
     public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(FormParamModelImpl.ENTITY_CACHE_ENABLED,
             FormParamModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-    public static final FinderPath FINDER_PATH_FETCH_BY_URLRECORDID = new FinderPath(FormParamModelImpl.ENTITY_CACHE_ENABLED,
+    public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_URLRECORDID =
+        new FinderPath(FormParamModelImpl.ENTITY_CACHE_ENABLED,
             FormParamModelImpl.FINDER_CACHE_ENABLED, FormParamImpl.class,
-            FINDER_CLASS_NAME_ENTITY, "fetchByUrlRecordId",
+            FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUrlRecordId",
+            new String[] {
+                Long.class.getName(),
+                
+            Integer.class.getName(), Integer.class.getName(),
+                OrderByComparator.class.getName()
+            });
+    public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_URLRECORDID =
+        new FinderPath(FormParamModelImpl.ENTITY_CACHE_ENABLED,
+            FormParamModelImpl.FINDER_CACHE_ENABLED, FormParamImpl.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUrlRecordId",
             new String[] { Long.class.getName() },
             FormParamModelImpl.URLRECORDID_COLUMN_BITMASK);
     public static final FinderPath FINDER_PATH_COUNT_BY_URLRECORDID = new FinderPath(FormParamModelImpl.ENTITY_CACHE_ENABLED,
@@ -118,85 +129,103 @@ public class FormParamPersistenceImpl extends BasePersistenceImpl<FormParam>
     }
 
     /**
-     * Returns the form param where urlRecordId = &#63; or throws a {@link com.excilys.liferay.gatling.NoSuchFormParamException} if it could not be found.
+     * Returns all the form params where urlRecordId = &#63;.
      *
      * @param urlRecordId the url record ID
-     * @return the matching form param
-     * @throws com.excilys.liferay.gatling.NoSuchFormParamException if a matching form param could not be found
+     * @return the matching form params
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public FormParam findByUrlRecordId(long urlRecordId)
-        throws NoSuchFormParamException, SystemException {
-        FormParam formParam = fetchByUrlRecordId(urlRecordId);
-
-        if (formParam == null) {
-            StringBundler msg = new StringBundler(4);
-
-            msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-            msg.append("urlRecordId=");
-            msg.append(urlRecordId);
-
-            msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-            if (_log.isWarnEnabled()) {
-                _log.warn(msg.toString());
-            }
-
-            throw new NoSuchFormParamException(msg.toString());
-        }
-
-        return formParam;
-    }
-
-    /**
-     * Returns the form param where urlRecordId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-     *
-     * @param urlRecordId the url record ID
-     * @return the matching form param, or <code>null</code> if a matching form param could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public FormParam fetchByUrlRecordId(long urlRecordId)
+    public List<FormParam> findByUrlRecordId(long urlRecordId)
         throws SystemException {
-        return fetchByUrlRecordId(urlRecordId, true);
+        return findByUrlRecordId(urlRecordId, QueryUtil.ALL_POS,
+            QueryUtil.ALL_POS, null);
     }
 
     /**
-     * Returns the form param where urlRecordId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+     * Returns a range of all the form params where urlRecordId = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.FormParamModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
      *
      * @param urlRecordId the url record ID
-     * @param retrieveFromCache whether to use the finder cache
-     * @return the matching form param, or <code>null</code> if a matching form param could not be found
+     * @param start the lower bound of the range of form params
+     * @param end the upper bound of the range of form params (not inclusive)
+     * @return the range of matching form params
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public FormParam fetchByUrlRecordId(long urlRecordId,
-        boolean retrieveFromCache) throws SystemException {
-        Object[] finderArgs = new Object[] { urlRecordId };
+    public List<FormParam> findByUrlRecordId(long urlRecordId, int start,
+        int end) throws SystemException {
+        return findByUrlRecordId(urlRecordId, start, end, null);
+    }
 
-        Object result = null;
+    /**
+     * Returns an ordered range of all the form params where urlRecordId = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.FormParamModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param urlRecordId the url record ID
+     * @param start the lower bound of the range of form params
+     * @param end the upper bound of the range of form params (not inclusive)
+     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+     * @return the ordered range of matching form params
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<FormParam> findByUrlRecordId(long urlRecordId, int start,
+        int end, OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
+        FinderPath finderPath = null;
+        Object[] finderArgs = null;
 
-        if (retrieveFromCache) {
-            result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_URLRECORDID,
-                    finderArgs, this);
+        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+                (orderByComparator == null)) {
+            pagination = false;
+            finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_URLRECORDID;
+            finderArgs = new Object[] { urlRecordId };
+        } else {
+            finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_URLRECORDID;
+            finderArgs = new Object[] { urlRecordId, start, end, orderByComparator };
         }
 
-        if (result instanceof FormParam) {
-            FormParam formParam = (FormParam) result;
+        List<FormParam> list = (List<FormParam>) FinderCacheUtil.getResult(finderPath,
+                finderArgs, this);
 
-            if ((urlRecordId != formParam.getUrlRecordId())) {
-                result = null;
+        if ((list != null) && !list.isEmpty()) {
+            for (FormParam formParam : list) {
+                if ((urlRecordId != formParam.getUrlRecordId())) {
+                    list = null;
+
+                    break;
+                }
             }
         }
 
-        if (result == null) {
-            StringBundler query = new StringBundler(3);
+        if (list == null) {
+            StringBundler query = null;
+
+            if (orderByComparator != null) {
+                query = new StringBundler(3 +
+                        (orderByComparator.getOrderByFields().length * 3));
+            } else {
+                query = new StringBundler(3);
+            }
 
             query.append(_SQL_SELECT_FORMPARAM_WHERE);
 
             query.append(_FINDER_COLUMN_URLRECORDID_URLRECORDID_2);
+
+            if (orderByComparator != null) {
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+            } else
+             if (pagination) {
+                query.append(FormParamModelImpl.ORDER_BY_JPQL);
+            }
 
             String sql = query.toString();
 
@@ -211,26 +240,23 @@ public class FormParamPersistenceImpl extends BasePersistenceImpl<FormParam>
 
                 qPos.add(urlRecordId);
 
-                List<FormParam> list = q.list();
+                if (!pagination) {
+                    list = (List<FormParam>) QueryUtil.list(q, getDialect(),
+                            start, end, false);
 
-                if (list.isEmpty()) {
-                    FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_URLRECORDID,
-                        finderArgs, list);
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<FormParam>(list);
                 } else {
-                    FormParam formParam = list.get(0);
-
-                    result = formParam;
-
-                    cacheResult(formParam);
-
-                    if ((formParam.getUrlRecordId() != urlRecordId)) {
-                        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_URLRECORDID,
-                            finderArgs, formParam);
-                    }
+                    list = (List<FormParam>) QueryUtil.list(q, getDialect(),
+                            start, end);
                 }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
             } catch (Exception e) {
-                FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_URLRECORDID,
-                    finderArgs);
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
 
                 throw processException(e);
             } finally {
@@ -238,26 +264,268 @@ public class FormParamPersistenceImpl extends BasePersistenceImpl<FormParam>
             }
         }
 
-        if (result instanceof List<?>) {
+        return list;
+    }
+
+    /**
+     * Returns the first form param in the ordered set where urlRecordId = &#63;.
+     *
+     * @param urlRecordId the url record ID
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the first matching form param
+     * @throws com.excilys.liferay.gatling.NoSuchFormParamException if a matching form param could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public FormParam findByUrlRecordId_First(long urlRecordId,
+        OrderByComparator orderByComparator)
+        throws NoSuchFormParamException, SystemException {
+        FormParam formParam = fetchByUrlRecordId_First(urlRecordId,
+                orderByComparator);
+
+        if (formParam != null) {
+            return formParam;
+        }
+
+        StringBundler msg = new StringBundler(4);
+
+        msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+        msg.append("urlRecordId=");
+        msg.append(urlRecordId);
+
+        msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+        throw new NoSuchFormParamException(msg.toString());
+    }
+
+    /**
+     * Returns the first form param in the ordered set where urlRecordId = &#63;.
+     *
+     * @param urlRecordId the url record ID
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the first matching form param, or <code>null</code> if a matching form param could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public FormParam fetchByUrlRecordId_First(long urlRecordId,
+        OrderByComparator orderByComparator) throws SystemException {
+        List<FormParam> list = findByUrlRecordId(urlRecordId, 0, 1,
+                orderByComparator);
+
+        if (!list.isEmpty()) {
+            return list.get(0);
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the last form param in the ordered set where urlRecordId = &#63;.
+     *
+     * @param urlRecordId the url record ID
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the last matching form param
+     * @throws com.excilys.liferay.gatling.NoSuchFormParamException if a matching form param could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public FormParam findByUrlRecordId_Last(long urlRecordId,
+        OrderByComparator orderByComparator)
+        throws NoSuchFormParamException, SystemException {
+        FormParam formParam = fetchByUrlRecordId_Last(urlRecordId,
+                orderByComparator);
+
+        if (formParam != null) {
+            return formParam;
+        }
+
+        StringBundler msg = new StringBundler(4);
+
+        msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+        msg.append("urlRecordId=");
+        msg.append(urlRecordId);
+
+        msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+        throw new NoSuchFormParamException(msg.toString());
+    }
+
+    /**
+     * Returns the last form param in the ordered set where urlRecordId = &#63;.
+     *
+     * @param urlRecordId the url record ID
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the last matching form param, or <code>null</code> if a matching form param could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public FormParam fetchByUrlRecordId_Last(long urlRecordId,
+        OrderByComparator orderByComparator) throws SystemException {
+        int count = countByUrlRecordId(urlRecordId);
+
+        if (count == 0) {
             return null;
+        }
+
+        List<FormParam> list = findByUrlRecordId(urlRecordId, count - 1, count,
+                orderByComparator);
+
+        if (!list.isEmpty()) {
+            return list.get(0);
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the form params before and after the current form param in the ordered set where urlRecordId = &#63;.
+     *
+     * @param formParamId the primary key of the current form param
+     * @param urlRecordId the url record ID
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the previous, current, and next form param
+     * @throws com.excilys.liferay.gatling.NoSuchFormParamException if a form param with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public FormParam[] findByUrlRecordId_PrevAndNext(long formParamId,
+        long urlRecordId, OrderByComparator orderByComparator)
+        throws NoSuchFormParamException, SystemException {
+        FormParam formParam = findByPrimaryKey(formParamId);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            FormParam[] array = new FormParamImpl[3];
+
+            array[0] = getByUrlRecordId_PrevAndNext(session, formParam,
+                    urlRecordId, orderByComparator, true);
+
+            array[1] = formParam;
+
+            array[2] = getByUrlRecordId_PrevAndNext(session, formParam,
+                    urlRecordId, orderByComparator, false);
+
+            return array;
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+    }
+
+    protected FormParam getByUrlRecordId_PrevAndNext(Session session,
+        FormParam formParam, long urlRecordId,
+        OrderByComparator orderByComparator, boolean previous) {
+        StringBundler query = null;
+
+        if (orderByComparator != null) {
+            query = new StringBundler(6 +
+                    (orderByComparator.getOrderByFields().length * 6));
         } else {
-            return (FormParam) result;
+            query = new StringBundler(3);
+        }
+
+        query.append(_SQL_SELECT_FORMPARAM_WHERE);
+
+        query.append(_FINDER_COLUMN_URLRECORDID_URLRECORDID_2);
+
+        if (orderByComparator != null) {
+            String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+            if (orderByConditionFields.length > 0) {
+                query.append(WHERE_AND);
+            }
+
+            for (int i = 0; i < orderByConditionFields.length; i++) {
+                query.append(_ORDER_BY_ENTITY_ALIAS);
+                query.append(orderByConditionFields[i]);
+
+                if ((i + 1) < orderByConditionFields.length) {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(WHERE_GREATER_THAN_HAS_NEXT);
+                    } else {
+                        query.append(WHERE_LESSER_THAN_HAS_NEXT);
+                    }
+                } else {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(WHERE_GREATER_THAN);
+                    } else {
+                        query.append(WHERE_LESSER_THAN);
+                    }
+                }
+            }
+
+            query.append(ORDER_BY_CLAUSE);
+
+            String[] orderByFields = orderByComparator.getOrderByFields();
+
+            for (int i = 0; i < orderByFields.length; i++) {
+                query.append(_ORDER_BY_ENTITY_ALIAS);
+                query.append(orderByFields[i]);
+
+                if ((i + 1) < orderByFields.length) {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(ORDER_BY_ASC_HAS_NEXT);
+                    } else {
+                        query.append(ORDER_BY_DESC_HAS_NEXT);
+                    }
+                } else {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(ORDER_BY_ASC);
+                    } else {
+                        query.append(ORDER_BY_DESC);
+                    }
+                }
+            }
+        } else {
+            query.append(FormParamModelImpl.ORDER_BY_JPQL);
+        }
+
+        String sql = query.toString();
+
+        Query q = session.createQuery(sql);
+
+        q.setFirstResult(0);
+        q.setMaxResults(2);
+
+        QueryPos qPos = QueryPos.getInstance(q);
+
+        qPos.add(urlRecordId);
+
+        if (orderByComparator != null) {
+            Object[] values = orderByComparator.getOrderByConditionValues(formParam);
+
+            for (Object value : values) {
+                qPos.add(value);
+            }
+        }
+
+        List<FormParam> list = q.list();
+
+        if (list.size() == 2) {
+            return list.get(1);
+        } else {
+            return null;
         }
     }
 
     /**
-     * Removes the form param where urlRecordId = &#63; from the database.
+     * Removes all the form params where urlRecordId = &#63; from the database.
      *
      * @param urlRecordId the url record ID
-     * @return the form param that was removed
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public FormParam removeByUrlRecordId(long urlRecordId)
-        throws NoSuchFormParamException, SystemException {
-        FormParam formParam = findByUrlRecordId(urlRecordId);
-
-        return remove(formParam);
+    public void removeByUrlRecordId(long urlRecordId) throws SystemException {
+        for (FormParam formParam : findByUrlRecordId(urlRecordId,
+                QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+            remove(formParam);
+        }
     }
 
     /**
@@ -321,9 +589,6 @@ public class FormParamPersistenceImpl extends BasePersistenceImpl<FormParam>
         EntityCacheUtil.putResult(FormParamModelImpl.ENTITY_CACHE_ENABLED,
             FormParamImpl.class, formParam.getPrimaryKey(), formParam);
 
-        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_URLRECORDID,
-            new Object[] { formParam.getUrlRecordId() }, formParam);
-
         formParam.resetOriginalValues();
     }
 
@@ -379,8 +644,6 @@ public class FormParamPersistenceImpl extends BasePersistenceImpl<FormParam>
 
         FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
         FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-        clearUniqueFindersCache(formParam);
     }
 
     @Override
@@ -391,48 +654,6 @@ public class FormParamPersistenceImpl extends BasePersistenceImpl<FormParam>
         for (FormParam formParam : formParams) {
             EntityCacheUtil.removeResult(FormParamModelImpl.ENTITY_CACHE_ENABLED,
                 FormParamImpl.class, formParam.getPrimaryKey());
-
-            clearUniqueFindersCache(formParam);
-        }
-    }
-
-    protected void cacheUniqueFindersCache(FormParam formParam) {
-        if (formParam.isNew()) {
-            Object[] args = new Object[] { formParam.getUrlRecordId() };
-
-            FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_URLRECORDID, args,
-                Long.valueOf(1));
-            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_URLRECORDID, args,
-                formParam);
-        } else {
-            FormParamModelImpl formParamModelImpl = (FormParamModelImpl) formParam;
-
-            if ((formParamModelImpl.getColumnBitmask() &
-                    FINDER_PATH_FETCH_BY_URLRECORDID.getColumnBitmask()) != 0) {
-                Object[] args = new Object[] { formParam.getUrlRecordId() };
-
-                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_URLRECORDID,
-                    args, Long.valueOf(1));
-                FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_URLRECORDID,
-                    args, formParam);
-            }
-        }
-    }
-
-    protected void clearUniqueFindersCache(FormParam formParam) {
-        FormParamModelImpl formParamModelImpl = (FormParamModelImpl) formParam;
-
-        Object[] args = new Object[] { formParam.getUrlRecordId() };
-
-        FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_URLRECORDID, args);
-        FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_URLRECORDID, args);
-
-        if ((formParamModelImpl.getColumnBitmask() &
-                FINDER_PATH_FETCH_BY_URLRECORDID.getColumnBitmask()) != 0) {
-            args = new Object[] { formParamModelImpl.getOriginalUrlRecordId() };
-
-            FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_URLRECORDID, args);
-            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_URLRECORDID, args);
         }
     }
 
@@ -543,6 +764,8 @@ public class FormParamPersistenceImpl extends BasePersistenceImpl<FormParam>
 
         boolean isNew = formParam.isNew();
 
+        FormParamModelImpl formParamModelImpl = (FormParamModelImpl) formParam;
+
         Session session = null;
 
         try {
@@ -566,12 +789,29 @@ public class FormParamPersistenceImpl extends BasePersistenceImpl<FormParam>
         if (isNew || !FormParamModelImpl.COLUMN_BITMASK_ENABLED) {
             FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
         }
+        else {
+            if ((formParamModelImpl.getColumnBitmask() &
+                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_URLRECORDID.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] {
+                        formParamModelImpl.getOriginalUrlRecordId()
+                    };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_URLRECORDID,
+                    args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_URLRECORDID,
+                    args);
+
+                args = new Object[] { formParamModelImpl.getUrlRecordId() };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_URLRECORDID,
+                    args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_URLRECORDID,
+                    args);
+            }
+        }
 
         EntityCacheUtil.putResult(FormParamModelImpl.ENTITY_CACHE_ENABLED,
             FormParamImpl.class, formParam.getPrimaryKey(), formParam);
-
-        clearUniqueFindersCache(formParam);
-        cacheUniqueFindersCache(formParam);
 
         return formParam;
     }

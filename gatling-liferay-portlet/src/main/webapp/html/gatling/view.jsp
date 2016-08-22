@@ -112,26 +112,19 @@
 
 		<%-- Scenario --%>
 		<div class="scenario" >
-		
-			<div class="action"><liferay-ui:message key="login"/></div>
+			<c:forEach items="${processes}" var="process" varStatus="i">
+				<div class="action">${process.name}</div>
 
-			<div class="time-separator-container">
-				<div class="time-separator">
-					<div class="icon-chevron-right"></div>
-					<div class="time">3s</div>
+				<c:if test="${!i.last}" >
+				<div class="time-separator-container">
+					<div class="time-separator">
+						<div class="icon-chevron-right"></div>
+						<div class="time">${process.pause}s</div>
+					</div>
 				</div>
-			</div>
-
-			<div class="action" id="scenario-flow"><liferay-ui:message key="random-page"/></div>
-
-			<div class="time-separator-container">
-				<div class="time-separator">
-					<div class="icon-chevron-right"></div>
-					<div class="time">3s</div>
-				</div>
-			</div>
-
-			<div class="action"><liferay-ui:message key="logout"/></div>
+				</c:if>
+				
+			</c:forEach>
 		</div>
 
 	</aui:fieldset>

@@ -24,6 +24,7 @@ create table StressTool_Process (
 	name VARCHAR(75) null,
 	type_ VARCHAR(75) null,
 	order_ INTEGER,
+	pause INTEGER,
 	scenario_id LONG,
 	recordId LONG
 );

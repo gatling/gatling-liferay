@@ -37,6 +37,7 @@
 		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" column="type_" />
 		<property name="order" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="order_" />
+		<property name="pause" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="scenario_id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="recordId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>

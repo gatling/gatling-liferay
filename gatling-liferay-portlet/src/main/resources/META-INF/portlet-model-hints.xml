@@ -21,6 +21,7 @@
 		<field name="name" type="String" />
 		<field name="type" type="String" />
 		<field name="order" type="int" />
+		<field name="pause" type="int" />
 		<field name="scenario_id" type="long" />
 		<field name="recordId" type="Long" />
 	</model>

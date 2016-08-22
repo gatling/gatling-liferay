@@ -7,6 +7,7 @@ import java.util.List;
 public abstract class ProcessAST {
 	protected String scalaObject;
 	protected String scalaFunction;
+	protected int pause;
 	
 	protected ProcessAST(String scalaObject, String scalaFunction){
 		this.scalaObject = scalaObject;
@@ -46,5 +47,13 @@ public abstract class ProcessAST {
 	@Override
 	public String toString() {
 		return "Object: " + scalaObject + "\tFunction: " + scalaFunction;
+	}
+	
+	public void setPause(int p){
+		this.pause = p;
+	}
+	
+	public int getPause() {
+		return this.pause;
 	}
 }

@@ -102,6 +102,20 @@ public interface ProcessModel extends BaseModel<Process> {
     public void setOrder(int order);
 
     /**
+     * Returns the pause of this process.
+     *
+     * @return the pause of this process
+     */
+    public int getPause();
+
+    /**
+     * Sets the pause of this process.
+     *
+     * @param pause the pause of this process
+     */
+    public void setPause(int pause);
+
+    /**
      * Returns the scenario_id of this process.
      *
      * @return the scenario_id of this process

@@ -40,6 +40,7 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
         attributes.put("name", getName());
         attributes.put("type", getType());
         attributes.put("order", getOrder());
+        attributes.put("pause", getPause());
         attributes.put("scenario_id", getScenario_id());
         attributes.put("recordId", getRecordId());
 
@@ -70,6 +71,12 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 
         if (order != null) {
             setOrder(order);
+        }
+
+        Integer pause = (Integer) attributes.get("pause");
+
+        if (pause != null) {
+            setPause(pause);
         }
 
         Long scenario_id = (Long) attributes.get("scenario_id");
@@ -183,6 +190,26 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
     @Override
     public void setOrder(int order) {
         _process.setOrder(order);
+    }
+
+    /**
+    * Returns the pause of this process.
+    *
+    * @return the pause of this process
+    */
+    @Override
+    public int getPause() {
+        return _process.getPause();
+    }
+
+    /**
+    * Sets the pause of this process.
+    *
+    * @param pause the pause of this process
+    */
+    @Override
+    public void setPause(int pause) {
+        _process.setPause(pause);
     }
 
     /**

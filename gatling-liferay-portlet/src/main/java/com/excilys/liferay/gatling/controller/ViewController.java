@@ -8,6 +8,7 @@ import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.model.AST.SimulationAST;
 import com.excilys.liferay.gatling.service.ASTService;
+import com.excilys.liferay.gatling.service.ProcessLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.service.persistence.ProcessUtil;
@@ -83,10 +84,13 @@ public class ViewController {
 			defaultScenario = createDefaultScenario(defaultSimulation);
 		}
 		
+		List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(defaultScenario.getScenario_id());
+		
 		/* Record the simulation and scenario data */
 		
 		renderRequest.setAttribute("simulationId", defaultSimulation.getSimulation_id());
 		renderRequest.setAttribute("scenarioGroupId", defaultScenario.getGroup_id());
+		renderRequest.setAttribute("processes", processes);
 		renderRequest.setAttribute("numberOfUsers", defaultScenario.getNumberOfUsers());
 		renderRequest.setAttribute("rampUp", defaultScenario.getDuration());
 		renderRequest.setAttribute("feederContent", defaultSimulation.getFeederContent());
@@ -135,20 +139,23 @@ public class ViewController {
 		Process login = ProcessUtil.create(CounterLocalServiceUtil.increment(Process.class.getName()));
 		login.setName("Login");
 		login.setType("LOGIN");
+		login.setPause(2);
 		login.setOrder(0);
 		login.setScenario_id(scenario.getScenario_id());
 		login.persist();
 		
 		Process logout = ProcessUtil.create(CounterLocalServiceUtil.increment(Process.class.getName()));
-		logout.setName("logout");
+		logout.setName("Logout");
 		logout.setType("LOGOUT");
+		logout.setPause(1);
 		logout.setOrder(2);
 		logout.setScenario_id(scenario.getScenario_id());
 		logout.persist();	
 
 		Process random = ProcessUtil.create(CounterLocalServiceUtil.increment(Process.class.getName()));
-		random.setName("randomPage");
+		random.setName("Random Page");
 		random.setType("RANDOMPAGE");
+		random.setPause(3);
 		random.setOrder(1);
 		random.setScenario_id(scenario.getScenario_id());
 		random.persist();	

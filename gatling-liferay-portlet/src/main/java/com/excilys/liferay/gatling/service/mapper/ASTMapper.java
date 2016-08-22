@@ -13,13 +13,13 @@ import com.excilys.liferay.gatling.model.AST.process.RecorderAST;
 import com.excilys.liferay.gatling.service.ASTService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-
+import com.excilys.liferay.gatling.model.Process;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ASTMapper {
 
-	public static ProcessAST mapProcessToAST(com.excilys.liferay.gatling.model.Process process) throws PortalException, SystemException {
+	public static ProcessAST mapProcessToAST(Process process) throws PortalException, SystemException {
 		ProcessAST ast = null;
 		
 		if (process == null)
@@ -42,6 +42,8 @@ public class ASTMapper {
 				ast = new LogoutAST();
 				break;
 		}
+		
+		ast.setPause(process.getPause());
 		return ast;
 	}
 	
