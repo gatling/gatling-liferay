@@ -1,5 +1,6 @@
 package com.excilys.liferay.gatling.recorder.records;
 
+import com.excilys.liferay.gatling.model.FormParamType;
 import com.excilys.liferay.gatling.service.FormParamLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 
@@ -13,7 +14,7 @@ public class PostMultipartURL extends RecordURL{
 	public PostMultipartURL(String requestURL, String params, String formData) {
 		super("POST", requestURL, params);
 		this.formData = formData;
-		this.formType = "MULTIPART";
+		this.formType = FormParamType.MULTIPART.name();
 	}
 	
 	@Override
