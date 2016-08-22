@@ -1,6 +1,7 @@
 package com.excilys.liferay.gatling.recorder.records;
 
 import com.excilys.liferay.gatling.model.FormParamType;
+import com.excilys.liferay.gatling.model.UrlRecordType;
 import com.excilys.liferay.gatling.service.FormParamLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 
@@ -15,7 +16,7 @@ public class PostURL extends RecordURL {
 	Map<String, String> formParams;
 	
 	public PostURL(String requestURL, String params, Map<String, String> formParams) {
-		super("POST", requestURL, params);
+		super(UrlRecordType.POST.name(), requestURL, params);
 		this.formParams = formParams;
 		this.formType = FormParamType.NORMAL.name();
 	}
