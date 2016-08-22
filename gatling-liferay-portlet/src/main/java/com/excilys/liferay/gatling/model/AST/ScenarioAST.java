@@ -71,4 +71,22 @@ public class ScenarioAST {
 		//NOTE rampUp or not Rampup, that is the question (attribute related to scenarios or simulations?)
 		return sb.toString();
 	}
+	
+	public String printCode(){
+		StringBuilder sb = new StringBuilder();
+		final String spaceIndent = "      ";
+		int i =0;
+		for (ProcessAST process : processes) {
+			sb.append(process.printCode());
+			if(i+1 != processes.size()) {
+				if (process.getPause()!=0) {
+					sb.append(",\n").append(spaceIndent);
+					sb.append("pause(").append(process.getPause()).append(")");
+				}
+				sb.append(",\n").append(spaceIndent);
+			}
+			i++;
+		}
+		return sb.toString();
+	}
 }
