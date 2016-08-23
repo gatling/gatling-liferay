@@ -40,12 +40,11 @@ public class FormParamLocalServiceImpl extends FormParamLocalServiceBaseImpl {
 	}
 	
 	@Override
-	public void save(long urlRecordId, String data, String type) throws SystemException{
+	public void save(long urlRecordId, String data) throws SystemException{
 		long primaryKeyUrl = CounterLocalServiceUtil.increment(FormParam.class.getName());
 		FormParam formParam = formParamPersistence.create(primaryKeyUrl);
 		formParam.setUrlRecordId(urlRecordId);
 		formParam.setData(data);
-		formParam.setType(type);
 		//final List<String> errors = FormParamValidator.validateFormParam(formParam);
 		//TODO: Create Validator
 		final List<String> errors = new ArrayList<String>();

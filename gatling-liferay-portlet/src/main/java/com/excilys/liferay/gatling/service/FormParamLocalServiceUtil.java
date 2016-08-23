@@ -270,10 +270,9 @@ public class FormParamLocalServiceUtil {
         return getService().findByUrlRecordId(urlRecordId);
     }
 
-    public static void save(long urlRecordId, java.lang.String data,
-        java.lang.String type)
+    public static void save(long urlRecordId, java.lang.String data)
         throws com.liferay.portal.kernel.exception.SystemException {
-        getService().save(urlRecordId, data, type);
+        getService().save(urlRecordId, data);
     }
 
     public static void clearService() {

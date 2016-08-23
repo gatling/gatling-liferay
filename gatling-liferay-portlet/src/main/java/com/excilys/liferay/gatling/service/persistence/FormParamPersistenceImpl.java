@@ -92,7 +92,7 @@ public class FormParamPersistenceImpl extends BasePersistenceImpl<FormParam>
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(FormParamPersistenceImpl.class);
     private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-                "data", "type"
+                "data"
             });
     private static FormParam _nullFormParam = new FormParamImpl() {
             @Override
@@ -589,7 +589,6 @@ public class FormParamPersistenceImpl extends BasePersistenceImpl<FormParam>
         formParamImpl.setFormParamId(formParam.getFormParamId());
         formParamImpl.setUrlRecordId(formParam.getUrlRecordId());
         formParamImpl.setData(formParam.getData());
-        formParamImpl.setType(formParam.getType());
 
         return formParamImpl;
     }

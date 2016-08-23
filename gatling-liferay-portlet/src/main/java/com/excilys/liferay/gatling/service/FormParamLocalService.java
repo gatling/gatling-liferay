@@ -246,7 +246,6 @@ public interface FormParamLocalService extends BaseLocalService,
         throws com.excilys.liferay.gatling.NoSuchFormParamException,
             com.liferay.portal.kernel.exception.SystemException;
 
-    public void save(long urlRecordId, java.lang.String data,
-        java.lang.String type)
+    public void save(long urlRecordId, java.lang.String data)
         throws com.liferay.portal.kernel.exception.SystemException;
 }

@@ -17,7 +17,6 @@
 		</id>
 		<property name="urlRecordId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="data" type="com.liferay.portal.dao.orm.hibernate.StringType" column="data_" />
-		<property name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" column="type_" />
 	</class>
 	<class name="com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestImpl" table="StressTool_LinkUsecaseRequest">
 		<cache usage="read-write" />

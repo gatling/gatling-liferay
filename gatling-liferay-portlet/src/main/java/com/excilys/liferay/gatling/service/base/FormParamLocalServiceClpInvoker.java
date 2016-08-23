@@ -147,9 +147,7 @@ public class FormParamLocalServiceClpInvoker {
 
         _methodName67 = "save";
 
-        _methodParameterTypes67 = new String[] {
-                "long", "java.lang.String", "java.lang.String"
-            };
+        _methodParameterTypes67 = new String[] { "long", "java.lang.String" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -261,7 +259,7 @@ public class FormParamLocalServiceClpInvoker {
         if (_methodName67.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes67, parameterTypes)) {
             FormParamLocalServiceUtil.save(((Long) arguments[0]).longValue(),
-                (java.lang.String) arguments[1], (java.lang.String) arguments[2]);
+                (java.lang.String) arguments[1]);
 
             return null;
         }

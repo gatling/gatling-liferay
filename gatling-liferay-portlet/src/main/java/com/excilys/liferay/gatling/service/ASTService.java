@@ -8,6 +8,7 @@ import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.model.AST.ScenarioAST;
 import com.excilys.liferay.gatling.model.AST.SimulationAST;
+import com.excilys.liferay.gatling.model.AST.feeder.HttpBodyFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.RecordFeederFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.data.RecordDataAST;
@@ -39,16 +40,12 @@ public class ASTService {
 		return ASTMapper.mapUrlRecordsToAST(urlRecords);
 	}
 	
-	/*
-	 * TODO: Get FormParams :
-	 * 		- Use finder in BDD [DONE]
-	 * 		- Add unicity [DONE]
-	 * 		- Get it from services [DONE]
-	 * 		- Construct the FeederFileAST from it [DONE]
-	 * 		- Use it in Mapper to construct the AST
-	 * 		- Check that it generates the file
-	 */
-	public static ResourceFileAST computesFormFeeder(long urlRecordId) throws NoSuchFormParamException, SystemException {
+	public static HttpBodyFileAST computesHttpBodyFileAST(long urlRecordId) throws NoSuchFormParamException, SystemException {
+		FormParam params = FormParamLocalServiceUtil.findByUrlRecordId(urlRecordId);
+		return ASTMapper.mapMultiPartFormParamToAST(params, String.valueOf(urlRecordId));
+	}
+	
+	public static ResourceFileAST computesFormParamFeederFileAST(long urlRecordId) throws NoSuchFormParamException, SystemException {
 		FormParam params = FormParamLocalServiceUtil.findByUrlRecordId(urlRecordId);
 		return ASTMapper.mapFormParamToAST(params, String.valueOf(urlRecordId));
 	}

@@ -22,7 +22,6 @@ public class FormParamClp extends BaseModelImpl<FormParam> implements FormParam 
     private long _formParamId;
     private long _urlRecordId;
     private String _data;
-    private String _type;
     private BaseModel<?> _formParamRemoteModel;
     private Class<?> _clpSerializerClass = com.excilys.liferay.gatling.service.ClpSerializer.class;
 
@@ -66,7 +65,6 @@ public class FormParamClp extends BaseModelImpl<FormParam> implements FormParam 
         attributes.put("formParamId", getFormParamId());
         attributes.put("urlRecordId", getUrlRecordId());
         attributes.put("data", getData());
-        attributes.put("type", getType());
 
         return attributes;
     }
@@ -89,12 +87,6 @@ public class FormParamClp extends BaseModelImpl<FormParam> implements FormParam 
 
         if (data != null) {
             setData(data);
-        }
-
-        String type = (String) attributes.get("type");
-
-        if (type != null) {
-            setType(type);
         }
     }
 
@@ -158,28 +150,6 @@ public class FormParamClp extends BaseModelImpl<FormParam> implements FormParam 
                 Method method = clazz.getMethod("setData", String.class);
 
                 method.invoke(_formParamRemoteModel, data);
-            } catch (Exception e) {
-                throw new UnsupportedOperationException(e);
-            }
-        }
-    }
-
-    @Override
-    public String getType() {
-        return _type;
-    }
-
-    @Override
-    public void setType(String type) {
-        _type = type;
-
-        if (_formParamRemoteModel != null) {
-            try {
-                Class<?> clazz = _formParamRemoteModel.getClass();
-
-                Method method = clazz.getMethod("setType", String.class);
-
-                method.invoke(_formParamRemoteModel, type);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -256,7 +226,6 @@ public class FormParamClp extends BaseModelImpl<FormParam> implements FormParam 
         clone.setFormParamId(getFormParamId());
         clone.setUrlRecordId(getUrlRecordId());
         clone.setData(getData());
-        clone.setType(getType());
 
         return clone;
     }
@@ -306,7 +275,7 @@ public class FormParamClp extends BaseModelImpl<FormParam> implements FormParam 
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(9);
+        StringBundler sb = new StringBundler(7);
 
         sb.append("{formParamId=");
         sb.append(getFormParamId());
@@ -314,8 +283,6 @@ public class FormParamClp extends BaseModelImpl<FormParam> implements FormParam 
         sb.append(getUrlRecordId());
         sb.append(", data=");
         sb.append(getData());
-        sb.append(", type=");
-        sb.append(getType());
         sb.append("}");
 
         return sb.toString();
@@ -323,7 +290,7 @@ public class FormParamClp extends BaseModelImpl<FormParam> implements FormParam 
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(16);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("<model><model-name>");
         sb.append("com.excilys.liferay.gatling.model.FormParam");
@@ -340,10 +307,6 @@ public class FormParamClp extends BaseModelImpl<FormParam> implements FormParam 
         sb.append(
             "<column><column-name>data</column-name><column-value><![CDATA[");
         sb.append(getData());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>type</column-name><column-value><![CDATA[");
-        sb.append(getType());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

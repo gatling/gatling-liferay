@@ -23,11 +23,10 @@ public class FormParamCacheModel implements CacheModel<FormParam>,
     public long formParamId;
     public long urlRecordId;
     public String data;
-    public String type;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(9);
+        StringBundler sb = new StringBundler(7);
 
         sb.append("{formParamId=");
         sb.append(formParamId);
@@ -35,8 +34,6 @@ public class FormParamCacheModel implements CacheModel<FormParam>,
         sb.append(urlRecordId);
         sb.append(", data=");
         sb.append(data);
-        sb.append(", type=");
-        sb.append(type);
         sb.append("}");
 
         return sb.toString();
@@ -55,12 +52,6 @@ public class FormParamCacheModel implements CacheModel<FormParam>,
             formParamImpl.setData(data);
         }
 
-        if (type == null) {
-            formParamImpl.setType(StringPool.BLANK);
-        } else {
-            formParamImpl.setType(type);
-        }
-
         formParamImpl.resetOriginalValues();
 
         return formParamImpl;
@@ -71,7 +62,6 @@ public class FormParamCacheModel implements CacheModel<FormParam>,
         formParamId = objectInput.readLong();
         urlRecordId = objectInput.readLong();
         data = objectInput.readUTF();
-        type = objectInput.readUTF();
     }
 
     @Override
@@ -84,12 +74,6 @@ public class FormParamCacheModel implements CacheModel<FormParam>,
             objectOutput.writeUTF(StringPool.BLANK);
         } else {
             objectOutput.writeUTF(data);
-        }
-
-        if (type == null) {
-            objectOutput.writeUTF(StringPool.BLANK);
-        } else {
-            objectOutput.writeUTF(type);
         }
     }
 }

@@ -39,7 +39,6 @@ public class FormParamWrapper implements FormParam, ModelWrapper<FormParam> {
         attributes.put("formParamId", getFormParamId());
         attributes.put("urlRecordId", getUrlRecordId());
         attributes.put("data", getData());
-        attributes.put("type", getType());
 
         return attributes;
     }
@@ -62,12 +61,6 @@ public class FormParamWrapper implements FormParam, ModelWrapper<FormParam> {
 
         if (data != null) {
             setData(data);
-        }
-
-        String type = (String) attributes.get("type");
-
-        if (type != null) {
-            setType(type);
         }
     }
 
@@ -149,26 +142,6 @@ public class FormParamWrapper implements FormParam, ModelWrapper<FormParam> {
     @Override
     public void setData(java.lang.String data) {
         _formParam.setData(data);
-    }
-
-    /**
-    * Returns the type of this form param.
-    *
-    * @return the type of this form param
-    */
-    @Override
-    public java.lang.String getType() {
-        return _formParam.getType();
-    }
-
-    /**
-    * Sets the type of this form param.
-    *
-    * @param type the type of this form param
-    */
-    @Override
-    public void setType(java.lang.String type) {
-        _formParam.setType(type);
     }
 
     @Override

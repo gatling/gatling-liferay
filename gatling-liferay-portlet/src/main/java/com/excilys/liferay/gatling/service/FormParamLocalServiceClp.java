@@ -148,9 +148,7 @@ public class FormParamLocalServiceClp implements FormParamLocalService {
 
         _methodName20 = "save";
 
-        _methodParameterTypes20 = new String[] {
-                "long", "java.lang.String", "java.lang.String"
-            };
+        _methodParameterTypes20 = new String[] { "long", "java.lang.String" };
     }
 
     @Override
@@ -700,19 +698,12 @@ public class FormParamLocalServiceClp implements FormParamLocalService {
     }
 
     @Override
-    public void save(long urlRecordId, java.lang.String data,
-        java.lang.String type)
+    public void save(long urlRecordId, java.lang.String data)
         throws com.liferay.portal.kernel.exception.SystemException {
         try {
             _invokableLocalService.invokeMethod(_methodName20,
                 _methodParameterTypes20,
-                new Object[] {
-                    urlRecordId,
-                    
-                ClpSerializer.translateInput(data),
-                    
-                ClpSerializer.translateInput(type)
-                });
+                new Object[] { urlRecordId, ClpSerializer.translateInput(data) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 

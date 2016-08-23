@@ -46,10 +46,9 @@ public class FormParamModelImpl extends BaseModelImpl<FormParam>
     public static final Object[][] TABLE_COLUMNS = {
             { "formParamId", Types.BIGINT },
             { "urlRecordId", Types.BIGINT },
-            { "data_", Types.VARCHAR },
-            { "type_", Types.VARCHAR }
+            { "data_", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table StressTool_FormParam (formParamId LONG not null primary key,urlRecordId LONG,data_ TEXT null,type_ VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table StressTool_FormParam (formParamId LONG not null primary key,urlRecordId LONG,data_ TEXT null)";
     public static final String TABLE_SQL_DROP = "drop table StressTool_FormParam";
     public static final String ORDER_BY_JPQL = " ORDER BY formParam.formParamId ASC";
     public static final String ORDER_BY_SQL = " ORDER BY StressTool_FormParam.formParamId ASC";
@@ -78,7 +77,6 @@ public class FormParamModelImpl extends BaseModelImpl<FormParam>
     private long _originalUrlRecordId;
     private boolean _setOriginalUrlRecordId;
     private String _data;
-    private String _type;
     private long _columnBitmask;
     private FormParam _escapedModel;
 
@@ -122,7 +120,6 @@ public class FormParamModelImpl extends BaseModelImpl<FormParam>
         attributes.put("formParamId", getFormParamId());
         attributes.put("urlRecordId", getUrlRecordId());
         attributes.put("data", getData());
-        attributes.put("type", getType());
 
         return attributes;
     }
@@ -145,12 +142,6 @@ public class FormParamModelImpl extends BaseModelImpl<FormParam>
 
         if (data != null) {
             setData(data);
-        }
-
-        String type = (String) attributes.get("type");
-
-        if (type != null) {
-            setType(type);
         }
     }
 
@@ -200,20 +191,6 @@ public class FormParamModelImpl extends BaseModelImpl<FormParam>
         _data = data;
     }
 
-    @Override
-    public String getType() {
-        if (_type == null) {
-            return StringPool.BLANK;
-        } else {
-            return _type;
-        }
-    }
-
-    @Override
-    public void setType(String type) {
-        _type = type;
-    }
-
     public long getColumnBitmask() {
         return _columnBitmask;
     }
@@ -248,7 +225,6 @@ public class FormParamModelImpl extends BaseModelImpl<FormParam>
         formParamImpl.setFormParamId(getFormParamId());
         formParamImpl.setUrlRecordId(getUrlRecordId());
         formParamImpl.setData(getData());
-        formParamImpl.setType(getType());
 
         formParamImpl.resetOriginalValues();
 
@@ -321,20 +297,12 @@ public class FormParamModelImpl extends BaseModelImpl<FormParam>
             formParamCacheModel.data = null;
         }
 
-        formParamCacheModel.type = getType();
-
-        String type = formParamCacheModel.type;
-
-        if ((type != null) && (type.length() == 0)) {
-            formParamCacheModel.type = null;
-        }
-
         return formParamCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(9);
+        StringBundler sb = new StringBundler(7);
 
         sb.append("{formParamId=");
         sb.append(getFormParamId());
@@ -342,8 +310,6 @@ public class FormParamModelImpl extends BaseModelImpl<FormParam>
         sb.append(getUrlRecordId());
         sb.append(", data=");
         sb.append(getData());
-        sb.append(", type=");
-        sb.append(getType());
         sb.append("}");
 
         return sb.toString();
@@ -351,7 +317,7 @@ public class FormParamModelImpl extends BaseModelImpl<FormParam>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(16);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("<model><model-name>");
         sb.append("com.excilys.liferay.gatling.model.FormParam");
@@ -368,10 +334,6 @@ public class FormParamModelImpl extends BaseModelImpl<FormParam>
         sb.append(
             "<column><column-name>data</column-name><column-value><![CDATA[");
         sb.append(getData());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>type</column-name><column-value><![CDATA[");
-        sb.append(getType());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

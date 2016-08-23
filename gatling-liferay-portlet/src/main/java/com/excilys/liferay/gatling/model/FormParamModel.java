@@ -86,21 +86,6 @@ public interface FormParamModel extends BaseModel<FormParam> {
      */
     public void setData(String data);
 
-    /**
-     * Returns the type of this form param.
-     *
-     * @return the type of this form param
-     */
-    @AutoEscape
-    public String getType();
-
-    /**
-     * Sets the type of this form param.
-     *
-     * @param type the type of this form param
-     */
-    public void setType(String type);
-
     @Override
     public boolean isNew();
 

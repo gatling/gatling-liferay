@@ -283,10 +283,9 @@ public class FormParamLocalServiceWrapper implements FormParamLocalService,
     }
 
     @Override
-    public void save(long urlRecordId, java.lang.String data,
-        java.lang.String type)
+    public void save(long urlRecordId, java.lang.String data)
         throws com.liferay.portal.kernel.exception.SystemException {
-        _formParamLocalService.save(urlRecordId, data, type);
+        _formParamLocalService.save(urlRecordId, data);
     }
 
     /**

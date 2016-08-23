@@ -14,9 +14,6 @@
 			<basic name="data">
 				<column name="DATA_" />
 			</basic>
-			<basic name="type">
-				<column name="TYPE_" />
-			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
