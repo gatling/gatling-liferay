@@ -19,7 +19,7 @@ class RecordSimulation extends Simulation {
 
   private val conf = ConfigFactory.load("simulation.conf")
 
-	val myScenario = scenario("Record").exec(Record.record("feeders/myPages.csv"))
+	val myScenario = scenario("Record").exec(Record.record("feeders/RecordYeah.csv"))
 
 	setUp(
 		myScenario.inject(atOnceUsers(10))

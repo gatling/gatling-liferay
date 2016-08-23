@@ -1,0 +1,154 @@
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_formDate"
+
+1471941912235
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_cmd"
+
+add
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_redirect"
+
+http://localhost:8080/web/guest/page1?p_p_id=101_INSTANCE_AzmfOY7FvCGv&p_p_lifecycle=0&p_p_state=pop_up&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_101_INSTANCE_AzmfOY7FvCGv_struts_action=%2Fasset_publisher%2Fadd_asset_redirect&_101_INSTANCE_AzmfOY7FvCGv_redirect=%2Fweb%2Fguest%2Fpage1
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_backURL"
+
+
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_referringPortletResource"
+
+101_INSTANCE_AzmfOY7FvCGv
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_entryId"
+
+0
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_preview"
+
+false
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_workflowAction"
+
+1
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_title"
+
+An Entry
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_displayDate"
+
+08/23/2016
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_displayDateDay"
+
+23
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_displayDateMonth"
+
+7
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_displayDateYear"
+
+2016
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_displayDateTime"
+
+08:45 AM
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_displayDateHour"
+
+8
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_displayDateMinute"
+
+45
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_displayDateAmPm"
+
+0
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_date"
+
+null
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_editor"
+
+The content
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_content"
+
+The content
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_allowPingbacks"
+
+true
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_allowPingbacksCheckbox"
+
+on
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_allowTrackbacks"
+
+true
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_allowTrackbacksCheckbox"
+
+on
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_trackbacks"
+
+
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_inputPermissionsShowOptions"
+
+false
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_inputPermissionsViewRole"
+
+Guest
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_guestPermissions"
+
+ADD_DISCUSSION
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_guestPermissions"
+
+VIEW
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_groupPermissions"
+
+ADD_DISCUSSION
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_groupPermissions"
+
+VIEW
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_description"
+
+
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_smallImage"
+
+false
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_type"
+
+false
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_smallFile"; filename=""
+Content-Type: application/octet-stream
+
+
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_assetTagNames"
+
+
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_assetLinksSearchContainerPrimaryKeys"
+
+
+-----------------------------5637666901966015501684758390
+Content-Disposition: form-data; name="_33_assetLinkEntryIds"
+
+
+-----------------------------5637666901966015501684758390--

@@ -1,0 +1,8 @@
+url,type,datafile
+/web/guest/home,GET,null
+/web/guest/page1,GET,null
+/web/guest/page2,GET,null
+/web/guest/page1,GET,null
+/web/guest/page1,GET,null
+/web/guest/page1,MULTIPART,bodies/HttpBody1106.txt
+/web/guest/home,GET,null

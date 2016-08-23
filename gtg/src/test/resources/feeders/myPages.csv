@@ -1,5 +1,5 @@
-url,type
-http://gatling.io,GET
-http://gatling.io/docs/2.2.2/migration_guides/2.0-to-2.1.html,POST
-http://gatling.io/docs/2.2.2,GET
+url,type,datafile
+http://gatling.io,GET,null
+http://gatling.io/docs/2.2.2/migration_guides/2.0-to-2.1.html,MULTIPART,data/HttpBody1106.txt
+http://gatling.io/docs/2.2.2,GET,null
 http://gatling.io/docs/2.2.2/migration_guides/index.html,POST
