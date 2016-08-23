@@ -1,4 +1,4 @@
-package com.liferay.util
+package liferay.util
 
 import com.typesafe.config.ConfigFactory
 import io.gatling.core.Predef._

@@ -1,10 +1,10 @@
-package com.liferay.simulation
+package liferay.simulation
 
-import com.liferay.scenario.{GetPage, Login, Logout}
-import com.liferay.util.HttpConfiguration
 import com.typesafe.config.ConfigFactory
 import io.gatling.core.Predef._
 import io.gatling.core.scenario.Simulation
+import liferay.processes.Record
+import liferay.util.HttpConfiguration
 
 
 /**
@@ -15,16 +15,14 @@ import io.gatling.core.scenario.Simulation
   * Valid users hit the homepage. Then, it login with randomly valid username and password before logout.
   * Invalid users hit the homepage. It tries then to login and raise an error page.
   */
-class LoginSimulation extends Simulation {
+class RecordSimulation extends Simulation {
 
   private val conf = ConfigFactory.load("simulation.conf")
 
-	val validUsers = scenario("Valid users login and logout").exec(GetPage.homePage, Login.successfulLogin, Logout.scenario)
-	val invalidUsers = scenario("Invalid users login and logout").exec(GetPage.homePage, Login.unsuccessfulLogin)
+	val myScenario = scenario("Record").exec(Record.record("feeders/myPages.csv"))
 
 	setUp(
-		validUsers.inject(atOnceUsers(conf.getInt("loginSimulation.validUsersNumber"))),
-		invalidUsers.inject(atOnceUsers(conf.getInt("loginSimulation.invalidUsersNumber")))
+		myScenario.inject(atOnceUsers(10))
 	).protocols(HttpConfiguration.httpConf)
 }
 
