@@ -43,7 +43,15 @@ import javax.servlet.http.HttpSession;
 
 /**
  * Servlet Filter implementation class RecordFilter
+ * 
+ * The recorder is used in two different ways:
+ * 	1/ With the advanced recorder: the recording is then focused on a single portlet
+ * 	2/ With the smooth recorder: this time all the portal actions are recorded
+ * 
+ *  The architecture is made up in order to work for both use case, which means that despite the design pattern usages, some
+ *  cumbersome codes remain.
  */
+
 @MultipartConfig
 public class RecorderFilter implements Filter {
 	private static final Log LOG = LogFactoryUtil.getLog(RecorderFilter.class);
@@ -92,6 +100,7 @@ public class RecorderFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		HttpSession session = httpRequest.getSession();
 		
+		// ToogleRecord and prepare session with the request attributes
 		toogleRecord(httpRequest, session);
 		
 		String infosRecorder = SessionParamUtil.getString(httpRequest, "GATLING_RECORD_STATE", null);
@@ -128,10 +137,11 @@ public class RecorderFilter implements Filter {
 			String portletId = ParamUtil.getString(httpRequest, NAMESPACE+"pagePortletId", null);
 			LOG.debug("recordState: "+recordState+",\trecordeName: "+recordName+"\tportletId:"+portletId);
 			if(recordState != null && recordName != null && portletId != null) {
+				// Case where the record is focused on a single portlet
 				session.setAttribute("GATLING_RECORD_STATE", portletId+","+recordState+","+recordName);
 			}
 			else if (recordState != null && recordName != null ) {
-				
+				// Case where the record is for the full portal
 				session.setAttribute("GATLING_RECORD_STATE", INEXISTANT_PORTLET_ID +","+recordState+","+recordName);
 			}
 			else {

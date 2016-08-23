@@ -6,8 +6,9 @@ public class FormParamFeederFileAST extends FeederFileAST {
 	private static final String HEADER = "key,value\n";
 	private String content;
 	
-	public FormParamFeederFileAST(String name) {
+	public FormParamFeederFileAST(String name, String content) {
 		super(name, TYPE);
+		this.content = content;
 	}
 	
 	@Override
