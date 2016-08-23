@@ -2,6 +2,7 @@ package liferay.processes
 
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ChainBuilder
+import liferay.processes.GetPage
 
 object Record {
 
@@ -12,14 +13,11 @@ object Record {
       foreach(records, "record") {
         exec(flattenMapIntoAttributes("${record}"))
           .doSwitch("${type}") (
-            "GET"   -> exec(GetPage.basicPage("${url}")),
-            "POST"  -> exec(post("${url}", "${datafile}"))
+            "GET"       -> GetPage.basicPage("${url}"),
+            "POST"      -> GetPage.postPage("${url}", "${datafile}"),
+            "MULTIPART" -> GetPage.postMultiParts("${url}", "${datafile}")
         )
       }
-    }
-
-    def post(url: String, feederfile: String) = {
-      exec {session => session}
     }
 
 }
