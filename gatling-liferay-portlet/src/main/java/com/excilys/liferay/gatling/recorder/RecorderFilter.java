@@ -21,10 +21,14 @@ import com.liferay.portal.service.PortletLocalServiceUtil;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -152,6 +156,7 @@ public class RecorderFilter implements Filter {
 		LOG.info("Save the URL");
 		
 		Map<String, String[]> parametersMap = request.getParameterMap();
+		//TODO check out if params doesnt contains unwanted params, such as form param. Otherwise use request.queryString instead
 		String params = HttpUtil.parameterMapToString(filterParameters(parametersMap));
 		String requestURL = request.getRequestURI().replace(URL_CONTROL_PANEL, "");
 		
@@ -245,12 +250,36 @@ public class RecorderFilter implements Filter {
 	 * @return the current url as a normal post url with his parameters
 	 */
 	private static RecordURL computeParamsFromNormalForm(HttpServletRequest request, String RequestURL, String params){
+		String queryString = request.getQueryString();
+		LOG.debug("QueryString: "+queryString);
 		
-		//TODO: Yann: Substract from URL parameters, Thank You <3
-		Map<String, String[]> form = request.getParameterMap();
+		// Create a Map of params from queryString, those are unwanted params filtered later
+		Map<String, String> unwantedParam = new HashMap<>();
+		try {
+			String result = URLDecoder.decode(queryString, "UTF-8");
+			String[] paramsURL = result.split("&");
+			for(String param : paramsURL) {
+				int indexEqual = param.indexOf("=");
+				String key = param.substring(0, indexEqual);
+				String value = param.substring(indexEqual, param.length());
+				unwantedParam.put(key, value);
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		
-		Map<String, String> formParams = new HashMap<>();
-		return new PostURL(RequestURL, params, formParams);
+		// allParams contains both form param and url params
+		Map<String, String[]> allParams = request.getParameterMap();
+		
+		// mapResult turns out to be the substraction of allParams and unwantedParam, containing only formParam
+		Map<String, String> mapResult = new HashMap<>();
+		for (String key : allParams.keySet()) {	
+			if(!unwantedParam.containsKey(key)) {
+				mapResult.put(key, allParams.get(key)[0]);
+			}
+		}
+		return new PostURL(RequestURL, queryString, mapResult);
 	}
 	
 	

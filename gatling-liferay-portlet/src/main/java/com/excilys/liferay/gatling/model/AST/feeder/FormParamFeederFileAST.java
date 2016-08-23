@@ -1,11 +1,10 @@
 package com.excilys.liferay.gatling.model.AST.feeder;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class FormParamFeederFileAST extends FeederFileAST {
 
 	private static final String TYPE = "FormParam";
+	private static final String HEADER = "key,value\n";
+	private String content;
 	
 	public FormParamFeederFileAST(String name) {
 		super(name, TYPE);
@@ -13,8 +12,7 @@ public class FormParamFeederFileAST extends FeederFileAST {
 	
 	@Override
 	public String getContent() {
-		// TODO Auto-generated method stub
-		return null;
+		return HEADER+content;
 	}
 	
 
