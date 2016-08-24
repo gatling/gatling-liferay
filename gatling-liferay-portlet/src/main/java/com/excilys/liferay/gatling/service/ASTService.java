@@ -17,6 +17,9 @@ import com.excilys.liferay.gatling.service.mapper.ASTMapper;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.Layout;
+import com.liferay.portal.service.GroupLocalServiceUtil;
+import com.liferay.portal.theme.ThemeDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,13 +59,16 @@ public class ASTService {
 		List<ScenarioAST> mustacheScenarios;
 		List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
 		
+		Simulation simulation = SimulationLocalServiceUtil.fetchSimulation(simulationId);
+		String contentFeeder = simulation.getFeederContent();
+		
 		mustacheScenarios = new ArrayList<>();
 		for (Scenario scenario : listScenario) {
 			String name = GatlingUtil.createScenarioVariable(scenario.getName());
 			List<com.excilys.liferay.gatling.model.Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(scenario.getScenario_id());
 			List<ProcessAST> processASTs = new ArrayList<>();
 			for (com.excilys.liferay.gatling.model.Process process : processes) {
-				processASTs.add(ASTMapper.mapProcessToAST(process));
+				processASTs.add(ASTMapper.mapProcessToAST(process,contentFeeder));
 			}
 			
 			//DEBUG mode for test;
@@ -74,5 +80,19 @@ public class ASTService {
 		return mustacheScenarios;
 	}
 
+	public static String siteMapCreation(ThemeDisplay themeDisplay, long groupId) throws SystemException {
+		StringBuilder sb  = new StringBuilder();
+		for (Layout layout : GatlingUtil.getSiteMap(groupId)) {
+			sb.append(layout.getFriendlyURL().substring(1));
+			sb.append(",");
+			
+			String currentFriendlyURL = GroupLocalServiceUtil.fetchGroup(layout.getGroupId()).getIconURL(themeDisplay);
+			sb.append(currentFriendlyURL.split("/")[0]);
+			sb.append("//").append(currentFriendlyURL.split("/")[2]).append("/web").append(GroupLocalServiceUtil.fetchGroup(layout.getGroupId()).getFriendlyURL()).append(layout.getFriendlyURL());
+			sb.append("\n");
+		//zipOutputStream.write((layout.getFriendlyURL().substring(1)+","+sb.toString()+"\n").getBytes());
+		}
+		return sb.toString();
+	}
 	
 }

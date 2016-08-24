@@ -338,32 +338,6 @@ public class GatlingUtil {
 				}
 			}
 		}
-		
-		// SiteMapFeeder
-		//TODO move siteMap creation to Database, it must be present in AST
-		zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"data/feeders/siteMapPage.csv"));
-		zipOutputStream.write("site,URL\n".getBytes());
-//		for (Layout layout : getSiteMap(groupId)) {
-//			String currentFriendlyURL = GroupLocalServiceUtil.fetchGroup(layout.getGroupId()).getIconURL(themeDisplay);
-//			StringBuilder sb = new StringBuilder(currentFriendlyURL.split("/")[0]);
-//			sb.append("//").append(currentFriendlyURL.split("/")[2]).append("/web").append(GroupLocalServiceUtil.fetchGroup(layout.getGroupId()).getFriendlyURL()).append(layout.getFriendlyURL());
-//			zipOutputStream.write((layout.getFriendlyURL().substring(1)+","+sb.toString()+"\n").getBytes());
-//		}
-		zipOutputStream.closeEntry();
-		
-		// LoginFeeder
-		zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"data/feeders/login.csv"));
-		zipOutputStream.write("user,password\n".getBytes());
-		//TODO iterate over process feeders
-		/*String feederContent = s.getFeederContent();
-		Scanner scanner=new Scanner(feederContent);
-		while (scanner.hasNextLine()) {
-			String line = scanner.nextLine();
-			zipOutputStream.write(line.getBytes());
-		}
-		scanner.close();*/
-		zipOutputStream.closeEntry();
-		
 	}	
 	
 	// Get file loads a specific file from WEB-INF/classes

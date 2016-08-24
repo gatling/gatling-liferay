@@ -11,6 +11,7 @@ import com.excilys.liferay.gatling.service.ASTService;
 import com.excilys.liferay.gatling.service.ProcessLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
+import com.excilys.liferay.gatling.service.mapper.ASTMapper;
 import com.excilys.liferay.gatling.service.persistence.ProcessUtil;
 import com.excilys.liferay.gatling.service.persistence.ScenarioUtil;
 import com.excilys.liferay.gatling.service.persistence.SimulationUtil;
@@ -22,7 +23,10 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
+import com.liferay.portal.service.GroupLocalServiceUtil;
+import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 
 import java.io.IOException;
@@ -227,6 +231,9 @@ public class ViewController {
 			scriptASTs.add(ASTService.computesSimulationAST(simulationId, PortalUtil.getPortalURL(request)));
 		}
 		
+		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+		ASTMapper.siteMap = ASTService.siteMapCreation(themeDisplay, scenario.getGroup_id());
+		
 		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, scenario.getGroup_id(), scriptASTs);
 
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
@@ -249,4 +256,5 @@ public class ViewController {
 		return renderRequest(request, response, model);
 	}
 
+	
 }
