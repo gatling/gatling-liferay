@@ -1,8 +1,10 @@
 package com.excilys.liferay.gatling.service;
 
-import com.excilys.liferay.gatling.model.Process;
 import com.excilys.liferay.gatling.NoSuchFormParamException;
+import com.excilys.liferay.gatling.NoSuchProcessException;
 import com.excilys.liferay.gatling.model.FormParam;
+import com.excilys.liferay.gatling.model.Login;
+import com.excilys.liferay.gatling.model.Process;
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
@@ -12,10 +14,12 @@ import com.excilys.liferay.gatling.model.AST.SimulationAST;
 import com.excilys.liferay.gatling.model.AST.feeder.HttpBodyFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.RecordFeederFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
+import com.excilys.liferay.gatling.model.AST.feeder.UserFeederFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.data.RecordDataAST;
 import com.excilys.liferay.gatling.model.AST.process.ProcessAST;
 import com.excilys.liferay.gatling.service.mapper.ASTMapper;
 import com.excilys.liferay.gatling.util.GatlingUtil;
+import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -33,13 +37,8 @@ public class ASTService {
 	private static final Log LOG = LogFactoryUtil.getLog(ASTService.class);
 	
 	public static SimulationAST computesSimulationAST(long simulationId, String portalURL) throws Exception {
-		LOG.debug("-------------------------------------"+portalURL);
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
-		//return ASTMapper.mapSimulationToAST(simulation, portalURL);
-		
-		List<ScenarioAST> scenarios = initScenarios(simulationId, portalURL);
-		String simulationName = GatlingUtil.createSimulationVariable(simulation.getName());
-		return new SimulationAST(simulationName, scenarios, portalURL);
+		return ASTMapper.mapSimulationToAST(simulation, portalURL);
 	}
 	
 	public static List<ScenarioAST> computesScenariosAST(long simulationId, String portalURL) throws SystemException, PortalException {
@@ -52,8 +51,19 @@ public class ASTService {
 		return ASTMapper.mapProcessesToAST(processes, portalURL);
 	}
 	
-	public static RecordFeederFileAST computesRecordFeederFileAST(long recordId) throws PortalException, SystemException{
-		Record record = RecordLocalServiceUtil.getRecord(recordId);
+	public static UserFeederFileAST computesUserFeederFileAST(long processId) throws NoSuchProcessException, NoSuchModelException, SystemException {
+		Login login = LoginLocalServiceUtil.findByProcessId(processId);
+		if(login == null){
+			//TODO: Raise a custom exception
+		}
+		return ASTMapper.mapLoginToAST(login);
+	}
+	
+	public static RecordFeederFileAST computesRecordFeederFileAST(long processId) throws PortalException, SystemException{
+		Record record = RecordLocalServiceUtil.findByProcessId(processId);
+		if(record == null){
+			//TODO: Raise a custom exception
+		}
 		return ASTMapper.mapRecordToAST(record);
 	}
 	
@@ -80,16 +90,13 @@ public class ASTService {
 		List<ScenarioAST> mustacheScenarios;
 		List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
 		
-		Simulation simulation = SimulationLocalServiceUtil.fetchSimulation(simulationId);
-		String contentFeeder = simulation.getFeederContent();
-		
 		mustacheScenarios = new ArrayList<>(listScenario.size());
 		for (Scenario scenario : listScenario) {
 			String name = GatlingUtil.createScenarioVariable(scenario.getName());
 			List<com.excilys.liferay.gatling.model.Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(scenario.getScenario_id());
 			List<ProcessAST> processASTs = new ArrayList<>(processes.size());
 			for (com.excilys.liferay.gatling.model.Process process : processes) {
-				processASTs.add(ASTMapper.mapProcessToAST(process,contentFeeder, portalURL));
+				processASTs.add(ASTMapper.mapProcessToAST(process, portalURL));
 			}
 			
 			//DEBUG mode for test;
@@ -115,6 +122,8 @@ public class ASTService {
 		}
 		return sb.toString();
 	}
+
+	
 
 	
 

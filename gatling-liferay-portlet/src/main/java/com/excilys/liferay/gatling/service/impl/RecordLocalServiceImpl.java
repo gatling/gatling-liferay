@@ -14,6 +14,8 @@
 
 package com.excilys.liferay.gatling.service.impl;
 
+import com.excilys.liferay.gatling.model.Process;
+import com.excilys.liferay.gatling.model.ProcessType;
 import com.excilys.liferay.gatling.NoSuchProcessException;
 import com.excilys.liferay.gatling.NoSuchRecordException;
 import com.excilys.liferay.gatling.model.Record;
@@ -48,12 +50,12 @@ public class RecordLocalServiceImpl extends RecordLocalServiceBaseImpl {
 
 	@Override
 	public Record findByProcessId(long processId) throws SystemException, NoSuchModelException, NoSuchProcessException {
-		com.excilys.liferay.gatling.model.Process process = processPersistence.findByPrimaryKey(processId);
-		Long recordId = process.getRecordId();
-		if(recordId == null){
-			return null;
+		Process process = processPersistence.findByPrimaryKey(processId);
+		Long feederId = process.getFeederId();
+		if(ProcessType.valueOf(process.getType()) == ProcessType.RECORD && feederId != null){
+			return recordPersistence.findByPrimaryKey(feederId);
 		}
-		return recordPersistence.findByPrimaryKey(recordId);
+		return null;
 	}
 	
 	@Override

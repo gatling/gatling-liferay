@@ -15,6 +15,11 @@
 		<field name="weight" type="double" />
 		<field name="sample" type="boolean" />
 	</model>
+	<model name="com.excilys.liferay.gatling.model.Login">
+		<field name="userId" type="long" />
+		<field name="name" type="String" />
+		<field name="data" type="String" />
+	</model>
 	<model name="com.excilys.liferay.gatling.model.Process">
 		<field name="process_id" type="long" />
 		<field name="name" type="String" />
@@ -22,7 +27,7 @@
 		<field name="order" type="int" />
 		<field name="pause" type="int" />
 		<field name="scenario_id" type="long" />
-		<field name="recordId" type="Long" />
+		<field name="feederId" type="Long" />
 	</model>
 	<model name="com.excilys.liferay.gatling.model.Record">
 		<field name="recordId" type="long" />
@@ -58,6 +63,10 @@
 		</field>
 		<field name="isFeederAFile" type="boolean" />
 	</model>
+	<model name="com.excilys.liferay.gatling.model.SiteMap">
+		<field name="siteMapId" type="long" />
+		<field name="name" type="String" />
+	</model>
 	<model name="com.excilys.liferay.gatling.model.UrlRecord">
 		<field name="urlRecordId" type="long" />
 		<field name="recordId" type="long" />
@@ -66,5 +75,12 @@
 		</field>
 		<field name="type" type="String" />
 		<field name="order" type="int" />
+	</model>
+	<model name="com.excilys.liferay.gatling.model.UrlSiteMap">
+		<field name="urlSiteMapId" type="long" />
+		<field name="siteMapId" type="long" />
+		<field name="friendlyUrl" type="String" />
+		<field name="url" type="String" />
+		<field name="weight" type="int" />
 	</model>
 </model-hints>

@@ -31,6 +31,19 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="com.excilys.liferay.gatling.model.impl.LoginModelImpl">
+		<attributes>
+			<id name="userId" />
+			<basic name="name" />
+			<basic name="data">
+				<column name="DATA_" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+			<transient name="userUuid" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.excilys.liferay.gatling.model.impl.ProcessModelImpl">
 		<attributes>
 			<id name="process_id" />
@@ -43,7 +56,7 @@
 			</basic>
 			<basic name="pause" />
 			<basic name="scenario_id" />
-			<basic name="recordId" />
+			<basic name="feederId" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -101,6 +114,15 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="com.excilys.liferay.gatling.model.impl.SiteMapModelImpl">
+		<attributes>
+			<id name="siteMapId" />
+			<basic name="name" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.excilys.liferay.gatling.model.impl.UrlRecordModelImpl">
 		<attributes>
 			<id name="urlRecordId" />
@@ -117,12 +139,28 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="com.excilys.liferay.gatling.model.impl.UrlSiteMapModelImpl">
+		<attributes>
+			<id name="urlSiteMapId" />
+			<basic name="siteMapId" />
+			<basic name="friendlyUrl" />
+			<basic name="url" />
+			<basic name="weight" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<entity class="com.excilys.liferay.gatling.model.impl.FormParamImpl" name="FormParam">
 		<table name="StressTool_FormParam" />
 		<attributes />
 	</entity>
 	<entity class="com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestImpl" name="LinkUsecaseRequest">
 		<table name="StressTool_LinkUsecaseRequest" />
+		<attributes />
+	</entity>
+	<entity class="com.excilys.liferay.gatling.model.impl.LoginImpl" name="Login">
+		<table name="StressTool_Login" />
 		<attributes />
 	</entity>
 	<entity class="com.excilys.liferay.gatling.model.impl.ProcessImpl" name="Process">
@@ -145,8 +183,16 @@
 		<table name="StressTool_Simulation" />
 		<attributes />
 	</entity>
+	<entity class="com.excilys.liferay.gatling.model.impl.SiteMapImpl" name="SiteMap">
+		<table name="StressTool_SiteMap" />
+		<attributes />
+	</entity>
 	<entity class="com.excilys.liferay.gatling.model.impl.UrlRecordImpl" name="UrlRecord">
 		<table name="StressTool_UrlRecord" />
+		<attributes />
+	</entity>
+	<entity class="com.excilys.liferay.gatling.model.impl.UrlSiteMapImpl" name="UrlSiteMap">
+		<table name="StressTool_UrlSiteMap" />
 		<attributes />
 	</entity>
 </entity-mappings>

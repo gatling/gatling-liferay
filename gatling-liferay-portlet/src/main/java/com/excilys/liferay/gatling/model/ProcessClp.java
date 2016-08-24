@@ -25,7 +25,7 @@ public class ProcessClp extends BaseModelImpl<Process> implements Process {
     private int _order;
     private int _pause;
     private long _scenario_id;
-    private Long _recordId;
+    private Long _feederId;
     private BaseModel<?> _processRemoteModel;
     private Class<?> _clpSerializerClass = com.excilys.liferay.gatling.service.ClpSerializer.class;
 
@@ -72,7 +72,7 @@ public class ProcessClp extends BaseModelImpl<Process> implements Process {
         attributes.put("order", getOrder());
         attributes.put("pause", getPause());
         attributes.put("scenario_id", getScenario_id());
-        attributes.put("recordId", getRecordId());
+        attributes.put("feederId", getFeederId());
 
         return attributes;
     }
@@ -115,10 +115,10 @@ public class ProcessClp extends BaseModelImpl<Process> implements Process {
             setScenario_id(scenario_id);
         }
 
-        Long recordId = (Long) attributes.get("recordId");
+        Long feederId = (Long) attributes.get("feederId");
 
-        if (recordId != null) {
-            setRecordId(recordId);
+        if (feederId != null) {
+            setFeederId(feederId);
         }
     }
 
@@ -255,21 +255,21 @@ public class ProcessClp extends BaseModelImpl<Process> implements Process {
     }
 
     @Override
-    public Long getRecordId() {
-        return _recordId;
+    public Long getFeederId() {
+        return _feederId;
     }
 
     @Override
-    public void setRecordId(Long recordId) {
-        _recordId = recordId;
+    public void setFeederId(Long feederId) {
+        _feederId = feederId;
 
         if (_processRemoteModel != null) {
             try {
                 Class<?> clazz = _processRemoteModel.getClass();
 
-                Method method = clazz.getMethod("setRecordId", Long.class);
+                Method method = clazz.getMethod("setFeederId", Long.class);
 
-                method.invoke(_processRemoteModel, recordId);
+                method.invoke(_processRemoteModel, feederId);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -349,7 +349,7 @@ public class ProcessClp extends BaseModelImpl<Process> implements Process {
         clone.setOrder(getOrder());
         clone.setPause(getPause());
         clone.setScenario_id(getScenario_id());
-        clone.setRecordId(getRecordId());
+        clone.setFeederId(getFeederId());
 
         return clone;
     }
@@ -419,8 +419,8 @@ public class ProcessClp extends BaseModelImpl<Process> implements Process {
         sb.append(getPause());
         sb.append(", scenario_id=");
         sb.append(getScenario_id());
-        sb.append(", recordId=");
-        sb.append(getRecordId());
+        sb.append(", feederId=");
+        sb.append(getFeederId());
         sb.append("}");
 
         return sb.toString();
@@ -459,8 +459,8 @@ public class ProcessClp extends BaseModelImpl<Process> implements Process {
         sb.append(getScenario_id());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>recordId</column-name><column-value><![CDATA[");
-        sb.append(getRecordId());
+            "<column><column-name>feederId</column-name><column-value><![CDATA[");
+        sb.append(getFeederId());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

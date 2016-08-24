@@ -41,28 +41,28 @@ public class ScenarioLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName60;
-    private String[] _methodParameterTypes60;
-    private String _methodName61;
-    private String[] _methodParameterTypes61;
-    private String _methodName66;
-    private String[] _methodParameterTypes66;
-    private String _methodName67;
-    private String[] _methodParameterTypes67;
-    private String _methodName68;
-    private String[] _methodParameterTypes68;
-    private String _methodName69;
-    private String[] _methodParameterTypes69;
-    private String _methodName70;
-    private String[] _methodParameterTypes70;
-    private String _methodName71;
-    private String[] _methodParameterTypes71;
     private String _methodName72;
     private String[] _methodParameterTypes72;
     private String _methodName73;
     private String[] _methodParameterTypes73;
-    private String _methodName74;
-    private String[] _methodParameterTypes74;
+    private String _methodName78;
+    private String[] _methodParameterTypes78;
+    private String _methodName79;
+    private String[] _methodParameterTypes79;
+    private String _methodName80;
+    private String[] _methodParameterTypes80;
+    private String _methodName81;
+    private String[] _methodParameterTypes81;
+    private String _methodName82;
+    private String[] _methodParameterTypes82;
+    private String _methodName83;
+    private String[] _methodParameterTypes83;
+    private String _methodName84;
+    private String[] _methodParameterTypes84;
+    private String _methodName85;
+    private String[] _methodParameterTypes85;
+    private String _methodName86;
+    private String[] _methodParameterTypes86;
 
     public ScenarioLocalServiceClpInvoker() {
         _methodName0 = "addScenario";
@@ -147,49 +147,49 @@ public class ScenarioLocalServiceClpInvoker {
                 "com.excilys.liferay.gatling.model.Scenario"
             };
 
-        _methodName60 = "getBeanIdentifier";
+        _methodName72 = "getBeanIdentifier";
 
-        _methodParameterTypes60 = new String[] {  };
+        _methodParameterTypes72 = new String[] {  };
 
-        _methodName61 = "setBeanIdentifier";
+        _methodName73 = "setBeanIdentifier";
 
-        _methodParameterTypes61 = new String[] { "java.lang.String" };
+        _methodParameterTypes73 = new String[] { "java.lang.String" };
 
-        _methodName66 = "countBySimulationId";
+        _methodName78 = "countBySimulationId";
 
-        _methodParameterTypes66 = new String[] { "long" };
+        _methodParameterTypes78 = new String[] { "long" };
 
-        _methodName67 = "findBySimulationId";
+        _methodName79 = "findBySimulationId";
 
-        _methodParameterTypes67 = new String[] { "long" };
+        _methodParameterTypes79 = new String[] { "long" };
 
-        _methodName68 = "removeBySimulationIdCascade";
+        _methodName80 = "removeBySimulationIdCascade";
 
-        _methodParameterTypes68 = new String[] { "long" };
+        _methodParameterTypes80 = new String[] { "long" };
 
-        _methodName69 = "removeByIdCascade";
+        _methodName81 = "removeByIdCascade";
 
-        _methodParameterTypes69 = new String[] { "long" };
+        _methodParameterTypes81 = new String[] { "long" };
 
-        _methodName70 = "isNameUnique";
+        _methodName82 = "isNameUnique";
 
-        _methodParameterTypes70 = new String[] { "java.lang.String", "long" };
+        _methodParameterTypes82 = new String[] { "java.lang.String", "long" };
 
-        _methodName71 = "countByVariableName";
+        _methodName83 = "countByVariableName";
 
-        _methodParameterTypes71 = new String[] { "java.lang.String", "long" };
+        _methodParameterTypes83 = new String[] { "java.lang.String", "long" };
 
-        _methodName72 = "findByVariableName";
+        _methodName84 = "findByVariableName";
 
-        _methodParameterTypes72 = new String[] { "java.lang.String", "long" };
+        _methodParameterTypes84 = new String[] { "java.lang.String", "long" };
 
-        _methodName73 = "addScenarioFromRequest";
+        _methodName85 = "addScenarioFromRequest";
 
-        _methodParameterTypes73 = new String[] { "javax.portlet.ActionRequest" };
+        _methodParameterTypes85 = new String[] { "javax.portlet.ActionRequest" };
 
-        _methodName74 = "editScenarioFromRequest";
+        _methodName86 = "editScenarioFromRequest";
 
-        _methodParameterTypes74 = new String[] { "javax.portlet.ActionRequest" };
+        _methodParameterTypes86 = new String[] { "javax.portlet.ActionRequest" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -281,67 +281,67 @@ public class ScenarioLocalServiceClpInvoker {
             return ScenarioLocalServiceUtil.updateScenario((com.excilys.liferay.gatling.model.Scenario) arguments[0]);
         }
 
-        if (_methodName60.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
+        if (_methodName72.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes72, parameterTypes)) {
             return ScenarioLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName61.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
+        if (_methodName73.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes73, parameterTypes)) {
             ScenarioLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName66.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes66, parameterTypes)) {
+        if (_methodName78.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes78, parameterTypes)) {
             return ScenarioLocalServiceUtil.countBySimulationId(((Long) arguments[0]).longValue());
         }
 
-        if (_methodName67.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes67, parameterTypes)) {
+        if (_methodName79.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes79, parameterTypes)) {
             return ScenarioLocalServiceUtil.findBySimulationId(((Long) arguments[0]).longValue());
         }
 
-        if (_methodName68.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
+        if (_methodName80.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes80, parameterTypes)) {
             ScenarioLocalServiceUtil.removeBySimulationIdCascade(((Long) arguments[0]).longValue());
 
             return null;
         }
 
-        if (_methodName69.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes69, parameterTypes)) {
+        if (_methodName81.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes81, parameterTypes)) {
             ScenarioLocalServiceUtil.removeByIdCascade(((Long) arguments[0]).longValue());
 
             return null;
         }
 
-        if (_methodName70.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes70, parameterTypes)) {
+        if (_methodName82.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes82, parameterTypes)) {
             return ScenarioLocalServiceUtil.isNameUnique((java.lang.String) arguments[0],
                 ((Long) arguments[1]).longValue());
         }
 
-        if (_methodName71.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes71, parameterTypes)) {
+        if (_methodName83.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes83, parameterTypes)) {
             return ScenarioLocalServiceUtil.countByVariableName((java.lang.String) arguments[0],
                 ((Long) arguments[1]).longValue());
         }
 
-        if (_methodName72.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes72, parameterTypes)) {
+        if (_methodName84.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes84, parameterTypes)) {
             return ScenarioLocalServiceUtil.findByVariableName((java.lang.String) arguments[0],
                 ((Long) arguments[1]).longValue());
         }
 
-        if (_methodName73.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes73, parameterTypes)) {
+        if (_methodName85.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes85, parameterTypes)) {
             return ScenarioLocalServiceUtil.addScenarioFromRequest((javax.portlet.ActionRequest) arguments[0]);
         }
 
-        if (_methodName74.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes74, parameterTypes)) {
+        if (_methodName86.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes86, parameterTypes)) {
             return ScenarioLocalServiceUtil.editScenarioFromRequest((javax.portlet.ActionRequest) arguments[0]);
         }
 

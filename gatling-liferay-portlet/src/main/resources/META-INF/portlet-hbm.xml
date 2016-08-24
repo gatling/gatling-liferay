@@ -4,12 +4,15 @@
 <hibernate-mapping default-lazy="false" auto-import="false">
 	<import class="com.excilys.liferay.gatling.model.FormParam" />
 	<import class="com.excilys.liferay.gatling.model.LinkUsecaseRequest" />
+	<import class="com.excilys.liferay.gatling.model.Login" />
 	<import class="com.excilys.liferay.gatling.model.Process" />
 	<import class="com.excilys.liferay.gatling.model.Record" />
 	<import class="com.excilys.liferay.gatling.model.Request" />
 	<import class="com.excilys.liferay.gatling.model.Scenario" />
 	<import class="com.excilys.liferay.gatling.model.Simulation" />
+	<import class="com.excilys.liferay.gatling.model.SiteMap" />
 	<import class="com.excilys.liferay.gatling.model.UrlRecord" />
+	<import class="com.excilys.liferay.gatling.model.UrlSiteMap" />
 	<class name="com.excilys.liferay.gatling.model.impl.FormParamImpl" table="StressTool_FormParam">
 		<cache usage="read-write" />
 		<id name="formParamId" type="long">
@@ -28,6 +31,14 @@
 		<property name="weight" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="sample" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
+	<class name="com.excilys.liferay.gatling.model.impl.LoginImpl" table="StressTool_Login">
+		<cache usage="read-write" />
+		<id name="userId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="data" type="com.liferay.portal.dao.orm.hibernate.StringType" column="data_" />
+	</class>
 	<class name="com.excilys.liferay.gatling.model.impl.ProcessImpl" table="StressTool_Process">
 		<cache usage="read-write" />
 		<id name="process_id" type="long">
@@ -38,7 +49,7 @@
 		<property name="order" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="order_" />
 		<property name="pause" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="scenario_id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="recordId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="feederId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="com.excilys.liferay.gatling.model.impl.RecordImpl" table="StressTool_Record">
 		<cache usage="read-write" />
@@ -84,6 +95,13 @@
 		<property name="feederContent" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="isFeederAFile" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
+	<class name="com.excilys.liferay.gatling.model.impl.SiteMapImpl" table="StressTool_SiteMap">
+		<cache usage="read-write" />
+		<id name="siteMapId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
 	<class name="com.excilys.liferay.gatling.model.impl.UrlRecordImpl" table="StressTool_UrlRecord">
 		<cache usage="read-write" />
 		<id name="urlRecordId" type="long">
@@ -93,5 +111,15 @@
 		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" column="type_" />
 		<property name="order" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="order_" />
+	</class>
+	<class name="com.excilys.liferay.gatling.model.impl.UrlSiteMapImpl" table="StressTool_UrlSiteMap">
+		<cache usage="read-write" />
+		<id name="urlSiteMapId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="siteMapId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="friendlyUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="weight" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 	</class>
 </hibernate-mapping>

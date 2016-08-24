@@ -18,7 +18,7 @@ public class ProcessSoap implements Serializable {
     private int _order;
     private int _pause;
     private long _scenario_id;
-    private Long _recordId;
+    private Long _feederId;
 
     public ProcessSoap() {
     }
@@ -32,7 +32,7 @@ public class ProcessSoap implements Serializable {
         soapModel.setOrder(model.getOrder());
         soapModel.setPause(model.getPause());
         soapModel.setScenario_id(model.getScenario_id());
-        soapModel.setRecordId(model.getRecordId());
+        soapModel.setFeederId(model.getFeederId());
 
         return soapModel;
     }
@@ -129,11 +129,11 @@ public class ProcessSoap implements Serializable {
         _scenario_id = scenario_id;
     }
 
-    public Long getRecordId() {
-        return _recordId;
+    public Long getFeederId() {
+        return _feederId;
     }
 
-    public void setRecordId(Long recordId) {
-        _recordId = recordId;
+    public void setFeederId(Long feederId) {
+        _feederId = feederId;
     }
 }

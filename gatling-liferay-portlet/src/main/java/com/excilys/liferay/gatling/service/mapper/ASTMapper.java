@@ -2,6 +2,7 @@ package com.excilys.liferay.gatling.service.mapper;
 
 import com.excilys.liferay.gatling.NoSuchFormParamException;
 import com.excilys.liferay.gatling.model.FormParam;
+import com.excilys.liferay.gatling.model.Login;
 import com.excilys.liferay.gatling.model.Process;
 import com.excilys.liferay.gatling.model.ProcessType;
 import com.excilys.liferay.gatling.model.Record;
@@ -62,29 +63,22 @@ public class ASTMapper {
 		List<ProcessAST> processesAST = new ArrayList<ProcessAST>(processes.size());
 		for (Process process : processes) {
 			
-			//TODO: This argument must desapear in futur
-			String feederContent = "";
-			
-			ProcessAST processAST = mapProcessToAST(process, feederContent, portalURL);
+			ProcessAST processAST = mapProcessToAST(process, portalURL);
 			processesAST.add(processAST);
 		}
 		return processesAST;
 	}
 	
-	public static ProcessAST mapProcessToAST(Process process, String feederContent, String portalURL) throws PortalException, SystemException  {
+	public static ProcessAST mapProcessToAST(Process process, String portalURL) throws PortalException, SystemException {
 		ProcessAST ast = null;
-		
-		if (process == null) {
-			return null;
-		}
 		
 		switch(ProcessType.valueOf(process.getType())) {
 			case RECORD:
-				RecordFeederFileAST feeder = ASTService.computesRecordFeederFileAST(process.getRecordId());
+				RecordFeederFileAST feeder = ASTService.computesRecordFeederFileAST(process.getProcess_id());
 				ast = new RecorderAST(feeder);
 				break;
 			case LOGIN:
-				UserFeederFileAST userFeeder = new UserFeederFileAST("nameFeeder", feederContent);
+				UserFeederFileAST userFeeder = ASTService.computesUserFeederFileAST(process.getProcess_id());
 				ast = new LoginAST(userFeeder, portalURL);
 				break;
 			case RANDOMPAGE:
@@ -101,6 +95,10 @@ public class ASTMapper {
 		
 		ast.setPause(process.getPause());
 		return ast;
+	}
+	
+	public static UserFeederFileAST mapLoginToAST(Login login) {
+		return new UserFeederFileAST(login.getName(), login.getData());
 	}
 	
 	public static RecordFeederFileAST mapRecordToAST(Record record) throws SystemException, NoSuchFormParamException{
@@ -138,6 +136,8 @@ public class ASTMapper {
 	public static ResourceFileAST mapFormParamToAST(FormParam params, String name) {
 		return new FormParamFeederFileAST(name, params.getData());
 	}
+
+	
 
 
 	

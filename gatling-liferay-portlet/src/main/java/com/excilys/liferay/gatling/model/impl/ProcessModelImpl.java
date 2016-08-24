@@ -50,9 +50,9 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
             { "order_", Types.INTEGER },
             { "pause", Types.INTEGER },
             { "scenario_id", Types.BIGINT },
-            { "recordId", Types.BIGINT }
+            { "feederId", Types.BIGINT }
         };
-    public static final String TABLE_SQL_CREATE = "create table StressTool_Process (process_id LONG not null primary key,name VARCHAR(75) null,type_ VARCHAR(75) null,order_ INTEGER,pause INTEGER,scenario_id LONG,recordId LONG)";
+    public static final String TABLE_SQL_CREATE = "create table StressTool_Process (process_id LONG not null primary key,name VARCHAR(75) null,type_ VARCHAR(75) null,order_ INTEGER,pause INTEGER,scenario_id LONG,feederId LONG)";
     public static final String TABLE_SQL_DROP = "drop table StressTool_Process";
     public static final String ORDER_BY_JPQL = " ORDER BY process.order ASC";
     public static final String ORDER_BY_SQL = " ORDER BY StressTool_Process.order_ ASC";
@@ -84,7 +84,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
     private long _scenario_id;
     private long _originalScenario_id;
     private boolean _setOriginalScenario_id;
-    private Long _recordId;
+    private Long _feederId;
     private long _columnBitmask;
     private Process _escapedModel;
 
@@ -131,7 +131,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         attributes.put("order", getOrder());
         attributes.put("pause", getPause());
         attributes.put("scenario_id", getScenario_id());
-        attributes.put("recordId", getRecordId());
+        attributes.put("feederId", getFeederId());
 
         return attributes;
     }
@@ -174,10 +174,10 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
             setScenario_id(scenario_id);
         }
 
-        Long recordId = (Long) attributes.get("recordId");
+        Long feederId = (Long) attributes.get("feederId");
 
-        if (recordId != null) {
-            setRecordId(recordId);
+        if (feederId != null) {
+            setFeederId(feederId);
         }
     }
 
@@ -264,13 +264,13 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
     }
 
     @Override
-    public Long getRecordId() {
-        return _recordId;
+    public Long getFeederId() {
+        return _feederId;
     }
 
     @Override
-    public void setRecordId(Long recordId) {
-        _recordId = recordId;
+    public void setFeederId(Long feederId) {
+        _feederId = feederId;
     }
 
     public long getColumnBitmask() {
@@ -310,7 +310,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         processImpl.setOrder(getOrder());
         processImpl.setPause(getPause());
         processImpl.setScenario_id(getScenario_id());
-        processImpl.setRecordId(getRecordId());
+        processImpl.setFeederId(getFeederId());
 
         processImpl.resetOriginalValues();
 
@@ -401,7 +401,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
         processCacheModel.scenario_id = getScenario_id();
 
-        processCacheModel.recordId = getRecordId();
+        processCacheModel.feederId = getFeederId();
 
         return processCacheModel;
     }
@@ -422,8 +422,8 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         sb.append(getPause());
         sb.append(", scenario_id=");
         sb.append(getScenario_id());
-        sb.append(", recordId=");
-        sb.append(getRecordId());
+        sb.append(", feederId=");
+        sb.append(getFeederId());
         sb.append("}");
 
         return sb.toString();
@@ -462,8 +462,8 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         sb.append(getScenario_id());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>recordId</column-name><column-value><![CDATA[");
-        sb.append(getRecordId());
+            "<column><column-name>feederId</column-name><column-value><![CDATA[");
+        sb.append(getFeederId());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

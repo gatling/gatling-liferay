@@ -130,18 +130,18 @@ public interface ProcessModel extends BaseModel<Process> {
     public void setScenario_id(long scenario_id);
 
     /**
-     * Returns the record ID of this process.
+     * Returns the feeder ID of this process.
      *
-     * @return the record ID of this process
+     * @return the feeder ID of this process
      */
-    public Long getRecordId();
+    public Long getFeederId();
 
     /**
-     * Sets the record ID of this process.
+     * Sets the feeder ID of this process.
      *
-     * @param recordId the record ID of this process
+     * @param feederId the feeder ID of this process
      */
-    public void setRecordId(Long recordId);
+    public void setFeederId(Long feederId);
 
     @Override
     public boolean isNew();

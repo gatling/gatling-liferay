@@ -4,12 +4,15 @@ import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.service.UrlRecordLocalService;
 import com.excilys.liferay.gatling.service.persistence.FormParamPersistence;
 import com.excilys.liferay.gatling.service.persistence.LinkUsecaseRequestPersistence;
+import com.excilys.liferay.gatling.service.persistence.LoginPersistence;
 import com.excilys.liferay.gatling.service.persistence.ProcessPersistence;
 import com.excilys.liferay.gatling.service.persistence.RecordPersistence;
 import com.excilys.liferay.gatling.service.persistence.RequestPersistence;
 import com.excilys.liferay.gatling.service.persistence.ScenarioPersistence;
 import com.excilys.liferay.gatling.service.persistence.SimulationPersistence;
+import com.excilys.liferay.gatling.service.persistence.SiteMapPersistence;
 import com.excilys.liferay.gatling.service.persistence.UrlRecordPersistence;
+import com.excilys.liferay.gatling.service.persistence.UrlSiteMapPersistence;
 
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.bean.IdentifiableBean;
@@ -56,6 +59,10 @@ public abstract class UrlRecordLocalServiceBaseImpl extends BaseLocalServiceImpl
     protected com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalService linkUsecaseRequestLocalService;
     @BeanReference(type = LinkUsecaseRequestPersistence.class)
     protected LinkUsecaseRequestPersistence linkUsecaseRequestPersistence;
+    @BeanReference(type = com.excilys.liferay.gatling.service.LoginLocalService.class)
+    protected com.excilys.liferay.gatling.service.LoginLocalService loginLocalService;
+    @BeanReference(type = LoginPersistence.class)
+    protected LoginPersistence loginPersistence;
     @BeanReference(type = com.excilys.liferay.gatling.service.ProcessLocalService.class)
     protected com.excilys.liferay.gatling.service.ProcessLocalService processLocalService;
     @BeanReference(type = ProcessPersistence.class)
@@ -76,10 +83,18 @@ public abstract class UrlRecordLocalServiceBaseImpl extends BaseLocalServiceImpl
     protected com.excilys.liferay.gatling.service.SimulationLocalService simulationLocalService;
     @BeanReference(type = SimulationPersistence.class)
     protected SimulationPersistence simulationPersistence;
+    @BeanReference(type = com.excilys.liferay.gatling.service.SiteMapLocalService.class)
+    protected com.excilys.liferay.gatling.service.SiteMapLocalService siteMapLocalService;
+    @BeanReference(type = SiteMapPersistence.class)
+    protected SiteMapPersistence siteMapPersistence;
     @BeanReference(type = com.excilys.liferay.gatling.service.UrlRecordLocalService.class)
     protected com.excilys.liferay.gatling.service.UrlRecordLocalService urlRecordLocalService;
     @BeanReference(type = UrlRecordPersistence.class)
     protected UrlRecordPersistence urlRecordPersistence;
+    @BeanReference(type = com.excilys.liferay.gatling.service.UrlSiteMapLocalService.class)
+    protected com.excilys.liferay.gatling.service.UrlSiteMapLocalService urlSiteMapLocalService;
+    @BeanReference(type = UrlSiteMapPersistence.class)
+    protected UrlSiteMapPersistence urlSiteMapPersistence;
     @BeanReference(type = com.liferay.counter.service.CounterLocalService.class)
     protected com.liferay.counter.service.CounterLocalService counterLocalService;
     @BeanReference(type = com.liferay.portal.service.ResourceLocalService.class)
@@ -394,6 +409,43 @@ public abstract class UrlRecordLocalServiceBaseImpl extends BaseLocalServiceImpl
     }
 
     /**
+     * Returns the login local service.
+     *
+     * @return the login local service
+     */
+    public com.excilys.liferay.gatling.service.LoginLocalService getLoginLocalService() {
+        return loginLocalService;
+    }
+
+    /**
+     * Sets the login local service.
+     *
+     * @param loginLocalService the login local service
+     */
+    public void setLoginLocalService(
+        com.excilys.liferay.gatling.service.LoginLocalService loginLocalService) {
+        this.loginLocalService = loginLocalService;
+    }
+
+    /**
+     * Returns the login persistence.
+     *
+     * @return the login persistence
+     */
+    public LoginPersistence getLoginPersistence() {
+        return loginPersistence;
+    }
+
+    /**
+     * Sets the login persistence.
+     *
+     * @param loginPersistence the login persistence
+     */
+    public void setLoginPersistence(LoginPersistence loginPersistence) {
+        this.loginPersistence = loginPersistence;
+    }
+
+    /**
      * Returns the process local service.
      *
      * @return the process local service
@@ -580,6 +632,43 @@ public abstract class UrlRecordLocalServiceBaseImpl extends BaseLocalServiceImpl
     }
 
     /**
+     * Returns the site map local service.
+     *
+     * @return the site map local service
+     */
+    public com.excilys.liferay.gatling.service.SiteMapLocalService getSiteMapLocalService() {
+        return siteMapLocalService;
+    }
+
+    /**
+     * Sets the site map local service.
+     *
+     * @param siteMapLocalService the site map local service
+     */
+    public void setSiteMapLocalService(
+        com.excilys.liferay.gatling.service.SiteMapLocalService siteMapLocalService) {
+        this.siteMapLocalService = siteMapLocalService;
+    }
+
+    /**
+     * Returns the site map persistence.
+     *
+     * @return the site map persistence
+     */
+    public SiteMapPersistence getSiteMapPersistence() {
+        return siteMapPersistence;
+    }
+
+    /**
+     * Sets the site map persistence.
+     *
+     * @param siteMapPersistence the site map persistence
+     */
+    public void setSiteMapPersistence(SiteMapPersistence siteMapPersistence) {
+        this.siteMapPersistence = siteMapPersistence;
+    }
+
+    /**
      * Returns the url record local service.
      *
      * @return the url record local service
@@ -615,6 +704,44 @@ public abstract class UrlRecordLocalServiceBaseImpl extends BaseLocalServiceImpl
     public void setUrlRecordPersistence(
         UrlRecordPersistence urlRecordPersistence) {
         this.urlRecordPersistence = urlRecordPersistence;
+    }
+
+    /**
+     * Returns the url site map local service.
+     *
+     * @return the url site map local service
+     */
+    public com.excilys.liferay.gatling.service.UrlSiteMapLocalService getUrlSiteMapLocalService() {
+        return urlSiteMapLocalService;
+    }
+
+    /**
+     * Sets the url site map local service.
+     *
+     * @param urlSiteMapLocalService the url site map local service
+     */
+    public void setUrlSiteMapLocalService(
+        com.excilys.liferay.gatling.service.UrlSiteMapLocalService urlSiteMapLocalService) {
+        this.urlSiteMapLocalService = urlSiteMapLocalService;
+    }
+
+    /**
+     * Returns the url site map persistence.
+     *
+     * @return the url site map persistence
+     */
+    public UrlSiteMapPersistence getUrlSiteMapPersistence() {
+        return urlSiteMapPersistence;
+    }
+
+    /**
+     * Sets the url site map persistence.
+     *
+     * @param urlSiteMapPersistence the url site map persistence
+     */
+    public void setUrlSiteMapPersistence(
+        UrlSiteMapPersistence urlSiteMapPersistence) {
+        this.urlSiteMapPersistence = urlSiteMapPersistence;
     }
 
     /**

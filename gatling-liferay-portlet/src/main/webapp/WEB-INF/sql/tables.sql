@@ -18,6 +18,12 @@ create table StressTool_LinkUsecaseRequest (
 	sample BOOLEAN
 );
 
+create table StressTool_Login (
+	userId LONG not null primary key,
+	name VARCHAR(75) null,
+	data_ VARCHAR(75) null
+);
+
 create table StressTool_Process (
 	process_id LONG not null primary key,
 	name VARCHAR(75) null,
@@ -25,7 +31,7 @@ create table StressTool_Process (
 	order_ INTEGER,
 	pause INTEGER,
 	scenario_id LONG,
-	recordId LONG
+	feederId LONG
 );
 
 create table StressTool_Record (
@@ -64,10 +70,29 @@ create table StressTool_Simulation (
 	isFeederAFile BOOLEAN
 );
 
+create table StressTool_SiteMap (
+	siteMapId LONG not null primary key,
+	name VARCHAR(75) null
+);
+
 create table StressTool_UrlRecord (
 	urlRecordId LONG not null primary key,
 	recordId LONG,
 	url TEXT null,
 	type_ VARCHAR(75) null,
 	order_ INTEGER
+);
+
+create table StressTool_UrlSiteMap (
+	urlSiteMapId LONG not null primary key,
+	siteMapId LONG,
+	friendlyUrl VARCHAR(75) null,
+	url VARCHAR(75) null,
+	weight INTEGER
+);
+
+create table StressTool_User (
+	userId LONG not null primary key,
+	name VARCHAR(75) null,
+	data_ VARCHAR(75) null
 );

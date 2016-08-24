@@ -41,12 +41,12 @@ public class ProcessLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName60;
-    private String[] _methodParameterTypes60;
-    private String _methodName61;
-    private String[] _methodParameterTypes61;
-    private String _methodName66;
-    private String[] _methodParameterTypes66;
+    private String _methodName72;
+    private String[] _methodParameterTypes72;
+    private String _methodName73;
+    private String[] _methodParameterTypes73;
+    private String _methodName78;
+    private String[] _methodParameterTypes78;
 
     public ProcessLocalServiceClpInvoker() {
         _methodName0 = "addProcess";
@@ -131,17 +131,17 @@ public class ProcessLocalServiceClpInvoker {
                 "com.excilys.liferay.gatling.model.Process"
             };
 
-        _methodName60 = "getBeanIdentifier";
+        _methodName72 = "getBeanIdentifier";
 
-        _methodParameterTypes60 = new String[] {  };
+        _methodParameterTypes72 = new String[] {  };
 
-        _methodName61 = "setBeanIdentifier";
+        _methodName73 = "setBeanIdentifier";
 
-        _methodParameterTypes61 = new String[] { "java.lang.String" };
+        _methodParameterTypes73 = new String[] { "java.lang.String" };
 
-        _methodName66 = "findProcessFromScenarioId";
+        _methodName78 = "findProcessFromScenarioId";
 
-        _methodParameterTypes66 = new String[] { "long" };
+        _methodParameterTypes78 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -233,20 +233,20 @@ public class ProcessLocalServiceClpInvoker {
             return ProcessLocalServiceUtil.updateProcess((com.excilys.liferay.gatling.model.Process) arguments[0]);
         }
 
-        if (_methodName60.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
+        if (_methodName72.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes72, parameterTypes)) {
             return ProcessLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName61.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
+        if (_methodName73.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes73, parameterTypes)) {
             ProcessLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName66.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes66, parameterTypes)) {
+        if (_methodName78.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes78, parameterTypes)) {
             return ProcessLocalServiceUtil.findProcessFromScenarioId(((Long) arguments[0]).longValue());
         }
 

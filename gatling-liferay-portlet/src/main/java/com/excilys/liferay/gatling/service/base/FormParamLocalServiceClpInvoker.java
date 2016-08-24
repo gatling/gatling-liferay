@@ -41,14 +41,14 @@ public class FormParamLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName60;
-    private String[] _methodParameterTypes60;
-    private String _methodName61;
-    private String[] _methodParameterTypes61;
-    private String _methodName66;
-    private String[] _methodParameterTypes66;
-    private String _methodName67;
-    private String[] _methodParameterTypes67;
+    private String _methodName72;
+    private String[] _methodParameterTypes72;
+    private String _methodName73;
+    private String[] _methodParameterTypes73;
+    private String _methodName78;
+    private String[] _methodParameterTypes78;
+    private String _methodName79;
+    private String[] _methodParameterTypes79;
 
     public FormParamLocalServiceClpInvoker() {
         _methodName0 = "addFormParam";
@@ -133,21 +133,21 @@ public class FormParamLocalServiceClpInvoker {
                 "com.excilys.liferay.gatling.model.FormParam"
             };
 
-        _methodName60 = "getBeanIdentifier";
+        _methodName72 = "getBeanIdentifier";
 
-        _methodParameterTypes60 = new String[] {  };
+        _methodParameterTypes72 = new String[] {  };
 
-        _methodName61 = "setBeanIdentifier";
+        _methodName73 = "setBeanIdentifier";
 
-        _methodParameterTypes61 = new String[] { "java.lang.String" };
+        _methodParameterTypes73 = new String[] { "java.lang.String" };
 
-        _methodName66 = "findByUrlRecordId";
+        _methodName78 = "findByUrlRecordId";
 
-        _methodParameterTypes66 = new String[] { "long" };
+        _methodParameterTypes78 = new String[] { "long" };
 
-        _methodName67 = "save";
+        _methodName79 = "save";
 
-        _methodParameterTypes67 = new String[] { "long", "java.lang.String" };
+        _methodParameterTypes79 = new String[] { "long", "java.lang.String" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -239,25 +239,25 @@ public class FormParamLocalServiceClpInvoker {
             return FormParamLocalServiceUtil.updateFormParam((com.excilys.liferay.gatling.model.FormParam) arguments[0]);
         }
 
-        if (_methodName60.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
+        if (_methodName72.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes72, parameterTypes)) {
             return FormParamLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName61.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
+        if (_methodName73.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes73, parameterTypes)) {
             FormParamLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName66.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes66, parameterTypes)) {
+        if (_methodName78.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes78, parameterTypes)) {
             return FormParamLocalServiceUtil.findByUrlRecordId(((Long) arguments[0]).longValue());
         }
 
-        if (_methodName67.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes67, parameterTypes)) {
+        if (_methodName79.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes79, parameterTypes)) {
             FormParamLocalServiceUtil.save(((Long) arguments[0]).longValue(),
                 (java.lang.String) arguments[1]);
 

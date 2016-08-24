@@ -8,6 +8,8 @@ create index IX_587C282A on StressTool_LinkUsecaseRequest (request_id);
 create index IX_A5AE18EA on StressTool_LinkUsecaseRequest (request_id, recordId);
 create index IX_3C3D8616 on StressTool_LinkUsecaseRequest (request_id, weight);
 
+create unique index IX_9B96CBDB on StressTool_Login (name);
+
 create index IX_9577D1B8 on StressTool_Process (scenario_id);
 
 create unique index IX_C2CCD189 on StressTool_Record (name);
@@ -24,4 +26,10 @@ create index IX_87174984 on StressTool_Request (scenario_id, weight);
 
 create index IX_4E9E331A on StressTool_Scenario (simulation_id);
 
+create unique index IX_54E83DC7 on StressTool_SiteMap (name);
+
 create index IX_CB06F193 on StressTool_UrlRecord (recordId);
+
+create index IX_50BDD081 on StressTool_UrlSiteMap (siteMapId);
+
+create unique index IX_948F67C3 on StressTool_User (name);

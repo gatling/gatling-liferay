@@ -33,7 +33,7 @@
 		<column name="order" type="int"	></column>
 		<column name="pause" type="int"></column>
 		<column name="scenario_id" type="long"></column>
-		<column name="recordId" type="Long" convert-null="false"></column>
+		<column name="feederId" type="Long" convert-null="false"></column>
 		<order by="asc"> <order-column name="order" /></order>
 		<finder name="ScenarioId" return-type="Collection">
 			<finder-column name="scenario_id" />
@@ -146,5 +146,38 @@
 			<finder-column name="urlRecordId" />
 		</finder>
 	</entity>
+	
+	<!-- Users -->
+	<entity name="Login" remote-service="false" local-service="true">
+		<column name="userId" type="long" primary="true"/>
+		<column name="name" type="String" />
+		<column name="data" type="String" />
+		<finder name="Name" return-type="User" unique="true">
+			<finder-column name="name" />
+		</finder>
+	</entity>
+	
+	<!-- SiteMap -->
+	<entity name="SiteMap" remote-service="false" local-service="true">
+		<column name="siteMapId" type="long" primary="true" />
+		<column name="name" type="String" />
+		<finder name="Name" return-type="SiteMap" unique="true">
+			<finder-column name="name" />
+		</finder>
+	</entity>
+	
+	<entity name="UrlSiteMap" remote-service="false" local-service="true">
+		<column name="urlSiteMapId" type="long" primary="true" />
+		<column name="siteMapId" type="long" />
+		<column name="friendlyUrl" type="String" />
+		<column name="url" type="String" />
+		<column name="weight" type="int" />
+		<finder name="SiteMapId" return-type="Collection">
+			<finder-column name="siteMapId" />
+		</finder>
+	</entity>
+	
+	
+	
 	
 </service-builder>

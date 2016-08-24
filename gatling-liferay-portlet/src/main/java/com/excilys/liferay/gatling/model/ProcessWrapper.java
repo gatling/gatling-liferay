@@ -42,7 +42,7 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
         attributes.put("order", getOrder());
         attributes.put("pause", getPause());
         attributes.put("scenario_id", getScenario_id());
-        attributes.put("recordId", getRecordId());
+        attributes.put("feederId", getFeederId());
 
         return attributes;
     }
@@ -85,10 +85,10 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
             setScenario_id(scenario_id);
         }
 
-        Long recordId = (Long) attributes.get("recordId");
+        Long feederId = (Long) attributes.get("feederId");
 
-        if (recordId != null) {
-            setRecordId(recordId);
+        if (feederId != null) {
+            setFeederId(feederId);
         }
     }
 
@@ -233,23 +233,23 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
     }
 
     /**
-    * Returns the record ID of this process.
+    * Returns the feeder ID of this process.
     *
-    * @return the record ID of this process
+    * @return the feeder ID of this process
     */
     @Override
-    public java.lang.Long getRecordId() {
-        return _process.getRecordId();
+    public java.lang.Long getFeederId() {
+        return _process.getFeederId();
     }
 
     /**
-    * Sets the record ID of this process.
+    * Sets the feeder ID of this process.
     *
-    * @param recordId the record ID of this process
+    * @param feederId the feeder ID of this process
     */
     @Override
-    public void setRecordId(java.lang.Long recordId) {
-        _process.setRecordId(recordId);
+    public void setFeederId(java.lang.Long feederId) {
+        _process.setFeederId(feederId);
     }
 
     @Override
