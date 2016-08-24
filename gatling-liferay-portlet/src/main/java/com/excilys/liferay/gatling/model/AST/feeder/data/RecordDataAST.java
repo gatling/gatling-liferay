@@ -4,7 +4,7 @@ import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
 
 public class RecordDataAST {
 	
-	public static final String HEADER = "url,type,dataFile";
+	public static final String HEADER = "url,type,datafile";
 	
 	private String url;
 	private String type;
