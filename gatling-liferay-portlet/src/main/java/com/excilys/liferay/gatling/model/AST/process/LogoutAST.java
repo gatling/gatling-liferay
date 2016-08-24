@@ -7,16 +7,16 @@ import java.util.List;
 
 public class LogoutAST extends ProcessAST {
 	
-	//TODO: Make this final string configurable
-	private static final String URL_BASE="http://localhost:8080";
+	private String portalURL;;
 	
-	public LogoutAST() {
+	public LogoutAST(String url) {
 		super("Logout", "logout");
+		this.portalURL = url;
 	}
 	
 	@Override
 	protected String computeArguments() {
-		return '"' + URL_BASE + '"';
+		return '"' + portalURL + '"';
 	}
 
 	@Override

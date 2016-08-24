@@ -17,6 +17,8 @@ import com.excilys.liferay.gatling.service.mapper.ASTMapper;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
@@ -26,9 +28,12 @@ import java.util.List;
 
 public class ASTService {
 
+	private static final Log LOG = LogFactoryUtil.getLog(ASTService.class);
+	
 	public static SimulationAST computesSimulationAST(long simulationId, String portalURL) throws Exception {
+		LOG.debug("-------------------------------------"+portalURL);
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
-		List<ScenarioAST> scenarios = initScenarios(simulationId);
+		List<ScenarioAST> scenarios = initScenarios(simulationId, portalURL);
 		String simulationName = GatlingUtil.createSimulationVariable(simulation.getName());
 		return  new SimulationAST(simulationName, scenarios, portalURL);
 	}
@@ -55,20 +60,20 @@ public class ASTService {
 	
 	
 	/* Script Generation */
-	public static List<ScenarioAST> initScenarios(Long simulationId) throws SystemException, PortalException {
+	public static List<ScenarioAST> initScenarios(Long simulationId, String portalURL) throws SystemException, PortalException {
 		List<ScenarioAST> mustacheScenarios;
 		List<Scenario> listScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
 		
 		Simulation simulation = SimulationLocalServiceUtil.fetchSimulation(simulationId);
 		String contentFeeder = simulation.getFeederContent();
 		
-		mustacheScenarios = new ArrayList<>();
+		mustacheScenarios = new ArrayList<>(listScenario.size());
 		for (Scenario scenario : listScenario) {
 			String name = GatlingUtil.createScenarioVariable(scenario.getName());
 			List<com.excilys.liferay.gatling.model.Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(scenario.getScenario_id());
-			List<ProcessAST> processASTs = new ArrayList<>();
+			List<ProcessAST> processASTs = new ArrayList<>(processes.size());
 			for (com.excilys.liferay.gatling.model.Process process : processes) {
-				processASTs.add(ASTMapper.mapProcessToAST(process,contentFeeder));
+				processASTs.add(ASTMapper.mapProcessToAST(process,contentFeeder, portalURL));
 			}
 			
 			//DEBUG mode for test;

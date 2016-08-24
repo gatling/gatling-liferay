@@ -9,16 +9,18 @@ import java.util.List;
 public class LoginAST extends ProcessAST{
 
 	FeederFileAST loginFeeder;
+	private String portalURL;
 	
-	public LoginAST(FeederFileAST feeder) {
+	public LoginAST(FeederFileAST feeder, String url) {
 		super("Login","successfulLogin");
 		this.loginFeeder = feeder;
+		this.portalURL = url +"/home";
 	}
 	
 	@Override
 	protected String computeArguments() {
 		//TODO remove hardcoded arg
-		return "\"http://localhost:8080/home\","+ '"' + loginFeeder.getName() + '"';
+		return '"' + portalURL + "\"," + '"' + loginFeeder.getName() + '"';
 	}
 	
 	@Override

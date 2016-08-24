@@ -36,7 +36,7 @@ public class ASTMapper {
 	
 	private static final Log LOG = LogFactoryUtil.getLog(ASTMapper.class);
 
-	public static ProcessAST mapProcessToAST(Process process, String feederContent) throws PortalException, SystemException {
+	public static ProcessAST mapProcessToAST(Process process, String feederContent, String portalURL) throws PortalException, SystemException {
 		ProcessAST ast = null;
 		
 		if (process == null) {
@@ -51,17 +51,17 @@ public class ASTMapper {
 				break;
 			case LOGIN:
 				UserFeederFileAST userFeeder = new UserFeederFileAST("nameFeeder", feederContent);
-				ast = new LoginAST(userFeeder);
+				ast = new LoginAST(userFeeder, portalURL);
 				break;
 			case RANDOMPAGE:
 				SiteMapFeederFileAST siteMap = new SiteMapFeederFileAST("hey", ASTMapper.siteMap);
 				ast = new RandomPageAST(siteMap);
 				break;
 			case LOGOUT:
-				ast = new LogoutAST();
+				ast = new LogoutAST(portalURL);
 				break;
 			default:
-				ast = new LogoutAST();
+				ast = new LogoutAST(portalURL);
 				break;
 		}
 		

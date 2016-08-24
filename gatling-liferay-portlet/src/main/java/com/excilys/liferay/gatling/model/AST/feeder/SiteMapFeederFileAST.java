@@ -2,7 +2,6 @@ package com.excilys.liferay.gatling.model.AST.feeder;
 
 
 
-/* TODO: Use a list of siteMapData instead of a raw content */ 
 public class SiteMapFeederFileAST extends FeederFileAST{
 
 	private static final String TYPE = "SiteMap";
