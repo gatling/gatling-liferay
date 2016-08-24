@@ -1,5 +1,6 @@
 package com.excilys.liferay.gatling.service;
 
+import com.excilys.liferay.gatling.model.Process;
 import com.excilys.liferay.gatling.NoSuchFormParamException;
 import com.excilys.liferay.gatling.model.FormParam;
 import com.excilys.liferay.gatling.model.Record;
@@ -28,14 +29,27 @@ import java.util.List;
 
 public class ASTService {
 
+
 	private static final Log LOG = LogFactoryUtil.getLog(ASTService.class);
 	
 	public static SimulationAST computesSimulationAST(long simulationId, String portalURL) throws Exception {
 		LOG.debug("-------------------------------------"+portalURL);
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
+		//return ASTMapper.mapSimulationToAST(simulation, portalURL);
+		
 		List<ScenarioAST> scenarios = initScenarios(simulationId, portalURL);
 		String simulationName = GatlingUtil.createSimulationVariable(simulation.getName());
-		return  new SimulationAST(simulationName, scenarios, portalURL);
+		return new SimulationAST(simulationName, scenarios, portalURL);
+	}
+	
+	public static List<ScenarioAST> computesScenariosAST(long simulationId, String portalURL) throws SystemException, PortalException {
+		List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
+		return ASTMapper.mapScenariosToAST(scenarios, portalURL);
+	}
+	
+	public static List<ProcessAST> computesProcessesAST(long scenario_id, String portalURL) throws SystemException, PortalException {
+		List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(scenario_id);
+		return ASTMapper.mapProcessesToAST(processes, portalURL);
 	}
 	
 	public static RecordFeederFileAST computesRecordFeederFileAST(long recordId) throws PortalException, SystemException{
@@ -57,6 +71,8 @@ public class ASTService {
 		FormParam params = FormParamLocalServiceUtil.findByUrlRecordId(urlRecordId);
 		return ASTMapper.mapFormParamToAST(params, String.valueOf(urlRecordId));
 	}
+	
+	
 	
 	
 	/* Script Generation */
@@ -99,5 +115,9 @@ public class ASTService {
 		}
 		return sb.toString();
 	}
+
+	
+
+	
 	
 }

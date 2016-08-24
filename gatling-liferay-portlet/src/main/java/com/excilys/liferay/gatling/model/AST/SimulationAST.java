@@ -10,7 +10,7 @@ public class SimulationAST {
 	private String logoutPageURL;
 	
 	
-	public SimulationAST(String simulationName, List<ScenarioAST> scenarios, String portalURL) throws Exception {
+	public SimulationAST(String simulationName, List<ScenarioAST> scenarios, String portalURL) {
 		this.simulationName = simulationName;
 		scenariosAST = scenarios;
 		this.loginPageURL = new StringBuilder(portalURL).append("/home").toString();

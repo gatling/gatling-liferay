@@ -1,13 +1,16 @@
 package com.excilys.liferay.gatling.service.mapper;
 
 import com.excilys.liferay.gatling.NoSuchFormParamException;
-import com.excilys.liferay.gatling.controller.ViewController;
 import com.excilys.liferay.gatling.model.FormParam;
 import com.excilys.liferay.gatling.model.Process;
 import com.excilys.liferay.gatling.model.ProcessType;
 import com.excilys.liferay.gatling.model.Record;
+import com.excilys.liferay.gatling.model.Scenario;
+import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.model.UrlRecordType;
+import com.excilys.liferay.gatling.model.AST.ScenarioAST;
+import com.excilys.liferay.gatling.model.AST.SimulationAST;
 import com.excilys.liferay.gatling.model.AST.feeder.FormParamFeederFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.HttpBodyFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.RecordFeederFileAST;
@@ -36,13 +39,44 @@ public class ASTMapper {
 	
 	private static final Log LOG = LogFactoryUtil.getLog(ASTMapper.class);
 
-	public static ProcessAST mapProcessToAST(Process process, String feederContent, String portalURL) throws PortalException, SystemException {
+	public static SimulationAST mapSimulationToAST(Simulation simulation, String portalURL) throws SystemException, PortalException {
+		List<ScenarioAST> scenarios = ASTService.computesScenariosAST(simulation.getSimulation_id(), portalURL);
+		return new SimulationAST(simulation.getName(), scenarios, portalURL);
+	}
+
+	public static List<ScenarioAST> mapScenariosToAST(List<Scenario> scenarios, String portalURL) throws SystemException, PortalException {
+		List<ScenarioAST> scenariosAST = new ArrayList<>(scenarios.size());
+		for (Scenario scenario : scenarios) {
+			ScenarioAST scenarioAST = mapScenarioToAST(scenario, portalURL);
+			scenariosAST.add(scenarioAST);
+		}
+		return scenariosAST;
+	}
+	
+	public static ScenarioAST mapScenarioToAST(Scenario scenario, String portalURL) throws SystemException, PortalException{
+		List<ProcessAST> processList = ASTService.computesProcessesAST(scenario.getScenario_id(), portalURL);
+		return new ScenarioAST(scenario.getName(), scenario.getNumberOfUsers(), scenario.getDuration(), processList);
+	}
+	
+	public static List<ProcessAST> mapProcessesToAST(List<Process> processes, String portalURL) throws PortalException, SystemException {
+		List<ProcessAST> processesAST = new ArrayList<ProcessAST>(processes.size());
+		for (Process process : processes) {
+			
+			//TODO: This argument must desapear in futur
+			String feederContent = "";
+			
+			ProcessAST processAST = mapProcessToAST(process, feederContent, portalURL);
+			processesAST.add(processAST);
+		}
+		return processesAST;
+	}
+	
+	public static ProcessAST mapProcessToAST(Process process, String feederContent, String portalURL) throws PortalException, SystemException  {
 		ProcessAST ast = null;
 		
 		if (process == null) {
 			return null;
 		}
-			
 		
 		switch(ProcessType.valueOf(process.getType())) {
 			case RECORD:
@@ -104,6 +138,8 @@ public class ASTMapper {
 	public static ResourceFileAST mapFormParamToAST(FormParam params, String name) {
 		return new FormParamFeederFileAST(name, params.getData());
 	}
+
+
 	
 	
 	
