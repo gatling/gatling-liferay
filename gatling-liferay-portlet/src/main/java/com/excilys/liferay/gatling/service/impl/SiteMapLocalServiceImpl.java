@@ -36,7 +36,7 @@ public class SiteMapLocalServiceImpl extends SiteMapLocalServiceBaseImpl {
 	public SiteMap findByProcessId(long processId) throws SystemException, NoSuchModelException, NoSuchProcessException {
 		Process process = processPersistence.findByPrimaryKey(processId);
 		Long feederId = process.getFeederId();
-		if(ProcessType.valueOf(process.getType()) == ProcessType.RECORD && feederId != null){
+		if(ProcessType.valueOf(process.getType()) == ProcessType.RANDOMPAGE && feederId != null){
 			return siteMapPersistence.findByPrimaryKey(feederId);
 		}
 		return null;

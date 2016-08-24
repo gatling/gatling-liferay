@@ -36,7 +36,7 @@ public class LoginLocalServiceImpl extends LoginLocalServiceBaseImpl {
 	public Login findByProcessId(long processId) throws SystemException, NoSuchModelException, NoSuchProcessException {
 		Process process = processPersistence.findByPrimaryKey(processId);
 		Long feederId = process.getFeederId();
-		if(ProcessType.valueOf(process.getType()) == ProcessType.RECORD && feederId != null){
+		if(ProcessType.valueOf(process.getType()) == ProcessType.LOGIN && feederId != null){
 			return loginPersistence.findByPrimaryKey(feederId);
 		}
 		return null;

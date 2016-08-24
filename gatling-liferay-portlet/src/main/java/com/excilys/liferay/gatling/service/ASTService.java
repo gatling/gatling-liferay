@@ -54,6 +54,7 @@ public class ASTService {
 	public static UserFeederFileAST computesUserFeederFileAST(long processId) throws NoSuchProcessException, NoSuchModelException, SystemException {
 		Login login = LoginLocalServiceUtil.findByProcessId(processId);
 		if(login == null){
+			LOG.debug("ARTUNGH");
 			//TODO: Raise a custom exception
 		}
 		return ASTMapper.mapLoginToAST(login);

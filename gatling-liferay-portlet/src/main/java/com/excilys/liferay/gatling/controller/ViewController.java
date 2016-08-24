@@ -4,17 +4,22 @@
 package com.excilys.liferay.gatling.controller;
 
 import com.excilys.liferay.gatling.NoSuchScenarioException;
+import com.excilys.liferay.gatling.model.Login;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.model.SiteMap;
 import com.excilys.liferay.gatling.model.AST.SimulationAST;
+import com.excilys.liferay.gatling.model.AST.feeder.UserFeederFileAST;
 import com.excilys.liferay.gatling.service.ASTService;
 import com.excilys.liferay.gatling.service.ProcessLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.service.mapper.ASTMapper;
+import com.excilys.liferay.gatling.service.persistence.LoginUtil;
 import com.excilys.liferay.gatling.service.persistence.ProcessUtil;
 import com.excilys.liferay.gatling.service.persistence.ScenarioUtil;
 import com.excilys.liferay.gatling.service.persistence.SimulationUtil;
+import com.excilys.liferay.gatling.service.persistence.SiteMapUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -134,15 +139,20 @@ public class ViewController {
 			scenario.setGroup_id(listGroups.get(0).getGroupId());
 		}
 		
-		
 		scenario.setSimulation_id(simulation.getSimulation_id());
 		scenario.setNumberOfUsers(10);
 		scenario.setDuration(5);
 		scenario.persist();
+	
+		Login l = LoginUtil.create(CounterLocalServiceUtil.increment(Login.class.getName()));
+		l.setName("_default_login_");
+		l.setData("user1@liferay.com,user1Password\nuser2@liferay.com,user2Password");
+		l.persist();
 		
 		Process login = ProcessUtil.create(CounterLocalServiceUtil.increment(Process.class.getName()));
 		login.setName("Login");
 		login.setType("LOGIN");
+		login.setFeederId(l.getPrimaryKey());
 		login.setPause(2);
 		login.setOrder(0);
 		login.setScenario_id(scenario.getScenario_id());
@@ -155,7 +165,10 @@ public class ViewController {
 		logout.setOrder(2);
 		logout.setScenario_id(scenario.getScenario_id());
 		logout.persist();	
-
+		
+		//SiteMap sm = SiteMapUtil.create(CounterLocalServiceUtil.increment(SiteMap.class.getName()));
+		//sm.setName("_defaut_site_map_");
+		
 		Process random = ProcessUtil.create(CounterLocalServiceUtil.increment(Process.class.getName()));
 		random.setName("Random Page");
 		random.setType("RANDOMPAGE");
