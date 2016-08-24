@@ -1,6 +1,7 @@
 package liferay.processes
 
 import io.gatling.core.Predef._
+import io.gatling.core.session
 import io.gatling.core.structure.ChainBuilder
 import io.gatling.http.Predef._
 
@@ -18,9 +19,10 @@ object GetPage {
 	 * @param page The URL of the page to hit
 	 * @return the chain builder to hit a page
 	 */
-	def basicPage(title: String, page: String) : ChainBuilder =
+	def basicPage(title: String, page:String) : ChainBuilder = {
 		exec(http(title).get(page))
-		.pause(5)
+			.pause(5)
+	}
 
 	/**
 	 * Constructs a chain builder to hit a page.

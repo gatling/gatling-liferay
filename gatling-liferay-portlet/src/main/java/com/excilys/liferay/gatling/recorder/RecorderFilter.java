@@ -168,7 +168,11 @@ public class RecorderFilter implements Filter {
 		Map<String, String[]> parametersMap = request.getParameterMap();
 		//TODO check out if params doesnt contains unwanted params, such as form param. Otherwise use request.queryString instead
 		String params = HttpUtil.parameterMapToString(filterParameters(parametersMap));
-		String requestURL = request.getRequestURI().replace(URL_CONTROL_PANEL, "");
+		
+		//TODO: In future, the base URL should be customizable
+		String baseURL = "http://" + request.getLocalName() + ":" + request.getLocalPort();
+		String URI = request.getRequestURI().replace(URL_CONTROL_PANEL, "");
+		String requestURL = baseURL + URI;
 		
 		RecordURL record = null;
 		if(request.getMethod().equalsIgnoreCase("post")) {	
