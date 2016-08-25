@@ -1,23 +1,33 @@
 package com.excilys.liferay.gatling.model.AST.feeder;
 
+import com.excilys.liferay.gatling.model.AST.feeder.data.SiteMapDataAST;
 
+import java.util.List;
 
 public class SiteMapFeederFileAST extends FeederFileAST{
 
 	private static final String TYPE = "SiteMap";
 
+	private List<SiteMapDataAST> data;
 	
-	private String content;
-	private static final String HEADER = "site,URL\n";
 	
-	public SiteMapFeederFileAST(String name, String content) {
+	public SiteMapFeederFileAST(String name, List<SiteMapDataAST> data) {
 		super(name, TYPE);
-		this.content = content;
+		this.data = data;
 	}
 
 	@Override
 	public String getContent() {
-		return HEADER + content;
+		StringBuilder contentBuilder = new StringBuilder(SiteMapDataAST.HEADER).append("\n");
+		for (SiteMapDataAST siteMapDataAST : data) {
+			contentBuilder.append(siteMapDataAST.getFriendlyUrl())
+				.append(",")
+				.append(siteMapDataAST.getUrl())
+				.append(",")
+				.append(siteMapDataAST.getWeight())
+				.append("\n");
+		}
+		return contentBuilder.toString();
 	}
 	
 }
