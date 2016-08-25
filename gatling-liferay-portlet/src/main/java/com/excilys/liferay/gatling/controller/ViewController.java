@@ -85,12 +85,14 @@ public class ViewController {
 				defaultScenario = scenarios.get(0);
 			}
 			else {
-				defaultScenario = createDefaultScenario(defaultSimulation);
+				final ThemeDisplay themeDisplay =	(ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+				defaultScenario = createDefaultScenario(defaultSimulation, themeDisplay);
 			}
 		}
 		else {
 			defaultSimulation = createDefaultSimulation();
-			defaultScenario = createDefaultScenario(defaultSimulation);
+			final ThemeDisplay themeDisplay =	(ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+			defaultScenario = createDefaultScenario(defaultSimulation, themeDisplay);
 		}
 		
 		List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(defaultScenario.getScenario_id());
@@ -125,10 +127,11 @@ public class ViewController {
 	/**
 	 * Creates the empty default scenario, persists it and returns it.
 	 * @param simulation The simulation that contains the new scenario
+	 * @param themeDisplay 
 	 * @return The fresh default scenario
 	 * @throws SystemException If an error occures in services
 	 */
-	public static Scenario createDefaultScenario(Simulation simulation) throws SystemException {
+	public static Scenario createDefaultScenario(Simulation simulation, ThemeDisplay themeDisplay) throws SystemException {
 		Scenario scenario = ScenarioUtil.create(CounterLocalServiceUtil.increment(Scenario.class.getName()));
 		scenario.setName("_default_scenario_");
 		List<Group> listGroups = GatlingUtil.getListOfSites();
@@ -169,12 +172,15 @@ public class ViewController {
 		//SiteMap sm = SiteMapUtil.create(CounterLocalServiceUtil.increment(SiteMap.class.getName()));
 		//sm.setName("_defaut_site_map_");
 		
+		long siteMapId = ASTService.siteMapCreation(themeDisplay, scenario.getGroup_id());
 		Process random = ProcessUtil.create(CounterLocalServiceUtil.increment(Process.class.getName()));
 		random.setName("Random Page");
 		random.setType("RANDOMPAGE");
 		random.setPause(3);
 		random.setOrder(1);
+		random.setFeederId(siteMapId);
 		random.setScenario_id(scenario.getScenario_id());
+		
 		random.persist();	
 		
 		return scenario;
@@ -243,9 +249,6 @@ public class ViewController {
 		for( long simulationId : simulationsIds) {
 			scriptASTs.add(ASTService.computesSimulationAST(simulationId, PortalUtil.getPortalURL(request)));
 		}
-		
-		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-		ASTMapper.siteMap = ASTService.siteMapCreation(themeDisplay, scenario.getGroup_id());
 		
 		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, scenario.getGroup_id(), scriptASTs);
 
