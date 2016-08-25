@@ -22,7 +22,6 @@ import com.excilys.liferay.gatling.model.AST.feeder.data.RecordDataAST;
 import com.excilys.liferay.gatling.model.AST.feeder.data.SiteMapDataAST;
 import com.excilys.liferay.gatling.model.AST.process.ProcessAST;
 import com.excilys.liferay.gatling.service.mapper.ASTMapper;
-import com.excilys.liferay.gatling.service.persistence.ProcessUtil;
 import com.excilys.liferay.gatling.service.persistence.SiteMapUtil;
 import com.excilys.liferay.gatling.service.persistence.UrlSiteMapUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
@@ -36,7 +35,6 @@ import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ASTService {
@@ -105,7 +103,6 @@ public class ASTService {
 	public static long siteMapCreation(ThemeDisplay themeDisplay, long groupId) throws SystemException {
 		StringBuilder sb  = null;
         UrlSiteMap urlSm = null;
-        LOG.debug("------------------------- called ----------------------------");
         SiteMap siteMap = SiteMapUtil.create(CounterLocalServiceUtil.increment(SiteMap.class.getName()));
         siteMap.setName("_default_sitemap_");
         siteMap.persist();

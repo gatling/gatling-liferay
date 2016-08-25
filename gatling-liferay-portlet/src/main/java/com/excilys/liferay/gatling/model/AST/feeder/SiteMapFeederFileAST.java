@@ -18,7 +18,7 @@ public class SiteMapFeederFileAST extends FeederFileAST{
 
 	@Override
 	public String getContent() {
-		StringBuilder contentBuilder = new StringBuilder(SiteMapDataAST.HEADER).append("\n");
+		StringBuilder contentBuilder = new StringBuilder(SiteMapDataAST.HEADER);
 		for (SiteMapDataAST siteMapDataAST : data) {
 			contentBuilder.append(siteMapDataAST.getFriendlyUrl())
 				.append(",")
