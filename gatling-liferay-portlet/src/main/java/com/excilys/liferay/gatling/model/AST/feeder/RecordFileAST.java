@@ -5,13 +5,13 @@ import com.excilys.liferay.gatling.model.AST.feeder.data.RecordDataAST;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecordFeederFileAST extends FeederFileAST {
+public class RecordFileAST extends ScalaFileAST {
 
 	private static final String TYPE = "Record";
 	
 	private List<RecordDataAST> data;
 	
-	public RecordFeederFileAST(String name, List<RecordDataAST> data) {
+	public RecordFileAST(String name, List<RecordDataAST> data) {
 		super(name, TYPE);
 		this.data = data;
 	}

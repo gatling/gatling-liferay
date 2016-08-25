@@ -14,7 +14,7 @@ import com.excilys.liferay.gatling.model.AST.ScenarioAST;
 import com.excilys.liferay.gatling.model.AST.SimulationAST;
 import com.excilys.liferay.gatling.model.AST.feeder.FormParamFeederFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.HttpBodyFileAST;
-import com.excilys.liferay.gatling.model.AST.feeder.RecordFeederFileAST;
+import com.excilys.liferay.gatling.model.AST.feeder.RecordFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.SiteMapFeederFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.UserFeederFileAST;
@@ -74,7 +74,7 @@ public class ASTMapper {
 		
 		switch(ProcessType.valueOf(process.getType())) {
 			case RECORD:
-				RecordFeederFileAST feeder = ASTService.computesRecordFeederFileAST(process.getProcess_id());
+				RecordFileAST feeder = ASTService.computesRecordFeederFileAST(process.getProcess_id());
 				ast = new RecorderAST(feeder);
 				break;
 			case LOGIN:
@@ -101,10 +101,10 @@ public class ASTMapper {
 		return new UserFeederFileAST(login.getName(), login.getData());
 	}
 	
-	public static RecordFeederFileAST mapRecordToAST(Record record) throws SystemException, NoSuchFormParamException{
+	public static RecordFileAST mapRecordToAST(Record record) throws SystemException, NoSuchFormParamException{
 		String name = record.getName();
 		List<RecordDataAST> data = ASTService.computesRecordDataAST(record.getRecordId());
-		return new RecordFeederFileAST(name, data);
+		return new RecordFileAST(name, data);
 	}
 
 	public static List<RecordDataAST> mapUrlRecordsToAST(List<UrlRecord> urlRecords) throws NoSuchFormParamException, SystemException {

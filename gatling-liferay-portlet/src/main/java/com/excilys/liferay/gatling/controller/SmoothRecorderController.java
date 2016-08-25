@@ -6,8 +6,8 @@ package com.excilys.liferay.gatling.controller;
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.AST.ScenarioAST;
 import com.excilys.liferay.gatling.model.AST.SimulationAST;
-import com.excilys.liferay.gatling.model.AST.feeder.FeederFileAST;
-import com.excilys.liferay.gatling.model.AST.feeder.RecordFeederFileAST;
+import com.excilys.liferay.gatling.model.AST.feeder.RecordFileAST;
+import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
 import com.excilys.liferay.gatling.model.AST.process.ProcessAST;
 import com.excilys.liferay.gatling.model.AST.process.RecorderAST;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
@@ -125,9 +125,9 @@ public class SmoothRecorderController {
 		
 		Record record = RecordLocalServiceUtil.findByPortletId("_default_").get(0);
 		
-		FeederFileAST recordFeeder = ASTMapper.mapRecordToAST(record);
+		RecordFileAST recordFile = ASTMapper.mapRecordToAST(record);
 		
-		ProcessAST processAST = new RecorderAST(recordFeeder);
+		ProcessAST processAST = new RecorderAST(recordFile);
 		
 		List<ProcessAST> processList = new ArrayList<>();
 		processList.add(processAST);

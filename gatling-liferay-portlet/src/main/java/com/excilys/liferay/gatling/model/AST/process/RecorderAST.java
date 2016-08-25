@@ -1,32 +1,32 @@
 package com.excilys.liferay.gatling.model.AST.process;
 
-import com.excilys.liferay.gatling.model.AST.feeder.FeederFileAST;
+import com.excilys.liferay.gatling.model.AST.feeder.RecordFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
 
 import java.util.List;
 
 public class RecorderAST extends ProcessAST {
 
-	FeederFileAST recordFeeder;
+	RecordFileAST recordResource;
 	
-	public RecorderAST(FeederFileAST recordFeeder) {
+	public RecorderAST(RecordFileAST recordResource) {
 		super("Record", "record");
-		this.recordFeeder = recordFeeder;
+		this.recordResource = recordResource;
 	}
 	
 	@Override
 	protected String computeArguments() {
-		return '"' + recordFeeder.getName() + '"';
+		return '"' + recordResource.getName() + '"';
 	}
 	
 	@Override
 	public List<ResourceFileAST> getFeederFiles() {
-		return recordFeeder.flatWithSubsequentRessourceFile();
+		return recordResource.flatWithSubsequentRessourceFile();
 	}
 
 	@Override
 	public String toString() {
-		return "Object: " + scalaObject + "\tFunction: " + scalaFunction + "\tFeeder: " + recordFeeder;
+		return "Object: " + scalaObject + "\tFunction: " + scalaFunction + "\tFeeder: " + recordResource;
 	}
 	
 }

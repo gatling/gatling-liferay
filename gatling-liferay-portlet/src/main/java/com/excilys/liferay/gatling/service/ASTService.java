@@ -12,7 +12,7 @@ import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.model.AST.ScenarioAST;
 import com.excilys.liferay.gatling.model.AST.SimulationAST;
 import com.excilys.liferay.gatling.model.AST.feeder.HttpBodyFileAST;
-import com.excilys.liferay.gatling.model.AST.feeder.RecordFeederFileAST;
+import com.excilys.liferay.gatling.model.AST.feeder.RecordFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.UserFeederFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.data.RecordDataAST;
@@ -60,7 +60,7 @@ public class ASTService {
 		return ASTMapper.mapLoginToAST(login);
 	}
 	
-	public static RecordFeederFileAST computesRecordFeederFileAST(long processId) throws PortalException, SystemException{
+	public static RecordFileAST computesRecordFeederFileAST(long processId) throws PortalException, SystemException{
 		Record record = RecordLocalServiceUtil.findByProcessId(processId);
 		if(record == null){
 			//TODO: Raise a custom exception
