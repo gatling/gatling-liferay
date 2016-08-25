@@ -173,6 +173,7 @@ public class ViewController {
 		//sm.setName("_defaut_site_map_");
 		
 		long siteMapId = ASTService.siteMapCreation(themeDisplay, scenario.getGroup_id());
+		
 		Process random = ProcessUtil.create(CounterLocalServiceUtil.increment(Process.class.getName()));
 		random.setName("Random Page");
 		random.setType("RANDOMPAGE");
