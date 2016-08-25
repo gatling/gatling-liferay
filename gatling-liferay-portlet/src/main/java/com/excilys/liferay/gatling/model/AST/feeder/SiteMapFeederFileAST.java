@@ -10,8 +10,8 @@ public class SiteMapFeederFileAST extends FeederFileAST{
 
 	private List<SiteMapDataAST> data;
 	
-	
 	public SiteMapFeederFileAST(String name, List<SiteMapDataAST> data) {
+
 		super(name, TYPE);
 		this.data = data;
 	}
