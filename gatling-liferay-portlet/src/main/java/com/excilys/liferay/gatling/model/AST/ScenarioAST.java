@@ -66,9 +66,7 @@ public class ScenarioAST {
 			sb.append(",\t");
 		}
 		sb.append("\n]");
-		
-		//TODO append other properties: ramp up 
-		//NOTE rampUp or not Rampup, that is the question (attribute related to scenarios or simulations?)
+		sb.append("Rampup: ").append(rampUp);
 		return sb.toString();
 	}
 	

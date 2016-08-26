@@ -87,16 +87,6 @@ public class PortletController {
 		} else {
 			builder.nextStateRecord("RECORD");
 		}
-//		if(RecorderFilter.isMultipartError()) {
-//			renderRequest.setAttribute("multipartError", true);
-//			RecorderFilter.setMultipartError(false);
-//			//TODO: Check valid substitution (static boolean vs Cookie param) and remove following commented lines
-//			//final Cookie cookie = new Cookie("multipart-error", "true");
-//			//cookie.setMaxAge(1);
-//			//CookieKeys.addCookie(PortalUtil.getHttpServletRequest(renderRequest), PortalUtil.getHttpServletResponse(renderResponse), cookie);
-//			LOG.debug("Multipart form is not recorded !");
-//			renderRequest.setAttribute("tabs1", "record-usecase");
-//		}
 
 		renderRequest.setAttribute("portletGatlingDTO", builder.build());
 		return "popupPortlet/portletConfig";
