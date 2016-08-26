@@ -17,6 +17,9 @@ public abstract class ProcessAST {
 	/**
 	 * Computes the code of the process
 	 * 
+	 * Since Mustache is logicless, we used polymorphisme for code generation:
+	 * all processes compute arguments their own way
+	 *  
 	 * @return The process's code
 	 */
 	public String printCode() {
@@ -30,7 +33,7 @@ public abstract class ProcessAST {
 	}
 
 	/**
-	 * Computes a String that will represents the process function call's arguments
+	 * Computes a String that will represent the process function call's arguments
 	 * separeted with commas.
 	 * @return The String representation of the arguments
 	 */
@@ -43,7 +46,7 @@ public abstract class ProcessAST {
 	 * @return the process's feeder
 	 */
 	public abstract List<ResourceFileAST> getFeederFiles();
-
+	
 	@Override
 	public String toString() {
 		return "Object: " + scalaObject + "\tFunction: " + scalaFunction;

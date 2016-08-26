@@ -230,7 +230,6 @@ public class ViewController {
 		if(scenarios == null || scenarios.isEmpty()) {
 			throw new NoSuchScenarioException();
 		}
-		Scenario scenario = scenarios.get(0);
 		
 		long[] simulationsIds = new long[]{simulation.getSimulation_id()};
 
@@ -242,7 +241,7 @@ public class ViewController {
 			scriptASTs.add(ASTService.computesSimulationAST(simulationId, PortalUtil.getPortalURL(request)));
 		}
 		
-		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, scenario.getGroup_id(), scriptASTs);
+		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, scriptASTs);
 
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 		LOG.debug("Zip generated ...");

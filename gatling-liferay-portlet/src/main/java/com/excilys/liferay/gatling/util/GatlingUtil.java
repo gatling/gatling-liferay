@@ -8,14 +8,12 @@ import com.excilys.liferay.gatling.model.LinkUsecaseRequest;
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
-import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.model.AST.ScenarioAST;
 import com.excilys.liferay.gatling.model.AST.SimulationAST;
 import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
 import com.excilys.liferay.gatling.model.AST.process.ProcessAST;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
-import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -205,29 +203,6 @@ public class GatlingUtil {
 		Company company = themeDisplay.getCompany();
 		return company.getAuthType();
 	}
-
-	public static void zipMyProcess(OutputStream os, ClassLoader classLoader, ResourceRequest request, String recordName )
-			throws MustacheException, Exception {
-
-		final ZipOutputStream zipOutputStream = new ZipOutputStream(os);
-		
-		List<Record> records = RecordLocalServiceUtil.findByPortletId("_default_");
-		//TODO find record with the recordName
-		Record record = records.get(0);
-		
-		// Get processes from resources folder
-		//-------------------------------------------------------------------------------------------------------------------------------------
-		zipOutputStream.putNextEntry(new ZipEntry("record"+recordName+".csv"));
-		zipOutputStream.write("url,type,datafile\n".getBytes());
-		
-		LOG.debug(record.getName());
-		List<UrlRecord> urls = UrlRecordLocalServiceUtil.findByRecordId(record.getPrimaryKey());
-		for (UrlRecord url : urls) {
-			zipOutputStream.write((url.getUrl()+","+url.getType()+"\n").getBytes());
-		}
-		zipOutputStream.closeEntry();
-		zipOutputStream.close();
-	}
 	
 	/**
 	 * Zip the test environment in 4 steps (predifined scenarios, simulations, feeders, properties)
@@ -244,19 +219,18 @@ public class GatlingUtil {
 	 * @param simulationIds
 	 */
 	//TODO many parameters need to be removed, siteMap generation will soon be done somewhere else
-	public static void zipMyEnvironment(OutputStream os, ClassLoader classLoader, ResourceRequest request, long groupId, List<SimulationAST> scripts )
+	public static void zipMyEnvironment(OutputStream os, ClassLoader classLoader, ResourceRequest request, List<SimulationAST> scripts )
 			throws MustacheException, Exception {
 
 		final String packageFolder = "user-files/";
-		//final long date = new Date().getTime();
-		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		final ZipOutputStream zipOutputStream = new ZipOutputStream(os);
 		LOG.debug(scripts.get(0));
 
-		// Resource files:
+		// Scenario files:
 		//-------------------------------------------------------------------------------------------------------------------------------------	
 		zipMyResources(packageFolder, classLoader, zipOutputStream);
 
+		
 		// Adds the generated simulations
 		//-------------------------------------------------------------------------------------------------------------------------------------
 		String template = "/templateGatling2.2.X.mustache";
@@ -279,7 +253,7 @@ public class GatlingUtil {
 
 		// Saving feeders:
 		//-------------------------------------------------------------------------------------------------------------------------------------
-		zipMyFeeders(packageFolder, groupId, themeDisplay, classLoader, zipOutputStream, scripts);
+		zipMyFeeders(packageFolder, classLoader, zipOutputStream, scripts);
 		
 		// Properties file:
 		//-------------------------------------------------------------------------------------------------------------------------------------	
@@ -319,10 +293,9 @@ public class GatlingUtil {
 	
 	// Feeder files:
 	//-------------------------------------------------------------------------------------------------------------------------------------	
-	private static void zipMyFeeders(String packageFolder, long groupId, ThemeDisplay themeDisplay, ClassLoader classLoader, ZipOutputStream zipOutputStream, List<SimulationAST> simulations) throws IOException, SystemException {
+	private static void zipMyFeeders(String packageFolder, ClassLoader classLoader, ZipOutputStream zipOutputStream, List<SimulationAST> simulations) throws IOException, SystemException {
 		
-		// Saving feeders:
-		//-------------------------------------------------------------------------------------------------------------------------------------
+		// Going throw the entire AST in order to generated the required feeder files
 		for (SimulationAST simulationAST : simulations) {
 			for (ScenarioAST scenarioAST : simulationAST.getScenarios()) {
 				for (ProcessAST processAST : scenarioAST.getProcesses()) {

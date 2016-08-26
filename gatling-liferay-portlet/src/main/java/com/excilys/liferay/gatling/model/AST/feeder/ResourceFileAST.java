@@ -3,6 +3,13 @@ package com.excilys.liferay.gatling.model.AST.feeder;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ResourceFileAST represents all the data related to processes
+ *
+ * It includes feeders, bodies and scala files that will be generated at execution
+ * All the resource files knows how to be handled (name, location and content).
+ * Since the content depends on the resource type, each child implements getContent his own way
+ */
 public abstract class ResourceFileAST {
 	
 	/** The name of the resource File */

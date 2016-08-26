@@ -5,6 +5,12 @@ import com.excilys.liferay.gatling.model.AST.feeder.data.RecordDataAST;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * RecordFileAST contains all the data related to one record
+ * 
+ * It handles multiple RecordDatas, and processes them during the generation:
+ *
+ */
 public class RecordFileAST extends ScalaFileAST {
 
 	private static final String TYPE = "Record";
@@ -16,15 +22,24 @@ public class RecordFileAST extends ScalaFileAST {
 		this.data = data;
 	}
 
+	/*
+	 * The following code generates a Record scala file with all the chainBuilder execution.
+	 * Since Mustach is logicless, we used polymorphisme instead.
+	 * 
+	 * 
+	 */
 	@Override
 	public String getContent() {
-		String space = "    ";
+		final String space = "    ";
 		StringBuilder contentBuilder = new StringBuilder();
 		fillHeader(contentBuilder);
+		
 		for (int i = 0; i < data.size(); i++) {
-			if (i == 0) {
+			
+			if (i == 0) { // Indent first line
 				contentBuilder.append(space);
 			}
+			
 			contentBuilder.append("exec(")
 			.append(data.get(i).getContent())
 			.append(space)
@@ -44,6 +59,9 @@ public class RecordFileAST extends ScalaFileAST {
 		
 	}
 
+	/*
+	 * Handles the scala file header (package definition, imports...)
+	 */
 	private void fillHeader(StringBuilder contentBuilder) {
 		contentBuilder.append("package liferay.processes\n\n")
 				.append("import io.gatling.core.Predef._\n")

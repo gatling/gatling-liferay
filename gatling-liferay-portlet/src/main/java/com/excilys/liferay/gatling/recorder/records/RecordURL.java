@@ -3,7 +3,12 @@ package com.excilys.liferay.gatling.recorder.records;
 import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 
-//TODO: Comment Me !
+
+/**
+ * RecordURL represent a request done during the recording
+ * 
+ * It contains various request data which need to be stored.
+ */
 
 public abstract class RecordURL {
 	protected String method;

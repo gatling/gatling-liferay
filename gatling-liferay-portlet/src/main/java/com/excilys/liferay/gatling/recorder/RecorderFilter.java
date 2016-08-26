@@ -163,13 +163,11 @@ public class RecorderFilter implements Filter {
 	 */
 	private static void saveURL(HttpServletRequest request, ServletResponse response, HttpSession session, List<RecordURL> currentRecords) throws IOException{
 		
-		LOG.info("Save the URL");
 		long start = (long) session.getAttribute("GATLING_PAUSE_TIME");
 		long now = System.nanoTime();
 		session.setAttribute("GATLING_PAUSE_TIME", now);
+		int pauseTime = (int) Math.floor((now- start) / Math.pow(10, 9));
 		
-		int pauseTime = (int) Math.ceil((now- start) / Math.pow(10, 9));
-		LOG.debug("Start="+start+"\t now:"+now+"\t diff:"+pauseTime);
 		Map<String, String[]> parametersMap = request.getParameterMap();
 		//TODO check out if params doesnt contains unwanted params, such as form param. Otherwise use request.queryString instead
 		String params = HttpUtil.parameterMapToString(filterParameters(parametersMap));

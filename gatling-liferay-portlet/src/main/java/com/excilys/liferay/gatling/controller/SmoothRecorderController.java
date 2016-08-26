@@ -113,7 +113,7 @@ public class SmoothRecorderController {
 		SimulationAST ast = createDefaultAST();
 		asts.add(ast);
 		
-		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, 0, asts);
+		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, asts);
 		 		
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 		LOG.debug("Zip process generated ...");
