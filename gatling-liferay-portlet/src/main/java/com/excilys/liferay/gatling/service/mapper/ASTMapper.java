@@ -30,8 +30,6 @@ import com.excilys.liferay.gatling.model.AST.process.RecorderAST;
 import com.excilys.liferay.gatling.service.ASTService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +37,6 @@ import java.util.List;
 public class ASTMapper {
 	
 	
-	private static final Log LOG = LogFactoryUtil.getLog(ASTMapper.class);
-
 	public static SimulationAST mapSimulationToAST(Simulation simulation, String portalURL) throws SystemException, PortalException {
 		List<ScenarioAST> scenarios = ASTService.computesScenariosAST(simulation.getSimulation_id(), portalURL);
 		return new SimulationAST(simulation.getName(), scenarios, portalURL);

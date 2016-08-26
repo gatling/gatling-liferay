@@ -34,6 +34,10 @@ public abstract class RecordURL {
 	public int getPauseTime() {
 		return pauseTime;
 	}
+	
+	public void setPauseTime(int pauseTime) {
+		this.pauseTime = pauseTime;
+	}
 
 	@Override
 	public String toString() {
@@ -41,8 +45,8 @@ public abstract class RecordURL {
 				+ params + "]";
 	}
 
-	public final void saveURL(int order, long recordId) throws SystemException {
-		long primaryKey = UrlRecordLocalServiceUtil.save(url, method, order, recordId,2);
+	public final void saveURL(int order, long recordId, int pauseTime) throws SystemException {
+		long primaryKey = UrlRecordLocalServiceUtil.save(url, method, order, recordId, pauseTime);
 		saveData(primaryKey);
 	}
 	

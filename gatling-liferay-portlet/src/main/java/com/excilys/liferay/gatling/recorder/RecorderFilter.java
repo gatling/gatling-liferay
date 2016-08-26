@@ -129,6 +129,9 @@ public class RecorderFilter implements Filter {
 		String actionToggleRecord = ParamUtil.getString(httpRequest, NAMESPACE+"javax.portlet.action",null);
 		
 		if((actionToggleRecord != null && actionToggleRecord.equals("toggleRecord"))) {
+			long start = System.nanoTime();
+			session.setAttribute("GATLING_PAUSE_TIME", start);
+			
 			String recordState = ParamUtil.getString(httpRequest, NAMESPACE+"nextRecordState", null);
 			String recordName = ParamUtil.getString(httpRequest, NAMESPACE+"useCaseRecordName", null);
 			String portletId = ParamUtil.getString(httpRequest, NAMESPACE+"pagePortletId", null);
@@ -161,7 +164,12 @@ public class RecorderFilter implements Filter {
 	private static void saveURL(HttpServletRequest request, ServletResponse response, HttpSession session, List<RecordURL> currentRecords) throws IOException{
 		
 		LOG.info("Save the URL");
+		long start = (long) session.getAttribute("GATLING_PAUSE_TIME");
+		long now = System.nanoTime();
+		session.setAttribute("GATLING_PAUSE_TIME", now);
 		
+		int pauseTime = (int) Math.ceil((now- start) / Math.pow(10, 9));
+		LOG.debug("Start="+start+"\t now:"+now+"\t diff:"+pauseTime);
 		Map<String, String[]> parametersMap = request.getParameterMap();
 		//TODO check out if params doesnt contains unwanted params, such as form param. Otherwise use request.queryString instead
 		String params = HttpUtil.parameterMapToString(filterParameters(parametersMap));
@@ -186,7 +194,7 @@ public class RecorderFilter implements Filter {
 			//Get Case
 			record = new GetURL(requestURL, params);
 		} 
-		
+		record.setPauseTime(pauseTime);
 		LOG.debug(record);
 		currentRecords.add(record);
 		session.setAttribute("recordURL", currentRecords);
@@ -229,7 +237,7 @@ public class RecorderFilter implements Filter {
 				
 				LOG.debug("Record saved !");
 				for (int i = 1; i < currentRecords.size(); i++) {
-					currentRecords.get(i).saveURL(i, record.getRecordId());
+					currentRecords.get(i).saveURL(i, record.getRecordId(), currentRecords.get(i).getPauseTime());
 				}
 				LOG.debug("Urls saved !");
 

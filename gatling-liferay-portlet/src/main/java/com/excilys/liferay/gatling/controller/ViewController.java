@@ -5,21 +5,18 @@ package com.excilys.liferay.gatling.controller;
 
 import com.excilys.liferay.gatling.NoSuchScenarioException;
 import com.excilys.liferay.gatling.model.Login;
+import com.excilys.liferay.gatling.model.Process;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
-import com.excilys.liferay.gatling.model.SiteMap;
 import com.excilys.liferay.gatling.model.AST.SimulationAST;
-import com.excilys.liferay.gatling.model.AST.feeder.UserFeederFileAST;
 import com.excilys.liferay.gatling.service.ASTService;
 import com.excilys.liferay.gatling.service.ProcessLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
-import com.excilys.liferay.gatling.service.mapper.ASTMapper;
 import com.excilys.liferay.gatling.service.persistence.LoginUtil;
 import com.excilys.liferay.gatling.service.persistence.ProcessUtil;
 import com.excilys.liferay.gatling.service.persistence.ScenarioUtil;
 import com.excilys.liferay.gatling.service.persistence.SimulationUtil;
-import com.excilys.liferay.gatling.service.persistence.SiteMapUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -30,7 +27,6 @@ import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
-import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 
@@ -53,8 +49,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
-
-import com.excilys.liferay.gatling.model.Process;
 /**
  * Controller linked to the default view
  */
@@ -168,9 +162,6 @@ public class ViewController {
 		logout.setOrder(2);
 		logout.setScenario_id(scenario.getScenario_id());
 		logout.persist();	
-		
-		//SiteMap sm = SiteMapUtil.create(CounterLocalServiceUtil.increment(SiteMap.class.getName()));
-		//sm.setName("_defaut_site_map_");
 		
 		long siteMapId = ASTService.siteMapCreation(themeDisplay, scenario.getGroup_id());
 		
