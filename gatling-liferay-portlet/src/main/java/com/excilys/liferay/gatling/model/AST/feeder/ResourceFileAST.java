@@ -21,11 +21,19 @@ public abstract class ResourceFileAST {
 	}
 	
 	/**
+	 * Computes the name of the resource file with his location
+	 * @return the resource file name
+	 */
+	public String getLocatedName() {
+		return location + getName();
+	}
+	
+	/**
 	 * Computes the name of the resource file
 	 * @return the resource file name
 	 */
 	public String getName() {
-		return location + type + name;
+		return type + name;
 	}
 	
 	/**
@@ -47,7 +55,7 @@ public abstract class ResourceFileAST {
 	
 	@Override
 	public String toString() {
-		return this.getName();
+		return this.getLocatedName();
 	}
 	
 }

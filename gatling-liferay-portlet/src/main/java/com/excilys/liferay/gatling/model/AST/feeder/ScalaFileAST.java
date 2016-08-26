@@ -9,8 +9,8 @@ public abstract class ScalaFileAST extends ResourceFileAST {
 	}
 
 	@Override
-	public String getName() {
-		return super.getName() + ".scala";
+	public String getLocatedName() {
+		return super.getLocatedName() + ".scala";
 	}
 	
 }

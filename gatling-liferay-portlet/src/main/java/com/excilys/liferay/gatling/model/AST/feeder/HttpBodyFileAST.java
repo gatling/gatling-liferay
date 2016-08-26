@@ -15,8 +15,8 @@ public class HttpBodyFileAST extends ResourceFileAST {
 	}
 
 	@Override
-	public String getName() {
-		return super.getName() + ".txt";
+	public String getLocatedName() {
+		return super.getLocatedName() + ".txt";
 	}
 
 	@Override

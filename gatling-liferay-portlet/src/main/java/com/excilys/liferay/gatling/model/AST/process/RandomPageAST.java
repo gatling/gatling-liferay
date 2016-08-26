@@ -17,7 +17,7 @@ public class RandomPageAST extends ProcessAST {
 
 	@Override
 	protected String computeArguments() {
-		return '"' + siteMap.getName() + '"';
+		return '"' + siteMap.getLocatedName() + '"';
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public class LoginAST extends ProcessAST{
 	@Override
 	protected String computeArguments() {
 		//TODO remove hardcoded arg
-		return '"' + portalURL + "\"," + '"' + loginFeeder.getName() + '"';
+		return '"' + portalURL + "\"," + '"' + loginFeeder.getLocatedName() + '"';
 	}
 	
 	@Override

@@ -10,13 +10,13 @@ public class RecorderAST extends ProcessAST {
 	RecordFileAST recordResource;
 	
 	public RecorderAST(RecordFileAST recordResource) {
-		super("Record", "record");
+		super(recordResource.getName(), "run");
 		this.recordResource = recordResource;
-	}
-	
+	} 
+
 	@Override
 	protected String computeArguments() {
-		return '"' + recordResource.getName() + '"';
+		return "";
 	}
 	
 	@Override

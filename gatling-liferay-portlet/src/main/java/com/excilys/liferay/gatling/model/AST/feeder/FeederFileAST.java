@@ -13,8 +13,8 @@ public abstract class FeederFileAST extends ResourceFileAST {
 	}
 
 	@Override
-	public String getName() {
-		return super.getName() + ".csv";
+	public String getLocatedName() {
+		return super.getLocatedName() + ".csv";
 	}
 	
 }

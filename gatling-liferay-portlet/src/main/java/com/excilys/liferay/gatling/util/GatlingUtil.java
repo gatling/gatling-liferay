@@ -331,7 +331,7 @@ public class GatlingUtil {
 			for (ScenarioAST scenarioAST : simulationAST.getScenarios()) {
 				for (ProcessAST processAST : scenarioAST.getProcesses()) {
 					for (ResourceFileAST feederFileAST : processAST.getFeederFiles()) {
-						zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+feederFileAST.getName()));
+						zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+feederFileAST.getLocatedName()));
 						zipOutputStream.write(feederFileAST.getContent().getBytes());
 						zipOutputStream.closeEntry();
 					}

@@ -49,7 +49,7 @@ public class RecordDataAST {
 						.append(url)
 						.append("\")\n");
 				if(data != null){
-					String fileName = data.getName();
+					String fileName = data.getLocatedName();
 					if(fileName.startsWith(BODIES)) {
 						fileName = fileName.substring(BODIES.length());
 					}

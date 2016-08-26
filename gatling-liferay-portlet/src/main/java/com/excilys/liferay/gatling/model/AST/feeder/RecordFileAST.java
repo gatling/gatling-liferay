@@ -41,7 +41,7 @@ public class RecordFileAST extends ScalaFileAST {
 				.append("import io.gatling.core.session\n")
 				.append("import io.gatling.http.Preder._\n\n")
 				.append("/**\n * A recorded navigation.\n */\n")
-				.append("object ").append(name).append(" {\n\n")
+				.append("object ").append(getName()).append(" {\n\n")
 				.append("  val run =\n");
 	}
 
