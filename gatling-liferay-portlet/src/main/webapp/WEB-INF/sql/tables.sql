@@ -80,7 +80,8 @@ create table StressTool_UrlRecord (
 	recordId LONG,
 	url TEXT null,
 	type_ VARCHAR(75) null,
-	order_ INTEGER
+	order_ INTEGER,
+	pauseTime INTEGER
 );
 
 create table StressTool_UrlSiteMap (

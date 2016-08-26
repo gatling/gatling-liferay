@@ -132,6 +132,7 @@
 		<column name="url" type="String" />
 		<column name="type" type="String" />
 		<column name="order" type="int" />
+		<column name="pauseTime" type="int" />
 		<finder name="RecordId" return-type="Collection">
 			<finder-column name="recordId" />
 		</finder>

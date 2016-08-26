@@ -115,6 +115,20 @@ public interface UrlRecordModel extends BaseModel<UrlRecord> {
      */
     public void setOrder(int order);
 
+    /**
+     * Returns the pause time of this url record.
+     *
+     * @return the pause time of this url record
+     */
+    public int getPauseTime();
+
+    /**
+     * Sets the pause time of this url record.
+     *
+     * @param pauseTime the pause time of this url record
+     */
+    public void setPauseTime(int pauseTime);
+
     @Override
     public boolean isNew();
 

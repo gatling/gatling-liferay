@@ -9,7 +9,6 @@ import com.excilys.liferay.gatling.recorder.records.PostMultipartURL;
 import com.excilys.liferay.gatling.recorder.records.PostURL;
 import com.excilys.liferay.gatling.recorder.records.RecordURL;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
-import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -24,11 +23,9 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -266,6 +263,7 @@ public class RecorderFilter implements Filter {
 	private static RecordURL computeParamsFromNormalForm(HttpServletRequest request, String RequestURL, String params){
 		String queryString = request.getQueryString();
 		LOG.debug("QueryString: "+queryString);
+
 		
 		// Create a Map of params from queryString, those are unwanted params filtered later
 		Map<String, String> unwantedParam = new HashMap<>();

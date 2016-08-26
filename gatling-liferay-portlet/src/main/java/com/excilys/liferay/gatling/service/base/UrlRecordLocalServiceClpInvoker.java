@@ -160,7 +160,7 @@ public class UrlRecordLocalServiceClpInvoker {
         _methodName81 = "save";
 
         _methodParameterTypes81 = new String[] {
-                "java.lang.String", "java.lang.String", "int", "long"
+                "java.lang.String", "java.lang.String", "int", "long", "int"
             };
     }
 
@@ -287,7 +287,8 @@ public class UrlRecordLocalServiceClpInvoker {
             return UrlRecordLocalServiceUtil.save((java.lang.String) arguments[0],
                 (java.lang.String) arguments[1],
                 ((Integer) arguments[2]).intValue(),
-                ((Long) arguments[3]).longValue());
+                ((Long) arguments[3]).longValue(),
+                ((Integer) arguments[4]).intValue());
         }
 
         throw new UnsupportedOperationException();

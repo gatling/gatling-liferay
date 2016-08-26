@@ -134,6 +134,7 @@
 			<basic name="order">
 				<column name="ORDER_" />
 			</basic>
+			<basic name="pauseTime" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />

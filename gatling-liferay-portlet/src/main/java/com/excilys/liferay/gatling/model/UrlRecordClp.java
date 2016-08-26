@@ -24,6 +24,7 @@ public class UrlRecordClp extends BaseModelImpl<UrlRecord> implements UrlRecord 
     private String _url;
     private String _type;
     private int _order;
+    private int _pauseTime;
     private BaseModel<?> _urlRecordRemoteModel;
     private Class<?> _clpSerializerClass = com.excilys.liferay.gatling.service.ClpSerializer.class;
 
@@ -69,6 +70,7 @@ public class UrlRecordClp extends BaseModelImpl<UrlRecord> implements UrlRecord 
         attributes.put("url", getUrl());
         attributes.put("type", getType());
         attributes.put("order", getOrder());
+        attributes.put("pauseTime", getPauseTime());
 
         return attributes;
     }
@@ -103,6 +105,12 @@ public class UrlRecordClp extends BaseModelImpl<UrlRecord> implements UrlRecord 
 
         if (order != null) {
             setOrder(order);
+        }
+
+        Integer pauseTime = (Integer) attributes.get("pauseTime");
+
+        if (pauseTime != null) {
+            setPauseTime(pauseTime);
         }
     }
 
@@ -216,6 +224,28 @@ public class UrlRecordClp extends BaseModelImpl<UrlRecord> implements UrlRecord 
         }
     }
 
+    @Override
+    public int getPauseTime() {
+        return _pauseTime;
+    }
+
+    @Override
+    public void setPauseTime(int pauseTime) {
+        _pauseTime = pauseTime;
+
+        if (_urlRecordRemoteModel != null) {
+            try {
+                Class<?> clazz = _urlRecordRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setPauseTime", int.class);
+
+                method.invoke(_urlRecordRemoteModel, pauseTime);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getUrlRecordRemoteModel() {
         return _urlRecordRemoteModel;
     }
@@ -288,6 +318,7 @@ public class UrlRecordClp extends BaseModelImpl<UrlRecord> implements UrlRecord 
         clone.setUrl(getUrl());
         clone.setType(getType());
         clone.setOrder(getOrder());
+        clone.setPauseTime(getPauseTime());
 
         return clone;
     }
@@ -337,7 +368,7 @@ public class UrlRecordClp extends BaseModelImpl<UrlRecord> implements UrlRecord 
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(11);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("{urlRecordId=");
         sb.append(getUrlRecordId());
@@ -349,6 +380,8 @@ public class UrlRecordClp extends BaseModelImpl<UrlRecord> implements UrlRecord 
         sb.append(getType());
         sb.append(", order=");
         sb.append(getOrder());
+        sb.append(", pauseTime=");
+        sb.append(getPauseTime());
         sb.append("}");
 
         return sb.toString();
@@ -356,7 +389,7 @@ public class UrlRecordClp extends BaseModelImpl<UrlRecord> implements UrlRecord 
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(19);
+        StringBundler sb = new StringBundler(22);
 
         sb.append("<model><model-name>");
         sb.append("com.excilys.liferay.gatling.model.UrlRecord");
@@ -381,6 +414,10 @@ public class UrlRecordClp extends BaseModelImpl<UrlRecord> implements UrlRecord 
         sb.append(
             "<column><column-name>order</column-name><column-value><![CDATA[");
         sb.append(getOrder());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>pauseTime</column-name><column-value><![CDATA[");
+        sb.append(getPauseTime());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

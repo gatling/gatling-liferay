@@ -9,7 +9,10 @@ public abstract class RecordURL {
 	protected String method;
 	protected String url;
 	protected String params;
+	protected int pauseTime;
 	
+	
+
 	protected RecordURL(String method, String requestURL, String params) {
 		this.method = method;
 		this.url = requestURL;
@@ -28,7 +31,10 @@ public abstract class RecordURL {
 		return params;
 	}
 
-	
+	public int getPauseTime() {
+		return pauseTime;
+	}
+
 	@Override
 	public String toString() {
 		return "RecordURL [method=" + method + ", url=" + url + ", params="
@@ -36,7 +42,7 @@ public abstract class RecordURL {
 	}
 
 	public final void saveURL(int order, long recordId) throws SystemException {
-		long primaryKey = UrlRecordLocalServiceUtil.save(url, method, order, recordId);
+		long primaryKey = UrlRecordLocalServiceUtil.save(url, method, order, recordId,2);
 		saveData(primaryKey);
 	}
 	

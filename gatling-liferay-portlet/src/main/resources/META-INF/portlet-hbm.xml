@@ -111,6 +111,7 @@
 		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" column="type_" />
 		<property name="order" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="order_" />
+		<property name="pauseTime" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 	</class>
 	<class name="com.excilys.liferay.gatling.model.impl.UrlSiteMapImpl" table="StressTool_UrlSiteMap">
 		<cache usage="read-write" />

@@ -25,10 +25,11 @@ public class UrlRecordCacheModel implements CacheModel<UrlRecord>,
     public String url;
     public String type;
     public int order;
+    public int pauseTime;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(11);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("{urlRecordId=");
         sb.append(urlRecordId);
@@ -40,6 +41,8 @@ public class UrlRecordCacheModel implements CacheModel<UrlRecord>,
         sb.append(type);
         sb.append(", order=");
         sb.append(order);
+        sb.append(", pauseTime=");
+        sb.append(pauseTime);
         sb.append("}");
 
         return sb.toString();
@@ -65,6 +68,7 @@ public class UrlRecordCacheModel implements CacheModel<UrlRecord>,
         }
 
         urlRecordImpl.setOrder(order);
+        urlRecordImpl.setPauseTime(pauseTime);
 
         urlRecordImpl.resetOriginalValues();
 
@@ -78,6 +82,7 @@ public class UrlRecordCacheModel implements CacheModel<UrlRecord>,
         url = objectInput.readUTF();
         type = objectInput.readUTF();
         order = objectInput.readInt();
+        pauseTime = objectInput.readInt();
     }
 
     @Override
@@ -99,5 +104,6 @@ public class UrlRecordCacheModel implements CacheModel<UrlRecord>,
         }
 
         objectOutput.writeInt(order);
+        objectOutput.writeInt(pauseTime);
     }
 }

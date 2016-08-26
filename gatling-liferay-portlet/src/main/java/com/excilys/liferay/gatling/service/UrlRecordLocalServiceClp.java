@@ -161,7 +161,7 @@ public class UrlRecordLocalServiceClp implements UrlRecordLocalService {
         _methodName22 = "save";
 
         _methodParameterTypes22 = new String[] {
-                "java.lang.String", "java.lang.String", "int", "long"
+                "java.lang.String", "java.lang.String", "int", "long", "int"
             };
     }
 
@@ -756,7 +756,7 @@ public class UrlRecordLocalServiceClp implements UrlRecordLocalService {
 
     @Override
     public long save(java.lang.String url, java.lang.String type, int order,
-        long recordId)
+        long recordId, int pauseTime)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
@@ -770,7 +770,9 @@ public class UrlRecordLocalServiceClp implements UrlRecordLocalService {
                         
                     order,
                         
-                    recordId
+                    recordId,
+                        
+                    pauseTime
                     });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);

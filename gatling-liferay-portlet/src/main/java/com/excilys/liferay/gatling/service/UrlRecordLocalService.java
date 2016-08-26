@@ -252,6 +252,6 @@ public interface UrlRecordLocalService extends BaseLocalService,
         throws com.liferay.portal.kernel.exception.SystemException;
 
     public long save(java.lang.String url, java.lang.String type, int order,
-        long recordId)
+        long recordId, int pauseTime)
         throws com.liferay.portal.kernel.exception.SystemException;
 }

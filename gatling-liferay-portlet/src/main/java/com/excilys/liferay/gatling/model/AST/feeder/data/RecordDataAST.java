@@ -13,11 +13,14 @@ public class RecordDataAST {
 	private String url;
 	private String type;
 	private ResourceFileAST data;
+	private int pauseTime;
+	
 
-	public RecordDataAST(String url, String type, ResourceFileAST data) {
+	public RecordDataAST(String url, String type, ResourceFileAST data, int pause) {
 		this.url = url;
 		this.type = type;
 		this.data = data;
+		this.pauseTime = pause;
 	}
 
 	public String getUrl() {
@@ -28,6 +31,11 @@ public class RecordDataAST {
 		return type;
 	}
 
+	public int getPauseTime() {
+		return pauseTime;
+	}
+
+	
 	public ResourceFileAST getData() {
 		return data;
 	}

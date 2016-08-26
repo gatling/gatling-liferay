@@ -18,21 +18,30 @@ public class RecordFileAST extends ScalaFileAST {
 
 	@Override
 	public String getContent() {
+		String space = "    ";
 		StringBuilder contentBuilder = new StringBuilder();
 		fillHeader(contentBuilder);
 		for (int i = 0; i < data.size(); i++) {
-			contentBuilder.append("    ");
-			if(i > 0){
-				contentBuilder.append(").");
+			if (i == 0) {
+				contentBuilder.append(space);
 			}
-			contentBuilder.append("exec(");
-			contentBuilder.append(data.get(i).getContent());
-			if(i == data.size() - 1) {
-				contentBuilder.append("    )\n");
+			contentBuilder.append("exec(")
+			.append(data.get(i).getContent())
+			.append(space)
+			.append(")\n")
+			.append(space)
+			.append(".pause(")
+			.append(data.get(i).getPauseTime())
+			.append(")\n");
+			
+			if(i != data.size() - 1) {
+				contentBuilder.append(space)
+				.append(".");
 			}
 		}
 		contentBuilder.append("}\n");
 		return contentBuilder.toString();
+		
 	}
 
 	private void fillHeader(StringBuilder contentBuilder) {

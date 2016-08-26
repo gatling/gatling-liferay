@@ -17,6 +17,7 @@ public class UrlRecordSoap implements Serializable {
     private String _url;
     private String _type;
     private int _order;
+    private int _pauseTime;
 
     public UrlRecordSoap() {
     }
@@ -29,6 +30,7 @@ public class UrlRecordSoap implements Serializable {
         soapModel.setUrl(model.getUrl());
         soapModel.setType(model.getType());
         soapModel.setOrder(model.getOrder());
+        soapModel.setPauseTime(model.getPauseTime());
 
         return soapModel;
     }
@@ -115,5 +117,13 @@ public class UrlRecordSoap implements Serializable {
 
     public void setOrder(int order) {
         _order = order;
+    }
+
+    public int getPauseTime() {
+        return _pauseTime;
+    }
+
+    public void setPauseTime(int pauseTime) {
+        _pauseTime = pauseTime;
     }
 }

@@ -825,6 +825,7 @@ public class UrlRecordPersistenceImpl extends BasePersistenceImpl<UrlRecord>
         urlRecordImpl.setUrl(urlRecord.getUrl());
         urlRecordImpl.setType(urlRecord.getType());
         urlRecordImpl.setOrder(urlRecord.getOrder());
+        urlRecordImpl.setPauseTime(urlRecord.getPauseTime());
 
         return urlRecordImpl;
     }

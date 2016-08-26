@@ -75,6 +75,7 @@
 		</field>
 		<field name="type" type="String" />
 		<field name="order" type="int" />
+		<field name="pauseTime" type="int" />
 	</model>
 	<model name="com.excilys.liferay.gatling.model.UrlSiteMap">
 		<field name="urlSiteMapId" type="long" />

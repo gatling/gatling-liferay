@@ -48,9 +48,10 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
             { "recordId", Types.BIGINT },
             { "url", Types.VARCHAR },
             { "type_", Types.VARCHAR },
-            { "order_", Types.INTEGER }
+            { "order_", Types.INTEGER },
+            { "pauseTime", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table StressTool_UrlRecord (urlRecordId LONG not null primary key,recordId LONG,url TEXT null,type_ VARCHAR(75) null,order_ INTEGER)";
+    public static final String TABLE_SQL_CREATE = "create table StressTool_UrlRecord (urlRecordId LONG not null primary key,recordId LONG,url TEXT null,type_ VARCHAR(75) null,order_ INTEGER,pauseTime INTEGER)";
     public static final String TABLE_SQL_DROP = "drop table StressTool_UrlRecord";
     public static final String ORDER_BY_JPQL = " ORDER BY urlRecord.urlRecordId ASC";
     public static final String ORDER_BY_SQL = " ORDER BY StressTool_UrlRecord.urlRecordId ASC";
@@ -81,6 +82,7 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
     private String _url;
     private String _type;
     private int _order;
+    private int _pauseTime;
     private long _columnBitmask;
     private UrlRecord _escapedModel;
 
@@ -126,6 +128,7 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
         attributes.put("url", getUrl());
         attributes.put("type", getType());
         attributes.put("order", getOrder());
+        attributes.put("pauseTime", getPauseTime());
 
         return attributes;
     }
@@ -160,6 +163,12 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 
         if (order != null) {
             setOrder(order);
+        }
+
+        Integer pauseTime = (Integer) attributes.get("pauseTime");
+
+        if (pauseTime != null) {
+            setPauseTime(pauseTime);
         }
     }
 
@@ -233,6 +242,16 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
         _order = order;
     }
 
+    @Override
+    public int getPauseTime() {
+        return _pauseTime;
+    }
+
+    @Override
+    public void setPauseTime(int pauseTime) {
+        _pauseTime = pauseTime;
+    }
+
     public long getColumnBitmask() {
         return _columnBitmask;
     }
@@ -269,6 +288,7 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
         urlRecordImpl.setUrl(getUrl());
         urlRecordImpl.setType(getType());
         urlRecordImpl.setOrder(getOrder());
+        urlRecordImpl.setPauseTime(getPauseTime());
 
         urlRecordImpl.resetOriginalValues();
 
@@ -351,12 +371,14 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 
         urlRecordCacheModel.order = getOrder();
 
+        urlRecordCacheModel.pauseTime = getPauseTime();
+
         return urlRecordCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(11);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("{urlRecordId=");
         sb.append(getUrlRecordId());
@@ -368,6 +390,8 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
         sb.append(getType());
         sb.append(", order=");
         sb.append(getOrder());
+        sb.append(", pauseTime=");
+        sb.append(getPauseTime());
         sb.append("}");
 
         return sb.toString();
@@ -375,7 +399,7 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(19);
+        StringBundler sb = new StringBundler(22);
 
         sb.append("<model><model-name>");
         sb.append("com.excilys.liferay.gatling.model.UrlRecord");
@@ -400,6 +424,10 @@ public class UrlRecordModelImpl extends BaseModelImpl<UrlRecord>
         sb.append(
             "<column><column-name>order</column-name><column-value><![CDATA[");
         sb.append(getOrder());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>pauseTime</column-name><column-value><![CDATA[");
+        sb.append(getPauseTime());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

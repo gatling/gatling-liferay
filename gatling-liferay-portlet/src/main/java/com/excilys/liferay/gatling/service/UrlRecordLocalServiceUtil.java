@@ -280,9 +280,9 @@ public class UrlRecordLocalServiceUtil {
     }
 
     public static long save(java.lang.String url, java.lang.String type,
-        int order, long recordId)
+        int order, long recordId, int pauseTime)
         throws com.liferay.portal.kernel.exception.SystemException {
-        return getService().save(url, type, order, recordId);
+        return getService().save(url, type, order, recordId, pauseTime);
     }
 
     public static void clearService() {

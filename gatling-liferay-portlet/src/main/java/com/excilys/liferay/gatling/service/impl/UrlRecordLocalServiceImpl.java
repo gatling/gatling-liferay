@@ -17,7 +17,6 @@ package com.excilys.liferay.gatling.service.impl;
 import java.util.List;
 
 import com.excilys.liferay.gatling.model.UrlRecord;
-import com.excilys.liferay.gatling.recorder.RecorderFilter;
 import com.excilys.liferay.gatling.service.base.UrlRecordLocalServiceBaseImpl;
 import com.excilys.liferay.gatling.validator.UrlRecordValidator;
 import com.liferay.counter.service.CounterLocalServiceUtil;
@@ -64,13 +63,14 @@ public class UrlRecordLocalServiceImpl extends UrlRecordLocalServiceBaseImpl {
 	}
 	
 	@Override
-	public long save(String url, String type, int order, long recordId) throws SystemException {
+	public long save(String url, String type, int order, long recordId, int pauseTime) throws SystemException {
 		long primaryKeyUrl = CounterLocalServiceUtil.increment(UrlRecord.class.getName());
 		UrlRecord urlRecord = urlRecordPersistence.create(primaryKeyUrl);
 		urlRecord.setUrl(url);
 		urlRecord.setType(type);
 		urlRecord.setOrder(order);
 		urlRecord.setRecordId(recordId);
+		urlRecord.setPauseTime(pauseTime);
 		final List<String> errors = UrlRecordValidator.validateUrlRecord(urlRecord);
 		if(errors.isEmpty()) {
 			urlRecord.persist();

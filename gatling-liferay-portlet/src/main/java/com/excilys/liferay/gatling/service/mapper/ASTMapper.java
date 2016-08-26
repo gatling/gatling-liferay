@@ -125,7 +125,7 @@ public class ASTMapper {
 					break;
 			}
 			
-			RecordDataAST data = new RecordDataAST(urlRecord.getUrl(), urlRecord.getType(), formResource);
+			RecordDataAST data = new RecordDataAST(urlRecord.getUrl(), urlRecord.getType(), formResource, urlRecord.getPauseTime());
 			dataList.add(data);
 		}
 		return dataList;

@@ -41,6 +41,7 @@ public class UrlRecordWrapper implements UrlRecord, ModelWrapper<UrlRecord> {
         attributes.put("url", getUrl());
         attributes.put("type", getType());
         attributes.put("order", getOrder());
+        attributes.put("pauseTime", getPauseTime());
 
         return attributes;
     }
@@ -75,6 +76,12 @@ public class UrlRecordWrapper implements UrlRecord, ModelWrapper<UrlRecord> {
 
         if (order != null) {
             setOrder(order);
+        }
+
+        Integer pauseTime = (Integer) attributes.get("pauseTime");
+
+        if (pauseTime != null) {
+            setPauseTime(pauseTime);
         }
     }
 
@@ -196,6 +203,26 @@ public class UrlRecordWrapper implements UrlRecord, ModelWrapper<UrlRecord> {
     @Override
     public void setOrder(int order) {
         _urlRecord.setOrder(order);
+    }
+
+    /**
+    * Returns the pause time of this url record.
+    *
+    * @return the pause time of this url record
+    */
+    @Override
+    public int getPauseTime() {
+        return _urlRecord.getPauseTime();
+    }
+
+    /**
+    * Sets the pause time of this url record.
+    *
+    * @param pauseTime the pause time of this url record
+    */
+    @Override
+    public void setPauseTime(int pauseTime) {
+        _urlRecord.setPauseTime(pauseTime);
     }
 
     @Override
