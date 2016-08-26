@@ -3,7 +3,6 @@ package com.excilys.liferay.gatling.service.impl;
 import com.excilys.liferay.gatling.NoSuchProcessException;
 import com.excilys.liferay.gatling.NoSuchRecordException;
 import com.excilys.liferay.gatling.NoSuchSiteMapException;
-import com.excilys.liferay.gatling.model.Login;
 import com.excilys.liferay.gatling.model.Process;
 import com.excilys.liferay.gatling.model.ProcessType;
 import com.excilys.liferay.gatling.model.SiteMap;

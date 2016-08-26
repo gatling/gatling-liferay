@@ -2,16 +2,12 @@ package com.excilys.liferay.gatling.service.impl;
 
 import com.excilys.liferay.gatling.NoSuchFormParamException;
 import com.excilys.liferay.gatling.model.FormParam;
-import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.service.base.FormParamLocalServiceBaseImpl;
-import com.excilys.liferay.gatling.service.persistence.FormParamPersistence;
-import com.excilys.liferay.gatling.validator.UrlRecordValidator;
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The implementation of the form param local service.

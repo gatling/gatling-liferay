@@ -6,7 +6,6 @@ import com.excilys.liferay.gatling.NoSuchRecordException;
 import com.excilys.liferay.gatling.model.Login;
 import com.excilys.liferay.gatling.model.Process;
 import com.excilys.liferay.gatling.model.ProcessType;
-import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.service.base.LoginLocalServiceBaseImpl;
 import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.exception.SystemException;

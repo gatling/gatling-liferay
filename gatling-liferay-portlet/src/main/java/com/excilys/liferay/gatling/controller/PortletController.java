@@ -9,7 +9,6 @@ import com.excilys.liferay.gatling.dto.PortletConfigDTO.PortletConfigDTOBuilder;
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.UrlRecord;
 import com.excilys.liferay.gatling.mustache.ListScript;
-import com.excilys.liferay.gatling.recorder.RecorderFilter;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.UrlRecordLocalServiceUtil;
@@ -22,17 +21,19 @@ import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.service.PortletLocalServiceUtil;
 import com.liferay.portal.util.PortalUtil;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.portlet.bind.annotation.ActionMapping;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.portlet.bind.annotation.ActionMapping;
 
 @Controller(value="PortletController")
 @RequestMapping("VIEW")
