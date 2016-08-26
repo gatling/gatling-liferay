@@ -7,6 +7,8 @@ import com.excilys.liferay.gatling.model.Login;
 import com.excilys.liferay.gatling.model.Process;
 import com.excilys.liferay.gatling.model.ProcessType;
 import com.excilys.liferay.gatling.service.base.LoginLocalServiceBaseImpl;
+import com.excilys.liferay.gatling.service.persistence.LoginUtil;
+import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.exception.SystemException;
 
@@ -30,6 +32,23 @@ public class LoginLocalServiceImpl extends LoginLocalServiceBaseImpl {
      *
      * Never reference this interface directly. Always use {@link com.excilys.liferay.gatling.service.LoginLocalServiceUtil} to access the login local service.
      */
+	
+	public static final String DEFAULT_NAME = "_default_login_";
+	
+	@Override
+	public Login createDefaultLogin() throws SystemException {
+		try {
+			return loginPersistence.findByName(DEFAULT_NAME);
+		} catch (NoSuchLoginException e) {
+			Login defaultLogin = LoginUtil.create(CounterLocalServiceUtil.increment(Login.class.getName()));
+			defaultLogin.setName(DEFAULT_NAME);
+			defaultLogin.setData("user1@liferay.com,user1Password\nuser2@liferay.com,user2Password");
+			defaultLogin.persist();
+			return defaultLogin;
+		}
+		
+	}
+	
 	
 	@Override
 	public Login findByProcessId(long processId) throws SystemException, NoSuchModelException, NoSuchProcessException {

@@ -240,6 +240,10 @@ public interface SiteMapLocalService extends BaseLocalService,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable;
 
+    public com.excilys.liferay.gatling.model.SiteMap siteMapCreation(
+        com.liferay.portal.theme.ThemeDisplay themeDisplay, long groupId)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
     public com.excilys.liferay.gatling.model.SiteMap findByProcessId(
         long processId)
         throws com.excilys.liferay.gatling.NoSuchProcessException,

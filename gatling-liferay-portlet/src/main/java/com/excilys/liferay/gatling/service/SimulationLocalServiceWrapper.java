@@ -276,6 +276,18 @@ public class SimulationLocalServiceWrapper implements SimulationLocalService,
     }
 
     /**
+    * Creates the empty default simulation, persists it and returns it.
+    *
+    * @return The fresh default simulation
+    * @throws SystemException If an error occures in services
+    */
+    @Override
+    public com.excilys.liferay.gatling.model.Simulation createDefaultSimulation()
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _simulationLocalService.createDefaultSimulation();
+    }
+
+    /**
     * remove all {@link Scenario} linked to a simulationId and the simulation
     */
     @Override

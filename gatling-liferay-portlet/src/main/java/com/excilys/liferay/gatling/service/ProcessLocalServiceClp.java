@@ -46,6 +46,8 @@ public class ProcessLocalServiceClp implements ProcessLocalService {
     private String[] _methodParameterTypes17;
     private String _methodName19;
     private String[] _methodParameterTypes19;
+    private String _methodName20;
+    private String[] _methodParameterTypes20;
 
     public ProcessLocalServiceClp(InvokableLocalService invokableLocalService) {
         _invokableLocalService = invokableLocalService;
@@ -143,6 +145,14 @@ public class ProcessLocalServiceClp implements ProcessLocalService {
         _methodName19 = "findProcessFromScenarioId";
 
         _methodParameterTypes19 = new String[] { "long" };
+
+        _methodName20 = "createProcess";
+
+        _methodParameterTypes20 = new String[] {
+                "java.lang.String",
+                "com.excilys.liferay.gatling.model.ProcessType",
+                "java.lang.Long", "int", "int", "long"
+            };
     }
 
     @Override
@@ -682,5 +692,47 @@ public class ProcessLocalServiceClp implements ProcessLocalService {
         }
 
         return (java.util.List<com.excilys.liferay.gatling.model.Process>) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
+    public com.excilys.liferay.gatling.model.Process createProcess(
+        java.lang.String name,
+        com.excilys.liferay.gatling.model.ProcessType type,
+        java.lang.Long feederId, int pause, int order, long scenarioId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName20,
+                    _methodParameterTypes20,
+                    new Object[] {
+                        ClpSerializer.translateInput(name),
+                        
+                    ClpSerializer.translateInput(type),
+                        
+                    ClpSerializer.translateInput(feederId),
+                        
+                    pause,
+                        
+                    order,
+                        
+                    scenarioId
+                    });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (com.excilys.liferay.gatling.model.Process) ClpSerializer.translateOutput(returnObj);
     }
 }

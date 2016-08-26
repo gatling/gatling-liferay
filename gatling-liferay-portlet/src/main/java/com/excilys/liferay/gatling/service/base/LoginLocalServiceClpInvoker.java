@@ -49,6 +49,8 @@ public class LoginLocalServiceClpInvoker {
     private String[] _methodParameterTypes78;
     private String _methodName79;
     private String[] _methodParameterTypes79;
+    private String _methodName80;
+    private String[] _methodParameterTypes80;
 
     public LoginLocalServiceClpInvoker() {
         _methodName0 = "addLogin";
@@ -141,13 +143,17 @@ public class LoginLocalServiceClpInvoker {
 
         _methodParameterTypes73 = new String[] { "java.lang.String" };
 
-        _methodName78 = "findByProcessId";
+        _methodName78 = "createDefaultLogin";
 
-        _methodParameterTypes78 = new String[] { "long" };
+        _methodParameterTypes78 = new String[] {  };
 
-        _methodName79 = "findByName";
+        _methodName79 = "findByProcessId";
 
-        _methodParameterTypes79 = new String[] { "java.lang.String" };
+        _methodParameterTypes79 = new String[] { "long" };
+
+        _methodName80 = "findByName";
+
+        _methodParameterTypes80 = new String[] { "java.lang.String" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -253,11 +259,16 @@ public class LoginLocalServiceClpInvoker {
 
         if (_methodName78.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes78, parameterTypes)) {
-            return LoginLocalServiceUtil.findByProcessId(((Long) arguments[0]).longValue());
+            return LoginLocalServiceUtil.createDefaultLogin();
         }
 
         if (_methodName79.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes79, parameterTypes)) {
+            return LoginLocalServiceUtil.findByProcessId(((Long) arguments[0]).longValue());
+        }
+
+        if (_methodName80.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes80, parameterTypes)) {
             return LoginLocalServiceUtil.findByName((java.lang.String) arguments[0]);
         }
 

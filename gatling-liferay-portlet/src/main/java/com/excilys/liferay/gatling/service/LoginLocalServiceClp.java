@@ -48,6 +48,8 @@ public class LoginLocalServiceClp implements LoginLocalService {
     private String[] _methodParameterTypes19;
     private String _methodName20;
     private String[] _methodParameterTypes20;
+    private String _methodName21;
+    private String[] _methodParameterTypes21;
 
     public LoginLocalServiceClp(InvokableLocalService invokableLocalService) {
         _invokableLocalService = invokableLocalService;
@@ -142,13 +144,17 @@ public class LoginLocalServiceClp implements LoginLocalService {
 
         _methodParameterTypes17 = new String[] { "java.lang.String" };
 
-        _methodName19 = "findByProcessId";
+        _methodName19 = "createDefaultLogin";
 
-        _methodParameterTypes19 = new String[] { "long" };
+        _methodParameterTypes19 = new String[] {  };
 
-        _methodName20 = "findByName";
+        _methodName20 = "findByProcessId";
 
-        _methodParameterTypes20 = new String[] { "java.lang.String" };
+        _methodParameterTypes20 = new String[] { "long" };
+
+        _methodName21 = "findByName";
+
+        _methodParameterTypes21 = new String[] { "java.lang.String" };
     }
 
     @Override
@@ -662,6 +668,32 @@ public class LoginLocalServiceClp implements LoginLocalService {
     }
 
     @Override
+    public com.excilys.liferay.gatling.model.Login createDefaultLogin()
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName19,
+                    _methodParameterTypes19, new Object[] {  });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (com.excilys.liferay.gatling.model.Login) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
     public com.excilys.liferay.gatling.model.Login findByProcessId(
         long processId)
         throws com.excilys.liferay.gatling.NoSuchProcessException,
@@ -670,8 +702,8 @@ public class LoginLocalServiceClp implements LoginLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName19,
-                    _methodParameterTypes19, new Object[] { processId });
+            returnObj = _invokableLocalService.invokeMethod(_methodName20,
+                    _methodParameterTypes20, new Object[] { processId });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -707,8 +739,8 @@ public class LoginLocalServiceClp implements LoginLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName20,
-                    _methodParameterTypes20,
+            returnObj = _invokableLocalService.invokeMethod(_methodName21,
+                    _methodParameterTypes21,
                     new Object[] { ClpSerializer.translateInput(name) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);

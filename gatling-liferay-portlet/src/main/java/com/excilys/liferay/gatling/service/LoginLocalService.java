@@ -237,6 +237,9 @@ public interface LoginLocalService extends BaseLocalService,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable;
 
+    public com.excilys.liferay.gatling.model.Login createDefaultLogin()
+        throws com.liferay.portal.kernel.exception.SystemException;
+
     public com.excilys.liferay.gatling.model.Login findByProcessId(
         long processId)
         throws com.excilys.liferay.gatling.NoSuchProcessException,

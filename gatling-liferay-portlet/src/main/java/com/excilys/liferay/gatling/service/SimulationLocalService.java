@@ -242,6 +242,15 @@ public interface SimulationLocalService extends BaseLocalService,
         throws java.lang.Throwable;
 
     /**
+    * Creates the empty default simulation, persists it and returns it.
+    *
+    * @return The fresh default simulation
+    * @throws SystemException If an error occures in services
+    */
+    public com.excilys.liferay.gatling.model.Simulation createDefaultSimulation()
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * remove all {@link Scenario} linked to a simulationId and the simulation
     */
     public void removeSimulationCascade(java.lang.Long simulationId)

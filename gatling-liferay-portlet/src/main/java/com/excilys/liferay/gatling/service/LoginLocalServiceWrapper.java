@@ -269,6 +269,12 @@ public class LoginLocalServiceWrapper implements LoginLocalService,
     }
 
     @Override
+    public com.excilys.liferay.gatling.model.Login createDefaultLogin()
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _loginLocalService.createDefaultLogin();
+    }
+
+    @Override
     public com.excilys.liferay.gatling.model.Login findByProcessId(
         long processId)
         throws com.excilys.liferay.gatling.NoSuchProcessException,

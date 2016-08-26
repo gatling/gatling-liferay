@@ -242,4 +242,10 @@ public interface ProcessLocalService extends BaseLocalService,
 
     public java.util.List<com.excilys.liferay.gatling.model.Process> findProcessFromScenarioId(
         long id) throws com.liferay.portal.kernel.exception.SystemException;
+
+    public com.excilys.liferay.gatling.model.Process createProcess(
+        java.lang.String name,
+        com.excilys.liferay.gatling.model.ProcessType type,
+        java.lang.Long feederId, int pause, int order, long scenarioId)
+        throws com.liferay.portal.kernel.exception.SystemException;
 }

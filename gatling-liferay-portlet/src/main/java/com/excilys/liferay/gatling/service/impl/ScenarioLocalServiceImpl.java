@@ -14,21 +14,17 @@
 
 package com.excilys.liferay.gatling.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-
+import com.excilys.liferay.gatling.NoSuchScenarioException;
 import com.excilys.liferay.gatling.dto.RequestDTO;
 import com.excilys.liferay.gatling.dto.RequestDTO.RequestState;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
+import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.ScenarioLocalServiceBaseImpl;
+import com.excilys.liferay.gatling.service.persistence.ScenarioUtil;
 import com.excilys.liferay.gatling.util.DisplayItemDTOUtil;
+import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.excilys.liferay.gatling.validator.RequestValidator;
 import com.excilys.liferay.gatling.validator.ScenarioValidator;
 import com.liferay.counter.service.CounterLocalServiceUtil;
@@ -44,10 +40,19 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 
 
 /**
@@ -71,7 +76,40 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	 */
 	private static final Log LOG = LogFactoryUtil.getLog(ScenarioLocalServiceImpl.class);
 
+	public static final String DEFAULT_NAME = "_default_scenario_";
 
+	
+	
+	/**
+	 * Creates the empty default scenario, persists it and returns it.
+	 * @param simulation The simulation that contains the new scenario
+	 * @param themeDisplay 
+	 * @return The fresh default scenario
+	 * @throws SystemException If an error occures in services
+	 */
+	@Override
+	public Scenario createDefaultScenario(Simulation simulation) throws SystemException {
+		try {
+			return scenarioPersistence.findByName(DEFAULT_NAME);
+		} catch (NoSuchScenarioException e) {
+			Scenario defaultScenario = ScenarioUtil.create(CounterLocalServiceUtil.increment(Scenario.class.getName()));
+			defaultScenario.setName(DEFAULT_NAME);
+			List<Group> listGroups = GatlingUtil.getListOfSites();
+			if (listGroups.isEmpty()) {
+				defaultScenario.setGroup_id(0);
+			}
+			else {
+				defaultScenario.setGroup_id(listGroups.get(0).getGroupId());
+			}
+			defaultScenario.setSimulation_id(simulation.getSimulation_id());
+			defaultScenario.setNumberOfUsers(10);
+			defaultScenario.setDuration(5);
+			defaultScenario.persist();
+			return defaultScenario;
+		}
+
+	}
+	
 	@Override
 	public int countBySimulationId(long simulationId) throws SystemException{
 		return scenarioPersistence.countBySimulationId(simulationId);

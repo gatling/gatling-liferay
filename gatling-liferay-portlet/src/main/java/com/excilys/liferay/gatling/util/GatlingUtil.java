@@ -160,6 +160,16 @@ public class GatlingUtil {
 		return listGroups;
 	}
 
+	
+	public static String getGroupFriendlyURL(ThemeDisplay themeDisplay, Layout layout) throws SystemException {
+		StringBuilder sb  = new StringBuilder();
+		String currentFriendlyURL = GroupLocalServiceUtil.fetchGroup(layout.getGroupId()).getIconURL(themeDisplay);
+	    sb.append(currentFriendlyURL.split("/")[0]);
+	    sb.append("//").append(currentFriendlyURL.split("/")[2]).append("/web").append(GroupLocalServiceUtil.fetchGroup(layout.getGroupId()).getFriendlyURL()).append(layout.getFriendlyURL());
+		return sb.toString();
+	}
+	
+	
 	/**
 	 * 
 	 * @param requestId

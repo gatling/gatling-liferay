@@ -261,6 +261,11 @@ public class LoginLocalServiceUtil {
         return getService().invokeMethod(name, parameterTypes, arguments);
     }
 
+    public static com.excilys.liferay.gatling.model.Login createDefaultLogin()
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().createDefaultLogin();
+    }
+
     public static com.excilys.liferay.gatling.model.Login findByProcessId(
         long processId)
         throws com.excilys.liferay.gatling.NoSuchProcessException,

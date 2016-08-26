@@ -19,7 +19,9 @@ import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
+import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.SimulationLocalServiceBaseImpl;
+import com.excilys.liferay.gatling.service.persistence.SimulationUtil;
 import com.excilys.liferay.gatling.validator.SimulationValidator;
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.NoSuchModelException;
@@ -58,6 +60,29 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	 * Never reference this interface directly. Always use {@link com.liferay.sample.service.SimulationLocalServiceUtil} to access the simulation local service.
 	 */
 
+	public static final String DEFAULT_NAME = "_default_simulation_";
+	
+	/**
+	 * Creates the empty default simulation, persists it and returns it.
+	 * @return The fresh default simulation
+	 * @throws SystemException If an error occures in services
+	 */
+	@Override
+	public Simulation createDefaultSimulation() throws SystemException{
+		Simulation defaultSimulation = getByName(DEFAULT_NAME);
+		if(defaultSimulation != null){
+			return defaultSimulation;
+		}
+		else {
+			defaultSimulation = SimulationUtil.create(CounterLocalServiceUtil.increment(Simulation.class.getName()));
+			defaultSimulation.setName(DEFAULT_NAME);
+			defaultSimulation.setFeederContent("");
+			defaultSimulation.setIsFeederAFile(false);
+			defaultSimulation.persist();
+			return defaultSimulation;
+		}
+	}
+	
 	/**
 	 * remove all {@link Scenario} linked to a simulationId and the simulation
 	 */

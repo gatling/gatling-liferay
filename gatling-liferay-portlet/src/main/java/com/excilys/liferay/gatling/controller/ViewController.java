@@ -6,13 +6,17 @@ package com.excilys.liferay.gatling.controller;
 import com.excilys.liferay.gatling.NoSuchScenarioException;
 import com.excilys.liferay.gatling.model.Login;
 import com.excilys.liferay.gatling.model.Process;
+import com.excilys.liferay.gatling.model.ProcessType;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
+import com.excilys.liferay.gatling.model.SiteMap;
 import com.excilys.liferay.gatling.model.AST.SimulationAST;
 import com.excilys.liferay.gatling.service.ASTService;
+import com.excilys.liferay.gatling.service.LoginLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ProcessLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
+import com.excilys.liferay.gatling.service.SiteMapLocalServiceUtil;
 import com.excilys.liferay.gatling.service.persistence.LoginUtil;
 import com.excilys.liferay.gatling.service.persistence.ProcessUtil;
 import com.excilys.liferay.gatling.service.persistence.ScenarioUtil;
@@ -69,30 +73,30 @@ public class ViewController {
 		renderRequest.setAttribute("listGroup", listGroups);
 		
 		/* Initialize the simulation and the scenario if not existant */
+		Simulation defaultSimulation = SimulationLocalServiceUtil.createDefaultSimulation();
+		Scenario defaultScenario = ScenarioLocalServiceUtil.createDefaultScenario(defaultSimulation);
 		
-		Simulation defaultSimulation = SimulationLocalServiceUtil.getByName("_default_simulation_");
-		Scenario defaultScenario = null;
+		Login defaultLogin = LoginLocalServiceUtil.createDefaultLogin();
 		
-		if(defaultSimulation != null){
-			List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(defaultSimulation.getSimulation_id());
-			if(scenarios != null && !scenarios.isEmpty()){
-				defaultScenario = scenarios.get(0);
-			}
-			else {
-				final ThemeDisplay themeDisplay =	(ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
-				defaultScenario = createDefaultScenario(defaultSimulation, themeDisplay);
-			}
-		}
-		else {
-			defaultSimulation = createDefaultSimulation();
-			final ThemeDisplay themeDisplay =	(ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
-			defaultScenario = createDefaultScenario(defaultSimulation, themeDisplay);
-		}
+		final ThemeDisplay themeDisplay =	(ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		SiteMap defaultSiteMap = SiteMapLocalServiceUtil.siteMapCreation(themeDisplay, defaultScenario.getGroup_id());
 		
-		List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(defaultScenario.getScenario_id());
+		Process login = ProcessLocalServiceUtil.createProcess("Login", ProcessType.LOGIN,
+				defaultLogin.getPrimaryKey(), 2, 0, defaultScenario.getScenario_id());
+		
+		Process random = ProcessLocalServiceUtil.createProcess("Random Page", ProcessType.RANDOMPAGE,
+				defaultSiteMap.getPrimaryKey(), 3, 1, defaultScenario.getScenario_id());
+		
+		Process logout = ProcessLocalServiceUtil.createProcess("Logout", ProcessType.LOGOUT,
+				null, 1, 2,
+				defaultScenario.getScenario_id());
+		
+		List<Process> processes = new ArrayList<>(3);
+		processes.add(login);
+		processes.add(random);
+		processes.add(logout);
 		
 		/* Record the simulation and scenario data */
-		
 		renderRequest.setAttribute("simulationId", defaultSimulation.getSimulation_id());
 		renderRequest.setAttribute("scenarioGroupId", defaultScenario.getGroup_id());
 		renderRequest.setAttribute("processes", processes);
@@ -100,82 +104,6 @@ public class ViewController {
 		renderRequest.setAttribute("rampUp", defaultScenario.getDuration());
 		renderRequest.setAttribute("feederContent", defaultSimulation.getFeederContent());
 		return "view";
-	}
-	
-	
-	/**
-	 * Creates the empty default simulation, persists it and returns it.
-	 * @return The fresh default simulation
-	 * @throws SystemException If an error occures in services
-	 */
-	public static Simulation createDefaultSimulation() throws SystemException{
-		Simulation simulation = SimulationUtil.create(CounterLocalServiceUtil.increment(Simulation.class.getName()));
-		simulation.setName("_default_simulation_");
-		simulation.setFeederContent("");
-		simulation.setIsFeederAFile(false);
-		simulation.persist();
-		return simulation;
-	}
-	
-	
-	/**
-	 * Creates the empty default scenario, persists it and returns it.
-	 * @param simulation The simulation that contains the new scenario
-	 * @param themeDisplay 
-	 * @return The fresh default scenario
-	 * @throws SystemException If an error occures in services
-	 */
-	public static Scenario createDefaultScenario(Simulation simulation, ThemeDisplay themeDisplay) throws SystemException {
-		Scenario scenario = ScenarioUtil.create(CounterLocalServiceUtil.increment(Scenario.class.getName()));
-		scenario.setName("_default_scenario_");
-		List<Group> listGroups = GatlingUtil.getListOfSites();
-		if (listGroups.isEmpty()) {
-			scenario.setGroup_id(0);
-		}
-		else {
-			scenario.setGroup_id(listGroups.get(0).getGroupId());
-		}
-		
-		scenario.setSimulation_id(simulation.getSimulation_id());
-		scenario.setNumberOfUsers(10);
-		scenario.setDuration(5);
-		scenario.persist();
-	
-		Login l = LoginUtil.create(CounterLocalServiceUtil.increment(Login.class.getName()));
-		l.setName("_default_login_");
-		l.setData("user1@liferay.com,user1Password\nuser2@liferay.com,user2Password");
-		l.persist();
-		
-		Process login = ProcessUtil.create(CounterLocalServiceUtil.increment(Process.class.getName()));
-		login.setName("Login");
-		login.setType("LOGIN");
-		login.setFeederId(l.getPrimaryKey());
-		login.setPause(2);
-		login.setOrder(0);
-		login.setScenario_id(scenario.getScenario_id());
-		login.persist();
-		
-		Process logout = ProcessUtil.create(CounterLocalServiceUtil.increment(Process.class.getName()));
-		logout.setName("Logout");
-		logout.setType("LOGOUT");
-		logout.setPause(1);
-		logout.setOrder(2);
-		logout.setScenario_id(scenario.getScenario_id());
-		logout.persist();	
-		
-		long siteMapId = ASTService.siteMapCreation(themeDisplay, scenario.getGroup_id());
-		
-		Process random = ProcessUtil.create(CounterLocalServiceUtil.increment(Process.class.getName()));
-		random.setName("Random Page");
-		random.setType("RANDOMPAGE");
-		random.setPause(3);
-		random.setOrder(1);
-		random.setFeederId(siteMapId);
-		random.setScenario_id(scenario.getScenario_id());
-		
-		random.persist();	
-		
-		return scenario;
 	}
 	
 

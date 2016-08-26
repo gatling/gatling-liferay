@@ -49,6 +49,8 @@ public class SiteMapLocalServiceClpInvoker {
     private String[] _methodParameterTypes78;
     private String _methodName79;
     private String[] _methodParameterTypes79;
+    private String _methodName80;
+    private String[] _methodParameterTypes80;
 
     public SiteMapLocalServiceClpInvoker() {
         _methodName0 = "addSiteMap";
@@ -141,13 +143,19 @@ public class SiteMapLocalServiceClpInvoker {
 
         _methodParameterTypes73 = new String[] { "java.lang.String" };
 
-        _methodName78 = "findByProcessId";
+        _methodName78 = "siteMapCreation";
 
-        _methodParameterTypes78 = new String[] { "long" };
+        _methodParameterTypes78 = new String[] {
+                "com.liferay.portal.theme.ThemeDisplay", "long"
+            };
 
-        _methodName79 = "findByName";
+        _methodName79 = "findByProcessId";
 
-        _methodParameterTypes79 = new String[] { "java.lang.String" };
+        _methodParameterTypes79 = new String[] { "long" };
+
+        _methodName80 = "findByName";
+
+        _methodParameterTypes80 = new String[] { "java.lang.String" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -253,11 +261,17 @@ public class SiteMapLocalServiceClpInvoker {
 
         if (_methodName78.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes78, parameterTypes)) {
-            return SiteMapLocalServiceUtil.findByProcessId(((Long) arguments[0]).longValue());
+            return SiteMapLocalServiceUtil.siteMapCreation((com.liferay.portal.theme.ThemeDisplay) arguments[0],
+                ((Long) arguments[1]).longValue());
         }
 
         if (_methodName79.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes79, parameterTypes)) {
+            return SiteMapLocalServiceUtil.findByProcessId(((Long) arguments[0]).longValue());
+        }
+
+        if (_methodName80.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes80, parameterTypes)) {
             return SiteMapLocalServiceUtil.findByName((java.lang.String) arguments[0]);
         }
 

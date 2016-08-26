@@ -62,6 +62,8 @@ public class ScenarioLocalServiceClp implements ScenarioLocalService {
     private String[] _methodParameterTypes26;
     private String _methodName27;
     private String[] _methodParameterTypes27;
+    private String _methodName28;
+    private String[] _methodParameterTypes28;
 
     public ScenarioLocalServiceClp(InvokableLocalService invokableLocalService) {
         _invokableLocalService = invokableLocalService;
@@ -156,41 +158,47 @@ public class ScenarioLocalServiceClp implements ScenarioLocalService {
 
         _methodParameterTypes17 = new String[] { "java.lang.String" };
 
-        _methodName19 = "countBySimulationId";
+        _methodName19 = "createDefaultScenario";
 
-        _methodParameterTypes19 = new String[] { "long" };
+        _methodParameterTypes19 = new String[] {
+                "com.excilys.liferay.gatling.model.Simulation"
+            };
 
-        _methodName20 = "findBySimulationId";
+        _methodName20 = "countBySimulationId";
 
         _methodParameterTypes20 = new String[] { "long" };
 
-        _methodName21 = "removeBySimulationIdCascade";
+        _methodName21 = "findBySimulationId";
 
         _methodParameterTypes21 = new String[] { "long" };
 
-        _methodName22 = "removeByIdCascade";
+        _methodName22 = "removeBySimulationIdCascade";
 
         _methodParameterTypes22 = new String[] { "long" };
 
-        _methodName23 = "isNameUnique";
+        _methodName23 = "removeByIdCascade";
 
-        _methodParameterTypes23 = new String[] { "java.lang.String", "long" };
+        _methodParameterTypes23 = new String[] { "long" };
 
-        _methodName24 = "countByVariableName";
+        _methodName24 = "isNameUnique";
 
         _methodParameterTypes24 = new String[] { "java.lang.String", "long" };
 
-        _methodName25 = "findByVariableName";
+        _methodName25 = "countByVariableName";
 
         _methodParameterTypes25 = new String[] { "java.lang.String", "long" };
 
-        _methodName26 = "addScenarioFromRequest";
+        _methodName26 = "findByVariableName";
 
-        _methodParameterTypes26 = new String[] { "javax.portlet.ActionRequest" };
+        _methodParameterTypes26 = new String[] { "java.lang.String", "long" };
 
-        _methodName27 = "editScenarioFromRequest";
+        _methodName27 = "addScenarioFromRequest";
 
         _methodParameterTypes27 = new String[] { "javax.portlet.ActionRequest" };
+
+        _methodName28 = "editScenarioFromRequest";
+
+        _methodParameterTypes28 = new String[] { "javax.portlet.ActionRequest" };
     }
 
     @Override
@@ -708,13 +716,41 @@ public class ScenarioLocalServiceClp implements ScenarioLocalService {
     }
 
     @Override
-    public int countBySimulationId(long simulationId)
+    public com.excilys.liferay.gatling.model.Scenario createDefaultScenario(
+        com.excilys.liferay.gatling.model.Simulation simulation)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
             returnObj = _invokableLocalService.invokeMethod(_methodName19,
-                    _methodParameterTypes19, new Object[] { simulationId });
+                    _methodParameterTypes19,
+                    new Object[] { ClpSerializer.translateInput(simulation) });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (com.excilys.liferay.gatling.model.Scenario) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
+    public int countBySimulationId(long simulationId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName20,
+                    _methodParameterTypes20, new Object[] { simulationId });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -740,8 +776,8 @@ public class ScenarioLocalServiceClp implements ScenarioLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName20,
-                    _methodParameterTypes20, new Object[] { simulationId });
+            returnObj = _invokableLocalService.invokeMethod(_methodName21,
+                    _methodParameterTypes21, new Object[] { simulationId });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -765,8 +801,8 @@ public class ScenarioLocalServiceClp implements ScenarioLocalService {
         throws com.liferay.portal.NoSuchModelException,
             com.liferay.portal.kernel.exception.SystemException {
         try {
-            _invokableLocalService.invokeMethod(_methodName21,
-                _methodParameterTypes21, new Object[] { simulationId });
+            _invokableLocalService.invokeMethod(_methodName22,
+                _methodParameterTypes22, new Object[] { simulationId });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -792,8 +828,8 @@ public class ScenarioLocalServiceClp implements ScenarioLocalService {
         throws com.liferay.portal.NoSuchModelException,
             com.liferay.portal.kernel.exception.SystemException {
         try {
-            _invokableLocalService.invokeMethod(_methodName22,
-                _methodParameterTypes22, new Object[] { scenarioId });
+            _invokableLocalService.invokeMethod(_methodName23,
+                _methodParameterTypes23, new Object[] { scenarioId });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -820,8 +856,8 @@ public class ScenarioLocalServiceClp implements ScenarioLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName23,
-                    _methodParameterTypes23,
+            returnObj = _invokableLocalService.invokeMethod(_methodName24,
+                    _methodParameterTypes24,
                     new Object[] {
                         ClpSerializer.translateInput(name),
                         
@@ -852,8 +888,8 @@ public class ScenarioLocalServiceClp implements ScenarioLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName24,
-                    _methodParameterTypes24,
+            returnObj = _invokableLocalService.invokeMethod(_methodName25,
+                    _methodParameterTypes25,
                     new Object[] {
                         ClpSerializer.translateInput(variableName),
                         
@@ -884,8 +920,8 @@ public class ScenarioLocalServiceClp implements ScenarioLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName25,
-                    _methodParameterTypes25,
+            returnObj = _invokableLocalService.invokeMethod(_methodName26,
+                    _methodParameterTypes26,
                     new Object[] {
                         ClpSerializer.translateInput(variableName),
                         
@@ -916,8 +952,8 @@ public class ScenarioLocalServiceClp implements ScenarioLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName26,
-                    _methodParameterTypes26,
+            returnObj = _invokableLocalService.invokeMethod(_methodName27,
+                    _methodParameterTypes27,
                     new Object[] { ClpSerializer.translateInput(request) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -945,8 +981,8 @@ public class ScenarioLocalServiceClp implements ScenarioLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName27,
-                    _methodParameterTypes27,
+            returnObj = _invokableLocalService.invokeMethod(_methodName28,
+                    _methodParameterTypes28,
                     new Object[] { ClpSerializer.translateInput(request) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);

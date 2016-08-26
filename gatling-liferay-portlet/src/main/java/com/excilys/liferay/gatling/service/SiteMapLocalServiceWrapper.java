@@ -272,6 +272,13 @@ public class SiteMapLocalServiceWrapper implements SiteMapLocalService,
     }
 
     @Override
+    public com.excilys.liferay.gatling.model.SiteMap siteMapCreation(
+        com.liferay.portal.theme.ThemeDisplay themeDisplay, long groupId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _siteMapLocalService.siteMapCreation(themeDisplay, groupId);
+    }
+
+    @Override
     public com.excilys.liferay.gatling.model.SiteMap findByProcessId(
         long processId)
         throws com.excilys.liferay.gatling.NoSuchProcessException,

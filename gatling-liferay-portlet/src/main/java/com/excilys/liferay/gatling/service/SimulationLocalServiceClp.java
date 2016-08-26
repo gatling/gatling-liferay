@@ -54,6 +54,8 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
     private String[] _methodParameterTypes22;
     private String _methodName23;
     private String[] _methodParameterTypes23;
+    private String _methodName24;
+    private String[] _methodParameterTypes24;
 
     public SimulationLocalServiceClp(
         InvokableLocalService invokableLocalService) {
@@ -149,25 +151,29 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
 
         _methodParameterTypes17 = new String[] { "java.lang.String" };
 
-        _methodName19 = "removeSimulationCascade";
+        _methodName19 = "createDefaultSimulation";
 
-        _methodParameterTypes19 = new String[] { "java.lang.Long" };
+        _methodParameterTypes19 = new String[] {  };
 
-        _methodName20 = "getByName";
+        _methodName20 = "removeSimulationCascade";
 
-        _methodParameterTypes20 = new String[] { "java.lang.String" };
+        _methodParameterTypes20 = new String[] { "java.lang.Long" };
 
-        _methodName21 = "isNameUnique";
+        _methodName21 = "getByName";
 
         _methodParameterTypes21 = new String[] { "java.lang.String" };
 
-        _methodName22 = "addSimulationFromRequest";
+        _methodName22 = "isNameUnique";
 
-        _methodParameterTypes22 = new String[] { "javax.portlet.ActionRequest" };
+        _methodParameterTypes22 = new String[] { "java.lang.String" };
 
-        _methodName23 = "containsPrivatePage";
+        _methodName23 = "addSimulationFromRequest";
 
-        _methodParameterTypes23 = new String[] { "long" };
+        _methodParameterTypes23 = new String[] { "javax.portlet.ActionRequest" };
+
+        _methodName24 = "containsPrivatePage";
+
+        _methodParameterTypes24 = new String[] { "long" };
     }
 
     @Override
@@ -685,12 +691,38 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
     }
 
     @Override
+    public com.excilys.liferay.gatling.model.Simulation createDefaultSimulation()
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName19,
+                    _methodParameterTypes19, new Object[] {  });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (com.excilys.liferay.gatling.model.Simulation) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
     public void removeSimulationCascade(java.lang.Long simulationId)
         throws com.liferay.portal.NoSuchModelException,
             com.liferay.portal.kernel.exception.SystemException {
         try {
-            _invokableLocalService.invokeMethod(_methodName19,
-                _methodParameterTypes19,
+            _invokableLocalService.invokeMethod(_methodName20,
+                _methodParameterTypes20,
                 new Object[] { ClpSerializer.translateInput(simulationId) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -719,8 +751,8 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName20,
-                    _methodParameterTypes20,
+            returnObj = _invokableLocalService.invokeMethod(_methodName21,
+                    _methodParameterTypes21,
                     new Object[] { ClpSerializer.translateInput(name) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -746,8 +778,8 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName21,
-                    _methodParameterTypes21,
+            returnObj = _invokableLocalService.invokeMethod(_methodName22,
+                    _methodParameterTypes22,
                     new Object[] { ClpSerializer.translateInput(name) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -774,8 +806,8 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName22,
-                    _methodParameterTypes22,
+            returnObj = _invokableLocalService.invokeMethod(_methodName23,
+                    _methodParameterTypes23,
                     new Object[] { ClpSerializer.translateInput(request) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -801,8 +833,8 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName23,
-                    _methodParameterTypes23, new Object[] { simulationId });
+            returnObj = _invokableLocalService.invokeMethod(_methodName24,
+                    _methodParameterTypes24, new Object[] { simulationId });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 

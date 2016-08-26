@@ -263,6 +263,20 @@ public class ScenarioLocalServiceUtil {
         return getService().invokeMethod(name, parameterTypes, arguments);
     }
 
+    /**
+    * Creates the empty default scenario, persists it and returns it.
+    *
+    * @param simulation The simulation that contains the new scenario
+    * @param themeDisplay
+    * @return The fresh default scenario
+    * @throws SystemException If an error occures in services
+    */
+    public static com.excilys.liferay.gatling.model.Scenario createDefaultScenario(
+        com.excilys.liferay.gatling.model.Simulation simulation)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().createDefaultScenario(simulation);
+    }
+
     public static int countBySimulationId(long simulationId)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getService().countBySimulationId(simulationId);

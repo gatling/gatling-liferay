@@ -268,6 +268,15 @@ public class ProcessLocalServiceUtil {
         return getService().findProcessFromScenarioId(id);
     }
 
+    public static com.excilys.liferay.gatling.model.Process createProcess(
+        java.lang.String name,
+        com.excilys.liferay.gatling.model.ProcessType type,
+        java.lang.Long feederId, int pause, int order, long scenarioId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService()
+                   .createProcess(name, type, feederId, pause, order, scenarioId);
+    }
+
     public static void clearService() {
         _service = null;
     }

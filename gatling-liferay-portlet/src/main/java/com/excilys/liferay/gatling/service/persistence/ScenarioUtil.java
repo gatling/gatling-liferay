@@ -264,6 +264,74 @@ public class ScenarioUtil {
     }
 
     /**
+    * Returns the scenario where name = &#63; or throws a {@link com.excilys.liferay.gatling.NoSuchScenarioException} if it could not be found.
+    *
+    * @param name the name
+    * @return the matching scenario
+    * @throws com.excilys.liferay.gatling.NoSuchScenarioException if a matching scenario could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.excilys.liferay.gatling.model.Scenario findByName(
+        java.lang.String name)
+        throws com.excilys.liferay.gatling.NoSuchScenarioException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByName(name);
+    }
+
+    /**
+    * Returns the scenario where name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+    *
+    * @param name the name
+    * @return the matching scenario, or <code>null</code> if a matching scenario could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.excilys.liferay.gatling.model.Scenario fetchByName(
+        java.lang.String name)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByName(name);
+    }
+
+    /**
+    * Returns the scenario where name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+    *
+    * @param name the name
+    * @param retrieveFromCache whether to use the finder cache
+    * @return the matching scenario, or <code>null</code> if a matching scenario could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.excilys.liferay.gatling.model.Scenario fetchByName(
+        java.lang.String name, boolean retrieveFromCache)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByName(name, retrieveFromCache);
+    }
+
+    /**
+    * Removes the scenario where name = &#63; from the database.
+    *
+    * @param name the name
+    * @return the scenario that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.excilys.liferay.gatling.model.Scenario removeByName(
+        java.lang.String name)
+        throws com.excilys.liferay.gatling.NoSuchScenarioException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().removeByName(name);
+    }
+
+    /**
+    * Returns the number of scenarios where name = &#63;.
+    *
+    * @param name the name
+    * @return the number of matching scenarios
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByName(java.lang.String name)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByName(name);
+    }
+
+    /**
     * Caches the scenario in the entity cache if it is enabled.
     *
     * @param scenario the scenario

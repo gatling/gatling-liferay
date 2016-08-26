@@ -47,6 +47,8 @@ public class ProcessLocalServiceClpInvoker {
     private String[] _methodParameterTypes73;
     private String _methodName78;
     private String[] _methodParameterTypes78;
+    private String _methodName79;
+    private String[] _methodParameterTypes79;
 
     public ProcessLocalServiceClpInvoker() {
         _methodName0 = "addProcess";
@@ -142,6 +144,14 @@ public class ProcessLocalServiceClpInvoker {
         _methodName78 = "findProcessFromScenarioId";
 
         _methodParameterTypes78 = new String[] { "long" };
+
+        _methodName79 = "createProcess";
+
+        _methodParameterTypes79 = new String[] {
+                "java.lang.String",
+                "com.excilys.liferay.gatling.model.ProcessType",
+                "java.lang.Long", "int", "int", "long"
+            };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -248,6 +258,16 @@ public class ProcessLocalServiceClpInvoker {
         if (_methodName78.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes78, parameterTypes)) {
             return ProcessLocalServiceUtil.findProcessFromScenarioId(((Long) arguments[0]).longValue());
+        }
+
+        if (_methodName79.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes79, parameterTypes)) {
+            return ProcessLocalServiceUtil.createProcess((java.lang.String) arguments[0],
+                (com.excilys.liferay.gatling.model.ProcessType) arguments[1],
+                (java.lang.Long) arguments[2],
+                ((Integer) arguments[3]).intValue(),
+                ((Integer) arguments[4]).intValue(),
+                ((Long) arguments[5]).longValue());
         }
 
         throw new UnsupportedOperationException();

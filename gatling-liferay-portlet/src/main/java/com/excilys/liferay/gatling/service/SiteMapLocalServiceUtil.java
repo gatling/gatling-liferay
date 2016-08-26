@@ -263,6 +263,12 @@ public class SiteMapLocalServiceUtil {
         return getService().invokeMethod(name, parameterTypes, arguments);
     }
 
+    public static com.excilys.liferay.gatling.model.SiteMap siteMapCreation(
+        com.liferay.portal.theme.ThemeDisplay themeDisplay, long groupId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().siteMapCreation(themeDisplay, groupId);
+    }
+
     public static com.excilys.liferay.gatling.model.SiteMap findByProcessId(
         long processId)
         throws com.excilys.liferay.gatling.NoSuchProcessException,

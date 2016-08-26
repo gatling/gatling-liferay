@@ -264,6 +264,17 @@ public class SimulationLocalServiceUtil {
     }
 
     /**
+    * Creates the empty default simulation, persists it and returns it.
+    *
+    * @return The fresh default simulation
+    * @throws SystemException If an error occures in services
+    */
+    public static com.excilys.liferay.gatling.model.Simulation createDefaultSimulation()
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().createDefaultSimulation();
+    }
+
+    /**
     * remove all {@link Scenario} linked to a simulationId and the simulation
     */
     public static void removeSimulationCascade(java.lang.Long simulationId)

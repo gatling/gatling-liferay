@@ -22,6 +22,9 @@
 		<finder name="SimulationId" return-type="Collection">
 			<finder-column name="simulation_id" />
 		</finder>
+		<finder name="Name" return-type="Scenario" unique="true">
+			<finder-column name="name" />
+		</finder>
 	</entity>
 			
 	<!-- Smoothy System -->

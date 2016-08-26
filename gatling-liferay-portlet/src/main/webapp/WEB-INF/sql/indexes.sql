@@ -24,6 +24,7 @@ create index IX_4F385812 on StressTool_Request (scenario_id, portlet);
 create index IX_A55F4DFE on StressTool_Request (scenario_id, portlet, weight);
 create index IX_87174984 on StressTool_Request (scenario_id, weight);
 
+create unique index IX_43512908 on StressTool_Scenario (name);
 create index IX_4E9E331A on StressTool_Scenario (simulation_id);
 
 create unique index IX_54E83DC7 on StressTool_SiteMap (name);

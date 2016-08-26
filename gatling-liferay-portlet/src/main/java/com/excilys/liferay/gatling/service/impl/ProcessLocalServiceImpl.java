@@ -1,6 +1,10 @@
 package com.excilys.liferay.gatling.service.impl;
 
+import com.excilys.liferay.gatling.model.Process;
+import com.excilys.liferay.gatling.model.ProcessType;
 import com.excilys.liferay.gatling.service.base.ProcessLocalServiceBaseImpl;
+import com.excilys.liferay.gatling.service.persistence.ProcessUtil;
+import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 
 /**
@@ -26,5 +30,18 @@ public class ProcessLocalServiceImpl extends ProcessLocalServiceBaseImpl {
 	@Override
 	public java.util.List<com.excilys.liferay.gatling.model.Process> findProcessFromScenarioId(long id) throws SystemException {
 		return processPersistence.findByScenarioId(id);
+	}
+	
+	@Override
+	public Process createProcess(String name, ProcessType type, Long feederId, int pause, int order, long scenarioId) throws SystemException{
+		Process process = ProcessUtil.create(CounterLocalServiceUtil.increment(Process.class.getName()));
+		process.setName(name);
+		process.setType(type.name());
+		process.setFeederId(feederId);
+		process.setPause(pause);
+		process.setOrder(order);
+		process.setScenario_id(scenarioId);
+		process.persist();
+		return process;
 	}
 }

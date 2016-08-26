@@ -241,6 +241,18 @@ public interface ScenarioLocalService extends BaseLocalService,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable;
 
+    /**
+    * Creates the empty default scenario, persists it and returns it.
+    *
+    * @param simulation The simulation that contains the new scenario
+    * @param themeDisplay
+    * @return The fresh default scenario
+    * @throws SystemException If an error occures in services
+    */
+    public com.excilys.liferay.gatling.model.Scenario createDefaultScenario(
+        com.excilys.liferay.gatling.model.Simulation simulation)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
     public int countBySimulationId(long simulationId)
         throws com.liferay.portal.kernel.exception.SystemException;
 

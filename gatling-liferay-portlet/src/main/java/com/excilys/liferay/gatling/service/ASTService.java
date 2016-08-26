@@ -98,40 +98,6 @@ public class ASTService {
 		List<UrlSiteMap> data = UrlSiteMapLocalServiceUtil.findBySiteMapId(siteMapId);
 		return ASTMapper.mapUrlsitesToAST(data);
 	}
-
-	
-	public static long siteMapCreation(ThemeDisplay themeDisplay, long groupId) throws SystemException {
-		StringBuilder sb  = null;
-        UrlSiteMap urlSm = null;
-        SiteMap siteMap = SiteMapUtil.create(CounterLocalServiceUtil.increment(SiteMap.class.getName()));
-        siteMap.setName("_default_sitemap_");
-        siteMap.persist();
-        
-        for (Layout layout : GatlingUtil.getSiteMap(groupId)) {
-        	
-        	urlSm = UrlSiteMapUtil.create(CounterLocalServiceUtil.increment(UrlSiteMap.class.getName()));
-        	urlSm.setFriendlyUrl(layout.getFriendlyURL().substring(1));
-        	urlSm.setSiteMapId(siteMap.getSiteMapId());
-        	sb  = new StringBuilder();
-        	String currentFriendlyURL = GroupLocalServiceUtil.fetchGroup(layout.getGroupId()).getIconURL(themeDisplay);
-            sb.append(currentFriendlyURL.split("/")[0]);
-            sb.append("//").append(currentFriendlyURL.split("/")[2]).append("/web").append(GroupLocalServiceUtil.fetchGroup(layout.getGroupId()).getFriendlyURL()).append(layout.getFriendlyURL());
-            
-            urlSm.setUrl(sb.toString());
-            
-            urlSm.setWeight(1);
-            urlSm.persist();
-        }
-        
-        LOG.debug(siteMap.getPrimaryKey());
-        return siteMap.getSiteMapId();
-    }
-	
-
-	
-
-	
-
 	
 	
 }
