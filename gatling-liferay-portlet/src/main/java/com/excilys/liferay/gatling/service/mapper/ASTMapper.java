@@ -14,7 +14,7 @@ import com.excilys.liferay.gatling.model.UrlRecordType;
 import com.excilys.liferay.gatling.model.UrlSiteMap;
 import com.excilys.liferay.gatling.model.AST.ScenarioAST;
 import com.excilys.liferay.gatling.model.AST.SimulationAST;
-import com.excilys.liferay.gatling.model.AST.feeder.FormParamFeederFileAST;
+import com.excilys.liferay.gatling.model.AST.feeder.FormParamFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.HttpBodyFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.RecordFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
@@ -136,7 +136,7 @@ public class ASTMapper {
 	}
 	
 	public static ResourceFileAST mapFormParamToAST(FormParam params, String name) {
-		return new FormParamFeederFileAST(name, params.getData());
+		return new FormParamFileAST(name, params.getData());
 	}
 
 	public static SiteMapFeederFileAST mapSiteMapToAST(SiteMap siteMap) throws SystemException {

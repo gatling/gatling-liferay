@@ -36,7 +36,7 @@ public abstract class ResourceFileAST {
 	
 	/**
 	 * Returns this resource file plus the resource files that this one depends on.
-	 * The default comportment is to return a list containing this resource file
+	 * The default behaviour is to return a list containing this resource file
 	 * @return the referenced resource files
 	 */
 	public List<ResourceFileAST> flatWithSubsequentRessourceFile() {
