@@ -46,12 +46,12 @@ public class RecordFileAST extends ScalaFileAST {
 
 	private void fillHeader(StringBuilder contentBuilder) {
 		contentBuilder.append("package liferay.processes\n\n")
-				.append("import io.gatling.core.Preder._\n")
+				.append("import io.gatling.core.Predef._\n")
 				.append("import io.gatling.core.session\n")
-				.append("import io.gatling.http.Preder._\n\n")
+				.append("import io.gatling.http.Predef._\n\n")
 				.append("/**\n * A recorded navigation.\n */\n")
 				.append("object ").append(getName()).append(" {\n\n")
-				.append("  val run =\n");
+				.append("  def run() =\n");
 	}
 
 	@Override
