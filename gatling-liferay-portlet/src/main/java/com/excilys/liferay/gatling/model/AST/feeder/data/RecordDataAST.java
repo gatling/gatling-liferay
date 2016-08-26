@@ -1,15 +1,16 @@
 package com.excilys.liferay.gatling.model.AST.feeder.data;
 
+import com.excilys.liferay.gatling.model.UrlRecordType;
 import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
 
 public class RecordDataAST {
-	
+
 	public static final String HEADER = "url,type,datafile";
-	
+
 	private String url;
 	private String type;
 	private ResourceFileAST data;
-	
+
 	public RecordDataAST(String url, String type, ResourceFileAST data) {
 		this.url = url;
 		this.type = type;
@@ -19,18 +20,34 @@ public class RecordDataAST {
 	public String getUrl() {
 		return url;
 	}
-	
+
 	public String getType() {
 		return type;
 	}
-	
+
 	public ResourceFileAST getData() {
 		return data;
 	}
-	
+
+	public String getContent() {
+		StringBuilder contentBuilder = new StringBuilder("http(\"Page ")
+				.append(url)
+				.append("\")\n");
+		switch(UrlRecordType.valueOf(type)){
+			case GET:
+				break;
+			case MULTIPART:
+				break;
+			case POST:
+				break;
+		}
+		return contentBuilder.toString();
+	}
+
 	@Override
 	public String toString() {
-		return "URL: " + url + ", DATA: " + (data != null ? data.toString() : "none");
+		return "URL: " + url + ", DATA: "
+				+ (data != null ? data.toString() : "none");
 	}
-	
+
 }
