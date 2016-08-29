@@ -97,20 +97,16 @@
 	<portlet:param name="action" value="saveDefaultSimulation" />
 </portlet:actionURL>
 
-<aui:form action="${saveDefaultSimulation}" method="post">
+<aui:form action="${resourceUrl}" method="post">
 
 	<%-- Scenario FieldSet --%>
 	<aui:fieldset class="fieldset">
 	
 		<aui:input name="simulationId" type="hidden" value="${simulationId}" />
 		
-		<%-- Submit/Save Button --%>
-		<aui:button type="submit" value="save-scenario"
-			cssClass="pull-right" />
-
 		<%-- Scenario Title --%>
 		<legend class="fieldset-legend">
-			<span class="legend">Scenario</span>
+			<span class="legend">1.Design your scenario</span>
 		</legend>
 
 
@@ -137,7 +133,7 @@
 
 
 	<%-- Details Fieldset --%>
-	<aui:fieldset label="details">
+	<aui:fieldset label="2.Configure your injection profile">
 		<aui:select label="simulation-edit-form-sites" name="scenarioGroupId"
 			required="true">
 			<c:forEach var="group" items="${listGroup}">
@@ -167,13 +163,20 @@
 
 	
 	<%-- Login Feeder Fieldset --%>
-	<aui:fieldset label="login-feeder">
+	<aui:fieldset label="3.Specify your feeders">
 		<aui:input name="feederContent"
 			label="write-one-account-and-password-per-line" type="textarea"
 			cssClass="textarea-feeder" value="${feederContent}"></aui:input>
 
 	</aui:fieldset>
 	
+	<%-- Login Feeder Fieldset --%>
+	<aui:fieldset label="4.Let's export and run with Gatling">
+		<%-- Submit/Save Button --%>
+		<aui:button type="submit" value="Export the simulation"
+			cssClass="pull-left" />
+
+	</aui:fieldset>	
 </aui:form>
 
 

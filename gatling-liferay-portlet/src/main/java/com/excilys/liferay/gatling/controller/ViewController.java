@@ -107,8 +107,7 @@ public class ViewController {
 	}
 	
 
-	@ActionMapping(params="action=saveDefaultSimulation")
-	public void editFeederAction(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{
+	public void editFeederAction(final ResourceRequest request) throws SystemException, PortalException{
 		LOG.debug("Action Triggered : Save Default Simulation");
 		
 		long simulationId = ParamUtil.getLong(request, "simulationId");
@@ -142,7 +141,6 @@ public class ViewController {
 		SimulationLocalServiceUtil.updateSimulation(simulation);
 		ScenarioLocalServiceUtil.updateScenario(scenario);
 		
-		response.setRenderParameter("render", "renderView");
 	}
 
 	
@@ -150,6 +148,9 @@ public class ViewController {
 	public void exportZippedEnvironment(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
 		LOG.debug("Generating zip file...");
 
+		// Saving datas
+		editFeederAction(request);
+		
 		//long[] simulationsIds = ParamUtil.getLongValues(request, "export");
 		Simulation simulation = SimulationLocalServiceUtil.getByName("_default_simulation_");
 
