@@ -97,7 +97,7 @@
 	<portlet:param name="action" value="saveDefaultSimulation" />
 </portlet:actionURL>
 
-<aui:form action="${resourceUrl}" method="post">
+<aui:form action="${saveDefaultSimulation}" method="post">
 
 	<%-- Scenario FieldSet --%>
 	<aui:fieldset class="fieldset">
@@ -134,16 +134,7 @@
 
 	<%-- Details Fieldset --%>
 	<aui:fieldset label="2.Configure your injection profile">
-		<aui:select label="simulation-edit-form-sites" name="scenarioGroupId"
-			required="true">
-			<c:forEach var="group" items="${listGroup}">
-				<c:set var="isSelected" scope="request"
-					value="${group.groupId eq scenarioGroupId}" />
-				<aui:option label="${group.descriptiveName}"
-					value="${group.groupId}" selected="isSelected" />
-			</c:forEach>
-		</aui:select>
-
+	
 		<aui:input label="scenario-edit-nb-users-per-second"
 			name="numberOfUsers" value="${numberOfUsers}" inlineField="true"
 			helpMessage="nbuser-info-help">
@@ -151,14 +142,24 @@
 			<aui:validator name="number" />
 			<aui:validator name="min">1</aui:validator>
 		</aui:input>
+		
+		<aui:select label="injection" name="injectionMode"
+			required="true"  inlineField="true">
+			<c:forEach var="mode" items="${injections}">
+				<c:set var="isSelected" scope="request"
+					value="${mode eq 'Ramp Over'}" />
+				<aui:option label="${mode}"
+					value="${mode}" selected="isSelected" />
+			</c:forEach>
+		</aui:select>
 
-		<aui:input label="ramp-over-duration" name="rampUp" value="${rampUp}"
+		<aui:input label="duration" name="rampUp" value="${rampUp}"
 			inlineField="true" helpMessage="duration-info-help">
 			<aui:validator name="required" />
 			<aui:validator name="number" />
 			<aui:validator name="min">1</aui:validator>
 		</aui:input>
-
+		
 	</aui:fieldset>
 
 	
@@ -173,9 +174,8 @@
 	<%-- Login Feeder Fieldset --%>
 	<aui:fieldset label="4.Let's export and run with Gatling">
 		<%-- Submit/Save Button --%>
-		<aui:button type="submit" value="Export the simulation"
+		<aui:button type="submit" value="Save the simulation"
 			cssClass="pull-left" />
-
 	</aui:fieldset>	
 </aui:form>
 

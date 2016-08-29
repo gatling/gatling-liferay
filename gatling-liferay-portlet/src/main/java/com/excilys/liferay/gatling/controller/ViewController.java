@@ -66,7 +66,6 @@ public class ViewController {
 	public String renderRequest(final RenderRequest renderRequest,
 			final RenderResponse renderResponse, final Model model) throws SystemException {
 		LOG.debug("render View");
-		
 		/* Record the sites list */
 		
 		List<Group> listGroups = GatlingUtil.getListOfSites();
@@ -100,7 +99,9 @@ public class ViewController {
 			processes.add(random);
 			processes.add(logout);
 		}
-		
+		List<String> injectionsMode = new ArrayList<>();
+		injectionsMode.add("Ramp Over");
+		injectionsMode.add("At Once");
 		
 		/* Record the simulation and scenario data */
 		renderRequest.setAttribute("simulationId", defaultSimulation.getSimulation_id());
@@ -108,16 +109,17 @@ public class ViewController {
 		renderRequest.setAttribute("processes", processes);
 		renderRequest.setAttribute("numberOfUsers", defaultScenario.getNumberOfUsers());
 		renderRequest.setAttribute("rampUp", defaultScenario.getDuration());
+		renderRequest.setAttribute("injections", injectionsMode);
 		renderRequest.setAttribute("feederContent", defaultSimulation.getFeederContent());
 		return "view";
 	}
 	
-
-	public void editFeederAction(final ResourceRequest request) throws SystemException, PortalException{
+	@ActionMapping(params="action=saveDefaultSimulation")
+	public void editFeederAction(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{
 		LOG.debug("Action Triggered : Save Default Simulation");
 		
 		long simulationId = ParamUtil.getLong(request, "simulationId");
-		long scenarioGroupId = ParamUtil.getLong(request, "scenarioGroupId");
+		//long scenarioGroupId = ParamUtil.getLong(request, "scenarioGroupId");
 		long numberOfUsers = ParamUtil.getLong(request, "numberOfUsers");
 		long rampUp = ParamUtil.getLong(request, "rampUp");
 		
@@ -130,7 +132,7 @@ public class ViewController {
 		}
 		Scenario scenario = scenarios.get(0);
 		
-		scenario.setGroup_id(scenarioGroupId);
+		//scenario.setGroup_id(scenarioGroupId);
 		scenario.setNumberOfUsers(numberOfUsers);
 		scenario.setDuration(rampUp);
 		simulation.setFeederContent(feederContent);
@@ -146,16 +148,15 @@ public class ViewController {
 		
 		SimulationLocalServiceUtil.updateSimulation(simulation);
 		ScenarioLocalServiceUtil.updateScenario(scenario);
-		
+		response.setRenderParameter("render", "renderView");
 	}
-
+	
 	
 	@ResourceMapping(value="generateZip")	
 	public void exportZippedEnvironment(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
 		LOG.debug("Generating zip file...");
 
 		// Saving datas
-		editFeederAction(request);
 		
 		//long[] simulationsIds = ParamUtil.getLongValues(request, "export");
 		Simulation simulation = SimulationLocalServiceUtil.getByName("_default_simulation_");
@@ -180,7 +181,6 @@ public class ViewController {
 
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 		LOG.debug("Zip generated ...");
-		response.createActionURL();
 	}
 	
 	
