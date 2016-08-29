@@ -11,7 +11,8 @@
 	background: #ffdd99;
 	height: 60px;
 	line-height: 60px;
-	margin: 15px 20px;
+	marg
+	in: 15px 20px;
 	padding: 0px 20px;
 	border-radius: 10px;
 	text-align: center;
@@ -32,6 +33,16 @@
 	height: 50px;
 }
 
+#menus {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#menus a {
+	color: #009ae5;
+	font-weight: bold;
+}
+
 </style>
 
 
@@ -40,33 +51,33 @@
 
 
 <%-- Top Menu --%>
-<div class="well well-small">
+<div id="menus">
 
-	<%-- Wiki Gatling Link --%>
-	<a target="blank" href='<%=PortletProps.get("gatling-wiki")%>'
-		class="label label-warning">
-		<i class="icon-share"></i> <liferay-ui:message key="help-gatling-wiki" />
-	</a>
+	<%--Take a tour view link --%>
+	<a href="#" class="btn" onclick="tourDefaultFirstSimu.start();">
+		<i class="icon-list-alt"></i> <liferay-ui:message key="take-a-tour" />
+	</a> 
 
-	<%-- Advanced View Link --%>
+	<%-- Old Interfae --%>
 	<portlet:renderURL var="renderAdvancedView">
 		<portlet:param name="render" value="renderAdvancedView" />
 	</portlet:renderURL>
-	<a href="${renderAdvancedView}" id="advancedButon" class="label label-info"> <i
+	<a href="${renderAdvancedView}" id="advancedButon" class="btn"> <i
 		class="icon-wrench"></i> <liferay-ui:message key="advanced-test-btn"/>
 	</a>
-	
-	<%--Take a tour view link --%>
-	<a href="#" class="label label-success" onclick="tourDefaultFirstSimu.start();">
-		<i class="icon-list-alt"></i> <liferay-ui:message key="take-a-tour" />
+
+	<%-- Wiki Gatling Link --%>
+	<a target="blank" href='<%=PortletProps.get("gatling-wiki")%>'
+		class="btn">
+		<i class="icon-share"></i> <liferay-ui:message key="help-gatling-wiki" />
 	</a> 
-	
+
 	
 	<%-- Portlet View --%>
 	<portlet:renderURL var="renderRecorderView">
 		<portlet:param name="render" value="renderRecorderView" />
 	</portlet:renderURL>
-	<a href="${renderRecorderView}" class="label label-success">
+	<a href="${renderRecorderView}" class="btn">
 		<i class="icon-heart"></i> Recorder
 	</a>
 
