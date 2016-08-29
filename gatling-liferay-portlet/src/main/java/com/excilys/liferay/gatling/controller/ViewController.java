@@ -76,25 +76,31 @@ public class ViewController {
 		Simulation defaultSimulation = SimulationLocalServiceUtil.createDefaultSimulation();
 		Scenario defaultScenario = ScenarioLocalServiceUtil.createDefaultScenario(defaultSimulation);
 		
-		Login defaultLogin = LoginLocalServiceUtil.createDefaultLogin();
+		List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(defaultScenario.getScenario_id());
 		
-		final ThemeDisplay themeDisplay =	(ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
-		SiteMap defaultSiteMap = SiteMapLocalServiceUtil.siteMapCreation(themeDisplay, defaultScenario.getGroup_id());
+		if(processes == null || processes.isEmpty()){
+			processes = new ArrayList<>(3);
+
+			Login defaultLogin = LoginLocalServiceUtil.createDefaultLogin();
+			
+			final ThemeDisplay themeDisplay =	(ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+			SiteMap defaultSiteMap = SiteMapLocalServiceUtil.siteMapCreation(themeDisplay, defaultScenario.getGroup_id());
+			
+			Process login = ProcessLocalServiceUtil.createProcess("Login", ProcessType.LOGIN,
+					defaultLogin.getPrimaryKey(), 2, 0, defaultScenario.getScenario_id());
+			
+			Process random = ProcessLocalServiceUtil.createProcess("Random Page", ProcessType.RANDOMPAGE,
+					defaultSiteMap.getPrimaryKey(), 3, 1, defaultScenario.getScenario_id());
+			
+			Process logout = ProcessLocalServiceUtil.createProcess("Logout", ProcessType.LOGOUT,
+					null, 1, 2,
+					defaultScenario.getScenario_id());
+
+			processes.add(login);
+			processes.add(random);
+			processes.add(logout);
+		}
 		
-		Process login = ProcessLocalServiceUtil.createProcess("Login", ProcessType.LOGIN,
-				defaultLogin.getPrimaryKey(), 2, 0, defaultScenario.getScenario_id());
-		
-		Process random = ProcessLocalServiceUtil.createProcess("Random Page", ProcessType.RANDOMPAGE,
-				defaultSiteMap.getPrimaryKey(), 3, 1, defaultScenario.getScenario_id());
-		
-		Process logout = ProcessLocalServiceUtil.createProcess("Logout", ProcessType.LOGOUT,
-				null, 1, 2,
-				defaultScenario.getScenario_id());
-		
-		List<Process> processes = new ArrayList<>(3);
-		processes.add(login);
-		processes.add(random);
-		processes.add(logout);
 		
 		/* Record the simulation and scenario data */
 		renderRequest.setAttribute("simulationId", defaultSimulation.getSimulation_id());
@@ -153,7 +159,7 @@ public class ViewController {
 		
 		//long[] simulationsIds = ParamUtil.getLongValues(request, "export");
 		Simulation simulation = SimulationLocalServiceUtil.getByName("_default_simulation_");
-
+		LOG.debug("SImulatioID="+(simulation==null?"null":simulation.getSimulation_id()));
 		// Retreives the defaut scenario frim the simulation id (expected single result)
 		List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
 		if(scenarios == null || scenarios.isEmpty()) {
@@ -174,6 +180,7 @@ public class ViewController {
 
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 		LOG.debug("Zip generated ...");
+		response.createActionURL();
 	}
 	
 	
