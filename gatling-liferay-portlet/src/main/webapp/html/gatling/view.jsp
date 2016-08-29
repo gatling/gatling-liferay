@@ -36,7 +36,7 @@
 
 
 <%-- Title --%>
-<liferay-ui:header title="default-simulations"></liferay-ui:header>
+<liferay-ui:header title="javax.portlet.title" />
 
 
 <%-- Top Menu --%>
