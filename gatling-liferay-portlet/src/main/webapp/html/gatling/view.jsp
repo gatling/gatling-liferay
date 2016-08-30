@@ -4,8 +4,13 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
+<%-- CSS --%>
 
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/wan-spinner.css">
+
+
+<%-- COWDE --%>
 
 
 <%-- Title --%>
@@ -106,13 +111,18 @@
 						</div>
 						
 						<div class="pause">
-							<div class="pause-name process-font">Pause</div>
-							<div class="time process-font">
-								<input type="number" name="${process.process_id}" value="${process.pause}" /> s
+							<div class="pause-content">
+								<div class="pause-center">
+									<div class="pause-name process-font">Pause</div>
+									<div class="wan-spinner time process-font">
+										<a href="javascript:void(0)" class="minus">-</a>
+    									<input type="text" value="1"><span>s</span>
+    									<a href="javascript:void(0)" class="plus">+</a>
+									</div>
+								</div>	
 							</div>
-							
 						</div>
-						
+							
 						<div class="time-separator-container">
 							<div class="time-separator">
 								<div class="icon-chevron-right"></div>
@@ -178,6 +188,38 @@
 </aui:form>
 
 
+<%-- JS --%>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/wan-spinner.js"></script>
+
 <script type="text/javascript">
-<%@ include file="/js/defaultTourSimulation.js" %>
+  $(document).ready(function() {
+    var options = {
+      maxValue: 99,
+      minValue: 0,
+      step: 1,
+      start: 2,
+      plusClick: function(val) {
+        console.log(val);
+      },
+      minusClick: function(val) {
+        console.log(val);
+      },
+      exceptionFun: function(val) {
+        console.log("excep: " + val);
+      },
+      valueChanged: function(val) {
+        console.log('change: ' + val);
+      }
+    }
+    $(".time").WanSpinner(options);
+  });
 </script>
+
+
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/defaultTourSimulation.js"></script>
+
+
+

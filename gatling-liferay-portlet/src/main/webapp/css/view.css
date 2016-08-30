@@ -77,6 +77,16 @@
 	border-radius: 40px;
 }
 
+.pause-content {
+	display: flex ;
+	justify-content: center;
+	height: 80px;
+}
+
+.pause-font {
+	align-self: center;
+}
+
 .pause-name {
 	margin-top: 10px;
 }
