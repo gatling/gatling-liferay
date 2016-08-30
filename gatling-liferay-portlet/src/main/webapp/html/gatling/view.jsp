@@ -127,7 +127,9 @@
 				</c:if>
 				
 			</c:forEach>
+			<div id ="takeATourAnchor" style="display: inline-block;"></div>
 		</div>
+		
 
 	</aui:fieldset>
 
@@ -144,7 +146,7 @@
 		</aui:input>
 		
 		<aui:select label="injection" name="injectionMode"
-			required="true"  inlineField="true">
+			required="true"  inlineField="true" helpMessage="injection-info-help">
 			<c:forEach var="mode" items="${injections}">
 				<c:set var="isSelected" scope="request"
 					value="${mode eq 'Ramp Over'}" />

@@ -23,7 +23,7 @@ tourDefaultFirstSimu.addStep('list-simulation', {
 tourDefaultFirstSimu.addStep('list-simulation1', {
 	title:"<liferay-ui:message key='tour-default-workflow-title' />",
 	text: "<liferay-ui:message key='tour-default-workflow' />",
-	attachTo: '#scenario-flow  bottom',
+	attachTo: '#takeATourAnchor right',
 });
 
 tourDefaultFirstSimu.addStep('list-simulation2', {
