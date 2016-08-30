@@ -70,11 +70,13 @@ public class ViewController {
 		
 		List<Group> listGroups = GatlingUtil.getListOfSites();
 		renderRequest.setAttribute("listGroup", listGroups);
-		
+		//
 		/* Initialize the simulation and the scenario if not existant */
 		Simulation defaultSimulation = SimulationLocalServiceUtil.createDefaultSimulation();
 		Scenario defaultScenario = ScenarioLocalServiceUtil.createDefaultScenario(defaultSimulation);
 		
+		
+		//
 		List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(defaultScenario.getScenario_id());
 		
 		if(processes == null || processes.isEmpty()){
@@ -99,6 +101,8 @@ public class ViewController {
 			processes.add(random);
 			processes.add(logout);
 		}
+		
+		//
 		List<String> injectionsMode = new ArrayList<>();
 		injectionsMode.add("ramp Over");
 		injectionsMode.add("at Once");

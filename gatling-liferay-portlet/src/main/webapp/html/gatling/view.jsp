@@ -111,16 +111,12 @@
 						</div>
 						
 						<div class="pause">
-							<div class="pause-content">
-								<div class="pause-center">
-									<div class="pause-name process-font">Pause</div>
-									<div class="wan-spinner time process-font">
-										<a href="javascript:void(0)" class="minus">-</a>
-    									<input type="text" value="1"><span>s</span>
-    									<a href="javascript:void(0)" class="plus">+</a>
-									</div>
-								</div>	
-							</div>
+								<div class="pause-name process-font">Pause</div>
+								<div class="wan-spinner time process-font">
+									<a href="javascript:void(0)" class="minus">-</a>
+    								<input type="text" class="process-fond"  value="1"><span class="process-font">s</span>
+    								<a href="javascript:void(0)" class="plus">+</a>
+								</div>
 						</div>
 							
 						<div class="time-separator-container">

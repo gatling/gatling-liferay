@@ -21,6 +21,7 @@
 
 .scenario-box {
 	display: inline-block;
+	vertical-align: middle;
 	width: 30px;
 }
 
@@ -71,16 +72,12 @@
 
 .pause {
 	display: inline-block;
-	background: #e1c167;
-	height: 80px;
-	width: 80px;
+	vertical-align: middle;
+	height: 45px;
+	width: 85px;
+	background: #eac15f;
 	border-radius: 40px;
-}
-
-.pause-content {
-	display: flex ;
-	justify-content: center;
-	height: 80px;
+	text-align: center;
 }
 
 .pause-font {
@@ -88,7 +85,7 @@
 }
 
 .pause-name {
-	margin-top: 10px;
+	margin-top: 2px;
 }
 
 .process-font {
