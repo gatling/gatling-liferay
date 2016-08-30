@@ -18,7 +18,8 @@
 		<column name="group_id" type="long"></column>
 		<column name="simulation_id" type="long"></column>
 		<column name="numberOfUsers" type="long"></column>
-		<column name="duration" type="long"></column>		
+		<column name="duration" type="long"></column>
+		<column name="injection" type="String"></column>		
 		<finder name="SimulationId" return-type="Collection">
 			<finder-column name="simulation_id" />
 		</finder>

@@ -102,6 +102,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 				defaultScenario.setGroup_id(listGroups.get(0).getGroupId());
 			}
 			defaultScenario.setSimulation_id(simulation.getSimulation_id());
+			defaultScenario.setInjection("ramp Over");
 			defaultScenario.setNumberOfUsers(10);
 			defaultScenario.setDuration(5);
 			defaultScenario.persist();

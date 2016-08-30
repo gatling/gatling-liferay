@@ -19,6 +19,7 @@ public class ScenarioSoap implements Serializable {
     private long _simulation_id;
     private long _numberOfUsers;
     private long _duration;
+    private String _injection;
 
     public ScenarioSoap() {
     }
@@ -33,6 +34,7 @@ public class ScenarioSoap implements Serializable {
         soapModel.setSimulation_id(model.getSimulation_id());
         soapModel.setNumberOfUsers(model.getNumberOfUsers());
         soapModel.setDuration(model.getDuration());
+        soapModel.setInjection(model.getInjection());
 
         return soapModel;
     }
@@ -135,5 +137,13 @@ public class ScenarioSoap implements Serializable {
 
     public void setDuration(long duration) {
         _duration = duration;
+    }
+
+    public String getInjection() {
+        return _injection;
+    }
+
+    public void setInjection(String injection) {
+        _injection = injection;
     }
 }

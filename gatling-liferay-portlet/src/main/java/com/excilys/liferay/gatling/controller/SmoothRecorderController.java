@@ -132,7 +132,7 @@ public class SmoothRecorderController {
 		processList.add(processAST);
 		
 		List<ScenarioAST> scenarios = new ArrayList<>();
-		scenarios.add(new ScenarioAST("RecordScenario", 10, 10, processList));
+		scenarios.add(new ScenarioAST("RecordScenario", 10, "rampUsers", 10, processList));
 		
 		SimulationAST ast = new SimulationAST(
 			"RecordSimulation", 

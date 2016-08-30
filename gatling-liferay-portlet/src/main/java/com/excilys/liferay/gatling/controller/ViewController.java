@@ -100,12 +100,13 @@ public class ViewController {
 			processes.add(logout);
 		}
 		List<String> injectionsMode = new ArrayList<>();
-		injectionsMode.add("Ramp Over");
-		injectionsMode.add("At Once");
+		injectionsMode.add("ramp Over");
+		injectionsMode.add("at Once");
 		
 		/* Record the simulation and scenario data */
 		renderRequest.setAttribute("simulationId", defaultSimulation.getSimulation_id());
 		renderRequest.setAttribute("scenarioGroupId", defaultScenario.getGroup_id());
+		renderRequest.setAttribute("scenarioInjection", "ramp Over");
 		renderRequest.setAttribute("processes", processes);
 		renderRequest.setAttribute("numberOfUsers", defaultScenario.getNumberOfUsers());
 		renderRequest.setAttribute("rampUp", defaultScenario.getDuration());
@@ -122,32 +123,37 @@ public class ViewController {
 		//long scenarioGroupId = ParamUtil.getLong(request, "scenarioGroupId");
 		long numberOfUsers = ParamUtil.getLong(request, "numberOfUsers");
 		long rampUp = ParamUtil.getLong(request, "rampUp");
+		String injection = ParamUtil.getString(request, "injectionMode");
 		
 		String feederContent = ParamUtil.getString(request, "feederContent");
 		
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
+		simulation.setFeederContent(feederContent);
+		SimulationLocalServiceUtil.updateSimulation(simulation);
+
 		List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
 		if(scenarios == null || scenarios.isEmpty()) {
 			throw new NoSuchScenarioException();
 		}
-		Scenario scenario = scenarios.get(0);
 		
-		//scenario.setGroup_id(scenarioGroupId);
-		scenario.setNumberOfUsers(numberOfUsers);
-		scenario.setDuration(rampUp);
-		simulation.setFeederContent(feederContent);
-	
-		List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(scenario.getScenario_id());
-		for (Process process : processes) {
-			int time = ParamUtil.getInteger(request, process.getProcess_id()+"");
-			if(time != process.getPause()) {
-				process.setPause(time);
-				ProcessLocalServiceUtil.updateProcess(process);
+		for (Scenario scenario : scenarios) {
+			//scenario.setGroup_id(scenarioGroupId);
+			scenario.setInjection(injection);
+			scenario.setNumberOfUsers(numberOfUsers);
+			scenario.setDuration(rampUp);
+			
+			List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(scenario.getScenario_id());
+			for (Process process : processes) {
+				int time = ParamUtil.getInteger(request, process.getProcess_id()+"");
+				if(time != process.getPause()) {
+					process.setPause(time);
+					ProcessLocalServiceUtil.updateProcess(process);
+				}
 			}
+			
+			ScenarioLocalServiceUtil.updateScenario(scenario);
 		}
 		
-		SimulationLocalServiceUtil.updateSimulation(simulation);
-		ScenarioLocalServiceUtil.updateScenario(scenario);
 		response.setRenderParameter("render", "renderView");
 	}
 	

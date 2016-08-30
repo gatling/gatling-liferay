@@ -60,7 +60,8 @@ create table StressTool_Scenario (
 	group_id LONG,
 	simulation_id LONG,
 	numberOfUsers LONG,
-	duration LONG
+	duration LONG,
+	injection VARCHAR(75) null
 );
 
 create table StressTool_Simulation (

@@ -50,9 +50,10 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
             { "group_id", Types.BIGINT },
             { "simulation_id", Types.BIGINT },
             { "numberOfUsers", Types.BIGINT },
-            { "duration", Types.BIGINT }
+            { "duration", Types.BIGINT },
+            { "injection", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table StressTool_Scenario (scenario_id LONG not null primary key,name VARCHAR(75) null,url_site VARCHAR(75) null,group_id LONG,simulation_id LONG,numberOfUsers LONG,duration LONG)";
+    public static final String TABLE_SQL_CREATE = "create table StressTool_Scenario (scenario_id LONG not null primary key,name VARCHAR(75) null,url_site VARCHAR(75) null,group_id LONG,simulation_id LONG,numberOfUsers LONG,duration LONG,injection VARCHAR(75) null)";
     public static final String TABLE_SQL_DROP = "drop table StressTool_Scenario";
     public static final String ORDER_BY_JPQL = " ORDER BY scenario.scenario_id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY StressTool_Scenario.scenario_id ASC";
@@ -87,6 +88,7 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
     private boolean _setOriginalSimulation_id;
     private long _numberOfUsers;
     private long _duration;
+    private String _injection;
     private long _columnBitmask;
     private Scenario _escapedModel;
 
@@ -134,6 +136,7 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
         attributes.put("simulation_id", getSimulation_id());
         attributes.put("numberOfUsers", getNumberOfUsers());
         attributes.put("duration", getDuration());
+        attributes.put("injection", getInjection());
 
         return attributes;
     }
@@ -180,6 +183,12 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 
         if (duration != null) {
             setDuration(duration);
+        }
+
+        String injection = (String) attributes.get("injection");
+
+        if (injection != null) {
+            setInjection(injection);
         }
     }
 
@@ -283,6 +292,20 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
         _duration = duration;
     }
 
+    @Override
+    public String getInjection() {
+        if (_injection == null) {
+            return StringPool.BLANK;
+        } else {
+            return _injection;
+        }
+    }
+
+    @Override
+    public void setInjection(String injection) {
+        _injection = injection;
+    }
+
     public long getColumnBitmask() {
         return _columnBitmask;
     }
@@ -321,6 +344,7 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
         scenarioImpl.setSimulation_id(getSimulation_id());
         scenarioImpl.setNumberOfUsers(getNumberOfUsers());
         scenarioImpl.setDuration(getDuration());
+        scenarioImpl.setInjection(getInjection());
 
         scenarioImpl.resetOriginalValues();
 
@@ -409,12 +433,20 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 
         scenarioCacheModel.duration = getDuration();
 
+        scenarioCacheModel.injection = getInjection();
+
+        String injection = scenarioCacheModel.injection;
+
+        if ((injection != null) && (injection.length() == 0)) {
+            scenarioCacheModel.injection = null;
+        }
+
         return scenarioCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(15);
+        StringBundler sb = new StringBundler(17);
 
         sb.append("{scenario_id=");
         sb.append(getScenario_id());
@@ -430,6 +462,8 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
         sb.append(getNumberOfUsers());
         sb.append(", duration=");
         sb.append(getDuration());
+        sb.append(", injection=");
+        sb.append(getInjection());
         sb.append("}");
 
         return sb.toString();
@@ -437,7 +471,7 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(25);
+        StringBundler sb = new StringBundler(28);
 
         sb.append("<model><model-name>");
         sb.append("com.excilys.liferay.gatling.model.Scenario");
@@ -470,6 +504,10 @@ public class ScenarioModelImpl extends BaseModelImpl<Scenario>
         sb.append(
             "<column><column-name>duration</column-name><column-value><![CDATA[");
         sb.append(getDuration());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>injection</column-name><column-value><![CDATA[");
+        sb.append(getInjection());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

@@ -43,6 +43,7 @@ public class ScenarioWrapper implements Scenario, ModelWrapper<Scenario> {
         attributes.put("simulation_id", getSimulation_id());
         attributes.put("numberOfUsers", getNumberOfUsers());
         attributes.put("duration", getDuration());
+        attributes.put("injection", getInjection());
 
         return attributes;
     }
@@ -89,6 +90,12 @@ public class ScenarioWrapper implements Scenario, ModelWrapper<Scenario> {
 
         if (duration != null) {
             setDuration(duration);
+        }
+
+        String injection = (String) attributes.get("injection");
+
+        if (injection != null) {
+            setInjection(injection);
         }
     }
 
@@ -250,6 +257,26 @@ public class ScenarioWrapper implements Scenario, ModelWrapper<Scenario> {
     @Override
     public void setDuration(long duration) {
         _scenario.setDuration(duration);
+    }
+
+    /**
+    * Returns the injection of this scenario.
+    *
+    * @return the injection of this scenario
+    */
+    @Override
+    public java.lang.String getInjection() {
+        return _scenario.getInjection();
+    }
+
+    /**
+    * Sets the injection of this scenario.
+    *
+    * @param injection the injection of this scenario
+    */
+    @Override
+    public void setInjection(java.lang.String injection) {
+        _scenario.setInjection(injection);
     }
 
     @Override

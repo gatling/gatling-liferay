@@ -26,6 +26,7 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
     private long _simulation_id;
     private long _numberOfUsers;
     private long _duration;
+    private String _injection;
     private BaseModel<?> _scenarioRemoteModel;
     private Class<?> _clpSerializerClass = com.excilys.liferay.gatling.service.ClpSerializer.class;
 
@@ -73,6 +74,7 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
         attributes.put("simulation_id", getSimulation_id());
         attributes.put("numberOfUsers", getNumberOfUsers());
         attributes.put("duration", getDuration());
+        attributes.put("injection", getInjection());
 
         return attributes;
     }
@@ -119,6 +121,12 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 
         if (duration != null) {
             setDuration(duration);
+        }
+
+        String injection = (String) attributes.get("injection");
+
+        if (injection != null) {
+            setInjection(injection);
         }
     }
 
@@ -277,6 +285,28 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
     }
 
     @Override
+    public String getInjection() {
+        return _injection;
+    }
+
+    @Override
+    public void setInjection(String injection) {
+        _injection = injection;
+
+        if (_scenarioRemoteModel != null) {
+            try {
+                Class<?> clazz = _scenarioRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setInjection", String.class);
+
+                method.invoke(_scenarioRemoteModel, injection);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
+    @Override
     public boolean isComplete() {
         try {
             String methodName = "isComplete";
@@ -368,6 +398,7 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
         clone.setSimulation_id(getSimulation_id());
         clone.setNumberOfUsers(getNumberOfUsers());
         clone.setDuration(getDuration());
+        clone.setInjection(getInjection());
 
         return clone;
     }
@@ -417,7 +448,7 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(15);
+        StringBundler sb = new StringBundler(17);
 
         sb.append("{scenario_id=");
         sb.append(getScenario_id());
@@ -433,6 +464,8 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
         sb.append(getNumberOfUsers());
         sb.append(", duration=");
         sb.append(getDuration());
+        sb.append(", injection=");
+        sb.append(getInjection());
         sb.append("}");
 
         return sb.toString();
@@ -440,7 +473,7 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(25);
+        StringBundler sb = new StringBundler(28);
 
         sb.append("<model><model-name>");
         sb.append("com.excilys.liferay.gatling.model.Scenario");
@@ -473,6 +506,10 @@ public class ScenarioClp extends BaseModelImpl<Scenario> implements Scenario {
         sb.append(
             "<column><column-name>duration</column-name><column-value><![CDATA[");
         sb.append(getDuration());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>injection</column-name><column-value><![CDATA[");
+        sb.append(getInjection());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

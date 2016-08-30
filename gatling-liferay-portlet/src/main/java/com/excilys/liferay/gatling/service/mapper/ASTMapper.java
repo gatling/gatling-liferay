@@ -53,7 +53,7 @@ public class ASTMapper {
 	
 	public static ScenarioAST mapScenarioToAST(Scenario scenario, String portalURL) throws SystemException, PortalException{
 		List<ProcessAST> processList = ASTService.computesProcessesAST(scenario.getScenario_id(), portalURL);
-		return new ScenarioAST(scenario.getName(), scenario.getNumberOfUsers(), scenario.getDuration(), processList);
+		return new ScenarioAST(scenario.getName(), scenario.getNumberOfUsers(), scenario.getInjection(), scenario.getDuration(), processList);
 	}
 	
 	public static List<ProcessAST> mapProcessesToAST(List<Process> processes, String portalURL) throws PortalException, SystemException {

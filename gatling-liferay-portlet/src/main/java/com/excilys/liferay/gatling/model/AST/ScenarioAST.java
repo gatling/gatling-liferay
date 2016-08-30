@@ -10,17 +10,19 @@ public class ScenarioAST {
 	private String scenarioName;
 	private long users;
 	private long rampUp;
+	private String injection;
 	private List<ProcessAST> processes;
 
-	public ScenarioAST(String scenarioName, long users, long rampUp, List<ProcessAST> processList) {
+	public ScenarioAST(String scenarioName, long users, String injection, long rampUp, List<ProcessAST> processList) {
 		this.scenarioName = scenarioName;
 		this.users = users;
+		this.injection = injection;
 		this.rampUp = rampUp;
 		this.processes = processList;
 	}
 
-	public ScenarioAST(String scenarioName, long users, long rampUp) {
-		this(scenarioName, users, rampUp, new ArrayList<ProcessAST>());
+	public ScenarioAST(String scenarioName, long users, String injection, long rampUp) {
+		this(scenarioName, users, injection, rampUp, new ArrayList<ProcessAST>());
 	}
 	
 	public String getScenarioName() {
@@ -55,6 +57,30 @@ public class ScenarioAST {
 		this.processes = processes;
 	}
 
+	public String getInjection() {
+		return injection;
+	}
+
+	public void setInjection(String injection) {
+		this.injection = injection;
+	}
+	
+	public String getInjectionCode() {
+		StringBuilder sb = new StringBuilder();
+		if ("at Once".equals(injection)) {
+			sb.append("atOnceUsers(")
+				.append(users)
+				.append(")");
+		}
+		else {
+			sb.append("rampUsers(")
+				.append(users)
+				.append(") over(")
+				.append(rampUp)
+				.append(" seconds)");
+		}
+		return sb.toString();
+	}
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -87,4 +113,5 @@ public class ScenarioAST {
 		}
 		return sb.toString();
 	}
+
 }

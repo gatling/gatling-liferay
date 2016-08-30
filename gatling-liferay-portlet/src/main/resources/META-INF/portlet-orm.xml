@@ -98,6 +98,7 @@
 			<basic name="simulation_id" />
 			<basic name="numberOfUsers" />
 			<basic name="duration" />
+			<basic name="injection" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />

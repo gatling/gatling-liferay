@@ -143,6 +143,21 @@ public interface ScenarioModel extends BaseModel<Scenario> {
      */
     public void setDuration(long duration);
 
+    /**
+     * Returns the injection of this scenario.
+     *
+     * @return the injection of this scenario
+     */
+    @AutoEscape
+    public String getInjection();
+
+    /**
+     * Sets the injection of this scenario.
+     *
+     * @param injection the injection of this scenario
+     */
+    public void setInjection(String injection);
+
     @Override
     public boolean isNew();
 

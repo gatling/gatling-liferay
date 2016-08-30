@@ -1113,6 +1113,7 @@ public class ScenarioPersistenceImpl extends BasePersistenceImpl<Scenario>
         scenarioImpl.setSimulation_id(scenario.getSimulation_id());
         scenarioImpl.setNumberOfUsers(scenario.getNumberOfUsers());
         scenarioImpl.setDuration(scenario.getDuration());
+        scenarioImpl.setInjection(scenario.getInjection());
 
         return scenarioImpl;
     }

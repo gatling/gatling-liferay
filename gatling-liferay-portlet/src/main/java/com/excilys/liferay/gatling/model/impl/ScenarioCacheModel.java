@@ -26,10 +26,11 @@ public class ScenarioCacheModel implements CacheModel<Scenario>, Externalizable 
     public long simulation_id;
     public long numberOfUsers;
     public long duration;
+    public String injection;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(15);
+        StringBundler sb = new StringBundler(17);
 
         sb.append("{scenario_id=");
         sb.append(scenario_id);
@@ -45,6 +46,8 @@ public class ScenarioCacheModel implements CacheModel<Scenario>, Externalizable 
         sb.append(numberOfUsers);
         sb.append(", duration=");
         sb.append(duration);
+        sb.append(", injection=");
+        sb.append(injection);
         sb.append("}");
 
         return sb.toString();
@@ -73,6 +76,12 @@ public class ScenarioCacheModel implements CacheModel<Scenario>, Externalizable 
         scenarioImpl.setNumberOfUsers(numberOfUsers);
         scenarioImpl.setDuration(duration);
 
+        if (injection == null) {
+            scenarioImpl.setInjection(StringPool.BLANK);
+        } else {
+            scenarioImpl.setInjection(injection);
+        }
+
         scenarioImpl.resetOriginalValues();
 
         return scenarioImpl;
@@ -87,6 +96,7 @@ public class ScenarioCacheModel implements CacheModel<Scenario>, Externalizable 
         simulation_id = objectInput.readLong();
         numberOfUsers = objectInput.readLong();
         duration = objectInput.readLong();
+        injection = objectInput.readUTF();
     }
 
     @Override
@@ -110,5 +120,11 @@ public class ScenarioCacheModel implements CacheModel<Scenario>, Externalizable 
         objectOutput.writeLong(simulation_id);
         objectOutput.writeLong(numberOfUsers);
         objectOutput.writeLong(duration);
+
+        if (injection == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(injection);
+        }
     }
 }

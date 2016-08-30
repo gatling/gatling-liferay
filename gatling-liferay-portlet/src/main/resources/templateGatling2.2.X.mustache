@@ -30,7 +30,7 @@ class {{simulationName}} extends Simulation {
 
   setUp(
     {{#scenariosAST}}
-    {{scenarioName}}.inject(rampUsers({{users}}) over({{rampUp}} seconds))
+    {{scenarioName}}.inject({{getInjectionCode}})
     {{/scenariosAST}}
   ).protocols(httpProtocol)
 

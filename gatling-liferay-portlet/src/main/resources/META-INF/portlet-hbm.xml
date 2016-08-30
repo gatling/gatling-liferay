@@ -85,6 +85,7 @@
 		<property name="simulation_id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="numberOfUsers" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="duration" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="injection" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="com.excilys.liferay.gatling.model.impl.SimulationImpl" table="StressTool_Simulation">
 		<cache usage="read-write" />
