@@ -4,46 +4,8 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 
-<style>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
 
-.action {
-	display: inline-block;
-	background: #ffdd99;
-	height: 60px;
-	line-height: 60px;
-	marg
-	in: 15px 20px;
-	padding: 0px 20px;
-	border-radius: 10px;
-	text-align: center;
-}
-
-.time-separator-container {
-	display: inline-block ;
- 	height: 60px;
-	vertical-align: middle;
-	text-align: center;
-}
-
-.time-separator {
-	margin-top:5px;
- 	display: block ;
-	vertical-align: middle;
-	text-align: center;
-	height: 50px;
-}
-
-#menus {
-	margin-top: 20px;
-	margin-bottom: 20px;
-}
-
-#menus a {
-	color: #009ae5;
-	font-weight: bold;
-}
-
-</style>
 
 
 <%-- Title --%>
@@ -123,21 +85,44 @@
 
 		<%-- Scenario --%>
 		<div class="scenario" >
-			<c:forEach items="${processes}" var="process" varStatus="i">
-				<div class="action">${process.name}</div>
+		
+			<div class="scenario-box" >
+				<input type="checkbox">
+			</div>
+			
+			<div class="scenario-name" >
+				Default Scenario
+			</div>
+		
+			<div class="workflow" >
+				<c:forEach items="${processes}" var="process" varStatus="i">
+					<div class="action process-font">${process.name}</div>
 
-				<c:if test="${!i.last}" >
-				<div class="time-separator-container">
-					<div class="time-separator">
-						<div class="icon-chevron-right"></div>
-						<div class="time">
-						<aui:input 	type="number" style="width:2em" label="" inlineLabel="left" name="${process.process_id}" value="${process.pause}" inlineField="true"/>s
+					<c:if test="${!i.last}" >
+						<div class="time-separator-container">
+							<div class="time-separator">
+								<div class="icon-chevron-right"></div>
+							</div>
 						</div>
-					</div>
-				</div>
-				</c:if>
-				
-			</c:forEach>
+						
+						<div class="pause">
+							<div class="pause-name process-font">Pause</div>
+							<div class="time process-font">
+								<input type="number" name="${process.process_id}" value="${process.pause}" /> s
+							</div>
+							
+						</div>
+						
+						<div class="time-separator-container">
+							<div class="time-separator">
+								<div class="icon-chevron-right"></div>
+							</div>
+						</div>
+						
+					</c:if>
+				</c:forEach>
+			</div>
+			
 			<div id ="takeATourAnchor" style="display: inline-block;"></div>
 		</div>
 		

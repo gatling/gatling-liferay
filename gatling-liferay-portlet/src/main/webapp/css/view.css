@@ -1,0 +1,100 @@
+
+/* Buttons in the menu */
+
+#menus {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#menus a {
+	color: #009ae5;
+	font-weight: bold;
+}
+
+
+/* Scenarios */
+
+.scenario {
+	height: 80px;
+	vertical-align: center;
+}
+
+.scenario-box {
+	display: inline-block;
+	width: 30px;
+}
+
+.scenario-box input[type="checkbox"] {
+	margin-bottom: 7px;
+}
+
+.scenario-name {
+	display: inline-block;
+	width: 200px;
+	margin-left: 30px;
+	font-style: italic;
+}
+
+.workflow {
+	display: inline-block;
+	margin-left: 30px;
+	height: 80px;
+}
+
+.action {
+	display: inline-block;
+	background: rgb(88, 148, 227);
+	height: 45px;
+	line-height: 45px;
+	padding: 0px 20px;
+	border-radius: 10px;
+}
+
+.time-separator-container {
+	display: inline-block ;
+ 	height: 80px;
+	margin: 0px 10px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.time-separator {
+ 	display: flex ;
+	justify-content: center;
+	text-align: center;
+	height: 80px;
+}
+
+.time-separator div {
+	align-self: center;
+}
+
+.pause {
+	display: inline-block;
+	background: #e1c167;
+	height: 80px;
+	width: 80px;
+	border-radius: 40px;
+}
+
+.pause-name {
+	margin-top: 10px;
+}
+
+.process-font {
+	color: white;
+	font-weight: bold;
+	text-align: center;
+}
+
+.time {
+	text-align: center;
+}
+
+.time input[type="number"] {
+   	width: 25px;
+   	margin-bottom: 0;
+}
+
+
+
