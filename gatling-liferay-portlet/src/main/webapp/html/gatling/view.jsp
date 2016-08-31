@@ -5,6 +5,13 @@
 
 
 <%-- CSS --%>
+<style type="text/css">
+	.library {
+		width:100%;
+		padding: 5px;
+		background: rgba(0, 174, 255, 0.28);
+	}
+</style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/wan-spinner.css">
@@ -105,6 +112,15 @@
 		</div>
 		
 
+	<%-- Library, not filled with books but with Processes --%>
+	<h3>Processes Library</h3>
+	<div class="library">
+		<c:forEach items="${templates}" var="template" varStatus="i">
+			<div class="action process-font">${template.name}</div>
+		</c:forEach>
+	</div>
+	
+		
 	</aui:fieldset>
 
 
@@ -165,8 +181,6 @@
          <%@ include file="smoothRecorderView.jsp" %>
     </liferay-ui:section>
 </liferay-ui:tabs>
-
-
 
 <%-- JS --%>
 

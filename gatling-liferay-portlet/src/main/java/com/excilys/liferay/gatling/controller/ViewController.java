@@ -4,6 +4,8 @@
 package com.excilys.liferay.gatling.controller;
 
 import com.excilys.liferay.gatling.NoSuchScenarioException;
+import com.excilys.liferay.gatling.dto.ProcessDTO;
+import com.excilys.liferay.gatling.dto.mapper.ProcessDTOMapper;
 import com.excilys.liferay.gatling.model.Login;
 import com.excilys.liferay.gatling.model.Process;
 import com.excilys.liferay.gatling.model.ProcessType;
@@ -28,6 +30,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -97,7 +100,15 @@ public class ViewController {
 			processes.add(logout);
 		}
 		
-		//
+
+		List<Process> allProcesses = ProcessLocalServiceUtil.getProcesses(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+		List<ProcessDTO> templates = new ArrayList<>(allProcesses.size());
+		for (Process process : allProcesses) {
+			templates.add(ProcessDTOMapper.toDTO(process));
+		}
+		
+		
+		// Injection modes
 		List<String> injectionsMode = new ArrayList<>();
 		injectionsMode.add("ramp Over");
 		injectionsMode.add("at Once");
@@ -111,6 +122,7 @@ public class ViewController {
 		renderRequest.setAttribute("rampUp", defaultScenario.getDuration());
 		renderRequest.setAttribute("injections", injectionsMode);
 		renderRequest.setAttribute("feederContent", defaultSimulation.getFeederContent());
+		renderRequest.setAttribute("templates", templates);
 		return "view";
 	}
 	
