@@ -12,10 +12,10 @@
 
 <%-- COWDE --%>
 
+<%-- Tabs --%>
 
-<%-- Title --%>
-<liferay-ui:header title="javax.portlet.title" />
-
+<liferay-ui:tabs names="Scenario Builder,Recorder" refresh="false">
+    <liferay-ui:section>
 
 <%-- Top Menu --%>
 <div id="menus">
@@ -38,15 +38,6 @@
 		class="btn">
 		<i class="icon-share"></i> <liferay-ui:message key="help-gatling-wiki" />
 	</a> 
-
-	
-	<%-- Portlet View --%>
-	<portlet:renderURL var="renderRecorderView">
-		<portlet:param name="render" value="renderRecorderView" />
-	</portlet:renderURL>
-	<a href="${renderRecorderView}" class="btn">
-		<i class="icon-heart"></i> Recorder
-	</a>
 
 </div>
 
@@ -182,6 +173,16 @@
 			cssClass="pull-left" />
 	</aui:fieldset>	
 </aui:form>
+
+
+
+
+    </liferay-ui:section>
+    <liferay-ui:section>
+         <%@ include file="smoothRecorderView.jsp" %>
+    </liferay-ui:section>
+</liferay-ui:tabs>
+
 
 
 <%-- JS --%>
