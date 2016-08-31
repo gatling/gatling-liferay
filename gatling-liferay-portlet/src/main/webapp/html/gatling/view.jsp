@@ -86,7 +86,7 @@
 								<div class="pause-name process-font">Pause</div>
 								<div class="wan-spinner time process-font">
 									<a href="javascript:void(0)" class="minus">-</a>
-    								<input type="text" class="process-fond"  value="1"><span class="process-font">s</span>
+    								<input type="text" class="process-fond" name="<%=renderResponse.getNamespace()%>${process.process_id}" value="${process.pause}"><span class="process-font">s</span>
     								<a href="javascript:void(0)" class="plus">+</a>
 								</div>
 						</div>
