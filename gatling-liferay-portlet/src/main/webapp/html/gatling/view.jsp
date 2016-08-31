@@ -199,6 +199,6 @@
 
 
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/defaultTourSimulation.js"></script>
-
-
+<script type="text/javascript" >
+<%@ include file="/js/defaultTourSimulation.js" %>
+</script>
