@@ -3,12 +3,15 @@
  */
 package com.excilys.liferay.gatling.recorder;
 
+import com.excilys.liferay.gatling.model.Process;
 import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.recorder.records.GetURL;
 import com.excilys.liferay.gatling.recorder.records.PostMultipartURL;
 import com.excilys.liferay.gatling.recorder.records.PostURL;
 import com.excilys.liferay.gatling.recorder.records.RecordURL;
+import com.excilys.liferay.gatling.service.ProcessLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
+import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -219,12 +222,16 @@ public class RecorderFilter implements Filter {
 					currentRecords.remove(0);
 					
 					//If the default record already exists, erase all his instances in BDD
-					List<Record> records = RecordLocalServiceUtil.findByPortletId(INEXISTANT_PORTLET_ID);
-					for (Record defaultRecord : records) {
-						RecordLocalServiceUtil.deleteRecord(defaultRecord);
-					}
-					
+					//List<Record> records = RecordLocalServiceUtil.findByPortletId(INEXISTANT_PORTLET_ID);
+					/*for (Record defaultRecord : records) {
+						//RecordLocalServiceUtil.deleteRecord(defaultRecord);
+					}*/
 					record = RecordLocalServiceUtil.save(infos[INFO_RECORD_NAME], INEXISTANT_PORTLET_ID, CURRENT_VERSION);
+					Process process = ProcessLocalServiceUtil.createProcess(CounterLocalServiceUtil.increment(Process.class.getName()));
+					process.setName("Record_"+record.getName());
+					process.setType("RECORD");
+					process.setFeederId(record.getPrimaryKey());
+					process.persist();
 				}
 				
 				/* Advanced case */

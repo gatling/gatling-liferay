@@ -102,7 +102,8 @@ public class SmoothRecorderController {
 	@ResourceMapping(value="generateProcessZip")	
 	public void exportZippedProcess(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
 		LOG.debug("\\o/ Generating zip process...");
-
+		String name = ParamUtil.getString(request,"useCaseRecordName","doesntWork");
+		
 		response.setContentType("application/zip");
 		response.addProperty("Content-Disposition", "attachment; filename = GatlingProcess.zip");
 		
@@ -110,7 +111,7 @@ public class SmoothRecorderController {
 		LOG.debug("Received:"+recordName);
 		
 		List<SimulationAST> asts = new ArrayList<>();
-		SimulationAST ast = createDefaultAST();
+		SimulationAST ast = createDefaultAST(name);
 		asts.add(ast);
 		
 		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, asts);
@@ -120,9 +121,9 @@ public class SmoothRecorderController {
 	
 	}
 	
-	private static SimulationAST createDefaultAST() throws Exception{
+	private static SimulationAST createDefaultAST(String name) throws Exception{
 		
-		Record record = RecordLocalServiceUtil.findByPortletId("_default_").get(0);
+		Record record = RecordLocalServiceUtil.findByName(name);
 		
 		RecordFileAST recordFile = ASTMapper.mapRecordToAST(record);
 		
