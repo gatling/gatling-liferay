@@ -41,25 +41,6 @@
 
 </div>
 
-
-<%-- NavBar --%>
-<div class="navbar">
-	<div class="navbar-inner">
-		<ul class="nav">
-			<li>
-				
-				<%-- Export Button --%>
-				<portlet:resourceURL id="generateZip" var="resourceUrl" />
-				<a id="exportToggle" href="${resourceUrl}">
-					<i class="icon-print"></i> <liferay-ui:message key="simulation-export"/>
-				</a>
-				
-			</li>
-		</ul>
-	</div>
-</div>
-
-
 <%-- Simulation Form --%>
 
 <portlet:actionURL var="saveDefaultSimulation">
@@ -171,6 +152,8 @@
 		<%-- Submit/Save Button --%>
 		<aui:button type="submit" value="Save the simulation"
 			cssClass="pull-left" />
+		<portlet:resourceURL id="generateZip" var="resourceUrl" />
+		<aui:button type="button" value="Export the simulation" id="generateZip" onClick="${resourceUrl}" />
 	</aui:fieldset>	
 </aui:form>
 
@@ -217,6 +200,5 @@
 
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/defaultTourSimulation.js"></script>
-
 
 
