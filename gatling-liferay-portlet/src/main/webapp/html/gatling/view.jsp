@@ -75,7 +75,7 @@
 		
 		<%-- Scenario Title --%>
 		<legend class="fieldset-legend">
-			<span class="legend">1.Design your scenario</span>
+			<span class="legend">1.Design your scenarios</span>
 		</legend>
 
 
