@@ -79,7 +79,7 @@ public class SmoothRecorderController {
 				LOG.debug("nextState is "+nextState);
 				renderRequest.setAttribute("NEXT_STATE", nextState);
 				
-		return "smoothRecorderView";
+		return "tabs";
 	}
 	
 	@ActionMapping(params="action=toggleRecord2")

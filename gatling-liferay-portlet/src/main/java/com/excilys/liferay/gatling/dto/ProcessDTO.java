@@ -6,10 +6,12 @@ public class ProcessDTO {
 
 	private String name;
 	private long id;
+	private int pause;
 	
-	public ProcessDTO(String name, long id) {
+	public ProcessDTO(String name, long id, int pause) {
 		this.name = name;
 		this.id = id;
+		this.pause = pause;
 	}
 
 	public String getName() {
@@ -27,6 +29,16 @@ public class ProcessDTO {
 	public void setId(long id) {
 		this.id = id;
 	}
+
+	public int getPause() {
+		return pause;
+	}
+
+	public void setPause(int pause) {
+		this.pause = pause;
+	}
+	
+	
 	
 	
 	

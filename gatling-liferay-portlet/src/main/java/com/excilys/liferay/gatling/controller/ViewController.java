@@ -5,7 +5,9 @@ package com.excilys.liferay.gatling.controller;
 
 import com.excilys.liferay.gatling.NoSuchScenarioException;
 import com.excilys.liferay.gatling.dto.ProcessDTO;
+import com.excilys.liferay.gatling.dto.ScenarioDTO;
 import com.excilys.liferay.gatling.dto.mapper.ProcessDTOMapper;
+import com.excilys.liferay.gatling.dto.mapper.ScenarioDTOMapper;
 import com.excilys.liferay.gatling.model.Login;
 import com.excilys.liferay.gatling.model.Process;
 import com.excilys.liferay.gatling.model.ProcessType;
@@ -20,6 +22,7 @@ import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SiteMapLocalServiceUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -30,7 +33,6 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
-import com.liferay.portal.kernel.dao.orm.QueryUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -99,7 +101,6 @@ public class ViewController {
 			processes.add(random);
 			processes.add(logout);
 		}
-		
 
 		List<Process> allProcesses = ProcessLocalServiceUtil.getProcesses(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 		List<ProcessDTO> templates = new ArrayList<>(allProcesses.size());
@@ -108,16 +109,22 @@ public class ViewController {
 		}
 		
 		
-		// Injection modes
+		/* Injection */
 		List<String> injectionsMode = new ArrayList<>();
 		injectionsMode.add("ramp Over");
 		injectionsMode.add("at Once");
 		
+		/* Scenarios List */
+		List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(defaultSimulation.getSimulation_id());
+		List<ScenarioDTO> scenariosDTO = new ArrayList<>();
+		for (Scenario scenario : scenarios) {
+			scenariosDTO.add(ScenarioDTOMapper.toDTO(scenario));
+		}
+		
 		/* Record the simulation and scenario data */
 		renderRequest.setAttribute("simulationId", defaultSimulation.getSimulation_id());
-		renderRequest.setAttribute("scenarioGroupId", defaultScenario.getGroup_id());
 		renderRequest.setAttribute("scenarioInjection", "ramp Over");
-		renderRequest.setAttribute("processes", processes);
+		renderRequest.setAttribute("scenarios", scenariosDTO);
 		renderRequest.setAttribute("numberOfUsers", defaultScenario.getNumberOfUsers());
 		renderRequest.setAttribute("rampUp", defaultScenario.getDuration());
 		renderRequest.setAttribute("injections", injectionsMode);
