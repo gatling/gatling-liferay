@@ -151,11 +151,11 @@
 	<div class="library">
 		<h4>Process Library:</h4>
 		<c:forEach items="${templates}" var="template" varStatus="i">
-			<div class="blockus" id ="${'ba_'}${template.id}_${i.index}" draggable="true" ondragstart="drag(event)">
-					<div class="space-container invisiblePowaaa" id="${'a_'}${template.id}_${i.index}">
+			<div class="blockus template" id ="${'template_'}${template.id}_${i.index}" draggable="true" ondragstart="drag(event)">
+					<div class="space-container invisiblePowaaa" id="${'a_template_'}${template.id}_${i.index}">
 							<div class="icon-chevron-right" style="display: inline-block;"></div>
 					</div>
-					<div class="action process-font activeprocess" id ="${'p_'}${templateid}_${i.index}">${template.name}</div>
+					<div class="action process-font activeprocess" id ="${'p_template_'}${templateid}_${i.index}">${template.name}</div>
 			</div>
 		</c:forEach>
 	</div>
@@ -251,6 +251,7 @@
 </script>
 
 <script type="text/javascript">
+
 	// Document preparation
 	//******************************************************************************
 	
@@ -284,12 +285,17 @@
 	
 	
 	    // Retreives the DOM elements
-	    var blockGragged = document.getElementById(data);
+	    var blockDragged = document.getElementById(data);
+	
+	    if (blockDragged.className.includes("template")) {
+	      blockDragged = blockDragged.cloneNode(true);
+	    }
+	
 	    var chevronEl = document.getElementById(ev.target.id);
 	    var blockTarget = chevronEl.parentNode;
 	
 	    // Removes the chevron invisibility if template
-	    var che = blockGragged.childNodes[1];
+	    var che = blockDragged.childNodes[1];
 	    $(che).removeClass("invisiblePowaaa");
 	
 	    // Add chevron invisibility if first element
@@ -298,12 +304,12 @@
 	        $(chevronEl).removeClass("invisiblePowaaa");
 	    }
 	
-	    //console.log("ProcessBlock "+blockGragged.id+" content:"+blockGragged.innerHTML);space-container
+	    //console.log("ProcessBlock "+blockDragged.id+" content:"+blockDragged.innerHTML);space-container
 	    //console.log("Chevron target "+ blockTarget.id +" content:"+blockTarget.innerHTML);
 	    var workflow = document.getElementsByClassName("workflow")[0];
 	
 	    // Insert the elements
-	    workflow.insertBefore(blockGragged, blockTarget);
+	    workflow.insertBefore(blockDragged, blockTarget);
 	
 	    //ev.target.appendChild(document.getElementById(data));
 	
@@ -355,7 +361,7 @@
 	// Content handling fucntions
 	function resizeDiv(e) {
 	  // Set back block size and content
-	  e.style.width = 30; //Hardcoded since oldTimeSize sometimes fails
+	  e.style.width = oldTimeSize; //Hardcoded since oldTimeSize sometimes fails
 	  e.appendChild(timeDiv);
 	}
 	
