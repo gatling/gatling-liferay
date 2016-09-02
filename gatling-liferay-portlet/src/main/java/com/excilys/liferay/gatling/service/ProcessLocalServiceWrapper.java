@@ -273,18 +273,28 @@ public class ProcessLocalServiceWrapper implements ProcessLocalService,
 
     @Override
     public java.util.List<com.excilys.liferay.gatling.model.Process> findProcessFromScenarioId(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return _processLocalService.findProcessFromScenarioId(id);
+        long scenarioId)
+        throws com.liferay.portal.kernel.exception.PortalException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return _processLocalService.findProcessFromScenarioId(scenarioId);
     }
 
     @Override
     public com.excilys.liferay.gatling.model.Process createProcess(
         java.lang.String name,
         com.excilys.liferay.gatling.model.ProcessType type,
-        java.lang.Long feederId, int pause, int order, long scenarioId)
+        java.lang.Long feederId, int pause, int order)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _processLocalService.createProcess(name, type, feederId, pause,
-            order, scenarioId);
+            order);
+    }
+
+    @Override
+    public com.excilys.liferay.gatling.model.Process findByName(
+        java.lang.String name)
+        throws com.excilys.liferay.gatling.NoSuchProcessException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return _processLocalService.findByName(name);
     }
 
     /**

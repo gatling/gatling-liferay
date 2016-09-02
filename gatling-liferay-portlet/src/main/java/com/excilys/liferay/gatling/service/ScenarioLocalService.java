@@ -253,6 +253,14 @@ public interface ScenarioLocalService extends BaseLocalService,
         com.excilys.liferay.gatling.model.Simulation simulation)
         throws com.liferay.portal.kernel.exception.SystemException;
 
+    public com.excilys.liferay.gatling.model.Scenario createScenario(
+        java.lang.String name, long simulationId, java.lang.String injection,
+        int numberOfUsers, int duration)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    public void addProcess(long scenarioId, long processId, int order, int pause)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
     public int countBySimulationId(long simulationId)
         throws com.liferay.portal.kernel.exception.SystemException;
 

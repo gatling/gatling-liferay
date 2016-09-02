@@ -17,11 +17,13 @@ package com.excilys.liferay.gatling.service.impl;
 import com.excilys.liferay.gatling.NoSuchScenarioException;
 import com.excilys.liferay.gatling.dto.RequestDTO;
 import com.excilys.liferay.gatling.dto.RequestDTO.RequestState;
+import com.excilys.liferay.gatling.model.ProcessScenarioLink;
 import com.excilys.liferay.gatling.model.Request;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.ScenarioLocalServiceBaseImpl;
+import com.excilys.liferay.gatling.service.persistence.ProcessScenarioLinkUtil;
 import com.excilys.liferay.gatling.service.persistence.ScenarioUtil;
 import com.excilys.liferay.gatling.util.DisplayItemDTOUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
@@ -92,24 +94,39 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		try {
 			return scenarioPersistence.findByName(DEFAULT_NAME);
 		} catch (NoSuchScenarioException e) {
-			Scenario defaultScenario = ScenarioUtil.create(CounterLocalServiceUtil.increment(Scenario.class.getName()));
-			defaultScenario.setName(DEFAULT_NAME);
-			List<Group> listGroups = GatlingUtil.getListOfSites();
-			if (listGroups.isEmpty()) {
-				defaultScenario.setGroup_id(0);
-			}
-			else {
-				defaultScenario.setGroup_id(listGroups.get(0).getGroupId());
-			}
-			defaultScenario.setSimulation_id(simulation.getSimulation_id());
-			defaultScenario.setInjection("ramp Over");
-			defaultScenario.setNumberOfUsers(10);
-			defaultScenario.setDuration(5);
-			defaultScenario.persist();
-			return defaultScenario;
+			return createScenario(DEFAULT_NAME, simulation.getSimulation_id(), "ramp Over", 10, 5);
 		}
-
 	}
+	
+	@Override
+	public Scenario createScenario(String name, long simulationId, String injection, int numberOfUsers, int duration) throws SystemException{
+		Scenario defaultScenario = ScenarioUtil.create(CounterLocalServiceUtil.increment(Scenario.class.getName()));
+		defaultScenario.setName(name);
+		List<Group> listGroups = GatlingUtil.getListOfSites();
+		if (listGroups.isEmpty()) {
+			defaultScenario.setGroup_id(0);
+		}
+		else {
+			defaultScenario.setGroup_id(listGroups.get(0).getGroupId());
+		}
+		defaultScenario.setSimulation_id(simulationId);
+		defaultScenario.setInjection(injection);
+		defaultScenario.setNumberOfUsers(numberOfUsers);
+		defaultScenario.setDuration(duration);
+		defaultScenario.persist();
+		return defaultScenario;
+	}
+	
+	@Override
+	public void addProcess(long scenarioId, long processId, int order, int pause) throws SystemException{
+		ProcessScenarioLink link = ProcessScenarioLinkUtil.create(CounterLocalServiceUtil.increment(ProcessScenarioLink.class.getName()));
+		link.setScenario_id(scenarioId);
+		link.setProcess_id(processId);
+		link.setOrder(order);
+		link.setPause(pause);
+		link.persist();
+	}
+	
 	
 	@Override
 	public int countBySimulationId(long simulationId) throws SystemException{

@@ -30,8 +30,15 @@ create table StressTool_Process (
 	type_ VARCHAR(75) null,
 	order_ INTEGER,
 	pause INTEGER,
-	scenario_id LONG,
 	feederId LONG
+);
+
+create table StressTool_ProcessScenarioLink (
+	psl_id LONG not null primary key,
+	process_id LONG,
+	scenario_id LONG,
+	order_ INTEGER,
+	pause INTEGER
 );
 
 create table StressTool_Record (

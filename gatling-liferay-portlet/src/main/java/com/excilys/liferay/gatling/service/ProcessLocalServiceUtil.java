@@ -264,17 +264,25 @@ public class ProcessLocalServiceUtil {
     }
 
     public static java.util.List<com.excilys.liferay.gatling.model.Process> findProcessFromScenarioId(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getService().findProcessFromScenarioId(id);
+        long scenarioId)
+        throws com.liferay.portal.kernel.exception.PortalException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getService().findProcessFromScenarioId(scenarioId);
     }
 
     public static com.excilys.liferay.gatling.model.Process createProcess(
         java.lang.String name,
         com.excilys.liferay.gatling.model.ProcessType type,
-        java.lang.Long feederId, int pause, int order, long scenarioId)
+        java.lang.Long feederId, int pause, int order)
         throws com.liferay.portal.kernel.exception.SystemException {
-        return getService()
-                   .createProcess(name, type, feederId, pause, order, scenarioId);
+        return getService().createProcess(name, type, feederId, pause, order);
+    }
+
+    public static com.excilys.liferay.gatling.model.Process findByName(
+        java.lang.String name)
+        throws com.excilys.liferay.gatling.NoSuchProcessException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getService().findByName(name);
     }
 
     public static void clearService() {

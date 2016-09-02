@@ -98,168 +98,71 @@ public class ProcessUtil {
     }
 
     /**
-    * Returns all the processes where scenario_id = &#63;.
+    * Returns the process where name = &#63; or throws a {@link com.excilys.liferay.gatling.NoSuchProcessException} if it could not be found.
     *
-    * @param scenario_id the scenario_id
-    * @return the matching processes
-    * @throws SystemException if a system exception occurred
-    */
-    public static java.util.List<com.excilys.liferay.gatling.model.Process> findByScenarioId(
-        long scenario_id)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByScenarioId(scenario_id);
-    }
-
-    /**
-    * Returns a range of all the processes where scenario_id = &#63;.
-    *
-    * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.ProcessModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-    * </p>
-    *
-    * @param scenario_id the scenario_id
-    * @param start the lower bound of the range of processes
-    * @param end the upper bound of the range of processes (not inclusive)
-    * @return the range of matching processes
-    * @throws SystemException if a system exception occurred
-    */
-    public static java.util.List<com.excilys.liferay.gatling.model.Process> findByScenarioId(
-        long scenario_id, int start, int end)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByScenarioId(scenario_id, start, end);
-    }
-
-    /**
-    * Returns an ordered range of all the processes where scenario_id = &#63;.
-    *
-    * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.ProcessModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-    * </p>
-    *
-    * @param scenario_id the scenario_id
-    * @param start the lower bound of the range of processes
-    * @param end the upper bound of the range of processes (not inclusive)
-    * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-    * @return the ordered range of matching processes
-    * @throws SystemException if a system exception occurred
-    */
-    public static java.util.List<com.excilys.liferay.gatling.model.Process> findByScenarioId(
-        long scenario_id, int start, int end,
-        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .findByScenarioId(scenario_id, start, end, orderByComparator);
-    }
-
-    /**
-    * Returns the first process in the ordered set where scenario_id = &#63;.
-    *
-    * @param scenario_id the scenario_id
-    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-    * @return the first matching process
+    * @param name the name
+    * @return the matching process
     * @throws com.excilys.liferay.gatling.NoSuchProcessException if a matching process could not be found
     * @throws SystemException if a system exception occurred
     */
-    public static com.excilys.liferay.gatling.model.Process findByScenarioId_First(
-        long scenario_id,
-        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+    public static com.excilys.liferay.gatling.model.Process findByName(
+        java.lang.String name)
         throws com.excilys.liferay.gatling.NoSuchProcessException,
             com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .findByScenarioId_First(scenario_id, orderByComparator);
+        return getPersistence().findByName(name);
     }
 
     /**
-    * Returns the first process in the ordered set where scenario_id = &#63;.
+    * Returns the process where name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
     *
-    * @param scenario_id the scenario_id
-    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-    * @return the first matching process, or <code>null</code> if a matching process could not be found
+    * @param name the name
+    * @return the matching process, or <code>null</code> if a matching process could not be found
     * @throws SystemException if a system exception occurred
     */
-    public static com.excilys.liferay.gatling.model.Process fetchByScenarioId_First(
-        long scenario_id,
-        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+    public static com.excilys.liferay.gatling.model.Process fetchByName(
+        java.lang.String name)
         throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .fetchByScenarioId_First(scenario_id, orderByComparator);
+        return getPersistence().fetchByName(name);
     }
 
     /**
-    * Returns the last process in the ordered set where scenario_id = &#63;.
+    * Returns the process where name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
     *
-    * @param scenario_id the scenario_id
-    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-    * @return the last matching process
-    * @throws com.excilys.liferay.gatling.NoSuchProcessException if a matching process could not be found
+    * @param name the name
+    * @param retrieveFromCache whether to use the finder cache
+    * @return the matching process, or <code>null</code> if a matching process could not be found
     * @throws SystemException if a system exception occurred
     */
-    public static com.excilys.liferay.gatling.model.Process findByScenarioId_Last(
-        long scenario_id,
-        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+    public static com.excilys.liferay.gatling.model.Process fetchByName(
+        java.lang.String name, boolean retrieveFromCache)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByName(name, retrieveFromCache);
+    }
+
+    /**
+    * Removes the process where name = &#63; from the database.
+    *
+    * @param name the name
+    * @return the process that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.excilys.liferay.gatling.model.Process removeByName(
+        java.lang.String name)
         throws com.excilys.liferay.gatling.NoSuchProcessException,
             com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .findByScenarioId_Last(scenario_id, orderByComparator);
+        return getPersistence().removeByName(name);
     }
 
     /**
-    * Returns the last process in the ordered set where scenario_id = &#63;.
+    * Returns the number of processes where name = &#63;.
     *
-    * @param scenario_id the scenario_id
-    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-    * @return the last matching process, or <code>null</code> if a matching process could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.excilys.liferay.gatling.model.Process fetchByScenarioId_Last(
-        long scenario_id,
-        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .fetchByScenarioId_Last(scenario_id, orderByComparator);
-    }
-
-    /**
-    * Returns the processes before and after the current process in the ordered set where scenario_id = &#63;.
-    *
-    * @param process_id the primary key of the current process
-    * @param scenario_id the scenario_id
-    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-    * @return the previous, current, and next process
-    * @throws com.excilys.liferay.gatling.NoSuchProcessException if a process with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.excilys.liferay.gatling.model.Process[] findByScenarioId_PrevAndNext(
-        long process_id, long scenario_id,
-        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-        throws com.excilys.liferay.gatling.NoSuchProcessException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .findByScenarioId_PrevAndNext(process_id, scenario_id,
-            orderByComparator);
-    }
-
-    /**
-    * Removes all the processes where scenario_id = &#63; from the database.
-    *
-    * @param scenario_id the scenario_id
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByScenarioId(long scenario_id)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByScenarioId(scenario_id);
-    }
-
-    /**
-    * Returns the number of processes where scenario_id = &#63;.
-    *
-    * @param scenario_id the scenario_id
+    * @param name the name
     * @return the number of matching processes
     * @throws SystemException if a system exception occurred
     */
-    public static int countByScenarioId(long scenario_id)
+    public static int countByName(java.lang.String name)
         throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByScenarioId(scenario_id);
+        return getPersistence().countByName(name);
     }
 
     /**

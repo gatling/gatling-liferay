@@ -26,8 +26,14 @@
 		<field name="type" type="String" />
 		<field name="order" type="int" />
 		<field name="pause" type="int" />
-		<field name="scenario_id" type="long" />
 		<field name="feederId" type="Long" />
+	</model>
+	<model name="com.excilys.liferay.gatling.model.ProcessScenarioLink">
+		<field name="psl_id" type="long" />
+		<field name="process_id" type="long" />
+		<field name="scenario_id" type="long" />
+		<field name="order" type="int" />
+		<field name="pause" type="int" />
 	</model>
 	<model name="com.excilys.liferay.gatling.model.Record">
 		<field name="recordId" type="long" />

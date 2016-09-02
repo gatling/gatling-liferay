@@ -48,6 +48,8 @@ public class ProcessLocalServiceClp implements ProcessLocalService {
     private String[] _methodParameterTypes19;
     private String _methodName20;
     private String[] _methodParameterTypes20;
+    private String _methodName21;
+    private String[] _methodParameterTypes21;
 
     public ProcessLocalServiceClp(InvokableLocalService invokableLocalService) {
         _invokableLocalService = invokableLocalService;
@@ -151,8 +153,12 @@ public class ProcessLocalServiceClp implements ProcessLocalService {
         _methodParameterTypes20 = new String[] {
                 "java.lang.String",
                 "com.excilys.liferay.gatling.model.ProcessType",
-                "java.lang.Long", "int", "int", "long"
+                "java.lang.Long", "int", "int"
             };
+
+        _methodName21 = "findByName";
+
+        _methodParameterTypes21 = new String[] { "java.lang.String" };
     }
 
     @Override
@@ -670,14 +676,20 @@ public class ProcessLocalServiceClp implements ProcessLocalService {
 
     @Override
     public java.util.List<com.excilys.liferay.gatling.model.Process> findProcessFromScenarioId(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        long scenarioId)
+        throws com.liferay.portal.kernel.exception.PortalException,
+            com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
             returnObj = _invokableLocalService.invokeMethod(_methodName19,
-                    _methodParameterTypes19, new Object[] { id });
+                    _methodParameterTypes19, new Object[] { scenarioId });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+                throw (com.liferay.portal.kernel.exception.PortalException) t;
+            }
 
             if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
                 throw (com.liferay.portal.kernel.exception.SystemException) t;
@@ -698,7 +710,7 @@ public class ProcessLocalServiceClp implements ProcessLocalService {
     public com.excilys.liferay.gatling.model.Process createProcess(
         java.lang.String name,
         com.excilys.liferay.gatling.model.ProcessType type,
-        java.lang.Long feederId, int pause, int order, long scenarioId)
+        java.lang.Long feederId, int pause, int order)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
@@ -714,12 +726,43 @@ public class ProcessLocalServiceClp implements ProcessLocalService {
                         
                     pause,
                         
-                    order,
-                        
-                    scenarioId
+                    order
                     });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (com.excilys.liferay.gatling.model.Process) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
+    public com.excilys.liferay.gatling.model.Process findByName(
+        java.lang.String name)
+        throws com.excilys.liferay.gatling.NoSuchProcessException,
+            com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName21,
+                    _methodParameterTypes21,
+                    new Object[] { ClpSerializer.translateInput(name) });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.excilys.liferay.gatling.NoSuchProcessException) {
+                throw (com.excilys.liferay.gatling.NoSuchProcessException) t;
+            }
 
             if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
                 throw (com.liferay.portal.kernel.exception.SystemException) t;

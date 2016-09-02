@@ -4,6 +4,7 @@ import com.excilys.liferay.gatling.model.FormParamClp;
 import com.excilys.liferay.gatling.model.LinkUsecaseRequestClp;
 import com.excilys.liferay.gatling.model.LoginClp;
 import com.excilys.liferay.gatling.model.ProcessClp;
+import com.excilys.liferay.gatling.model.ProcessScenarioLinkClp;
 import com.excilys.liferay.gatling.model.RecordClp;
 import com.excilys.liferay.gatling.model.RequestClp;
 import com.excilys.liferay.gatling.model.ScenarioClp;
@@ -114,6 +115,10 @@ public class ClpSerializer {
             return translateInputProcess(oldModel);
         }
 
+        if (oldModelClassName.equals(ProcessScenarioLinkClp.class.getName())) {
+            return translateInputProcessScenarioLink(oldModel);
+        }
+
         if (oldModelClassName.equals(RecordClp.class.getName())) {
             return translateInputRecord(oldModel);
         }
@@ -191,6 +196,17 @@ public class ClpSerializer {
         ProcessClp oldClpModel = (ProcessClp) oldModel;
 
         BaseModel<?> newModel = oldClpModel.getProcessRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
+    public static Object translateInputProcessScenarioLink(
+        BaseModel<?> oldModel) {
+        ProcessScenarioLinkClp oldClpModel = (ProcessScenarioLinkClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getProcessScenarioLinkRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -390,6 +406,41 @@ public class ClpSerializer {
         if (oldModelClassName.equals(
                     "com.excilys.liferay.gatling.model.impl.ProcessImpl")) {
             return translateOutputProcess(oldModel);
+        } else if (oldModelClassName.endsWith("Clp")) {
+            try {
+                ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+                Method getClpSerializerClassMethod = oldModelClass.getMethod(
+                        "getClpSerializerClass");
+
+                Class<?> oldClpSerializerClass = (Class<?>) getClpSerializerClassMethod.invoke(oldModel);
+
+                Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+                Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+                        BaseModel.class);
+
+                Class<?> oldModelModelClass = oldModel.getModelClass();
+
+                Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+                        oldModelModelClass.getSimpleName() + "RemoteModel");
+
+                Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+                BaseModel<?> newModel = (BaseModel<?>) translateOutputMethod.invoke(null,
+                        oldRemoteModel);
+
+                return newModel;
+            } catch (Throwable t) {
+                if (_log.isInfoEnabled()) {
+                    _log.info("Unable to translate " + oldModelClassName, t);
+                }
+            }
+        }
+
+        if (oldModelClassName.equals(
+                    "com.excilys.liferay.gatling.model.impl.ProcessScenarioLinkImpl")) {
+            return translateOutputProcessScenarioLink(oldModel);
         } else if (oldModelClassName.endsWith("Clp")) {
             try {
                 ClassLoader classLoader = ClpSerializer.class.getClassLoader();
@@ -763,6 +814,11 @@ public class ClpSerializer {
         }
 
         if (className.equals(
+                    "com.excilys.liferay.gatling.NoSuchProcessScenarioLinkException")) {
+            return new com.excilys.liferay.gatling.NoSuchProcessScenarioLinkException();
+        }
+
+        if (className.equals(
                     "com.excilys.liferay.gatling.NoSuchRecordException")) {
             return new com.excilys.liferay.gatling.NoSuchRecordException();
         }
@@ -837,6 +893,17 @@ public class ClpSerializer {
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setProcessRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputProcessScenarioLink(
+        BaseModel<?> oldModel) {
+        ProcessScenarioLinkClp newModel = new ProcessScenarioLinkClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setProcessScenarioLinkRemoteModel(oldModel);
 
         return newModel;
     }

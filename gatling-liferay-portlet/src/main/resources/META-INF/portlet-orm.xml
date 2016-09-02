@@ -55,8 +55,21 @@
 				<column name="ORDER_" />
 			</basic>
 			<basic name="pause" />
-			<basic name="scenario_id" />
 			<basic name="feederId" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.excilys.liferay.gatling.model.impl.ProcessScenarioLinkModelImpl">
+		<attributes>
+			<id name="psl_id" />
+			<basic name="process_id" />
+			<basic name="scenario_id" />
+			<basic name="order">
+				<column name="ORDER_" />
+			</basic>
+			<basic name="pause" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -167,6 +180,10 @@
 	</entity>
 	<entity class="com.excilys.liferay.gatling.model.impl.ProcessImpl" name="Process">
 		<table name="StressTool_Process" />
+		<attributes />
+	</entity>
+	<entity class="com.excilys.liferay.gatling.model.impl.ProcessScenarioLinkImpl" name="ProcessScenarioLink">
+		<table name="StressTool_ProcessScenarioLink" />
 		<attributes />
 	</entity>
 	<entity class="com.excilys.liferay.gatling.model.impl.RecordImpl" name="Record">

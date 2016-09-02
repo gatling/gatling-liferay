@@ -36,13 +36,28 @@
 		<column name="type" type="String" ></column>
 		<column name="order" type="int"	></column>
 		<column name="pause" type="int"></column>
-		<column name="scenario_id" type="long"></column>
 		<column name="feederId" type="Long" convert-null="false"></column>
 		<order by="asc"> <order-column name="order" /></order>
-		<finder name="ScenarioId" return-type="Collection">
-			<finder-column name="scenario_id" />
+        <finder name="Name" return-type="Process" unique="true">
+            <finder-column name="name" />
+        </finder>
+	</entity>
+	
+	
+	<entity name="ProcessScenarioLink" local-service="true" remote-service="false">
+		<column name="psl_id" type="long" primary="true"></column>
+		<column name="process_id" type="long"></column>
+		<column name="scenario_id" type="long"></column>
+		<column name="order" type="int"></column>
+		<column name="pause" type="int"></column>
+		<finder return-type="Collection" name="processId">
+			<finder-column name="process_id"></finder-column>
+		</finder>
+		<finder return-type="Collection" name="scenarioId">
+			<finder-column name="scenario_id"></finder-column>
 		</finder>
 	</entity>
+	
 	
 	<!-- Advanced System -->
 	

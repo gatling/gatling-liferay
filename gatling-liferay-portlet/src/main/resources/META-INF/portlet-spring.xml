@@ -9,6 +9,8 @@
 	<bean id="com.excilys.liferay.gatling.service.persistence.LoginPersistence" class="com.excilys.liferay.gatling.service.persistence.LoginPersistenceImpl" parent="basePersistence" />
 	<bean id="com.excilys.liferay.gatling.service.ProcessLocalService" class="com.excilys.liferay.gatling.service.impl.ProcessLocalServiceImpl" />
 	<bean id="com.excilys.liferay.gatling.service.persistence.ProcessPersistence" class="com.excilys.liferay.gatling.service.persistence.ProcessPersistenceImpl" parent="basePersistence" />
+	<bean id="com.excilys.liferay.gatling.service.ProcessScenarioLinkLocalService" class="com.excilys.liferay.gatling.service.impl.ProcessScenarioLinkLocalServiceImpl" />
+	<bean id="com.excilys.liferay.gatling.service.persistence.ProcessScenarioLinkPersistence" class="com.excilys.liferay.gatling.service.persistence.ProcessScenarioLinkPersistenceImpl" parent="basePersistence" />
 	<bean id="com.excilys.liferay.gatling.service.RecordLocalService" class="com.excilys.liferay.gatling.service.impl.RecordLocalServiceImpl" />
 	<bean id="com.excilys.liferay.gatling.service.persistence.RecordPersistence" class="com.excilys.liferay.gatling.service.persistence.RecordPersistenceImpl" parent="basePersistence" />
 	<bean id="com.excilys.liferay.gatling.service.RequestLocalService" class="com.excilys.liferay.gatling.service.impl.RequestLocalServiceImpl" />

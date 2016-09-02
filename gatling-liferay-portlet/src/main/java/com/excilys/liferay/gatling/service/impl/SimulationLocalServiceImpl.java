@@ -53,7 +53,7 @@ import javax.portlet.ActionRequest;
  */
 public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 
-	private static final Log LOG = LogFactoryUtil.getLog(SimulationLocalServiceImpl.class);
+	public static final Log LOG = LogFactoryUtil.getLog(SimulationLocalServiceImpl.class);
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *

@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnmodifiableList;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
@@ -71,28 +72,18 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
     public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(ProcessModelImpl.ENTITY_CACHE_ENABLED,
             ProcessModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-    public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_SCENARIOID =
-        new FinderPath(ProcessModelImpl.ENTITY_CACHE_ENABLED,
+    public static final FinderPath FINDER_PATH_FETCH_BY_NAME = new FinderPath(ProcessModelImpl.ENTITY_CACHE_ENABLED,
             ProcessModelImpl.FINDER_CACHE_ENABLED, ProcessImpl.class,
-            FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByScenarioId",
-            new String[] {
-                Long.class.getName(),
-                
-            Integer.class.getName(), Integer.class.getName(),
-                OrderByComparator.class.getName()
-            });
-    public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SCENARIOID =
-        new FinderPath(ProcessModelImpl.ENTITY_CACHE_ENABLED,
-            ProcessModelImpl.FINDER_CACHE_ENABLED, ProcessImpl.class,
-            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByScenarioId",
-            new String[] { Long.class.getName() },
-            ProcessModelImpl.SCENARIO_ID_COLUMN_BITMASK |
-            ProcessModelImpl.ORDER_COLUMN_BITMASK);
-    public static final FinderPath FINDER_PATH_COUNT_BY_SCENARIOID = new FinderPath(ProcessModelImpl.ENTITY_CACHE_ENABLED,
+            FINDER_CLASS_NAME_ENTITY, "fetchByName",
+            new String[] { String.class.getName() },
+            ProcessModelImpl.NAME_COLUMN_BITMASK);
+    public static final FinderPath FINDER_PATH_COUNT_BY_NAME = new FinderPath(ProcessModelImpl.ENTITY_CACHE_ENABLED,
             ProcessModelImpl.FINDER_CACHE_ENABLED, Long.class,
-            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByScenarioId",
-            new String[] { Long.class.getName() });
-    private static final String _FINDER_COLUMN_SCENARIOID_SCENARIO_ID_2 = "process.scenario_id = ?";
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByName",
+            new String[] { String.class.getName() });
+    private static final String _FINDER_COLUMN_NAME_NAME_1 = "process.name IS NULL";
+    private static final String _FINDER_COLUMN_NAME_NAME_2 = "process.name = ?";
+    private static final String _FINDER_COLUMN_NAME_NAME_3 = "(process.name IS NULL OR process.name = '')";
     private static final String _SQL_SELECT_PROCESS = "SELECT process FROM Process process";
     private static final String _SQL_SELECT_PROCESS_WHERE = "SELECT process FROM Process process WHERE ";
     private static final String _SQL_COUNT_PROCESS = "SELECT COUNT(process) FROM Process process";
@@ -130,102 +121,93 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
     }
 
     /**
-     * Returns all the processes where scenario_id = &#63;.
+     * Returns the process where name = &#63; or throws a {@link com.excilys.liferay.gatling.NoSuchProcessException} if it could not be found.
      *
-     * @param scenario_id the scenario_id
-     * @return the matching processes
+     * @param name the name
+     * @return the matching process
+     * @throws com.excilys.liferay.gatling.NoSuchProcessException if a matching process could not be found
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public List<Process> findByScenarioId(long scenario_id)
-        throws SystemException {
-        return findByScenarioId(scenario_id, QueryUtil.ALL_POS,
-            QueryUtil.ALL_POS, null);
+    public Process findByName(String name)
+        throws NoSuchProcessException, SystemException {
+        Process process = fetchByName(name);
+
+        if (process == null) {
+            StringBundler msg = new StringBundler(4);
+
+            msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+            msg.append("name=");
+            msg.append(name);
+
+            msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+            if (_log.isWarnEnabled()) {
+                _log.warn(msg.toString());
+            }
+
+            throw new NoSuchProcessException(msg.toString());
+        }
+
+        return process;
     }
 
     /**
-     * Returns a range of all the processes where scenario_id = &#63;.
+     * Returns the process where name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
      *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.ProcessModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-     * </p>
-     *
-     * @param scenario_id the scenario_id
-     * @param start the lower bound of the range of processes
-     * @param end the upper bound of the range of processes (not inclusive)
-     * @return the range of matching processes
+     * @param name the name
+     * @return the matching process, or <code>null</code> if a matching process could not be found
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public List<Process> findByScenarioId(long scenario_id, int start, int end)
-        throws SystemException {
-        return findByScenarioId(scenario_id, start, end, null);
+    public Process fetchByName(String name) throws SystemException {
+        return fetchByName(name, true);
     }
 
     /**
-     * Returns an ordered range of all the processes where scenario_id = &#63;.
+     * Returns the process where name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
      *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.excilys.liferay.gatling.model.impl.ProcessModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-     * </p>
-     *
-     * @param scenario_id the scenario_id
-     * @param start the lower bound of the range of processes
-     * @param end the upper bound of the range of processes (not inclusive)
-     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-     * @return the ordered range of matching processes
+     * @param name the name
+     * @param retrieveFromCache whether to use the finder cache
+     * @return the matching process, or <code>null</code> if a matching process could not be found
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public List<Process> findByScenarioId(long scenario_id, int start, int end,
-        OrderByComparator orderByComparator) throws SystemException {
-        boolean pagination = true;
-        FinderPath finderPath = null;
-        Object[] finderArgs = null;
+    public Process fetchByName(String name, boolean retrieveFromCache)
+        throws SystemException {
+        Object[] finderArgs = new Object[] { name };
 
-        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-                (orderByComparator == null)) {
-            pagination = false;
-            finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SCENARIOID;
-            finderArgs = new Object[] { scenario_id };
-        } else {
-            finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_SCENARIOID;
-            finderArgs = new Object[] { scenario_id, start, end, orderByComparator };
+        Object result = null;
+
+        if (retrieveFromCache) {
+            result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_NAME,
+                    finderArgs, this);
         }
 
-        List<Process> list = (List<Process>) FinderCacheUtil.getResult(finderPath,
-                finderArgs, this);
+        if (result instanceof Process) {
+            Process process = (Process) result;
 
-        if ((list != null) && !list.isEmpty()) {
-            for (Process process : list) {
-                if ((scenario_id != process.getScenario_id())) {
-                    list = null;
-
-                    break;
-                }
+            if (!Validator.equals(name, process.getName())) {
+                result = null;
             }
         }
 
-        if (list == null) {
-            StringBundler query = null;
-
-            if (orderByComparator != null) {
-                query = new StringBundler(3 +
-                        (orderByComparator.getOrderByFields().length * 3));
-            } else {
-                query = new StringBundler(3);
-            }
+        if (result == null) {
+            StringBundler query = new StringBundler(3);
 
             query.append(_SQL_SELECT_PROCESS_WHERE);
 
-            query.append(_FINDER_COLUMN_SCENARIOID_SCENARIO_ID_2);
+            boolean bindName = false;
 
-            if (orderByComparator != null) {
-                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-                    orderByComparator);
-            } else
-             if (pagination) {
-                query.append(ProcessModelImpl.ORDER_BY_JPQL);
+            if (name == null) {
+                query.append(_FINDER_COLUMN_NAME_NAME_1);
+            } else if (name.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_NAME_NAME_3);
+            } else {
+                bindName = true;
+
+                query.append(_FINDER_COLUMN_NAME_NAME_2);
             }
 
             String sql = query.toString();
@@ -239,25 +221,31 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
 
                 QueryPos qPos = QueryPos.getInstance(q);
 
-                qPos.add(scenario_id);
-
-                if (!pagination) {
-                    list = (List<Process>) QueryUtil.list(q, getDialect(),
-                            start, end, false);
-
-                    Collections.sort(list);
-
-                    list = new UnmodifiableList<Process>(list);
-                } else {
-                    list = (List<Process>) QueryUtil.list(q, getDialect(),
-                            start, end);
+                if (bindName) {
+                    qPos.add(name);
                 }
 
-                cacheResult(list);
+                List<Process> list = q.list();
 
-                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+                if (list.isEmpty()) {
+                    FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_NAME,
+                        finderArgs, list);
+                } else {
+                    Process process = list.get(0);
+
+                    result = process;
+
+                    cacheResult(process);
+
+                    if ((process.getName() == null) ||
+                            !process.getName().equals(name)) {
+                        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_NAME,
+                            finderArgs, process);
+                    }
+                }
             } catch (Exception e) {
-                FinderCacheUtil.removeResult(finderPath, finderArgs);
+                FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_NAME,
+                    finderArgs);
 
                 throw processException(e);
             } finally {
@@ -265,280 +253,40 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
             }
         }
 
-        return list;
-    }
-
-    /**
-     * Returns the first process in the ordered set where scenario_id = &#63;.
-     *
-     * @param scenario_id the scenario_id
-     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-     * @return the first matching process
-     * @throws com.excilys.liferay.gatling.NoSuchProcessException if a matching process could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public Process findByScenarioId_First(long scenario_id,
-        OrderByComparator orderByComparator)
-        throws NoSuchProcessException, SystemException {
-        Process process = fetchByScenarioId_First(scenario_id, orderByComparator);
-
-        if (process != null) {
-            return process;
-        }
-
-        StringBundler msg = new StringBundler(4);
-
-        msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-        msg.append("scenario_id=");
-        msg.append(scenario_id);
-
-        msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-        throw new NoSuchProcessException(msg.toString());
-    }
-
-    /**
-     * Returns the first process in the ordered set where scenario_id = &#63;.
-     *
-     * @param scenario_id the scenario_id
-     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-     * @return the first matching process, or <code>null</code> if a matching process could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public Process fetchByScenarioId_First(long scenario_id,
-        OrderByComparator orderByComparator) throws SystemException {
-        List<Process> list = findByScenarioId(scenario_id, 0, 1,
-                orderByComparator);
-
-        if (!list.isEmpty()) {
-            return list.get(0);
-        }
-
-        return null;
-    }
-
-    /**
-     * Returns the last process in the ordered set where scenario_id = &#63;.
-     *
-     * @param scenario_id the scenario_id
-     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-     * @return the last matching process
-     * @throws com.excilys.liferay.gatling.NoSuchProcessException if a matching process could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public Process findByScenarioId_Last(long scenario_id,
-        OrderByComparator orderByComparator)
-        throws NoSuchProcessException, SystemException {
-        Process process = fetchByScenarioId_Last(scenario_id, orderByComparator);
-
-        if (process != null) {
-            return process;
-        }
-
-        StringBundler msg = new StringBundler(4);
-
-        msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-        msg.append("scenario_id=");
-        msg.append(scenario_id);
-
-        msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-        throw new NoSuchProcessException(msg.toString());
-    }
-
-    /**
-     * Returns the last process in the ordered set where scenario_id = &#63;.
-     *
-     * @param scenario_id the scenario_id
-     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-     * @return the last matching process, or <code>null</code> if a matching process could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public Process fetchByScenarioId_Last(long scenario_id,
-        OrderByComparator orderByComparator) throws SystemException {
-        int count = countByScenarioId(scenario_id);
-
-        if (count == 0) {
+        if (result instanceof List<?>) {
             return null;
+        } else {
+            return (Process) result;
         }
-
-        List<Process> list = findByScenarioId(scenario_id, count - 1, count,
-                orderByComparator);
-
-        if (!list.isEmpty()) {
-            return list.get(0);
-        }
-
-        return null;
     }
 
     /**
-     * Returns the processes before and after the current process in the ordered set where scenario_id = &#63;.
+     * Removes the process where name = &#63; from the database.
      *
-     * @param process_id the primary key of the current process
-     * @param scenario_id the scenario_id
-     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-     * @return the previous, current, and next process
-     * @throws com.excilys.liferay.gatling.NoSuchProcessException if a process with the primary key could not be found
+     * @param name the name
+     * @return the process that was removed
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public Process[] findByScenarioId_PrevAndNext(long process_id,
-        long scenario_id, OrderByComparator orderByComparator)
+    public Process removeByName(String name)
         throws NoSuchProcessException, SystemException {
-        Process process = findByPrimaryKey(process_id);
+        Process process = findByName(name);
 
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            Process[] array = new ProcessImpl[3];
-
-            array[0] = getByScenarioId_PrevAndNext(session, process,
-                    scenario_id, orderByComparator, true);
-
-            array[1] = process;
-
-            array[2] = getByScenarioId_PrevAndNext(session, process,
-                    scenario_id, orderByComparator, false);
-
-            return array;
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-    }
-
-    protected Process getByScenarioId_PrevAndNext(Session session,
-        Process process, long scenario_id, OrderByComparator orderByComparator,
-        boolean previous) {
-        StringBundler query = null;
-
-        if (orderByComparator != null) {
-            query = new StringBundler(6 +
-                    (orderByComparator.getOrderByFields().length * 6));
-        } else {
-            query = new StringBundler(3);
-        }
-
-        query.append(_SQL_SELECT_PROCESS_WHERE);
-
-        query.append(_FINDER_COLUMN_SCENARIOID_SCENARIO_ID_2);
-
-        if (orderByComparator != null) {
-            String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
-
-            if (orderByConditionFields.length > 0) {
-                query.append(WHERE_AND);
-            }
-
-            for (int i = 0; i < orderByConditionFields.length; i++) {
-                query.append(_ORDER_BY_ENTITY_ALIAS);
-                query.append(orderByConditionFields[i]);
-
-                if ((i + 1) < orderByConditionFields.length) {
-                    if (orderByComparator.isAscending() ^ previous) {
-                        query.append(WHERE_GREATER_THAN_HAS_NEXT);
-                    } else {
-                        query.append(WHERE_LESSER_THAN_HAS_NEXT);
-                    }
-                } else {
-                    if (orderByComparator.isAscending() ^ previous) {
-                        query.append(WHERE_GREATER_THAN);
-                    } else {
-                        query.append(WHERE_LESSER_THAN);
-                    }
-                }
-            }
-
-            query.append(ORDER_BY_CLAUSE);
-
-            String[] orderByFields = orderByComparator.getOrderByFields();
-
-            for (int i = 0; i < orderByFields.length; i++) {
-                query.append(_ORDER_BY_ENTITY_ALIAS);
-                query.append(orderByFields[i]);
-
-                if ((i + 1) < orderByFields.length) {
-                    if (orderByComparator.isAscending() ^ previous) {
-                        query.append(ORDER_BY_ASC_HAS_NEXT);
-                    } else {
-                        query.append(ORDER_BY_DESC_HAS_NEXT);
-                    }
-                } else {
-                    if (orderByComparator.isAscending() ^ previous) {
-                        query.append(ORDER_BY_ASC);
-                    } else {
-                        query.append(ORDER_BY_DESC);
-                    }
-                }
-            }
-        } else {
-            query.append(ProcessModelImpl.ORDER_BY_JPQL);
-        }
-
-        String sql = query.toString();
-
-        Query q = session.createQuery(sql);
-
-        q.setFirstResult(0);
-        q.setMaxResults(2);
-
-        QueryPos qPos = QueryPos.getInstance(q);
-
-        qPos.add(scenario_id);
-
-        if (orderByComparator != null) {
-            Object[] values = orderByComparator.getOrderByConditionValues(process);
-
-            for (Object value : values) {
-                qPos.add(value);
-            }
-        }
-
-        List<Process> list = q.list();
-
-        if (list.size() == 2) {
-            return list.get(1);
-        } else {
-            return null;
-        }
+        return remove(process);
     }
 
     /**
-     * Removes all the processes where scenario_id = &#63; from the database.
+     * Returns the number of processes where name = &#63;.
      *
-     * @param scenario_id the scenario_id
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public void removeByScenarioId(long scenario_id) throws SystemException {
-        for (Process process : findByScenarioId(scenario_id, QueryUtil.ALL_POS,
-                QueryUtil.ALL_POS, null)) {
-            remove(process);
-        }
-    }
-
-    /**
-     * Returns the number of processes where scenario_id = &#63;.
-     *
-     * @param scenario_id the scenario_id
+     * @param name the name
      * @return the number of matching processes
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public int countByScenarioId(long scenario_id) throws SystemException {
-        FinderPath finderPath = FINDER_PATH_COUNT_BY_SCENARIOID;
+    public int countByName(String name) throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_NAME;
 
-        Object[] finderArgs = new Object[] { scenario_id };
+        Object[] finderArgs = new Object[] { name };
 
         Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
                 this);
@@ -548,7 +296,17 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
 
             query.append(_SQL_COUNT_PROCESS_WHERE);
 
-            query.append(_FINDER_COLUMN_SCENARIOID_SCENARIO_ID_2);
+            boolean bindName = false;
+
+            if (name == null) {
+                query.append(_FINDER_COLUMN_NAME_NAME_1);
+            } else if (name.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_NAME_NAME_3);
+            } else {
+                bindName = true;
+
+                query.append(_FINDER_COLUMN_NAME_NAME_2);
+            }
 
             String sql = query.toString();
 
@@ -561,7 +319,9 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
 
                 QueryPos qPos = QueryPos.getInstance(q);
 
-                qPos.add(scenario_id);
+                if (bindName) {
+                    qPos.add(name);
+                }
 
                 count = (Long) q.uniqueResult();
 
@@ -587,6 +347,9 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
     public void cacheResult(Process process) {
         EntityCacheUtil.putResult(ProcessModelImpl.ENTITY_CACHE_ENABLED,
             ProcessImpl.class, process.getPrimaryKey(), process);
+
+        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_NAME,
+            new Object[] { process.getName() }, process);
 
         process.resetOriginalValues();
     }
@@ -643,6 +406,8 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
 
         FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
         FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+        clearUniqueFindersCache(process);
     }
 
     @Override
@@ -653,6 +418,47 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
         for (Process process : processes) {
             EntityCacheUtil.removeResult(ProcessModelImpl.ENTITY_CACHE_ENABLED,
                 ProcessImpl.class, process.getPrimaryKey());
+
+            clearUniqueFindersCache(process);
+        }
+    }
+
+    protected void cacheUniqueFindersCache(Process process) {
+        if (process.isNew()) {
+            Object[] args = new Object[] { process.getName() };
+
+            FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_NAME, args,
+                Long.valueOf(1));
+            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_NAME, args, process);
+        } else {
+            ProcessModelImpl processModelImpl = (ProcessModelImpl) process;
+
+            if ((processModelImpl.getColumnBitmask() &
+                    FINDER_PATH_FETCH_BY_NAME.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] { process.getName() };
+
+                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_NAME, args,
+                    Long.valueOf(1));
+                FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_NAME, args,
+                    process);
+            }
+        }
+    }
+
+    protected void clearUniqueFindersCache(Process process) {
+        ProcessModelImpl processModelImpl = (ProcessModelImpl) process;
+
+        Object[] args = new Object[] { process.getName() };
+
+        FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_NAME, args);
+        FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_NAME, args);
+
+        if ((processModelImpl.getColumnBitmask() &
+                FINDER_PATH_FETCH_BY_NAME.getColumnBitmask()) != 0) {
+            args = new Object[] { processModelImpl.getOriginalName() };
+
+            FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_NAME, args);
+            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_NAME, args);
         }
     }
 
@@ -761,8 +567,6 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
 
         boolean isNew = process.isNew();
 
-        ProcessModelImpl processModelImpl = (ProcessModelImpl) process;
-
         Session session = null;
 
         try {
@@ -786,29 +590,12 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
         if (isNew || !ProcessModelImpl.COLUMN_BITMASK_ENABLED) {
             FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
         }
-        else {
-            if ((processModelImpl.getColumnBitmask() &
-                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SCENARIOID.getColumnBitmask()) != 0) {
-                Object[] args = new Object[] {
-                        processModelImpl.getOriginalScenario_id()
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_SCENARIOID,
-                    args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SCENARIOID,
-                    args);
-
-                args = new Object[] { processModelImpl.getScenario_id() };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_SCENARIOID,
-                    args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SCENARIOID,
-                    args);
-            }
-        }
 
         EntityCacheUtil.putResult(ProcessModelImpl.ENTITY_CACHE_ENABLED,
             ProcessImpl.class, process.getPrimaryKey(), process);
+
+        clearUniqueFindersCache(process);
+        cacheUniqueFindersCache(process);
 
         return process;
     }
@@ -828,7 +615,6 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
         processImpl.setType(process.getType());
         processImpl.setOrder(process.getOrder());
         processImpl.setPause(process.getPause());
-        processImpl.setScenario_id(process.getScenario_id());
         processImpl.setFeederId(process.getFeederId());
 
         return processImpl;

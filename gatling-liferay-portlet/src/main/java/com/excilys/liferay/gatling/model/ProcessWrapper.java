@@ -41,7 +41,6 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
         attributes.put("type", getType());
         attributes.put("order", getOrder());
         attributes.put("pause", getPause());
-        attributes.put("scenario_id", getScenario_id());
         attributes.put("feederId", getFeederId());
 
         return attributes;
@@ -77,12 +76,6 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 
         if (pause != null) {
             setPause(pause);
-        }
-
-        Long scenario_id = (Long) attributes.get("scenario_id");
-
-        if (scenario_id != null) {
-            setScenario_id(scenario_id);
         }
 
         Long feederId = (Long) attributes.get("feederId");
@@ -210,26 +203,6 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
     @Override
     public void setPause(int pause) {
         _process.setPause(pause);
-    }
-
-    /**
-    * Returns the scenario_id of this process.
-    *
-    * @return the scenario_id of this process
-    */
-    @Override
-    public long getScenario_id() {
-        return _process.getScenario_id();
-    }
-
-    /**
-    * Sets the scenario_id of this process.
-    *
-    * @param scenario_id the scenario_id of this process
-    */
-    @Override
-    public void setScenario_id(long scenario_id) {
-        _process.setScenario_id(scenario_id);
     }
 
     /**

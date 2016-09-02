@@ -290,6 +290,21 @@ public class ScenarioLocalServiceWrapper implements ScenarioLocalService,
     }
 
     @Override
+    public com.excilys.liferay.gatling.model.Scenario createScenario(
+        java.lang.String name, long simulationId, java.lang.String injection,
+        int numberOfUsers, int duration)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _scenarioLocalService.createScenario(name, simulationId,
+            injection, numberOfUsers, duration);
+    }
+
+    @Override
+    public void addProcess(long scenarioId, long processId, int order, int pause)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        _scenarioLocalService.addProcess(scenarioId, processId, order, pause);
+    }
+
+    @Override
     public int countBySimulationId(long simulationId)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _scenarioLocalService.countBySimulationId(simulationId);

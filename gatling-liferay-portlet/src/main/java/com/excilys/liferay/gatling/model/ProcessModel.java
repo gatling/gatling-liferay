@@ -116,20 +116,6 @@ public interface ProcessModel extends BaseModel<Process> {
     public void setPause(int pause);
 
     /**
-     * Returns the scenario_id of this process.
-     *
-     * @return the scenario_id of this process
-     */
-    public long getScenario_id();
-
-    /**
-     * Sets the scenario_id of this process.
-     *
-     * @param scenario_id the scenario_id of this process
-     */
-    public void setScenario_id(long scenario_id);
-
-    /**
      * Returns the feeder ID of this process.
      *
      * @return the feeder ID of this process

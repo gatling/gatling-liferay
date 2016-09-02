@@ -6,6 +6,7 @@
 	<import class="com.excilys.liferay.gatling.model.LinkUsecaseRequest" />
 	<import class="com.excilys.liferay.gatling.model.Login" />
 	<import class="com.excilys.liferay.gatling.model.Process" />
+	<import class="com.excilys.liferay.gatling.model.ProcessScenarioLink" />
 	<import class="com.excilys.liferay.gatling.model.Record" />
 	<import class="com.excilys.liferay.gatling.model.Request" />
 	<import class="com.excilys.liferay.gatling.model.Scenario" />
@@ -48,8 +49,17 @@
 		<property name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" column="type_" />
 		<property name="order" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="order_" />
 		<property name="pause" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
-		<property name="scenario_id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="feederId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="com.excilys.liferay.gatling.model.impl.ProcessScenarioLinkImpl" table="StressTool_ProcessScenarioLink">
+		<cache usage="read-write" />
+		<id name="psl_id" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="process_id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="scenario_id" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="order" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="order_" />
+		<property name="pause" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 	</class>
 	<class name="com.excilys.liferay.gatling.model.impl.RecordImpl" table="StressTool_Record">
 		<cache usage="read-write" />

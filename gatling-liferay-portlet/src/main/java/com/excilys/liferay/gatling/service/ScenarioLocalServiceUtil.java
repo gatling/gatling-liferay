@@ -277,6 +277,20 @@ public class ScenarioLocalServiceUtil {
         return getService().createDefaultScenario(simulation);
     }
 
+    public static com.excilys.liferay.gatling.model.Scenario createScenario(
+        java.lang.String name, long simulationId, java.lang.String injection,
+        int numberOfUsers, int duration)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService()
+                   .createScenario(name, simulationId, injection,
+            numberOfUsers, duration);
+    }
+
+    public static void addProcess(long scenarioId, long processId, int order,
+        int pause) throws com.liferay.portal.kernel.exception.SystemException {
+        getService().addProcess(scenarioId, processId, order, pause);
+    }
+
     public static int countBySimulationId(long simulationId)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getService().countBySimulationId(simulationId);

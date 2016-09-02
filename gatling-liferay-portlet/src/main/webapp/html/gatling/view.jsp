@@ -59,7 +59,6 @@
 
 		<portlet:actionURL var="saveDefaultSimulation">
 			<portlet:param name="action" value="saveDefaultSimulation"/>
-			<portlet:param name="tabs" value="Scenario Builder" />
 		</portlet:actionURL>
 
 
@@ -77,7 +76,7 @@
 				</legend>
 
 				<%-- Scenario --%>
-				<c:forEach items="${scenarios}" var="scenario" varStatus="s">
+				<c:forEach items="${scenarios}" var="scenario">
 				<div class="scenario">
 
 					<div class="scenario-box">
@@ -102,7 +101,7 @@
 									<div class="wan-spinner time process-font">
 										<a href="javascript:void(0)" class="minus">-</a>
 										<input
-											type="text" class="process-fond"
+											type="text" class="process-font"
 											name="<%=renderResponse.getNamespace()%>${process.id}"
 											value="${process.pause}">
 										<span class="process-font">s</span>
@@ -122,16 +121,33 @@
 					</div>
 				</div>
 				</c:forEach>
+				
+				<div class="fresh-scenario">
+					<%-- This box contains nothing: it is a used for placement --%>
+					<div class="scenario-box"></div>
+					<div class="scenario-name">
+					
+						<portlet:actionURL var="persistNewScenario">
+							<portlet:param name="action" value="renderView"/>
+						</portlet:actionURL>
+					
+						<a href="${persistNewScenario}"><span class="icon-plus-sign"></span> Add a new scenario</a>
+					</div>
+				</div>
+				
+				
+				
+				
 
-			<%-- Library, not filled with books but with Processes --%>
-			<h3>Processes Library</h3>
-			<div class="library">
-				<c:forEach items="${templates}" var="template" varStatus="i">
+				<%-- Library, not filled with books but with Processes --%>
+				<h3>Processes Library</h3>
+				<div class="library">
+					<c:forEach items="${templates}" var="template" varStatus="i">
 					<div class="action process-font">${template.name}</div>
-				</c:forEach>
-			</div>
+					</c:forEach>
+				</div>
 		
-	</aui:fieldset>
+			</aui:fieldset>
 
 
 			<%-- Details Fieldset --%>

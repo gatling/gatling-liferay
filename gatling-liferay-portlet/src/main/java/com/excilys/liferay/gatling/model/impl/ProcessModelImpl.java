@@ -49,10 +49,9 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
             { "type_", Types.VARCHAR },
             { "order_", Types.INTEGER },
             { "pause", Types.INTEGER },
-            { "scenario_id", Types.BIGINT },
             { "feederId", Types.BIGINT }
         };
-    public static final String TABLE_SQL_CREATE = "create table StressTool_Process (process_id LONG not null primary key,name VARCHAR(75) null,type_ VARCHAR(75) null,order_ INTEGER,pause INTEGER,scenario_id LONG,feederId LONG)";
+    public static final String TABLE_SQL_CREATE = "create table StressTool_Process (process_id LONG not null primary key,name VARCHAR(75) null,type_ VARCHAR(75) null,order_ INTEGER,pause INTEGER,feederId LONG)";
     public static final String TABLE_SQL_DROP = "drop table StressTool_Process";
     public static final String ORDER_BY_JPQL = " ORDER BY process.order ASC";
     public static final String ORDER_BY_SQL = " ORDER BY StressTool_Process.order_ ASC";
@@ -68,7 +67,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
     public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
                 "value.object.column.bitmask.enabled.com.excilys.liferay.gatling.model.Process"),
             true);
-    public static long SCENARIO_ID_COLUMN_BITMASK = 1L;
+    public static long NAME_COLUMN_BITMASK = 1L;
     public static long ORDER_COLUMN_BITMASK = 2L;
     public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
                 "lock.expiration.time.com.excilys.liferay.gatling.model.Process"));
@@ -78,12 +77,10 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         };
     private long _process_id;
     private String _name;
+    private String _originalName;
     private String _type;
     private int _order;
     private int _pause;
-    private long _scenario_id;
-    private long _originalScenario_id;
-    private boolean _setOriginalScenario_id;
     private Long _feederId;
     private long _columnBitmask;
     private Process _escapedModel;
@@ -130,7 +127,6 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         attributes.put("type", getType());
         attributes.put("order", getOrder());
         attributes.put("pause", getPause());
-        attributes.put("scenario_id", getScenario_id());
         attributes.put("feederId", getFeederId());
 
         return attributes;
@@ -168,12 +164,6 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
             setPause(pause);
         }
 
-        Long scenario_id = (Long) attributes.get("scenario_id");
-
-        if (scenario_id != null) {
-            setScenario_id(scenario_id);
-        }
-
         Long feederId = (Long) attributes.get("feederId");
 
         if (feederId != null) {
@@ -202,7 +192,17 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
     @Override
     public void setName(String name) {
+        _columnBitmask |= NAME_COLUMN_BITMASK;
+
+        if (_originalName == null) {
+            _originalName = _name;
+        }
+
         _name = name;
+    }
+
+    public String getOriginalName() {
+        return GetterUtil.getString(_originalName);
     }
 
     @Override
@@ -239,28 +239,6 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
     @Override
     public void setPause(int pause) {
         _pause = pause;
-    }
-
-    @Override
-    public long getScenario_id() {
-        return _scenario_id;
-    }
-
-    @Override
-    public void setScenario_id(long scenario_id) {
-        _columnBitmask |= SCENARIO_ID_COLUMN_BITMASK;
-
-        if (!_setOriginalScenario_id) {
-            _setOriginalScenario_id = true;
-
-            _originalScenario_id = _scenario_id;
-        }
-
-        _scenario_id = scenario_id;
-    }
-
-    public long getOriginalScenario_id() {
-        return _originalScenario_id;
     }
 
     @Override
@@ -309,7 +287,6 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         processImpl.setType(getType());
         processImpl.setOrder(getOrder());
         processImpl.setPause(getPause());
-        processImpl.setScenario_id(getScenario_id());
         processImpl.setFeederId(getFeederId());
 
         processImpl.resetOriginalValues();
@@ -366,9 +343,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
     public void resetOriginalValues() {
         ProcessModelImpl processModelImpl = this;
 
-        processModelImpl._originalScenario_id = processModelImpl._scenario_id;
-
-        processModelImpl._setOriginalScenario_id = false;
+        processModelImpl._originalName = processModelImpl._name;
 
         processModelImpl._columnBitmask = 0;
     }
@@ -399,8 +374,6 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
         processCacheModel.pause = getPause();
 
-        processCacheModel.scenario_id = getScenario_id();
-
         processCacheModel.feederId = getFeederId();
 
         return processCacheModel;
@@ -408,7 +381,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(15);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("{process_id=");
         sb.append(getProcess_id());
@@ -420,8 +393,6 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         sb.append(getOrder());
         sb.append(", pause=");
         sb.append(getPause());
-        sb.append(", scenario_id=");
-        sb.append(getScenario_id());
         sb.append(", feederId=");
         sb.append(getFeederId());
         sb.append("}");
@@ -431,7 +402,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(25);
+        StringBundler sb = new StringBundler(22);
 
         sb.append("<model><model-name>");
         sb.append("com.excilys.liferay.gatling.model.Process");
@@ -456,10 +427,6 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         sb.append(
             "<column><column-name>pause</column-name><column-value><![CDATA[");
         sb.append(getPause());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>scenario_id</column-name><column-value><![CDATA[");
-        sb.append(getScenario_id());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>feederId</column-name><column-value><![CDATA[");

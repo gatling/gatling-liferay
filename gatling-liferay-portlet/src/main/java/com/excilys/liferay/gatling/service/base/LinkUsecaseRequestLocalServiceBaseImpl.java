@@ -6,6 +6,7 @@ import com.excilys.liferay.gatling.service.persistence.FormParamPersistence;
 import com.excilys.liferay.gatling.service.persistence.LinkUsecaseRequestPersistence;
 import com.excilys.liferay.gatling.service.persistence.LoginPersistence;
 import com.excilys.liferay.gatling.service.persistence.ProcessPersistence;
+import com.excilys.liferay.gatling.service.persistence.ProcessScenarioLinkPersistence;
 import com.excilys.liferay.gatling.service.persistence.RecordPersistence;
 import com.excilys.liferay.gatling.service.persistence.RequestPersistence;
 import com.excilys.liferay.gatling.service.persistence.ScenarioPersistence;
@@ -68,6 +69,10 @@ public abstract class LinkUsecaseRequestLocalServiceBaseImpl
     protected com.excilys.liferay.gatling.service.ProcessLocalService processLocalService;
     @BeanReference(type = ProcessPersistence.class)
     protected ProcessPersistence processPersistence;
+    @BeanReference(type = com.excilys.liferay.gatling.service.ProcessScenarioLinkLocalService.class)
+    protected com.excilys.liferay.gatling.service.ProcessScenarioLinkLocalService processScenarioLinkLocalService;
+    @BeanReference(type = ProcessScenarioLinkPersistence.class)
+    protected ProcessScenarioLinkPersistence processScenarioLinkPersistence;
     @BeanReference(type = com.excilys.liferay.gatling.service.RecordLocalService.class)
     protected com.excilys.liferay.gatling.service.RecordLocalService recordLocalService;
     @BeanReference(type = RecordPersistence.class)
@@ -483,6 +488,44 @@ public abstract class LinkUsecaseRequestLocalServiceBaseImpl
      */
     public void setProcessPersistence(ProcessPersistence processPersistence) {
         this.processPersistence = processPersistence;
+    }
+
+    /**
+     * Returns the process scenario link local service.
+     *
+     * @return the process scenario link local service
+     */
+    public com.excilys.liferay.gatling.service.ProcessScenarioLinkLocalService getProcessScenarioLinkLocalService() {
+        return processScenarioLinkLocalService;
+    }
+
+    /**
+     * Sets the process scenario link local service.
+     *
+     * @param processScenarioLinkLocalService the process scenario link local service
+     */
+    public void setProcessScenarioLinkLocalService(
+        com.excilys.liferay.gatling.service.ProcessScenarioLinkLocalService processScenarioLinkLocalService) {
+        this.processScenarioLinkLocalService = processScenarioLinkLocalService;
+    }
+
+    /**
+     * Returns the process scenario link persistence.
+     *
+     * @return the process scenario link persistence
+     */
+    public ProcessScenarioLinkPersistence getProcessScenarioLinkPersistence() {
+        return processScenarioLinkPersistence;
+    }
+
+    /**
+     * Sets the process scenario link persistence.
+     *
+     * @param processScenarioLinkPersistence the process scenario link persistence
+     */
+    public void setProcessScenarioLinkPersistence(
+        ProcessScenarioLinkPersistence processScenarioLinkPersistence) {
+        this.processScenarioLinkPersistence = processScenarioLinkPersistence;
     }
 
     /**

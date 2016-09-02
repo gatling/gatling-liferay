@@ -21,7 +21,12 @@ import com.excilys.liferay.gatling.service.ProcessLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SiteMapLocalServiceUtil;
+import com.excilys.liferay.gatling.service.impl.SimulationLocalServiceImpl;
+import com.excilys.liferay.gatling.service.persistence.ProcessUtil;
+import com.excilys.liferay.gatling.service.persistence.ScenarioUtil;
+import com.excilys.liferay.gatling.service.persistence.SimulationUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
+import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -64,42 +69,39 @@ public class ViewController {
 
 	@RenderMapping(params = "render=renderView")
 	public String renderRequest(final RenderRequest renderRequest,
-			final RenderResponse renderResponse, final Model model) throws SystemException {
+			final RenderResponse renderResponse, final Model model) throws SystemException, PortalException {
 		LOG.debug("render View");
 		/* Record the sites list */
 		
 		List<Group> listGroups = GatlingUtil.getListOfSites();
 		renderRequest.setAttribute("listGroup", listGroups);
-		//
+		
 		/* Initialize the simulation and the scenario if not existant */
 		Simulation defaultSimulation = SimulationLocalServiceUtil.createDefaultSimulation();
 		Scenario defaultScenario = ScenarioLocalServiceUtil.createDefaultScenario(defaultSimulation);
 		
-		
-		//
 		List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(defaultScenario.getScenario_id());
 		
 		if(processes == null || processes.isEmpty()){
-			processes = new ArrayList<>(3);
-
 			Login defaultLogin = LoginLocalServiceUtil.createDefaultLogin();
 			
-			final ThemeDisplay themeDisplay =	(ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+			final ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 			SiteMap defaultSiteMap = SiteMapLocalServiceUtil.siteMapCreation(themeDisplay, defaultScenario.getGroup_id());
 			
 			Process login = ProcessLocalServiceUtil.createProcess("Login", ProcessType.LOGIN,
-					defaultLogin.getPrimaryKey(), 2, 0, defaultScenario.getScenario_id());
+					defaultLogin.getPrimaryKey(), 2, 0);
 			
 			Process random = ProcessLocalServiceUtil.createProcess("Random Page", ProcessType.RANDOMPAGE,
-					defaultSiteMap.getPrimaryKey(), 3, 1, defaultScenario.getScenario_id());
+					defaultSiteMap.getPrimaryKey(), 3, 1);
 			
-			Process logout = ProcessLocalServiceUtil.createProcess("Logout", ProcessType.LOGOUT,
-					null, 1, 2,
-					defaultScenario.getScenario_id());
-
-			processes.add(login);
-			processes.add(random);
-			processes.add(logout);
+			Process logout = ProcessLocalServiceUtil.createProcess("Logout", ProcessType.LOGOUT, null, 1, 2);
+			
+			long scenarioId = defaultScenario.getScenario_id();
+			
+			ScenarioLocalServiceUtil.addProcess(scenarioId, login.getProcess_id(), 0, 2);
+			ScenarioLocalServiceUtil.addProcess(scenarioId, random.getProcess_id(), 0, 2);
+			ScenarioLocalServiceUtil.addProcess(scenarioId, logout.getProcess_id(), 0, 2);
+			
 		}
 
 		List<Process> allProcesses = ProcessLocalServiceUtil.getProcesses(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
@@ -107,7 +109,6 @@ public class ViewController {
 		for (Process process : allProcesses) {
 			templates.add(ProcessDTOMapper.toDTO(process));
 		}
-		
 		
 		/* Injection */
 		List<String> injectionsMode = new ArrayList<>();
@@ -208,6 +209,21 @@ public class ViewController {
 	}
 	
 	
+	@ActionMapping(params="action=persistNewScenario")
+	public void persistNewScenario(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{
+		LOG.debug("Action Triggered : Save Default Simulation");
+		
+		Simulation simulation = SimulationLocalServiceUtil.getByName(SimulationLocalServiceImpl.DEFAULT_NAME);
+		long id = CounterLocalServiceUtil.getCounter(Scenario.class.getName()).getCurrentId() + 1;
+		Scenario scenario = ScenarioLocalServiceUtil.createScenario("MyScenario" + id, simulation.getSimulation_id(), "ramp Over", 10, 5);
+		
+		ProcessLocalServiceUtil.findByName("LOGIN");
+	}
+	
+	
+	
+	
+	
 	/**
 	 * Takes all the renders without param.
 	 * 
@@ -216,10 +232,11 @@ public class ViewController {
 	 * @param model
 	 * @return
 	 * @throws SystemException 
+	 * @throws PortalException 
 	 */
 	@RenderMapping
 	public String handleRenderRequest(final RenderRequest request,
-			final RenderResponse response, final Model model) throws SystemException {
+			final RenderResponse response, final Model model) throws SystemException, PortalException {
 		return renderRequest(request, response, model);
 	}
 

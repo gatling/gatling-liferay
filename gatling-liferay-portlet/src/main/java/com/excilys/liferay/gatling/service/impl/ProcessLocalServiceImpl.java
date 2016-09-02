@@ -1,11 +1,18 @@
 package com.excilys.liferay.gatling.service.impl;
 
+import com.excilys.liferay.gatling.NoSuchProcessException;
 import com.excilys.liferay.gatling.model.Process;
+import com.excilys.liferay.gatling.model.ProcessScenarioLink;
 import com.excilys.liferay.gatling.model.ProcessType;
+import com.excilys.liferay.gatling.service.ProcessLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.ProcessLocalServiceBaseImpl;
 import com.excilys.liferay.gatling.service.persistence.ProcessUtil;
 import com.liferay.counter.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The implementation of the process local service.
@@ -27,21 +34,32 @@ public class ProcessLocalServiceImpl extends ProcessLocalServiceBaseImpl {
      *
      * Never reference this interface directly. Always use {@link com.excilys.liferay.gatling.service.ProcessLocalServiceUtil} to access the process local service.
      */
+	
 	@Override
-	public java.util.List<com.excilys.liferay.gatling.model.Process> findProcessFromScenarioId(long id) throws SystemException {
-		return processPersistence.findByScenarioId(id);
+	public List<Process> findProcessFromScenarioId(long scenarioId) throws SystemException, PortalException{
+		List<Process> processes = new ArrayList<>();
+		List<ProcessScenarioLink> links = processScenarioLinkPersistence.findByscenarioId(scenarioId);
+		for (ProcessScenarioLink link : links) {
+			processes.add(ProcessLocalServiceUtil.getProcess(link.getProcess_id()));
+		}
+		return processes;
 	}
 	
 	@Override
-	public Process createProcess(String name, ProcessType type, Long feederId, int pause, int order, long scenarioId) throws SystemException{
+	public Process createProcess(String name, ProcessType type, Long feederId, int pause, int order) throws SystemException{
 		Process process = ProcessUtil.create(CounterLocalServiceUtil.increment(Process.class.getName()));
 		process.setName(name);
 		process.setType(type.name());
 		process.setFeederId(feederId);
 		process.setPause(pause);
 		process.setOrder(order);
-		process.setScenario_id(scenarioId);
 		process.persist();
 		return process;
 	}
+	
+	@Override
+	public Process findByName(String name) throws NoSuchProcessException, SystemException{
+		return processPersistence.findByName(name);
+	}
+	
 }

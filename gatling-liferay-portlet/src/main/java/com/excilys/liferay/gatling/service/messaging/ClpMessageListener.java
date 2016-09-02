@@ -5,6 +5,7 @@ import com.excilys.liferay.gatling.service.FormParamLocalServiceUtil;
 import com.excilys.liferay.gatling.service.LinkUsecaseRequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.LoginLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ProcessLocalServiceUtil;
+import com.excilys.liferay.gatling.service.ProcessScenarioLinkLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.RequestLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
@@ -36,6 +37,8 @@ public class ClpMessageListener extends BaseMessageListener {
             LoginLocalServiceUtil.clearService();
 
             ProcessLocalServiceUtil.clearService();
+
+            ProcessScenarioLinkLocalServiceUtil.clearService();
 
             RecordLocalServiceUtil.clearService();
 
