@@ -41,6 +41,7 @@ import com.liferay.portal.util.PortalUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -109,8 +110,9 @@ public class ViewController {
 		for (Process process : allProcesses) {
 			templates.add(ProcessDTOMapper.toDTO(process));
 		}
+		Collections.sort(templates);
 		
-		/* Injection */
+		// Injection modes
 		List<String> injectionsMode = new ArrayList<>();
 		injectionsMode.add("ramp Over");
 		injectionsMode.add("at Once");

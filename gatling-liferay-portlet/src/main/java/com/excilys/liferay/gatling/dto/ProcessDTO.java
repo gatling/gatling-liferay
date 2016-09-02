@@ -2,7 +2,7 @@ package com.excilys.liferay.gatling.dto;
 
 
 
-public class ProcessDTO {
+public class ProcessDTO implements Comparable<ProcessDTO>{
 
 	private String name;
 	private long id;
@@ -39,6 +39,10 @@ public class ProcessDTO {
 	}
 	
 	
+	@Override
+	public int compareTo(ProcessDTO other) {
+		return this.name.compareTo(other.name);
+	}
 	
 	
 	
