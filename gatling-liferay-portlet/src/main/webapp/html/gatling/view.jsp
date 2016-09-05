@@ -33,9 +33,14 @@
 		display:inline-block;
 	}
 
-	.invisiblePowaaa {
+	.extented-space {
+		width: 200px;
+	}
+	
+	.template .space-container {
 		opacity: 0;
 	}
+
 </style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
@@ -251,140 +256,100 @@
 </script>
 
 <script type="text/javascript">
-
-	// Document preparation
+	//Document preparation
 	//******************************************************************************
 	
-	// Prepares the div array and addActions on all the elements space-container
+	//Prepares the div array and addActions on all the elements space-container
 	var cols = document.querySelectorAll('.space-container');
 	[].forEach.call(cols, function(col) {
-	  //col.addEventListener('dragstart', handleDragStart, false);
-	  col.addEventListener('dragenter', handleDragEnter, false);
-	  col.addEventListener('dragover', handleDragOver, false);
-	  col.addEventListener('dragleave', handleDragLeave, false);
-	  col.addEventListener('drop', drop, false);
+	//col.addEventListener('dragstart', handleDragStart, false);
+	col.addEventListener('dragenter', handleDragEnter, false);
+	col.addEventListener('dragover', handleDragOver, false);
+	col.addEventListener('dragleave', handleDragLeave, false);
+	col.addEventListener('drop', drop, false);
 	});
 	
-	// Drag and drop functions
+	//Drag and drop functions
 	//******************************************************************************
 	
-	// Function called when the element is dragged
+	//Function called when the element is dragged
 	function drag(ev) {
-	    console.log("Drag->Element:"+ev.target.id+ " dragged");
-	    ev.dataTransfer.setData("text", ev.target.id);
+	  console.log("Drag->Element:"+ev.target.id+ " dragged");
+	  ev.dataTransfer.setData("text", ev.target.id);
 	}
 	
-	// Function called when the element is dropped
+	//Function called when the element is dropped
 	function drop(ev) {
-	    console.log("Element: dropped");
-	    ev.preventDefault();
-	    var data = ev.dataTransfer.getData("text");
-	    console.log("id: "+data);
-	    resizeDiv(ev.target);
 	
+	  ev.preventDefault();
+	  var data = ev.dataTransfer.getData("text");
+	  console.log("Element: "+data+" dropped");
+	  resizeDiv(ev.target);
 	
+	  // Retreives the DOM elements
+	  var chevronEl = document.getElementById(ev.target.id);
+	  var blockTarget = chevronEl.parentNode;
+	  var workflow = document.getElementsByClassName("workflow")[0];
+	  var blockDragged = document.getElementById(data);
 	
-	    // Retreives the DOM elements
-	    var blockDragged = document.getElementById(data);
-	
-	    if (blockDragged.className.includes("template")) {
-	      blockDragged = blockDragged.cloneNode(true);
-	    }
-	
-	    var chevronEl = document.getElementById(ev.target.id);
-	    var blockTarget = chevronEl.parentNode;
-	
-	    // Removes the chevron invisibility if template
-	    var che = blockDragged.childNodes[1];
-	    $(che).removeClass("invisiblePowaaa");
-	
-	    // Add chevron invisibility if first element
-	    if (chevronEl.className.includes("invisiblePowaaa")) {
-	      che.className += " invisiblePowaaa";
-	        $(chevronEl).removeClass("invisiblePowaaa");
-	    }
-	
-	    //console.log("ProcessBlock "+blockDragged.id+" content:"+blockDragged.innerHTML);space-container
-	    //console.log("Chevron target "+ blockTarget.id +" content:"+blockTarget.innerHTML);
-	    var workflow = document.getElementsByClassName("workflow")[0];
-	
-	    // Insert the elements
-	    workflow.insertBefore(blockDragged, blockTarget);
-	
-	    //ev.target.appendChild(document.getElementById(data));
-	
-	}
-	
-	
-	// TODO check the use of this fucntion
-	function handleDragOver(e) {
-	  //console.log("Over");
-	  if (e.preventDefault) {
-	    e.preventDefault(); // Necessary. Allows us to drop.
+	  // Removes "template" class if present
+	  if (blockDragged.className.includes("template")) {
+	    console.log("cloning...");
+	    blockDragged = blockDragged.cloneNode(true);
+	    $(blockDragged).removeClass("template");
 	  }
 	
-	  e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+	  // Insert the elements
+	  workflow.insertBefore(blockDragged, blockTarget);
 	
-	  return false;
+	  //ev.target.appendChild(document.getElementById(data));
+	
+	}
+	
+	
+	//TODO check the use of this fucntion
+	function handleDragOver(e) {
+	
+	if (e.preventDefault) {
+	  e.preventDefault(); // Necessary. Allows us to drop.
+	}
+	
+	e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+	
+	return false;
 	}
 	
 	var timeDiv = null;
-	var oldTimeSize = null;
 	function handleDragEnter(e) {
-	  console.log("enter");
+	console.log("enter");
 	
-	  var targetElement = e.currentTarget;
-	  //var draggedElement = e.dataTransfer;
-	  //console.log("Content block>>"+draggedElement.innerHTML);
-	  //console.log("Element size:"+e.targetElement.width);
-	  oldTimeSize = targetElement.style.width;
-	  targetElement.style.width = '200px';
+	var targetElement = e.currentTarget;
+	$(targetElement).addClass("extented-space");
 	
-	  // Removes the content
-	  timeSep = targetElement.getElementsByClassName("icon-chevron-right");
-	  if (timeSep.length >0) { //Hack: sometimes content is not refreshed fast enougth
-	    timeDiv = timeSep[0];
-	    targetElement.removeChild(timeSep[0]);
-	  }
+	// Removes the content
+	timeSep = targetElement.getElementsByClassName("icon-chevron-right");
+	if (timeSep.length >0) { //Hack: sometimes content is not refreshed fast enougth
+	  timeDiv = timeSep[0];
+	  targetElement.removeChild(timeSep[0]);
+	}
 	
-	  this.classList.add('over');
+	this.classList.add('over');
 	}
 	
 	function handleDragLeave(e) {
-	  console.log("leave");
-	  var block = e.currentTarget;
-	  resizeDiv(block);
-	  this.classList.remove('over');  // this / e.target is previous target element.
+	console.log("leave");
+	var block = e.currentTarget;
+	resizeDiv(block);
+	this.classList.remove('over');  // this / e.target is previous target element.
 	}
 	
 	//******************************************************************************
-	// Content handling fucntions
+	//Content handling functions
 	function resizeDiv(e) {
-	  // Set back block size and content
-	  e.style.width = oldTimeSize; //Hardcoded since oldTimeSize sometimes fails
-	  e.appendChild(timeDiv);
+	// Set back block size and content
+	$(e).removeClass("extented-space");
+	e.appendChild(timeDiv);
 	}
-	
-	// DOM elements
-	//******************************************************************************
-	var process = document.createElement("div");
-	process.className = "action process-font";
-	process.innerHTML = "CreatedMF";
-	
-	var before = document.createElement("div");
-	before.className = "block";
-	
-	var after = document.createElement("div");
-	before.className = "block";
-	
-	var spaceDiv = document.createElement("div");
-	var childContent1 = document.createElement("div");
-	var childContent2 = document.createElement("div");
-	var txt1 = document.createTextNode(" Greeting.");
-	var txt2 = document.createTextNode(" Summuner");
-	spaceDiv.appendChild(txt1);
-	childContent2.appendChild(txt2);
-
 </script>
 
 <script type="text/javascript" >
