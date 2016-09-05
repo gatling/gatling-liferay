@@ -51,6 +51,8 @@ public class ProcessLocalServiceClpInvoker {
     private String[] _methodParameterTypes83;
     private String _methodName84;
     private String[] _methodParameterTypes84;
+    private String _methodName85;
+    private String[] _methodParameterTypes85;
 
     public ProcessLocalServiceClpInvoker() {
         _methodName0 = "addProcess";
@@ -147,17 +149,21 @@ public class ProcessLocalServiceClpInvoker {
 
         _methodParameterTypes82 = new String[] { "long" };
 
-        _methodName83 = "createProcess";
+        _methodName83 = "findPause";
 
-        _methodParameterTypes83 = new String[] {
+        _methodParameterTypes83 = new String[] { "long", "long", "int" };
+
+        _methodName84 = "createProcess";
+
+        _methodParameterTypes84 = new String[] {
                 "java.lang.String",
                 "com.excilys.liferay.gatling.model.ProcessType",
-                "java.lang.Long", "int", "int"
+                "java.lang.Long"
             };
 
-        _methodName84 = "findByName";
+        _methodName85 = "findByName";
 
-        _methodParameterTypes84 = new String[] { "java.lang.String" };
+        _methodParameterTypes85 = new String[] { "java.lang.String" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -268,15 +274,20 @@ public class ProcessLocalServiceClpInvoker {
 
         if (_methodName83.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes83, parameterTypes)) {
-            return ProcessLocalServiceUtil.createProcess((java.lang.String) arguments[0],
-                (com.excilys.liferay.gatling.model.ProcessType) arguments[1],
-                (java.lang.Long) arguments[2],
-                ((Integer) arguments[3]).intValue(),
-                ((Integer) arguments[4]).intValue());
+            return ProcessLocalServiceUtil.findPause(((Long) arguments[0]).longValue(),
+                ((Long) arguments[1]).longValue(),
+                ((Integer) arguments[2]).intValue());
         }
 
         if (_methodName84.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes84, parameterTypes)) {
+            return ProcessLocalServiceUtil.createProcess((java.lang.String) arguments[0],
+                (com.excilys.liferay.gatling.model.ProcessType) arguments[1],
+                (java.lang.Long) arguments[2]);
+        }
+
+        if (_methodName85.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes85, parameterTypes)) {
             return ProcessLocalServiceUtil.findByName((java.lang.String) arguments[0]);
         }
 

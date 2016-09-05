@@ -22,13 +22,11 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
     public long process_id;
     public String name;
     public String type;
-    public int order;
-    public int pause;
     public Long feederId;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(9);
 
         sb.append("{process_id=");
         sb.append(process_id);
@@ -36,10 +34,6 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
         sb.append(name);
         sb.append(", type=");
         sb.append(type);
-        sb.append(", order=");
-        sb.append(order);
-        sb.append(", pause=");
-        sb.append(pause);
         sb.append(", feederId=");
         sb.append(feederId);
         sb.append("}");
@@ -65,8 +59,6 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
             processImpl.setType(type);
         }
 
-        processImpl.setOrder(order);
-        processImpl.setPause(pause);
         processImpl.setFeederId(feederId);
 
         processImpl.resetOriginalValues();
@@ -79,8 +71,6 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
         process_id = objectInput.readLong();
         name = objectInput.readUTF();
         type = objectInput.readUTF();
-        order = objectInput.readInt();
-        pause = objectInput.readInt();
         feederId = objectInput.readLong();
     }
 
@@ -101,8 +91,6 @@ public class ProcessCacheModel implements CacheModel<Process>, Externalizable {
             objectOutput.writeUTF(type);
         }
 
-        objectOutput.writeInt(order);
-        objectOutput.writeInt(pause);
         objectOutput.writeLong(feederId);
     }
 }

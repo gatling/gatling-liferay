@@ -95,7 +95,7 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(ProcessPersistenceImpl.class);
     private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-                "type", "order"
+                "type"
             });
     private static Process _nullProcess = new ProcessImpl() {
             @Override
@@ -613,8 +613,6 @@ public class ProcessPersistenceImpl extends BasePersistenceImpl<Process>
         processImpl.setProcess_id(process.getProcess_id());
         processImpl.setName(process.getName());
         processImpl.setType(process.getType());
-        processImpl.setOrder(process.getOrder());
-        processImpl.setPause(process.getPause());
         processImpl.setFeederId(process.getFeederId());
 
         return processImpl;

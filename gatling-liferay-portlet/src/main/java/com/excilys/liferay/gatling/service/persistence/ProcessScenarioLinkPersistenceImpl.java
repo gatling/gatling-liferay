@@ -90,7 +90,8 @@ public class ProcessScenarioLinkPersistenceImpl extends BasePersistenceImpl<Proc
             ProcessScenarioLinkImpl.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByprocessId",
             new String[] { Long.class.getName() },
-            ProcessScenarioLinkModelImpl.PROCESS_ID_COLUMN_BITMASK);
+            ProcessScenarioLinkModelImpl.PROCESS_ID_COLUMN_BITMASK |
+            ProcessScenarioLinkModelImpl.ORDER_COLUMN_BITMASK);
     public static final FinderPath FINDER_PATH_COUNT_BY_PROCESSID = new FinderPath(ProcessScenarioLinkModelImpl.ENTITY_CACHE_ENABLED,
             ProcessScenarioLinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByprocessId",
@@ -113,12 +114,34 @@ public class ProcessScenarioLinkPersistenceImpl extends BasePersistenceImpl<Proc
             ProcessScenarioLinkImpl.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByscenarioId",
             new String[] { Long.class.getName() },
-            ProcessScenarioLinkModelImpl.SCENARIO_ID_COLUMN_BITMASK);
+            ProcessScenarioLinkModelImpl.SCENARIO_ID_COLUMN_BITMASK |
+            ProcessScenarioLinkModelImpl.ORDER_COLUMN_BITMASK);
     public static final FinderPath FINDER_PATH_COUNT_BY_SCENARIOID = new FinderPath(ProcessScenarioLinkModelImpl.ENTITY_CACHE_ENABLED,
             ProcessScenarioLinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByscenarioId",
             new String[] { Long.class.getName() });
     private static final String _FINDER_COLUMN_SCENARIOID_SCENARIO_ID_2 = "processScenarioLink.scenario_id = ?";
+    public static final FinderPath FINDER_PATH_FETCH_BY_PAUSE = new FinderPath(ProcessScenarioLinkModelImpl.ENTITY_CACHE_ENABLED,
+            ProcessScenarioLinkModelImpl.FINDER_CACHE_ENABLED,
+            ProcessScenarioLinkImpl.class, FINDER_CLASS_NAME_ENTITY,
+            "fetchByPause",
+            new String[] {
+                Long.class.getName(), Long.class.getName(),
+                Integer.class.getName()
+            },
+            ProcessScenarioLinkModelImpl.PROCESS_ID_COLUMN_BITMASK |
+            ProcessScenarioLinkModelImpl.SCENARIO_ID_COLUMN_BITMASK |
+            ProcessScenarioLinkModelImpl.ORDER_COLUMN_BITMASK);
+    public static final FinderPath FINDER_PATH_COUNT_BY_PAUSE = new FinderPath(ProcessScenarioLinkModelImpl.ENTITY_CACHE_ENABLED,
+            ProcessScenarioLinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPause",
+            new String[] {
+                Long.class.getName(), Long.class.getName(),
+                Integer.class.getName()
+            });
+    private static final String _FINDER_COLUMN_PAUSE_PROCESS_ID_2 = "processScenarioLink.process_id = ? AND ";
+    private static final String _FINDER_COLUMN_PAUSE_SCENARIO_ID_2 = "processScenarioLink.scenario_id = ? AND ";
+    private static final String _FINDER_COLUMN_PAUSE_ORDER_2 = "processScenarioLink.order = ?";
     private static final String _SQL_SELECT_PROCESSSCENARIOLINK = "SELECT processScenarioLink FROM ProcessScenarioLink processScenarioLink";
     private static final String _SQL_SELECT_PROCESSSCENARIOLINK_WHERE = "SELECT processScenarioLink FROM ProcessScenarioLink processScenarioLink WHERE ";
     private static final String _SQL_COUNT_PROCESSSCENARIOLINK = "SELECT COUNT(processScenarioLink) FROM ProcessScenarioLink processScenarioLink";
@@ -1061,6 +1084,239 @@ public class ProcessScenarioLinkPersistenceImpl extends BasePersistenceImpl<Proc
     }
 
     /**
+     * Returns the process scenario link where process_id = &#63; and scenario_id = &#63; and order = &#63; or throws a {@link com.excilys.liferay.gatling.NoSuchProcessScenarioLinkException} if it could not be found.
+     *
+     * @param process_id the process_id
+     * @param scenario_id the scenario_id
+     * @param order the order
+     * @return the matching process scenario link
+     * @throws com.excilys.liferay.gatling.NoSuchProcessScenarioLinkException if a matching process scenario link could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public ProcessScenarioLink findByPause(long process_id, long scenario_id,
+        int order) throws NoSuchProcessScenarioLinkException, SystemException {
+        ProcessScenarioLink processScenarioLink = fetchByPause(process_id,
+                scenario_id, order);
+
+        if (processScenarioLink == null) {
+            StringBundler msg = new StringBundler(8);
+
+            msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+            msg.append("process_id=");
+            msg.append(process_id);
+
+            msg.append(", scenario_id=");
+            msg.append(scenario_id);
+
+            msg.append(", order=");
+            msg.append(order);
+
+            msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+            if (_log.isWarnEnabled()) {
+                _log.warn(msg.toString());
+            }
+
+            throw new NoSuchProcessScenarioLinkException(msg.toString());
+        }
+
+        return processScenarioLink;
+    }
+
+    /**
+     * Returns the process scenario link where process_id = &#63; and scenario_id = &#63; and order = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+     *
+     * @param process_id the process_id
+     * @param scenario_id the scenario_id
+     * @param order the order
+     * @return the matching process scenario link, or <code>null</code> if a matching process scenario link could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public ProcessScenarioLink fetchByPause(long process_id, long scenario_id,
+        int order) throws SystemException {
+        return fetchByPause(process_id, scenario_id, order, true);
+    }
+
+    /**
+     * Returns the process scenario link where process_id = &#63; and scenario_id = &#63; and order = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+     *
+     * @param process_id the process_id
+     * @param scenario_id the scenario_id
+     * @param order the order
+     * @param retrieveFromCache whether to use the finder cache
+     * @return the matching process scenario link, or <code>null</code> if a matching process scenario link could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public ProcessScenarioLink fetchByPause(long process_id, long scenario_id,
+        int order, boolean retrieveFromCache) throws SystemException {
+        Object[] finderArgs = new Object[] { process_id, scenario_id, order };
+
+        Object result = null;
+
+        if (retrieveFromCache) {
+            result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_PAUSE,
+                    finderArgs, this);
+        }
+
+        if (result instanceof ProcessScenarioLink) {
+            ProcessScenarioLink processScenarioLink = (ProcessScenarioLink) result;
+
+            if ((process_id != processScenarioLink.getProcess_id()) ||
+                    (scenario_id != processScenarioLink.getScenario_id()) ||
+                    (order != processScenarioLink.getOrder())) {
+                result = null;
+            }
+        }
+
+        if (result == null) {
+            StringBundler query = new StringBundler(5);
+
+            query.append(_SQL_SELECT_PROCESSSCENARIOLINK_WHERE);
+
+            query.append(_FINDER_COLUMN_PAUSE_PROCESS_ID_2);
+
+            query.append(_FINDER_COLUMN_PAUSE_SCENARIO_ID_2);
+
+            query.append(_FINDER_COLUMN_PAUSE_ORDER_2);
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                qPos.add(process_id);
+
+                qPos.add(scenario_id);
+
+                qPos.add(order);
+
+                List<ProcessScenarioLink> list = q.list();
+
+                if (list.isEmpty()) {
+                    FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_PAUSE,
+                        finderArgs, list);
+                } else {
+                    ProcessScenarioLink processScenarioLink = list.get(0);
+
+                    result = processScenarioLink;
+
+                    cacheResult(processScenarioLink);
+
+                    if ((processScenarioLink.getProcess_id() != process_id) ||
+                            (processScenarioLink.getScenario_id() != scenario_id) ||
+                            (processScenarioLink.getOrder() != order)) {
+                        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_PAUSE,
+                            finderArgs, processScenarioLink);
+                    }
+                }
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_PAUSE,
+                    finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        if (result instanceof List<?>) {
+            return null;
+        } else {
+            return (ProcessScenarioLink) result;
+        }
+    }
+
+    /**
+     * Removes the process scenario link where process_id = &#63; and scenario_id = &#63; and order = &#63; from the database.
+     *
+     * @param process_id the process_id
+     * @param scenario_id the scenario_id
+     * @param order the order
+     * @return the process scenario link that was removed
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public ProcessScenarioLink removeByPause(long process_id, long scenario_id,
+        int order) throws NoSuchProcessScenarioLinkException, SystemException {
+        ProcessScenarioLink processScenarioLink = findByPause(process_id,
+                scenario_id, order);
+
+        return remove(processScenarioLink);
+    }
+
+    /**
+     * Returns the number of process scenario links where process_id = &#63; and scenario_id = &#63; and order = &#63;.
+     *
+     * @param process_id the process_id
+     * @param scenario_id the scenario_id
+     * @param order the order
+     * @return the number of matching process scenario links
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByPause(long process_id, long scenario_id, int order)
+        throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_PAUSE;
+
+        Object[] finderArgs = new Object[] { process_id, scenario_id, order };
+
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler(4);
+
+            query.append(_SQL_COUNT_PROCESSSCENARIOLINK_WHERE);
+
+            query.append(_FINDER_COLUMN_PAUSE_PROCESS_ID_2);
+
+            query.append(_FINDER_COLUMN_PAUSE_SCENARIO_ID_2);
+
+            query.append(_FINDER_COLUMN_PAUSE_ORDER_2);
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                qPos.add(process_id);
+
+                qPos.add(scenario_id);
+
+                qPos.add(order);
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
+    }
+
+    /**
      * Caches the process scenario link in the entity cache if it is enabled.
      *
      * @param processScenarioLink the process scenario link
@@ -1070,6 +1326,13 @@ public class ProcessScenarioLinkPersistenceImpl extends BasePersistenceImpl<Proc
         EntityCacheUtil.putResult(ProcessScenarioLinkModelImpl.ENTITY_CACHE_ENABLED,
             ProcessScenarioLinkImpl.class, processScenarioLink.getPrimaryKey(),
             processScenarioLink);
+
+        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_PAUSE,
+            new Object[] {
+                processScenarioLink.getProcess_id(),
+                processScenarioLink.getScenario_id(),
+                processScenarioLink.getOrder()
+            }, processScenarioLink);
 
         processScenarioLink.resetOriginalValues();
     }
@@ -1127,6 +1390,8 @@ public class ProcessScenarioLinkPersistenceImpl extends BasePersistenceImpl<Proc
 
         FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
         FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+        clearUniqueFindersCache(processScenarioLink);
     }
 
     @Override
@@ -1138,6 +1403,66 @@ public class ProcessScenarioLinkPersistenceImpl extends BasePersistenceImpl<Proc
             EntityCacheUtil.removeResult(ProcessScenarioLinkModelImpl.ENTITY_CACHE_ENABLED,
                 ProcessScenarioLinkImpl.class,
                 processScenarioLink.getPrimaryKey());
+
+            clearUniqueFindersCache(processScenarioLink);
+        }
+    }
+
+    protected void cacheUniqueFindersCache(
+        ProcessScenarioLink processScenarioLink) {
+        if (processScenarioLink.isNew()) {
+            Object[] args = new Object[] {
+                    processScenarioLink.getProcess_id(),
+                    processScenarioLink.getScenario_id(),
+                    processScenarioLink.getOrder()
+                };
+
+            FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_PAUSE, args,
+                Long.valueOf(1));
+            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_PAUSE, args,
+                processScenarioLink);
+        } else {
+            ProcessScenarioLinkModelImpl processScenarioLinkModelImpl = (ProcessScenarioLinkModelImpl) processScenarioLink;
+
+            if ((processScenarioLinkModelImpl.getColumnBitmask() &
+                    FINDER_PATH_FETCH_BY_PAUSE.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] {
+                        processScenarioLink.getProcess_id(),
+                        processScenarioLink.getScenario_id(),
+                        processScenarioLink.getOrder()
+                    };
+
+                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_PAUSE, args,
+                    Long.valueOf(1));
+                FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_PAUSE, args,
+                    processScenarioLink);
+            }
+        }
+    }
+
+    protected void clearUniqueFindersCache(
+        ProcessScenarioLink processScenarioLink) {
+        ProcessScenarioLinkModelImpl processScenarioLinkModelImpl = (ProcessScenarioLinkModelImpl) processScenarioLink;
+
+        Object[] args = new Object[] {
+                processScenarioLink.getProcess_id(),
+                processScenarioLink.getScenario_id(),
+                processScenarioLink.getOrder()
+            };
+
+        FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_PAUSE, args);
+        FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_PAUSE, args);
+
+        if ((processScenarioLinkModelImpl.getColumnBitmask() &
+                FINDER_PATH_FETCH_BY_PAUSE.getColumnBitmask()) != 0) {
+            args = new Object[] {
+                    processScenarioLinkModelImpl.getOriginalProcess_id(),
+                    processScenarioLinkModelImpl.getOriginalScenario_id(),
+                    processScenarioLinkModelImpl.getOriginalOrder()
+                };
+
+            FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_PAUSE, args);
+            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_PAUSE, args);
         }
     }
 
@@ -1318,6 +1643,9 @@ public class ProcessScenarioLinkPersistenceImpl extends BasePersistenceImpl<Proc
         EntityCacheUtil.putResult(ProcessScenarioLinkModelImpl.ENTITY_CACHE_ENABLED,
             ProcessScenarioLinkImpl.class, processScenarioLink.getPrimaryKey(),
             processScenarioLink);
+
+        clearUniqueFindersCache(processScenarioLink);
+        cacheUniqueFindersCache(processScenarioLink);
 
         return processScenarioLink;
     }

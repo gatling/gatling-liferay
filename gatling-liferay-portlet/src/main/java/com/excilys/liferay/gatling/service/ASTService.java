@@ -22,19 +22,13 @@ import com.excilys.liferay.gatling.model.AST.feeder.data.RecordDataAST;
 import com.excilys.liferay.gatling.model.AST.feeder.data.SiteMapDataAST;
 import com.excilys.liferay.gatling.model.AST.process.ProcessAST;
 import com.excilys.liferay.gatling.service.mapper.ASTMapper;
-import com.excilys.liferay.gatling.service.persistence.SiteMapUtil;
-import com.excilys.liferay.gatling.service.persistence.UrlSiteMapUtil;
-import com.excilys.liferay.gatling.util.GatlingUtil;
-import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.service.GroupLocalServiceUtil;
-import com.liferay.portal.theme.ThemeDisplay;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ASTService {
@@ -54,13 +48,17 @@ public class ASTService {
 	
 	public static List<ProcessAST> computesProcessesAST(long scenario_id, String portalURL) throws SystemException, PortalException {
 		List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(scenario_id);
-		return ASTMapper.mapProcessesToAST(processes, portalURL);
+		List<Integer> pauses = new ArrayList<>(processes.size());
+		for(int i=0; i < processes.size(); i++){
+			pauses.add(ProcessLocalServiceUtil.findPause(scenario_id, processes.get(i).getProcess_id(), i));
+		}
+		return ASTMapper.mapProcessesToAST(processes, pauses, portalURL);
 	}
 	
 	public static UserFeederFileAST computesUserFeederFileAST(long processId) throws NoSuchProcessException, NoSuchModelException, SystemException {
 		Login login = LoginLocalServiceUtil.findByProcessId(processId);
 		if(login == null){
-			LOG.debug("ARTUNGH");
+			LOG.debug("ACHTUNG");
 			//TODO: Raise a custom exception
 		}
 		return ASTMapper.mapLoginToAST(login);
@@ -69,6 +67,7 @@ public class ASTService {
 	public static RecordFileAST computesRecordFeederFileAST(long processId) throws PortalException, SystemException{
 		Record record = RecordLocalServiceUtil.findByProcessId(processId);
 		if(record == null){
+			LOG.debug("ACHTUNG ! Es ist ein kartoffel !");
 			//TODO: Raise a custom exception
 		}
 		return ASTMapper.mapRecordToAST(record);
@@ -98,6 +97,6 @@ public class ASTService {
 		List<UrlSiteMap> data = UrlSiteMapLocalServiceUtil.findBySiteMapId(siteMapId);
 		return ASTMapper.mapUrlsitesToAST(data);
 	}
-	
+
 	
 }

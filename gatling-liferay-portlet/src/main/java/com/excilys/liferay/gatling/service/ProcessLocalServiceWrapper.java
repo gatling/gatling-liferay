@@ -280,13 +280,19 @@ public class ProcessLocalServiceWrapper implements ProcessLocalService,
     }
 
     @Override
+    public int findPause(long scenarioId, long processesId, int order)
+        throws com.excilys.liferay.gatling.NoSuchProcessScenarioLinkException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return _processLocalService.findPause(scenarioId, processesId, order);
+    }
+
+    @Override
     public com.excilys.liferay.gatling.model.Process createProcess(
         java.lang.String name,
         com.excilys.liferay.gatling.model.ProcessType type,
-        java.lang.Long feederId, int pause, int order)
+        java.lang.Long feederId)
         throws com.liferay.portal.kernel.exception.SystemException {
-        return _processLocalService.createProcess(name, type, feederId, pause,
-            order);
+        return _processLocalService.createProcess(name, type, feederId);
     }
 
     @Override

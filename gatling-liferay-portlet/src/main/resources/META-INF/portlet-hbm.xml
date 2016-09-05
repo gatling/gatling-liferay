@@ -47,8 +47,6 @@
 		</id>
 		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" column="type_" />
-		<property name="order" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="order_" />
-		<property name="pause" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="feederId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="com.excilys.liferay.gatling.model.impl.ProcessScenarioLinkImpl" table="StressTool_ProcessScenarioLink">

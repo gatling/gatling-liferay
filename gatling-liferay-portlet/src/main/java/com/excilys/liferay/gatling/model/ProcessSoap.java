@@ -15,8 +15,6 @@ public class ProcessSoap implements Serializable {
     private long _process_id;
     private String _name;
     private String _type;
-    private int _order;
-    private int _pause;
     private Long _feederId;
 
     public ProcessSoap() {
@@ -28,8 +26,6 @@ public class ProcessSoap implements Serializable {
         soapModel.setProcess_id(model.getProcess_id());
         soapModel.setName(model.getName());
         soapModel.setType(model.getType());
-        soapModel.setOrder(model.getOrder());
-        soapModel.setPause(model.getPause());
         soapModel.setFeederId(model.getFeederId());
 
         return soapModel;
@@ -101,22 +97,6 @@ public class ProcessSoap implements Serializable {
 
     public void setType(String type) {
         _type = type;
-    }
-
-    public int getOrder() {
-        return _order;
-    }
-
-    public void setOrder(int order) {
-        _order = order;
-    }
-
-    public int getPause() {
-        return _pause;
-    }
-
-    public void setPause(int pause) {
-        _pause = pause;
     }
 
     public Long getFeederId() {

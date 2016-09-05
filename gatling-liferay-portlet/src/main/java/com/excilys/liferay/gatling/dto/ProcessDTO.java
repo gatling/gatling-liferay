@@ -6,12 +6,12 @@ public class ProcessDTO implements Comparable<ProcessDTO>{
 
 	private String name;
 	private long id;
-	private int pause;
+	private String type;
 	
-	public ProcessDTO(String name, long id, int pause) {
+	public ProcessDTO(String name, long id, String type) {
 		this.name = name;
 		this.id = id;
-		this.pause = pause;
+		this.type = type;
 	}
 
 	public String getName() {
@@ -29,21 +29,21 @@ public class ProcessDTO implements Comparable<ProcessDTO>{
 	public void setId(long id) {
 		this.id = id;
 	}
-
-	public int getPause() {
-		return pause;
+	
+	public String getType() {
+		return type;
 	}
 
-	public void setPause(int pause) {
-		this.pause = pause;
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public boolean isPause(){
+		return false;
 	}
 	
-	
-	@Override
 	public int compareTo(ProcessDTO other) {
 		return this.name.compareTo(other.name);
 	}
-	
-	
-	
+
 }

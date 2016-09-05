@@ -300,6 +300,74 @@ public interface ProcessScenarioLinkPersistence extends BasePersistence<ProcessS
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Returns the process scenario link where process_id = &#63; and scenario_id = &#63; and order = &#63; or throws a {@link com.excilys.liferay.gatling.NoSuchProcessScenarioLinkException} if it could not be found.
+    *
+    * @param process_id the process_id
+    * @param scenario_id the scenario_id
+    * @param order the order
+    * @return the matching process scenario link
+    * @throws com.excilys.liferay.gatling.NoSuchProcessScenarioLinkException if a matching process scenario link could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.excilys.liferay.gatling.model.ProcessScenarioLink findByPause(
+        long process_id, long scenario_id, int order)
+        throws com.excilys.liferay.gatling.NoSuchProcessScenarioLinkException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the process scenario link where process_id = &#63; and scenario_id = &#63; and order = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+    *
+    * @param process_id the process_id
+    * @param scenario_id the scenario_id
+    * @param order the order
+    * @return the matching process scenario link, or <code>null</code> if a matching process scenario link could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.excilys.liferay.gatling.model.ProcessScenarioLink fetchByPause(
+        long process_id, long scenario_id, int order)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the process scenario link where process_id = &#63; and scenario_id = &#63; and order = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+    *
+    * @param process_id the process_id
+    * @param scenario_id the scenario_id
+    * @param order the order
+    * @param retrieveFromCache whether to use the finder cache
+    * @return the matching process scenario link, or <code>null</code> if a matching process scenario link could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.excilys.liferay.gatling.model.ProcessScenarioLink fetchByPause(
+        long process_id, long scenario_id, int order, boolean retrieveFromCache)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Removes the process scenario link where process_id = &#63; and scenario_id = &#63; and order = &#63; from the database.
+    *
+    * @param process_id the process_id
+    * @param scenario_id the scenario_id
+    * @param order the order
+    * @return the process scenario link that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public com.excilys.liferay.gatling.model.ProcessScenarioLink removeByPause(
+        long process_id, long scenario_id, int order)
+        throws com.excilys.liferay.gatling.NoSuchProcessScenarioLinkException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of process scenario links where process_id = &#63; and scenario_id = &#63; and order = &#63;.
+    *
+    * @param process_id the process_id
+    * @param scenario_id the scenario_id
+    * @param order the order
+    * @return the number of matching process scenario links
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByPause(long process_id, long scenario_id, int order)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Caches the process scenario link in the entity cache if it is enabled.
     *
     * @param processScenarioLink the process scenario link

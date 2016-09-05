@@ -88,34 +88,6 @@ public interface ProcessModel extends BaseModel<Process> {
     public void setType(String type);
 
     /**
-     * Returns the order of this process.
-     *
-     * @return the order of this process
-     */
-    public int getOrder();
-
-    /**
-     * Sets the order of this process.
-     *
-     * @param order the order of this process
-     */
-    public void setOrder(int order);
-
-    /**
-     * Returns the pause of this process.
-     *
-     * @return the pause of this process
-     */
-    public int getPause();
-
-    /**
-     * Sets the pause of this process.
-     *
-     * @param pause the pause of this process
-     */
-    public void setPause(int pause);
-
-    /**
      * Returns the feeder ID of this process.
      *
      * @return the feeder ID of this process

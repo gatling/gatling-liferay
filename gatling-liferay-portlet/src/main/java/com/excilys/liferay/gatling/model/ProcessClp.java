@@ -22,8 +22,6 @@ public class ProcessClp extends BaseModelImpl<Process> implements Process {
     private long _process_id;
     private String _name;
     private String _type;
-    private int _order;
-    private int _pause;
     private Long _feederId;
     private BaseModel<?> _processRemoteModel;
     private Class<?> _clpSerializerClass = com.excilys.liferay.gatling.service.ClpSerializer.class;
@@ -68,8 +66,6 @@ public class ProcessClp extends BaseModelImpl<Process> implements Process {
         attributes.put("process_id", getProcess_id());
         attributes.put("name", getName());
         attributes.put("type", getType());
-        attributes.put("order", getOrder());
-        attributes.put("pause", getPause());
         attributes.put("feederId", getFeederId());
 
         return attributes;
@@ -93,18 +89,6 @@ public class ProcessClp extends BaseModelImpl<Process> implements Process {
 
         if (type != null) {
             setType(type);
-        }
-
-        Integer order = (Integer) attributes.get("order");
-
-        if (order != null) {
-            setOrder(order);
-        }
-
-        Integer pause = (Integer) attributes.get("pause");
-
-        if (pause != null) {
-            setPause(pause);
         }
 
         Long feederId = (Long) attributes.get("feederId");
@@ -174,50 +158,6 @@ public class ProcessClp extends BaseModelImpl<Process> implements Process {
                 Method method = clazz.getMethod("setType", String.class);
 
                 method.invoke(_processRemoteModel, type);
-            } catch (Exception e) {
-                throw new UnsupportedOperationException(e);
-            }
-        }
-    }
-
-    @Override
-    public int getOrder() {
-        return _order;
-    }
-
-    @Override
-    public void setOrder(int order) {
-        _order = order;
-
-        if (_processRemoteModel != null) {
-            try {
-                Class<?> clazz = _processRemoteModel.getClass();
-
-                Method method = clazz.getMethod("setOrder", int.class);
-
-                method.invoke(_processRemoteModel, order);
-            } catch (Exception e) {
-                throw new UnsupportedOperationException(e);
-            }
-        }
-    }
-
-    @Override
-    public int getPause() {
-        return _pause;
-    }
-
-    @Override
-    public void setPause(int pause) {
-        _pause = pause;
-
-        if (_processRemoteModel != null) {
-            try {
-                Class<?> clazz = _processRemoteModel.getClass();
-
-                Method method = clazz.getMethod("setPause", int.class);
-
-                method.invoke(_processRemoteModel, pause);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -316,8 +256,6 @@ public class ProcessClp extends BaseModelImpl<Process> implements Process {
         clone.setProcess_id(getProcess_id());
         clone.setName(getName());
         clone.setType(getType());
-        clone.setOrder(getOrder());
-        clone.setPause(getPause());
         clone.setFeederId(getFeederId());
 
         return clone;
@@ -325,21 +263,15 @@ public class ProcessClp extends BaseModelImpl<Process> implements Process {
 
     @Override
     public int compareTo(Process process) {
-        int value = 0;
+        long primaryKey = process.getPrimaryKey();
 
-        if (getOrder() < process.getOrder()) {
-            value = -1;
-        } else if (getOrder() > process.getOrder()) {
-            value = 1;
+        if (getPrimaryKey() < primaryKey) {
+            return -1;
+        } else if (getPrimaryKey() > primaryKey) {
+            return 1;
         } else {
-            value = 0;
+            return 0;
         }
-
-        if (value != 0) {
-            return value;
-        }
-
-        return 0;
     }
 
     @Override
@@ -374,7 +306,7 @@ public class ProcessClp extends BaseModelImpl<Process> implements Process {
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(9);
 
         sb.append("{process_id=");
         sb.append(getProcess_id());
@@ -382,10 +314,6 @@ public class ProcessClp extends BaseModelImpl<Process> implements Process {
         sb.append(getName());
         sb.append(", type=");
         sb.append(getType());
-        sb.append(", order=");
-        sb.append(getOrder());
-        sb.append(", pause=");
-        sb.append(getPause());
         sb.append(", feederId=");
         sb.append(getFeederId());
         sb.append("}");
@@ -395,7 +323,7 @@ public class ProcessClp extends BaseModelImpl<Process> implements Process {
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(22);
+        StringBundler sb = new StringBundler(16);
 
         sb.append("<model><model-name>");
         sb.append("com.excilys.liferay.gatling.model.Process");
@@ -412,14 +340,6 @@ public class ProcessClp extends BaseModelImpl<Process> implements Process {
         sb.append(
             "<column><column-name>type</column-name><column-value><![CDATA[");
         sb.append(getType());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>order</column-name><column-value><![CDATA[");
-        sb.append(getOrder());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>pause</column-name><column-value><![CDATA[");
-        sb.append(getPause());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>feederId</column-name><column-value><![CDATA[");

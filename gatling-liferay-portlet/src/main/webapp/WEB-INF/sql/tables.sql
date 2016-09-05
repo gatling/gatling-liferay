@@ -28,8 +28,6 @@ create table StressTool_Process (
 	process_id LONG not null primary key,
 	name VARCHAR(75) null,
 	type_ VARCHAR(75) null,
-	order_ INTEGER,
-	pause INTEGER,
 	feederId LONG
 );
 

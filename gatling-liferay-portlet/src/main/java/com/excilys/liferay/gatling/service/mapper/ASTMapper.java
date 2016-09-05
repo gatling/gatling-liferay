@@ -56,17 +56,16 @@ public class ASTMapper {
 		return new ScenarioAST(scenario.getName(), scenario.getNumberOfUsers(), scenario.getInjection(), scenario.getDuration(), processList);
 	}
 	
-	public static List<ProcessAST> mapProcessesToAST(List<Process> processes, String portalURL) throws PortalException, SystemException {
+	public static List<ProcessAST> mapProcessesToAST(List<Process> processes, List<Integer> pauses, String portalURL) throws PortalException, SystemException {
 		List<ProcessAST> processesAST = new ArrayList<ProcessAST>(processes.size());
-		for (Process process : processes) {
-			
-			ProcessAST processAST = mapProcessToAST(process, portalURL);
+		for(int i = 0; i < processes.size(); i++) {
+			ProcessAST processAST = mapProcessToAST(processes.get(i), pauses.get(i), portalURL);
 			processesAST.add(processAST);
 		}
 		return processesAST;
 	}
 	
-	public static ProcessAST mapProcessToAST(Process process, String portalURL) throws PortalException, SystemException {
+	public static ProcessAST mapProcessToAST(Process process, int pause, String portalURL) throws PortalException, SystemException {
 		ProcessAST ast = null;
 		
 		switch(ProcessType.valueOf(process.getType())) {
@@ -80,7 +79,6 @@ public class ASTMapper {
 				break;
 			case RANDOMPAGE:
 				SiteMapFeederFileAST siteMap = ASTService.computesSiteMapFeederFileAST(process.getProcess_id());
-//				SiteMapFeederFileAST siteMap = new SiteMapFeederFileAST("hey", ASTMapper.siteMap);
 				ast = new RandomPageAST(siteMap);
 				break;
 			case LOGOUT:
@@ -91,7 +89,7 @@ public class ASTMapper {
 				break;
 		}
 		
-		ast.setPause(process.getPause());
+		ast.setPause(pause);
 		return ast;
 	}
 	
@@ -148,12 +146,5 @@ public class ASTMapper {
 		return dataAST;
 	}
 	
-	
 
-	
-
-
-	
-	
-	
 }

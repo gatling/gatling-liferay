@@ -51,8 +51,8 @@ public class ProcessScenarioLinkModelImpl extends BaseModelImpl<ProcessScenarioL
         };
     public static final String TABLE_SQL_CREATE = "create table StressTool_ProcessScenarioLink (psl_id LONG not null primary key,process_id LONG,scenario_id LONG,order_ INTEGER,pause INTEGER)";
     public static final String TABLE_SQL_DROP = "drop table StressTool_ProcessScenarioLink";
-    public static final String ORDER_BY_JPQL = " ORDER BY processScenarioLink.psl_id ASC";
-    public static final String ORDER_BY_SQL = " ORDER BY StressTool_ProcessScenarioLink.psl_id ASC";
+    public static final String ORDER_BY_JPQL = " ORDER BY processScenarioLink.order ASC";
+    public static final String ORDER_BY_SQL = " ORDER BY StressTool_ProcessScenarioLink.order_ ASC";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
     public static final String TX_MANAGER = "liferayTransactionManager";
@@ -65,9 +65,9 @@ public class ProcessScenarioLinkModelImpl extends BaseModelImpl<ProcessScenarioL
     public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
                 "value.object.column.bitmask.enabled.com.excilys.liferay.gatling.model.ProcessScenarioLink"),
             true);
-    public static long PROCESS_ID_COLUMN_BITMASK = 1L;
-    public static long SCENARIO_ID_COLUMN_BITMASK = 2L;
-    public static long PSL_ID_COLUMN_BITMASK = 4L;
+    public static long ORDER_COLUMN_BITMASK = 1L;
+    public static long PROCESS_ID_COLUMN_BITMASK = 2L;
+    public static long SCENARIO_ID_COLUMN_BITMASK = 4L;
     public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
                 "lock.expiration.time.com.excilys.liferay.gatling.model.ProcessScenarioLink"));
     private static ClassLoader _classLoader = ProcessScenarioLink.class.getClassLoader();
@@ -82,6 +82,8 @@ public class ProcessScenarioLinkModelImpl extends BaseModelImpl<ProcessScenarioL
     private long _originalScenario_id;
     private boolean _setOriginalScenario_id;
     private int _order;
+    private int _originalOrder;
+    private boolean _setOriginalOrder;
     private int _pause;
     private long _columnBitmask;
     private ProcessScenarioLink _escapedModel;
@@ -226,7 +228,19 @@ public class ProcessScenarioLinkModelImpl extends BaseModelImpl<ProcessScenarioL
 
     @Override
     public void setOrder(int order) {
+        _columnBitmask = -1L;
+
+        if (!_setOriginalOrder) {
+            _setOriginalOrder = true;
+
+            _originalOrder = _order;
+        }
+
         _order = order;
+    }
+
+    public int getOriginalOrder() {
+        return _originalOrder;
     }
 
     @Override
@@ -283,15 +297,21 @@ public class ProcessScenarioLinkModelImpl extends BaseModelImpl<ProcessScenarioL
 
     @Override
     public int compareTo(ProcessScenarioLink processScenarioLink) {
-        long primaryKey = processScenarioLink.getPrimaryKey();
+        int value = 0;
 
-        if (getPrimaryKey() < primaryKey) {
-            return -1;
-        } else if (getPrimaryKey() > primaryKey) {
-            return 1;
+        if (getOrder() < processScenarioLink.getOrder()) {
+            value = -1;
+        } else if (getOrder() > processScenarioLink.getOrder()) {
+            value = 1;
         } else {
-            return 0;
+            value = 0;
         }
+
+        if (value != 0) {
+            return value;
+        }
+
+        return 0;
     }
 
     @Override
@@ -331,6 +351,10 @@ public class ProcessScenarioLinkModelImpl extends BaseModelImpl<ProcessScenarioL
         processScenarioLinkModelImpl._originalScenario_id = processScenarioLinkModelImpl._scenario_id;
 
         processScenarioLinkModelImpl._setOriginalScenario_id = false;
+
+        processScenarioLinkModelImpl._originalOrder = processScenarioLinkModelImpl._order;
+
+        processScenarioLinkModelImpl._setOriginalOrder = false;
 
         processScenarioLinkModelImpl._columnBitmask = 0;
     }

@@ -39,8 +39,6 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
         attributes.put("process_id", getProcess_id());
         attributes.put("name", getName());
         attributes.put("type", getType());
-        attributes.put("order", getOrder());
-        attributes.put("pause", getPause());
         attributes.put("feederId", getFeederId());
 
         return attributes;
@@ -64,18 +62,6 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
 
         if (type != null) {
             setType(type);
-        }
-
-        Integer order = (Integer) attributes.get("order");
-
-        if (order != null) {
-            setOrder(order);
-        }
-
-        Integer pause = (Integer) attributes.get("pause");
-
-        if (pause != null) {
-            setPause(pause);
         }
 
         Long feederId = (Long) attributes.get("feederId");
@@ -163,46 +149,6 @@ public class ProcessWrapper implements Process, ModelWrapper<Process> {
     @Override
     public void setType(java.lang.String type) {
         _process.setType(type);
-    }
-
-    /**
-    * Returns the order of this process.
-    *
-    * @return the order of this process
-    */
-    @Override
-    public int getOrder() {
-        return _process.getOrder();
-    }
-
-    /**
-    * Sets the order of this process.
-    *
-    * @param order the order of this process
-    */
-    @Override
-    public void setOrder(int order) {
-        _process.setOrder(order);
-    }
-
-    /**
-    * Returns the pause of this process.
-    *
-    * @return the pause of this process
-    */
-    @Override
-    public int getPause() {
-        return _process.getPause();
-    }
-
-    /**
-    * Sets the pause of this process.
-    *
-    * @param pause the pause of this process
-    */
-    @Override
-    public void setPause(int pause) {
-        _process.setPause(pause);
     }
 
     /**

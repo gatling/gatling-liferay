@@ -90,18 +90,18 @@ public class ViewController {
 			SiteMap defaultSiteMap = SiteMapLocalServiceUtil.siteMapCreation(themeDisplay, defaultScenario.getGroup_id());
 			
 			Process login = ProcessLocalServiceUtil.createProcess("Login", ProcessType.LOGIN,
-					defaultLogin.getPrimaryKey(), 2, 0);
+					defaultLogin.getPrimaryKey());
 			
 			Process random = ProcessLocalServiceUtil.createProcess("Random Page", ProcessType.RANDOMPAGE,
-					defaultSiteMap.getPrimaryKey(), 3, 1);
+					defaultSiteMap.getPrimaryKey());
 			
-			Process logout = ProcessLocalServiceUtil.createProcess("Logout", ProcessType.LOGOUT, null, 1, 2);
+			Process logout = ProcessLocalServiceUtil.createProcess("Logout", ProcessType.LOGOUT, null);
 			
 			long scenarioId = defaultScenario.getScenario_id();
 			
-			ScenarioLocalServiceUtil.addProcess(scenarioId, login.getProcess_id(), 0, 2);
-			ScenarioLocalServiceUtil.addProcess(scenarioId, random.getProcess_id(), 0, 2);
-			ScenarioLocalServiceUtil.addProcess(scenarioId, logout.getProcess_id(), 0, 2);
+			ScenarioLocalServiceUtil.addProcess(scenarioId, login.getProcess_id(), 0, 5);
+			ScenarioLocalServiceUtil.addProcess(scenarioId, random.getProcess_id(), 1, 10);
+			ScenarioLocalServiceUtil.addProcess(scenarioId, logout.getProcess_id(), 2, 0);
 			
 		}
 
@@ -163,14 +163,14 @@ public class ViewController {
 			scenario.setNumberOfUsers(numberOfUsers);
 			scenario.setDuration(rampUp);
 			
-			List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(scenario.getScenario_id());
-			for (Process process : processes) {
-				int time = ParamUtil.getInteger(request, process.getProcess_id()+"");
-				if(time != process.getPause()) {
-					process.setPause(time);
-					ProcessLocalServiceUtil.updateProcess(process);
-				}
-			}
+//			List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(scenario.getScenario_id());
+//			for (Process process : processes) {
+//				int time = ParamUtil.getInteger(request, process.getProcess_id()+"");
+//				if(time != process.getPause()) {
+//					process.setPause(time);
+//					ProcessLocalServiceUtil.updateProcess(process);
+//				}
+//			}
 			
 			ScenarioLocalServiceUtil.updateScenario(scenario);
 		}

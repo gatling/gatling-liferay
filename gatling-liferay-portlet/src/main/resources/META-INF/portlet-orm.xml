@@ -51,10 +51,6 @@
 			<basic name="type">
 				<column name="TYPE_" />
 			</basic>
-			<basic name="order">
-				<column name="ORDER_" />
-			</basic>
-			<basic name="pause" />
 			<basic name="feederId" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />

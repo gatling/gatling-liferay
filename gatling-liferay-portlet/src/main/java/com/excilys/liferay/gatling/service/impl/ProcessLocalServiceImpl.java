@@ -1,6 +1,7 @@
 package com.excilys.liferay.gatling.service.impl;
 
 import com.excilys.liferay.gatling.NoSuchProcessException;
+import com.excilys.liferay.gatling.NoSuchProcessScenarioLinkException;
 import com.excilys.liferay.gatling.model.Process;
 import com.excilys.liferay.gatling.model.ProcessScenarioLink;
 import com.excilys.liferay.gatling.model.ProcessType;
@@ -45,14 +46,19 @@ public class ProcessLocalServiceImpl extends ProcessLocalServiceBaseImpl {
 		return processes;
 	}
 	
+
 	@Override
-	public Process createProcess(String name, ProcessType type, Long feederId, int pause, int order) throws SystemException{
+	public int findPause(long scenarioId, long processesId, int order) throws NoSuchProcessScenarioLinkException, SystemException{
+		ProcessScenarioLink link = processScenarioLinkPersistence.findByPause(processesId, scenarioId, order);
+		return link.getPause();
+	}
+	
+	@Override
+	public Process createProcess(String name, ProcessType type, Long feederId) throws SystemException{
 		Process process = ProcessUtil.create(CounterLocalServiceUtil.increment(Process.class.getName()));
 		process.setName(name);
 		process.setType(type.name());
 		process.setFeederId(feederId);
-		process.setPause(pause);
-		process.setOrder(order);
 		process.persist();
 		return process;
 	}
@@ -61,5 +67,6 @@ public class ProcessLocalServiceImpl extends ProcessLocalServiceBaseImpl {
 	public Process findByName(String name) throws NoSuchProcessException, SystemException{
 		return processPersistence.findByName(name);
 	}
+	
 	
 }

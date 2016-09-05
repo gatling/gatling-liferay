@@ -47,14 +47,12 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
             { "process_id", Types.BIGINT },
             { "name", Types.VARCHAR },
             { "type_", Types.VARCHAR },
-            { "order_", Types.INTEGER },
-            { "pause", Types.INTEGER },
             { "feederId", Types.BIGINT }
         };
-    public static final String TABLE_SQL_CREATE = "create table StressTool_Process (process_id LONG not null primary key,name VARCHAR(75) null,type_ VARCHAR(75) null,order_ INTEGER,pause INTEGER,feederId LONG)";
+    public static final String TABLE_SQL_CREATE = "create table StressTool_Process (process_id LONG not null primary key,name VARCHAR(75) null,type_ VARCHAR(75) null,feederId LONG)";
     public static final String TABLE_SQL_DROP = "drop table StressTool_Process";
-    public static final String ORDER_BY_JPQL = " ORDER BY process.order ASC";
-    public static final String ORDER_BY_SQL = " ORDER BY StressTool_Process.order_ ASC";
+    public static final String ORDER_BY_JPQL = " ORDER BY process.process_id ASC";
+    public static final String ORDER_BY_SQL = " ORDER BY StressTool_Process.process_id ASC";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
     public static final String TX_MANAGER = "liferayTransactionManager";
@@ -68,7 +66,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
                 "value.object.column.bitmask.enabled.com.excilys.liferay.gatling.model.Process"),
             true);
     public static long NAME_COLUMN_BITMASK = 1L;
-    public static long ORDER_COLUMN_BITMASK = 2L;
+    public static long PROCESS_ID_COLUMN_BITMASK = 2L;
     public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
                 "lock.expiration.time.com.excilys.liferay.gatling.model.Process"));
     private static ClassLoader _classLoader = Process.class.getClassLoader();
@@ -79,8 +77,6 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
     private String _name;
     private String _originalName;
     private String _type;
-    private int _order;
-    private int _pause;
     private Long _feederId;
     private long _columnBitmask;
     private Process _escapedModel;
@@ -125,8 +121,6 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         attributes.put("process_id", getProcess_id());
         attributes.put("name", getName());
         attributes.put("type", getType());
-        attributes.put("order", getOrder());
-        attributes.put("pause", getPause());
         attributes.put("feederId", getFeederId());
 
         return attributes;
@@ -150,18 +144,6 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
         if (type != null) {
             setType(type);
-        }
-
-        Integer order = (Integer) attributes.get("order");
-
-        if (order != null) {
-            setOrder(order);
-        }
-
-        Integer pause = (Integer) attributes.get("pause");
-
-        if (pause != null) {
-            setPause(pause);
         }
 
         Long feederId = (Long) attributes.get("feederId");
@@ -220,28 +202,6 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
     }
 
     @Override
-    public int getOrder() {
-        return _order;
-    }
-
-    @Override
-    public void setOrder(int order) {
-        _columnBitmask = -1L;
-
-        _order = order;
-    }
-
-    @Override
-    public int getPause() {
-        return _pause;
-    }
-
-    @Override
-    public void setPause(int pause) {
-        _pause = pause;
-    }
-
-    @Override
     public Long getFeederId() {
         return _feederId;
     }
@@ -285,8 +245,6 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         processImpl.setProcess_id(getProcess_id());
         processImpl.setName(getName());
         processImpl.setType(getType());
-        processImpl.setOrder(getOrder());
-        processImpl.setPause(getPause());
         processImpl.setFeederId(getFeederId());
 
         processImpl.resetOriginalValues();
@@ -296,21 +254,15 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
     @Override
     public int compareTo(Process process) {
-        int value = 0;
+        long primaryKey = process.getPrimaryKey();
 
-        if (getOrder() < process.getOrder()) {
-            value = -1;
-        } else if (getOrder() > process.getOrder()) {
-            value = 1;
+        if (getPrimaryKey() < primaryKey) {
+            return -1;
+        } else if (getPrimaryKey() > primaryKey) {
+            return 1;
         } else {
-            value = 0;
+            return 0;
         }
-
-        if (value != 0) {
-            return value;
-        }
-
-        return 0;
     }
 
     @Override
@@ -370,10 +322,6 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
             processCacheModel.type = null;
         }
 
-        processCacheModel.order = getOrder();
-
-        processCacheModel.pause = getPause();
-
         processCacheModel.feederId = getFeederId();
 
         return processCacheModel;
@@ -381,7 +329,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(9);
 
         sb.append("{process_id=");
         sb.append(getProcess_id());
@@ -389,10 +337,6 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         sb.append(getName());
         sb.append(", type=");
         sb.append(getType());
-        sb.append(", order=");
-        sb.append(getOrder());
-        sb.append(", pause=");
-        sb.append(getPause());
         sb.append(", feederId=");
         sb.append(getFeederId());
         sb.append("}");
@@ -402,7 +346,7 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(22);
+        StringBundler sb = new StringBundler(16);
 
         sb.append("<model><model-name>");
         sb.append("com.excilys.liferay.gatling.model.Process");
@@ -419,14 +363,6 @@ public class ProcessModelImpl extends BaseModelImpl<Process>
         sb.append(
             "<column><column-name>type</column-name><column-value><![CDATA[");
         sb.append(getType());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>order</column-name><column-value><![CDATA[");
-        sb.append(getOrder());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>pause</column-name><column-value><![CDATA[");
-        sb.append(getPause());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>feederId</column-name><column-value><![CDATA[");

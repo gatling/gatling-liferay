@@ -270,12 +270,18 @@ public class ProcessLocalServiceUtil {
         return getService().findProcessFromScenarioId(scenarioId);
     }
 
+    public static int findPause(long scenarioId, long processesId, int order)
+        throws com.excilys.liferay.gatling.NoSuchProcessScenarioLinkException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getService().findPause(scenarioId, processesId, order);
+    }
+
     public static com.excilys.liferay.gatling.model.Process createProcess(
         java.lang.String name,
         com.excilys.liferay.gatling.model.ProcessType type,
-        java.lang.Long feederId, int pause, int order)
+        java.lang.Long feederId)
         throws com.liferay.portal.kernel.exception.SystemException {
-        return getService().createProcess(name, type, feederId, pause, order);
+        return getService().createProcess(name, type, feederId);
     }
 
     public static com.excilys.liferay.gatling.model.Process findByName(

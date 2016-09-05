@@ -297,15 +297,21 @@ public class ProcessScenarioLinkClp extends BaseModelImpl<ProcessScenarioLink>
 
     @Override
     public int compareTo(ProcessScenarioLink processScenarioLink) {
-        long primaryKey = processScenarioLink.getPrimaryKey();
+        int value = 0;
 
-        if (getPrimaryKey() < primaryKey) {
-            return -1;
-        } else if (getPrimaryKey() > primaryKey) {
-            return 1;
+        if (getOrder() < processScenarioLink.getOrder()) {
+            value = -1;
+        } else if (getOrder() > processScenarioLink.getOrder()) {
+            value = 1;
         } else {
-            return 0;
+            value = 0;
         }
+
+        if (value != 0) {
+            return value;
+        }
+
+        return 0;
     }
 
     @Override

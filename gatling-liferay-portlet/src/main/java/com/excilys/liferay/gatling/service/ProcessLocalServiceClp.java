@@ -50,6 +50,8 @@ public class ProcessLocalServiceClp implements ProcessLocalService {
     private String[] _methodParameterTypes20;
     private String _methodName21;
     private String[] _methodParameterTypes21;
+    private String _methodName22;
+    private String[] _methodParameterTypes22;
 
     public ProcessLocalServiceClp(InvokableLocalService invokableLocalService) {
         _invokableLocalService = invokableLocalService;
@@ -148,17 +150,21 @@ public class ProcessLocalServiceClp implements ProcessLocalService {
 
         _methodParameterTypes19 = new String[] { "long" };
 
-        _methodName20 = "createProcess";
+        _methodName20 = "findPause";
 
-        _methodParameterTypes20 = new String[] {
+        _methodParameterTypes20 = new String[] { "long", "long", "int" };
+
+        _methodName21 = "createProcess";
+
+        _methodParameterTypes21 = new String[] {
                 "java.lang.String",
                 "com.excilys.liferay.gatling.model.ProcessType",
-                "java.lang.Long", "int", "int"
+                "java.lang.Long"
             };
 
-        _methodName21 = "findByName";
+        _methodName22 = "findByName";
 
-        _methodParameterTypes21 = new String[] { "java.lang.String" };
+        _methodParameterTypes22 = new String[] { "java.lang.String" };
     }
 
     @Override
@@ -707,26 +713,54 @@ public class ProcessLocalServiceClp implements ProcessLocalService {
     }
 
     @Override
-    public com.excilys.liferay.gatling.model.Process createProcess(
-        java.lang.String name,
-        com.excilys.liferay.gatling.model.ProcessType type,
-        java.lang.Long feederId, int pause, int order)
-        throws com.liferay.portal.kernel.exception.SystemException {
+    public int findPause(long scenarioId, long processesId, int order)
+        throws com.excilys.liferay.gatling.NoSuchProcessScenarioLinkException,
+            com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
             returnObj = _invokableLocalService.invokeMethod(_methodName20,
                     _methodParameterTypes20,
+                    new Object[] { scenarioId, processesId, order });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.excilys.liferay.gatling.NoSuchProcessScenarioLinkException) {
+                throw (com.excilys.liferay.gatling.NoSuchProcessScenarioLinkException) t;
+            }
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return ((Integer) returnObj).intValue();
+    }
+
+    @Override
+    public com.excilys.liferay.gatling.model.Process createProcess(
+        java.lang.String name,
+        com.excilys.liferay.gatling.model.ProcessType type,
+        java.lang.Long feederId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName21,
+                    _methodParameterTypes21,
                     new Object[] {
                         ClpSerializer.translateInput(name),
                         
                     ClpSerializer.translateInput(type),
                         
-                    ClpSerializer.translateInput(feederId),
-                        
-                    pause,
-                        
-                    order
+                    ClpSerializer.translateInput(feederId)
                     });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -754,8 +788,8 @@ public class ProcessLocalServiceClp implements ProcessLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName21,
-                    _methodParameterTypes21,
+            returnObj = _invokableLocalService.invokeMethod(_methodName22,
+                    _methodParameterTypes22,
                     new Object[] { ClpSerializer.translateInput(name) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
