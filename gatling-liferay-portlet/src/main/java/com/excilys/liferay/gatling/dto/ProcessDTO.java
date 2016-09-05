@@ -46,4 +46,9 @@ public class ProcessDTO implements Comparable<ProcessDTO>{
 		return this.name.compareTo(other.name);
 	}
 
+	/* Can't have a pause by default */
+	public int getPause() {
+		throw new IllegalStateException();
+	}
+
 }

@@ -112,33 +112,31 @@
 			<div class="scenario-name" >
 				Default Scenario
 			</div>
-		
+
 			<div class="workflow" >
 				<c:forEach items="${scenario.processes}" var="process" varStatus="i">
 				<div class="blockus" id ="${'ba_'}${process.id}_${i.index}" draggable="true" ondragstart="drag(event)">
 					<div class="space-container" id="${'a_'}${process.id}_${i.index}">
 							<div class="icon-chevron-right" style="display: inline-block;"></div>
 					</div>
-					<div class="action process-font activeprocess" id ="${'p_'}${process.id}_${i.index}">${process.name}</div>
-				</div>
-				
-				<c:if test="${!i.last}" >
-					<div class="blockus" id ="${'bb_'}${process.id}_${i.index}" draggable="true" ondragstart="drag(event)">
-						<div class="space-container" id="${'b_'}${process.id}_${i.index}">
-							<div class="icon-chevron-right" style="display: inline-block;"></div>
-						</div>
-
-						<div class="pause"  id ="${'pa_'}${process.id}_${i.index}">
+					
+					<c:choose >
+						<c:when test="${process.isPause()}">
+							<div class="pause"  id ="${'pa_'}${process.id}_${i.index}">
 							<div class="pause-name process-font">Pause</div>
 							<div class="wan-spinner time process-font">
 							<a href="javascript:void(0)" class="minus">-</a>
-								<input type="text" class="process-fond" name="<%=renderResponse.getNamespace()%>${process.id}" value="${process.pause}"><span class="process-font">s</span>
+								<input type="text" class="process-fond" name="<%=renderResponse.getNamespace()%>" value="${process.getPause()}"><span class="process-font">s</span>
 								<a href="javascript:void(0)" class="plus">+</a>
 							</div>
 						</div>
-					</div>
+						</c:when>
+						<c:otherwise>
+							<div class="action process-font activeprocess" id ="${'p_'}${process.id}_${i.index}">${process.name}</div>
+						</c:otherwise>
+					</c:choose>
+				</div>
 				
-				</c:if>
 				</c:forEach>
 				<div class="blockus" id ="endBlock">
 					<div class="space-container" id="endSC">

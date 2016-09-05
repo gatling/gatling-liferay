@@ -10,6 +10,7 @@ public class PauseProcessDTO extends ProcessDTO {
 		this.pause = pause;
 	}
 
+	@Override
 	public int getPause() {
 		return pause;
 	}

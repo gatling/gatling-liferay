@@ -23,7 +23,9 @@ public class ScenarioDTOMapper {
 			Process process = processes.get(i);
 			processesDTO.add(ProcessDTOMapper.toDTO(process));
 			int pause = ProcessLocalServiceUtil.findPause(scenarioId, process.getProcess_id(), i);
-			processesDTO.add(new PauseProcessDTO(pause));
+			if(pause > 0 && i < size - 1) {
+				processesDTO.add(new PauseProcessDTO(pause));
+			}
 		}
 		return new ScenarioDTO(scenario.getName(), processesDTO);
 	}
