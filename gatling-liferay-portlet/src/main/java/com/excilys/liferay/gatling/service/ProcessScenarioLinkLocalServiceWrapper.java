@@ -277,6 +277,14 @@ public class ProcessScenarioLinkLocalServiceWrapper
             parameterTypes, arguments);
     }
 
+    @Override
+    public com.excilys.liferay.gatling.model.ProcessScenarioLink createLink(
+        long scenarioId, long processId, int order, int pause)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _processScenarioLinkLocalService.createLink(scenarioId,
+            processId, order, pause);
+    }
+
     /**
      * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
      */

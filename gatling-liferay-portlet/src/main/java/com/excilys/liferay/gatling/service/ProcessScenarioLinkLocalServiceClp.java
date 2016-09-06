@@ -45,6 +45,8 @@ public class ProcessScenarioLinkLocalServiceClp
     private String[] _methodParameterTypes16;
     private String _methodName17;
     private String[] _methodParameterTypes17;
+    private String _methodName19;
+    private String[] _methodParameterTypes19;
 
     public ProcessScenarioLinkLocalServiceClp(
         InvokableLocalService invokableLocalService) {
@@ -139,6 +141,10 @@ public class ProcessScenarioLinkLocalServiceClp
         _methodName17 = "setBeanIdentifier";
 
         _methodParameterTypes17 = new String[] { "java.lang.String" };
+
+        _methodName19 = "createLink";
+
+        _methodParameterTypes19 = new String[] { "long", "long", "int", "int" };
     }
 
     @Override
@@ -658,5 +664,33 @@ public class ProcessScenarioLinkLocalServiceClp
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public com.excilys.liferay.gatling.model.ProcessScenarioLink createLink(
+        long scenarioId, long processId, int order, int pause)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName19,
+                    _methodParameterTypes19,
+                    new Object[] { scenarioId, processId, order, pause });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (com.excilys.liferay.gatling.model.ProcessScenarioLink) ClpSerializer.translateOutput(returnObj);
     }
 }

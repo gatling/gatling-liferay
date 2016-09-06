@@ -239,4 +239,8 @@ public interface ProcessScenarioLinkLocalService extends BaseLocalService,
     public java.lang.Object invokeMethod(java.lang.String name,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable;
+
+    public com.excilys.liferay.gatling.model.ProcessScenarioLink createLink(
+        long scenarioId, long processId, int order, int pause)
+        throws com.liferay.portal.kernel.exception.SystemException;
 }

@@ -18,10 +18,12 @@ import com.excilys.liferay.gatling.model.AST.SimulationAST;
 import com.excilys.liferay.gatling.service.ASTService;
 import com.excilys.liferay.gatling.service.LoginLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ProcessLocalServiceUtil;
+import com.excilys.liferay.gatling.service.ProcessScenarioLinkLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SiteMapLocalServiceUtil;
 import com.excilys.liferay.gatling.service.impl.SimulationLocalServiceImpl;
+import com.excilys.liferay.gatling.service.persistence.ProcessScenarioLinkUtil;
 import com.excilys.liferay.gatling.service.persistence.ProcessUtil;
 import com.excilys.liferay.gatling.service.persistence.ScenarioUtil;
 import com.excilys.liferay.gatling.service.persistence.SimulationUtil;
@@ -216,10 +218,9 @@ public class ViewController {
 		LOG.debug("Action Triggered : Save Default Simulation");
 		
 		Simulation simulation = SimulationLocalServiceUtil.getByName(SimulationLocalServiceImpl.DEFAULT_NAME);
-		long id = CounterLocalServiceUtil.getCounter(Scenario.class.getName()).getCurrentId() + 1;
-		Scenario scenario = ScenarioLocalServiceUtil.createScenario("MyScenario" + id, simulation.getSimulation_id(), "ramp Over", 10, 5);
-		
-		ProcessLocalServiceUtil.findByName("LOGIN");
+		Scenario scenario = ScenarioLocalServiceUtil.createScenario("MyScenario", simulation.getSimulation_id(), "ramp Over", 10, 5);
+		Process login = ProcessLocalServiceUtil.findByName("LOGIN");
+		ProcessScenarioLinkLocalServiceUtil.createLink(scenario.getScenario_id(), login.getProcess_id(), 0, 0);
 	}
 	
 	

@@ -262,6 +262,12 @@ public class ProcessScenarioLinkLocalServiceUtil {
         return getService().invokeMethod(name, parameterTypes, arguments);
     }
 
+    public static com.excilys.liferay.gatling.model.ProcessScenarioLink createLink(
+        long scenarioId, long processId, int order, int pause)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().createLink(scenarioId, processId, order, pause);
+    }
+
     public static void clearService() {
         _service = null;
     }

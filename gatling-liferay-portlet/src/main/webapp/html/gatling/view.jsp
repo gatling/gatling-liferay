@@ -93,16 +93,16 @@
 	<%-- Scenario FieldSet --%>
 	<aui:fieldset class="fieldset">
 	
-		<aui:input name="simulationId" type="hidden" value="${simulationId}" />
+	<aui:input name="simulationId" type="hidden" value="${simulationId}" />
 		
-		<%-- Scenario Title --%>
-		<legend class="fieldset-legend">
-			<span class="legend">1.Design your scenarios</span>
-		</legend>
+	<%-- Scenario Title --%>
+	<legend class="fieldset-legend">
+		<span class="legend">1.Design your scenarios</span>
+	</legend>
 
 
-		<%-- Scenario --%>
-		<c:forEach items="${scenarios}" var="scenario" varStatus="s">
+	<%-- Scenario --%>
+	<c:forEach items="${scenarios}" var="scenario" varStatus="s">
 		<div class="scenario" >
 		
 			<div class="scenario-box" >
@@ -110,11 +110,11 @@
 			</div>
 			
 			<div class="scenario-name" >
-				Default Scenario
+				${scenario.name}
 			</div>
 
 			<div class="workflow" >
-				<c:forEach items="${scenario.processes}" var="process" varStatus="i">
+			<c:forEach items="${scenario.processes}" var="process" varStatus="i">
 				<div class="blockus" id ="${'ba_'}${process.id}_${i.index}" draggable="true" ondragstart="drag(event)">
 					<div class="space-container" id="${'a_'}${process.id}_${i.index}">
 							<div class="icon-chevron-right" style="display: inline-block;"></div>
@@ -148,7 +148,19 @@
 			<%--TODO if s is first put anchor --%> 
 			<div id ="takeATourAnchor" style="display: inline-block;"></div>
 		</div>
-		</c:forEach>		
+	</c:forEach>
+	<div class="fresh-scenario">
+ 		<%-- This box contains nothing: it is a used for placement --%>
+		<div class="scenario-box"></div>
+		<div class="scenario-name">
+
+			<portlet:actionURL var="persistNewScenario">
+				<portlet:param name="action" value="persistNewScenario"/>
+			</portlet:actionURL>
+
+			<a href="${persistNewScenario}"><span class="icon-plus-sign"></span> Add a new scenario</a>
+		</div>
+	</div>
 
 	<%-- Library, not filled with books but with Processes --%>
 	<div class="library">

@@ -1,6 +1,16 @@
 package com.excilys.liferay.gatling.service.impl;
 
+import com.excilys.liferay.gatling.model.ProcessScenarioLink;
+import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.service.base.ProcessScenarioLinkLocalServiceBaseImpl;
+import com.excilys.liferay.gatling.service.persistence.ProcessScenarioLinkUtil;
+import com.excilys.liferay.gatling.service.persistence.ScenarioUtil;
+import com.excilys.liferay.gatling.util.GatlingUtil;
+import com.liferay.counter.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.Group;
+
+import java.util.List;
 
 /**
  * The implementation of the process scenario link local service.
@@ -23,4 +33,16 @@ public class ProcessScenarioLinkLocalServiceImpl
      *
      * Never reference this interface directly. Always use {@link com.excilys.liferay.gatling.service.ProcessScenarioLinkLocalServiceUtil} to access the process scenario link local service.
      */	
+	
+	@Override
+	public ProcessScenarioLink createLink(long scenarioId, long processId, int order, int pause) throws SystemException{
+		ProcessScenarioLink link = ProcessScenarioLinkUtil.create(CounterLocalServiceUtil.increment(ProcessScenarioLink.class.getName()));
+		link.setScenario_id(scenarioId);
+		link.setProcess_id(processId);
+		link.setOrder(order);
+		link.setPause(pause);
+		link.persist();
+		return link;
+	}
+	
 }

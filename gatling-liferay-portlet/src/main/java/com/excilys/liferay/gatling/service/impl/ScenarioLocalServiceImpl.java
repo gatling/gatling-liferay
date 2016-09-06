@@ -101,7 +101,6 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	@Override
 	public Scenario createScenario(String name, long simulationId, String injection, int numberOfUsers, int duration) throws SystemException{
 		Scenario defaultScenario = ScenarioUtil.create(CounterLocalServiceUtil.increment(Scenario.class.getName()));
-		defaultScenario.setName(name);
 		List<Group> listGroups = GatlingUtil.getListOfSites();
 		if (listGroups.isEmpty()) {
 			defaultScenario.setGroup_id(0);
@@ -113,6 +112,13 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		defaultScenario.setInjection(injection);
 		defaultScenario.setNumberOfUsers(numberOfUsers);
 		defaultScenario.setDuration(duration);
+		
+		// TODO: Must be removed
+		if(!name.equals(DEFAULT_NAME)) {
+			name += defaultScenario.getScenario_id();
+		}
+		defaultScenario.setName(name);
+		
 		defaultScenario.persist();
 		return defaultScenario;
 	}
