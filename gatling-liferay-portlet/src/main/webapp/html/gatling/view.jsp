@@ -287,97 +287,96 @@
 <script type="text/javascript">
 	//Document preparation
 	//******************************************************************************
-	
+
 	//Prepares the div array and addActions on all the elements space-container
 	var cols = document.querySelectorAll('.space-container');
 	[].forEach.call(cols, function(col) {
-	//col.addEventListener('dragstart', handleDragStart, false);
-	col.addEventListener('dragenter', handleDragEnter, false);
-	col.addEventListener('dragover', handleDragOver, false);
-	col.addEventListener('dragleave', handleDragLeave, false);
-	col.addEventListener('drop', drop, false);
+		//col.addEventListener('dragstart', handleDragStart, false);
+		col.addEventListener('dragenter', handleDragEnter, false);
+		col.addEventListener('dragover', handleDragOver, false);
+		col.addEventListener('dragleave', handleDragLeave, false);
+		col.addEventListener('drop', drop, false);
 	});
-	
+
 	//Drag and drop functions
 	//******************************************************************************
-	
+
 	//Function called when the element is dragged
 	function drag(ev) {
-	  console.log("Drag->Element:"+ev.target.id+ " dragged");
-	  ev.dataTransfer.setData("text", ev.target.id);
+		console.log("Drag->Element:" + ev.target.id + " dragged");
+		ev.dataTransfer.setData("text", ev.target.id);
 	}
-	
+
 	//Function called when the element is dropped
 	function drop(ev) {
-	
-	  ev.preventDefault();
-	  var data = ev.dataTransfer.getData("text");
-	  console.log("Element: "+data+" dropped");
-	  resizeDiv(ev.target);
-	
-	  // Retreives the DOM elements
-	  var chevronEl = document.getElementById(ev.target.id);
-	  var blockTarget = chevronEl.parentNode;
-	  var workflow = document.getElementsByClassName("workflow")[0];
-	  var blockDragged = document.getElementById(data);
-	
-	  // Removes "template" class if present
-	  if (blockDragged.className.includes("template")) {
-	    console.log("cloning...");
-	    blockDragged = blockDragged.cloneNode(true);
-	    $(blockDragged).removeClass("template");
-	  }
-	
-	  // Insert the elements
-	  workflow.insertBefore(blockDragged, blockTarget);
-	
-	  //ev.target.appendChild(document.getElementById(data));
-	
+
+		ev.preventDefault();
+		var data = ev.dataTransfer.getData("text");
+		console.log("Element: " + data + " dropped");
+		resizeDiv(ev.target);
+
+		// Retreives the DOM elements
+		var chevronEl = document.getElementById(ev.target.id);
+		var blockTarget = chevronEl.parentNode;
+		var workflow = document.getElementsByClassName("workflow")[0];
+		var blockDragged = document.getElementById(data);
+
+		// Removes "template" class if present
+		if (blockDragged.className.includes("template")) {
+			console.log("cloning...");
+			blockDragged = blockDragged.cloneNode(true);
+			$(blockDragged).removeClass("template");
+		}
+
+		// Insert the elements
+		workflow.insertBefore(blockDragged, blockTarget);
+
+		//ev.target.appendChild(document.getElementById(data));
+
 	}
-	
-	
+
 	//TODO check the use of this fucntion
 	function handleDragOver(e) {
-	
-	if (e.preventDefault) {
-	  e.preventDefault(); // Necessary. Allows us to drop.
+
+		if (e.preventDefault) {
+			e.preventDefault(); // Necessary. Allows us to drop.
+		}
+
+		e.dataTransfer.dropEffect = 'move'; // See the section on the DataTransfer object.
+
+		return false;
 	}
-	
-	e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
-	
-	return false;
-	}
-	
+
 	var timeDiv = null;
 	function handleDragEnter(e) {
-	console.log("enter");
-	
-	var targetElement = e.currentTarget;
-	$(targetElement).addClass("extented-space");
-	
-	// Removes the content
-	timeSep = targetElement.getElementsByClassName("icon-chevron-right");
-	if (timeSep.length >0) { //Hack: sometimes content is not refreshed fast enougth
-	  timeDiv = timeSep[0];
-	  targetElement.removeChild(timeSep[0]);
+		console.log("enter");
+
+		var targetElement = e.currentTarget;
+		$(targetElement).addClass("extented-space");
+
+		// Removes the content
+		timeSep = targetElement.getElementsByClassName("icon-chevron-right");
+		if (timeSep.length > 0) { //Hack: sometimes content is not refreshed fast enougth
+			timeDiv = timeSep[0];
+			targetElement.removeChild(timeSep[0]);
+		}
+
+		this.classList.add('over');
 	}
-	
-	this.classList.add('over');
-	}
-	
+
 	function handleDragLeave(e) {
-	console.log("leave");
-	var block = e.currentTarget;
-	resizeDiv(block);
-	this.classList.remove('over');  // this / e.target is previous target element.
+		console.log("leave");
+		var block = e.currentTarget;
+		resizeDiv(block);
+		this.classList.remove('over'); // this / e.target is previous target element.
 	}
-	
+
 	//******************************************************************************
 	//Content handling functions
 	function resizeDiv(e) {
-	// Set back block size and content
-	$(e).removeClass("extented-space");
-	e.appendChild(timeDiv);
+		// Set back block size and content
+		$(e).removeClass("extented-space");
+		e.appendChild(timeDiv);
 	}
 </script>
 
