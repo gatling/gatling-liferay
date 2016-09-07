@@ -6,6 +6,7 @@
 
 <%-- CSS --%>
 <style type="text/css">
+
 	.library {
 		width:100%;
 		padding: 8px;
@@ -13,20 +14,19 @@
 		background: rgba(0, 174, 255, 0.28);
 	}
 	
-	.chevron {
-		margin-left:10px;
-		margin-right:10px;
-	}
-	
-	.space-container {
+	.workflow .space-container {
 		/*  background: red;*/
+		display: inline-block;
 		width: 20px;
 		padding: 0px 10px;
-		display: inline-block ;
 	 	height: 80px;
 		vertical-align: middle;
 		text-align: center;
 		line-height: 80px;
+	}
+	
+	.library .space-container {
+		visibility: hidden;
 	}
 	
 	.blockus {
@@ -34,24 +34,18 @@
 	}
 
 	.extented-space {
-		width: 200px;
+		display: inline-block;
+		width: 150px;
+		height: 80px;
+		vertical-align: middle;
+		text-align: center;
+		line-height: 80px;
+ 		opacity: 0; 
+	}
+	.extented-space .icon-chevron-right {
+		pointer-events: none;
 	}
 	
-	.template .space-container {
-		display: none;
-	}
-	
-	.template .space-container {
-		display: none;
-	}
-	
-	.selected .space-container {
-		display: none;
-	}
-	
-	.goneElement {
-		transform:translateX(-9999px);
-	}
 </style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
@@ -130,7 +124,7 @@
 			<div class="workflow" id="wf_${scenario.id}">
 			<c:forEach items="${scenario.processes}" var="process" varStatus="i">
 				<div class="blockus" id="_box${process.cssId}" draggable="true" ondragstart="drag(event)">
-					<div class="space-container" id="_sc${process.cssId}">
+					<div class="space-container">
 							<div class="icon-chevron-right" style="display: inline-block;"></div>
 					</div>
 					
@@ -184,7 +178,7 @@
 		<%-- Processes --%>
 		<c:forEach items="${templates}" var="template" varStatus="i">	
 			<div class="blockus template" id ="_box${template.cssId}" draggable="true" ondragstart="drag(event)">
-				<div class="space-container invisiblePowaaa" id="_sc${template.cssId}">
+				<div class="space-container">
 					<div class="icon-chevron-right" style="display: inline-block;"></div>
 				</div>
 			
@@ -320,23 +314,21 @@
 
 <!-- JS handling the beautiful drag and drop \o/ -->
 <script type="text/javascript">
-	//Document preparation
-	//******************************************************************************
-
+	
 	//Prepares the div array and addActions on all the elements space-container
 	var cols = document.querySelectorAll('.space-container');
 	[].forEach.call(cols, function(col) {
-		//col.addEventListener('dragstart', handleDragStart, false);
-		col.addEventListener('dragenter', handleDragEnter, false);
-		col.addEventListener('dragover', handleDragOver, false);
-		col.addEventListener('dragleave', handleDragLeave, false);
-		col.addEventListener('drop', drop, false);
+		addDragFeature(col);
 	});
 
-	//Drag and drop functions
-	//******************************************************************************
+	function addDragFeature(elt) {
+		elt.addEventListener('dragenter', handleDragEnter, false);
+		elt.addEventListener('dragover', handleDragOver, false);
+		elt.addEventListener('dragleave', handleDragLeave, false);
+		elt.addEventListener('drop', drop, false);
+	}
 
-	//Function called when the element is dragged
+	//Function called when any draggable element is dragged
 	function drag(ev) {
 		console.log("Drag->Element:" + ev.target.id + " dragged");
 		ev.dataTransfer.setData("text", ev.target.id);
@@ -344,16 +336,18 @@
 
 	//Function called when the element is dropped
 	function drop(ev) {
-
-		ev.preventDefault();
+		console.log("Droping in: " + this.id);
+		//ev.preventDefault();
+		
+		$(this).removeClass("extented-space");
+		$(this).addClass("space-container");
+		
 		var data = ev.dataTransfer.getData("text");
 		console.log("Element: " + data + " dropped");
-		resizeDiv(ev.target);
-
+		
 		// Retreives the DOM elements
-		var chevronEl = document.getElementById(ev.target.id);
-		var blockTarget = chevronEl.parentNode;
-		var workflow = document.getElementsByClassName("workflow")[0];
+		var blockTarget = this.parentNode;
+		var workflow = blockTarget.parentNode;
 		var blockDragged = document.getElementById(data);
 
 		// Removes "template" class if present
@@ -361,57 +355,35 @@
 			console.log("cloning...");
 			blockDragged = blockDragged.cloneNode(true);
 			$(blockDragged).removeClass("template");
-		}
 
+			//Retrieve the space Container in the fresh dragged Block
+			var spaceContainer = blockDragged.childNodes[1];
+			addDragFeature(spaceContainer);	
+		}
+		
 		// Insert the elements
 		workflow.insertBefore(blockDragged, blockTarget);
-
-		//ev.target.appendChild(document.getElementById(data));
-
 	}
 
 	//TODO check the use of this fucntion
 	function handleDragOver(e) {
-
 		if (e.preventDefault) {
 			e.preventDefault(); // Necessary. Allows us to drop.
 		}
-
 		e.dataTransfer.dropEffect = 'move'; // See the section on the DataTransfer object.
-
 		return false;
 	}
 
-	var timeDiv = null;
 	function handleDragEnter(e) {
-		console.log("enter");
-
-		var targetElement = e.currentTarget;
-		$(targetElement).addClass("extented-space");
-
-		// Removes the content
-		timeSep = targetElement.getElementsByClassName("icon-chevron-right");
-		if (timeSep.length > 0) { //Hack: sometimes content is not refreshed fast enougth
-			timeDiv = timeSep[0];
-			targetElement.removeChild(timeSep[0]);
-		}
-
-		this.classList.add('over');
+ 		console.log("Entering in: " + this.id);
+ 		$(this).removeClass("space-container");
+ 		$(this).addClass("extented-space");
 	}
 
 	function handleDragLeave(e) {
-		console.log("leave");
-		var block = e.currentTarget;
-		resizeDiv(block);
-		this.classList.remove('over'); // this / e.target is previous target element.
-	}
-
-	//******************************************************************************
-	//Content handling functions
-	function resizeDiv(e) {
-		// Set back block size and content
-		$(e).removeClass("extented-space");
-		e.appendChild(timeDiv);
+		console.log("Leaving: " + this.id);
+		$(this).removeClass("extented-space");
+		$(this).addClass("space-container");
 	}
 
 </script>
