@@ -281,10 +281,13 @@
 
 
 <script type="text/javascript">
-	var myJson = {"bindings": [
-	                    {"ircEvent": "PRIVMSG", "method": "randomURI", "regex": "random.*"}
-	               ]
-	  };
+	var myJson = {"name":"myScenario42","id":2401,"processes":
+					[{"name":"Login","cssId":"0","cssClass":"3001","type":"LOGIN","pause":-42},
+					 {"name":"Pause","cssId":"1","cssClass":"Pause","type":"Pause","pause":5},
+					 {"name":"Random Page","cssId":"2","cssClass":"3002","type":"RANDOMPAGE","pause":-42},
+					 {"name":"Pause","cssId":"3","cssClass":"Pause","type":"Pause","pause":10},
+					 {"name":"Logout","cssId":"4","cssClass":"3003","type":"LOGOUT","pause":-42}]
+				};
 	document.getElementById('JSON').value = JSON.stringify(myJson);
 </script>
 

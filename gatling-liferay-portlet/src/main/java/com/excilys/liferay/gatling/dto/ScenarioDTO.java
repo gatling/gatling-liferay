@@ -8,6 +8,8 @@ public class ScenarioDTO {
 	private long id;
 	private List<ProcessDTO> processes;
 
+	public ScenarioDTO() {}
+	
 	public ScenarioDTO(String name, long l, List<ProcessDTO> processes) {
 		this.name = name;
 		this.id = l;
@@ -38,6 +40,9 @@ public class ScenarioDTO {
 		this.processes = processes;
 	}
 	
-	
-	
+	@Override
+	public String toString() {
+		return "ScenarioDTO [name=" + name + ", id=" + id + ", processes="
+				+ processes + "]";
+	}
 }

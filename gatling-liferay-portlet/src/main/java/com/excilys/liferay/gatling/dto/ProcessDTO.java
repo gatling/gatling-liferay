@@ -8,6 +8,9 @@ public class ProcessDTO implements Comparable<ProcessDTO>{
 	private String cssId;
 	private String cssClass;
 	private String type;
+	private int pause;
+	
+	public ProcessDTO() {}
 	
 	public ProcessDTO(String name, String cssId, String cssClass, String type) {
 		this.name = name;
@@ -15,6 +18,7 @@ public class ProcessDTO implements Comparable<ProcessDTO>{
 		this.cssClass = cssClass;
 		this.type = type;
 	}
+
 
 	public String getName() {
 		return name;
@@ -58,7 +62,13 @@ public class ProcessDTO implements Comparable<ProcessDTO>{
 
 	/* Can't have a pause by default */
 	public int getPause() {
-		throw new IllegalStateException();
+		return pause;
 	}
 
+	@Override
+	public String toString() {
+		return "ProcessDTO [name=" + name + ", cssId=" + cssId + ", cssClass="
+				+ cssClass + ", type=" + type + "]";
+	}
+	
 }

@@ -24,12 +24,9 @@ import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SiteMapLocalServiceUtil;
 import com.excilys.liferay.gatling.service.impl.SimulationLocalServiceImpl;
-import com.excilys.liferay.gatling.service.persistence.ProcessScenarioLinkUtil;
-import com.excilys.liferay.gatling.service.persistence.ProcessUtil;
-import com.excilys.liferay.gatling.service.persistence.ScenarioUtil;
-import com.excilys.liferay.gatling.service.persistence.SimulationUtil;
 import com.excilys.liferay.gatling.util.GatlingUtil;
-import com.liferay.counter.service.CounterLocalServiceUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -196,6 +193,14 @@ public class ViewController {
 		LOG.debug("saveScenario called:");
 		//String json2 = (String) request.getAttribute("JSON");
 		LOG.debug(json);
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			ScenarioDTO dto = mapper.readValue(json, ScenarioDTO.class);
+			LOG.debug("Result dto: "+dto.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		response.setRenderParameter("render", "renderView");
 	}
 	
