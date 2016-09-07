@@ -5,10 +5,12 @@ import java.util.List;
 public class ScenarioDTO {
 	
 	private String name;
+	private long id;
 	private List<ProcessDTO> processes;
 
-	public ScenarioDTO(String name, List<ProcessDTO> processes) {
+	public ScenarioDTO(String name, long l, List<ProcessDTO> processes) {
 		this.name = name;
+		this.id = l;
 		this.processes = processes;
 	}
 	
@@ -18,6 +20,14 @@ public class ScenarioDTO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public List<ProcessDTO> getProcesses() {

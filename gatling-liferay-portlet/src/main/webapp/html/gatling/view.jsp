@@ -113,16 +113,16 @@
 				${scenario.name}
 			</div>
 
-			<div class="workflow" >
+			<div class="workflow" id="wf_${scenario.id}">
 			<c:forEach items="${scenario.processes}" var="process" varStatus="i">
-				<div class="blockus" id ="${'ba_'}${process.id}_${i.index}" draggable="true" ondragstart="drag(event)">
-					<div class="space-container" id="${'a_'}${process.id}_${i.index}">
+				<div class="blockus" id="_box${process.cssId}" draggable="true" ondragstart="drag(event)">
+					<div class="space-container" id="_sc${process.cssId}">
 							<div class="icon-chevron-right" style="display: inline-block;"></div>
 					</div>
 					
 					<c:choose >
 						<c:when test="${process.isPause()}">
-							<div class="pause"  id ="${'pa_'}${process.id}_${i.index}">
+						<div class="pause">
 							<div class="pause-name process-font">Pause</div>
 							<div class="wan-spinner time process-font">
 							<a href="javascript:void(0)" class="minus">-</a>
@@ -132,23 +132,24 @@
 						</div>
 						</c:when>
 						<c:otherwise>
-							<div class="action process-font activeprocess" id ="${'p_'}${process.id}_${i.index}">${process.name}</div>
+							<div class="action process-font activeprocess">${process.name}</div>
 						</c:otherwise>
 					</c:choose>
 				</div>
 				
 				</c:forEach>
-				<div class="blockus" id ="endBlock">
+				<div class="blockus" id="endBlock">
 					<div class="space-container" id="endSC">
 							<div class="icon-chevron-right" style="display: inline-block;"></div>
 					</div>
 				</div>
 				
 			</div>
-			<%--TODO if s is first put anchor --%> 
 			<div id ="takeATourAnchor" style="display: inline-block;"></div>
 		</div>
 	</c:forEach>
+	
+	<%-- Fresh Scenario Link --%>
 	<div class="fresh-scenario">
  		<%-- This box contains nothing: it is a used for placement --%>
 		<div class="scenario-box"></div>
@@ -165,12 +166,30 @@
 	<%-- Library, not filled with books but with Processes --%>
 	<div class="library">
 		<h4>Process Library:</h4>
-		<c:forEach items="${templates}" var="template" varStatus="i">
-			<div class="blockus template" id ="${'template_'}${template.id}_${i.index}" draggable="true" ondragstart="drag(event)">
-					<div class="space-container invisiblePowaaa" id="${'a_template_'}${template.id}_${i.index}">
-							<div class="icon-chevron-right" style="display: inline-block;"></div>
-					</div>
-					<div class="action process-font activeprocess" id ="${'p_template_'}${templateid}_${i.index}">${template.name}</div>
+		
+		<%-- Processes --%>
+		<c:forEach items="${templates}" var="template" varStatus="i">	
+			<div class="blockus template" id ="_box${template.cssId}" draggable="true" ondragstart="drag(event)">
+				<div class="space-container invisiblePowaaa" id="_sc${template.cssId}">
+					<div class="icon-chevron-right" style="display: inline-block;"></div>
+				</div>
+			
+				<c:choose >
+					<c:when test="${template.isPause()}">
+						<div class="pause">
+							<div class="pause-name process-font">Pause</div>
+							<div class="wan-spinner time process-font">
+							<a href="javascript:void(0)" class="minus">-</a>
+								<input type="text" class="process-fond" name="<%=renderResponse.getNamespace()%>" value="${template.getPause()}"><span class="process-font">s</span>
+								<a href="javascript:void(0)" class="plus">+</a>
+							</div>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="action process-font activeprocess">${template.name}</div>
+					</c:otherwise>
+				</c:choose>
+		
 			</div>
 		</c:forEach>
 	</div>

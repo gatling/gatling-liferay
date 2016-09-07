@@ -4,6 +4,7 @@
 package com.excilys.liferay.gatling.controller;
 
 import com.excilys.liferay.gatling.NoSuchScenarioException;
+import com.excilys.liferay.gatling.dto.PauseProcessDTO;
 import com.excilys.liferay.gatling.dto.ProcessDTO;
 import com.excilys.liferay.gatling.dto.ScenarioDTO;
 import com.excilys.liferay.gatling.dto.mapper.ProcessDTOMapper;
@@ -79,6 +80,9 @@ public class ViewController {
 		List<Group> listGroups = GatlingUtil.getListOfSites();
 		renderRequest.setAttribute("listGroup", listGroups);
 		
+		/* The counter that will be use as cssId */
+		int counter = 0;
+		
 		/* Initialize the simulation and the scenario if not existant */
 		Simulation defaultSimulation = SimulationLocalServiceUtil.createDefaultSimulation();
 		Scenario defaultScenario = ScenarioLocalServiceUtil.createDefaultScenario(defaultSimulation);
@@ -106,13 +110,6 @@ public class ViewController {
 			ScenarioLocalServiceUtil.addProcess(scenarioId, logout.getProcess_id(), 2, 0);
 			
 		}
-
-		List<Process> allProcesses = ProcessLocalServiceUtil.getProcesses(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
-		List<ProcessDTO> templates = new ArrayList<>(allProcesses.size());
-		for (Process process : allProcesses) {
-			templates.add(ProcessDTOMapper.toDTO(process));
-		}
-		Collections.sort(templates);
 		
 		// Injection modes
 		List<String> injectionsMode = new ArrayList<>();
@@ -123,8 +120,20 @@ public class ViewController {
 		List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(defaultSimulation.getSimulation_id());
 		List<ScenarioDTO> scenariosDTO = new ArrayList<>();
 		for (Scenario scenario : scenarios) {
-			scenariosDTO.add(ScenarioDTOMapper.toDTO(scenario));
+			ScenarioDTO s = ScenarioDTOMapper.toDTO(scenario, counter);
+			scenariosDTO.add(s);
+			counter += s.getProcesses().size();
 		}
+		
+		/* Library Scenarios */
+		List<Process> allProcesses = ProcessLocalServiceUtil.getProcesses(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+		List<ProcessDTO> templates = new ArrayList<>(allProcesses.size());
+		templates.add(new PauseProcessDTO(String.valueOf(counter++), 5));
+		for (Process process : allProcesses) {
+			templates.add(ProcessDTOMapper.toDTO(process, String.valueOf(counter)));
+			counter++;
+		}
+		Collections.sort(templates);
 		
 		/* Record the simulation and scenario data */
 		renderRequest.setAttribute("simulationId", defaultSimulation.getSimulation_id());
@@ -135,6 +144,7 @@ public class ViewController {
 		renderRequest.setAttribute("injections", injectionsMode);
 		renderRequest.setAttribute("feederContent", defaultSimulation.getFeederContent());
 		renderRequest.setAttribute("templates", templates);
+		renderRequest.setAttribute("counter", counter);
 		return "view";
 	}
 	

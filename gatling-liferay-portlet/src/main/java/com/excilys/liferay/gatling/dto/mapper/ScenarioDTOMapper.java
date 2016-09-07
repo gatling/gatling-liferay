@@ -14,20 +14,20 @@ import java.util.List;
 
 public class ScenarioDTOMapper {
 
-	public static ScenarioDTO toDTO(Scenario scenario) throws SystemException, PortalException{
+	public static ScenarioDTO toDTO(Scenario scenario, int counter) throws SystemException, PortalException{
 		long scenarioId = scenario.getScenario_id();
 		List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(scenarioId);
 		int size = processes.size();
 		List<ProcessDTO> processesDTO = new ArrayList<>(size);
 		for(int i = 0; i < size; i++) {
 			Process process = processes.get(i);
-			processesDTO.add(ProcessDTOMapper.toDTO(process));
+			processesDTO.add(ProcessDTOMapper.toDTO(process, String.valueOf(counter++)));
 			int pause = ProcessLocalServiceUtil.findPause(scenarioId, process.getProcess_id(), i);
 			if(pause > 0 && i < size - 1) {
-				processesDTO.add(new PauseProcessDTO(pause));
+				processesDTO.add(new PauseProcessDTO(String.valueOf(counter++), pause));
 			}
 		}
-		return new ScenarioDTO(scenario.getName(), processesDTO);
+		return new ScenarioDTO(scenario.getName(), scenario.getScenario_id(), processesDTO);
 	}
 	
 }

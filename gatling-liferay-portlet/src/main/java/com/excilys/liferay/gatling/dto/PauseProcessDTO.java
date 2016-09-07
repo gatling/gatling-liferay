@@ -4,9 +4,9 @@ public class PauseProcessDTO extends ProcessDTO {
 
 	private int pause;
 
-	public PauseProcessDTO(int pause) {
+	public PauseProcessDTO(String cssId, int pause) {
 		//The identifier is not needed by pauses
-		super("Pause", -42, "Pause");
+		super("Pause", cssId, "Pause", "Pause");
 		this.pause = pause;
 	}
 
