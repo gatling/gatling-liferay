@@ -18,6 +18,7 @@
 		<taglib.version>1.1.2</taglib.version>
 		<jstl.version>1.2</jstl.version>
 		<jsp.version>2.0</jsp.version>
+        <jackson.version>2.8.2</jackson.version>
 		<servlet-api.version>3.0.1</servlet-api.version>
 		<portlet-api.version>2.0</portlet-api.version>
 	</properties>
@@ -137,12 +138,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.8.2</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
               <groupId>com.fasterxml.jackson.core</groupId>
               <artifactId>jackson-databind</artifactId>
-              <version>2.8.2</version>
+              <version>${jackson.version}</version>
         </dependency>
 	</dependencies>
 </project>
