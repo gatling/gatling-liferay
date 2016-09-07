@@ -38,9 +38,20 @@
 	}
 	
 	.template .space-container {
-		opacity: 0;
+		display: none;
 	}
-
+	
+	.template .space-container {
+		display: none;
+	}
+	
+	.selected .space-container {
+		display: none;
+	}
+	
+	.goneElement {
+		transform:translateX(-9999px);
+	}
 </style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
@@ -88,12 +99,15 @@
 	<portlet:param name="action" value="saveDefaultSimulation" />
 </portlet:actionURL>
 
-<aui:form action="${saveDefaultSimulation}" method="post">
+<portlet:actionURL var="saveScenariosURL">
+	<portlet:param name="action" value="saveScenarios" />
+</portlet:actionURL>
 
+<aui:form action="${saveScenariosURL}" method="post">
 	<%-- Scenario FieldSet --%>
 	<aui:fieldset class="fieldset">
 	
-	<aui:input name="simulationId" type="hidden" value="${simulationId}" />
+	<input name="<%=renderResponse.getNamespace()%>JSON" id="JSON" type="hidden" value="coucou" />
 		
 	<%-- Scenario Title --%>
 	<legend class="fieldset-legend">
@@ -194,12 +208,18 @@
 		</c:forEach>
 	</div>
 	
-	</aui:fieldset>
+		<aui:button type="submit" value="Save scenarios" cssClass="pull-left" style="margin-top:7px;" />
 
+	</aui:fieldset>
+	</aui:form>
+
+
+<aui:form action="${saveDefaultSimulation}" method="post">
 
 	<%-- Details Fieldset --%>
 	<aui:fieldset label="2.Configure your injection profile">
-	
+		<aui:input name="simulationId" type="hidden" value="${simulationId}" />
+		
 		<aui:input label="scenario-edit-nb-users-per-second"
 			name="numberOfUsers" value="${numberOfUsers}" inlineField="true"
 			helpMessage="nbuser-info-help">
@@ -259,6 +279,17 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.0.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/wan-spinner.js"></script>
 
+
+<script type="text/javascript">
+	var myJson = {"bindings": [
+	                    {"ircEvent": "PRIVMSG", "method": "randomURI", "regex": "random.*"}
+	               ]
+	  };
+	document.getElementById('JSON').value = JSON.stringify(myJson);
+</script>
+
+
+<!-- JS handling the pause time buttons -->
 <script type="text/javascript">
   $(document).ready(function() {
     var options = {
@@ -284,6 +315,7 @@
   
 </script>
 
+<!-- JS handling the beautiful drag and drop \o/ -->
 <script type="text/javascript">
 	//Document preparation
 	//******************************************************************************
@@ -378,6 +410,7 @@
 		$(e).removeClass("extented-space");
 		e.appendChild(timeDiv);
 	}
+
 </script>
 
 <script type="text/javascript" >

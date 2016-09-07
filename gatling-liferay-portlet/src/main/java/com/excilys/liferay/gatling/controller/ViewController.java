@@ -190,6 +190,14 @@ public class ViewController {
 		response.setRenderParameter("render", "renderView");
 	}
 	
+	@ActionMapping(params="action=saveScenarios")
+	public void saveMyScenarios(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{
+		String json = ParamUtil.getString(request, "JSON");
+		LOG.debug("saveScenario called:");
+		//String json2 = (String) request.getAttribute("JSON");
+		LOG.debug(json);
+		response.setRenderParameter("render", "renderView");
+	}
 	
 	@ResourceMapping(value="generateZip")	
 	public void exportZippedEnvironment(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
@@ -232,10 +240,6 @@ public class ViewController {
 		Process login = ProcessLocalServiceUtil.findByName("LOGIN");
 		ProcessScenarioLinkLocalServiceUtil.createLink(scenario.getScenario_id(), login.getProcess_id(), 0, 0);
 	}
-	
-	
-	
-	
 	
 	/**
 	 * Takes all the renders without param.
