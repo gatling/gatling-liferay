@@ -16,7 +16,8 @@ $(document).ready(function() {
 			console.log("excep: " + val);
 		},
 		valueChanged : function(val) {
-			console.log('change: ' + val);
+			persistScenarios();
+			console.log('val changed: ' + val);
 		}
 	}
 	$(".time").WanSpinner(options);

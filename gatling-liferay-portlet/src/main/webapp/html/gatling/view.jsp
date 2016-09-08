@@ -94,7 +94,7 @@
 							<div class="pause-name process-font">Pause</div>
 							<div class="wan-spinner time process-font">
 							<a href="javascript:void(0)" class="minus" draggable="false">-</a>
-								<input type="text" class="process-fond" name="<%=renderResponse.getNamespace()%>" value="${process.getPause()}"><span class="process-font">s</span>
+								<input type="text" class="process-fond time-input" name="<%=renderResponse.getNamespace()%>" value="${process.getPause()}"><span class="process-font">s</span>
 							<a href="javascript:void(0)" class="plus" draggable="false">+</a>
 							</div>
 						</div>
@@ -231,9 +231,6 @@
 <%-- JS --%>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.0.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/wan-spinner.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/wan-spinner-launch.js"></script>
-
 
 <script type="text/javascript">
 	
@@ -316,21 +313,31 @@
 		return res;
 	}
 	
-	
-	/*var myJson = [{"name":"_default_scenario_","id":3501,"processes": 
-					[{"name":"Login","cssId":"0","cssClass":"4001","type":"LOGIN","pause":-42},
-					 {"name":"Pause","cssId":"1","cssClass":"Pause","type":"PAUSE","pause":5},
-					 {"name":"Random Page","cssId":"2","cssClass":"4002","type":"RANDOMPAGE","pause":-42},
-					 {"name":"Pause","cssId":"3","cssClass":"Pause","type":"PAUSE","pause":10},
-					 {"name":"Pause","cssId":"4","cssClass":"Pause","type":"PAUSE","pause":10},
-					 {"name":"Login","cssId":"5","cssClass":"4001","type":"LOGIN","pause":-42},
-					 {"name":"Logout","cssId":"6","cssClass":"4003","type":"LOGOUT","pause":-42}]
-				}];*/
+	// Add a onChanged listeners on all the time inputs (NOTE: +/- buttons are not processed here but in wan-spinner-launch.js)
+	$('.time-input').each(function() {
+		   var elem = $(this);
+
+		   // Save current value of element
+		   elem.data('oldVal', elem.val());
+
+		   // Look for changes in the value
+		   elem.bind("propertychange change click keyup input paste", function(event){
+		      // If value has changed...
+		      if (elem.data('oldVal') != elem.val()) {
+		       // Updated stored value
+		       elem.data('oldVal', elem.val());
+
+		       // Do action
+		       persistScenarios();
+		     }
+		   });
+	});
 	
 </script>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/drag-and-drop.js"></script>
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/wan-spinner.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/wan-spinner-launch.js"></script>
 
 <script type="text/javascript" >
 <%@ include file="/js/defaultTourSimulation.js" %>
