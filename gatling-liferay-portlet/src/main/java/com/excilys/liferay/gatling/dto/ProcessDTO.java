@@ -19,6 +19,11 @@ public class ProcessDTO implements Comparable<ProcessDTO>{
 		this.type = type;
 	}
 
+	public ProcessDTO(String name, String cssId, String cssClass, String type, int pause) {
+		this(name,cssId, cssClass, type);
+		this.pause = pause;
+	}
+	
 
 	public String getName() {
 		return name;
@@ -53,7 +58,7 @@ public class ProcessDTO implements Comparable<ProcessDTO>{
 	}
 
 	public boolean isPause(){
-		return false;
+		return this.type.equals("PAUSE");
 	}
 	
 	public int compareTo(ProcessDTO other) {

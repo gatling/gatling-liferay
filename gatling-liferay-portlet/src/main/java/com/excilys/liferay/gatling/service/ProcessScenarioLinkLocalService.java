@@ -243,4 +243,8 @@ public interface ProcessScenarioLinkLocalService extends BaseLocalService,
     public com.excilys.liferay.gatling.model.ProcessScenarioLink createLink(
         long scenarioId, long processId, int order, int pause)
         throws com.liferay.portal.kernel.exception.SystemException;
+
+    public java.util.List<com.excilys.liferay.gatling.model.ProcessScenarioLink> findByscenarioId(
+        long scenarioId)
+        throws com.liferay.portal.kernel.exception.SystemException;
 }

@@ -4,7 +4,6 @@
 package com.excilys.liferay.gatling.controller;
 
 import com.excilys.liferay.gatling.NoSuchScenarioException;
-import com.excilys.liferay.gatling.dto.PauseProcessDTO;
 import com.excilys.liferay.gatling.dto.ProcessDTO;
 import com.excilys.liferay.gatling.dto.ScenarioDTO;
 import com.excilys.liferay.gatling.dto.mapper.ProcessDTOMapper;
@@ -122,10 +121,20 @@ public class ViewController {
 			counter += s.getProcesses().size();
 		}
 		
+//		//TODO debug, to be removed
+//		ObjectMapper mapper = new ObjectMapper();
+//		try {
+//			String stringifiyed =  mapper.writeValueAsString(scenariosDTO);
+//			System.out.println("My JSON result:"+stringifiyed);
+//		} catch (JsonProcessingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
 		/* Library Scenarios */
 		List<Process> allProcesses = ProcessLocalServiceUtil.getProcesses(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 		List<ProcessDTO> templates = new ArrayList<>(allProcesses.size());
-		templates.add(new PauseProcessDTO(String.valueOf(counter++), 5));
+		templates.add(new ProcessDTO( "Pause", String.valueOf(counter++),"Pause", "PAUSE", 5));
 		for (Process process : allProcesses) {
 			templates.add(ProcessDTOMapper.toDTO(process, String.valueOf(counter)));
 			counter++;
@@ -195,7 +204,10 @@ public class ViewController {
 		LOG.debug(json);
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			ScenarioDTO dto = mapper.readValue(json, ScenarioDTO.class);
+			List<ScenarioDTO> dto = mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(List.class, ScenarioDTO.class));
+			for (ScenarioDTO scenarioDTO : dto) {
+				ScenarioDTOMapper.persistData(scenarioDTO);
+			}
 			LOG.debug("Result dto: "+dto.toString());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

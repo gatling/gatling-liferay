@@ -47,6 +47,8 @@ public class ProcessScenarioLinkLocalServiceClpInvoker {
     private String[] _methodParameterTypes77;
     private String _methodName82;
     private String[] _methodParameterTypes82;
+    private String _methodName83;
+    private String[] _methodParameterTypes83;
 
     public ProcessScenarioLinkLocalServiceClpInvoker() {
         _methodName0 = "addProcessScenarioLink";
@@ -142,6 +144,10 @@ public class ProcessScenarioLinkLocalServiceClpInvoker {
         _methodName82 = "createLink";
 
         _methodParameterTypes82 = new String[] { "long", "long", "int", "int" };
+
+        _methodName83 = "findByscenarioId";
+
+        _methodParameterTypes83 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -251,6 +257,11 @@ public class ProcessScenarioLinkLocalServiceClpInvoker {
                 ((Long) arguments[1]).longValue(),
                 ((Integer) arguments[2]).intValue(),
                 ((Integer) arguments[3]).intValue());
+        }
+
+        if (_methodName83.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes83, parameterTypes)) {
+            return ProcessScenarioLinkLocalServiceUtil.findByscenarioId(((Long) arguments[0]).longValue());
         }
 
         throw new UnsupportedOperationException();

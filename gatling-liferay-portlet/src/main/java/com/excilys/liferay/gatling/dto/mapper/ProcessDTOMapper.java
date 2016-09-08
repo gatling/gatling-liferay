@@ -8,5 +8,5 @@ public class ProcessDTOMapper {
 	public static ProcessDTO toDTO(Process process, String cssId) {
 		return new ProcessDTO(process.getName(), cssId, String.valueOf(process.getProcess_id()), process.getType());
 	}
-	
+
 }

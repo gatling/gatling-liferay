@@ -47,6 +47,8 @@ public class ProcessScenarioLinkLocalServiceClp
     private String[] _methodParameterTypes17;
     private String _methodName19;
     private String[] _methodParameterTypes19;
+    private String _methodName20;
+    private String[] _methodParameterTypes20;
 
     public ProcessScenarioLinkLocalServiceClp(
         InvokableLocalService invokableLocalService) {
@@ -145,6 +147,10 @@ public class ProcessScenarioLinkLocalServiceClp
         _methodName19 = "createLink";
 
         _methodParameterTypes19 = new String[] { "long", "long", "int", "int" };
+
+        _methodName20 = "findByscenarioId";
+
+        _methodParameterTypes20 = new String[] { "long" };
     }
 
     @Override
@@ -692,5 +698,32 @@ public class ProcessScenarioLinkLocalServiceClp
         }
 
         return (com.excilys.liferay.gatling.model.ProcessScenarioLink) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
+    public java.util.List<com.excilys.liferay.gatling.model.ProcessScenarioLink> findByscenarioId(
+        long scenarioId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName20,
+                    _methodParameterTypes20, new Object[] { scenarioId });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (java.util.List<com.excilys.liferay.gatling.model.ProcessScenarioLink>) ClpSerializer.translateOutput(returnObj);
     }
 }

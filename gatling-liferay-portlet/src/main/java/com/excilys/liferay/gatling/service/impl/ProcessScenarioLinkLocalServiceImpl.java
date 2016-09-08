@@ -1,14 +1,10 @@
 package com.excilys.liferay.gatling.service.impl;
 
 import com.excilys.liferay.gatling.model.ProcessScenarioLink;
-import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.service.base.ProcessScenarioLinkLocalServiceBaseImpl;
 import com.excilys.liferay.gatling.service.persistence.ProcessScenarioLinkUtil;
-import com.excilys.liferay.gatling.service.persistence.ScenarioUtil;
-import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.model.Group;
 
 import java.util.List;
 
@@ -43,6 +39,10 @@ public class ProcessScenarioLinkLocalServiceImpl
 		link.setPause(pause);
 		link.persist();
 		return link;
+	}
+	
+	public List<ProcessScenarioLink> findByscenarioId(long scenarioId) throws SystemException {
+    	return processScenarioLinkPersistence.findByscenarioId(scenarioId);
 	}
 	
 }

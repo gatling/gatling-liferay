@@ -268,6 +268,12 @@ public class ProcessScenarioLinkLocalServiceUtil {
         return getService().createLink(scenarioId, processId, order, pause);
     }
 
+    public static java.util.List<com.excilys.liferay.gatling.model.ProcessScenarioLink> findByscenarioId(
+        long scenarioId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().findByscenarioId(scenarioId);
+    }
+
     public static void clearService() {
         _service = null;
     }
