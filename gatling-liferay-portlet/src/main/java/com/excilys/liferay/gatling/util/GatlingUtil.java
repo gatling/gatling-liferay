@@ -42,6 +42,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
 import java.util.zip.ZipOutputStream;
 
 import javax.portlet.RenderRequest;
@@ -310,9 +311,18 @@ public class GatlingUtil {
 			for (ScenarioAST scenarioAST : simulationAST.getScenarios()) {
 				for (ProcessAST processAST : scenarioAST.getProcesses()) {
 					for (ResourceFileAST feederFileAST : processAST.getFeederFiles()) {
-						zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+feederFileAST.getLocatedName()));
-						zipOutputStream.write(feederFileAST.getContent().getBytes());
-						zipOutputStream.closeEntry();
+						//TODO: remove ugly duplication handling
+						//NOTE: process duplication implies that feeders are exported twice, an improvement in the AST must be done
+						try {
+							zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+feederFileAST.getLocatedName()));
+							zipOutputStream.write(feederFileAST.getContent().getBytes());
+							zipOutputStream.closeEntry();
+						} catch(ZipException e) {
+							if(!e.getMessage().startsWith("duplicate entry:")) {
+								throw e;
+							}
+						}
+						
 					}
 				}
 			}
