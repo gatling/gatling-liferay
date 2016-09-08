@@ -71,7 +71,7 @@
 
 	<%-- Scenario --%>
 	<c:forEach items="${scenarios}" var="scenario" varStatus="s">
-		<div class="scenario" >
+		<div class="scenario" id="_sc${scenario.id}" >
 		
 			<div class="scenario-box" >
 				<input type="checkbox">
@@ -83,7 +83,7 @@
 
 			<div class="workflow" id="wf_${scenario.id}">
 			<c:forEach items="${scenario.processes}" var="process" varStatus="i">
-				<div class="blockus" id="_box${process.cssId}" draggable="true" ondragstart="drag(event)">
+				<div class="blockus _p${process.cssClass} _ty${process.type}" id="_box${process.cssId}" draggable="true" ondragstart="drag(event)">
 					<div class="space-container">
 							<div class="icon-chevron-right" style="display: inline-block;"></div>
 					</div>
@@ -137,7 +137,7 @@
 		
 		<%-- Processes --%>
 		<c:forEach items="${templates}" var="template" varStatus="i">	
-			<div class="blockus template" id ="_box${template.cssId}" draggable="true" ondragstart="drag(event)">
+			<div class="blockus template _p${template.cssClass} _ty${template.type}" id ="_box${template.cssId}" draggable="true" ondragstart="drag(event)">
 				<div class="space-container">
 					<div class="icon-chevron-right" style="display: inline-block;"></div>
 				</div>
@@ -233,10 +233,91 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.0.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/wan-spinner.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/wan-spinner-launch.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/drag-and-drop.js"></script>
+
 
 <script type="text/javascript">
-	var myJson = [{"name":"_default_scenario_","id":3501,"processes":
+	
+	/* Events */
+	
+	function persistScenarios(){
+		console.log("Call persistScenarios()");
+		
+		
+		var json = computesScenariosJSon();
+		console.log("scenarios: " + JSON.stringify(json));
+			
+ 		document.getElementById('JSON').value = JSON.stringify(json);
+	}
+	
+	
+	function computesScenariosJSon(){
+		var scenarios = document.getElementsByClassName("scenario");
+		var jsonScenarios = [];
+		for(var i = 0; i < scenarios.length; i++){
+			jsonScenarios.push(scenarioToJSon(scenarios[i]));
+		}
+		return jsonScenarios;
+	}
+	
+	
+	/* JSON Genertors */	
+	
+	function scenarioToJSon(scenario) {
+		console.log("scenarioToJSON called");
+		var name = scenario.getElementsByClassName("scenario-name")[0].innerHTML.trim();
+		var id = scenario.id.replace("_sc", "");
+		
+		var blockuses = scenario.getElementsByClassName("blockus");
+		var jsonWorkflow = [];
+		
+		//length - 1 because the last element is the #endBlock
+		for(var i = 0; i < blockuses.length - 1; i++){
+			jsonWorkflow.push(blockusToJSon(blockuses[i]));
+		}
+		
+		return {"name": name, "id": id, "processes": jsonWorkflow};
+	}
+	
+	
+	function blockusToJSon(blockus) {
+		console.log("blockusToJSON called");
+		
+		var cssId = blockus.id.replace("_box", "");
+		var cssClass = getClass(blockus, "_p");
+		var type = getClass(blockus, "_ty");
+		
+		var name;
+		var pause;
+		if(type==="PAUSE"){
+			console.log("Pause condition");
+			var pauseBlock = blockus.getElementsByClassName("pause-name")[0];
+			name = pauseBlock.innerHTML;
+			var s = "#" + blockus.id + " input";
+			pause = parseInt( $("#" + blockus.id + " input")[0].value, 10);
+		}
+		else {
+			console.log("else condition");
+			var process = blockus.getElementsByClassName("action")[0];
+			name = process.innerHTML;
+			pause = -1;
+		}
+		
+		return {"name": name, "cssId": cssId, "cssClass": cssClass, "type": type, "pause": pause};
+	}
+
+	function getClass(elt, prefix) {
+		var classes = elt.className.split(/\s+/);
+		var res;
+		$.each(classes, function() {
+			if(this.includes(prefix)) {
+				res = this.replace(prefix, "");
+			}
+		});
+		return res;
+	}
+	
+	
+	/*var myJson = [{"name":"_default_scenario_","id":3501,"processes": 
 					[{"name":"Login","cssId":"0","cssClass":"4001","type":"LOGIN","pause":-42},
 					 {"name":"Pause","cssId":"1","cssClass":"Pause","type":"PAUSE","pause":5},
 					 {"name":"Random Page","cssId":"2","cssClass":"4002","type":"RANDOMPAGE","pause":-42},
@@ -244,9 +325,11 @@
 					 {"name":"Pause","cssId":"4","cssClass":"Pause","type":"PAUSE","pause":10},
 					 {"name":"Login","cssId":"5","cssClass":"4001","type":"LOGIN","pause":-42},
 					 {"name":"Logout","cssId":"6","cssClass":"4003","type":"LOGOUT","pause":-42}]
-				}];
-	document.getElementById('JSON').value = JSON.stringify(myJson);
+				}];*/
+	
 </script>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/drag-and-drop.js"></script>
 
 
 <script type="text/javascript" >

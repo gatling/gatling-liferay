@@ -60,6 +60,8 @@ function drop(ev) {
 
 	// Insert the elements
 	workflow.insertBefore(blockDragged, blockTarget);
+	
+	persistScenarios();
 }
 
 // TODO check the use of this fucntion
