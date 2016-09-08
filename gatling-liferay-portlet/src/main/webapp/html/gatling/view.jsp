@@ -347,7 +347,7 @@
 	//Function called when the element is dropped
 	function drop(ev) {
 		console.log("Droping in: " + this.id);
-		//ev.preventDefault();
+		ev.preventDefault();
 		
 		$(this).removeClass("extented-space");
 		$(this).addClass("space-container");
