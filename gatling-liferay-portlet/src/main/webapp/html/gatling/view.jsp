@@ -102,6 +102,7 @@
 	<aui:fieldset class="fieldset">
 	
 	<input name="<%=renderResponse.getNamespace()%>JSON" id="JSON" type="hidden" value="coucou" />
+	<input id="COUNTER" type="hidden" value="${counter}"/>
 		
 	<%-- Scenario Title --%>
 	<legend class="fieldset-legend">
@@ -320,6 +321,15 @@
 	[].forEach.call(cols, function(col) {
 		addDragFeature(col);
 	});
+	
+	var count = parseInt($("#COUNTER").val(), 10);
+	console.log("Initial identifier: " + count);
+	
+	function freshIdentifier(){
+		count++;
+		console.log("Fresh identifier: " + count);
+		return count;
+	}
 
 	function addDragFeature(elt) {
 		elt.addEventListener('dragenter', handleDragEnter, false);
@@ -354,7 +364,9 @@
 		if (blockDragged.className.includes("template")) {
 			console.log("cloning...");
 			blockDragged = blockDragged.cloneNode(true);
+			
 			$(blockDragged).removeClass("template");
+			$(blockDragged).attr("id", freshIdentifier());
 
 			//Retrieve the space Container in the fresh dragged Block
 			var spaceContainer = blockDragged.childNodes[1];
