@@ -1,0 +1,39 @@
+.library {
+	width: 100%;
+	padding: 8px;
+	padding-top: 1px;
+	background: rgba(0, 174, 255, 0.28);
+}
+
+.workflow .space-container {
+	/*  background: red;*/
+	display: inline-block;
+	width: 20px;
+	padding: 0px 10px;
+	height: 80px;
+	vertical-align: middle;
+	text-align: center;
+	line-height: 80px;
+}
+
+.library .space-container {
+	visibility: hidden;
+}
+
+.blockus {
+	display: inline-block;
+}
+
+.extented-space {
+	display: inline-block;
+	width: 150px;
+	height: 80px;
+	vertical-align: middle;
+	text-align: center;
+	line-height: 80px;
+	opacity: 0;
+}
+
+.extented-space .icon-chevron-right {
+	pointer-events: none;
+}
