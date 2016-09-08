@@ -5,51 +5,10 @@
 
 
 <%-- CSS --%>
-<style type="text/css">
-
-	.library {
-		width:100%;
-		padding: 8px;
-		padding-top:1px;
-		background: rgba(0, 174, 255, 0.28);
-	}
-	
-	.workflow .space-container {
-		/*  background: red;*/
-		display: inline-block;
-		width: 20px;
-		padding: 0px 10px;
-	 	height: 80px;
-		vertical-align: middle;
-		text-align: center;
-		line-height: 80px;
-	}
-	
-	.library .space-container {
-		visibility: hidden;
-	}
-	
-	.blockus {
-		display:inline-block;
-	}
-
-	.extented-space {
-		display: inline-block;
-		width: 150px;
-		height: 80px;
-		vertical-align: middle;
-		text-align: center;
-		line-height: 80px;
- 		opacity: 0; 
-	}
-	.extented-space .icon-chevron-right {
-		pointer-events: none;
-	}
-	
-</style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/wan-spinner.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/drag-and-drop.css">
 
 
 <%-- COWDE --%>
@@ -134,9 +93,9 @@
 						<div class="pause">
 							<div class="pause-name process-font">Pause</div>
 							<div class="wan-spinner time process-font">
-							<a href="javascript:void(0)" class="minus">-</a>
+							<a href="javascript:void(0)" class="minus" draggable="false">-</a>
 								<input type="text" class="process-fond" name="<%=renderResponse.getNamespace()%>" value="${process.getPause()}"><span class="process-font">s</span>
-								<a href="javascript:void(0)" class="plus">+</a>
+							<a href="javascript:void(0)" class="plus" draggable="false">+</a>
 							</div>
 						</div>
 						</c:when>
@@ -273,7 +232,8 @@
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.0.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/wan-spinner.js"></script>
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/wan-spinner-launch.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/drag-and-drop.js"></script>
 
 <script type="text/javascript">
 	var myJson = [{"name":"_default_scenario_","id":3501,"processes":
@@ -288,119 +248,6 @@
 	document.getElementById('JSON').value = JSON.stringify(myJson);
 </script>
 
-
-<!-- JS handling the pause time buttons -->
-<script type="text/javascript">
-  $(document).ready(function() {
-    var options = {
-      maxValue: 99,
-      minValue: 0,
-      step: 1,
-      start: 2,
-      plusClick: function(val) {
-        console.log(val);
-      },
-      minusClick: function(val) {
-        console.log(val);
-      },
-      exceptionFun: function(val) {
-        console.log("excep: " + val);
-      },
-      valueChanged: function(val) {
-        console.log('change: ' + val);
-      }
-    }
-    $(".time").WanSpinner(options);
-  });
-  
-</script>
-
-<!-- JS handling the beautiful drag and drop \o/ -->
-<script type="text/javascript">
-	
-	//Prepares the div array and addActions on all the elements space-container
-	var cols = document.querySelectorAll('.space-container');
-	[].forEach.call(cols, function(col) {
-		addDragFeature(col);
-	});
-	
-	var count = parseInt($("#COUNTER").val(), 10);
-	console.log("Initial identifier: " + count);
-	
-	function freshIdentifier(){
-		count++;
-		console.log("Fresh identifier: " + count);
-		return count;
-	}
-
-	function addDragFeature(elt) {
-		elt.addEventListener('dragenter', handleDragEnter, false);
-		elt.addEventListener('dragover', handleDragOver, false);
-		elt.addEventListener('dragleave', handleDragLeave, false);
-		elt.addEventListener('drop', drop, false);
-	}
-
-	//Function called when any draggable element is dragged
-	function drag(ev) {
-		console.log("Drag->Element:" + ev.target.id + " dragged");
-		ev.dataTransfer.setData("text", ev.target.id);
-	}
-
-	//Function called when the element is dropped
-	function drop(ev) {
-		console.log("Droping in: " + this.id);
-		ev.preventDefault();
-		
-		$(this).removeClass("extented-space");
-		$(this).addClass("space-container");
-		
-		var data = ev.dataTransfer.getData("text");
-		console.log("Element: " + data + " dropped");
-		
-		// Retreives the DOM elements
-		var blockTarget = this.parentNode;
-		var workflow = blockTarget.parentNode;
-		var blockDragged = document.getElementById(data);
-
-		// Removes "template" class if present
-		if (blockDragged.className.includes("template")) {
-			console.log("cloning...");
-			blockDragged = blockDragged.cloneNode(true);
-			
-			$(blockDragged).removeClass("template");
-			$(blockDragged).attr("id", freshIdentifier());
-
-			//Retrieve the space Container in the fresh dragged Block
-			var spaceContainer = blockDragged.childNodes[1];
-			addDragFeature(spaceContainer);	
-		}
-		
-		// Insert the elements
-		workflow.insertBefore(blockDragged, blockTarget);
-	}
-
-	//TODO check the use of this fucntion
-	function handleDragOver(e) {
-		if (e.preventDefault) {
-			e.preventDefault(); // Necessary. Allows us to drop.
-		}
-		e.dataTransfer.dropEffect = 'move'; // See the section on the DataTransfer object.
-		return false;
-	}
-
-	function handleDragEnter(e) {
- 		console.log("Entering in: " + this.id);
- 		$(this).removeClass("space-container");
- 		$(this).addClass("extented-space");
-	}
-
-	function handleDragLeave(e) {
-		console.log("Leaving: " + this.id);
-		$(this).removeClass("extented-space");
-		$(this).addClass("space-container");
-	}
-
-</script>
 
 <script type="text/javascript" >
 <%@ include file="/js/defaultTourSimulation.js" %>
