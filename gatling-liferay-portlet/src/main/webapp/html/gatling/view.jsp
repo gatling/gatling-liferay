@@ -4,10 +4,6 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 
-<%-- CSS --%>
-<style  type="text/css">
-
-</style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/wan-spinner.css">
@@ -51,9 +47,12 @@
 
 <%-- Simulation Form --%>
 
+
+<div class="main-block">
 <portlet:actionURL var="saveScenariosURL">
 	<portlet:param name="action" value="saveScenarios" />
 </portlet:actionURL>
+
 <aui:form action="${saveScenariosURL}" method="post">
 	<%-- Scenario FieldSet --%>
 	<aui:fieldset class="fieldset" label="1.Design your scenarios">
@@ -168,13 +167,14 @@
 		<aui:button type="submit" value="Save scenarios" style="margin-top: 30px" />
 	</aui:fieldset>
 </aui:form>
+</div>
 
 
-
-
+<div class="main-block">
 <portlet:actionURL var="saveInjectionProfile">
 	<portlet:param name="action" value="saveInjectionProfile" />
 </portlet:actionURL>
+
 
 <aui:form action="${saveInjectionProfile}" method="post">
 
@@ -215,10 +215,10 @@
 	</aui:fieldset>
 	
 </aui:form>
+</div>
 
 
-
-
+<div class="main-block">
 <portlet:actionURL var="saveFeeders">
 	<portlet:param name="action" value="saveFeeders" />
 </portlet:actionURL>
@@ -237,15 +237,15 @@
 		<aui:button type="submit" value="Save feeders" />
 	</aui:fieldset>
 </aui:form>
+</div>
 
 
-
-	
+<div class="main-block">
 <portlet:resourceURL id="generateZip" var="resourceUrl" />
 <aui:fieldset label="4.Let's export and run with Gatling">
 	<aui:button type="button" value="Export the simulation" id="generateZip" onClick="${resourceUrl}" />
 </aui:fieldset>	
-	
+</div>
 	
     </liferay-ui:section>
     <liferay-ui:section>
@@ -377,6 +377,14 @@
 
 <style>
 
+.main-block {
+	background: rgba(239, 239, 239, 0.28);
+	padding: 20px;
+	margin: 20px 0px;
+	border-radius: 5px;
+	border: solid 1px rgba(0, 0, 0, 0.07);
+}
+
 .trashcan {
 	opacity:1;
 	position: relative;
@@ -397,12 +405,13 @@
 }
 
 .library {
-	width: 100%;
-	padding-right: 0px;
-	padding-left: 8px;
-	padding-bottom: 8px;
-	padding-top: 1px;
-	background: rgba(0, 174, 255, 0.28);
+	background: rgba(80, 199, 255, 0.3);
+	border-radius: 5px;
+	padding: 1px 0px 20px 20px;
+}
+
+.library h4 {
+	font-weight: initial;
 }
 
 .workflow .space-container {
