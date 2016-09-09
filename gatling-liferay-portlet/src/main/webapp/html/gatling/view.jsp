@@ -51,26 +51,15 @@
 
 <%-- Simulation Form --%>
 
-<portlet:actionURL var="saveDefaultSimulation">
-	<portlet:param name="action" value="saveDefaultSimulation" />
-</portlet:actionURL>
-
 <portlet:actionURL var="saveScenariosURL">
 	<portlet:param name="action" value="saveScenarios" />
 </portlet:actionURL>
-
 <aui:form action="${saveScenariosURL}" method="post">
 	<%-- Scenario FieldSet --%>
-	<aui:fieldset class="fieldset">
+	<aui:fieldset class="fieldset" label="1.Design your scenarios">
 	
 	<input name="<%=renderResponse.getNamespace()%>JSON" id="JSON" type="hidden" value="coucou" />
 	<input id="COUNTER" type="hidden" value="${counter}"/>
-		
-	<%-- Scenario Title --%>
-	<legend class="fieldset-legend">
-		<span class="legend">1.Design your scenarios</span>
-	</legend>
-
 
 	<%-- Scenario --%>
 	<c:forEach items="${scenarios}" var="scenario" varStatus="s">
@@ -165,17 +154,27 @@
 			</div>
 		</c:forEach>
 	</div>
-	
-		<aui:button type="submit" value="Save scenarios" cssClass="pull-left" style="margin-top:7px;" />
 
 	</aui:fieldset>
-	</aui:form>
+	
+	<aui:fieldset>
+		<aui:button type="submit" value="Save scenarios" style="margin-top: 30px" />
+	</aui:fieldset>
+</aui:form>
 
 
-<aui:form action="${saveDefaultSimulation}" method="post">
+
+
+<portlet:actionURL var="saveInjectionProfile">
+	<portlet:param name="action" value="saveInjectionProfile" />
+</portlet:actionURL>
+
+<aui:form action="${saveInjectionProfile}" method="post">
 
 	<%-- Details Fieldset --%>
 	<aui:fieldset label="2.Configure your injection profile">
+	
+	
 		<aui:input name="simulationId" type="hidden" value="${simulationId}" />
 		
 		<aui:input label="scenario-edit-nb-users-per-second"
@@ -204,29 +203,44 @@
 		</aui:input>
 		
 	</aui:fieldset>
-
 	
-	<%-- Login Feeder Fieldset --%>
-	<aui:fieldset label="3.Specify your feeders">
-		<aui:input name="feederContent"
-			label="write-one-account-and-password-per-line" type="textarea"
-			cssClass="textarea-feeder" value="${feederContent}"></aui:input>
-
+	<aui:fieldset>
+		<aui:button type="submit" value="Save injection profile"/>
 	</aui:fieldset>
 	
-	<%-- Login Feeder Fieldset --%>
-	<aui:fieldset label="4.Let's export and run with Gatling">
-		<%-- Submit/Save Button --%>
-		<aui:button type="submit" value="Save the simulation"
-			cssClass="pull-left" />
-		<portlet:resourceURL id="generateZip" var="resourceUrl" />
-		<aui:button type="button" value="Export the simulation" id="generateZip" onClick="${resourceUrl}" />
-	</aui:fieldset>	
 </aui:form>
 
 
 
 
+<portlet:actionURL var="saveFeeders">
+	<portlet:param name="action" value="saveFeeders" />
+</portlet:actionURL>
+
+<aui:form action="" method="post">
+	<%-- Login Feeder Fieldset --%>
+	<aui:fieldset label="3.Specify your feeders">
+	
+		<aui:input name="feederContent"
+			label="write-one-account-and-password-per-line" type="textarea"
+			cssClass="textarea-feeder" value="${feederContent}"></aui:input>
+			
+	</aui:fieldset>
+	
+	<aui:fieldset>
+		<aui:button type="submit" value="Save feeders" />
+	</aui:fieldset>
+</aui:form>
+
+
+
+	
+<portlet:resourceURL id="generateZip" var="resourceUrl" />
+<aui:fieldset label="4.Let's export and run with Gatling">
+	<aui:button type="button" value="Export the simulation" id="generateZip" onClick="${resourceUrl}" />
+</aui:fieldset>	
+	
+	
     </liferay-ui:section>
     <liferay-ui:section>
     </liferay-ui:section>
