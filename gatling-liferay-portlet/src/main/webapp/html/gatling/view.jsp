@@ -70,7 +70,14 @@
 			</div>
 			
 			<div class="scenario-name" >
-				${scenario.name}
+					<c:choose >
+						<c:when test="${s.first}">
+							${scenario.name}
+						</c:when>
+						<c:otherwise>
+							<aui:input label="" name="scenario_${scenario.id}name" value="${scenario.name}" inlineField="true" />
+						</c:otherwise>
+					</c:choose>
 			</div>
 
 			<div class="workflow" id="wf_${scenario.id}">
@@ -278,7 +285,17 @@
 	
 	function scenarioToJSon(scenario) {
 		console.log("scenarioToJSON called");
-		var name = scenario.getElementsByClassName("scenario-name")[0].innerHTML.trim();
+		var nameBlock = scenario.getElementsByClassName("scenario-name")[0];
+		var name;
+		
+		var inputs = nameBlock.getElementsByClassName("field");
+		// Distinguish first element "_default_scenario_" from other inputs
+		if (inputs.length > 0) {
+			name = inputs[0].value;
+		}
+		else {
+			name =nameBlock.innerHTML.trim();
+		}
 		var id = scenario.id.replace("_sc", "");
 		
 		var blockuses = scenario.getElementsByClassName("blockus");

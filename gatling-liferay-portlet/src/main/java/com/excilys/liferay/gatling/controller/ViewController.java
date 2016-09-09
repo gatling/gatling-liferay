@@ -149,6 +149,7 @@ public class ViewController {
 	
 	@ActionMapping(params="action=saveInjectionProfile")
 	public void saveInjectionProfile(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, NoSuchScenarioException{
+
 		long simulationId = ParamUtil.getLong(request, "simulationId");
 		long numberOfUsers = ParamUtil.getLong(request, "numberOfUsers");
 		long rampUp = ParamUtil.getLong(request, "rampUp");
@@ -169,7 +170,19 @@ public class ViewController {
 		response.setRenderParameter("render", "renderView");
 	}
 	
-
+	@ActionMapping(params="action=deleteScenarios")
+	public void deleteScenarios(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{
+		LOG.debug("Action Triggered: DeleteScenarioe");
+		
+		long[] scenariosIds = ParamUtil.getLongValues(request, "deleted");
+		// Delete selected scenarios
+		for (long id : scenariosIds) {
+			ScenarioLocalServiceUtil.deleteScenario(id);
+		}
+		
+		response.setRenderParameter("render", "renderView");
+	}
+	
 	@ActionMapping(params="action=saveFeeders")
 	public void saveFeeders(final ActionRequest request, final ActionResponse response, final Model model) throws PortalException, SystemException{
 		long simulationId = ParamUtil.getLong(request, "simulationId");
@@ -181,7 +194,7 @@ public class ViewController {
 		
 		response.setRenderParameter("render", "renderView");
 	}
-	
+
 	
 	@ActionMapping(params="action=saveScenarios")
 	public void saveMyScenarios(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{
