@@ -107,11 +107,6 @@ public class ViewController {
 			
 		}
 		
-		// Injection modes
-		List<String> injectionsMode = new ArrayList<>();
-		injectionsMode.add("ramp Over");
-		injectionsMode.add("at Once");
-		
 		/* Scenarios List */
 		List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(defaultSimulation.getSimulation_id());
 		List<ScenarioDTO> scenariosDTO = new ArrayList<>();
@@ -120,6 +115,14 @@ public class ViewController {
 			scenariosDTO.add(s);
 			counter += s.getProcesses().size();
 		}
+		
+		// Injection modes
+		List<String> injectionsMode = new ArrayList<>();
+		injectionsMode.add("ramp Over");
+		injectionsMode.add("at Once");
+		
+		//Current Injection
+		String currentInjection = scenarios.get(0).getInjection();
 		
 		/* Library Scenarios */
 		List<Process> allProcesses = ProcessLocalServiceUtil.getProcesses(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
@@ -133,11 +136,11 @@ public class ViewController {
 		
 		/* Record the simulation and scenario data */
 		renderRequest.setAttribute("simulationId", defaultSimulation.getSimulation_id());
-		renderRequest.setAttribute("scenarioInjection", "ramp Over");
 		renderRequest.setAttribute("scenarios", scenariosDTO);
 		renderRequest.setAttribute("numberOfUsers", defaultScenario.getNumberOfUsers());
 		renderRequest.setAttribute("rampUp", defaultScenario.getDuration());
 		renderRequest.setAttribute("injections", injectionsMode);
+		renderRequest.setAttribute("currentInjection", currentInjection);
 		renderRequest.setAttribute("feederContent", defaultSimulation.getFeederContent());
 		renderRequest.setAttribute("templates", templates);
 		renderRequest.setAttribute("counter", counter);

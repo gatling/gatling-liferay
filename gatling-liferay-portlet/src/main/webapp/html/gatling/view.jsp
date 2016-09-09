@@ -188,10 +188,9 @@
 		<aui:select label="injection" name="injectionMode"
 			required="true"  inlineField="true" helpMessage="injection-info-help">
 			<c:forEach var="mode" items="${injections}">
-				<c:set var="isSelected" scope="request"
-					value="${mode eq 'ramp Over'}" />
+				<c:set var="isSelected" scope="request" value="${mode eq currentInjection}" />
 				<aui:option label="${mode}"
-					value="${mode}" selected="isSelected" />
+					value="${mode}" selected="${isSelected}" />
 			</c:forEach>
 		</aui:select>
 
