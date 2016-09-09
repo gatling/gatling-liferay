@@ -83,7 +83,7 @@
 
 			<div class="workflow" id="wf_${scenario.id}">
 			<c:forEach items="${scenario.processes}" var="process" varStatus="i">
-				<div class="blockus _p${process.cssClass} _ty${process.type}" id="_box${process.cssId}" draggable="true" ondragstart="drag(event)">
+				<div class="blockus _p${process.cssClass} _ty${process.type}" id="_box${process.cssId}" draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)">
 					<div class="space-container">
 							<div class="icon-chevron-right" style="display: inline-block;"></div>
 					</div>
@@ -137,7 +137,7 @@
 		
 		<%-- Processes --%>
 		<c:forEach items="${templates}" var="template" varStatus="i">	
-			<div class="blockus template _p${template.cssClass} _ty${template.type}" id ="_box${template.cssId}" draggable="true" ondragstart="drag(event)">
+			<div class="blockus template _p${template.cssClass} _ty${template.type}" id ="_box${template.cssId}" draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)">
 				<div class="space-container">
 					<div class="icon-chevron-right" style="display: inline-block;"></div>
 				</div>
@@ -418,6 +418,18 @@ function addDragFeature(elt) {
 function drag(ev) {
 	console.log("Drag->Element:" + ev.target.id + " dragged");
 	ev.dataTransfer.setData("text", ev.target.id);
+	
+	if (!ev.target.className.includes("template")) {
+		$(ev.target).addClass("dragged");
+		setTimeout(function() {
+			ev.target.style.display = "none";
+		}, 1);
+	}
+}
+
+function endDrag(ev) {
+	$(ev.target).removeClass("dragged");
+	ev.target.style.display = "inline-block";
 }
 
 //Function called when the element is dropped
@@ -425,6 +437,7 @@ function drop(ev) {
 	console.log("Droping in: " + this.id);
 	ev.preventDefault();
 
+	endDrag(ev);
 	$(this).removeClass("extented-space");
 	$(this).addClass("space-container");
 
