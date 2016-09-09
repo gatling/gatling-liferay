@@ -583,6 +583,10 @@ function drop(ev) {
 		var spaceContainer = blockDragged.childNodes[1];
 		addDragFeature(spaceContainer);
 	}
+	
+	if (blockDragged.className.includes("_tyPAUSE")) {
+		wanSpinerLaunch();
+	}
 
 	// Insert the elements
 	workflow.insertBefore(blockDragged, blockTarget);
