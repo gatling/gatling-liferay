@@ -17,6 +17,11 @@
 	<portlet:param name="render" value="renderRecorderView" />
 </portlet:renderURL>
 
+<portlet:actionURL  var="deleteScenarioURL">
+	<portlet:param name="action" value="deleteScenarios" />
+</portlet:actionURL>
+
+
 <liferay-ui:tabs names="Scenario Builder,Recorder" param="tabs" refresh="false" url1="${renderRecorderView}"> 
 <liferay-ui:section>
 
@@ -67,6 +72,11 @@
 			<div class="scenario-box" >
 				<input type="checkbox">
 			</div>
+			
+			<a id="deleteButton" href="${deleteScenarioURL}?id=5" >
+					<input name="scenario" id="hey" type="hidden" value="coucou" />
+					<i class="icon-trash" style="color:red;"></i>
+			</a>
 			
 			<div class="scenario-name" >
 					<c:choose >
@@ -242,6 +252,7 @@
 
 <div class="main-block">
 <portlet:resourceURL id="generateZip" var="resourceUrl" />
+
 <aui:fieldset label="4.Let's export and run with Gatling">
 	<aui:button type="button" value="Export the simulation" id="generateZip" onClick="${resourceUrl}" />
 </aui:fieldset>	
