@@ -373,6 +373,15 @@
 	display: inline-block;
 }
 
+.action, .pause {
+	cursor: pointer;
+	transition: box-shadow 0.5s;
+}
+
+.action:hover, .pause:hover {
+	box-shadow: 1px 1px 4px #555;
+}
+
 .extented-space {
 	display: inline-block;
 	width: 150px;
