@@ -121,16 +121,6 @@ public class ViewController {
 			counter += s.getProcesses().size();
 		}
 		
-//		//TODO debug, to be removed
-//		ObjectMapper mapper = new ObjectMapper();
-//		try {
-//			String stringifiyed =  mapper.writeValueAsString(scenariosDTO);
-//			System.out.println("My JSON result:"+stringifiyed);
-//		} catch (JsonProcessingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
 		/* Library Scenarios */
 		List<Process> allProcesses = ProcessLocalServiceUtil.getProcesses(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 		List<ProcessDTO> templates = new ArrayList<>(allProcesses.size());
@@ -154,53 +144,47 @@ public class ViewController {
 		return "view";
 	}
 	
-	@ActionMapping(params="action=saveDefaultSimulation")
-	public void editFeederAction(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{
-		LOG.debug("Action Triggered : Save Default Simulation");
-		
+	@ActionMapping(params="action=saveInjectionProfile")
+	public void saveInjectionProfile(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, NoSuchScenarioException{
 		long simulationId = ParamUtil.getLong(request, "simulationId");
-		//long scenarioGroupId = ParamUtil.getLong(request, "scenarioGroupId");
 		long numberOfUsers = ParamUtil.getLong(request, "numberOfUsers");
 		long rampUp = ParamUtil.getLong(request, "rampUp");
 		String injection = ParamUtil.getString(request, "injectionMode");
 		
-		String feederContent = ParamUtil.getString(request, "feederContent");
-		
-		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
-		simulation.setFeederContent(feederContent);
-		SimulationLocalServiceUtil.updateSimulation(simulation);
-
-		List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
+		List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
 		if(scenarios == null || scenarios.isEmpty()) {
 			throw new NoSuchScenarioException();
 		}
 		
 		for (Scenario scenario : scenarios) {
-			//scenario.setGroup_id(scenarioGroupId);
 			scenario.setInjection(injection);
 			scenario.setNumberOfUsers(numberOfUsers);
 			scenario.setDuration(rampUp);
-			
-//			List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(scenario.getScenario_id());
-//			for (Process process : processes) {
-//				int time = ParamUtil.getInteger(request, process.getProcess_id()+"");
-//				if(time != process.getPause()) {
-//					process.setPause(time);
-//					ProcessLocalServiceUtil.updateProcess(process);
-//				}
-//			}
-			
 			ScenarioLocalServiceUtil.updateScenario(scenario);
 		}
 		
 		response.setRenderParameter("render", "renderView");
 	}
 	
+
+	@ActionMapping(params="action=saveFeeders")
+	public void saveFeeders(final ActionRequest request, final ActionResponse response, final Model model) throws PortalException, SystemException{
+		long simulationId = ParamUtil.getLong(request, "simulationId");
+		String feederContent = ParamUtil.getString(request, "feederContent");
+		
+		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
+		simulation.setFeederContent(feederContent);
+		SimulationLocalServiceUtil.updateSimulation(simulation);
+		
+		response.setRenderParameter("render", "renderView");
+	}
+	
+	
 	@ActionMapping(params="action=saveScenarios")
 	public void saveMyScenarios(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{
 		String json = ParamUtil.getString(request, "JSON");
 		LOG.debug("saveScenario called:");
-		//String json2 = (String) request.getAttribute("JSON");
+		
 		LOG.debug(json);
 		ObjectMapper mapper = new ObjectMapper();
 		try {
