@@ -42,15 +42,6 @@
 	height: 80px;
 }
 
-.action {
-	display: inline-block;
-	background: rgb(88, 148, 227);
-	height: 45px;
-	line-height: 45px;
-	padding: 0px 20px;
-	border-radius: 10px;
-}
-
 .time-separator-container {
 	display: inline-block ;
  	height: 80px;

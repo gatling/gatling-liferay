@@ -442,6 +442,26 @@
 	transition: box-shadow 0.5s;
 }
 
+.action {
+	display: inline-block;
+	height: 45px;
+	line-height: 45px;
+	padding: 0px 20px;
+	border-radius: 10px;
+}
+
+._tyLOGIN .action, ._tyLOGOUT .action {
+	background: rgb(88, 148, 227);
+}
+
+._tyRANDOMPAGE .action {
+	background: rgb(219, 125, 125);
+}
+
+._tyRECORD .action {
+	background: rgb(126, 191, 127);
+}
+
 .action:hover, .pause:hover {
 	box-shadow: 1px 1px 4px #555;
 }
