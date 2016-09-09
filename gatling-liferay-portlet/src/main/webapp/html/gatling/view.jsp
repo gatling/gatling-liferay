@@ -5,6 +5,9 @@
 
 
 <%-- CSS --%>
+<style  type="text/css">
+
+</style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/wan-spinner.css">
@@ -133,6 +136,7 @@
 
 	<%-- Library, not filled with books but with Processes --%>
 	<div class="library">
+		<div id="trashcan" class="hide-trashcan trashcan" ><div class="icon-remove-sign"></div></div>
 		<h4>Process Library:</h4>
 		
 		<%-- Processes --%>
@@ -148,7 +152,7 @@
 							<div class="pause-name process-font">Pause</div>
 							<div class="wan-spinner time process-font">
 							<a href="javascript:void(0)" class="minus">-</a>
-								<input type="text" class="process-fond" name="<%=renderResponse.getNamespace()%>" value="${template.getPause()}"><span class="process-font">s</span>
+								<input type="text" class="process-fond time-input" name="<%=renderResponse.getNamespace()%>" value="${template.getPause()}"><span class="process-font">s</span>
 								<a href="javascript:void(0)" class="plus">+</a>
 							</div>
 						</div>
@@ -343,9 +347,30 @@
 
 <style>
 
+.trashcan {
+	opacity:1;
+	position: relative;
+	display: block;
+	font-size: 5em;
+	background: #f69a9a;
+	float: right;
+	height: 113px;
+	width: 170px;
+	line-height: 110px;
+	text-align: center;
+	color: whitesmoke;
+	transition: opacity 0.5s;
+}
+
+.hide-trashcan {
+	opacity:0;
+}
+
 .library {
 	width: 100%;
-	padding: 8px;
+	padding-right: 0px;
+	padding-left: 8px;
+	padding-bottom: 8px;
 	padding-top: 1px;
 	background: rgba(0, 174, 255, 0.28);
 }
@@ -406,6 +431,25 @@ var cols = document.querySelectorAll('.space-container');
 	addDragFeature(col);
 });
 
+var trash = document.getElementById("trashcan");
+console.log("trash:"+ trash.innerHTML);
+
+trash.addEventListener("drop", function(ev) {
+    // prevent default action (open as link for some elements)
+    ev.preventDefault();
+	
+	var data = ev.dataTransfer.getData("text");
+    // move dragged elem to the selected drop target
+    var blockDragged = document.getElementById(data);
+    if (!trash.className.includes("hide-trashcan") && !blockDragged.className.includes("template")) {
+    	blockDragged.parentNode.removeChild( blockDragged );
+        //event.target.appendChild( dragged );
+    }
+    persistScenarios();
+}, false);
+
+trash.addEventListener('dragover', handleDragOver, false);
+
 //The counter
 var count = parseInt($("#COUNTER").val(), 10);
 console.log("Initial identifier: " + count);
@@ -415,6 +459,8 @@ function freshIdentifier() {
 	console.log("Fresh identifier: " + count);
 	return count;
 }
+
+
 
 function addDragFeature(elt) {
 	elt.addEventListener('dragenter', handleDragEnter, false);
@@ -429,6 +475,10 @@ function drag(ev) {
 	ev.dataTransfer.setData("text", ev.target.id);
 	
 	if (!ev.target.className.includes("template")) {
+		//Display the process trashcan
+		var trashcan = $("#trashcan");
+		trashcan.removeClass("hide-trashcan");
+		
 		$(ev.target).addClass("dragged");
 		setTimeout(function() {
 			ev.target.style.display = "none";
@@ -439,6 +489,9 @@ function drag(ev) {
 function endDrag(ev) {
 	$(ev.target).removeClass("dragged");
 	ev.target.style.display = "inline-block";
+	
+	var trashcan = $("#trashcan");
+	trashcan.addClass("hide-trashcan");
 }
 
 //Function called when the element is dropped
@@ -447,6 +500,7 @@ function drop(ev) {
 	ev.preventDefault();
 
 	endDrag(ev);
+
 	$(this).removeClass("extented-space");
 	$(this).addClass("space-container");
 
