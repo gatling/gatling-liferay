@@ -10,6 +10,7 @@ import com.excilys.liferay.gatling.dto.mapper.ProcessDTOMapper;
 import com.excilys.liferay.gatling.dto.mapper.ScenarioDTOMapper;
 import com.excilys.liferay.gatling.model.Login;
 import com.excilys.liferay.gatling.model.Process;
+import com.excilys.liferay.gatling.model.ProcessScenarioLink;
 import com.excilys.liferay.gatling.model.ProcessType;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
@@ -170,14 +171,7 @@ public class ViewController {
 		response.setRenderParameter("render", "renderView");
 	}
 	
-	@ActionMapping(params="action=deleteScenarios")
-	public void deleteScenarios(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{
-		LOG.debug("Action Triggered: DeleteScenarios");
-		long scenarioId = ParamUtil.getLong(request, "scenarioId");
-		ScenarioLocalServiceUtil.deleteScenario(scenarioId);
-
-		response.setRenderParameter("render", "renderView");
-	}
+	
 	
 	@ActionMapping(params="action=saveFeeders")
 	public void saveFeeders(final ActionRequest request, final ActionResponse response, final Model model) throws PortalException, SystemException{
@@ -209,9 +203,26 @@ public class ViewController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		// if the action is launched from a trashcan buton, delete the related scenario
+		String scenarioId = ParamUtil.getString(request, "scenarioId");
+		if (!scenarioId.equals("notDefined")) {
+			deleteScenarios(Long.parseLong(scenarioId));
+		}
+		
 		response.setRenderParameter("render", "renderView");
 	}
 	
+	private void deleteScenarios(long scenarioId) throws SystemException, PortalException{
+		
+		List<ProcessScenarioLink> links = ProcessScenarioLinkLocalServiceUtil.findByscenarioId(scenarioId);
+		for (ProcessScenarioLink processScenarioLink : links) {
+			ProcessScenarioLinkLocalServiceUtil.deleteProcessScenarioLink(processScenarioLink.getPsl_id());
+		}
+		
+		ScenarioLocalServiceUtil.deleteScenario(scenarioId);
+	}
+
 	@ResourceMapping(value="generateZip")	
 	public void exportZippedEnvironment(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
 		LOG.debug("Generating zip file...");

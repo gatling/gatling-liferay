@@ -69,21 +69,19 @@
 	<%-- Scenario FieldSet --%>
 	<aui:fieldset class="fieldset" label="1.Design your scenarios">
 	
-	<input name="<%=renderResponse.getNamespace()%>JSON" id="JSON" type="hidden" value="coucou" />
+	<input name="<%=renderResponse.getNamespace()%>JSON" id="JSON" type="hidden" value="notDefined" />
 	<input id="COUNTER" type="hidden" value="${counter}"/>
-
+	<aui:input name="scenarioId" id="scenarioId" type="hidden" value="notDefined"/>
+	
 	<%-- Scenario --%>
 	<c:forEach items="${scenarios}" var="scenario" varStatus="s">
 		<div class="scenario" id="_sc${scenario.id}" >
 		
 			<div class="scenario-box" >
 				<c:if test="${!s.first}" >
-				<aui:form action="${deleteScenarioURL}" method="post" >
-					<aui:input name="scenarioId" id="id" type="hidden" value="${scenario.id}" />
-					<a href="#" onclick="$(this).closest('form').submit()" >
+					<a href="#" onclick="setScenarioId(${scenario.id}); $(this).closest('form').submit()" >
 							<i class="icon-trash"></i>
 					</a>
-				</aui:form>
 				</c:if>
 			</div>
 			
@@ -95,7 +93,7 @@
 							${scenario.name}
 						</c:when>
 						<c:otherwise>
-							<aui:input label="" name="scenario_${scenario.id}name" value="${scenario.name}" inlineField="true" />
+							<aui:input label="" name="scenario_${scenario.id}name" value="${scenario.name}" inlineField="true" class="inputName"/>
 						</c:otherwise>
 					</c:choose>
 			</div>
@@ -391,6 +389,11 @@
 		     }
 		   });
 	});
+
+	function setScenarioId(id) {
+		document.getElementById('_gatling_WAR_gatlingliferayportlet_scenarioId').value = id;
+		persistScenarios();
+	}
 	
 </script>
 
@@ -433,6 +436,10 @@
 	background: rgba(80, 199, 255, 0.3);
 	border-radius: 5px;
 	padding: 1px 0px 20px 20px;
+}
+
+.library .fullTrashcan {
+	brackground: green;
 }
 
 .library h4 {
