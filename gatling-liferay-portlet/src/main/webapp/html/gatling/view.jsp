@@ -6,9 +6,65 @@
 
 <%-- CSS --%>
 <style  type="text/css">
-		.scenario-box form {
-			margin: 0px;
-		}
+
+.scenario-box form {
+	margin: 0px;
+}
+
+.main-block {
+	background: rgba(239, 239, 239, 0.28);
+	padding: 20px;
+	margin: 20px 0px;
+	border-radius: 5px;
+	border: solid 1px rgba(0, 0, 0, 0.07);
+}
+
+.library {
+	position: relative;
+}
+
+.library h4 {
+	font-weight: initial;
+}
+
+.trashcan {
+	position: absolute;
+	display: block;
+	font-size: 5em;
+	background: rgba(120, 74, 74, 0.83);
+	height: 100%;
+	width: 100%;
+	text-align: center;
+	color: whitesmoke;
+	transition: opacity 0.5s;
+	z-index: 10;
+	border-radius: 5px;
+}
+
+.trashcan div {
+	position: absolute;
+	top: calc(50% - 37px);	
+}
+
+.hide-trashcan {
+	opacity: 0;
+	z-index: 0;
+}
+
+.libcontent {
+	background: rgba(80, 199, 255, 0.3);
+	border-radius: 5px;
+	padding: 1px 0px 20px 20px;
+ 	position: relative;
+ 	z-index: 1;
+}
+
+ .libcontent .btn-group {
+ 	position: absolute;
+ 	right: 0px;
+ 	top: 0px;
+ 	margin: 10px ;
+ } 
 		
 </style>
 
@@ -85,8 +141,6 @@
 				</c:if>
 			</div>
 			
-			
-			
 			<div class="scenario-name" >
 					<c:choose >
 						<c:when test="${s.first}">
@@ -151,33 +205,52 @@
 	<%-- Library, not filled with books but with Processes --%>
 	<div class="library">
 		<div id="trashcan" class="hide-trashcan trashcan" ><div class="icon-remove-sign"></div></div>
-		<h4>Process Library:</h4>
 		
-		<%-- Processes --%>
-		<c:forEach items="${templates}" var="template" varStatus="i">	
-			<div class="blockus template _p${template.cssClass} _ty${template.type}" id ="_box${template.cssId}" draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)">
-				<div class="space-container">
-					<div class="icon-chevron-right" style="display: inline-block;"></div>
-				</div>
+		<div class="libcontent">
+			<h4>Process Library:</h4>
 			
-				<c:choose >
-					<c:when test="${template.isPause()}">
-						<div class="pause">
-							<div class="pause-name process-font">Pause</div>
-							<div class="wan-spinner time process-font">
-							<a href="javascript:void(0)" class="minus">-</a>
-								<input type="text" class="process-fond time-input" name="<%=renderResponse.getNamespace()%>" value="${template.getPause()}"><span class="process-font">s</span>
-								<a href="javascript:void(0)" class="plus">+</a>
-							</div>
-						</div>
-					</c:when>
-					<c:otherwise>
-						<div class="action process-font activeprocess">${template.name}</div>
-					</c:otherwise>
-				</c:choose>
-		
+			<!-- Single button -->
+			<div class="btn-group">
+			  <a class="btn dropdown-toggle" data-toggle="dropdown">
+			    <span class="icon-plus-sign"></span>
+			    Add a new process
+			    <span class="caret"></span>
+			  </a>
+				<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu">
+			      <li><a tabindex="-1" href="#">Record Process</a></li>
+			      <li><a tabindex="-1" href="#">Random Process</a></li>
+			    </ul>
 			</div>
-		</c:forEach>
+			
+			<%-- Processes --%>
+			<div class="libprocesses">
+				<c:forEach items="${templates}" var="template" varStatus="i">	
+					<div class="blockus template _p${template.cssClass} _ty${template.type}" id ="_box${template.cssId}" draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)">
+						<div class="space-container">
+							<div class="icon-chevron-right" style="display: inline-block;"></div>
+						</div>
+					
+						<c:choose >
+							<c:when test="${template.isPause()}">
+								<div class="pause">
+									<div class="pause-name process-font">Pause</div>
+									<div class="wan-spinner time process-font">
+									<a href="javascript:void(0)" class="minus">-</a>
+										<input type="text" class="process-fond time-input" name="<%=renderResponse.getNamespace()%>" value="${template.getPause()}"><span class="process-font">s</span>
+										<a href="javascript:void(0)" class="plus">+</a>
+									</div>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="action process-font activeprocess">${template.name}</div>
+							</c:otherwise>
+						</c:choose>
+				
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+		
 	</div>
 
 	</aui:fieldset>
@@ -275,6 +348,7 @@
 <%-- JS --%>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
 
@@ -424,46 +498,6 @@
 
 <style>
 
-.main-block {
-	background: rgba(239, 239, 239, 0.28);
-	padding: 20px;
-	margin: 20px 0px;
-	border-radius: 5px;
-	border: solid 1px rgba(0, 0, 0, 0.07);
-}
-
-.trashcan {
-	opacity:1;
-	position: relative;
-	display: block;
-	font-size: 5em;
-	background: #f69a9a;
-	float: right;
-	height: 113px;
-	width: 170px;
-	line-height: 110px;
-	text-align: center;
-	color: whitesmoke;
-	transition: opacity 0.5s;
-}
-
-.hide-trashcan {
-	opacity:0;
-}
-
-.library {
-	background: rgba(80, 199, 255, 0.3);
-	border-radius: 5px;
-	padding: 1px 0px 20px 20px;
-}
-
-.library .fullTrashcan {
-	brackground: green;
-}
-
-.library h4 {
-	font-weight: initial;
-}
 
 .workflow .space-container {
 	/*  background: red;*/
