@@ -4,6 +4,13 @@
 <%@include file="/html/gatling/header.jsp"%>
 
 
+<%-- CSS --%>
+<style  type="text/css">
+		.scenario-box form {
+			margin: 0px;
+		}
+		
+</style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/wan-spinner.css">
@@ -45,7 +52,7 @@
 	<%-- Wiki Gatling Link --%>
 	<a target="blank" href='<%=PortletProps.get("gatling-wiki")%>'
 		class="btn">
-		<i class="icon-share"></i> <liferay-ui:message key="help-gatling-wiki" />
+		<i class="icon-share" style="display:none;"></i> <liferay-ui:message key="help-gatling-wiki" />
 	</a> 
 
 </div>
@@ -70,13 +77,17 @@
 		<div class="scenario" id="_sc${scenario.id}" >
 		
 			<div class="scenario-box" >
-				<input type="checkbox">
+				<c:if test="${!s.first}" >
+				<aui:form action="${deleteScenarioURL}" method="post" >
+					<aui:input name="scenarioId" id="id" type="hidden" value="${scenario.id}" />
+					<a href="#" onclick="$(this).closest('form').submit()" >
+							<i class="icon-trash"></i>
+					</a>
+				</aui:form>
+				</c:if>
 			</div>
 			
-			<a id="deleteButton" href="${deleteScenarioURL}?id=5" >
-					<input name="scenario" id="hey" type="hidden" value="coucou" />
-					<i class="icon-trash" style="color:red;"></i>
-			</a>
+			
 			
 			<div class="scenario-name" >
 					<c:choose >
@@ -268,6 +279,9 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.0.min.js"></script>
 
 <script type="text/javascript">
+
+	persistScenarios();
+	
 	
 	/* Events */
 	
@@ -626,6 +640,7 @@ function handleDragLeave(e) {
 	$(this).removeClass("extented-space");
 	$(this).addClass("space-container");
 }
+
 </script>
 
 

@@ -173,13 +173,9 @@ public class ViewController {
 	@ActionMapping(params="action=deleteScenarios")
 	public void deleteScenarios(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{
 		LOG.debug("Action Triggered: DeleteScenarios");
-		
-		/*long[] scenariosIds = ParamUtil.getLongValues(request, "deleted");
-		// Delete selected scenarios
-		for (long id : scenariosIds) {
-			ScenarioLocalServiceUtil.deleteScenario(id);
-		}*/
-		
+		long scenarioId = ParamUtil.getLong(request, "scenarioId");
+		ScenarioLocalServiceUtil.deleteScenario(scenarioId);
+
 		response.setRenderParameter("render", "renderView");
 	}
 	
