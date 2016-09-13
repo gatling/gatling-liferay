@@ -43,23 +43,26 @@ public class SiteMapLocalServiceImpl extends SiteMapLocalServiceBaseImpl {
 	
 	@Override
 	public SiteMap siteMapCreation(ThemeDisplay themeDisplay, long groupId) throws SystemException {
+		
+		//Remove existing siteMap
 		try {
-			return siteMapPersistence.findByName(DEFAULT_NAME);
-		} catch (NoSuchSiteMapException e) {
-			 UrlSiteMap urlSm = null;
-		     SiteMap siteMap = SiteMapUtil.create(CounterLocalServiceUtil.increment(SiteMap.class.getName()));
-		     siteMap.setName(DEFAULT_NAME);
-		     siteMap.persist();
-		     for (Layout layout : GatlingUtil.getSiteMap(groupId)) {
-		        urlSm = UrlSiteMapUtil.create(CounterLocalServiceUtil.increment(UrlSiteMap.class.getName()));
-		        urlSm.setFriendlyUrl(layout.getFriendlyURL().substring(1));
-		        urlSm.setSiteMapId(siteMap.getSiteMapId());
-		        urlSm.setUrl(GatlingUtil.getGroupFriendlyURL(themeDisplay, layout));
-		        urlSm.setWeight(1);
-		        urlSm.persist();
-		     }
-		     return siteMap;
-		}
+			SiteMap s = siteMapPersistence.findByName(DEFAULT_NAME);
+			siteMapPersistence.remove(s.getSiteMapId());
+		} catch (NoSuchSiteMapException e) {}
+		
+		UrlSiteMap urlSm = null;
+	    SiteMap siteMap = SiteMapUtil.create(CounterLocalServiceUtil.increment(SiteMap.class.getName()));
+	    siteMap.setName(DEFAULT_NAME);
+	    siteMap.persist();
+	    for (Layout layout : GatlingUtil.getSiteMap(groupId)) {
+	       urlSm = UrlSiteMapUtil.create(CounterLocalServiceUtil.increment(UrlSiteMap.class.getName()));
+	       urlSm.setFriendlyUrl(layout.getFriendlyURL().substring(1));
+	       urlSm.setSiteMapId(siteMap.getSiteMapId());
+	       urlSm.setUrl(GatlingUtil.getGroupFriendlyURL(themeDisplay, layout));
+	       urlSm.setWeight(1);
+	       urlSm.persist();
+	    }
+	    return siteMap;
     }
 	
 	

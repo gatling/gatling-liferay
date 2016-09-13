@@ -4,6 +4,7 @@
 package com.excilys.liferay.gatling.controller;
 
 import com.excilys.liferay.gatling.NoSuchScenarioException;
+import com.excilys.liferay.gatling.NoSuchSiteMapException;
 import com.excilys.liferay.gatling.dto.ProcessDTO;
 import com.excilys.liferay.gatling.dto.ScenarioDTO;
 import com.excilys.liferay.gatling.dto.mapper.ProcessDTOMapper;
@@ -12,6 +13,7 @@ import com.excilys.liferay.gatling.model.Login;
 import com.excilys.liferay.gatling.model.Process;
 import com.excilys.liferay.gatling.model.ProcessScenarioLink;
 import com.excilys.liferay.gatling.model.ProcessType;
+import com.excilys.liferay.gatling.model.Record;
 import com.excilys.liferay.gatling.model.Scenario;
 import com.excilys.liferay.gatling.model.Simulation;
 import com.excilys.liferay.gatling.model.SiteMap;
@@ -20,10 +22,12 @@ import com.excilys.liferay.gatling.service.ASTService;
 import com.excilys.liferay.gatling.service.LoginLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ProcessLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ProcessScenarioLinkLocalServiceUtil;
+import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SiteMapLocalServiceUtil;
 import com.excilys.liferay.gatling.service.impl.SimulationLocalServiceImpl;
+import com.excilys.liferay.gatling.service.impl.SiteMapLocalServiceImpl;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -84,12 +88,12 @@ public class ViewController {
 		Scenario defaultScenario = ScenarioLocalServiceUtil.createDefaultScenario(defaultSimulation);
 		
 		List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(defaultScenario.getScenario_id());
+
+		final ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		SiteMap defaultSiteMap = SiteMapLocalServiceUtil.siteMapCreation(themeDisplay, defaultScenario.getGroup_id());
 		
 		if(processes == null || processes.isEmpty()){
 			Login defaultLogin = LoginLocalServiceUtil.createDefaultLogin();
-			
-			final ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
-			SiteMap defaultSiteMap = SiteMapLocalServiceUtil.siteMapCreation(themeDisplay, defaultScenario.getGroup_id());
 			
 			Process login = ProcessLocalServiceUtil.createProcess("Login", ProcessType.LOGIN,
 					defaultLogin.getPrimaryKey());
