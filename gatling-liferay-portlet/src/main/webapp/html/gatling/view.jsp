@@ -121,7 +121,7 @@
 	<portlet:param name="action" value="saveScenarios" />
 </portlet:actionURL>
 
-<aui:form action="${saveScenariosURL}" method="post">
+<aui:form action="${saveScenariosURL}"  name="formS" cssClass="form-inline">
 	<%-- Scenario FieldSet --%>
 	<aui:fieldset class="fieldset" label="1.Design your scenarios">
 	
@@ -147,7 +147,13 @@
 							${scenario.name}
 						</c:when>
 						<c:otherwise>
-							<aui:input label="" name="scenario_${scenario.id}name" value="${scenario.name}" inlineField="true" class="inputName"/>
+							<aui:input label="" name="scenario_${scenario.id}name" value="${scenario.name}" inlineField="true" class="inputName">
+								<aui:validator name="custom" errorMessage="simulation-name-syntaxe">
+										function (val, fieldNode, ruleValue) {
+											return /^[\w\s$]+$/.test(val);
+										}
+								</aui:validator>
+							</aui:input>
 						</c:otherwise>
 					</c:choose>
 			</div>
@@ -315,10 +321,10 @@
 	<portlet:param name="action" value="saveFeeders" />
 </portlet:actionURL>
 
-<aui:form action="" method="post">
+<aui:form action="${saveFeeders}" method="post">
 	<%-- Login Feeder Fieldset --%>
 	<aui:fieldset label="3.Specify your feeders">
-	
+		<aui:input name="simulationId" type="hidden" value="${simulationId}" />
 		<aui:input name="feederContent"
 			label="write-one-account-and-password-per-line" type="textarea"
 			cssClass="textarea-feeder" value="${feederContent}"></aui:input>
