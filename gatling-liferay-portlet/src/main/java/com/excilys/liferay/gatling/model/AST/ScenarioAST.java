@@ -1,6 +1,7 @@
 package com.excilys.liferay.gatling.model.AST;
 
 import com.excilys.liferay.gatling.model.AST.process.ProcessAST;
+import com.excilys.liferay.gatling.util.GatlingUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ public class ScenarioAST {
 	private List<ProcessAST> processes;
 
 	public ScenarioAST(String scenarioName, long users, String injection, long rampUp, List<ProcessAST> processList) {
-		this.scenarioName = scenarioName;
+		this.scenarioName = GatlingUtil.createVariableName("", scenarioName);
 		this.users = users;
 		this.injection = injection;
 		this.rampUp = rampUp;

@@ -59,7 +59,7 @@ public class GatlingUtil {
 	 * @param name
 	 * @return
 	 */
-	private static String createVariableName(String prefix, String name) {
+	public static String createVariableName(String prefix, String name) {
 		
 		if (!name.isEmpty() && name.charAt(0)=='_') {
 			//Hack if the name starts with '_' which causes an Error if not processed
@@ -248,16 +248,17 @@ public class GatlingUtil {
 		
 		//create and export only one file with scenario script for this simulation id
 		 for (SimulationAST script : scripts) { 
-			 //simulation = SimulationLocalServiceUtil.getSimulation(id);
 			 zipOutputStream.putNextEntry(new ZipEntry("gatling-for-liferay/"+packageFolder+"simulations/liferay/" +
 					 createSimulationVariable(script.getSimulationName())+ ".scala")); 
 			 final String currentPath =request.getPortletSession().getPortletContext().getRealPath("/WEB-INF/classes") + template; 
-			 Mustache.Compiler c = Mustache.compiler().withEscaper(Escapers.NONE);
 			 
-			 final String tmp = c.compile(
+			 // Default escaper is HTMl, which doesn't process some caraters
+			 Mustache.Compiler compiler = Mustache.compiler().withEscaper(Escapers.NONE);
+			 
+			 final String scalaCompiled = compiler.compile(
 				new FileReader(currentPath)).execute(script);
 			 
-			 zipOutputStream.write(tmp.getBytes());
+			 zipOutputStream.write(scalaCompiled.getBytes());
 			 zipOutputStream.closeEntry();
 		 } 
 		 

@@ -60,7 +60,7 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 	 * Never reference this interface directly. Always use {@link com.liferay.sample.service.SimulationLocalServiceUtil} to access the simulation local service.
 	 */
 
-	public static final String DEFAULT_NAME = "_default_simulation_";
+	public static final String DEFAULT_NAME = "Default Simulation";
 	
 	/**
 	 * Creates the empty default simulation, persists it and returns it.

@@ -78,7 +78,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	 */
 	private static final Log LOG = LogFactoryUtil.getLog(ScenarioLocalServiceImpl.class);
 
-	public static final String DEFAULT_NAME = "_default_scenario_";
+	public static final String DEFAULT_NAME = "Default Scenario";
 
 	
 	

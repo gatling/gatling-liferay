@@ -23,6 +23,7 @@ import com.excilys.liferay.gatling.service.ProcessScenarioLinkLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SiteMapLocalServiceUtil;
+import com.excilys.liferay.gatling.service.impl.ScenarioLocalServiceImpl;
 import com.excilys.liferay.gatling.service.impl.SimulationLocalServiceImpl;
 import com.excilys.liferay.gatling.util.GatlingUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -230,7 +231,7 @@ public class ViewController {
 		// Saving datas
 		
 		//long[] simulationsIds = ParamUtil.getLongValues(request, "export");
-		Simulation simulation = SimulationLocalServiceUtil.getByName("_default_simulation_");
+		Simulation simulation = SimulationLocalServiceUtil.getByName(SimulationLocalServiceImpl.DEFAULT_NAME);
 		LOG.debug("SImulatioID="+(simulation==null?"null":simulation.getSimulation_id()));
 		// Retreives the defaut scenario frim the simulation id (expected single result)
 		List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());

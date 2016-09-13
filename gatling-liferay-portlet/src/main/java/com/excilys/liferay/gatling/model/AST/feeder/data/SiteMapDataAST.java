@@ -2,7 +2,7 @@ package com.excilys.liferay.gatling.model.AST.feeder.data;
 
 public class SiteMapDataAST {
 
-	public static final String HEADER = "site,URL\n";
+	public static final String HEADER = "site,URL,weight\n";
 	
 	private String friendlyURL;
 	private String url;

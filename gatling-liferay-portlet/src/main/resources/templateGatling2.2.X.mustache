@@ -29,9 +29,7 @@ class {{simulationName}} extends Simulation {
 
 
   setUp(
-    {{#scenariosAST}}
-    {{scenarioName}}.inject({{getInjectionCode}})
-    {{/scenariosAST}}
+    {{getInjectionCode}}
   ).protocols(httpProtocol)
 
 }
