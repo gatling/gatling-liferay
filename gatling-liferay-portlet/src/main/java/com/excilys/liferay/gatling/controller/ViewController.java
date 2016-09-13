@@ -143,7 +143,7 @@ public class ViewController {
 		renderRequest.setAttribute("rampUp", defaultScenario.getDuration());
 		renderRequest.setAttribute("injections", injectionsMode);
 		renderRequest.setAttribute("currentInjection", currentInjection);
-		renderRequest.setAttribute("feederContent", defaultSimulation.getFeederContent());
+		renderRequest.setAttribute("feederContent", LoginLocalServiceUtil.findByName("_default_login_").getData());
 		renderRequest.setAttribute("templates", templates);
 		renderRequest.setAttribute("counter", counter);
 		return "view";
@@ -178,6 +178,10 @@ public class ViewController {
 	public void saveFeeders(final ActionRequest request, final ActionResponse response, final Model model) throws PortalException, SystemException{
 		long simulationId = ParamUtil.getLong(request, "simulationId");
 		String feederContent = ParamUtil.getString(request, "feederContent");
+		
+		Login login = LoginLocalServiceUtil.findByName("_default_login_");
+		login.setData(feederContent);
+		login.persist();
 		
 		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
 		simulation.setFeederContent(feederContent);
