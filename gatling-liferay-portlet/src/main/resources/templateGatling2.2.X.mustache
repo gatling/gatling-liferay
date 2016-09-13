@@ -21,6 +21,7 @@ class {{simulationName}} extends Simulation {
    * List of the differents scenarios
    */
   {{#scenariosAST}}
+  
   val {{scenarioName}} = scenario("{{scenarioName}}")
     .exec(
       {{printCode}}
