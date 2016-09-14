@@ -65,13 +65,19 @@
  	top: 0px;
  	margin: 10px ;
  } 
-		
+
+.title-text {
+	font-size: 19px;
+}
+
+.accordion-inner {
+background: rgba(239, 239, 239, 0.28);		
+}
 </style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/wan-spinner.css">
 <%-- <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/drag-and-drop.css"> --%>
-
 
 <%-- COWDE --%>
 
@@ -87,7 +93,6 @@
 
 <liferay-ui:tabs names="Scenario Builder,Recorder" param="tabs" refresh="false" url1="${renderRecorderView}"> 
 <liferay-ui:section>
-
 
 <%-- Top Menu --%>
 <div id="menus">
@@ -116,14 +121,17 @@
 <%-- Simulation Form --%>
 
 
-<div class="main-block">
 <portlet:actionURL var="saveScenariosURL">
 	<portlet:param name="action" value="saveScenarios" />
 </portlet:actionURL>
 
+
+<!-- Scenario building block -->
+<liferay-ui:panel-container extended="true" id="scenarioBlock">
+ <liferay-ui:panel collapsible="true" defaultState="${panel1State}"  title="1.Design your scenarios" >
+
 <aui:form action="${saveScenariosURL}"  name="formS" cssClass="form-inline">
 	<%-- Scenario FieldSet --%>
-	<aui:fieldset class="fieldset" label="1.Design your scenarios">
 	
 	<input name="<%=renderResponse.getNamespace()%>JSON" id="JSON" type="hidden" value="notDefined" />
 	<input id="COUNTER" type="hidden" value="${counter}"/>
@@ -259,25 +267,28 @@
 		
 	</div>
 
-	</aui:fieldset>
 	
 	<aui:fieldset>
 		<aui:button type="submit" value="Save scenarios" style="margin-top: 30px" />
 	</aui:fieldset>
 </aui:form>
-</div>
+</liferay-ui:panel>
+</liferay-ui:panel-container>
 
 
-<div class="main-block">
+
 <portlet:actionURL var="saveInjectionProfile">
 	<portlet:param name="action" value="saveInjectionProfile" />
 </portlet:actionURL>
 
 
+<liferay-ui:panel-container extended="true" id="injectionBlock">
+ <liferay-ui:panel collapsible="true"  extended="true" defaultState="${panel2State}"  title="2.Configure your injection profile" >
+
+<!-- Injection profile block -->
 <aui:form action="${saveInjectionProfile}" method="post">
 
 	<%-- Details Fieldset --%>
-	<aui:fieldset label="2.Configure your injection profile">
 	
 	
 		<aui:input name="simulationId" type="hidden" value="${simulationId}" />
@@ -306,45 +317,47 @@
 			<aui:validator name="min">1</aui:validator>
 		</aui:input>
 		
-	</aui:fieldset>
 	
 	<aui:fieldset>
 		<aui:button type="submit" value="Save injection profile"/>
 	</aui:fieldset>
 	
 </aui:form>
-</div>
+</liferay-ui:panel>
+</liferay-ui:panel-container>
 
 
-<div class="main-block">
+<!-- Feeder block -->
+<liferay-ui:panel-container extended="true" id="FeederBlock">
+ <liferay-ui:panel collapsible="true" defaultState="${panel3State}"  title="3.Specify your feeders" >
+ 
 <portlet:actionURL var="saveFeeders">
 	<portlet:param name="action" value="saveFeeders" />
 </portlet:actionURL>
 
 <aui:form action="${saveFeeders}" method="post">
 	<%-- Login Feeder Fieldset --%>
-	<aui:fieldset label="3.Specify your feeders">
 		<aui:input name="simulationId" type="hidden" value="${simulationId}" />
 		<aui:input name="feederContent"
 			label="write-one-account-and-password-per-line" type="textarea"
 			cssClass="textarea-feeder" value="${feederContent}"></aui:input>
 			
-	</aui:fieldset>
-	
 	<aui:fieldset>
 		<aui:button type="submit" value="Save feeders" />
 	</aui:fieldset>
 </aui:form>
-</div>
+</liferay-ui:panel>
+</liferay-ui:panel-container>
 
 
-<div class="main-block">
+<liferay-ui:panel-container extended="true" id="exportBlock">
+ <liferay-ui:panel collapsible="true" defaultState="${panel4State}"  title="4.Let's export and run with Gatling" >
 <portlet:resourceURL id="generateZip" var="resourceUrl" />
 
-<aui:fieldset label="4.Let's export and run with Gatling">
 	<aui:button type="button" value="Export the simulation" id="generateZip" onClick="${resourceUrl}" />
-</aui:fieldset>	
-</div>
+
+</liferay-ui:panel>
+</liferay-ui:panel-container>
 	
     </liferay-ui:section>
     <liferay-ui:section>
@@ -518,8 +531,8 @@
 <%-- <script type="text/javascript" src="${pageContext.request.contextPath}/js/drag-and-drop.js"></script> --%>
 
 
+<!--  Drag and drop css -->
 <style>
-
 
 .workflow .space-container {
 	/*  background: red;*/

@@ -23,10 +23,8 @@ import com.excilys.liferay.gatling.service.ProcessScenarioLinkLocalServiceUtil;
 import com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SimulationLocalServiceUtil;
 import com.excilys.liferay.gatling.service.SiteMapLocalServiceUtil;
-import com.excilys.liferay.gatling.service.impl.ScenarioLocalServiceImpl;
 import com.excilys.liferay.gatling.service.impl.SimulationLocalServiceImpl;
 import com.excilys.liferay.gatling.util.GatlingUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -136,7 +134,14 @@ public class ViewController {
 		}
 		Collections.sort(templates);
 		
+		int panelNb = (int) renderRequest.getPortletSession().getAttribute("panelNb");
+
 		/* Record the simulation and scenario data */
+		renderRequest.setAttribute("panel1State", (panelNb==0 ? "open" : "collapsed"));
+		renderRequest.setAttribute("panel2State", (panelNb==1 ? "open" : "collapsed"));
+		renderRequest.setAttribute("panel3State", (panelNb==2 ? "open" : "collapsed"));
+		renderRequest.setAttribute("panel4State", (panelNb==3 ? "open" : "collapsed"));
+		
 		renderRequest.setAttribute("simulationId", defaultSimulation.getSimulation_id());
 		renderRequest.setAttribute("scenarios", scenariosDTO);
 		renderRequest.setAttribute("numberOfUsers", defaultScenario.getNumberOfUsers());
@@ -169,6 +174,7 @@ public class ViewController {
 			ScenarioLocalServiceUtil.updateScenario(scenario);
 		}
 		
+		request.getPortletSession().setAttribute("panelNb", 2);
 		response.setRenderParameter("render", "renderView");
 	}
 	
@@ -187,6 +193,7 @@ public class ViewController {
 		simulation.setFeederContent(feederContent);
 		SimulationLocalServiceUtil.updateSimulation(simulation);
 		
+		request.getPortletSession().setAttribute("panelNb", 3);
 		response.setRenderParameter("render", "renderView");
 	}
 
@@ -215,6 +222,7 @@ public class ViewController {
 			deleteScenarios(Long.parseLong(scenarioId));
 		}
 		
+		request.getPortletSession().setAttribute("panelNb", 1);
 		response.setRenderParameter("render", "renderView");
 	}
 	
@@ -231,7 +239,7 @@ public class ViewController {
 	@ResourceMapping(value="generateZip")	
 	public void exportZippedEnvironment(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
 		LOG.debug("Generating zip file...");
-
+		request.getPortletSession().setAttribute("panelNb", 0);
 		// Saving datas
 		
 		//long[] simulationsIds = ParamUtil.getLongValues(request, "export");
