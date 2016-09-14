@@ -233,7 +233,7 @@ background: rgba(239, 239, 239, 0.28);
 			  </a>
 				<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu">
 					
-			      	<li><a tabindex="-1" class="${renderRecorderView}">Record Process</a></li>
+			      	<li><a tabindex="-1" href="${renderRecorderView}">Record Process</a></li>
 			      
 			      	<portlet:renderURL var="renderSiteMap">
 						<portlet:param name="render" value="renderSiteMap" />
