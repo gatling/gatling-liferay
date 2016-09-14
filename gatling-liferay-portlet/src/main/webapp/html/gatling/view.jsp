@@ -197,13 +197,13 @@
 					</c:choose>
 				</div>
 				
-				</c:forEach>
-				<div class="blockus" id="endBlock">
-					<div class="space-container" id="endSC">
-							<div class="icon-chevron-right" style="display: inline-block;"></div>
-					</div>
+			</c:forEach>
+			<div class="blockus" id="endBlock">
+				<div class="space-container endSC" id="endSC_${scenario.id}">
+						<div class="icon-chevron-right" style="display: inline-block;"></div>
 				</div>
-				
+			</div>
+			
 			</div>
 			<div id ="takeATourAnchor" style="display: inline-block;"></div>
 		</div>
@@ -548,6 +548,10 @@
 
 <!--  Drag and drop css -->
 <style>
+
+.endSC {
+	padding-right: 60px !important;
+}
 
 .workflow .space-container {
 	/*  background: red;*/
