@@ -72,8 +72,14 @@
 }
 
 .accordion-inner {
-background: rgba(239, 239, 239, 0.28);		
+	background: rgba(239, 239, 239, 0.28);		
 }
+
+.library .blockus {
+	margin-right: 10px;
+}
+
+
 </style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/view.css">

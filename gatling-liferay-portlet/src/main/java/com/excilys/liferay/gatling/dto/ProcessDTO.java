@@ -62,7 +62,7 @@ public class ProcessDTO implements Comparable<ProcessDTO>{
 	}
 	
 	public int compareTo(ProcessDTO other) {
-		return this.name.compareTo(other.name);
+		return this.type.compareTo(other.type);
 	}
 
 	/* Can't have a pause by default */
