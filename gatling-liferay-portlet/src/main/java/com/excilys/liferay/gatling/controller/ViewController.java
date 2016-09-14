@@ -134,8 +134,11 @@ public class ViewController {
 		}
 		Collections.sort(templates);
 		
-		int panelNb = (int) renderRequest.getPortletSession().getAttribute("panelNb");
-
+		Integer panelNb = (Integer) renderRequest.getPortletSession().getAttribute("panelNb");
+		if (panelNb==null) {
+			panelNb =0;
+		}
+		
 		/* Record the simulation and scenario data */
 		renderRequest.setAttribute("panel1State", (panelNb==0 ? "open" : "collapsed"));
 		renderRequest.setAttribute("panel2State", (panelNb==1 ? "open" : "collapsed"));
