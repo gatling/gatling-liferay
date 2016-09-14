@@ -52,6 +52,8 @@ public class ProcessLocalServiceClp implements ProcessLocalService {
     private String[] _methodParameterTypes21;
     private String _methodName22;
     private String[] _methodParameterTypes22;
+    private String _methodName23;
+    private String[] _methodParameterTypes23;
 
     public ProcessLocalServiceClp(InvokableLocalService invokableLocalService) {
         _invokableLocalService = invokableLocalService;
@@ -165,6 +167,14 @@ public class ProcessLocalServiceClp implements ProcessLocalService {
         _methodName22 = "findByName";
 
         _methodParameterTypes22 = new String[] { "java.lang.String" };
+
+        _methodName23 = "updateProcess";
+
+        _methodParameterTypes23 = new String[] {
+                "long", "java.lang.String",
+                "com.excilys.liferay.gatling.model.ProcessType",
+                "java.lang.Long"
+            };
     }
 
     @Override
@@ -791,6 +801,49 @@ public class ProcessLocalServiceClp implements ProcessLocalService {
             returnObj = _invokableLocalService.invokeMethod(_methodName22,
                     _methodParameterTypes22,
                     new Object[] { ClpSerializer.translateInput(name) });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.excilys.liferay.gatling.NoSuchProcessException) {
+                throw (com.excilys.liferay.gatling.NoSuchProcessException) t;
+            }
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (com.excilys.liferay.gatling.model.Process) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
+    public com.excilys.liferay.gatling.model.Process updateProcess(long id,
+        java.lang.String name,
+        com.excilys.liferay.gatling.model.ProcessType type,
+        java.lang.Long feederId)
+        throws com.excilys.liferay.gatling.NoSuchProcessException,
+            com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName23,
+                    _methodParameterTypes23,
+                    new Object[] {
+                        id,
+                        
+                    ClpSerializer.translateInput(name),
+                        
+                    ClpSerializer.translateInput(type),
+                        
+                    ClpSerializer.translateInput(feederId)
+                    });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 

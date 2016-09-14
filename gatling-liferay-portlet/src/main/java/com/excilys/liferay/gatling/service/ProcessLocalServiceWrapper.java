@@ -303,6 +303,16 @@ public class ProcessLocalServiceWrapper implements ProcessLocalService,
         return _processLocalService.findByName(name);
     }
 
+    @Override
+    public com.excilys.liferay.gatling.model.Process updateProcess(long id,
+        java.lang.String name,
+        com.excilys.liferay.gatling.model.ProcessType type,
+        java.lang.Long feederId)
+        throws com.excilys.liferay.gatling.NoSuchProcessException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return _processLocalService.updateProcess(id, name, type, feederId);
+    }
+
     /**
      * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
      */

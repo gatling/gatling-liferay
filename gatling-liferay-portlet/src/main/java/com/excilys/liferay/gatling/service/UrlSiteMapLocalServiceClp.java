@@ -46,6 +46,8 @@ public class UrlSiteMapLocalServiceClp implements UrlSiteMapLocalService {
     private String[] _methodParameterTypes17;
     private String _methodName19;
     private String[] _methodParameterTypes19;
+    private String _methodName20;
+    private String[] _methodParameterTypes20;
 
     public UrlSiteMapLocalServiceClp(
         InvokableLocalService invokableLocalService) {
@@ -141,9 +143,15 @@ public class UrlSiteMapLocalServiceClp implements UrlSiteMapLocalService {
 
         _methodParameterTypes17 = new String[] { "java.lang.String" };
 
-        _methodName19 = "findBySiteMapId";
+        _methodName19 = "createUrlSiteMap";
 
-        _methodParameterTypes19 = new String[] { "long" };
+        _methodParameterTypes19 = new String[] {
+                "long", "java.lang.String", "java.lang.String", "int"
+            };
+
+        _methodName20 = "findBySiteMapId";
+
+        _methodParameterTypes20 = new String[] { "long" };
     }
 
     @Override
@@ -661,14 +669,50 @@ public class UrlSiteMapLocalServiceClp implements UrlSiteMapLocalService {
     }
 
     @Override
+    public com.excilys.liferay.gatling.model.UrlSiteMap createUrlSiteMap(
+        long siteMapId, java.lang.String friendlyUrl, java.lang.String url,
+        int weight) throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName19,
+                    _methodParameterTypes19,
+                    new Object[] {
+                        siteMapId,
+                        
+                    ClpSerializer.translateInput(friendlyUrl),
+                        
+                    ClpSerializer.translateInput(url),
+                        
+                    weight
+                    });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (com.excilys.liferay.gatling.model.UrlSiteMap) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
     public java.util.List<com.excilys.liferay.gatling.model.UrlSiteMap> findBySiteMapId(
         long siteMapId)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName19,
-                    _methodParameterTypes19, new Object[] { siteMapId });
+            returnObj = _invokableLocalService.invokeMethod(_methodName20,
+                    _methodParameterTypes20, new Object[] { siteMapId });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 

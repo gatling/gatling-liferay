@@ -50,6 +50,8 @@ public class SiteMapLocalServiceClp implements SiteMapLocalService {
     private String[] _methodParameterTypes20;
     private String _methodName21;
     private String[] _methodParameterTypes21;
+    private String _methodName22;
+    private String[] _methodParameterTypes22;
 
     public SiteMapLocalServiceClp(InvokableLocalService invokableLocalService) {
         _invokableLocalService = invokableLocalService;
@@ -150,13 +152,17 @@ public class SiteMapLocalServiceClp implements SiteMapLocalService {
                 "com.liferay.portal.theme.ThemeDisplay", "long"
             };
 
-        _methodName20 = "findByProcessId";
+        _methodName20 = "createSiteMap";
 
-        _methodParameterTypes20 = new String[] { "long" };
+        _methodParameterTypes20 = new String[] { "java.lang.String" };
 
-        _methodName21 = "findByName";
+        _methodName21 = "findByProcessId";
 
-        _methodParameterTypes21 = new String[] { "java.lang.String" };
+        _methodParameterTypes21 = new String[] { "long" };
+
+        _methodName22 = "findByName";
+
+        _methodParameterTypes22 = new String[] { "java.lang.String" };
     }
 
     @Override
@@ -675,7 +681,8 @@ public class SiteMapLocalServiceClp implements SiteMapLocalService {
     @Override
     public com.excilys.liferay.gatling.model.SiteMap siteMapCreation(
         com.liferay.portal.theme.ThemeDisplay themeDisplay, long groupId)
-        throws com.liferay.portal.kernel.exception.SystemException {
+        throws com.excilys.liferay.gatling.NoSuchUrlSiteMapException,
+            com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
@@ -686,6 +693,38 @@ public class SiteMapLocalServiceClp implements SiteMapLocalService {
                         
                     groupId
                     });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.excilys.liferay.gatling.NoSuchUrlSiteMapException) {
+                throw (com.excilys.liferay.gatling.NoSuchUrlSiteMapException) t;
+            }
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (com.excilys.liferay.gatling.model.SiteMap) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
+    public com.excilys.liferay.gatling.model.SiteMap createSiteMap(
+        java.lang.String name)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName20,
+                    _methodParameterTypes20,
+                    new Object[] { ClpSerializer.translateInput(name) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -713,8 +752,8 @@ public class SiteMapLocalServiceClp implements SiteMapLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName20,
-                    _methodParameterTypes20, new Object[] { processId });
+            returnObj = _invokableLocalService.invokeMethod(_methodName21,
+                    _methodParameterTypes21, new Object[] { processId });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -750,8 +789,8 @@ public class SiteMapLocalServiceClp implements SiteMapLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName21,
-                    _methodParameterTypes21,
+            returnObj = _invokableLocalService.invokeMethod(_methodName22,
+                    _methodParameterTypes22,
                     new Object[] { ClpSerializer.translateInput(name) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);

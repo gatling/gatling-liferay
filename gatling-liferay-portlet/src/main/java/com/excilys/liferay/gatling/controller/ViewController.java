@@ -46,6 +46,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.spi.LocaleServiceProvider;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -107,8 +108,12 @@ public class ViewController {
 			
 			ScenarioLocalServiceUtil.addProcess(scenarioId, login.getProcess_id(), 0, 5);
 			ScenarioLocalServiceUtil.addProcess(scenarioId, random.getProcess_id(), 1, 10);
-			ScenarioLocalServiceUtil.addProcess(scenarioId, logout.getProcess_id(), 2, 0);
-			
+			ScenarioLocalServiceUtil.addProcess(scenarioId, logout.getProcess_id(), 2, 0);	
+		}
+		else {
+			Process random = processes.get(1);
+			random.setFeederId(defaultSiteMap.getSiteMapId());
+			ProcessLocalServiceUtil.updateProcess(random);
 		}
 		
 		/* Scenarios List */
@@ -160,6 +165,10 @@ public class ViewController {
 		renderRequest.setAttribute("counter", counter);
 		return "view";
 	}
+	
+
+	
+	
 	
 	@ActionMapping(params="action=saveInjectionProfile")
 	public void saveInjectionProfile(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, NoSuchScenarioException{

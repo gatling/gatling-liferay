@@ -57,6 +57,7 @@
 	padding: 1px 0px 20px 20px;
  	position: relative;
  	z-index: 1;
+ 	border: solid 1px rgba(0, 0, 0, 0.07);
 }
 
  .libcontent .btn-group {
@@ -225,14 +226,19 @@ background: rgba(239, 239, 239, 0.28);
 			
 			<!-- Single button -->
 			<div class="btn-group">
-			  <a class="btn dropdown-toggle" data-toggle="dropdown">
+			  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 			    <span class="icon-plus-sign"></span>
 			    Add a new process
 			    <span class="caret"></span>
 			  </a>
 				<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu">
-			      <li><a tabindex="-1" href="#">Record Process</a></li>
-			      <li><a tabindex="-1" href="#">Random Process</a></li>
+					
+			      	<li><a tabindex="-1" class="${renderRecorderView}">Record Process</a></li>
+			      
+			      	<portlet:renderURL var="renderSiteMap">
+						<portlet:param name="render" value="renderSiteMap" />
+					</portlet:renderURL>
+			      	<li><a tabindex="-1" href="${renderSiteMap}">Random Process</a></li>
 			    </ul>
 			</div>
 			
@@ -369,6 +375,9 @@ background: rgba(239, 239, 239, 0.28);
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.0.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
+
+
+<!-- Scenario saving  -->
 <script type="text/javascript">
 
 	persistScenarios();

@@ -23,6 +23,7 @@
 	<bean class="com.excilys.liferay.gatling.controller.ScenarioController" ></bean>
 	<bean class="com.excilys.liferay.gatling.controller.ViewController" ></bean>
 	<bean class="com.excilys.liferay.gatling.controller.SmoothRecorderController" ></bean>
+	<bean class="com.excilys.liferay.gatling.controller.SiteMapController" ></bean>
 	
 	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView" />

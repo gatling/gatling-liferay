@@ -2,6 +2,9 @@ package com.excilys.liferay.gatling.service.impl;
 
 import com.excilys.liferay.gatling.model.UrlSiteMap;
 import com.excilys.liferay.gatling.service.base.UrlSiteMapLocalServiceBaseImpl;
+import com.excilys.liferay.gatling.service.persistence.UrlSiteMapUtil;
+import com.excilys.liferay.gatling.util.GatlingUtil;
+import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 
 import java.util.List;
@@ -26,6 +29,17 @@ public class UrlSiteMapLocalServiceImpl extends UrlSiteMapLocalServiceBaseImpl {
      *
      * Never reference this interface directly. Always use {@link com.excilys.liferay.gatling.service.UrlSiteMapLocalServiceUtil} to access the url site map local service.
      */
+	
+	@Override
+	public UrlSiteMap createUrlSiteMap(long siteMapId, String friendlyUrl, String url, int weight) throws SystemException {
+		UrlSiteMap urlSm = UrlSiteMapUtil.create(CounterLocalServiceUtil.increment(UrlSiteMap.class.getName()));
+	    urlSm.setFriendlyUrl(friendlyUrl);
+	    urlSm.setSiteMapId(siteMapId);
+	    urlSm.setUrl(url);
+	    urlSm.setWeight(weight);
+	    urlSm.persist();
+	    return urlSm;
+	}
 	
 	@Override
 	public List<UrlSiteMap> findBySiteMapId(long siteMapId) throws SystemException {

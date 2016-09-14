@@ -7,6 +7,7 @@ import com.excilys.liferay.gatling.model.ProcessScenarioLink;
 import com.excilys.liferay.gatling.model.ProcessType;
 import com.excilys.liferay.gatling.service.ProcessLocalServiceUtil;
 import com.excilys.liferay.gatling.service.base.ProcessLocalServiceBaseImpl;
+import com.excilys.liferay.gatling.service.persistence.ProcessPersistence;
 import com.excilys.liferay.gatling.service.persistence.ProcessUtil;
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -68,5 +69,13 @@ public class ProcessLocalServiceImpl extends ProcessLocalServiceBaseImpl {
 		return processPersistence.findByName(name);
 	}
 	
-	
+	@Override
+	public Process updateProcess(long id, String name, ProcessType type, Long feederId) throws NoSuchProcessException, SystemException{
+		Process process = processPersistence.findByPrimaryKey(id);
+		process.setName(name);
+		process.setType(type.name());
+		process.setFeederId(feederId);
+		process.persist();
+		return process;
+	}
 }

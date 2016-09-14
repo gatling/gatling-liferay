@@ -241,6 +241,10 @@ public interface UrlSiteMapLocalService extends BaseLocalService,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable;
 
+    public com.excilys.liferay.gatling.model.UrlSiteMap createUrlSiteMap(
+        long siteMapId, java.lang.String friendlyUrl, java.lang.String url,
+        int weight) throws com.liferay.portal.kernel.exception.SystemException;
+
     public java.util.List<com.excilys.liferay.gatling.model.UrlSiteMap> findBySiteMapId(
         long siteMapId)
         throws com.liferay.portal.kernel.exception.SystemException;

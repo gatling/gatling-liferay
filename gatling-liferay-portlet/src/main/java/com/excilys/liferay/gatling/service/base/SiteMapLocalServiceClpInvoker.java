@@ -51,6 +51,8 @@ public class SiteMapLocalServiceClpInvoker {
     private String[] _methodParameterTypes83;
     private String _methodName84;
     private String[] _methodParameterTypes84;
+    private String _methodName85;
+    private String[] _methodParameterTypes85;
 
     public SiteMapLocalServiceClpInvoker() {
         _methodName0 = "addSiteMap";
@@ -149,13 +151,17 @@ public class SiteMapLocalServiceClpInvoker {
                 "com.liferay.portal.theme.ThemeDisplay", "long"
             };
 
-        _methodName83 = "findByProcessId";
+        _methodName83 = "createSiteMap";
 
-        _methodParameterTypes83 = new String[] { "long" };
+        _methodParameterTypes83 = new String[] { "java.lang.String" };
 
-        _methodName84 = "findByName";
+        _methodName84 = "findByProcessId";
 
-        _methodParameterTypes84 = new String[] { "java.lang.String" };
+        _methodParameterTypes84 = new String[] { "long" };
+
+        _methodName85 = "findByName";
+
+        _methodParameterTypes85 = new String[] { "java.lang.String" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -267,11 +273,16 @@ public class SiteMapLocalServiceClpInvoker {
 
         if (_methodName83.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes83, parameterTypes)) {
-            return SiteMapLocalServiceUtil.findByProcessId(((Long) arguments[0]).longValue());
+            return SiteMapLocalServiceUtil.createSiteMap((java.lang.String) arguments[0]);
         }
 
         if (_methodName84.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes84, parameterTypes)) {
+            return SiteMapLocalServiceUtil.findByProcessId(((Long) arguments[0]).longValue());
+        }
+
+        if (_methodName85.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes85, parameterTypes)) {
             return SiteMapLocalServiceUtil.findByName((java.lang.String) arguments[0]);
         }
 

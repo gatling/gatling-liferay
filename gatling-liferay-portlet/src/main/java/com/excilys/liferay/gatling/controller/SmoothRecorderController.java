@@ -56,31 +56,42 @@ public class SmoothRecorderController {
 	@RenderMapping(params = "render=renderRecorderView")
 	public String renderRequest(final RenderRequest renderRequest,
 			final RenderResponse renderResponse, final Model model) throws SystemException {
+		handleRecorderRequest(renderRequest);
+		return "tabs";
+	}
+	
+	@RenderMapping(params = "render=renderRecorderPopup")
+	public String renderrecorderPopup(final RenderRequest renderRequest,
+			final RenderResponse renderResponse, final Model model) throws SystemException {
+		handleRecorderRequest(renderRequest);
+		return "smoothRecorderView";
+	}
+	
+	private static void handleRecorderRequest(final RenderRequest renderRequest){
 		String recordName = ParamUtil.getString(renderRequest,"recordName","doesntWork");
 		LOG.debug("render View"+recordName);
-		
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		renderRequest.setAttribute("groupId", themeDisplay.getScopeGroupId());
 		
 		// Check state of recording
-				String nextState;
-				final String state = renderRequest.getParameter("recordState");
-				LOG.debug("current state:"+state );
-				if(state != null) {
-					if(state.equals("RECORD")) {
-						nextState ="STOP";
-					} else {
-						nextState = "RECORD";
-					}
-				} else {
-					nextState = "RECORD";
-				}
-				LOG.debug("nextState is "+nextState);
-				renderRequest.setAttribute("NEXT_STATE", nextState);
-				
-		return "tabs";
+		String nextState;
+		final String state = renderRequest.getParameter("recordState");
+		LOG.debug("current state:"+state );
+		if(state != null) {
+			if(state.equals("RECORD")) {
+				nextState ="STOP";
+			} else {
+				nextState = "RECORD";
+			}
+		} else {
+			nextState = "RECORD";
+		}
+		LOG.debug("nextState is "+nextState);
+		renderRequest.setAttribute("NEXT_STATE", nextState);
 	}
+	
+	
 	
 	@ActionMapping(params="action=toggleRecord2")
 	public void toggleRecordAction(final ActionRequest request, final ActionResponse response, final Model model){

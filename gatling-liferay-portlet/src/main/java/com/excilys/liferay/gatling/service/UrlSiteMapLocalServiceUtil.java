@@ -263,6 +263,12 @@ public class UrlSiteMapLocalServiceUtil {
         return getService().invokeMethod(name, parameterTypes, arguments);
     }
 
+    public static com.excilys.liferay.gatling.model.UrlSiteMap createUrlSiteMap(
+        long siteMapId, java.lang.String friendlyUrl, java.lang.String url,
+        int weight) throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().createUrlSiteMap(siteMapId, friendlyUrl, url, weight);
+    }
+
     public static java.util.List<com.excilys.liferay.gatling.model.UrlSiteMap> findBySiteMapId(
         long siteMapId)
         throws com.liferay.portal.kernel.exception.SystemException {

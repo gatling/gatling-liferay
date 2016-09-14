@@ -291,6 +291,15 @@ public class ProcessLocalServiceUtil {
         return getService().findByName(name);
     }
 
+    public static com.excilys.liferay.gatling.model.Process updateProcess(
+        long id, java.lang.String name,
+        com.excilys.liferay.gatling.model.ProcessType type,
+        java.lang.Long feederId)
+        throws com.excilys.liferay.gatling.NoSuchProcessException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getService().updateProcess(id, name, type, feederId);
+    }
+
     public static void clearService() {
         _service = null;
     }

@@ -53,6 +53,8 @@ public class ProcessLocalServiceClpInvoker {
     private String[] _methodParameterTypes84;
     private String _methodName85;
     private String[] _methodParameterTypes85;
+    private String _methodName86;
+    private String[] _methodParameterTypes86;
 
     public ProcessLocalServiceClpInvoker() {
         _methodName0 = "addProcess";
@@ -164,6 +166,14 @@ public class ProcessLocalServiceClpInvoker {
         _methodName85 = "findByName";
 
         _methodParameterTypes85 = new String[] { "java.lang.String" };
+
+        _methodName86 = "updateProcess";
+
+        _methodParameterTypes86 = new String[] {
+                "long", "java.lang.String",
+                "com.excilys.liferay.gatling.model.ProcessType",
+                "java.lang.Long"
+            };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -289,6 +299,14 @@ public class ProcessLocalServiceClpInvoker {
         if (_methodName85.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes85, parameterTypes)) {
             return ProcessLocalServiceUtil.findByName((java.lang.String) arguments[0]);
+        }
+
+        if (_methodName86.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes86, parameterTypes)) {
+            return ProcessLocalServiceUtil.updateProcess(((Long) arguments[0]).longValue(),
+                (java.lang.String) arguments[1],
+                (com.excilys.liferay.gatling.model.ProcessType) arguments[2],
+                (java.lang.Long) arguments[3]);
         }
 
         throw new UnsupportedOperationException();

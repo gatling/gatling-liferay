@@ -276,6 +276,14 @@ public class UrlSiteMapLocalServiceWrapper implements UrlSiteMapLocalService,
     }
 
     @Override
+    public com.excilys.liferay.gatling.model.UrlSiteMap createUrlSiteMap(
+        long siteMapId, java.lang.String friendlyUrl, java.lang.String url,
+        int weight) throws com.liferay.portal.kernel.exception.SystemException {
+        return _urlSiteMapLocalService.createUrlSiteMap(siteMapId, friendlyUrl,
+            url, weight);
+    }
+
+    @Override
     public java.util.List<com.excilys.liferay.gatling.model.UrlSiteMap> findBySiteMapId(
         long siteMapId)
         throws com.liferay.portal.kernel.exception.SystemException {
