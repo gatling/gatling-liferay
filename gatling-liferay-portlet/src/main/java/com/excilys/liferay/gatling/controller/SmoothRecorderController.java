@@ -12,6 +12,7 @@ import com.excilys.liferay.gatling.model.AST.process.RecorderAST;
 import com.excilys.liferay.gatling.service.RecordLocalServiceUtil;
 import com.excilys.liferay.gatling.service.mapper.ASTMapper;
 import com.excilys.liferay.gatling.util.GatlingUtil;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -56,18 +57,6 @@ public class SmoothRecorderController {
 	@RenderMapping(params = "render=renderRecorderView")
 	public String renderRequest(final RenderRequest renderRequest,
 			final RenderResponse renderResponse, final Model model) throws SystemException {
-		handleRecorderRequest(renderRequest);
-		return "tabs";
-	}
-	
-	@RenderMapping(params = "render=renderRecorderPopup")
-	public String renderrecorderPopup(final RenderRequest renderRequest,
-			final RenderResponse renderResponse, final Model model) throws SystemException {
-		handleRecorderRequest(renderRequest);
-		return "smoothRecorderView";
-	}
-	
-	private static void handleRecorderRequest(final RenderRequest renderRequest){
 		String recordName = ParamUtil.getString(renderRequest,"recordName","doesntWork");
 		LOG.debug("render View"+recordName);
 		
@@ -89,8 +78,12 @@ public class SmoothRecorderController {
 		}
 		LOG.debug("nextState is "+nextState);
 		renderRequest.setAttribute("NEXT_STATE", nextState);
-	}
-	
+		
+		List<Record> records = RecordLocalServiceUtil.getRecords(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+		renderRequest.setAttribute("records", records);
+		
+		return "tabs";
+	} 
 	
 	
 	@ActionMapping(params="action=toggleRecord2")
@@ -103,9 +96,7 @@ public class SmoothRecorderController {
 		PortalUtil.copyRequestParameters(request, response);
 		response.setRenderParameter("render", "renderRecorderView");
 		//Hide success message for this action
-		
-		//
-		
+
 		//request.setAttribute("NEXT_STATE", nextState);
 		SessionMessages.add(request, PortalUtil.getPortletId(request)+SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_SUCCESS_MESSAGE);
 	}
@@ -113,13 +104,13 @@ public class SmoothRecorderController {
 	@ResourceMapping(value="generateProcessZip")	
 	public void exportZippedProcess(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
 		LOG.debug("\\o/ Generating zip process...");
-		String name = ParamUtil.getString(request,"useCaseRecordName","doesntWork");
+		String name = ParamUtil.getString(request, "recordName");
+		System.out.println("name: " +name);
+		
+		
 		
 		response.setContentType("application/zip");
 		response.addProperty("Content-Disposition", "attachment; filename = GatlingProcess.zip");
-		
-		String recordName = ParamUtil.getString(request,"recordName","doesntWork");
-		LOG.debug("Received:"+recordName);
 		
 		List<SimulationAST> asts = new ArrayList<>();
 		SimulationAST ast = createDefaultAST(name);

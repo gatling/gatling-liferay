@@ -658,8 +658,6 @@ function freshIdentifier() {
 	return count;
 }
 
-
-
 function addDragFeature(elt) {
 	elt.addEventListener('dragenter', handleDragEnter, false);
 	elt.addEventListener('dragover', handleDragOver, false);
