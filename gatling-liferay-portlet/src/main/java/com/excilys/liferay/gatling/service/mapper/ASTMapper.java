@@ -38,34 +38,34 @@ public class ASTMapper {
 	
 	
 	public static SimulationAST mapSimulationToAST(Simulation simulation, String portalURL) throws SystemException, PortalException {
-		List<ScenarioAST> scenarios = ASTService.computesScenariosAST(simulation.getSimulation_id(), portalURL);
+		List<ScenarioAST> scenarios = ASTService.computesScenariosAST(simulation.getSimulation_id());
 		return new SimulationAST(simulation.getName(), scenarios, portalURL);
 	}
 
-	public static List<ScenarioAST> mapScenariosToAST(List<Scenario> scenarios, String portalURL) throws SystemException, PortalException {
+	public static List<ScenarioAST> mapScenariosToAST(List<Scenario> scenarios) throws SystemException, PortalException {
 		List<ScenarioAST> scenariosAST = new ArrayList<>(scenarios.size());
 		for (Scenario scenario : scenarios) {
-			ScenarioAST scenarioAST = mapScenarioToAST(scenario, portalURL);
+			ScenarioAST scenarioAST = mapScenarioToAST(scenario);
 			scenariosAST.add(scenarioAST);
 		}
 		return scenariosAST;
 	}
 	
-	public static ScenarioAST mapScenarioToAST(Scenario scenario, String portalURL) throws SystemException, PortalException{
-		List<ProcessAST> processList = ASTService.computesProcessesAST(scenario.getScenario_id(), portalURL);
+	public static ScenarioAST mapScenarioToAST(Scenario scenario) throws SystemException, PortalException{
+		List<ProcessAST> processList = ASTService.computesProcessesAST(scenario.getScenario_id());
 		return new ScenarioAST(scenario.getName(), scenario.getNumberOfUsers(), scenario.getInjection(), scenario.getDuration(), processList);
 	}
 	
-	public static List<ProcessAST> mapProcessesToAST(List<Process> processes, List<Integer> pauses, String portalURL) throws PortalException, SystemException {
+	public static List<ProcessAST> mapProcessesToAST(List<Process> processes, List<Integer> pauses) throws PortalException, SystemException {
 		List<ProcessAST> processesAST = new ArrayList<ProcessAST>(processes.size());
 		for(int i = 0; i < processes.size(); i++) {
-			ProcessAST processAST = mapProcessToAST(processes.get(i), pauses.get(i), portalURL);
+			ProcessAST processAST = mapProcessToAST(processes.get(i), pauses.get(i));
 			processesAST.add(processAST);
 		}
 		return processesAST;
 	}
 	
-	public static ProcessAST mapProcessToAST(Process process, int pause, String portalURL) throws PortalException, SystemException {
+	public static ProcessAST mapProcessToAST(Process process, int pause) throws PortalException, SystemException {
 		ProcessAST ast = null;
 		
 		switch(ProcessType.valueOf(process.getType())) {
@@ -75,18 +75,17 @@ public class ASTMapper {
 				break;
 			case LOGIN:
 				UserFeederFileAST userFeeder = ASTService.computesUserFeederFileAST(process.getProcess_id());
-				ast = new LoginAST(userFeeder, portalURL);
+				ast = new LoginAST(userFeeder);
 				break;
 			case RANDOMPAGE:
 				SiteMapFeederFileAST siteMap = ASTService.computesSiteMapFeederFileAST(process.getProcess_id());
 				ast = new RandomPageAST(siteMap);
 				break;
 			case LOGOUT:
-				ast = new LogoutAST(portalURL);
+				ast = new LogoutAST();
 				break;
 			default:
-				ast = new LogoutAST(portalURL);
-				break;
+				throw new IllegalArgumentException();
 		}
 		
 		ast.setPause(pause);

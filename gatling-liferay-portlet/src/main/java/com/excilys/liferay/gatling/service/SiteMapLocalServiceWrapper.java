@@ -273,10 +273,12 @@ public class SiteMapLocalServiceWrapper implements SiteMapLocalService,
 
     @Override
     public com.excilys.liferay.gatling.model.SiteMap siteMapCreation(
-        com.liferay.portal.theme.ThemeDisplay themeDisplay, long groupId)
+        com.liferay.portal.theme.ThemeDisplay themeDisplay, long groupId,
+        java.lang.String portalUrl)
         throws com.excilys.liferay.gatling.NoSuchUrlSiteMapException,
             com.liferay.portal.kernel.exception.SystemException {
-        return _siteMapLocalService.siteMapCreation(themeDisplay, groupId);
+        return _siteMapLocalService.siteMapCreation(themeDisplay, groupId,
+            portalUrl);
     }
 
     @Override

@@ -27,7 +27,7 @@ object Login {
 
 		feed(csv(feederName).random)
 		.exec(http("Home Page")
-			.get("http://localhost:8080/web/guest/home")
+			.get("/web/guest/home")
 			.check(status.is(200))
 		)
 		.exec(http("Login ${user}")

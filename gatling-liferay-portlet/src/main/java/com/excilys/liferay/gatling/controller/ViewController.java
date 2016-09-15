@@ -86,7 +86,8 @@ public class ViewController {
 		List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(defaultScenario.getScenario_id());
 
 		final ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
-		SiteMap defaultSiteMap = SiteMapLocalServiceUtil.siteMapCreation(themeDisplay, defaultScenario.getGroup_id());
+		String portalURL = PortalUtil.getPortalURL(renderRequest);
+		SiteMap defaultSiteMap = SiteMapLocalServiceUtil.siteMapCreation(themeDisplay, defaultScenario.getGroup_id(), portalURL);
 		
 		if(processes == null || processes.isEmpty()){
 			Login defaultLogin = LoginLocalServiceUtil.createDefaultLogin();

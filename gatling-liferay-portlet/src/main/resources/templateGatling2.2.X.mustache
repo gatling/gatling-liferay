@@ -12,9 +12,10 @@ import scala.concurrent.duration._
 class {{simulationName}} extends Simulation {
 
   val httpProtocol = http
-    .acceptHeader("""text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8""")
-    .acceptEncodingHeader("""gzip, deflate""")
-    .acceptLanguageHeader("""fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3""")
+    .baseURL("{{portalURL}}")
+    .acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
+    .acceptEncodingHeader("gzip, deflate")
+    .acceptLanguageHeader("fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3")
     .disableWarmUp
 
   /**

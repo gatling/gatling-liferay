@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 Altendis, Groupe Excilys (www.altendis.fr)
+  * Copyright 2015 Altendis, Groupe Excilys (www.altendis.fr)
  */
 package com.excilys.liferay.gatling.recorder;
 
@@ -172,13 +172,13 @@ public class RecorderFilter implements Filter {
 		int pauseTime = (int) Math.floor((now- start) / Math.pow(10, 9));
 		
 		Map<String, String[]> parametersMap = request.getParameterMap();
-		//TODO check out if params doesnt contains unwanted params, such as form param. Otherwise use request.queryString instead
+
 		String params = HttpUtil.parameterMapToString(filterParameters(parametersMap));
 		
 		//TODO: In future, the base URL should be customizable
-		String baseURL = "http://" + request.getLocalName() + ":" + request.getLocalPort();
-		String URI = request.getRequestURI().replace(URL_CONTROL_PANEL, "");
-		String requestURL = baseURL + URI;
+		String requestURL = request.getRequestURI().replace(URL_CONTROL_PANEL, "");
+		
+		LOG.info("requestURL: " + requestURL);
 		
 		RecordURL record = null;
 		if(request.getMethod().equalsIgnoreCase("post")) {	

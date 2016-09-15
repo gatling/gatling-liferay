@@ -9,17 +9,17 @@ import java.util.List;
 public class LoginAST extends ProcessAST{
 
 	FeederFileAST loginFeeder;
-	private String portalURL;
+	private String url;
 	
-	public LoginAST(FeederFileAST feeder, String url) {
+	public LoginAST(FeederFileAST feeder) {
 		super("Login","successfulLogin");
 		this.loginFeeder = feeder;
-		this.portalURL = url +"/home";
+		this.url = "/home";
 	}
 	
 	@Override
 	protected String computeArguments() {
-		return '"' + portalURL + "\", \""  + loginFeeder.getLocatedName() + '"';
+		return '"' + url + "\", \""  + loginFeeder.getLocatedName() + '"';
 	}
 	
 	@Override

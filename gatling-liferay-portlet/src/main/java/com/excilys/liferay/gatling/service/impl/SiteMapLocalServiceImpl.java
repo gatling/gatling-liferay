@@ -17,6 +17,7 @@ import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.util.PortalUtil;
 
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class SiteMapLocalServiceImpl extends SiteMapLocalServiceBaseImpl {
 	public static final String DEFAULT_NAME = "_default_sitemap_";
 	
 	@Override
-	public SiteMap siteMapCreation(ThemeDisplay themeDisplay, long groupId) throws SystemException, NoSuchUrlSiteMapException {
+	public SiteMap siteMapCreation(ThemeDisplay themeDisplay, long groupId, String portalUrl) throws SystemException, NoSuchUrlSiteMapException {
 		//Remove existing siteMap
 		try {
 			SiteMap s = siteMapPersistence.findByName(DEFAULT_NAME);
@@ -57,10 +58,11 @@ public class SiteMapLocalServiceImpl extends SiteMapLocalServiceBaseImpl {
 		} catch (NoSuchSiteMapException e) {}
 		
 		SiteMap siteMap = createSiteMap(DEFAULT_NAME);
+		
 	    for (Layout layout : GatlingUtil.getSiteMap(groupId)) {
 	    	long siteMapId = siteMap.getSiteMapId();
 	    	String friendlyUrl = layout.getFriendlyURL().substring(1);
-	    	String url = GatlingUtil.getGroupFriendlyURL(themeDisplay, layout);
+	    	String url = GatlingUtil.getGroupFriendlyURL(themeDisplay, layout).replaceAll(portalUrl, "");
 	    	UrlSiteMapLocalServiceUtil.createUrlSiteMap(siteMapId, friendlyUrl, url, 1);
 	    }
 	    return siteMap;

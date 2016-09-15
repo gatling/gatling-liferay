@@ -41,18 +41,18 @@ public class ASTService {
 		return ASTMapper.mapSimulationToAST(simulation, portalURL);
 	}
 	
-	public static List<ScenarioAST> computesScenariosAST(long simulationId, String portalURL) throws SystemException, PortalException {
+	public static List<ScenarioAST> computesScenariosAST(long simulationId) throws SystemException, PortalException {
 		List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
-		return ASTMapper.mapScenariosToAST(scenarios, portalURL);
+		return ASTMapper.mapScenariosToAST(scenarios);
 	}
 	
-	public static List<ProcessAST> computesProcessesAST(long scenario_id, String portalURL) throws SystemException, PortalException {
+	public static List<ProcessAST> computesProcessesAST(long scenario_id) throws SystemException, PortalException {
 		List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(scenario_id);
 		List<Integer> pauses = new ArrayList<>(processes.size());
 		for(int i=0; i < processes.size(); i++){
 			pauses.add(ProcessLocalServiceUtil.findPause(scenario_id, processes.get(i).getProcess_id(), i));
 		}
-		return ASTMapper.mapProcessesToAST(processes, pauses, portalURL);
+		return ASTMapper.mapProcessesToAST(processes, pauses);
 	}
 	
 	public static UserFeederFileAST computesUserFeederFileAST(long processId) throws NoSuchProcessException, NoSuchModelException, SystemException {

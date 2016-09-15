@@ -264,10 +264,11 @@ public class SiteMapLocalServiceUtil {
     }
 
     public static com.excilys.liferay.gatling.model.SiteMap siteMapCreation(
-        com.liferay.portal.theme.ThemeDisplay themeDisplay, long groupId)
+        com.liferay.portal.theme.ThemeDisplay themeDisplay, long groupId,
+        java.lang.String portalUrl)
         throws com.excilys.liferay.gatling.NoSuchUrlSiteMapException,
             com.liferay.portal.kernel.exception.SystemException {
-        return getService().siteMapCreation(themeDisplay, groupId);
+        return getService().siteMapCreation(themeDisplay, groupId, portalUrl);
     }
 
     public static com.excilys.liferay.gatling.model.SiteMap createSiteMap(

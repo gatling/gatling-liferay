@@ -14,8 +14,8 @@ object Logout {
 	 * @param logoutPageUrl The URL of the logout page to hit
 	 * @return the scenario builder to logout
 	 */
-	def logout(logoutPageUrl: String) =
-		exec(http("Logout").get(s"${logoutPageUrl}/c/portal/logout")
+	def logout() =
+		exec(http("Logout").get("/c/portal/logout")
 			.check(status.is(200))
 		)
 		.pause(2)

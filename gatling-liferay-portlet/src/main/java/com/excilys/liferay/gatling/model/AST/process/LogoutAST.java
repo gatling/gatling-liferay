@@ -7,16 +7,13 @@ import java.util.List;
 
 public class LogoutAST extends ProcessAST {
 	
-	private String portalURL;;
-	
-	public LogoutAST(String url) {
+	public LogoutAST() {
 		super("Logout", "logout");
-		this.portalURL = url;
 	}
 	
 	@Override
 	protected String computeArguments() {
-		return '"' + portalURL + '"';
+		return "";
 	}
 
 	@Override

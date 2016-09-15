@@ -8,15 +8,13 @@ public class SimulationAST {
 
 	private String simulationName;
 	private List<ScenarioAST> scenariosAST;
-	private String loginPageURL;
-	private String logoutPageURL;
+	private String portalURL;
 	
 	
 	public SimulationAST(String simulationName, List<ScenarioAST> scenarios, String portalURL) {
 		this.simulationName = GatlingUtil.createVariableName("", simulationName);
 		scenariosAST = scenarios;
-		this.loginPageURL = new StringBuilder(portalURL).append("/home").toString();
-		this.logoutPageURL = portalURL;
+		this.portalURL = portalURL;
 	}
 
 	/* Getters and Setters */
@@ -29,20 +27,12 @@ public class SimulationAST {
 		this.simulationName = simulationName;
 	}
 	
-	public String getLoginPageURL() {
-		return loginPageURL;
+	public String getPortalURL() {
+		return portalURL;
 	}
 
-	public void setLoginPageURL(String loginPageURL) {
-		this.loginPageURL = loginPageURL;
-	}
-
-	public String getLogoutPageURL() {
-		return logoutPageURL;
-	}
-
-	public void setLogoutPageURL(String logoutPageURL) {
-		this.logoutPageURL = logoutPageURL;
+	public void setPortalURL(String portalURL) {
+		this.portalURL = portalURL;
 	}
 
 	public List<ScenarioAST> getScenarios() {
@@ -81,10 +71,8 @@ public class SimulationAST {
 			sb.append(",\t");
 		}
 		sb.append("\n]");
-		sb.append("LoginPage: ");
-		sb.append(this.loginPageURL);
-		sb.append("LogoutPage: ");
-		sb.append(this.logoutPageURL);
+		sb.append("portalURL: ");
+		sb.append(this.portalURL);
 		return sb.toString();
 	}
 	
