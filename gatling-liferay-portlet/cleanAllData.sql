@@ -6,5 +6,5 @@ delete from StressTool_Login;
 delete from StressTool_Scenario;
 delete from StressTool_Simulation;
 delete from StressTool_ProcessScenarioLink;
-
+delete from StressTool_Record;
 
