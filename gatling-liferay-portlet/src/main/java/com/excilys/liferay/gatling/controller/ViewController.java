@@ -40,6 +40,7 @@ import com.liferay.portal.util.PortalUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -122,9 +123,7 @@ public class ViewController {
 		}
 		
 		// Injection modes
-		List<String> injectionsMode = new ArrayList<>();
-		injectionsMode.add("ramp Over");
-		injectionsMode.add("at Once");
+		List<String> injectionsMode = Arrays.asList("ramp Over", "at Once");
 		
 		//Current Injection
 		String currentInjection = scenarios.get(0).getInjection();

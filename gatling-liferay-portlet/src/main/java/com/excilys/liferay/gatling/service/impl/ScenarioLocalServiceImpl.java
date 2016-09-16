@@ -94,7 +94,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 		try {
 			return scenarioPersistence.findByName(DEFAULT_NAME);
 		} catch (NoSuchScenarioException e) {
-			return createScenario(DEFAULT_NAME, simulation.getSimulation_id(), "ramp Over", 10, 5);
+			return createScenario(DEFAULT_NAME, simulation.getSimulation_id(), "ramp Over", 100, 5);
 		}
 	}
 	
