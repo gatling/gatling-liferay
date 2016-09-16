@@ -1,8 +1,6 @@
 package com.excilys.liferay.gatling.model.AST.feeder.data;
 
 public class SiteMapDataAST {
-
-	public static final String HEADER = "site,URL,weight\n";
 	
 	private String friendlyURL;
 	private String url;
@@ -30,6 +28,11 @@ public class SiteMapDataAST {
 	public String toString() {
 		return "SiteMapDataAST friendlyUrl=" + friendlyURL + ", url=" + url + ", weight="
 				+ weight + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return url.hashCode() + friendlyURL.hashCode() * 31;
 	}
 	
 }

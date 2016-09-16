@@ -1,6 +1,5 @@
 package com.excilys.liferay.gatling.model.AST.process;
 
-import com.excilys.liferay.gatling.model.AST.feeder.FeederFileAST;
 import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
 
 import java.util.ArrayList;
@@ -8,16 +7,16 @@ import java.util.List;
 
 public class RandomPageAST extends ProcessAST {
 
-	FeederFileAST siteMap;
+	ResourceFileAST siteMap;
 	
-	public RandomPageAST(FeederFileAST feeder) {
-		super("GetPage", "randomPage");
+	public RandomPageAST(ResourceFileAST feeder) {
+		super(feeder.getName(), "run");
 		this.siteMap = feeder;
 	}
 
 	@Override
 	protected String computeArguments() {
-		return '"' + siteMap.getLocatedName() + '"';
+		return "";
 	}
 
 	@Override

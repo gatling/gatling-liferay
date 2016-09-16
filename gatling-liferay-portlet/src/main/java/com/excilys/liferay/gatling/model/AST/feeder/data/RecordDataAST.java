@@ -6,17 +6,15 @@ import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
 
 public class RecordDataAST {
 
-	public static final String HEADER = "url,type,datafile";
-
 	public static final String BODIES = "bodies/";
-	
+
 	private String url;
 	private String type;
 	private ResourceFileAST data;
 	private int pauseTime;
-	
 
-	public RecordDataAST(String url, String type, ResourceFileAST data, int pause) {
+	public RecordDataAST(String url, String type, ResourceFileAST data,
+			int pause) {
 		this.url = url;
 		this.type = type;
 		this.data = data;
@@ -35,52 +33,41 @@ public class RecordDataAST {
 		return pauseTime;
 	}
 
-	
 	public ResourceFileAST getData() {
 		return data;
 	}
 
 	public String getContent() {
 		StringBuilder contentBuilder = new StringBuilder("http(\"Page ")
-				.append(url)
-				.append("\")\n      ");
-		
-		switch(UrlRecordType.valueOf(type)){
-			case GET:
-				contentBuilder.append(".get(\"")
-						.append(url)
-						.append("\")\n");
-				break;
-				
-			case MULTIPART:
-				contentBuilder.append(".post(\"")
-						.append(url)
-						.append("\")\n");
-				if(data != null){
-					String fileName = data.getLocatedName();
-					if(fileName.startsWith(BODIES)) {
-						fileName = fileName.substring(BODIES.length());
-					}
-					contentBuilder.append("      .bodyPart(RawFileBodyPart(\"")
-							.append(fileName)
-							.append("\"))\n");
+				.append(url).append("\")\n      ");
+
+		switch (UrlRecordType.valueOf(type)) {
+		case GET:
+			contentBuilder.append(".get(\"").append(url).append("\")\n");
+			break;
+
+		case MULTIPART:
+			contentBuilder.append(".post(\"").append(url).append("\")\n");
+			if (data != null) {
+				String fileName = data.getLocatedName();
+				if (fileName.startsWith(BODIES)) {
+					fileName = fileName.substring(BODIES.length());
 				}
-				else {
-					throw new InvalidAST();
-				}
-				break;
-				
-			case POST:
-				contentBuilder.append(".post(\"")
-				.append(url)
-				.append("\")\n");
-				if(data != null){
-					contentBuilder.append(data.getContent());
-				}
-				else {
-					throw new InvalidAST();
-				}
-				break;
+				contentBuilder.append("      .bodyPart(RawFileBodyPart(\"")
+						.append(fileName).append("\"))\n");
+			} else {
+				throw new InvalidAST();
+			}
+			break;
+
+		case POST:
+			contentBuilder.append(".post(\"").append(url).append("\")\n");
+			if (data != null) {
+				contentBuilder.append(data.getContent());
+			} else {
+				throw new InvalidAST();
+			}
+			break;
 		}
 		return contentBuilder.toString();
 	}
