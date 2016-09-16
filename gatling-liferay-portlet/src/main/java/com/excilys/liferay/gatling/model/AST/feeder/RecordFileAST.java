@@ -26,7 +26,6 @@ public class RecordFileAST extends ScalaFileAST {
 	 * The following code generates a Record scala file with all the chainBuilder execution.
 	 * Since Mustach is logicless, we used polymorphisme instead.
 	 * 
-	 * 
 	 */
 	@Override
 	public String getContent() {

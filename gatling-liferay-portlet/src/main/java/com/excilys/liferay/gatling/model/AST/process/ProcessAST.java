@@ -5,9 +5,10 @@ import com.excilys.liferay.gatling.model.AST.feeder.ResourceFileAST;
 import java.util.List;
 
 public abstract class ProcessAST {
-	protected String scalaObject;
-	protected String scalaFunction;
-	protected int pause;
+	
+	protected String scalaObject; // The scala Object name (class name)
+	protected String scalaFunction; // The scala function name
+	protected int pause; // The pause between this process and the next one
 	
 	protected ProcessAST(String scalaObject, String scalaFunction){
 		this.scalaObject = scalaObject;
@@ -17,8 +18,12 @@ public abstract class ProcessAST {
 	/**
 	 * Computes the code of the process
 	 * 
+	 * All process are used as the following way: Object.function(...args...)
+	 * (for example: GetPage.randomPage(feederFile)
+	 * 
+	 * 
 	 * Since Mustache is logicless, we used polymorphisme for code generation:
-	 * all processes compute arguments their own way
+	 * all processes compute arguments their own way through the computeArguments method
 	 *  
 	 * @return The process's code
 	 */
@@ -35,6 +40,7 @@ public abstract class ProcessAST {
 	/**
 	 * Computes a String that will represent the process function call's arguments
 	 * separeted with commas.
+	 * 
 	 * @return The String representation of the arguments
 	 */
 	protected abstract String computeArguments();

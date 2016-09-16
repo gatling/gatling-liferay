@@ -51,7 +51,7 @@ public abstract class RecordURL {
 	}
 
 	public final void saveURL(int order, long recordId, int pauseTime) throws SystemException {
-		long primaryKey = UrlRecordLocalServiceUtil.save(url, method, order, recordId, pauseTime);
+		long primaryKey = UrlRecordLocalServiceUtil.save(url+params, method, order, recordId, pauseTime);
 		saveData(primaryKey);
 	}
 	

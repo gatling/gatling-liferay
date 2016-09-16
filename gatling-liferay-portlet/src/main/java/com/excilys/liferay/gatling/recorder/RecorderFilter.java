@@ -267,6 +267,7 @@ public class RecorderFilter implements Filter {
 		}
 		return new PostMultipartURL(requestURL, params, content.toString());
 	}
+
 	
 	/**
 	 * Computes the record url that will hold all the form parameters 
@@ -304,7 +305,8 @@ public class RecorderFilter implements Filter {
 				mapResult.put(key, allParams.get(key)[0]);
 			}
 		}
-		return new PostURL(RequestURL, queryString, mapResult);
+		
+		return new PostURL(RequestURL, "?"+queryString, mapResult);
 	}
 	
 	

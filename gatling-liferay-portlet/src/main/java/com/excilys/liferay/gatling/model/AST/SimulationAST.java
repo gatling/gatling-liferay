@@ -43,6 +43,14 @@ public class SimulationAST {
 		this.scenariosAST = scenario;
 	}
 	
+	/**
+	 * GetInjection code computes the scala code related to te injection
+	 * 
+	 * It goes through all the scenarios in order to generate the scala injection section
+	 * NOTE: at the moment all the scenarios injections are the same (a single profile is set in the view),
+	 *
+	 * @return the injection code
+	 */
 	public String getInjectionCode() {
 		StringBuilder sb = new StringBuilder();
 		int i = 0;

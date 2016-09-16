@@ -66,6 +66,11 @@ public class ScenarioAST {
 		this.injection = injection;
 	}
 	
+	/**
+	 * getInjectionCode generates a scala injection line (rampOver or atOnce) 
+	 * 
+	 * @return the injection code
+	 */
 	public String getInjectionCode() {
 		StringBuilder sb = new StringBuilder();
 		if ("at Once".equals(injection)) {
@@ -82,21 +87,12 @@ public class ScenarioAST {
 		}
 		return sb.toString();
 	}
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Scenario name: ");
-		sb.append(this.scenarioName);
-		sb.append("Processes: \n[");
-		for(ProcessAST process : processes) {
-			sb.append(process.toString());
-			sb.append(",\t");
-		}
-		sb.append("\n]");
-		sb.append("Rampup: ").append(rampUp);
-		return sb.toString();
-	}
 	
+	/**
+	 * printCode computes all the scala code related to the scenario.
+	 * 
+	 * @return the scala code that will be included in the simulation file.
+	 */
 	public String printCode(){
 		StringBuilder sb = new StringBuilder();
 		final String spaceIndent = "      ";
@@ -115,4 +111,20 @@ public class ScenarioAST {
 		return sb.toString();
 	}
 
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Scenario name: ");
+		sb.append(this.scenarioName);
+		sb.append("Processes: \n[");
+		for(ProcessAST process : processes) {
+			sb.append(process.toString());
+			sb.append(",\t");
+		}
+		sb.append("\n]");
+		sb.append("Rampup: ").append(rampUp);
+		return sb.toString();
+	}
+	
 }
