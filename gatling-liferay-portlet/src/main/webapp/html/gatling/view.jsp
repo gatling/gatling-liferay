@@ -7,6 +7,10 @@
 <%-- CSS --%>
 <style  type="text/css">
 
+.scenario-name input {
+	width: 150px;
+}
+
 .scenario-box form {
 	margin: 0px;
 }
@@ -585,8 +589,14 @@
 	display: inline-block;
 	height: 45px;
 	line-height: 45px;
-	padding: 0px 20px;
+	padding: 0px 17px;
 	border-radius: 10px;
+}
+
+.scenario-name {
+	display: inline-block;
+	width: 200px;
+	font-style: italic;
 }
 
 ._tyLOGIN .action, ._tyLOGOUT .action {

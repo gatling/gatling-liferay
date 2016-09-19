@@ -29,16 +29,8 @@
 	margin-bottom: 7px;
 }
 
-.scenario-name {
-	display: inline-block;
-	width: 200px;
-	margin-left: 30px;
-	font-style: italic;
-}
-
 .workflow {
 	display: inline-block;
-	margin-left: 30px;
 	height: 80px;
 }
 
