@@ -70,7 +70,7 @@
 		<%--List of data to display --%>
 		<liferay-ui:search-container-results	results="${listSimulations}"	total="${listSimulations.size() }"/>
 		<%--for each  column --%>
-		<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Simulation" keyProperty="simulation_id" modelVar="simulation">
+		<liferay-ui:search-container-row className="io.gatling.liferay.model.Simulation" keyProperty="simulation_id" modelVar="simulation">
 			<%-- checkbox --%>
 			<liferay-ui:search-container-column-text>
 				<c:choose>

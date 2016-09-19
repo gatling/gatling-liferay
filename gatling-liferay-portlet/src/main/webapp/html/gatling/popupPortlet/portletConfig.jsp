@@ -2,6 +2,7 @@
 	Copyright 2015 Altendis, Groupe Excilys (www.altendis.fr)
 --%>
 <%@include file="/html/gatling/header.jsp"%>
+<%@ page import="com.liferay.portal.util.PortalUtil" %>
 
 <%
 	// Tab value to preselect on page load

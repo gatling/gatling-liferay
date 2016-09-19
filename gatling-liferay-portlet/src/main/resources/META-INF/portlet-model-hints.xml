@@ -1,45 +1,43 @@
 <?xml version="1.0"?>
 
 <model-hints>
-	<model name="com.excilys.liferay.gatling.model.FormParam">
+	<model name="io.gatling.liferay.model.FormParam">
 		<field name="formParamId" type="long" />
 		<field name="urlRecordId" type="long" />
-		<field name="data" type="String">
-			<hint name="max-length">5000</hint>
-		</field>
+		<field name="data" type="String" />
 	</model>
-	<model name="com.excilys.liferay.gatling.model.LinkUsecaseRequest">
+	<model name="io.gatling.liferay.model.LinkUsecaseRequest">
 		<field name="linkUsecaseRequestId" type="long" />
 		<field name="request_id" type="long" />
 		<field name="recordId" type="long" />
 		<field name="weight" type="double" />
 		<field name="sample" type="boolean" />
 	</model>
-	<model name="com.excilys.liferay.gatling.model.Login">
+	<model name="io.gatling.liferay.model.Login">
 		<field name="userId" type="long" />
 		<field name="name" type="String" />
 		<field name="data" type="String" />
 	</model>
-	<model name="com.excilys.liferay.gatling.model.Process">
+	<model name="io.gatling.liferay.model.Process">
 		<field name="process_id" type="long" />
 		<field name="name" type="String" />
 		<field name="type" type="String" />
 		<field name="feederId" type="Long" />
 	</model>
-	<model name="com.excilys.liferay.gatling.model.ProcessScenarioLink">
+	<model name="io.gatling.liferay.model.ProcessScenarioLink">
 		<field name="psl_id" type="long" />
 		<field name="process_id" type="long" />
 		<field name="scenario_id" type="long" />
 		<field name="order" type="int" />
 		<field name="pause" type="int" />
 	</model>
-	<model name="com.excilys.liferay.gatling.model.Record">
+	<model name="io.gatling.liferay.model.Record">
 		<field name="recordId" type="long" />
 		<field name="portletId" type="String" />
 		<field name="versionPortlet" type="String" />
 		<field name="name" type="String" />
 	</model>
-	<model name="com.excilys.liferay.gatling.model.Request">
+	<model name="io.gatling.liferay.model.Request">
 		<field name="request_id" type="long" />
 		<field name="scenario_id" type="long" />
 		<field name="weight" type="double" />
@@ -50,7 +48,7 @@
 		<field name="portlet" type="boolean" />
 		<field name="portletId" type="String" />
 	</model>
-	<model name="com.excilys.liferay.gatling.model.Scenario">
+	<model name="io.gatling.liferay.model.Scenario">
 		<field name="scenario_id" type="long" />
 		<field name="name" type="String" />
 		<field name="url_site" type="String" />
@@ -60,29 +58,25 @@
 		<field name="duration" type="long" />
 		<field name="injection" type="String" />
 	</model>
-	<model name="com.excilys.liferay.gatling.model.Simulation">
+	<model name="io.gatling.liferay.model.Simulation">
 		<field name="simulation_id" type="long" />
 		<field name="name" type="String" />
-		<field name="feederContent" type="String">
-			<hint name="max-length">4000</hint>
-		</field>
+		<field name="feederContent" type="String" />
 		<field name="isFeederAFile" type="boolean" />
 	</model>
-	<model name="com.excilys.liferay.gatling.model.SiteMap">
+	<model name="io.gatling.liferay.model.SiteMap">
 		<field name="siteMapId" type="long" />
 		<field name="name" type="String" />
 	</model>
-	<model name="com.excilys.liferay.gatling.model.UrlRecord">
+	<model name="io.gatling.liferay.model.UrlRecord">
 		<field name="urlRecordId" type="long" />
 		<field name="recordId" type="long" />
-		<field name="url" type="String">
-			<hint name="max-length">5000</hint>
-		</field>
+		<field name="url" type="String" />
 		<field name="type" type="String" />
 		<field name="order" type="int" />
 		<field name="pauseTime" type="int" />
 	</model>
-	<model name="com.excilys.liferay.gatling.model.UrlSiteMap">
+	<model name="io.gatling.liferay.model.UrlSiteMap">
 		<field name="urlSiteMapId" type="long" />
 		<field name="siteMapId" type="long" />
 		<field name="friendlyUrl" type="String" />

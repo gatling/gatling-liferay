@@ -1,0 +1,29 @@
+package io.gatling.liferay.model.AST.feeder;
+
+
+public class HttpBodyFileAST extends ResourceFileAST {
+
+	private static final String LOCATION = "bodies/liferay/";
+	private static final String TYPE = "HttpBody";
+	
+	private String content;
+	
+	
+	public HttpBodyFileAST(String name, String content) {
+		super(name, TYPE, LOCATION);
+		this.content = content;
+	}
+
+	@Override
+	public String getLocatedName() {
+		return super.getLocatedName() + ".txt";
+	}
+
+	@Override
+	public String getContent() {
+		return content;
+	}
+
+	
+	
+}

@@ -2,19 +2,19 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping default-lazy="false" auto-import="false">
-	<import class="com.excilys.liferay.gatling.model.FormParam" />
-	<import class="com.excilys.liferay.gatling.model.LinkUsecaseRequest" />
-	<import class="com.excilys.liferay.gatling.model.Login" />
-	<import class="com.excilys.liferay.gatling.model.Process" />
-	<import class="com.excilys.liferay.gatling.model.ProcessScenarioLink" />
-	<import class="com.excilys.liferay.gatling.model.Record" />
-	<import class="com.excilys.liferay.gatling.model.Request" />
-	<import class="com.excilys.liferay.gatling.model.Scenario" />
-	<import class="com.excilys.liferay.gatling.model.Simulation" />
-	<import class="com.excilys.liferay.gatling.model.SiteMap" />
-	<import class="com.excilys.liferay.gatling.model.UrlRecord" />
-	<import class="com.excilys.liferay.gatling.model.UrlSiteMap" />
-	<class name="com.excilys.liferay.gatling.model.impl.FormParamImpl" table="StressTool_FormParam">
+	<import class="io.gatling.liferay.model.FormParam" />
+	<import class="io.gatling.liferay.model.LinkUsecaseRequest" />
+	<import class="io.gatling.liferay.model.Login" />
+	<import class="io.gatling.liferay.model.Process" />
+	<import class="io.gatling.liferay.model.ProcessScenarioLink" />
+	<import class="io.gatling.liferay.model.Record" />
+	<import class="io.gatling.liferay.model.Request" />
+	<import class="io.gatling.liferay.model.Scenario" />
+	<import class="io.gatling.liferay.model.Simulation" />
+	<import class="io.gatling.liferay.model.SiteMap" />
+	<import class="io.gatling.liferay.model.UrlRecord" />
+	<import class="io.gatling.liferay.model.UrlSiteMap" />
+	<class name="io.gatling.liferay.model.impl.FormParamImpl" table="StressTool_FormParam">
 		<cache usage="read-write" />
 		<id name="formParamId" type="long">
 			<generator class="assigned" />
@@ -22,7 +22,7 @@
 		<property name="urlRecordId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="data" type="com.liferay.portal.dao.orm.hibernate.StringType" column="data_" />
 	</class>
-	<class name="com.excilys.liferay.gatling.model.impl.LinkUsecaseRequestImpl" table="StressTool_LinkUsecaseRequest">
+	<class name="io.gatling.liferay.model.impl.LinkUsecaseRequestImpl" table="StressTool_LinkUsecaseRequest">
 		<cache usage="read-write" />
 		<id name="linkUsecaseRequestId" type="long">
 			<generator class="assigned" />
@@ -32,7 +32,7 @@
 		<property name="weight" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="sample" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
-	<class name="com.excilys.liferay.gatling.model.impl.LoginImpl" table="StressTool_Login">
+	<class name="io.gatling.liferay.model.impl.LoginImpl" table="StressTool_Login">
 		<cache usage="read-write" />
 		<id name="userId" type="long">
 			<generator class="assigned" />
@@ -40,7 +40,7 @@
 		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="data" type="com.liferay.portal.dao.orm.hibernate.StringType" column="data_" />
 	</class>
-	<class name="com.excilys.liferay.gatling.model.impl.ProcessImpl" table="StressTool_Process">
+	<class name="io.gatling.liferay.model.impl.ProcessImpl" table="StressTool_Process">
 		<cache usage="read-write" />
 		<id name="process_id" type="long">
 			<generator class="assigned" />
@@ -49,7 +49,7 @@
 		<property name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" column="type_" />
 		<property name="feederId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
-	<class name="com.excilys.liferay.gatling.model.impl.ProcessScenarioLinkImpl" table="StressTool_ProcessScenarioLink">
+	<class name="io.gatling.liferay.model.impl.ProcessScenarioLinkImpl" table="StressTool_ProcessScenarioLink">
 		<cache usage="read-write" />
 		<id name="psl_id" type="long">
 			<generator class="assigned" />
@@ -59,7 +59,7 @@
 		<property name="order" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="order_" />
 		<property name="pause" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 	</class>
-	<class name="com.excilys.liferay.gatling.model.impl.RecordImpl" table="StressTool_Record">
+	<class name="io.gatling.liferay.model.impl.RecordImpl" table="StressTool_Record">
 		<cache usage="read-write" />
 		<id name="recordId" type="long">
 			<generator class="assigned" />
@@ -68,7 +68,7 @@
 		<property name="versionPortlet" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
-	<class name="com.excilys.liferay.gatling.model.impl.RequestImpl" table="StressTool_Request">
+	<class name="io.gatling.liferay.model.impl.RequestImpl" table="StressTool_Request">
 		<cache usage="read-write" />
 		<id name="request_id" type="long">
 			<generator class="assigned" />
@@ -82,7 +82,7 @@
 		<property name="portlet" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="portletId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
-	<class name="com.excilys.liferay.gatling.model.impl.ScenarioImpl" table="StressTool_Scenario">
+	<class name="io.gatling.liferay.model.impl.ScenarioImpl" table="StressTool_Scenario">
 		<cache usage="read-write" />
 		<id name="scenario_id" type="long">
 			<generator class="assigned" />
@@ -95,7 +95,7 @@
 		<property name="duration" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="injection" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
-	<class name="com.excilys.liferay.gatling.model.impl.SimulationImpl" table="StressTool_Simulation">
+	<class name="io.gatling.liferay.model.impl.SimulationImpl" table="StressTool_Simulation">
 		<cache usage="read-write" />
 		<id name="simulation_id" type="long">
 			<generator class="assigned" />
@@ -104,14 +104,14 @@
 		<property name="feederContent" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="isFeederAFile" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
-	<class name="com.excilys.liferay.gatling.model.impl.SiteMapImpl" table="StressTool_SiteMap">
+	<class name="io.gatling.liferay.model.impl.SiteMapImpl" table="StressTool_SiteMap">
 		<cache usage="read-write" />
 		<id name="siteMapId" type="long">
 			<generator class="assigned" />
 		</id>
 		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
-	<class name="com.excilys.liferay.gatling.model.impl.UrlRecordImpl" table="StressTool_UrlRecord">
+	<class name="io.gatling.liferay.model.impl.UrlRecordImpl" table="StressTool_UrlRecord">
 		<cache usage="read-write" />
 		<id name="urlRecordId" type="long">
 			<generator class="assigned" />
@@ -122,7 +122,7 @@
 		<property name="order" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="order_" />
 		<property name="pauseTime" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 	</class>
-	<class name="com.excilys.liferay.gatling.model.impl.UrlSiteMapImpl" table="StressTool_UrlSiteMap">
+	<class name="io.gatling.liferay.model.impl.UrlSiteMapImpl" table="StressTool_UrlSiteMap">
 		<cache usage="read-write" />
 		<id name="urlSiteMapId" type="long">
 			<generator class="assigned" />

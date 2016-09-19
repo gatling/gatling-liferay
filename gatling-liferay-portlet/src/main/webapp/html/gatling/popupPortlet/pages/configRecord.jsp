@@ -15,7 +15,7 @@
 	<%--List of data to display --%>
 	<liferay-ui:search-container-results results="${portletGatlingDTO.listRecord }" total="${portletGatlingDTO.listRecord.size() }" />
 	<%--for each column --%>
-	<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Record" keyProperty="recordId" modelVar="record">
+	<liferay-ui:search-container-row className="io.gatling.liferay.model.Record" keyProperty="recordId" modelVar="record">
 		<%-- EditURl --%>
 		<portlet:renderURL var="editRecordURL">
 			<portlet:param name="render" value="editRecord" />

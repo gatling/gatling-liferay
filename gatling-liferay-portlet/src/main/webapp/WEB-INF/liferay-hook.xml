@@ -2,12 +2,11 @@
 <!DOCTYPE hook PUBLIC "-//Liferay//DTD Hook 6.2.0//EN" "http://www.liferay.com/dtd/liferay-hook_6_2_0.dtd">
 
 <hook>
-	<language-properties>content/Language_en.properties</language-properties>
+	<language-properties>content/Language.properties</language-properties>
 	<language-properties>content/Language_fr.properties</language-properties>
-	<language-properties>content/Language_de.properties</language-properties>
 	<servlet-filter>
 		<servlet-filter-name>RecordFilter</servlet-filter-name>
-		<servlet-filter-impl>com.excilys.liferay.gatling.recorder.RecorderFilter</servlet-filter-impl> 
+		<servlet-filter-impl>io.gatling.liferay.recorder.RecorderFilter</servlet-filter-impl> 
 	</servlet-filter>
 	<servlet-filter-mapping>
 		<servlet-filter-name>RecordFilter</servlet-filter-name>

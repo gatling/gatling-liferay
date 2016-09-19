@@ -92,7 +92,7 @@
 	<%--Liste of data to display --%>
 	<liferay-ui:search-container-results results="${listScenario }" total="${listScenario.size() }" />
 	<%--for each column --%>
-	<liferay-ui:search-container-row className="com.excilys.liferay.gatling.model.Scenario" keyProperty="scenario_id" modelVar="scenario">
+	<liferay-ui:search-container-row className="io.gatling.liferay.model.Scenario" keyProperty="scenario_id" modelVar="scenario">
 		<%-- EditURl --%>
 		<portlet:renderURL var="editScenarioURL">
 			<portlet:param name="render" value="renderScenario" />

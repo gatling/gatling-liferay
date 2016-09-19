@@ -16,14 +16,14 @@
 	<bean  class="org.springframework.web.portlet.mvc.annotation.DefaultAnnotationHandlerMapping" >
 	</bean>
 	
-	<bean class="com.excilys.liferay.gatling.controller.SimulationController" ></bean>
-	<bean class="com.excilys.liferay.gatling.controller.PortletController" ></bean>
-	<bean class="com.excilys.liferay.gatling.controller.RequestController" ></bean>
-	<bean class="com.excilys.liferay.gatling.controller.AdvancedViewController" ></bean>
-	<bean class="com.excilys.liferay.gatling.controller.ScenarioController" ></bean>
-	<bean class="com.excilys.liferay.gatling.controller.ViewController" ></bean>
-	<bean class="com.excilys.liferay.gatling.controller.SmoothRecorderController" ></bean>
-	<bean class="com.excilys.liferay.gatling.controller.SiteMapController" ></bean>
+	<bean class="io.gatling.liferay.controller.SimulationController" ></bean>
+	<bean class="io.gatling.liferay.controller.PortletController" ></bean>
+	<bean class="io.gatling.liferay.controller.RequestController" ></bean>
+	<bean class="io.gatling.liferay.controller.AdvancedViewController" ></bean>
+	<bean class="io.gatling.liferay.controller.ScenarioController" ></bean>
+	<bean class="io.gatling.liferay.controller.ViewController" ></bean>
+	<bean class="io.gatling.liferay.controller.SmoothRecorderController" ></bean>
+	<bean class="io.gatling.liferay.controller.SiteMapController" ></bean>
 	
 	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView" />

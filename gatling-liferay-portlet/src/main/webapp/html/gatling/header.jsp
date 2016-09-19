@@ -23,13 +23,13 @@
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
 <%@ page import="com.liferay.portal.util.PortalUtil" %>
 
-<%@ page import="com.excilys.liferay.gatling.model.Request"%>
-<%@ page import="com.excilys.liferay.gatling.model.Scenario"%>
-<%@ page import="com.excilys.liferay.gatling.model.Simulation"%>
-<%@ page import="com.excilys.liferay.gatling.mustache.ListScript"%>
-<%@ page import="com.excilys.liferay.gatling.service.RequestLocalServiceUtil"%>
-<%@ page import="com.excilys.liferay.gatling.service.ScenarioLocalServiceUtil"%>
-<%@ page import="com.excilys.liferay.gatling.service.SimulationLocalServiceUtil"%>
+<%@ page import="io.gatling.liferay.model.Request"%>
+<%@ page import="io.gatling.liferay.model.Scenario"%>
+<%@ page import="io.gatling.liferay.model.Simulation"%>
+<%@ page import="io.gatling.liferay.mustache.ListScript"%>
+<%@ page import="io.gatling.liferay.service.RequestLocalServiceUtil"%>
+<%@ page import="io.gatling.liferay.service.ScenarioLocalServiceUtil"%>
+<%@ page import="io.gatling.liferay.service.SimulationLocalServiceUtil"%>
 <%@ page import="com.liferay.util.portlet.PortletProps" %>
 <%@ page import="com.liferay.portal.service.PortletLocalServiceUtil" %>
 
