@@ -490,7 +490,7 @@
 			<aui:validator name="min">1</aui:validator>
 		</aui:input>
 		
-		<aui:select label="injection-mode" name="injection-mode"
+		<aui:select label="injection-mode" name="injectionMode"
 			required="true"  inlineField="true" helpMessage="injection-info-help">
 			<c:forEach var="mode" items="${injections}">
 				<c:set var="isSelected" scope="request" value="${mode eq currentInjection}" />

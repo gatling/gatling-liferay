@@ -279,11 +279,18 @@ public class ScenarioLocalServiceUtil {
 
     public static io.gatling.liferay.model.Scenario createScenario(
         java.lang.String name, long simulationId, java.lang.String injection,
-        int numberOfUsers, int duration)
+        long numberOfUsers, long duration)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getService()
                    .createScenario(name, simulationId, injection,
             numberOfUsers, duration);
+    }
+
+    public static io.gatling.liferay.model.Scenario addScenario(
+        java.lang.String name, long simulationId)
+        throws com.liferay.portal.kernel.exception.SystemException,
+            io.gatling.liferay.NoSuchScenarioException {
+        return getService().addScenario(name, simulationId);
     }
 
     public static void addProcess(long scenarioId, long processId, int order,

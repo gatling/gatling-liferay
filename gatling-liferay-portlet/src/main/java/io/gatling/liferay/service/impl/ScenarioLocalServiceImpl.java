@@ -99,30 +99,40 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	}
 	
 	@Override
-	public Scenario createScenario(String name, long simulationId, String injection, int numberOfUsers, int duration) throws SystemException{
-		Scenario defaultScenario = ScenarioUtil.create(CounterLocalServiceUtil.increment(Scenario.class.getName()));
+	public Scenario createScenario(String name, long simulationId, String injection, long numberOfUsers, long duration) throws SystemException{
+		Scenario scenario = ScenarioUtil.create(CounterLocalServiceUtil.increment(Scenario.class.getName()));
 		List<Group> listGroups = GatlingUtil.getListOfSites();
 		if (listGroups.isEmpty()) {
-			defaultScenario.setGroup_id(0);
+			scenario.setGroup_id(0);
 		}
 		else {
-			defaultScenario.setGroup_id(listGroups.get(0).getGroupId());
+			scenario.setGroup_id(listGroups.get(0).getGroupId());
 		}
-		defaultScenario.setSimulation_id(simulationId);
-		defaultScenario.setInjection(injection);
-		defaultScenario.setNumberOfUsers(numberOfUsers);
-		defaultScenario.setDuration(duration);
+		scenario.setSimulation_id(simulationId);
+		scenario.setInjection(injection);
+		scenario.setNumberOfUsers(numberOfUsers);
+		scenario.setDuration(duration);
 		
-		// TODO: Must be removed
+		
+		// TODO: find a another way to create scenario name
+		// Used to generate unique scenario name
 		if(!name.equals(DEFAULT_NAME)) {
-			name += defaultScenario.getScenario_id();
+			name += scenario.getScenario_id();
 		}
-		defaultScenario.setName(name);
 		
-		defaultScenario.persist();
-		return defaultScenario;
+		scenario.setName(name);
+		
+		scenario.persist();
+		return scenario;
 	}
 	
+	@Override
+	public Scenario addScenario(String name, long simulationId) throws SystemException, NoSuchScenarioException{ {
+		Scenario defaultScenario = scenarioPersistence.findByName(DEFAULT_NAME);
+		return createScenario(name, simulationId, defaultScenario.getInjection(), defaultScenario.getNumberOfUsers(), defaultScenario.getDuration());
+	}
+	
+	}
 	@Override
 	public void addProcess(long scenarioId, long processId, int order, int pause) throws SystemException{
 		ProcessScenarioLink link = ProcessScenarioLinkUtil.create(CounterLocalServiceUtil.increment(ProcessScenarioLink.class.getName()));

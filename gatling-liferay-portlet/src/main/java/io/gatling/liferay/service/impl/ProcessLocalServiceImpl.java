@@ -47,7 +47,6 @@ public class ProcessLocalServiceImpl extends ProcessLocalServiceBaseImpl {
 		return processes;
 	}
 	
-
 	@Override
 	public int findPause(long scenarioId, long processesId, int order) throws NoSuchProcessScenarioLinkException, SystemException{
 		ProcessScenarioLink link = processScenarioLinkPersistence.findByPause(processesId, scenarioId, order);

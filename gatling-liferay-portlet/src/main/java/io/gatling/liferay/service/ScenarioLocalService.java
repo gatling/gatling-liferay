@@ -251,8 +251,13 @@ public interface ScenarioLocalService extends BaseLocalService,
 
     public io.gatling.liferay.model.Scenario createScenario(
         java.lang.String name, long simulationId, java.lang.String injection,
-        int numberOfUsers, int duration)
+        long numberOfUsers, long duration)
         throws com.liferay.portal.kernel.exception.SystemException;
+
+    public io.gatling.liferay.model.Scenario addScenario(
+        java.lang.String name, long simulationId)
+        throws com.liferay.portal.kernel.exception.SystemException,
+            io.gatling.liferay.NoSuchScenarioException;
 
     public void addProcess(long scenarioId, long processId, int order, int pause)
         throws com.liferay.portal.kernel.exception.SystemException;

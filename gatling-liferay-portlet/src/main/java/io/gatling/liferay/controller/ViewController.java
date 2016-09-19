@@ -295,7 +295,7 @@ public class ViewController {
 		
 		Simulation simulation = SimulationLocalServiceUtil.getByName(SimulationLocalServiceImpl.DEFAULT_NAME);
 		//Scenario defaultScenario = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id()).get(0);
-		Scenario scenario = ScenarioLocalServiceUtil.createScenario("MyScenario", simulation.getSimulation_id(), "ramp Over", 10, 5);
+		Scenario scenario = ScenarioLocalServiceUtil.addScenario("MyScenario", simulation.getSimulation_id());
 		Process login = ProcessLocalServiceUtil.findByName("LOGIN");
 		ProcessScenarioLinkLocalServiceUtil.createLink(scenario.getScenario_id(), login.getProcess_id(), 0, 0);
 	}
