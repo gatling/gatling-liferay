@@ -3,17 +3,6 @@
  */
 package io.gatling.liferay.util;
 
-import io.gatling.liferay.dto.LinkUsecaseRequestDTO;
-import io.gatling.liferay.model.LinkUsecaseRequest;
-import io.gatling.liferay.model.Record;
-import io.gatling.liferay.model.Scenario;
-import io.gatling.liferay.model.Simulation;
-import io.gatling.liferay.model.AST.ScenarioAST;
-import io.gatling.liferay.model.AST.SimulationAST;
-import io.gatling.liferay.model.AST.feeder.ResourceFileAST;
-import io.gatling.liferay.model.AST.process.ProcessAST;
-import io.gatling.liferay.service.LinkUsecaseRequestLocalServiceUtil;
-import io.gatling.liferay.service.RecordLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -32,6 +21,15 @@ import com.liferay.portal.theme.ThemeDisplay;
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.MustacheException;
+
+import io.gatling.liferay.model.Record;
+import io.gatling.liferay.model.Scenario;
+import io.gatling.liferay.model.Simulation;
+import io.gatling.liferay.model.AST.ScenarioAST;
+import io.gatling.liferay.model.AST.SimulationAST;
+import io.gatling.liferay.model.AST.feeder.ResourceFileAST;
+import io.gatling.liferay.model.AST.process.ProcessAST;
+import io.gatling.liferay.service.RecordLocalServiceUtil;
 
 import java.io.File;
 import java.io.FileReader;
@@ -170,43 +168,6 @@ public class GatlingUtil {
 		return sb.toString();
 	}
 	
-	
-	/**
-	 * 
-	 * @param requestId
-	 * @return
-	 * @throws SystemException
-	 * @throws PortalException
-	 */
-	public static List<LinkUsecaseRequestDTO> fillArrayLinkUseCases(
-			long requestId) throws SystemException, PortalException {
-		List<LinkUsecaseRequest> listUseCaseRequest = LinkUsecaseRequestLocalServiceUtil
-				.findByRequestId(requestId);
-		List<LinkUsecaseRequestDTO> listDisplayLink = new ArrayList<LinkUsecaseRequestDTO>();
-		for (LinkUsecaseRequest link : listUseCaseRequest) {
-			long recordId = link.getRecordId(); // ID
-			long linkId = link.getLinkUsecaseRequestId();
-			double weight = link.getWeight(); // WEIGHT
-			boolean isSample = link.isSample();
-			String name = null;
-			if (isSample) {
-				if (link.getRecordId() == 1) {
-					name = "Sample (only GETs)"; // NAME
-				} else if (link.getRecordId() == 2) {
-					name = "Sample (POSTs & GETs)"; // NAME
-				} else if (link.getRecordId() == 3) {
-					name = "Sample (Complex one)"; // NAME
-				}
-			} else {
-				name = RecordLocalServiceUtil.getRecord(link.getRecordId())
-						.getName(); // NAME
-			}
-			listDisplayLink.add(new LinkUsecaseRequestDTO(linkId, recordId,
-					weight, name, isSample));
-		}
-		return listDisplayLink;
-	}
-
 	public static String getAuthType(RenderRequest request)
 			throws SystemException {
 		final ThemeDisplay themeDisplay = (ThemeDisplay) request

@@ -274,15 +274,6 @@ public class SimulationLocalServiceUtil {
         return getService().createDefaultSimulation();
     }
 
-    /**
-    * remove all {@link Scenario} linked to a simulationId and the simulation
-    */
-    public static void removeSimulationCascade(java.lang.Long simulationId)
-        throws com.liferay.portal.NoSuchModelException,
-            com.liferay.portal.kernel.exception.SystemException {
-        getService().removeSimulationCascade(simulationId);
-    }
-
     public static io.gatling.liferay.model.Simulation getByName(
         java.lang.String name)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -295,24 +286,6 @@ public class SimulationLocalServiceUtil {
     public static boolean isNameUnique(java.lang.String name)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getService().isNameUnique(name);
-    }
-
-    /**
-    * Add a {@link Simulation} from an {@link ActionRequest}
-    *
-    * @param {@link ActionRequest} request
-    * @return {@link Simulation} if added, else null
-    * @throws SystemException
-    */
-    public static io.gatling.liferay.model.Simulation addSimulationFromRequest(
-        javax.portlet.ActionRequest request)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getService().addSimulationFromRequest(request);
-    }
-
-    public static boolean containsPrivatePage(long simulationId)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getService().containsPrivatePage(simulationId);
     }
 
     public static void clearService() {

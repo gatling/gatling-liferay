@@ -12,12 +12,10 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.BaseModel;
 
 import io.gatling.liferay.model.FormParamClp;
-import io.gatling.liferay.model.LinkUsecaseRequestClp;
 import io.gatling.liferay.model.LoginClp;
 import io.gatling.liferay.model.ProcessClp;
 import io.gatling.liferay.model.ProcessScenarioLinkClp;
 import io.gatling.liferay.model.RecordClp;
-import io.gatling.liferay.model.RequestClp;
 import io.gatling.liferay.model.ScenarioClp;
 import io.gatling.liferay.model.SimulationClp;
 import io.gatling.liferay.model.SiteMapClp;
@@ -103,10 +101,6 @@ public class ClpSerializer {
             return translateInputFormParam(oldModel);
         }
 
-        if (oldModelClassName.equals(LinkUsecaseRequestClp.class.getName())) {
-            return translateInputLinkUsecaseRequest(oldModel);
-        }
-
         if (oldModelClassName.equals(LoginClp.class.getName())) {
             return translateInputLogin(oldModel);
         }
@@ -121,10 +115,6 @@ public class ClpSerializer {
 
         if (oldModelClassName.equals(RecordClp.class.getName())) {
             return translateInputRecord(oldModel);
-        }
-
-        if (oldModelClassName.equals(RequestClp.class.getName())) {
-            return translateInputRequest(oldModel);
         }
 
         if (oldModelClassName.equals(ScenarioClp.class.getName())) {
@@ -172,16 +162,6 @@ public class ClpSerializer {
         return newModel;
     }
 
-    public static Object translateInputLinkUsecaseRequest(BaseModel<?> oldModel) {
-        LinkUsecaseRequestClp oldClpModel = (LinkUsecaseRequestClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLinkUsecaseRequestRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
     public static Object translateInputLogin(BaseModel<?> oldModel) {
         LoginClp oldClpModel = (LoginClp) oldModel;
 
@@ -217,16 +197,6 @@ public class ClpSerializer {
         RecordClp oldClpModel = (RecordClp) oldModel;
 
         BaseModel<?> newModel = oldClpModel.getRecordRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputRequest(BaseModel<?> oldModel) {
-        RequestClp oldClpModel = (RequestClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getRequestRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -301,41 +271,6 @@ public class ClpSerializer {
         if (oldModelClassName.equals(
                     "io.gatling.liferay.model.impl.FormParamImpl")) {
             return translateOutputFormParam(oldModel);
-        } else if (oldModelClassName.endsWith("Clp")) {
-            try {
-                ClassLoader classLoader = ClpSerializer.class.getClassLoader();
-
-                Method getClpSerializerClassMethod = oldModelClass.getMethod(
-                        "getClpSerializerClass");
-
-                Class<?> oldClpSerializerClass = (Class<?>) getClpSerializerClassMethod.invoke(oldModel);
-
-                Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
-
-                Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
-                        BaseModel.class);
-
-                Class<?> oldModelModelClass = oldModel.getModelClass();
-
-                Method getRemoteModelMethod = oldModelClass.getMethod("get" +
-                        oldModelModelClass.getSimpleName() + "RemoteModel");
-
-                Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
-
-                BaseModel<?> newModel = (BaseModel<?>) translateOutputMethod.invoke(null,
-                        oldRemoteModel);
-
-                return newModel;
-            } catch (Throwable t) {
-                if (_log.isInfoEnabled()) {
-                    _log.info("Unable to translate " + oldModelClassName, t);
-                }
-            }
-        }
-
-        if (oldModelClassName.equals(
-                    "io.gatling.liferay.model.impl.LinkUsecaseRequestImpl")) {
-            return translateOutputLinkUsecaseRequest(oldModel);
         } else if (oldModelClassName.endsWith("Clp")) {
             try {
                 ClassLoader classLoader = ClpSerializer.class.getClassLoader();
@@ -474,41 +409,6 @@ public class ClpSerializer {
 
         if (oldModelClassName.equals("io.gatling.liferay.model.impl.RecordImpl")) {
             return translateOutputRecord(oldModel);
-        } else if (oldModelClassName.endsWith("Clp")) {
-            try {
-                ClassLoader classLoader = ClpSerializer.class.getClassLoader();
-
-                Method getClpSerializerClassMethod = oldModelClass.getMethod(
-                        "getClpSerializerClass");
-
-                Class<?> oldClpSerializerClass = (Class<?>) getClpSerializerClassMethod.invoke(oldModel);
-
-                Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
-
-                Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
-                        BaseModel.class);
-
-                Class<?> oldModelModelClass = oldModel.getModelClass();
-
-                Method getRemoteModelMethod = oldModelClass.getMethod("get" +
-                        oldModelModelClass.getSimpleName() + "RemoteModel");
-
-                Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
-
-                BaseModel<?> newModel = (BaseModel<?>) translateOutputMethod.invoke(null,
-                        oldRemoteModel);
-
-                return newModel;
-            } catch (Throwable t) {
-                if (_log.isInfoEnabled()) {
-                    _log.info("Unable to translate " + oldModelClassName, t);
-                }
-            }
-        }
-
-        if (oldModelClassName.equals(
-                    "io.gatling.liferay.model.impl.RequestImpl")) {
-            return translateOutputRequest(oldModel);
         } else if (oldModelClassName.endsWith("Clp")) {
             try {
                 ClassLoader classLoader = ClpSerializer.class.getClassLoader();
@@ -796,11 +696,6 @@ public class ClpSerializer {
             return new io.gatling.liferay.NoSuchFormParamException();
         }
 
-        if (className.equals(
-                    "io.gatling.liferay.NoSuchLinkUsecaseRequestException")) {
-            return new io.gatling.liferay.NoSuchLinkUsecaseRequestException();
-        }
-
         if (className.equals("io.gatling.liferay.NoSuchLoginException")) {
             return new io.gatling.liferay.NoSuchLoginException();
         }
@@ -816,10 +711,6 @@ public class ClpSerializer {
 
         if (className.equals("io.gatling.liferay.NoSuchRecordException")) {
             return new io.gatling.liferay.NoSuchRecordException();
-        }
-
-        if (className.equals("io.gatling.liferay.NoSuchRequestException")) {
-            return new io.gatling.liferay.NoSuchRequestException();
         }
 
         if (className.equals("io.gatling.liferay.NoSuchScenarioException")) {
@@ -851,17 +742,6 @@ public class ClpSerializer {
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setFormParamRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLinkUsecaseRequest(
-        BaseModel<?> oldModel) {
-        LinkUsecaseRequestClp newModel = new LinkUsecaseRequestClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLinkUsecaseRequestRemoteModel(oldModel);
 
         return newModel;
     }
@@ -903,16 +783,6 @@ public class ClpSerializer {
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setRecordRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputRequest(BaseModel<?> oldModel) {
-        RequestClp newModel = new RequestClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setRequestRemoteModel(oldModel);
 
         return newModel;
     }

@@ -50,12 +50,6 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
     private String[] _methodParameterTypes20;
     private String _methodName21;
     private String[] _methodParameterTypes21;
-    private String _methodName22;
-    private String[] _methodParameterTypes22;
-    private String _methodName23;
-    private String[] _methodParameterTypes23;
-    private String _methodName24;
-    private String[] _methodParameterTypes24;
 
     public SimulationLocalServiceClp(
         InvokableLocalService invokableLocalService) {
@@ -155,25 +149,13 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
 
         _methodParameterTypes19 = new String[] {  };
 
-        _methodName20 = "removeSimulationCascade";
+        _methodName20 = "getByName";
 
-        _methodParameterTypes20 = new String[] { "java.lang.Long" };
+        _methodParameterTypes20 = new String[] { "java.lang.String" };
 
-        _methodName21 = "getByName";
+        _methodName21 = "isNameUnique";
 
         _methodParameterTypes21 = new String[] { "java.lang.String" };
-
-        _methodName22 = "isNameUnique";
-
-        _methodParameterTypes22 = new String[] { "java.lang.String" };
-
-        _methodName23 = "addSimulationFromRequest";
-
-        _methodParameterTypes23 = new String[] { "javax.portlet.ActionRequest" };
-
-        _methodName24 = "containsPrivatePage";
-
-        _methodParameterTypes24 = new String[] { "long" };
     }
 
     @Override
@@ -716,41 +698,13 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
     }
 
     @Override
-    public void removeSimulationCascade(java.lang.Long simulationId)
-        throws com.liferay.portal.NoSuchModelException,
-            com.liferay.portal.kernel.exception.SystemException {
-        try {
-            _invokableLocalService.invokeMethod(_methodName20,
-                _methodParameterTypes20,
-                new Object[] { ClpSerializer.translateInput(simulationId) });
-        } catch (Throwable t) {
-            t = ClpSerializer.translateThrowable(t);
-
-            if (t instanceof com.liferay.portal.NoSuchModelException) {
-                throw (com.liferay.portal.NoSuchModelException) t;
-            }
-
-            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-                throw (com.liferay.portal.kernel.exception.SystemException) t;
-            }
-
-            if (t instanceof RuntimeException) {
-                throw (RuntimeException) t;
-            } else {
-                throw new RuntimeException(t.getClass().getName() +
-                    " is not a valid exception");
-            }
-        }
-    }
-
-    @Override
     public io.gatling.liferay.model.Simulation getByName(java.lang.String name)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName21,
-                    _methodParameterTypes21,
+            returnObj = _invokableLocalService.invokeMethod(_methodName20,
+                    _methodParameterTypes20,
                     new Object[] { ClpSerializer.translateInput(name) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -776,63 +730,9 @@ public class SimulationLocalServiceClp implements SimulationLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName22,
-                    _methodParameterTypes22,
+            returnObj = _invokableLocalService.invokeMethod(_methodName21,
+                    _methodParameterTypes21,
                     new Object[] { ClpSerializer.translateInput(name) });
-        } catch (Throwable t) {
-            t = ClpSerializer.translateThrowable(t);
-
-            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-                throw (com.liferay.portal.kernel.exception.SystemException) t;
-            }
-
-            if (t instanceof RuntimeException) {
-                throw (RuntimeException) t;
-            } else {
-                throw new RuntimeException(t.getClass().getName() +
-                    " is not a valid exception");
-            }
-        }
-
-        return ((Boolean) returnObj).booleanValue();
-    }
-
-    @Override
-    public io.gatling.liferay.model.Simulation addSimulationFromRequest(
-        javax.portlet.ActionRequest request)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        Object returnObj = null;
-
-        try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName23,
-                    _methodParameterTypes23,
-                    new Object[] { ClpSerializer.translateInput(request) });
-        } catch (Throwable t) {
-            t = ClpSerializer.translateThrowable(t);
-
-            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-                throw (com.liferay.portal.kernel.exception.SystemException) t;
-            }
-
-            if (t instanceof RuntimeException) {
-                throw (RuntimeException) t;
-            } else {
-                throw new RuntimeException(t.getClass().getName() +
-                    " is not a valid exception");
-            }
-        }
-
-        return (io.gatling.liferay.model.Simulation) ClpSerializer.translateOutput(returnObj);
-    }
-
-    @Override
-    public boolean containsPrivatePage(long simulationId)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        Object returnObj = null;
-
-        try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName24,
-                    _methodParameterTypes24, new Object[] { simulationId });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 

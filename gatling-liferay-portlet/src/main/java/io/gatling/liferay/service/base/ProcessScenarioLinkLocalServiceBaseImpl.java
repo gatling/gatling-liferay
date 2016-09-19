@@ -20,12 +20,10 @@ import com.liferay.portal.service.persistence.UserPersistence;
 import io.gatling.liferay.model.ProcessScenarioLink;
 import io.gatling.liferay.service.ProcessScenarioLinkLocalService;
 import io.gatling.liferay.service.persistence.FormParamPersistence;
-import io.gatling.liferay.service.persistence.LinkUsecaseRequestPersistence;
 import io.gatling.liferay.service.persistence.LoginPersistence;
 import io.gatling.liferay.service.persistence.ProcessPersistence;
 import io.gatling.liferay.service.persistence.ProcessScenarioLinkPersistence;
 import io.gatling.liferay.service.persistence.RecordPersistence;
-import io.gatling.liferay.service.persistence.RequestPersistence;
 import io.gatling.liferay.service.persistence.ScenarioPersistence;
 import io.gatling.liferay.service.persistence.SimulationPersistence;
 import io.gatling.liferay.service.persistence.SiteMapPersistence;
@@ -57,10 +55,6 @@ public abstract class ProcessScenarioLinkLocalServiceBaseImpl
     protected io.gatling.liferay.service.FormParamLocalService formParamLocalService;
     @BeanReference(type = FormParamPersistence.class)
     protected FormParamPersistence formParamPersistence;
-    @BeanReference(type = io.gatling.liferay.service.LinkUsecaseRequestLocalService.class)
-    protected io.gatling.liferay.service.LinkUsecaseRequestLocalService linkUsecaseRequestLocalService;
-    @BeanReference(type = LinkUsecaseRequestPersistence.class)
-    protected LinkUsecaseRequestPersistence linkUsecaseRequestPersistence;
     @BeanReference(type = io.gatling.liferay.service.LoginLocalService.class)
     protected io.gatling.liferay.service.LoginLocalService loginLocalService;
     @BeanReference(type = LoginPersistence.class)
@@ -77,10 +71,6 @@ public abstract class ProcessScenarioLinkLocalServiceBaseImpl
     protected io.gatling.liferay.service.RecordLocalService recordLocalService;
     @BeanReference(type = RecordPersistence.class)
     protected RecordPersistence recordPersistence;
-    @BeanReference(type = io.gatling.liferay.service.RequestLocalService.class)
-    protected io.gatling.liferay.service.RequestLocalService requestLocalService;
-    @BeanReference(type = RequestPersistence.class)
-    protected RequestPersistence requestPersistence;
     @BeanReference(type = io.gatling.liferay.service.ScenarioLocalService.class)
     protected io.gatling.liferay.service.ScenarioLocalService scenarioLocalService;
     @BeanReference(type = ScenarioPersistence.class)
@@ -378,44 +368,6 @@ public abstract class ProcessScenarioLinkLocalServiceBaseImpl
     }
 
     /**
-     * Returns the link usecase request local service.
-     *
-     * @return the link usecase request local service
-     */
-    public io.gatling.liferay.service.LinkUsecaseRequestLocalService getLinkUsecaseRequestLocalService() {
-        return linkUsecaseRequestLocalService;
-    }
-
-    /**
-     * Sets the link usecase request local service.
-     *
-     * @param linkUsecaseRequestLocalService the link usecase request local service
-     */
-    public void setLinkUsecaseRequestLocalService(
-        io.gatling.liferay.service.LinkUsecaseRequestLocalService linkUsecaseRequestLocalService) {
-        this.linkUsecaseRequestLocalService = linkUsecaseRequestLocalService;
-    }
-
-    /**
-     * Returns the link usecase request persistence.
-     *
-     * @return the link usecase request persistence
-     */
-    public LinkUsecaseRequestPersistence getLinkUsecaseRequestPersistence() {
-        return linkUsecaseRequestPersistence;
-    }
-
-    /**
-     * Sets the link usecase request persistence.
-     *
-     * @param linkUsecaseRequestPersistence the link usecase request persistence
-     */
-    public void setLinkUsecaseRequestPersistence(
-        LinkUsecaseRequestPersistence linkUsecaseRequestPersistence) {
-        this.linkUsecaseRequestPersistence = linkUsecaseRequestPersistence;
-    }
-
-    /**
      * Returns the login local service.
      *
      * @return the login local service
@@ -562,43 +514,6 @@ public abstract class ProcessScenarioLinkLocalServiceBaseImpl
      */
     public void setRecordPersistence(RecordPersistence recordPersistence) {
         this.recordPersistence = recordPersistence;
-    }
-
-    /**
-     * Returns the request local service.
-     *
-     * @return the request local service
-     */
-    public io.gatling.liferay.service.RequestLocalService getRequestLocalService() {
-        return requestLocalService;
-    }
-
-    /**
-     * Sets the request local service.
-     *
-     * @param requestLocalService the request local service
-     */
-    public void setRequestLocalService(
-        io.gatling.liferay.service.RequestLocalService requestLocalService) {
-        this.requestLocalService = requestLocalService;
-    }
-
-    /**
-     * Returns the request persistence.
-     *
-     * @return the request persistence
-     */
-    public RequestPersistence getRequestPersistence() {
-        return requestPersistence;
-    }
-
-    /**
-     * Sets the request persistence.
-     *
-     * @param requestPersistence the request persistence
-     */
-    public void setRequestPersistence(RequestPersistence requestPersistence) {
-        this.requestPersistence = requestPersistence;
     }
 
     /**

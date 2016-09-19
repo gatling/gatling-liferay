@@ -14,29 +14,19 @@
 
 package io.gatling.liferay.service.impl;
 
-import io.gatling.liferay.model.Request;
-import io.gatling.liferay.model.Scenario;
-import io.gatling.liferay.model.Simulation;
-import io.gatling.liferay.service.RequestLocalServiceUtil;
-import io.gatling.liferay.service.ScenarioLocalServiceUtil;
-import io.gatling.liferay.service.SimulationLocalServiceUtil;
-import io.gatling.liferay.service.base.SimulationLocalServiceBaseImpl;
-import io.gatling.liferay.service.persistence.SimulationUtil;
-import io.gatling.liferay.validator.SimulationValidator;
 import com.liferay.counter.service.CounterLocalServiceUtil;
-import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.servlet.SessionErrors;
-import com.liferay.portal.kernel.util.ParamUtil;
+
+import io.gatling.liferay.model.Simulation;
+import io.gatling.liferay.service.base.SimulationLocalServiceBaseImpl;
+import io.gatling.liferay.service.persistence.SimulationUtil;
 
 import java.util.List;
-
-import javax.portlet.ActionRequest;
 
 /**
  * The implementation of the simulation local service.
@@ -83,16 +73,6 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		}
 	}
 	
-	/**
-	 * remove all {@link Scenario} linked to a simulationId and the simulation
-	 */
-	@Override
-	public void removeSimulationCascade(final Long simulationId) throws SystemException, NoSuchModelException {
-		ScenarioLocalServiceUtil.removeBySimulationIdCascade(simulationId);
-		simulationPersistence.remove(simulationId);
-	}
-	
-	
 	public Simulation getByName(String name) throws SystemException {
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(Simulation.class)
 			.add(PropertyFactoryUtil.forName("name").eq(name));
@@ -116,49 +96,5 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		return count == 0;
 	}
 
-	/**
-	 * Add a {@link Simulation} from an {@link ActionRequest}
-	 * @param {@link ActionRequest} request
-	 * @return {@link Simulation} if added, else null
-	 * @throws SystemException
-	 */
-	@Override
-	public Simulation addSimulationFromRequest(final ActionRequest request) throws SystemException  {
-		/*
-		 * Create simulation
-		 */
-		final long primaryKey = CounterLocalServiceUtil.increment(Simulation.class.getName());
-		final Simulation simulation = simulationPersistence.create(primaryKey);
-		final String simuName = ParamUtil.getString(request, "simulationName");
-		LOG.info("simulation Name : "+simuName);
-		simulation.setName(simuName);
-		/*
-		 *  Validator Simulation Fields
-		 */
-		final List<String> errors = SimulationValidator.validateSimulation(simulation);
-		if(errors.isEmpty()) {
-			simulation.persist();
-			return simulation;
-		}
-		else {
-			for(final String error : errors) {
-				SessionErrors.add(request, error);
-			}
-			return null;
-		}
 
-	}
-
-	@Override
-	public boolean containsPrivatePage(final long simulationId) throws SystemException {
-		for ( final Scenario scenario : ScenarioLocalServiceUtil.findBySimulationId(simulationId)) {
-			for (final Request request : RequestLocalServiceUtil.findByScenarioId(scenario.getScenario_id())) {
-				if (request.getPrivatePage()) {
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}
 }

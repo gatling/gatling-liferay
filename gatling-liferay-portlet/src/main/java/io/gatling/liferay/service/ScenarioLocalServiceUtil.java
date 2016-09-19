@@ -310,24 +310,6 @@ public class ScenarioLocalServiceUtil {
     }
 
     /**
-    * Remove all {@link Scenario} (and children) for a given simulationId
-    */
-    public static void removeBySimulationIdCascade(long simulationId)
-        throws com.liferay.portal.NoSuchModelException,
-            com.liferay.portal.kernel.exception.SystemException {
-        getService().removeBySimulationIdCascade(simulationId);
-    }
-
-    /**
-    * Remove all {@link Request} for a scenarioId
-    */
-    public static void removeByIdCascade(long scenarioId)
-        throws com.liferay.portal.NoSuchModelException,
-            com.liferay.portal.kernel.exception.SystemException {
-        getService().removeByIdCascade(scenarioId);
-    }
-
-    /**
     * Check if name is unique for {@link Scenario}
     */
     public static boolean isNameUnique(java.lang.String name, long idSimulation)
@@ -351,35 +333,6 @@ public class ScenarioLocalServiceUtil {
         java.lang.String variableName, long idSimulation)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getService().findByVariableName(variableName, idSimulation);
-    }
-
-    /**
-    * Add a {@link Scenario} from an {@link ActionRequest}
-    *
-    * @param {@link ActionRequest} request
-    * @param {@link ActionResponse} response
-    * @return {@link Scenario} if added, else null
-    * @throws SystemException
-    */
-    public static io.gatling.liferay.model.Scenario addScenarioFromRequest(
-        javax.portlet.ActionRequest request)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getService().addScenarioFromRequest(request);
-    }
-
-    /**
-    * Edit a {@link Scenario} from an {@link ActionRequest}
-    *
-    * @param {@link ActionRequest} request
-    * @param {@link ActionResponse} response
-    * @return {@link Scenario} if added, else null
-    * @throws SystemException
-    */
-    public static io.gatling.liferay.model.Scenario editScenarioFromRequest(
-        javax.portlet.ActionRequest request)
-        throws com.liferay.portal.kernel.exception.PortalException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getService().editScenarioFromRequest(request);
     }
 
     public static void clearService() {

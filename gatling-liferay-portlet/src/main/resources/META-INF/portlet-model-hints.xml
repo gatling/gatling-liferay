@@ -6,13 +6,6 @@
 		<field name="urlRecordId" type="long" />
 		<field name="data" type="String" />
 	</model>
-	<model name="io.gatling.liferay.model.LinkUsecaseRequest">
-		<field name="linkUsecaseRequestId" type="long" />
-		<field name="request_id" type="long" />
-		<field name="recordId" type="long" />
-		<field name="weight" type="double" />
-		<field name="sample" type="boolean" />
-	</model>
 	<model name="io.gatling.liferay.model.Login">
 		<field name="userId" type="long" />
 		<field name="name" type="String" />
@@ -36,17 +29,6 @@
 		<field name="portletId" type="String" />
 		<field name="versionPortlet" type="String" />
 		<field name="name" type="String" />
-	</model>
-	<model name="io.gatling.liferay.model.Request">
-		<field name="request_id" type="long" />
-		<field name="scenario_id" type="long" />
-		<field name="weight" type="double" />
-		<field name="privatePage" type="boolean" />
-		<field name="parentPlId" type="long" />
-		<field name="layoutId" type="long" />
-		<field name="plId" type="long" />
-		<field name="portlet" type="boolean" />
-		<field name="portletId" type="String" />
 	</model>
 	<model name="io.gatling.liferay.model.Scenario">
 		<field name="scenario_id" type="long" />

@@ -286,16 +286,6 @@ public class SimulationLocalServiceWrapper implements SimulationLocalService,
         return _simulationLocalService.createDefaultSimulation();
     }
 
-    /**
-    * remove all {@link Scenario} linked to a simulationId and the simulation
-    */
-    @Override
-    public void removeSimulationCascade(java.lang.Long simulationId)
-        throws com.liferay.portal.NoSuchModelException,
-            com.liferay.portal.kernel.exception.SystemException {
-        _simulationLocalService.removeSimulationCascade(simulationId);
-    }
-
     @Override
     public io.gatling.liferay.model.Simulation getByName(java.lang.String name)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -309,26 +299,6 @@ public class SimulationLocalServiceWrapper implements SimulationLocalService,
     public boolean isNameUnique(java.lang.String name)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _simulationLocalService.isNameUnique(name);
-    }
-
-    /**
-    * Add a {@link Simulation} from an {@link ActionRequest}
-    *
-    * @param {@link ActionRequest} request
-    * @return {@link Simulation} if added, else null
-    * @throws SystemException
-    */
-    @Override
-    public io.gatling.liferay.model.Simulation addSimulationFromRequest(
-        javax.portlet.ActionRequest request)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return _simulationLocalService.addSimulationFromRequest(request);
-    }
-
-    @Override
-    public boolean containsPrivatePage(long simulationId)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return _simulationLocalService.containsPrivatePage(simulationId);
     }
 
     /**

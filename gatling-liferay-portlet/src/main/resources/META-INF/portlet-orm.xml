@@ -19,18 +19,6 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass class="io.gatling.liferay.model.impl.LinkUsecaseRequestModelImpl">
-		<attributes>
-			<id name="linkUsecaseRequestId" />
-			<basic name="request_id" />
-			<basic name="recordId" />
-			<basic name="weight" />
-			<basic name="sample" />
-			<transient name="modelAttributes" />
-			<transient name="primaryKey" />
-			<transient name="primaryKeyObj" />
-		</attributes>
-	</mapped-superclass>
 	<mapped-superclass class="io.gatling.liferay.model.impl.LoginModelImpl">
 		<attributes>
 			<id name="userId" />
@@ -77,22 +65,6 @@
 			<basic name="portletId" />
 			<basic name="versionPortlet" />
 			<basic name="name" />
-			<transient name="modelAttributes" />
-			<transient name="primaryKey" />
-			<transient name="primaryKeyObj" />
-		</attributes>
-	</mapped-superclass>
-	<mapped-superclass class="io.gatling.liferay.model.impl.RequestModelImpl">
-		<attributes>
-			<id name="request_id" />
-			<basic name="scenario_id" />
-			<basic name="weight" />
-			<basic name="privatePage" />
-			<basic name="parentPlId" />
-			<basic name="layoutId" />
-			<basic name="plId" />
-			<basic name="portlet" />
-			<basic name="portletId" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -166,10 +138,6 @@
 		<table name="StressTool_FormParam" />
 		<attributes />
 	</entity>
-	<entity class="io.gatling.liferay.model.impl.LinkUsecaseRequestImpl" name="LinkUsecaseRequest">
-		<table name="StressTool_LinkUsecaseRequest" />
-		<attributes />
-	</entity>
 	<entity class="io.gatling.liferay.model.impl.LoginImpl" name="Login">
 		<table name="StressTool_Login" />
 		<attributes />
@@ -184,10 +152,6 @@
 	</entity>
 	<entity class="io.gatling.liferay.model.impl.RecordImpl" name="Record">
 		<table name="StressTool_Record" />
-		<attributes />
-	</entity>
-	<entity class="io.gatling.liferay.model.impl.RequestImpl" name="Request">
-		<table name="StressTool_Request" />
 		<attributes />
 	</entity>
 	<entity class="io.gatling.liferay.model.impl.ScenarioImpl" name="Scenario">

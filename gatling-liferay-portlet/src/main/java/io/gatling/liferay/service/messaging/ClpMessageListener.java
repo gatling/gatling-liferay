@@ -5,12 +5,10 @@ import com.liferay.portal.kernel.messaging.Message;
 
 import io.gatling.liferay.service.ClpSerializer;
 import io.gatling.liferay.service.FormParamLocalServiceUtil;
-import io.gatling.liferay.service.LinkUsecaseRequestLocalServiceUtil;
 import io.gatling.liferay.service.LoginLocalServiceUtil;
 import io.gatling.liferay.service.ProcessLocalServiceUtil;
 import io.gatling.liferay.service.ProcessScenarioLinkLocalServiceUtil;
 import io.gatling.liferay.service.RecordLocalServiceUtil;
-import io.gatling.liferay.service.RequestLocalServiceUtil;
 import io.gatling.liferay.service.ScenarioLocalServiceUtil;
 import io.gatling.liferay.service.SimulationLocalServiceUtil;
 import io.gatling.liferay.service.SiteMapLocalServiceUtil;
@@ -32,8 +30,6 @@ public class ClpMessageListener extends BaseMessageListener {
                 servletContextName.equals(getServletContextName())) {
             FormParamLocalServiceUtil.clearService();
 
-            LinkUsecaseRequestLocalServiceUtil.clearService();
-
             LoginLocalServiceUtil.clearService();
 
             ProcessLocalServiceUtil.clearService();
@@ -41,8 +37,6 @@ public class ClpMessageListener extends BaseMessageListener {
             ProcessScenarioLinkLocalServiceUtil.clearService();
 
             RecordLocalServiceUtil.clearService();
-
-            RequestLocalServiceUtil.clearService();
 
             ScenarioLocalServiceUtil.clearService();
 

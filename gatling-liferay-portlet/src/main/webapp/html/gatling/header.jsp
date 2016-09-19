@@ -23,11 +23,8 @@
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
 <%@ page import="com.liferay.portal.util.PortalUtil" %>
 
-<%@ page import="io.gatling.liferay.model.Request"%>
 <%@ page import="io.gatling.liferay.model.Scenario"%>
 <%@ page import="io.gatling.liferay.model.Simulation"%>
-<%@ page import="io.gatling.liferay.mustache.ListScript"%>
-<%@ page import="io.gatling.liferay.service.RequestLocalServiceUtil"%>
 <%@ page import="io.gatling.liferay.service.ScenarioLocalServiceUtil"%>
 <%@ page import="io.gatling.liferay.service.SimulationLocalServiceUtil"%>
 <%@ page import="com.liferay.util.portlet.PortletProps" %>

@@ -41,14 +41,14 @@ public class ProcessScenarioLinkLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName76;
-    private String[] _methodParameterTypes76;
-    private String _methodName77;
-    private String[] _methodParameterTypes77;
-    private String _methodName82;
-    private String[] _methodParameterTypes82;
-    private String _methodName83;
-    private String[] _methodParameterTypes83;
+    private String _methodName68;
+    private String[] _methodParameterTypes68;
+    private String _methodName69;
+    private String[] _methodParameterTypes69;
+    private String _methodName74;
+    private String[] _methodParameterTypes74;
+    private String _methodName75;
+    private String[] _methodParameterTypes75;
 
     public ProcessScenarioLinkLocalServiceClpInvoker() {
         _methodName0 = "addProcessScenarioLink";
@@ -133,21 +133,21 @@ public class ProcessScenarioLinkLocalServiceClpInvoker {
                 "io.gatling.liferay.model.ProcessScenarioLink"
             };
 
-        _methodName76 = "getBeanIdentifier";
+        _methodName68 = "getBeanIdentifier";
 
-        _methodParameterTypes76 = new String[] {  };
+        _methodParameterTypes68 = new String[] {  };
 
-        _methodName77 = "setBeanIdentifier";
+        _methodName69 = "setBeanIdentifier";
 
-        _methodParameterTypes77 = new String[] { "java.lang.String" };
+        _methodParameterTypes69 = new String[] { "java.lang.String" };
 
-        _methodName82 = "createLink";
+        _methodName74 = "createLink";
 
-        _methodParameterTypes82 = new String[] { "long", "long", "int", "int" };
+        _methodParameterTypes74 = new String[] { "long", "long", "int", "int" };
 
-        _methodName83 = "findByscenarioId";
+        _methodName75 = "findByscenarioId";
 
-        _methodParameterTypes83 = new String[] { "long" };
+        _methodParameterTypes75 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -239,28 +239,28 @@ public class ProcessScenarioLinkLocalServiceClpInvoker {
             return ProcessScenarioLinkLocalServiceUtil.updateProcessScenarioLink((io.gatling.liferay.model.ProcessScenarioLink) arguments[0]);
         }
 
-        if (_methodName76.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes76, parameterTypes)) {
+        if (_methodName68.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
             return ProcessScenarioLinkLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName77.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes77, parameterTypes)) {
+        if (_methodName69.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes69, parameterTypes)) {
             ProcessScenarioLinkLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName82.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes82, parameterTypes)) {
+        if (_methodName74.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes74, parameterTypes)) {
             return ProcessScenarioLinkLocalServiceUtil.createLink(((Long) arguments[0]).longValue(),
                 ((Long) arguments[1]).longValue(),
                 ((Integer) arguments[2]).intValue(),
                 ((Integer) arguments[3]).intValue());
         }
 
-        if (_methodName83.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes83, parameterTypes)) {
+        if (_methodName75.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes75, parameterTypes)) {
             return ProcessScenarioLinkLocalServiceUtil.findByscenarioId(((Long) arguments[0]).longValue());
         }
 

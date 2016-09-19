@@ -88,6 +88,9 @@ public class SmoothRecorderController {
 	
 	@ActionMapping(params="action=toggleRecord2")
 	public void toggleRecordAction(final ActionRequest request, final ActionResponse response, final Model model){
+		
+		LOG.debug("tgr2");
+		
 		final String recordState = ParamUtil.getString(request, "nextRecordState");
 		LOG.debug("Toggle Record from smooth called");
 		response.setRenderParameter("recordState", recordState);

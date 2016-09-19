@@ -41,18 +41,18 @@ public class SiteMapLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
+    private String _methodName68;
+    private String[] _methodParameterTypes68;
+    private String _methodName69;
+    private String[] _methodParameterTypes69;
+    private String _methodName74;
+    private String[] _methodParameterTypes74;
+    private String _methodName75;
+    private String[] _methodParameterTypes75;
     private String _methodName76;
     private String[] _methodParameterTypes76;
     private String _methodName77;
     private String[] _methodParameterTypes77;
-    private String _methodName82;
-    private String[] _methodParameterTypes82;
-    private String _methodName83;
-    private String[] _methodParameterTypes83;
-    private String _methodName84;
-    private String[] _methodParameterTypes84;
-    private String _methodName85;
-    private String[] _methodParameterTypes85;
 
     public SiteMapLocalServiceClpInvoker() {
         _methodName0 = "addSiteMap";
@@ -133,32 +133,32 @@ public class SiteMapLocalServiceClpInvoker {
                 "io.gatling.liferay.model.SiteMap"
             };
 
-        _methodName76 = "getBeanIdentifier";
+        _methodName68 = "getBeanIdentifier";
 
-        _methodParameterTypes76 = new String[] {  };
+        _methodParameterTypes68 = new String[] {  };
 
-        _methodName77 = "setBeanIdentifier";
+        _methodName69 = "setBeanIdentifier";
 
-        _methodParameterTypes77 = new String[] { "java.lang.String" };
+        _methodParameterTypes69 = new String[] { "java.lang.String" };
 
-        _methodName82 = "siteMapCreation";
+        _methodName74 = "siteMapCreation";
 
-        _methodParameterTypes82 = new String[] {
+        _methodParameterTypes74 = new String[] {
                 "com.liferay.portal.theme.ThemeDisplay", "long",
                 "java.lang.String"
             };
 
-        _methodName83 = "createSiteMap";
+        _methodName75 = "createSiteMap";
 
-        _methodParameterTypes83 = new String[] { "java.lang.String" };
+        _methodParameterTypes75 = new String[] { "java.lang.String" };
 
-        _methodName84 = "findByProcessId";
+        _methodName76 = "findByProcessId";
 
-        _methodParameterTypes84 = new String[] { "long" };
+        _methodParameterTypes76 = new String[] { "long" };
 
-        _methodName85 = "findByName";
+        _methodName77 = "findByName";
 
-        _methodParameterTypes85 = new String[] { "java.lang.String" };
+        _methodParameterTypes77 = new String[] { "java.lang.String" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -250,37 +250,37 @@ public class SiteMapLocalServiceClpInvoker {
             return SiteMapLocalServiceUtil.updateSiteMap((io.gatling.liferay.model.SiteMap) arguments[0]);
         }
 
-        if (_methodName76.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes76, parameterTypes)) {
+        if (_methodName68.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
             return SiteMapLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName77.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes77, parameterTypes)) {
+        if (_methodName69.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes69, parameterTypes)) {
             SiteMapLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName82.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes82, parameterTypes)) {
+        if (_methodName74.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes74, parameterTypes)) {
             return SiteMapLocalServiceUtil.siteMapCreation((com.liferay.portal.theme.ThemeDisplay) arguments[0],
                 ((Long) arguments[1]).longValue(),
                 (java.lang.String) arguments[2]);
         }
 
-        if (_methodName83.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes83, parameterTypes)) {
+        if (_methodName75.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes75, parameterTypes)) {
             return SiteMapLocalServiceUtil.createSiteMap((java.lang.String) arguments[0]);
         }
 
-        if (_methodName84.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes84, parameterTypes)) {
+        if (_methodName76.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes76, parameterTypes)) {
             return SiteMapLocalServiceUtil.findByProcessId(((Long) arguments[0]).longValue());
         }
 
-        if (_methodName85.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes85, parameterTypes)) {
+        if (_methodName77.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes77, parameterTypes)) {
             return SiteMapLocalServiceUtil.findByName((java.lang.String) arguments[0]);
         }
 

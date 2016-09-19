@@ -14,47 +14,25 @@
 
 package io.gatling.liferay.service.impl;
 
-import io.gatling.liferay.NoSuchScenarioException;
-import io.gatling.liferay.dto.RequestDTO;
-import io.gatling.liferay.dto.RequestDTO.RequestState;
-import io.gatling.liferay.model.ProcessScenarioLink;
-import io.gatling.liferay.model.Request;
-import io.gatling.liferay.model.Scenario;
-import io.gatling.liferay.model.Simulation;
-import io.gatling.liferay.service.RequestLocalServiceUtil;
-import io.gatling.liferay.service.base.ScenarioLocalServiceBaseImpl;
-import io.gatling.liferay.service.persistence.ProcessScenarioLinkUtil;
-import io.gatling.liferay.service.persistence.ScenarioUtil;
-import io.gatling.liferay.util.DisplayItemDTOUtil;
-import io.gatling.liferay.util.GatlingUtil;
-import io.gatling.liferay.validator.RequestValidator;
-import io.gatling.liferay.validator.ScenarioValidator;
 import com.liferay.counter.service.CounterLocalServiceUtil;
-import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.servlet.SessionErrors;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Group;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.service.GroupLocalServiceUtil;
-import com.liferay.portal.service.LayoutLocalServiceUtil;
-import com.liferay.portal.theme.ThemeDisplay;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import io.gatling.liferay.NoSuchScenarioException;
+import io.gatling.liferay.model.ProcessScenarioLink;
+import io.gatling.liferay.model.Scenario;
+import io.gatling.liferay.model.Simulation;
+import io.gatling.liferay.service.base.ScenarioLocalServiceBaseImpl;
+import io.gatling.liferay.service.persistence.ProcessScenarioLinkUtil;
+import io.gatling.liferay.service.persistence.ScenarioUtil;
+import io.gatling.liferay.util.GatlingUtil;
+
 import java.util.List;
-import java.util.Map;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
 
 
 /**
@@ -155,28 +133,6 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Remove all {@link Scenario} (and children) for a given simulationId 
-	 */
-	@Override
-	public	void removeBySimulationIdCascade(long simulationId) throws SystemException, NoSuchModelException {
-		final List<Scenario> listScenario = scenarioPersistence.findBySimulationId(simulationId);
-		//Remove its requests
-		for(Scenario scenario : listScenario) {
-			RequestLocalServiceUtil.removeByScenarioId(scenario.getScenario_id());
-		}
-		scenarioPersistence.removeBySimulationId(simulationId);
-	}
-
-	/**
-	 * Remove all {@link Request} for a scenarioId
-	 */
-	@Override
-	public	void removeByIdCascade(long scenarioId) throws SystemException, NoSuchModelException {
-		RequestLocalServiceUtil.removeByScenarioId(scenarioId);
-		scenarioPersistence.remove(scenarioId);
-	}
-
-	/**
 	 * Check if name is unique for {@link Scenario}
 	 */
 	public boolean isNameUnique(String name, long idSimulation) throws SystemException {
@@ -208,174 +164,6 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 				.add(PropertyFactoryUtil.forName("simulation_id").eq(idSimulation));
 
 		return scenarioPersistence.findWithDynamicQuery(dq);
-	}
-	
-	   
-	/**
-	 * Add a {@link Scenario} from an {@link ActionRequest}
-	 * @param {@link ActionRequest} request
-	 * @param {@link ActionResponse} response
-	 * @return {@link Scenario} if added, else null
-	 * @throws SystemException
-	 */
-	public Scenario addScenarioFromRequest(ActionRequest request) throws SystemException {
-		final ThemeDisplay themeDisplay =	(ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-		/*
-		 * Create a scenario
-		 */
-		final long primaryKey = CounterLocalServiceUtil.increment(Request.class.getName());
-		Scenario scenario = scenarioPersistence.create(primaryKey);
-		scenario.setName(ParamUtil.getString(request, "scenarioName"));
-		scenario.setSimulation_id(ParamUtil.getLong(request, "simulationId"));
-		scenario.setGroup_id(ParamUtil.getLong(request, "sites"));
-		
-		/*
-		 * Add base url
-		 */
-		String urlSite = GroupLocalServiceUtil.fetchGroup(ParamUtil.getLong(request, "sites")).getIconURL(themeDisplay);
-		StringBuffer sb = new StringBuffer();
-		sb.append(urlSite.split("/")[0]).append("//").append(urlSite.split("/")[2]).append("/web").append(GroupLocalServiceUtil.fetchGroup(ParamUtil.getLong(request, "sites")).getFriendlyURL());
-		scenario.setUrl_site(sb.toString());
-		// Saving ...
-		final List<String> errors = ScenarioValidator.validateScenario(scenario);
-		if(errors.isEmpty()) {
-			scenario = scenarioPersistence.update(scenario);
-			//add Requests
-			final List<Layout> listLayouts = new ArrayList<Layout>(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), false, 0));
-			// private page
-			listLayouts.addAll(LayoutLocalServiceUtil.getLayouts(ParamUtil.getLong(request, "sites"), true, 0));
-			
-			List<RequestDTO> listDisplayItems = new ArrayList<RequestDTO>();
-			DisplayItemDTOUtil.addLayoutToDisplayItemList(listDisplayItems, listLayouts);
-			for(RequestDTO displayItem: listDisplayItems){
-				RequestLocalServiceUtil.addRequestFromDisplayItem(displayItem, 0, scenario.getScenario_id());
-			}
-			return scenario;
-		}
-		else {
-			for(String error : errors) {
-				SessionErrors.add(request, error);
-			}
-		}
-
-		return null;
-	} 
-
-	/**
-	 * Edit a {@link Scenario} from an {@link ActionRequest}
-	 * @param {@link ActionRequest} request
-	 * @param {@link ActionResponse} response
-	 * @return {@link Scenario} if added, else null
-	 * @throws SystemException
-	 */
-	public Scenario editScenarioFromRequest(ActionRequest request) throws PortalException, SystemException  {
-		final Long idScenario = ParamUtil.getLong(request, "scenarioId");
-
-		if (idScenario == null)
-			throw new NullPointerException("idScenario");
-
-		final Map<String, String[]> parameters = request.getParameterMap();
-		final Map<Long, Request> mapPublicRequestToEdit = new HashMap<Long, Request>();
-
-		Scenario scenarioToReturn = null;
-
-		/*
-		 * Update Details
-		 */
-		LOG.info("editScenarioDetails");
-		
-		Scenario scenario = scenarioPersistence.findByPrimaryKey(idScenario);
-		String scenarioName= ParamUtil.getString(request, "scenarioName");
-		scenario.setName(scenarioName);
-		scenario.setNumberOfUsers(ParamUtil.getLong(request, "scenarioUsers"));
-		scenario.setDuration(ParamUtil.getLong(request, "scenarioDuration"));
-		scenarioToReturn = scenarioPersistence.update(scenario);
-		/*
-		 * Then update requests
-		 * 
-		 */
-		/*
-		 * Layout
-		 */
-		final long groupId =ParamUtil.getLong(request, "groupId");
-		
-		//get public layout list
-		List<Layout> listPublicLayouts = LayoutLocalServiceUtil.getLayouts(groupId, false, 0);
-		
-		//get private layout list
-		List<Layout> listPrivateLayouts = LayoutLocalServiceUtil.getLayouts(groupId, true, 0);
-
-		List<RequestDTO> displayItemList = new ArrayList<RequestDTO>();
-		
-		// Sorting layout
-		DisplayItemDTOUtil.addLayoutToDisplayItemList(displayItemList, listPublicLayouts);
-		DisplayItemDTOUtil.addLayoutToDisplayItemList(displayItemList, listPrivateLayouts );
-		
-		// Retrieve Request from DB
-		final List<Request> listRequests = RequestLocalServiceUtil.findByScenarioId(idScenario);
-		// Merge Layout and Request in DisplayLayout List
-		displayItemList = DisplayItemDTOUtil.addRequestToDisplayItemList(displayItemList, listRequests);
-
-		// get List request
-		for(Request r : listRequests){
-			mapPublicRequestToEdit.put(r.getRequest_id(),  r);
-		}
-
-		/*
-		 *  update data
-		 */
-		int layoutId = 0;
-		double weight = 0.0d;
-		RequestDTO displayLayout = null;
-		RequestState status = null;
-		Long requestId = null;
-		for (String key : parameters.keySet()){
-			if ((key.contains("weight")) || (key.contains("portlet") && !key.contains("java"))) {
-				layoutId =  (key.contains("weight") ? Integer.parseInt(key.replace("weight","")) : Integer.parseInt(key.replace("portlet",""))) ;
-				weight = Double.parseDouble(StringUtil.merge(parameters.get(key)));
-				displayLayout = displayItemList.get(layoutId);
-				status = displayLayout.getState();
-				requestId = displayLayout.getRequestId();
-				//if not deleted page
-				if(status != RequestState.OLD_REQUEST){
-					
-					Request updatedRequest = null;
-					
-					//check if the request page was added in the db 
-					updatedRequest = mapPublicRequestToEdit.get(requestId);								
-					//check if the weight of the request in db is changed then update data in db
-					if (updatedRequest != null){
-						updatedRequest.setWeight(weight);
-						final List<String> errors = RequestValidator.validateRequest(updatedRequest);
-						if (errors.isEmpty()) {
-							RequestLocalServiceUtil.updateRequest(updatedRequest);
-							LOG.debug("request updated successfully");	
-						} else {
-							for (String error : errors) {
-								SessionErrors.add(request, error);
-							}
-						}
-					} else {
-						// else Add new page or new portlet request
-						if (LOG.isInfoEnabled()){
-							LOG.debug("add new request "+key+" : "+StringUtil.merge(parameters.get(key)));
-						}
-						RequestLocalServiceUtil.addRequestFromDisplayItem(displayLayout, weight, idScenario);
-						LOG.info("request created and added succefully ");
-					}	
-				}
-				
-				// if layout doesn't exist anymore
-				else {
-					if (LOG.isInfoEnabled()){
-						LOG.debug("delete request: "+key+" : "+StringUtil.merge(parameters.get(key)));
-					}
-					RequestLocalServiceUtil.deleteRequest(requestId);
-				}
-				
-			}
-		}
-		return scenarioToReturn;
 	}
 
 }

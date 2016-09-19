@@ -41,22 +41,22 @@ public class RecordLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
+    private String _methodName68;
+    private String[] _methodParameterTypes68;
+    private String _methodName69;
+    private String[] _methodParameterTypes69;
+    private String _methodName74;
+    private String[] _methodParameterTypes74;
+    private String _methodName75;
+    private String[] _methodParameterTypes75;
     private String _methodName76;
     private String[] _methodParameterTypes76;
     private String _methodName77;
     private String[] _methodParameterTypes77;
-    private String _methodName82;
-    private String[] _methodParameterTypes82;
-    private String _methodName83;
-    private String[] _methodParameterTypes83;
-    private String _methodName84;
-    private String[] _methodParameterTypes84;
-    private String _methodName85;
-    private String[] _methodParameterTypes85;
-    private String _methodName86;
-    private String[] _methodParameterTypes86;
-    private String _methodName87;
-    private String[] _methodParameterTypes87;
+    private String _methodName78;
+    private String[] _methodParameterTypes78;
+    private String _methodName79;
+    private String[] _methodParameterTypes79;
 
     public RecordLocalServiceClpInvoker() {
         _methodName0 = "addRecord";
@@ -135,37 +135,37 @@ public class RecordLocalServiceClpInvoker {
 
         _methodParameterTypes15 = new String[] { "io.gatling.liferay.model.Record" };
 
-        _methodName76 = "getBeanIdentifier";
+        _methodName68 = "getBeanIdentifier";
 
-        _methodParameterTypes76 = new String[] {  };
+        _methodParameterTypes68 = new String[] {  };
 
-        _methodName77 = "setBeanIdentifier";
+        _methodName69 = "setBeanIdentifier";
+
+        _methodParameterTypes69 = new String[] { "java.lang.String" };
+
+        _methodName74 = "findByProcessId";
+
+        _methodParameterTypes74 = new String[] { "long" };
+
+        _methodName75 = "findByPortletId";
+
+        _methodParameterTypes75 = new String[] { "java.lang.String" };
+
+        _methodName76 = "findByName";
+
+        _methodParameterTypes76 = new String[] { "java.lang.String" };
+
+        _methodName77 = "countByPortletId";
 
         _methodParameterTypes77 = new String[] { "java.lang.String" };
 
-        _methodName82 = "findByProcessId";
+        _methodName78 = "update";
 
-        _methodParameterTypes82 = new String[] { "long" };
+        _methodParameterTypes78 = new String[] { "long", "java.lang.String" };
 
-        _methodName83 = "findByPortletId";
+        _methodName79 = "save";
 
-        _methodParameterTypes83 = new String[] { "java.lang.String" };
-
-        _methodName84 = "findByName";
-
-        _methodParameterTypes84 = new String[] { "java.lang.String" };
-
-        _methodName85 = "countByPortletId";
-
-        _methodParameterTypes85 = new String[] { "java.lang.String" };
-
-        _methodName86 = "update";
-
-        _methodParameterTypes86 = new String[] { "long", "java.lang.String" };
-
-        _methodName87 = "save";
-
-        _methodParameterTypes87 = new String[] {
+        _methodParameterTypes79 = new String[] {
                 "java.lang.String", "java.lang.String", "java.lang.String"
             };
     }
@@ -259,48 +259,48 @@ public class RecordLocalServiceClpInvoker {
             return RecordLocalServiceUtil.updateRecord((io.gatling.liferay.model.Record) arguments[0]);
         }
 
-        if (_methodName76.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes76, parameterTypes)) {
+        if (_methodName68.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
             return RecordLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName77.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes77, parameterTypes)) {
+        if (_methodName69.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes69, parameterTypes)) {
             RecordLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName82.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes82, parameterTypes)) {
+        if (_methodName74.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes74, parameterTypes)) {
             return RecordLocalServiceUtil.findByProcessId(((Long) arguments[0]).longValue());
         }
 
-        if (_methodName83.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes83, parameterTypes)) {
+        if (_methodName75.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes75, parameterTypes)) {
             return RecordLocalServiceUtil.findByPortletId((java.lang.String) arguments[0]);
         }
 
-        if (_methodName84.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes84, parameterTypes)) {
+        if (_methodName76.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes76, parameterTypes)) {
             return RecordLocalServiceUtil.findByName((java.lang.String) arguments[0]);
         }
 
-        if (_methodName85.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes85, parameterTypes)) {
+        if (_methodName77.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes77, parameterTypes)) {
             return RecordLocalServiceUtil.countByPortletId((java.lang.String) arguments[0]);
         }
 
-        if (_methodName86.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes86, parameterTypes)) {
+        if (_methodName78.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes78, parameterTypes)) {
             RecordLocalServiceUtil.update(((Long) arguments[0]).longValue(),
                 (java.lang.String) arguments[1]);
 
             return null;
         }
 
-        if (_methodName87.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes87, parameterTypes)) {
+        if (_methodName79.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes79, parameterTypes)) {
             return RecordLocalServiceUtil.save((java.lang.String) arguments[0],
                 (java.lang.String) arguments[1], (java.lang.String) arguments[2]);
         }

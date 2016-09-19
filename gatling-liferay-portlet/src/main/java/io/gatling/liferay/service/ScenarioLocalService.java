@@ -270,20 +270,6 @@ public interface ScenarioLocalService extends BaseLocalService,
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
-    * Remove all {@link Scenario} (and children) for a given simulationId
-    */
-    public void removeBySimulationIdCascade(long simulationId)
-        throws com.liferay.portal.NoSuchModelException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Remove all {@link Request} for a scenarioId
-    */
-    public void removeByIdCascade(long scenarioId)
-        throws com.liferay.portal.NoSuchModelException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Check if name is unique for {@link Scenario}
     */
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -303,29 +289,4 @@ public interface ScenarioLocalService extends BaseLocalService,
     public java.util.List<io.gatling.liferay.model.Scenario> findByVariableName(
         java.lang.String variableName, long idSimulation)
         throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Add a {@link Scenario} from an {@link ActionRequest}
-    *
-    * @param {@link ActionRequest} request
-    * @param {@link ActionResponse} response
-    * @return {@link Scenario} if added, else null
-    * @throws SystemException
-    */
-    public io.gatling.liferay.model.Scenario addScenarioFromRequest(
-        javax.portlet.ActionRequest request)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Edit a {@link Scenario} from an {@link ActionRequest}
-    *
-    * @param {@link ActionRequest} request
-    * @param {@link ActionResponse} response
-    * @return {@link Scenario} if added, else null
-    * @throws SystemException
-    */
-    public io.gatling.liferay.model.Scenario editScenarioFromRequest(
-        javax.portlet.ActionRequest request)
-        throws com.liferay.portal.kernel.exception.PortalException,
-            com.liferay.portal.kernel.exception.SystemException;
 }

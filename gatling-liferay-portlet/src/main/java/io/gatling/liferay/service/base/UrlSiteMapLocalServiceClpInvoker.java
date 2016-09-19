@@ -41,14 +41,14 @@ public class UrlSiteMapLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName76;
-    private String[] _methodParameterTypes76;
-    private String _methodName77;
-    private String[] _methodParameterTypes77;
-    private String _methodName82;
-    private String[] _methodParameterTypes82;
-    private String _methodName83;
-    private String[] _methodParameterTypes83;
+    private String _methodName68;
+    private String[] _methodParameterTypes68;
+    private String _methodName69;
+    private String[] _methodParameterTypes69;
+    private String _methodName74;
+    private String[] _methodParameterTypes74;
+    private String _methodName75;
+    private String[] _methodParameterTypes75;
 
     public UrlSiteMapLocalServiceClpInvoker() {
         _methodName0 = "addUrlSiteMap";
@@ -133,23 +133,23 @@ public class UrlSiteMapLocalServiceClpInvoker {
                 "io.gatling.liferay.model.UrlSiteMap"
             };
 
-        _methodName76 = "getBeanIdentifier";
+        _methodName68 = "getBeanIdentifier";
 
-        _methodParameterTypes76 = new String[] {  };
+        _methodParameterTypes68 = new String[] {  };
 
-        _methodName77 = "setBeanIdentifier";
+        _methodName69 = "setBeanIdentifier";
 
-        _methodParameterTypes77 = new String[] { "java.lang.String" };
+        _methodParameterTypes69 = new String[] { "java.lang.String" };
 
-        _methodName82 = "createUrlSiteMap";
+        _methodName74 = "createUrlSiteMap";
 
-        _methodParameterTypes82 = new String[] {
+        _methodParameterTypes74 = new String[] {
                 "long", "java.lang.String", "java.lang.String", "int"
             };
 
-        _methodName83 = "findBySiteMapId";
+        _methodName75 = "findBySiteMapId";
 
-        _methodParameterTypes83 = new String[] { "long" };
+        _methodParameterTypes75 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -241,28 +241,28 @@ public class UrlSiteMapLocalServiceClpInvoker {
             return UrlSiteMapLocalServiceUtil.updateUrlSiteMap((io.gatling.liferay.model.UrlSiteMap) arguments[0]);
         }
 
-        if (_methodName76.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes76, parameterTypes)) {
+        if (_methodName68.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
             return UrlSiteMapLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName77.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes77, parameterTypes)) {
+        if (_methodName69.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes69, parameterTypes)) {
             UrlSiteMapLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName82.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes82, parameterTypes)) {
+        if (_methodName74.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes74, parameterTypes)) {
             return UrlSiteMapLocalServiceUtil.createUrlSiteMap(((Long) arguments[0]).longValue(),
                 (java.lang.String) arguments[1],
                 (java.lang.String) arguments[2],
                 ((Integer) arguments[3]).intValue());
         }
 
-        if (_methodName83.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes83, parameterTypes)) {
+        if (_methodName75.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes75, parameterTypes)) {
             return UrlSiteMapLocalServiceUtil.findBySiteMapId(((Long) arguments[0]).longValue());
         }
 
