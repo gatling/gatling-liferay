@@ -230,7 +230,7 @@
 
 <!-- Scenario building block -->
 <liferay-ui:panel-container extended="true" id="scenarioBlock">
- <liferay-ui:panel collapsible="true" defaultState="${panel1State}"  title="1.Design your scenarios" >
+ <liferay-ui:panel collapsible="true" defaultState="${panel1State}"  title="section-title1" >
 
 <aui:form action="${saveScenariosURL}"  name="formS" cssClass="form-inline">
 	<%-- Scenario FieldSet --%>
@@ -323,7 +323,7 @@
 				<portlet:param name="action" value="persistNewScenario"/>
 			</portlet:actionURL>
 
-			<a href="${persistNewScenario}"><span class="icon-plus-sign"></span> Add a new scenario</a>
+			<a href="${persistNewScenario}"><span class="icon-plus-sign"></span> <liferay-ui:message key="add-scenario"/></a>
 		</div>
 	</div>
 
@@ -332,13 +332,13 @@
 		<div id="trashcan" class="hide-trashcan trashcan" ><div class="icon-remove-sign"></div></div>
 		
 		<div class="libcontent">
-			<h4>Process Library:</h4>
+			<h4><liferay-ui:message key="process-library"/></h4>
 			
 			<!-- Single button -->
 			<div class="btn-group">
 			  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 			    <span class="icon-plus-sign"></span>
-			    Add a new process
+			    <liferay-ui:message key="add-process"/>
 			    <span class="caret"></span>
 			  </a>
 				<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu">
@@ -385,7 +385,7 @@
 
 	
 	<aui:fieldset>
-		<aui:button type="submit" value="Save scenarios" style="margin-top: 30px" />
+		<aui:button type="submit" value="save-scenarios" style="margin-top: 30px" />
 	</aui:fieldset>
 </aui:form>
 </liferay-ui:panel>
@@ -399,7 +399,7 @@
 
 
 <liferay-ui:panel-container extended="true" id="injectionBlock">
- <liferay-ui:panel collapsible="true"  extended="true" defaultState="${panel2State}"  title="2.Configure your injection profile" >
+ <liferay-ui:panel collapsible="true"  extended="true" defaultState="${panel2State}"  title="section-title2" >
 
 <!-- Injection profile block -->
 <aui:form action="${saveInjectionProfile}" method="post">
@@ -417,7 +417,7 @@
 			<aui:validator name="min">1</aui:validator>
 		</aui:input>
 		
-		<aui:select label="injection" name="injectionMode"
+		<aui:select label="injection-mode" name="injection-mode"
 			required="true"  inlineField="true" helpMessage="injection-info-help">
 			<c:forEach var="mode" items="${injections}">
 				<c:set var="isSelected" scope="request" value="${mode eq currentInjection}" />
@@ -426,7 +426,7 @@
 			</c:forEach>
 		</aui:select>
 
-		<aui:input label="duration" name="rampUp" value="${rampUp}"
+		<aui:input label="duration-rampUp" name="rampUp" value="${rampUp}"
 			inlineField="true" helpMessage="duration-info-help">
 			<aui:validator name="required" />
 			<aui:validator name="number" />
@@ -435,7 +435,7 @@
 		
 	
 	<aui:fieldset>
-		<aui:button type="submit" value="Save injection profile"/>
+		<aui:button type="submit" value="save-injection"/>
 	</aui:fieldset>
 	
 </aui:form>
@@ -445,7 +445,7 @@
 
 <!-- Feeder block -->
 <liferay-ui:panel-container extended="true" id="FeederBlock">
- <liferay-ui:panel collapsible="true" defaultState="${panel3State}"  title="3.Specify your feeders" >
+ <liferay-ui:panel collapsible="true" defaultState="${panel3State}"  title="section-title3" >
  
 <portlet:actionURL var="saveFeeders">
 	<portlet:param name="action" value="saveFeeders" />
@@ -459,7 +459,7 @@
 			cssClass="textarea-feeder" value="${feederContent}"></aui:input>
 			
 	<aui:fieldset>
-		<aui:button type="submit" value="Save feeders" />
+		<aui:button type="submit" value="save-feeders" />
 	</aui:fieldset>
 </aui:form>
 </liferay-ui:panel>
@@ -467,10 +467,10 @@
 
 
 <liferay-ui:panel-container extended="true" id="exportBlock">
- <liferay-ui:panel collapsible="true" defaultState="${panel4State}"  title="4.Let's export and run with Gatling" >
+ <liferay-ui:panel collapsible="true" defaultState="${panel4State}"  title="section-title4" >
 <portlet:resourceURL id="generateZip" var="resourceUrl" />
 
-	<aui:button type="button" value="Export the simulation" id="generateZip" onClick="${resourceUrl}" />
+	<aui:button type="button" value="export-simulation" id="generateZip" onClick="${resourceUrl}" />
 
 </liferay-ui:panel>
 </liferay-ui:panel-container>
