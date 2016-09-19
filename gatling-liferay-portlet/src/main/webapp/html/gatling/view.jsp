@@ -75,11 +75,38 @@
 
 .scenario .workflow {
 	min-height:80px;
-	max-width:70%;
 }
 
 
+@media screen and (max-width: 1920px) {
+	.scenario .workflow {
+		max-width:80%;
+	}
+}
 
+@media screen and (max-width: 1530px) {
+	.scenario .workflow {
+		max-width:75%;
+	}
+}
+
+@media screen and (max-width: 1280px) {
+	.scenario .workflow {
+		max-width:65%;
+	}
+}
+
+@media screen and (max-width: 960px) {
+	.scenario .workflow {
+		max-width:55%;
+	}
+}
+
+@media screen and (max-width: 760px) {
+	.scenario .workflow {
+		max-width:40%;
+	}
+}
 
 .fresh-scenario {
 	margin-bottom: 20px;
