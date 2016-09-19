@@ -3,6 +3,19 @@
  */
 package io.gatling.liferay.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.HttpHeaders;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.model.Group;
+import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.util.PortalUtil;
+
 import io.gatling.liferay.NoSuchScenarioException;
 import io.gatling.liferay.dto.ProcessDTO;
 import io.gatling.liferay.dto.ScenarioDTO;
@@ -25,18 +38,6 @@ import io.gatling.liferay.service.SimulationLocalServiceUtil;
 import io.gatling.liferay.service.SiteMapLocalServiceUtil;
 import io.gatling.liferay.service.impl.SimulationLocalServiceImpl;
 import io.gatling.liferay.util.GatlingUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.servlet.HttpHeaders;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -68,6 +69,13 @@ public class ViewController {
 
 	private static final Log LOG = LogFactoryUtil.getLog(ViewController.class);
 
+	/**
+	 * renderRequest is called before every rendering
+	 * 
+	 * the function prepares all the simulation data
+	 * it retrieves the defautl simulation related elements and transmits them to the view
+	 * 
+	 */
 	@RenderMapping(params = "render=renderView")
 	public String renderRequest(final RenderRequest renderRequest,
 			final RenderResponse renderResponse, final Model model) throws SystemException, PortalException {
@@ -164,7 +172,11 @@ public class ViewController {
 
 	
 	
-	
+	/**
+	 * Function called when the injection profile is saved
+	 * 
+	 * it updates all the injection data received from the view
+	 */
 	@ActionMapping(params="action=saveInjectionProfile")
 	public void saveInjectionProfile(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, NoSuchScenarioException{
 
@@ -190,54 +202,57 @@ public class ViewController {
 	}
 	
 	
-	
+	/**
+	 * Function called when the feeders are saved
+	 * 
+	 * It updates the _default_login_ received from the view
+	 */
 	@ActionMapping(params="action=saveFeeders")
 	public void saveFeeders(final ActionRequest request, final ActionResponse response, final Model model) throws PortalException, SystemException{
-		long simulationId = ParamUtil.getLong(request, "simulationId");
 		String feederContent = ParamUtil.getString(request, "feederContent");
 		
 		Login login = LoginLocalServiceUtil.findByName("_default_login_");
 		login.setData(feederContent);
 		login.persist();
 		
-		Simulation simulation = SimulationLocalServiceUtil.getSimulation(simulationId);
-		simulation.setFeederContent(feederContent);
-		SimulationLocalServiceUtil.updateSimulation(simulation);
-		
 		request.getPortletSession().setAttribute("panelNb", 3);
 		response.setRenderParameter("render", "renderView");
 	}
 
-	
+	/**
+	 * Updates all the scenarios from the JSON send by the view
+	 * 
+	 * The JSON represent all the default simulation, it is mapped into dtos and persisted
+	 */
 	@ActionMapping(params="action=saveScenarios")
 	public void saveMyScenarios(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{
 		String json = ParamUtil.getString(request, "JSON");
 		LOG.debug("saveScenario called:");
 		
-		LOG.debug(json);
+		//LOG.debug(json);
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			List<ScenarioDTO> dto = mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(List.class, ScenarioDTO.class));
-			for (ScenarioDTO scenarioDTO : dto) {
+			List<ScenarioDTO> dtos = mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(List.class, ScenarioDTO.class));
+			for (ScenarioDTO scenarioDTO : dtos) {
+				//Persist the related scenario
 				ScenarioDTOMapper.persistData(scenarioDTO);
 			}
-			LOG.debug("Result dto: "+dto.toString());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		// if the action is launched from a trashcan buton, delete the related scenario
+		// if the action is launched from a trashcan buton, deletes the related scenario
 		String scenarioId = ParamUtil.getString(request, "scenarioId");
 		if (!scenarioId.equals("notDefined")) {
-			deleteScenarios(Long.parseLong(scenarioId));
+			deleteScenario(Long.parseLong(scenarioId));
 		}
 		
 		request.getPortletSession().setAttribute("panelNb", 1);
 		response.setRenderParameter("render", "renderView");
 	}
 	
-	private void deleteScenarios(long scenarioId) throws SystemException, PortalException{
+
+	private void deleteScenario(long scenarioId) throws SystemException, PortalException{
 		
 		List<ProcessScenarioLink> links = ProcessScenarioLinkLocalServiceUtil.findByscenarioId(scenarioId);
 		for (ProcessScenarioLink processScenarioLink : links) {
@@ -247,43 +262,39 @@ public class ViewController {
 		ScenarioLocalServiceUtil.deleteScenario(scenarioId);
 	}
 
+	/**
+	 * Generate a zip file with the default simulation and the related elements
+	 */
 	@ResourceMapping(value="generateZip")	
 	public void exportZippedEnvironment(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
 		LOG.debug("Generating zip file...");
 		request.getPortletSession().setAttribute("panelNb", 0);
-		// Saving datas
 		
-		//long[] simulationsIds = ParamUtil.getLongValues(request, "export");
 		Simulation simulation = SimulationLocalServiceUtil.getByName(SimulationLocalServiceImpl.DEFAULT_NAME);
-		LOG.debug("SImulatioID="+(simulation==null?"null":simulation.getSimulation_id()));
-		// Retreives the defaut scenario frim the simulation id (expected single result)
-		List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id());
-		if(scenarios == null || scenarios.isEmpty()) {
-			throw new NoSuchScenarioException();
-		}
 		
-		long[] simulationsIds = new long[]{simulation.getSimulation_id()};
-
 		response.setContentType("application/zip");
 		response.addProperty("Content-Disposition", "attachment; filename = GatlingSimulations.zip");
 		
+		// prepare the AST that will be used for the generation
 		List<SimulationAST> scriptASTs = new ArrayList<>();
-		for( long simulationId : simulationsIds) {
-			scriptASTs.add(ASTService.computesSimulationAST(simulationId, PortalUtil.getPortalURL(request)));
-		}
+		scriptASTs.add(ASTService.computesSimulationAST(simulation.getSimulation_id(), PortalUtil.getPortalURL(request)));
 		
+		// Generate the zip
 		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, scriptASTs);
 
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 		LOG.debug("Zip generated ...");
 	}
 	
-	
+	/**
+	 * Creates a new scenario
+	 */
 	@ActionMapping(params="action=persistNewScenario")
 	public void persistNewScenario(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{
-		LOG.debug("Action Triggered : Save Default Simulation");
+		LOG.debug("Action Triggered: Save Default Simulation");
 		
 		Simulation simulation = SimulationLocalServiceUtil.getByName(SimulationLocalServiceImpl.DEFAULT_NAME);
+		//Scenario defaultScenario = ScenarioLocalServiceUtil.findBySimulationId(simulation.getSimulation_id()).get(0);
 		Scenario scenario = ScenarioLocalServiceUtil.createScenario("MyScenario", simulation.getSimulation_id(), "ramp Over", 10, 5);
 		Process login = ProcessLocalServiceUtil.findByName("LOGIN");
 		ProcessScenarioLinkLocalServiceUtil.createLink(scenario.getScenario_id(), login.getProcess_id(), 0, 0);
