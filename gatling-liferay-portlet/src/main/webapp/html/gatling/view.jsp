@@ -7,6 +7,29 @@
 <%-- CSS --%>
 <style  type="text/css">
 
+.scenario-header {
+	margin-top: 25px;
+	border-bottom: 2px solid #b3b3b3;
+	color: #777777;
+}
+
+.scenario {
+	border-bottom: 1px solid #d8d8d8;
+}
+
+.scenario-box {
+	position: relative;
+	display: inline-block;
+	margin-left: 10px;
+	width: 30px;
+}
+
+.scenario-name {
+	position: relative;
+	display: inline-block;
+	width: 200px;
+}
+
 .scenario-name input {
 	width: 150px;
 }
@@ -15,13 +38,54 @@
 	margin: 0px;
 }
 
-.main-block {
-	background: rgba(239, 239, 239, 0.28);
-	padding: 20px;
-	margin: 20px 0px;
-	border-radius: 5px;
-	border: solid 1px rgba(0, 0, 0, 0.07);
+.workflow {
+	margin-left:30px;
+	display: inline-block;	
 }
+
+
+
+.scenario-header .scenario-name {
+	height: 30px;
+    font-size: 15px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.scenario-header .workflow {
+	margin-left: 80px;
+	height: 30px;
+    font-size: 15px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+
+
+.scenario .scenario-box {
+	vertical-align: top;
+	top: 30px;
+}
+
+.scenario .scenario-name, .fresh-scenario .scenario-name {
+	vertical-align: top;
+	top: 25px;
+	font-style: italic;
+}
+
+.scenario .workflow {
+	min-height:80px;
+	max-width:70%;
+}
+
+
+
+
+.fresh-scenario {
+	margin-bottom: 20px;
+	height: 80px;
+}
+
 
 .library {
 	position: relative;
@@ -147,6 +211,15 @@
 	<input name="<%=renderResponse.getNamespace()%>JSON" id="JSON" type="hidden" value="notDefined" />
 	<input id="COUNTER" type="hidden" value="${counter}"/>
 	<aui:input name="scenarioId" id="scenarioId" type="hidden" value="notDefined"/>
+	
+	
+	<%-- Header line --%>
+	
+	<div class="scenario-header">
+		<div class="scenario-box" ></div>
+		<div class="scenario-name" >Name</div>
+		<div class="workflow" >Workflow</div>
+	</div>
 	
 	<%-- Scenario --%>
 	<c:forEach items="${scenarios}" var="scenario" varStatus="s">
@@ -591,12 +664,6 @@
 	line-height: 45px;
 	padding: 0px 17px;
 	border-radius: 10px;
-}
-
-.scenario-name {
-	display: inline-block;
-	width: 200px;
-	font-style: italic;
 }
 
 ._tyLOGIN .action, ._tyLOGOUT .action {

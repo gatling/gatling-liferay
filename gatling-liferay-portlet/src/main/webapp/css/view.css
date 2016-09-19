@@ -14,24 +14,8 @@
 
 /* Scenarios */
 
-.scenario {
-	height: 80px;
-	vertical-align: center;
-}
-
-.scenario-box {
-	display: inline-block;
-	vertical-align: middle;
-	width: 30px;
-}
-
 .scenario-box input[type="checkbox"] {
 	margin-bottom: 7px;
-}
-
-.workflow {
-	display: inline-block;
-	height: 80px;
 }
 
 .time-separator-container {
@@ -84,10 +68,6 @@
 .time input[type="number"] {
    	width: 25px;
    	margin-bottom: 0;
-}
-
-.fresh-scenario {
-	margin-bottom: 20px;
 }
 
 
