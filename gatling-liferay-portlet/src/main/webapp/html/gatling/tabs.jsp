@@ -11,7 +11,7 @@
 	</liferay-ui:section>
 
 	<liferay-ui:section>
-		<%@ include file="smoothRecorderView.jsp"%>
+		<%@ include file="recorderView.jsp"%>
 	</liferay-ui:section>
 
 </liferay-ui:tabs>

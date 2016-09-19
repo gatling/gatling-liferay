@@ -256,18 +256,10 @@
 		<i class="icon-list-alt"></i> <liferay-ui:message key="take-a-tour" />
 	</a> 
 
-	<%-- Old Interfae --%>
-	<portlet:renderURL var="renderAdvancedView">
-		<portlet:param name="render" value="renderAdvancedView" />
-	</portlet:renderURL>
-	<a href="${renderAdvancedView}" id="advancedButon" class="btn"> <i
-		class="icon-wrench"></i> <liferay-ui:message key="advanced-test-btn"/>
-	</a>
-
 	<%-- Wiki Gatling Link --%>
 	<a target="blank" href='<%=PortletProps.get("gatling-wiki")%>'
 		class="btn">
-		<i class="icon-share" style="display:none;"></i> <liferay-ui:message key="help-gatling-wiki" />
+		<i class="icon-book"></i> <liferay-ui:message key="help-gatling-wiki" />
 	</a> 
 
 </div>

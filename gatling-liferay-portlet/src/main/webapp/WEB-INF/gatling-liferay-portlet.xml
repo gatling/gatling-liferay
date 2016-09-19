@@ -16,7 +16,7 @@
 	<bean  class="org.springframework.web.portlet.mvc.annotation.DefaultAnnotationHandlerMapping" ></bean>
 	
 	<bean class="io.gatling.liferay.controller.ViewController" ></bean>
-	<bean class="io.gatling.liferay.controller.SmoothRecorderController" ></bean>
+	<bean class="io.gatling.liferay.controller.RecorderController" ></bean>
 	<bean class="io.gatling.liferay.controller.SiteMapController" ></bean>
 	
 	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

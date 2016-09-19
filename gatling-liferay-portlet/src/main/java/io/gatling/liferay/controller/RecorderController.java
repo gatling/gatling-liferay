@@ -50,9 +50,9 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
  */
 @Controller(value = "ViewController")
 @RequestMapping("VIEW")
-public class SmoothRecorderController {
+public class RecorderController {
 
-	private static final Log LOG = LogFactoryUtil.getLog(SmoothRecorderController.class);
+	private static final Log LOG = LogFactoryUtil.getLog(RecorderController.class);
 
 	@RenderMapping(params = "render=renderRecorderView")
 	public String renderRequest(final RenderRequest renderRequest,
@@ -88,9 +88,6 @@ public class SmoothRecorderController {
 	
 	@ActionMapping(params="action=toggleRecord2")
 	public void toggleRecordAction(final ActionRequest request, final ActionResponse response, final Model model){
-		
-		LOG.debug("tgr2");
-		
 		final String recordState = ParamUtil.getString(request, "nextRecordState");
 		LOG.debug("Toggle Record from smooth called");
 		response.setRenderParameter("recordState", recordState);
