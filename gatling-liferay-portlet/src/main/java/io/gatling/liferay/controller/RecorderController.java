@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 Altendis, Groupe Excilys (www.altendis.fr)
+ * Copyright 2016 Gatling Corp (www.gatling.io)
  */
 package io.gatling.liferay.controller;
 

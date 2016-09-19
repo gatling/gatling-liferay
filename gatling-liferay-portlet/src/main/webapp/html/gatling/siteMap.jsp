@@ -1,5 +1,5 @@
 <%-- 
-	Copyright 2015 Altendis, Groupe Excilys (www.altendis.fr)
+	Copyright 2016 Gatling Corp (www.gatling.io)
 --%>
 <%@include file="/html/gatling/header.jsp"%>
 
