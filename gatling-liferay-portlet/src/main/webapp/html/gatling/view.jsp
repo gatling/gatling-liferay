@@ -13,6 +13,39 @@
 	color: #777777;
 }
 
+.scenario-legend {
+	position: relative;
+	float: right;
+	display: inline-block;
+}
+
+.scenario-legend span {
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	border: solid #7d7d7d 1px;
+	margin-left: 20px;
+	margin-right: 2px;
+}
+
+.scenario-legend .blue {
+	background-color: rgb(88, 148, 227);
+}
+
+.scenario-legend .yellow {
+	background-color: #eac15f;
+}
+
+.scenario-legend .green {
+	background-color: rgb(126, 191, 127);
+}
+
+.scenario-legend .red {
+	background-color: rgb(219, 125, 125);
+}
+
+
+
 .scenario {
 	border-bottom: 1px solid #d8d8d8;
 }
@@ -82,11 +115,17 @@
 	.scenario .workflow {
 		max-width:80%;
 	}
+	.scenario-legend {
+		display: inline-block;
+	}
 }
 
 @media screen and (max-width: 1530px) {
 	.scenario .workflow {
 		max-width:75%;
+	}
+	.scenario-legend {
+		display: inline-block;
 	}
 }
 
@@ -94,17 +133,26 @@
 	.scenario .workflow {
 		max-width:65%;
 	}
+	.scenario-legend {
+		display: none;
+	}
 }
 
 @media screen and (max-width: 960px) {
 	.scenario .workflow {
 		max-width:55%;
 	}
+	.scenario-legend {
+		display: none;
+	}
 }
 
 @media screen and (max-width: 760px) {
 	.scenario .workflow {
 		max-width:40%;
+	}
+	.scenario-legend {
+		display: none;
 	}
 }
 
@@ -244,8 +292,15 @@
 	
 	<div class="scenario-header">
 		<div class="scenario-box" ></div>
-		<div class="scenario-name" >Name</div>
-		<div class="workflow" >Workflow</div>
+		<div class="scenario-name" ><liferay-ui:message key="scenario-header-name" /></div>
+		<div class="workflow" ><liferay-ui:message key="scenario-header-workflow" /></div>
+		<div class="scenario-legend">
+			<liferay-ui:message key="legend-title" />
+			<span class="blue"></span> <liferay-ui:message key="legend-defaults" />
+			<span class="yellow"></span> <liferay-ui:message key="legend-pauses" />
+			<span class="red"></span> <liferay-ui:message key="legend-recorded" />
+			<span class="green"></span> <liferay-ui:message key="legend-random" />
+		</div>
 	</div>
 	
 	<%-- Scenario --%>
