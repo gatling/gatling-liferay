@@ -16,13 +16,17 @@
 .scenario-legend {
 	position: relative;
 	float: right;
-	display: inline-block;
 }
 
 .scenario-legend span {
+	
+	vertical-align: middle;
+}
+
+.scenario-legend .cbox {
 	display: inline-block;
-	width: 10px;
-	height: 10px;
+	width: 15px;
+	height: 15px;
 	border: solid #7d7d7d 1px;
 	margin-left: 20px;
 	margin-right: 2px;
@@ -295,11 +299,25 @@
 		<div class="scenario-name" ><liferay-ui:message key="scenario-header-name" /></div>
 		<div class="workflow" ><liferay-ui:message key="scenario-header-workflow" /></div>
 		<div class="scenario-legend">
-			<liferay-ui:message key="legend-title" />
-			<span class="blue"></span> <liferay-ui:message key="legend-defaults" />
-			<span class="yellow"></span> <liferay-ui:message key="legend-pauses" />
-			<span class="red"></span> <liferay-ui:message key="legend-recorded" />
-			<span class="green"></span> <liferay-ui:message key="legend-random" />
+			<span>
+				<liferay-ui:message key="legend-title" />
+			</span>
+			<span class="cbox blue"></span>
+			<span>
+				<liferay-ui:message key="legend-defaults" />
+			</span>
+			<span class="cbox yellow"></span>
+			<span>
+				<liferay-ui:message key="legend-pauses" />
+			</span>
+			<span class="cbox red"></span>
+			<span>
+				<liferay-ui:message key="legend-recorded" />
+			</span>
+			<span class="cbox green"></span>
+			<span>
+				<liferay-ui:message key="legend-random" />
+			</span>
 		</div>
 	</div>
 	
