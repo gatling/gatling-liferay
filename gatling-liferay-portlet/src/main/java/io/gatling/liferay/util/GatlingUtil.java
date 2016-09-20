@@ -27,8 +27,8 @@ import io.gatling.liferay.model.Scenario;
 import io.gatling.liferay.model.Simulation;
 import io.gatling.liferay.model.AST.ScenarioAST;
 import io.gatling.liferay.model.AST.SimulationAST;
-import io.gatling.liferay.model.AST.feeder.ResourceFileAST;
 import io.gatling.liferay.model.AST.process.ProcessAST;
+import io.gatling.liferay.model.AST.resource.ResourceFileAST;
 import io.gatling.liferay.service.RecordLocalServiceUtil;
 
 import java.io.File;

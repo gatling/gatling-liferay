@@ -1,4 +1,4 @@
-package io.gatling.liferay.model.AST.feeder.data;
+package io.gatling.liferay.model.AST.resource.data;
 
 public class SiteMapDataAST {
 	

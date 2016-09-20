@@ -1,6 +1,6 @@
-package io.gatling.liferay.model.AST.feeder;
+package io.gatling.liferay.model.AST.resource;
 
-import io.gatling.liferay.model.AST.feeder.data.RecordDataAST;
+import io.gatling.liferay.model.AST.resource.data.RecordDataAST;
 
 import java.util.ArrayList;
 import java.util.List;

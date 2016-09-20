@@ -6,12 +6,13 @@ package io.gatling.liferay.controller;
 import io.gatling.liferay.model.Record;
 import io.gatling.liferay.model.AST.ScenarioAST;
 import io.gatling.liferay.model.AST.SimulationAST;
-import io.gatling.liferay.model.AST.feeder.RecordFileAST;
 import io.gatling.liferay.model.AST.process.ProcessAST;
 import io.gatling.liferay.model.AST.process.RecorderAST;
+import io.gatling.liferay.model.AST.resource.RecordFileAST;
 import io.gatling.liferay.service.RecordLocalServiceUtil;
 import io.gatling.liferay.service.mapper.ASTMapper;
 import io.gatling.liferay.util.GatlingUtil;
+
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;

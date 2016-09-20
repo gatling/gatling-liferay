@@ -1,8 +1,8 @@
-package io.gatling.liferay.model.AST.feeder.data;
+package io.gatling.liferay.model.AST.resource.data;
 
 import io.gatling.liferay.model.UrlRecordType;
 import io.gatling.liferay.model.AST.InvalidAST;
-import io.gatling.liferay.model.AST.feeder.ResourceFileAST;
+import io.gatling.liferay.model.AST.resource.ResourceFileAST;
 
 public class RecordDataAST {
 

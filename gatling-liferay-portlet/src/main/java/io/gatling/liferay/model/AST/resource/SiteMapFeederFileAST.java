@@ -1,6 +1,6 @@
-package io.gatling.liferay.model.AST.feeder;
+package io.gatling.liferay.model.AST.resource;
 
-import io.gatling.liferay.model.AST.feeder.data.SiteMapDataAST;
+import io.gatling.liferay.model.AST.resource.data.SiteMapDataAST;
 
 import java.util.HashMap;
 import java.util.List;

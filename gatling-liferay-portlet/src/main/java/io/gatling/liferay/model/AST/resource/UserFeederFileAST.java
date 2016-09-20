@@ -1,4 +1,4 @@
-package io.gatling.liferay.model.AST.feeder;
+package io.gatling.liferay.model.AST.resource;
 
 
 public class UserFeederFileAST extends FeederFileAST {

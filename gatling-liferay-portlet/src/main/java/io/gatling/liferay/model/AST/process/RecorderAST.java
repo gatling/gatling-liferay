@@ -1,7 +1,7 @@
 package io.gatling.liferay.model.AST.process;
 
-import io.gatling.liferay.model.AST.feeder.RecordFileAST;
-import io.gatling.liferay.model.AST.feeder.ResourceFileAST;
+import io.gatling.liferay.model.AST.resource.RecordFileAST;
+import io.gatling.liferay.model.AST.resource.ResourceFileAST;
 
 import java.util.List;
 
