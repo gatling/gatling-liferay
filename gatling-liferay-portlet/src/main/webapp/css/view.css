@@ -14,6 +14,227 @@
 
 /* Scenarios */
 
+
+.scenario-header {
+	margin-top: 25px;
+	border-bottom: 2px solid #b3b3b3;
+	color: #777777;
+}
+
+.scenario-legend {
+	position: relative;
+	float: right;
+}
+
+.scenario-legend span {
+	
+	vertical-align: middle;
+}
+
+.scenario-legend .cbox {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	border: solid #7d7d7d 1px;
+	margin-left: 20px;
+	margin-right: 2px;
+}
+
+.scenario-legend .blue {
+	background-color: rgb(88, 148, 227);
+}
+
+.scenario-legend .yellow {
+	background-color: #eac15f;
+}
+
+.scenario-legend .green {
+	background-color: rgb(126, 191, 127);
+}
+
+.scenario-legend .red {
+	background-color: rgb(219, 125, 125);
+}
+
+
+
+.scenario {
+	border-bottom: 1px solid #d8d8d8;
+}
+
+.scenario-box {
+	position: relative;
+	display: inline-block;
+	margin-left: 10px;
+	width: 30px;
+}
+
+.scenario-name {
+	position: relative;
+	display: inline-block;
+	width: 200px;
+}
+
+.scenario-name input {
+	width: 150px;
+}
+
+.scenario-box form {
+	margin: 0px;
+}
+
+.workflow {
+	margin-left:30px;
+	display: inline-block;	
+}
+
+
+
+.scenario-header .scenario-name {
+	height: 30px;
+    font-size: 15px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.scenario-header .workflow {
+	margin-left: 80px;
+	height: 30px;
+    font-size: 15px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+
+
+.scenario .scenario-box {
+	vertical-align: top;
+	top: 30px;
+}
+
+.scenario .scenario-name, .fresh-scenario .scenario-name {
+	vertical-align: top;
+	top: 25px;
+	font-style: italic;
+}
+
+.scenario .workflow {
+	min-height:80px;
+}
+
+
+@media screen and (max-width: 1920px) {
+	.scenario .workflow {
+		max-width:80%;
+	}
+	.scenario-legend {
+		display: inline-block;
+	}
+}
+
+@media screen and (max-width: 1530px) {
+	.scenario .workflow {
+		max-width:75%;
+	}
+	.scenario-legend {
+		display: inline-block;
+	}
+}
+
+@media screen and (max-width: 1280px) {
+	.scenario .workflow {
+		max-width:65%;
+	}
+	.scenario-legend {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 960px) {
+	.scenario .workflow {
+		max-width:55%;
+	}
+	.scenario-legend {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 760px) {
+	.scenario .workflow {
+		max-width:40%;
+	}
+	.scenario-legend {
+		display: none;
+	}
+}
+
+.fresh-scenario {
+	margin-bottom: 20px;
+	height: 80px;
+}
+
+
+.library {
+	position: relative;
+}
+
+.library h4 {
+	font-weight: initial;
+}
+
+.trashcan {
+	position: absolute;
+	display: block;
+	font-size: 5em;
+	background: rgba(120, 74, 74, 0.83);
+	height: 100%;
+	width: 100%;
+	text-align: center;
+	color: whitesmoke;
+	transition: opacity 0.5s;
+	z-index: 10;
+	border-radius: 5px;
+}
+
+.trashcan div {
+	position: absolute;
+	top: calc(50% - 37px);	
+}
+
+.hide-trashcan {
+	opacity: 0;
+	z-index: 0;
+}
+
+.libcontent {
+	background: rgba(80, 199, 255, 0.3);
+	border-radius: 5px;
+	padding: 1px 0px 20px 20px;
+ 	position: relative;
+ 	z-index: 1;
+ 	border: solid 1px rgba(0, 0, 0, 0.07);
+}
+
+ .libcontent .btn-group {
+ 	position: absolute;
+ 	right: 0px;
+ 	top: 0px;
+ 	margin: 10px ;
+ } 
+
+.title-text {
+	font-size: 19px;
+}
+
+.accordion-inner {
+	background: rgba(239, 239, 239, 0.28);		
+}
+
+.library .blockus {
+	margin-right: 10px;
+}
+
+
 .scenario-box input[type="checkbox"] {
 	margin-bottom: 7px;
 }

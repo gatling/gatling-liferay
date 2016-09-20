@@ -1,10 +1,27 @@
-
-
 //Prepares the div array and addActions on all the elements space-container
 var cols = document.querySelectorAll('.space-container');
 [].forEach.call(cols, function(col) {
 	addDragFeature(col);
 });
+
+var trash = document.getElementById("trashcan");
+console.log("trash:"+ trash.innerHTML);
+
+trash.addEventListener("drop", function(ev) {
+    // prevent default action (open as link for some elements)
+    ev.preventDefault();
+	
+	var data = ev.dataTransfer.getData("text");
+    // move dragged elem to the selected drop target
+    var blockDragged = document.getElementById(data);
+    if (!trash.className.includes("hide-trashcan") && !blockDragged.className.includes("template")) {
+    	blockDragged.parentNode.removeChild( blockDragged );
+        //event.target.appendChild( dragged );
+    }
+    persistScenarios();
+}, false);
+
+trash.addEventListener('dragover', handleDragOver, false);
 
 //The counter
 var count = parseInt($("#COUNTER").val(), 10);
@@ -23,16 +40,37 @@ function addDragFeature(elt) {
 	elt.addEventListener('drop', drop, false);
 }
 
-// Function called when any draggable element is dragged
+//Function called when any draggable element is dragged
 function drag(ev) {
 	console.log("Drag->Element:" + ev.target.id + " dragged");
 	ev.dataTransfer.setData("text", ev.target.id);
+	
+	if (!ev.target.className.includes("template")) {
+		//Display the process trashcan
+		var trashcan = $("#trashcan");
+		trashcan.removeClass("hide-trashcan");
+		
+		$(ev.target).addClass("dragged");
+		setTimeout(function() {
+			ev.target.style.display = "none";
+		}, 1);
+	}
 }
 
-// Function called when the element is dropped
+function endDrag(ev) {
+	$(ev.target).removeClass("dragged");
+	ev.target.style.display = "inline-block";
+	
+	var trashcan = $("#trashcan");
+	trashcan.addClass("hide-trashcan");
+}
+
+//Function called when the element is dropped
 function drop(ev) {
 	console.log("Droping in: " + this.id);
 	ev.preventDefault();
+
+	endDrag(ev);
 
 	$(this).removeClass("extented-space");
 	$(this).addClass("space-container");
@@ -57,6 +95,10 @@ function drop(ev) {
 		var spaceContainer = blockDragged.childNodes[1];
 		addDragFeature(spaceContainer);
 	}
+	
+	if (blockDragged.className.includes("_tyPAUSE")) {
+		wanSpinerLaunch();
+	}
 
 	// Insert the elements
 	workflow.insertBefore(blockDragged, blockTarget);
@@ -64,7 +106,7 @@ function drop(ev) {
 	persistScenarios();
 }
 
-// TODO check the use of this fucntion
+//TODO check the use of this fucntion
 function handleDragOver(e) {
 	if (e.preventDefault) {
 		e.preventDefault(); // Necessary. Allows us to drop.
