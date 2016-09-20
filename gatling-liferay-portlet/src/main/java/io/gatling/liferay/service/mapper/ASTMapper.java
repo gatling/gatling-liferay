@@ -23,8 +23,8 @@ import io.gatling.liferay.model.AST.resource.FormParamFileAST;
 import io.gatling.liferay.model.AST.resource.HttpBodyFileAST;
 import io.gatling.liferay.model.AST.resource.RecordFileAST;
 import io.gatling.liferay.model.AST.resource.ResourceFileAST;
-import io.gatling.liferay.model.AST.resource.SiteMapFeederFileAST;
-import io.gatling.liferay.model.AST.resource.UserFeederFileAST;
+import io.gatling.liferay.model.AST.resource.SiteMapFileAST;
+import io.gatling.liferay.model.AST.resource.UserFileAST;
 import io.gatling.liferay.model.AST.resource.data.RecordDataAST;
 import io.gatling.liferay.model.AST.resource.data.SiteMapDataAST;
 import io.gatling.liferay.service.ASTService;
@@ -75,11 +75,11 @@ public class ASTMapper {
 				ast = new RecorderAST(feeder);
 				break;
 			case LOGIN:
-				UserFeederFileAST userFeeder = ASTService.computesUserFeederFileAST(process.getProcess_id());
+				UserFileAST userFeeder = ASTService.computesUserFeederFileAST(process.getProcess_id());
 				ast = new LoginAST(userFeeder);
 				break;
 			case RANDOMPAGE:
-				SiteMapFeederFileAST siteMap = ASTService.computesSiteMapFeederFileAST(process.getProcess_id());
+				SiteMapFileAST siteMap = ASTService.computesSiteMapFeederFileAST(process.getProcess_id());
 				ast = new RandomPageAST(siteMap);
 				break;
 			case LOGOUT:
@@ -93,8 +93,8 @@ public class ASTMapper {
 		return ast;
 	}
 	
-	public static UserFeederFileAST mapLoginToAST(Login login) {
-		return new UserFeederFileAST(login.getName(), login.getData());
+	public static UserFileAST mapLoginToAST(Login login) {
+		return new UserFileAST(login.getName(), login.getData());
 	}
 	
 	public static RecordFileAST mapRecordToAST(Record record) throws SystemException, NoSuchFormParamException{
@@ -133,9 +133,9 @@ public class ASTMapper {
 		return new FormParamFileAST(name, params.getData());
 	}
 
-	public static SiteMapFeederFileAST mapSiteMapToAST(SiteMap siteMap) throws SystemException {
+	public static SiteMapFileAST mapSiteMapToAST(SiteMap siteMap) throws SystemException {
 		List<SiteMapDataAST> data = ASTService.computesSiteMapDataASTList(siteMap.getSiteMapId());
-		return new SiteMapFeederFileAST(siteMap.getName(), data);
+		return new SiteMapFileAST(siteMap.getName(), data);
 	}
 
 	public static List<SiteMapDataAST> mapUrlsitesToAST(List<UrlSiteMap> data) {

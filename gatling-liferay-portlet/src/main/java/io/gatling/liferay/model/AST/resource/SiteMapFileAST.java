@@ -6,13 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SiteMapFeederFileAST extends ScalaFileAST {
+public class SiteMapFileAST extends ScalaFileAST {
 
 	private static final String TYPE = "SiteMap";
 
 	private Map<SiteMapDataAST, Double> data;
 	
-	public SiteMapFeederFileAST(String name, List<SiteMapDataAST> data) {
+	public SiteMapFileAST(String name, List<SiteMapDataAST> data) {
 		super(name, TYPE);
 		this.data = computePercents(data);
 	}

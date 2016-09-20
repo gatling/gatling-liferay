@@ -17,8 +17,8 @@ import io.gatling.liferay.model.AST.process.ProcessAST;
 import io.gatling.liferay.model.AST.resource.HttpBodyFileAST;
 import io.gatling.liferay.model.AST.resource.RecordFileAST;
 import io.gatling.liferay.model.AST.resource.ResourceFileAST;
-import io.gatling.liferay.model.AST.resource.SiteMapFeederFileAST;
-import io.gatling.liferay.model.AST.resource.UserFeederFileAST;
+import io.gatling.liferay.model.AST.resource.SiteMapFileAST;
+import io.gatling.liferay.model.AST.resource.UserFileAST;
 import io.gatling.liferay.model.AST.resource.data.RecordDataAST;
 import io.gatling.liferay.model.AST.resource.data.SiteMapDataAST;
 import io.gatling.liferay.service.mapper.ASTMapper;
@@ -56,7 +56,7 @@ public class ASTService {
 		return ASTMapper.mapProcessesToAST(processes, pauses);
 	}
 	
-	public static UserFeederFileAST computesUserFeederFileAST(long processId) throws NoSuchProcessException, NoSuchModelException, SystemException {
+	public static UserFileAST computesUserFeederFileAST(long processId) throws NoSuchProcessException, NoSuchModelException, SystemException {
 		Login login = LoginLocalServiceUtil.findByProcessId(processId);
 		if(login == null){
 			LOG.debug("ACHTUNG");
@@ -89,7 +89,7 @@ public class ASTService {
 		return ASTMapper.mapFormParamToAST(params, String.valueOf(urlRecordId));
 	}
 	
-	public static SiteMapFeederFileAST computesSiteMapFeederFileAST(long processId) throws SystemException, NoSuchProcessException, NoSuchModelException {
+	public static SiteMapFileAST computesSiteMapFeederFileAST(long processId) throws SystemException, NoSuchProcessException, NoSuchModelException {
 		SiteMap siteMap = SiteMapLocalServiceUtil.findByProcessId(processId);
 		return ASTMapper.mapSiteMapToAST(siteMap);
 	}
