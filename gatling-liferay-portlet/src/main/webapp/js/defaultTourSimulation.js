@@ -1,3 +1,6 @@
+
+
+
 /**
  * Shepherd tour Simulation List
  */
@@ -8,46 +11,75 @@ var tourDefaultFirstSimu = new Shepherd.Tour({
 	    showCancelLink: true
 	  }
 });
+
 tourDefaultFirstSimu.addStep('welcome', {
 	title:"<liferay-ui:message key='tour-welcome-title'/>",
 	text: "<liferay-ui:message key='tour-welcome'/>",
 	attachTo: '#controlPanelSubNavgatling_WAR_gatlingliferayportletLink>span bottom',
 });
 
-tourDefaultFirstSimu.addStep('list-simulation', {
-	title:"<liferay-ui:message key='tour-default-scenario-title' />",
-	text: "<liferay-ui:message key='tour-default-scenario' />",
-	attachTo: '#advancedButon  right',
+
+tourDefaultFirstSimu.addStep('scenarios', {
+	title:"<liferay-ui:message key='tour-design-scenario-title'/>",
+	text: "<liferay-ui:message key='tour-design-scenario'/>",
+	attachTo: '#design-scenario top',
+	scrollTo: false,
+	when: {
+	      show: function() {
+	        console.log("HEY I JUST MET YOU!");
+	      }
+	    }
 });
+
 
 tourDefaultFirstSimu.addStep('list-simulation1', {
 	title:"<liferay-ui:message key='tour-default-workflow-title' />",
 	text: "<liferay-ui:message key='tour-default-workflow' />",
-	attachTo: '#takeATourAnchor right',
+	attachTo: '#wf_0 top',
+	scrollTo:false
+});
+
+
+tourDefaultFirstSimu.addStep('library', {
+	title:"<liferay-ui:message key='tour-library-title'/>",
+	text: "<liferay-ui:message key='tour-library'/>",
+	attachTo: '.library top',
+	scrollTo: false
+});
+
+
+tourDefaultFirstSimu.addStep('create-process', {
+	title:"<liferay-ui:message key='tour-create-processes-title'/>",
+	text: "<liferay-ui:message key='tour-create-processes'/>",
+	attachTo: '#add-process left',
+	scrollTo: false
+});
+
+tourDefaultFirstSimu.addStep('save-scenarios', {
+	title:"<liferay-ui:message key='tour-create-save-scenario-title'/>",
+	text: "<liferay-ui:message key='tour-create-save-scenario'/>",
+	attachTo: '#save-scenarios right'
 });
 
 tourDefaultFirstSimu.addStep('list-simulation2', {
 	title:"<liferay-ui:message key='tour-default-scenario-properties-title' />",
 	text: "<liferay-ui:message key='tour-default-scenario-properties' />",
-	attachTo: '#_gatling_WAR_gatlingliferayportlet_rampUp right',
+	attachTo: '#injectionBlock top',
 });
+
 
 tourDefaultFirstSimu.addStep('list-simulation1', {
 	title:"<liferay-ui:message key='tour-default-feeder-title' />",
 	text: "<liferay-ui:message key='tour-default-feeder' />",
-	attachTo: '#_gatling_WAR_gatlingliferayportlet_feederContent  right',
+	attachTo: '#FeederBlock top',
 });
 
 var last = tourDefaultFirstSimu.addStep('list-simulation3', {
 	title:"<liferay-ui:message key='tour-default-export-title' />",
 	text: "<liferay-ui:message key='tour-default-export' />",
-	attachTo: '#exportToggle right',
+	attachTo: '#exportBlock top',
 	buttons:[{
 	    text: "<liferay-ui:message key='tour-understood' />",
 	    action: tourDefaultFirstSimu.hide
 	  }]
-});
-
-last.on("show", function() {
-	createCookie("tour","true",1); 
 });

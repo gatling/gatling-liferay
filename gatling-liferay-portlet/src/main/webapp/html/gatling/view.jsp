@@ -55,7 +55,7 @@
 
 <!-- Scenario building block -->
 <liferay-ui:panel-container extended="true" id="scenarioBlock">
- <liferay-ui:panel collapsible="true" defaultState="${panel1State}"  title="section-title1" >
+ <liferay-ui:panel id="design-scenario" collapsible="true" defaultState="${panel1State}"  title="section-title1" >
 
 <aui:form action="${saveScenariosURL}"  name="formS" cssClass="form-inline">
 	<%-- Scenario FieldSet --%>
@@ -123,7 +123,7 @@
 					</c:choose>
 			</div>
 
-			<div class="workflow" id="wf_${scenario.id}">
+			<div class="workflow" id="wf_${s.index}">
 			<c:forEach items="${scenario.processes}" var="process" varStatus="i">
 				<div class="blockus _p${process.cssClass} _ty${process.type}" id="_box${process.cssId}" draggable="true" ondragstart="drag(event)" ondragend="endDrag(event)">
 					<div class="space-container">
@@ -155,7 +155,6 @@
 			</div>
 			
 			</div>
-			<div id ="takeATourAnchor" style="display: inline-block;"></div>
 		</div>
 	</c:forEach>
 	
@@ -180,9 +179,8 @@
 		<div class="libcontent">
 			<h4><liferay-ui:message key="process-library"/></h4>
 			
-			<!-- Single button -->
 			<div class="btn-group">
-			  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+			  <a class="btn btn-primary dropdown-toggle" id="add-process" data-toggle="dropdown">
 			    <span class="icon-plus-sign"></span>
 			    <liferay-ui:message key="add-process"/>
 			    <span class="caret"></span>
@@ -231,7 +229,7 @@
 
 	
 	<aui:fieldset>
-		<aui:button type="submit" value="save-scenarios" style="margin-top: 30px" />
+		<aui:button type="submit" value="save-scenarios" id="save-scenarios" style="margin-top: 30px" />
 	</aui:fieldset>
 </aui:form>
 </liferay-ui:panel>
