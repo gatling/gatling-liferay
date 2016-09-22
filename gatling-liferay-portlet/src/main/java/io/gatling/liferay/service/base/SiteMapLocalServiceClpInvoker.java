@@ -144,8 +144,7 @@ public class SiteMapLocalServiceClpInvoker {
         _methodName74 = "siteMapCreation";
 
         _methodParameterTypes74 = new String[] {
-                "com.liferay.portal.theme.ThemeDisplay", "long",
-                "java.lang.String"
+                "com.liferay.portal.theme.ThemeDisplay", "java.lang.String"
             };
 
         _methodName75 = "createSiteMap";
@@ -265,8 +264,7 @@ public class SiteMapLocalServiceClpInvoker {
         if (_methodName74.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes74, parameterTypes)) {
             return SiteMapLocalServiceUtil.siteMapCreation((com.liferay.portal.theme.ThemeDisplay) arguments[0],
-                ((Long) arguments[1]).longValue(),
-                (java.lang.String) arguments[2]);
+                (java.lang.String) arguments[1]);
         }
 
         if (_methodName75.equals(name) &&

@@ -260,11 +260,10 @@ public class SiteMapLocalServiceUtil {
     }
 
     public static io.gatling.liferay.model.SiteMap siteMapCreation(
-        com.liferay.portal.theme.ThemeDisplay themeDisplay, long groupId,
+        com.liferay.portal.theme.ThemeDisplay themeDisplay,
         java.lang.String portalUrl)
-        throws com.liferay.portal.kernel.exception.SystemException,
-            io.gatling.liferay.NoSuchUrlSiteMapException {
-        return getService().siteMapCreation(themeDisplay, groupId, portalUrl);
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().siteMapCreation(themeDisplay, portalUrl);
     }
 
     public static io.gatling.liferay.model.SiteMap createSiteMap(

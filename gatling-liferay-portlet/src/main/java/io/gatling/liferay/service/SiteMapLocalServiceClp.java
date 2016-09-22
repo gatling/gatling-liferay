@@ -145,8 +145,7 @@ public class SiteMapLocalServiceClp implements SiteMapLocalService {
         _methodName19 = "siteMapCreation";
 
         _methodParameterTypes19 = new String[] {
-                "com.liferay.portal.theme.ThemeDisplay", "long",
-                "java.lang.String"
+                "com.liferay.portal.theme.ThemeDisplay", "java.lang.String"
             };
 
         _methodName20 = "createSiteMap";
@@ -674,10 +673,9 @@ public class SiteMapLocalServiceClp implements SiteMapLocalService {
 
     @Override
     public io.gatling.liferay.model.SiteMap siteMapCreation(
-        com.liferay.portal.theme.ThemeDisplay themeDisplay, long groupId,
+        com.liferay.portal.theme.ThemeDisplay themeDisplay,
         java.lang.String portalUrl)
-        throws com.liferay.portal.kernel.exception.SystemException,
-            io.gatling.liferay.NoSuchUrlSiteMapException {
+        throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
@@ -686,8 +684,6 @@ public class SiteMapLocalServiceClp implements SiteMapLocalService {
                     new Object[] {
                         ClpSerializer.translateInput(themeDisplay),
                         
-                    groupId,
-                        
                     ClpSerializer.translateInput(portalUrl)
                     });
         } catch (Throwable t) {
@@ -695,10 +691,6 @@ public class SiteMapLocalServiceClp implements SiteMapLocalService {
 
             if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
                 throw (com.liferay.portal.kernel.exception.SystemException) t;
-            }
-
-            if (t instanceof io.gatling.liferay.NoSuchUrlSiteMapException) {
-                throw (io.gatling.liferay.NoSuchUrlSiteMapException) t;
             }
 
             if (t instanceof RuntimeException) {

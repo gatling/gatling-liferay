@@ -12,9 +12,11 @@ import io.gatling.liferay.service.UrlSiteMapLocalServiceUtil;
 import io.gatling.liferay.service.base.SiteMapLocalServiceBaseImpl;
 import io.gatling.liferay.service.persistence.SiteMapUtil;
 import io.gatling.liferay.util.GatlingUtil;
+
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
@@ -45,7 +47,7 @@ public class SiteMapLocalServiceImpl extends SiteMapLocalServiceBaseImpl {
 	public static final String DEFAULT_NAME = "_default_sitemap_";
 	
 	@Override
-	public SiteMap siteMapCreation(ThemeDisplay themeDisplay, long groupId, String portalUrl) throws SystemException, NoSuchUrlSiteMapException {
+	public SiteMap siteMapCreation(ThemeDisplay themeDisplay, String portalUrl) throws SystemException {
 		//Remove existing siteMap
 		try {
 			SiteMap s = siteMapPersistence.findByName(DEFAULT_NAME);
@@ -55,16 +57,20 @@ public class SiteMapLocalServiceImpl extends SiteMapLocalServiceBaseImpl {
 			}
 			siteMapPersistence.remove(s.getSiteMapId());
 			
-		} catch (NoSuchSiteMapException e) {}
+		} catch (NoSuchSiteMapException | NoSuchUrlSiteMapException e) {}
 		
 		SiteMap siteMap = createSiteMap(DEFAULT_NAME);
 		
-	    for (Layout layout : GatlingUtil.getSiteMap(groupId)) {
-	    	long siteMapId = siteMap.getSiteMapId();
-	    	String friendlyUrl = layout.getFriendlyURL().substring(1);
-	    	String url = GatlingUtil.getGroupFriendlyURL(themeDisplay, layout).replaceAll(portalUrl, "");
-	    	UrlSiteMapLocalServiceUtil.createUrlSiteMap(siteMapId, friendlyUrl, url, 1);
-	    }
+		List<Group> listGroups = GatlingUtil.getListOfSites();
+		for (Group group : listGroups) {
+			for (Layout layout : GatlingUtil.getSiteMap(group.getGroupId())) {
+		    	long siteMapId = siteMap.getSiteMapId();
+		    	String friendlyUrl = group.getName() + "_" + layout.getFriendlyURL().substring(1);
+		    	String url = GatlingUtil.getGroupFriendlyURL(themeDisplay, layout).replaceAll(portalUrl, "");
+		    	UrlSiteMapLocalServiceUtil.createUrlSiteMap(siteMapId, friendlyUrl, url, 1);
+		    }
+		}
+	    
 	    return siteMap;
     }
 	

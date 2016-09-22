@@ -16,7 +16,9 @@ import com.liferay.portal.model.Group;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 
+import io.gatling.liferay.NoSuchProcessException;
 import io.gatling.liferay.NoSuchScenarioException;
+import io.gatling.liferay.NoSuchUrlSiteMapException;
 import io.gatling.liferay.dto.ProcessDTO;
 import io.gatling.liferay.dto.ScenarioDTO;
 import io.gatling.liferay.dto.mapper.ProcessDTOMapper;
@@ -68,7 +70,30 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 public class ViewController {
 
 	private static final Log LOG = LogFactoryUtil.getLog(ViewController.class);
+	
+	private static final int LOGIN = 0;
+	private static final int LOGOUT = 1;
+	private static final int RANDOM = 2;
+	
+	/**
+	 * Represents a counter to count boxes
+	 */
+	private class BoxCounter {
+		int count;
 
+		public BoxCounter(int count) {
+			this.count = count;
+		}
+
+		public int getCount() {
+			return count;
+		}
+
+		public void setCount(int count) {
+			this.count = count;
+		}
+	}
+	
 	/**
 	 * renderRequest is called before every rendering
 	 * 
@@ -79,76 +104,25 @@ public class ViewController {
 	@RenderMapping(params = "render=renderView")
 	public String renderRequest(final RenderRequest renderRequest,
 			final RenderResponse renderResponse, final Model model) throws SystemException, PortalException {
-		LOG.debug("render View");
-		/* Record the sites list */
 		
-		List<Group> listGroups = GatlingUtil.getListOfSites();
-		renderRequest.setAttribute("listGroup", listGroups);
+		BoxCounter boxCounter = new BoxCounter(0);
 		
-		/* The counter that will be use as cssId */
-		int counter = 0;
+		List<Process> defaultProcesses = createDefaultProcesses(renderRequest);
 		
-		/* Initialize the simulation and the scenario if not existant */
+		List<ProcessDTO> templates = createLibraryProcessDTO(boxCounter);
+		
 		Simulation defaultSimulation = SimulationLocalServiceUtil.createDefaultSimulation();
-		Scenario defaultScenario = ScenarioLocalServiceUtil.createDefaultScenario(defaultSimulation);
 		
-		List<Process> processes = ProcessLocalServiceUtil.findProcessFromScenarioId(defaultScenario.getScenario_id());
-
-		final ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
-		String portalURL = PortalUtil.getPortalURL(renderRequest);
-		SiteMap defaultSiteMap = SiteMapLocalServiceUtil.siteMapCreation(themeDisplay, defaultScenario.getGroup_id(), portalURL);
+		List<Scenario> scenarios = createScenarios(defaultSimulation, defaultProcesses);
 		
-		if(processes == null || processes.isEmpty()){
-			Login defaultLogin = LoginLocalServiceUtil.createDefaultLogin();
-			
-			Process login = ProcessLocalServiceUtil.createProcess("Login", ProcessType.LOGIN,
-					defaultLogin.getPrimaryKey());
-			
-			Process random = ProcessLocalServiceUtil.createProcess("Random Page", ProcessType.RANDOMPAGE,
-					defaultSiteMap.getPrimaryKey());
-			
-			Process logout = ProcessLocalServiceUtil.createProcess("Logout", ProcessType.LOGOUT, null);
-			
-			long scenarioId = defaultScenario.getScenario_id();
-			
-			ScenarioLocalServiceUtil.addProcess(scenarioId, login.getProcess_id(), 0, 5);
-			ScenarioLocalServiceUtil.addProcess(scenarioId, random.getProcess_id(), 1, 10);
-			ScenarioLocalServiceUtil.addProcess(scenarioId, logout.getProcess_id(), 2, 0);	
-		}
-		else {
-			Process random = processes.get(1);
-			random.setFeederId(defaultSiteMap.getSiteMapId());
-			ProcessLocalServiceUtil.updateProcess(random);
-		}
+		List<ScenarioDTO> scenariosDTO = convertScenariosToScenariosDTO(defaultSimulation, scenarios, boxCounter);
 		
-		/* Scenarios List */
-		List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(defaultSimulation.getSimulation_id());
-		List<ScenarioDTO> scenariosDTO = new ArrayList<>();
-		for (Scenario scenario : scenarios) {
-			ScenarioDTO s = ScenarioDTOMapper.toDTO(scenario, counter);
-			scenariosDTO.add(s);
-			counter += s.getProcesses().size();
-		}
-		
-		// Injection modes
 		List<String> injectionsMode = Arrays.asList("ramp Over", "at Once");
-		
-		//Current Injection
 		String currentInjection = scenarios.get(0).getInjection();
-		
-		/* Library Scenarios */
-		List<Process> allProcesses = ProcessLocalServiceUtil.getProcesses(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
-		List<ProcessDTO> templates = new ArrayList<>(allProcesses.size());
-		templates.add(new ProcessDTO( "Pause", String.valueOf(counter++),"Pause", "PAUSE", 5));
-		for (Process process : allProcesses) {
-			templates.add(ProcessDTOMapper.toDTO(process, String.valueOf(counter)));
-			counter++;
-		}
-		Collections.sort(templates);
-		
+
 		Integer panelNb = (Integer) renderRequest.getPortletSession().getAttribute("panelNb");
 		if (panelNb==null) {
-			panelNb =0;
+			panelNb = 0;
 		}
 		
 		/* Record the simulation and scenario data */
@@ -159,17 +133,99 @@ public class ViewController {
 		
 		renderRequest.setAttribute("simulationId", defaultSimulation.getSimulation_id());
 		renderRequest.setAttribute("scenarios", scenariosDTO);
-		renderRequest.setAttribute("numberOfUsers", defaultScenario.getNumberOfUsers());
-		renderRequest.setAttribute("rampUp", defaultScenario.getDuration());
+		renderRequest.setAttribute("numberOfUsers", scenarios.get(0).getNumberOfUsers());
+		renderRequest.setAttribute("rampUp", scenarios.get(0).getDuration());
 		renderRequest.setAttribute("injections", injectionsMode);
 		renderRequest.setAttribute("currentInjection", currentInjection);
 		renderRequest.setAttribute("feederContent", LoginLocalServiceUtil.findByName("_default_login_").getData());
 		renderRequest.setAttribute("templates", templates);
-		renderRequest.setAttribute("counter", counter);
+		renderRequest.setAttribute("counter", boxCounter.getCount());
+		
 		return "view";
 	}
 	
 
+	private List<Process> createDefaultProcesses(final RenderRequest renderRequest) throws SystemException{
+		List<Process> processes = new ArrayList<>(3);
+		processes.add(getDefaultLogin());
+		processes.add(getDefaultLogout());
+		processes.add(getdefaultRandom(renderRequest));
+		return processes;
+	}
+	
+	private Process getDefaultLogin() throws SystemException{
+		Login defaultLogin = LoginLocalServiceUtil.createDefaultLogin();
+		try {
+			return ProcessLocalServiceUtil.findByName("Login");
+		} catch (NoSuchProcessException e) {
+			return ProcessLocalServiceUtil.createProcess("Login", ProcessType.LOGIN, defaultLogin.getPrimaryKey());
+		}
+	}
+	
+	private Process getDefaultLogout() throws SystemException {
+		try {
+			return ProcessLocalServiceUtil.findByName("Logout");
+		} catch (NoSuchProcessException e) {
+			return ProcessLocalServiceUtil.createProcess("Logout", ProcessType.LOGOUT, null);
+		}
+	}
+	
+	private Process getdefaultRandom(final RenderRequest renderRequest) throws SystemException {
+		final ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		String portalURL = PortalUtil.getPortalURL(renderRequest);
+		SiteMap defaultSiteMap = SiteMapLocalServiceUtil.siteMapCreation(themeDisplay, portalURL);
+		Process random;
+		try {			
+			random = ProcessLocalServiceUtil.findByName("Random Page");
+			random.setFeederId(defaultSiteMap.getSiteMapId());
+			ProcessLocalServiceUtil.updateProcess(random);
+		} catch (NoSuchProcessException e) {
+			random = ProcessLocalServiceUtil.createProcess("Random Page", ProcessType.RANDOMPAGE,
+					defaultSiteMap.getPrimaryKey());
+		}
+		return random;
+	}
+	
+	private List<ProcessDTO> createLibraryProcessDTO(BoxCounter boxCounter) throws SystemException {
+		int counter = boxCounter.getCount();
+		List<Process> allProcesses = ProcessLocalServiceUtil.getProcesses(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+		List<ProcessDTO> templates = new ArrayList<>(allProcesses.size());
+		templates.add(new ProcessDTO( "Pause", String.valueOf(counter++),"Pause", "PAUSE", 5));
+		for (Process process : allProcesses) {
+			templates.add(ProcessDTOMapper.toDTO(process, String.valueOf(counter)));
+			counter++;
+		}
+		Collections.sort(templates);
+		boxCounter.setCount(counter);
+		return templates;
+	}
+
+	private List<Scenario> createScenarios(Simulation defaultSimulation, List<Process> defaultProcesses) throws SystemException {
+		if(ScenarioLocalServiceUtil.countBySimulationId(defaultSimulation.getSimulation_id()) == 0){
+			Scenario defaultScenario = ScenarioLocalServiceUtil.createDefaultScenario(defaultSimulation);
+			long scenarioId = defaultScenario.getScenario_id();
+			ScenarioLocalServiceUtil.addProcess(scenarioId, defaultProcesses.get(LOGIN).getProcess_id(), 0, 5);
+			ScenarioLocalServiceUtil.addProcess(scenarioId, defaultProcesses.get(RANDOM).getProcess_id(), 1, 10);
+			ScenarioLocalServiceUtil.addProcess(scenarioId, defaultProcesses.get(LOGOUT).getProcess_id(), 2, 0);
+		}
+		return ScenarioLocalServiceUtil.findBySimulationId(defaultSimulation.getSimulation_id());
+	}
+	
+	private List<ScenarioDTO> convertScenariosToScenariosDTO(Simulation defaultSimulation, List<Scenario> scenarios, BoxCounter boxCounter)
+			throws SystemException, PortalException {
+		int counter = boxCounter.getCount();
+		List<ScenarioDTO> scenariosDTO = new ArrayList<>(scenarios.size());
+		for (Scenario scenario : scenarios) {
+			ScenarioDTO s = ScenarioDTOMapper.toDTO(scenario, counter);
+			scenariosDTO.add(s);
+			counter += s.getProcesses().size();
+		}
+		boxCounter.setCount(counter);
+		return scenariosDTO;
+	}
+	
+	
+	
 	
 	
 	/**

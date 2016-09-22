@@ -99,28 +99,19 @@
 		<div class="scenario" id="_sc${scenario.id}" >
 		
 			<div class="scenario-box" >
-				<c:if test="${!s.first}" >
-					<a href="#" onclick="setScenarioId(${scenario.id}); console.log('<portlet:namespace/>'); $(this).closest('form').submit()" >
-							<i class="icon-trash"></i>
-					</a>
-				</c:if>
+				<a href="#" onclick="setScenarioId(${scenario.id}); console.log('<portlet:namespace/>'); $(this).closest('form').submit()" >
+						<i class="icon-trash"></i>
+				</a>
 			</div>
 			
 			<div class="scenario-name" >
-					<c:choose >
-						<c:when test="${s.first}">
-							${scenario.name}
-						</c:when>
-						<c:otherwise>
-							<aui:input label="" name="scenario_${scenario.id}name" value="${scenario.name}" inlineField="true" class="inputName">
-								<aui:validator name="custom" errorMessage="simulation-name-syntaxe">
-										function (val, fieldNode, ruleValue) {
-											return /^[\w\s$]+$/.test(val);
-										}
-								</aui:validator>
-							</aui:input>
-						</c:otherwise>
-					</c:choose>
+				<aui:input label="" name="scenario_${scenario.id}name" value="${scenario.name}" inlineField="true" class="inputName">
+					<aui:validator name="custom" errorMessage="simulation-name-syntaxe">
+							function (val, fieldNode, ruleValue) {
+								return /^[\w\s$]+$/.test(val);
+							}
+					</aui:validator>
+				</aui:input>
 			</div>
 
 			<div class="workflow" id="wf_${s.index}">
