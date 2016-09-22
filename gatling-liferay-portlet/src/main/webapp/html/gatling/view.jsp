@@ -209,9 +209,9 @@
 								<div class="pause">
 									<div class="pause-name process-font">Pause</div>
 									<div class="wan-spinner time process-font">
-									<a href="javascript:void(0)" class="minus">-</a>
+									<a href="javascript:void(0)" class="minus" draggable="false">-</a>
 										<input type="text" class="process-fond time-input" name="<%=renderResponse.getNamespace()%>" value="${template.getPause()}"><span class="process-font">s</span>
-										<a href="javascript:void(0)" class="plus">+</a>
+										<a href="javascript:void(0)" class="plus" draggable="false">+</a>
 									</div>
 								</div>
 							</c:when>
