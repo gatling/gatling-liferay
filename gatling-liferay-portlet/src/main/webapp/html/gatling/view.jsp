@@ -100,7 +100,7 @@
 		
 			<div class="scenario-box" >
 				<c:if test="${!s.first}" >
-					<a href="#" onclick="setScenarioId(${scenario.id}); $(this).closest('form').submit()" >
+					<a href="#" onclick="setScenarioId(${scenario.id}); console.log('<portlet:namespace/>'); $(this).closest('form').submit()" >
 							<i class="icon-trash"></i>
 					</a>
 				</c:if>
@@ -333,11 +333,21 @@
 
 <script type="text/javascript" src="${js}/jquery-3.1.0.min.js"></script>
 <script type="text/javascript" src="${js}/bootstrap.min.js"></script>
-<script type="text/javascript" src="${js}/scenario-persistence.js"></script>
-<script type="text/javascript" src="${js}/injectionMode.js"></script>
+
+<script type="text/javascript" >
+	<%@ include file="/js/scenario-persistence.js" %>
+</script>
+
+<script type="text/javascript" >
+	<%@ include file="/js/injectionMode.js" %>
+</script>
+
 <script type="text/javascript" src="${js}/wan-spinner.js"></script>
 <script type="text/javascript" src="${js}/wan-spinner-launch.js"></script>
-<script type="text/javascript" src="${js}/drag-and-drop.js"></script>
+
+<script type="text/javascript" >
+	<%@ include file="/js/drag-and-drop.js" %>
+</script>
 
 <%-- Must be included this way to use liferay taglibs --%>
 <script type="text/javascript" >
