@@ -188,7 +188,7 @@ public class ViewController {
 		int counter = boxCounter.getCount();
 		List<Process> allProcesses = ProcessLocalServiceUtil.getProcesses(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 		List<ProcessDTO> templates = new ArrayList<>(allProcesses.size());
-		templates.add(new ProcessDTO( "Pause", String.valueOf(counter++),"Pause", "PAUSE", 5));
+		templates.add(new ProcessDTO( "Pause", String.valueOf(counter++),"Pause", "PAUSE", 3));
 		for (Process process : allProcesses) {
 			templates.add(ProcessDTOMapper.toDTO(process, String.valueOf(counter)));
 			counter++;
@@ -202,8 +202,8 @@ public class ViewController {
 		if(ScenarioLocalServiceUtil.countBySimulationId(defaultSimulation.getSimulation_id()) == 0){
 			Scenario defaultScenario = ScenarioLocalServiceUtil.createDefaultScenario(defaultSimulation);
 			long scenarioId = defaultScenario.getScenario_id();
-			ScenarioLocalServiceUtil.addProcess(scenarioId, defaultProcesses.get(LOGIN).getProcess_id(), 0, 5);
-			ScenarioLocalServiceUtil.addProcess(scenarioId, defaultProcesses.get(RANDOM).getProcess_id(), 1, 10);
+			ScenarioLocalServiceUtil.addProcess(scenarioId, defaultProcesses.get(LOGIN).getProcess_id(), 0, 3);
+			ScenarioLocalServiceUtil.addProcess(scenarioId, defaultProcesses.get(RANDOM).getProcess_id(), 1, 2);
 			ScenarioLocalServiceUtil.addProcess(scenarioId, defaultProcesses.get(LOGOUT).getProcess_id(), 2, 0);
 		}
 		return ScenarioLocalServiceUtil.findBySimulationId(defaultSimulation.getSimulation_id());
