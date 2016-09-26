@@ -99,9 +99,11 @@
 		<div class="scenario" id="_sc${scenario.id}" >
 		
 			<div class="scenario-box" >
+				<c:if test="${scenarios.size() > 1}">
 				<a href="#" onclick="setScenarioId(${scenario.id}); console.log('<portlet:namespace/>'); $(this).closest('form').submit()" >
 						<i class="icon-trash"></i>
 				</a>
+				</c:if>
 			</div>
 			
 			<div class="scenario-name" >
