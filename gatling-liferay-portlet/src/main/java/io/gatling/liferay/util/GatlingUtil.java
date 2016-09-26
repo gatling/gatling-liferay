@@ -6,7 +6,6 @@ package io.gatling.liferay.util;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -22,21 +21,16 @@ import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.MustacheException;
 
-import io.gatling.liferay.model.Record;
-import io.gatling.liferay.model.Scenario;
-import io.gatling.liferay.model.Simulation;
 import io.gatling.liferay.model.AST.ScenarioAST;
 import io.gatling.liferay.model.AST.SimulationAST;
 import io.gatling.liferay.model.AST.process.ProcessAST;
 import io.gatling.liferay.model.AST.resource.ResourceFileAST;
-import io.gatling.liferay.service.RecordLocalServiceUtil;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.zip.ZipEntry;
@@ -79,60 +73,6 @@ public class GatlingUtil {
 
 	public static String createSimulationVariable(String name) {
 		return createVariableName("Simulation", name);
-	}
-
-	/**
-	 * create a javascript list of simulation name
-	 * 
-	 * @param list
-	 * @return
-	 */
-	public static String createJSListOfSimulationName(List<Simulation> list) {
-		StringBuilder sb = new StringBuilder("[");
-		for (Iterator<Simulation> iterator = list.iterator(); iterator
-				.hasNext();) {
-			Simulation simulation = iterator.next();
-			sb.append("'").append(simulation.getName()).append("'");
-			if (iterator.hasNext()) {
-				sb.append(",");
-			}
-		}
-		return sb.append("]").toString();
-	}
-
-	/**
-	 * create a javascript list of scenario name
-	 * 
-	 * @param list
-	 * @return
-	 */
-	public static String createJSListOfScenarioName(List<Scenario> list) {
-		StringBuilder sb = new StringBuilder("[");
-		for (Iterator<Scenario> iterator = list.iterator(); iterator.hasNext();) {
-			Scenario scenario = iterator.next();
-			sb.append("'").append(scenario.getName()).append("'");
-			if (iterator.hasNext()) {
-				sb.append(",");
-			}
-		}
-		return sb.append("]").toString();
-	}
-
-	/**
-	 * 
-	 * @param list
-	 * @return
-	 */
-	public static String createJSListOfRecordName(List<Record> list) {
-		StringBuilder sb = new StringBuilder("[");
-		for (Iterator<Record> iterator = list.iterator(); iterator.hasNext();) {
-			Record record = iterator.next();
-			sb.append("'").append(record.getName()).append("'");
-			if (iterator.hasNext()) {
-				sb.append(",");
-			}
-		}
-		return sb.append("]").toString();
 	}
 
 	/**
@@ -190,7 +130,6 @@ public class GatlingUtil {
 	 * @param groupId
 	 * @param simulationIds
 	 */
-	//TODO many parameters need to be removed, siteMap generation will soon be done somewhere else
 	public static void zipMyEnvironment(OutputStream os, ClassLoader classLoader, ResourceRequest request, List<SimulationAST> scripts )
 			throws MustacheException, Exception {
 
@@ -268,7 +207,7 @@ public class GatlingUtil {
 	//-------------------------------------------------------------------------------------------------------------------------------------	
 	private static void zipMyFeeders(String packageFolder, ClassLoader classLoader, ZipOutputStream zipOutputStream, List<SimulationAST> simulations) throws IOException, SystemException {
 		
-		// Going throw the entire AST in order to generated the required feeder files
+		// Going through the entire AST in order to generated the required feeder files
 		for (SimulationAST simulationAST : simulations) {
 			for (ScenarioAST scenarioAST : simulationAST.getScenarios()) {
 				for (ProcessAST processAST : scenarioAST.getProcesses()) {
@@ -320,7 +259,7 @@ public class GatlingUtil {
 		return result.toString();
 	}
 
-	// Combines all the private (true) and public (false) layouts
+	// Combines all the private (true) and public (false) layouts, the returned list represents the sipe map
 	public static List<Layout> getSiteMap(long groupId) throws SystemException {
 		// NOTE get scenario group id -> scenario.getGroup_id();
 		List<Layout> layouts = new ArrayList<>();
