@@ -12,7 +12,7 @@
 
 
 <%-- Title --%>
-<liferay-ui:header title="Recorder"></liferay-ui:header>
+<liferay-ui:header title="recorder-title"></liferay-ui:header>
 
 
 <%-- URL of button --%>

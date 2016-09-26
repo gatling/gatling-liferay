@@ -3,7 +3,7 @@
 --%>
 <%@include file="/html/gatling/header.jsp"%>
 
-<liferay-ui:header title="Random Pages Creation"></liferay-ui:header>
+<liferay-ui:header title="random-title"></liferay-ui:header>
 
 <portlet:actionURL var="saveSiteMap" windowState="pop_up">
 	<portlet:param name="action" value="saveSiteMap" />
@@ -11,7 +11,7 @@
 
 <aui:form id="myForm" name="siteMapForm" action="${saveSiteMap}" method="post">
 
-	<aui:input name="name" type="text" label="Name">
+	<aui:input name="name" type="text" label="random-name">
 		<aui:validator name="required"></aui:validator>
 		 <aui:validator name="alphanum" />
 	</aui:input>
@@ -25,10 +25,10 @@
 	<table class="tree table table-striped table-bordered table-hover table-condensed">
 		<thead class="table-columns">
 			<tr>
-				<th>Name</th>
-				<th>Url</th>
-				<th>Weight</th>
-				<th>Pourcent</th>
+				<th><liferay-ui:message key="random-pageName" /></th>
+				<th><liferay-ui:message key="random-url" /></th>
+				<th><liferay-ui:message key="random-weight" /></th>
+				<th><liferay-ui:message key="random-percent" /></th>
 			</tr>
 		</thead>
 		
@@ -46,13 +46,13 @@
 		</tbody>
 	</table>
 	
-	<aui:button type="submit" value="Save the Random Process"/>
+	<aui:button type="submit" value="random-save"/>
 	
 	
 	<portlet:renderURL var="renderView">
 		<portlet:param name="render" value="renderView" />
 	</portlet:renderURL>
-	<a class="btn" href="${renderView}">Cancel</a>
+	<a class="btn" href="${renderView}"><liferay-ui:message key="random-cancel" /></a>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.0.min.js"></script>
 
