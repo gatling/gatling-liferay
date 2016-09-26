@@ -27,6 +27,7 @@ import io.gatling.liferay.NoSuchScenarioException;
 import io.gatling.liferay.model.ProcessScenarioLink;
 import io.gatling.liferay.model.Scenario;
 import io.gatling.liferay.model.Simulation;
+import io.gatling.liferay.service.ScenarioLocalServiceUtil;
 import io.gatling.liferay.service.base.ScenarioLocalServiceBaseImpl;
 import io.gatling.liferay.service.persistence.ProcessScenarioLinkUtil;
 import io.gatling.liferay.service.persistence.ScenarioUtil;
@@ -106,7 +107,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	
 	@Override
 	public Scenario addScenario(String name, long simulationId) throws SystemException, NoSuchScenarioException{ {
-		Scenario defaultScenario = scenarioPersistence.findByName(DEFAULT_NAME);
+		Scenario defaultScenario = ScenarioLocalServiceUtil.findBySimulationId(simulationId).get(0);
 		return createScenario(name, simulationId, defaultScenario.getInjection(), defaultScenario.getNumberOfUsers(), defaultScenario.getDuration());
 	}
 	

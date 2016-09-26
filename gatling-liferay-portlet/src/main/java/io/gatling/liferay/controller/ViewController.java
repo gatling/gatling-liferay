@@ -12,13 +12,11 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.model.Group;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 
 import io.gatling.liferay.NoSuchProcessException;
 import io.gatling.liferay.NoSuchScenarioException;
-import io.gatling.liferay.NoSuchUrlSiteMapException;
 import io.gatling.liferay.dto.ProcessDTO;
 import io.gatling.liferay.dto.ScenarioDTO;
 import io.gatling.liferay.dto.mapper.ProcessDTOMapper;
@@ -241,6 +239,7 @@ public class ViewController {
 		long rampUp = ParamUtil.getLong(request, "rampUp");
 		String injection = ParamUtil.getString(request, "injectionMode");
 		
+		// Update scenario values
 		List<Scenario> scenarios = ScenarioLocalServiceUtil.findBySimulationId(simulationId);
 		if(scenarios == null || scenarios.isEmpty()) {
 			throw new NoSuchScenarioException();
