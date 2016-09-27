@@ -85,11 +85,11 @@
 			</span>
 			<span class="cbox red"></span>
 			<span>
-				<liferay-ui:message key="legend-recorded" />
+				<liferay-ui:message key="legend-random" />
 			</span>
 			<span class="cbox green"></span>
 			<span>
-				<liferay-ui:message key="legend-random" />
+				<liferay-ui:message key="legend-recorded" />
 			</span>
 		</div>
 	</div>
