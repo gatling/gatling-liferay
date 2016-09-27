@@ -93,6 +93,7 @@ create table StressTool_UrlRecord (
 create table StressTool_UrlSiteMap (
 	urlSiteMapId LONG not null primary key,
 	siteMapId LONG,
+	group_ VARCHAR(75) null,
 	friendlyUrl VARCHAR(75) null,
 	url VARCHAR(75) null,
 	weight INTEGER

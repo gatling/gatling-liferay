@@ -65,9 +65,10 @@ public class SiteMapLocalServiceImpl extends SiteMapLocalServiceBaseImpl {
 		for (Group group : listGroups) {
 			for (Layout layout : GatlingUtil.getSiteMap(group.getGroupId())) {
 		    	long siteMapId = siteMap.getSiteMapId();
-		    	String friendlyUrl = group.getName() + "_" + layout.getFriendlyURL().substring(1);
+		    	String friendlyUrl =  layout.getFriendlyURL().substring(1);
+		    	String urlGroup = group.getName();
 		    	String url = GatlingUtil.getGroupFriendlyURL(themeDisplay, layout).replaceAll(portalUrl, "");
-		    	UrlSiteMapLocalServiceUtil.createUrlSiteMap(siteMapId, friendlyUrl, url, 1);
+		    	UrlSiteMapLocalServiceUtil.createUrlSiteMap(siteMapId, friendlyUrl, urlGroup, url, 1);
 		    }
 		}
 	    

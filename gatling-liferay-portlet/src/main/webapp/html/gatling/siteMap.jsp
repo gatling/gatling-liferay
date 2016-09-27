@@ -22,6 +22,7 @@
 	<table class="tree table table-striped table-bordered table-hover table-condensed">
 		<thead class="table-columns">
 			<tr>
+				<th><liferay-ui:message key="random-pageSite" /></th>
 				<th id="page-header"><liferay-ui:message key="random-pageName" /></th>
 				<th><liferay-ui:message key="random-url" /></th>
 				<th id="weight-header"><liferay-ui:message key="random-weight" /></th>
@@ -32,10 +33,12 @@
 		<tbody class="table-data">
 			<c:forEach items="${urldata}" var="url">
 				<tr>
+					<td>${url.group}</td>
 					<td>${url.friendlyUrl}</td>
 					<td>${url.url}</td>
 					<td>
-						<input type="number" name="<%=renderResponse.getNamespace()%>${url.friendlyUrl}" value="${url.weight}" onChange="showWeight()" class="weightPage">
+						<input type="number" name="<%=renderResponse.getNamespace()%>${url.group}_${url.friendlyUrl}"
+							value="${url.weight}" onChange="showWeight()" class="weightPage">
 					</td>
 					<td><span class='percent'>0.00%</span></td>
 				</tr>

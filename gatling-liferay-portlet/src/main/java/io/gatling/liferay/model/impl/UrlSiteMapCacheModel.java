@@ -22,18 +22,21 @@ public class UrlSiteMapCacheModel implements CacheModel<UrlSiteMap>,
     Externalizable {
     public long urlSiteMapId;
     public long siteMapId;
+    public String group;
     public String friendlyUrl;
     public String url;
     public int weight;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(11);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("{urlSiteMapId=");
         sb.append(urlSiteMapId);
         sb.append(", siteMapId=");
         sb.append(siteMapId);
+        sb.append(", group=");
+        sb.append(group);
         sb.append(", friendlyUrl=");
         sb.append(friendlyUrl);
         sb.append(", url=");
@@ -51,6 +54,12 @@ public class UrlSiteMapCacheModel implements CacheModel<UrlSiteMap>,
 
         urlSiteMapImpl.setUrlSiteMapId(urlSiteMapId);
         urlSiteMapImpl.setSiteMapId(siteMapId);
+
+        if (group == null) {
+            urlSiteMapImpl.setGroup(StringPool.BLANK);
+        } else {
+            urlSiteMapImpl.setGroup(group);
+        }
 
         if (friendlyUrl == null) {
             urlSiteMapImpl.setFriendlyUrl(StringPool.BLANK);
@@ -75,6 +84,7 @@ public class UrlSiteMapCacheModel implements CacheModel<UrlSiteMap>,
     public void readExternal(ObjectInput objectInput) throws IOException {
         urlSiteMapId = objectInput.readLong();
         siteMapId = objectInput.readLong();
+        group = objectInput.readUTF();
         friendlyUrl = objectInput.readUTF();
         url = objectInput.readUTF();
         weight = objectInput.readInt();
@@ -85,6 +95,12 @@ public class UrlSiteMapCacheModel implements CacheModel<UrlSiteMap>,
         throws IOException {
         objectOutput.writeLong(urlSiteMapId);
         objectOutput.writeLong(siteMapId);
+
+        if (group == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(group);
+        }
 
         if (friendlyUrl == null) {
             objectOutput.writeUTF(StringPool.BLANK);

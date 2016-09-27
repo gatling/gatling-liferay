@@ -144,7 +144,8 @@ public class UrlSiteMapLocalServiceClpInvoker {
         _methodName74 = "createUrlSiteMap";
 
         _methodParameterTypes74 = new String[] {
-                "long", "java.lang.String", "java.lang.String", "int"
+                "long", "java.lang.String", "java.lang.String",
+                "java.lang.String", "int"
             };
 
         _methodName75 = "findBySiteMapId";
@@ -258,7 +259,8 @@ public class UrlSiteMapLocalServiceClpInvoker {
             return UrlSiteMapLocalServiceUtil.createUrlSiteMap(((Long) arguments[0]).longValue(),
                 (java.lang.String) arguments[1],
                 (java.lang.String) arguments[2],
-                ((Integer) arguments[3]).intValue());
+                (java.lang.String) arguments[3],
+                ((Integer) arguments[4]).intValue());
         }
 
         if (_methodName75.equals(name) &&

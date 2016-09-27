@@ -38,6 +38,7 @@ public class UrlSiteMapWrapper implements UrlSiteMap, ModelWrapper<UrlSiteMap> {
 
         attributes.put("urlSiteMapId", getUrlSiteMapId());
         attributes.put("siteMapId", getSiteMapId());
+        attributes.put("group", getGroup());
         attributes.put("friendlyUrl", getFriendlyUrl());
         attributes.put("url", getUrl());
         attributes.put("weight", getWeight());
@@ -57,6 +58,12 @@ public class UrlSiteMapWrapper implements UrlSiteMap, ModelWrapper<UrlSiteMap> {
 
         if (siteMapId != null) {
             setSiteMapId(siteMapId);
+        }
+
+        String group = (String) attributes.get("group");
+
+        if (group != null) {
+            setGroup(group);
         }
 
         String friendlyUrl = (String) attributes.get("friendlyUrl");
@@ -136,6 +143,26 @@ public class UrlSiteMapWrapper implements UrlSiteMap, ModelWrapper<UrlSiteMap> {
     @Override
     public void setSiteMapId(long siteMapId) {
         _urlSiteMap.setSiteMapId(siteMapId);
+    }
+
+    /**
+    * Returns the group of this url site map.
+    *
+    * @return the group of this url site map
+    */
+    @Override
+    public java.lang.String getGroup() {
+        return _urlSiteMap.getGroup();
+    }
+
+    /**
+    * Sets the group of this url site map.
+    *
+    * @param group the group of this url site map
+    */
+    @Override
+    public void setGroup(java.lang.String group) {
+        _urlSiteMap.setGroup(group);
     }
 
     /**

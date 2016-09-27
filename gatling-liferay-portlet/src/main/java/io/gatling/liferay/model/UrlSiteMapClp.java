@@ -22,6 +22,7 @@ public class UrlSiteMapClp extends BaseModelImpl<UrlSiteMap>
     implements UrlSiteMap {
     private long _urlSiteMapId;
     private long _siteMapId;
+    private String _group;
     private String _friendlyUrl;
     private String _url;
     private int _weight;
@@ -67,6 +68,7 @@ public class UrlSiteMapClp extends BaseModelImpl<UrlSiteMap>
 
         attributes.put("urlSiteMapId", getUrlSiteMapId());
         attributes.put("siteMapId", getSiteMapId());
+        attributes.put("group", getGroup());
         attributes.put("friendlyUrl", getFriendlyUrl());
         attributes.put("url", getUrl());
         attributes.put("weight", getWeight());
@@ -86,6 +88,12 @@ public class UrlSiteMapClp extends BaseModelImpl<UrlSiteMap>
 
         if (siteMapId != null) {
             setSiteMapId(siteMapId);
+        }
+
+        String group = (String) attributes.get("group");
+
+        if (group != null) {
+            setGroup(group);
         }
 
         String friendlyUrl = (String) attributes.get("friendlyUrl");
@@ -145,6 +153,28 @@ public class UrlSiteMapClp extends BaseModelImpl<UrlSiteMap>
                 Method method = clazz.getMethod("setSiteMapId", long.class);
 
                 method.invoke(_urlSiteMapRemoteModel, siteMapId);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
+    @Override
+    public String getGroup() {
+        return _group;
+    }
+
+    @Override
+    public void setGroup(String group) {
+        _group = group;
+
+        if (_urlSiteMapRemoteModel != null) {
+            try {
+                Class<?> clazz = _urlSiteMapRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setGroup", String.class);
+
+                method.invoke(_urlSiteMapRemoteModel, group);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -286,6 +316,7 @@ public class UrlSiteMapClp extends BaseModelImpl<UrlSiteMap>
 
         clone.setUrlSiteMapId(getUrlSiteMapId());
         clone.setSiteMapId(getSiteMapId());
+        clone.setGroup(getGroup());
         clone.setFriendlyUrl(getFriendlyUrl());
         clone.setUrl(getUrl());
         clone.setWeight(getWeight());
@@ -338,12 +369,14 @@ public class UrlSiteMapClp extends BaseModelImpl<UrlSiteMap>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(11);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("{urlSiteMapId=");
         sb.append(getUrlSiteMapId());
         sb.append(", siteMapId=");
         sb.append(getSiteMapId());
+        sb.append(", group=");
+        sb.append(getGroup());
         sb.append(", friendlyUrl=");
         sb.append(getFriendlyUrl());
         sb.append(", url=");
@@ -357,7 +390,7 @@ public class UrlSiteMapClp extends BaseModelImpl<UrlSiteMap>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(19);
+        StringBundler sb = new StringBundler(22);
 
         sb.append("<model><model-name>");
         sb.append("io.gatling.liferay.model.UrlSiteMap");
@@ -370,6 +403,10 @@ public class UrlSiteMapClp extends BaseModelImpl<UrlSiteMap>
         sb.append(
             "<column><column-name>siteMapId</column-name><column-value><![CDATA[");
         sb.append(getSiteMapId());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>group</column-name><column-value><![CDATA[");
+        sb.append(getGroup());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>friendlyUrl</column-name><column-value><![CDATA[");

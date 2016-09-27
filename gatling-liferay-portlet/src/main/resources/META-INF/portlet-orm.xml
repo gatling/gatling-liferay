@@ -126,6 +126,9 @@
 		<attributes>
 			<id name="urlSiteMapId" />
 			<basic name="siteMapId" />
+			<basic name="group">
+				<column name="GROUP_" />
+			</basic>
 			<basic name="friendlyUrl" />
 			<basic name="url" />
 			<basic name="weight" />

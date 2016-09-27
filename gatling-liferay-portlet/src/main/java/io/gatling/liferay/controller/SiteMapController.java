@@ -9,6 +9,7 @@ import io.gatling.liferay.service.ProcessLocalServiceUtil;
 import io.gatling.liferay.service.SiteMapLocalServiceUtil;
 import io.gatling.liferay.service.UrlSiteMapLocalServiceUtil;
 import io.gatling.liferay.service.impl.SiteMapLocalServiceImpl;
+
 import com.liferay.portal.kernel.exception.SystemException;
 
 import java.util.List;
@@ -52,9 +53,9 @@ public class SiteMapController {
 		long defaultSiteMapId = SiteMapLocalServiceUtil.findByName(SiteMapLocalServiceImpl.DEFAULT_NAME).getSiteMapId();
 		List<UrlSiteMap> urldata = UrlSiteMapLocalServiceUtil.findBySiteMapId(defaultSiteMapId);
 		for (UrlSiteMap url : urldata) {
-			
-			int weight = Integer.parseInt(request.getParameter(url.getFriendlyUrl()));
-			UrlSiteMapLocalServiceUtil.createUrlSiteMap(siteMap.getSiteMapId(), url.getFriendlyUrl(), url.getUrl(), weight);
+			String key = new StringBuilder(url.getGroup()).append("_").append(url.getFriendlyUrl()).toString();
+			int weight = Integer.parseInt(request.getParameter(key));
+			UrlSiteMapLocalServiceUtil.createUrlSiteMap(siteMap.getSiteMapId(), url.getFriendlyUrl(), url.getGroup(), url.getUrl(), weight);
 		}
 		
 		ProcessLocalServiceUtil.createProcess(name, ProcessType.RANDOMPAGE, siteMap.getSiteMapId());

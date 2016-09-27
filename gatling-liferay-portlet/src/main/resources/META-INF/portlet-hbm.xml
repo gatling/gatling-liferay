@@ -102,6 +102,7 @@
 			<generator class="assigned" />
 		</id>
 		<property name="siteMapId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="group" type="com.liferay.portal.dao.orm.hibernate.StringType" column="group_" />
 		<property name="friendlyUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="weight" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />

@@ -31,11 +31,12 @@ public class UrlSiteMapLocalServiceImpl extends UrlSiteMapLocalServiceBaseImpl {
      */
 	
 	@Override
-	public UrlSiteMap createUrlSiteMap(long siteMapId, String friendlyUrl, String url, int weight) throws SystemException {
+	public UrlSiteMap createUrlSiteMap(long siteMapId, String friendlyUrl, String group, String url, int weight) throws SystemException {
 		UrlSiteMap urlSm = UrlSiteMapUtil.create(CounterLocalServiceUtil.increment(UrlSiteMap.class.getName()));
 	    urlSm.setFriendlyUrl(friendlyUrl);
 	    urlSm.setSiteMapId(siteMapId);
 	    urlSm.setUrl(url);
+	    urlSm.setGroup(group);
 	    urlSm.setWeight(weight);
 	    urlSm.persist();
 	    return urlSm;

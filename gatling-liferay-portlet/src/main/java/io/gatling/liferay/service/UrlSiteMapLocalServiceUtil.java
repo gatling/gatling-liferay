@@ -264,9 +264,11 @@ public class UrlSiteMapLocalServiceUtil {
     }
 
     public static io.gatling.liferay.model.UrlSiteMap createUrlSiteMap(
-        long siteMapId, java.lang.String friendlyUrl, java.lang.String url,
-        int weight) throws com.liferay.portal.kernel.exception.SystemException {
-        return getService().createUrlSiteMap(siteMapId, friendlyUrl, url, weight);
+        long siteMapId, java.lang.String friendlyUrl, java.lang.String group,
+        java.lang.String url, int weight)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService()
+                   .createUrlSiteMap(siteMapId, friendlyUrl, group, url, weight);
     }
 
     public static java.util.List<io.gatling.liferay.model.UrlSiteMap> findBySiteMapId(

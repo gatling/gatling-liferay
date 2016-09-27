@@ -14,6 +14,7 @@ import java.util.List;
 public class UrlSiteMapSoap implements Serializable {
     private long _urlSiteMapId;
     private long _siteMapId;
+    private String _group;
     private String _friendlyUrl;
     private String _url;
     private int _weight;
@@ -26,6 +27,7 @@ public class UrlSiteMapSoap implements Serializable {
 
         soapModel.setUrlSiteMapId(model.getUrlSiteMapId());
         soapModel.setSiteMapId(model.getSiteMapId());
+        soapModel.setGroup(model.getGroup());
         soapModel.setFriendlyUrl(model.getFriendlyUrl());
         soapModel.setUrl(model.getUrl());
         soapModel.setWeight(model.getWeight());
@@ -91,6 +93,14 @@ public class UrlSiteMapSoap implements Serializable {
 
     public void setSiteMapId(long siteMapId) {
         _siteMapId = siteMapId;
+    }
+
+    public String getGroup() {
+        return _group;
+    }
+
+    public void setGroup(String group) {
+        _group = group;
     }
 
     public String getFriendlyUrl() {

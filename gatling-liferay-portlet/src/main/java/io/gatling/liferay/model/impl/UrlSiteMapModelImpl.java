@@ -46,11 +46,12 @@ public class UrlSiteMapModelImpl extends BaseModelImpl<UrlSiteMap>
     public static final Object[][] TABLE_COLUMNS = {
             { "urlSiteMapId", Types.BIGINT },
             { "siteMapId", Types.BIGINT },
+            { "group_", Types.VARCHAR },
             { "friendlyUrl", Types.VARCHAR },
             { "url", Types.VARCHAR },
             { "weight", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table StressTool_UrlSiteMap (urlSiteMapId LONG not null primary key,siteMapId LONG,friendlyUrl VARCHAR(75) null,url VARCHAR(75) null,weight INTEGER)";
+    public static final String TABLE_SQL_CREATE = "create table StressTool_UrlSiteMap (urlSiteMapId LONG not null primary key,siteMapId LONG,group_ VARCHAR(75) null,friendlyUrl VARCHAR(75) null,url VARCHAR(75) null,weight INTEGER)";
     public static final String TABLE_SQL_DROP = "drop table StressTool_UrlSiteMap";
     public static final String ORDER_BY_JPQL = " ORDER BY urlSiteMap.urlSiteMapId ASC";
     public static final String ORDER_BY_SQL = " ORDER BY StressTool_UrlSiteMap.urlSiteMapId ASC";
@@ -78,6 +79,7 @@ public class UrlSiteMapModelImpl extends BaseModelImpl<UrlSiteMap>
     private long _siteMapId;
     private long _originalSiteMapId;
     private boolean _setOriginalSiteMapId;
+    private String _group;
     private String _friendlyUrl;
     private String _url;
     private int _weight;
@@ -123,6 +125,7 @@ public class UrlSiteMapModelImpl extends BaseModelImpl<UrlSiteMap>
 
         attributes.put("urlSiteMapId", getUrlSiteMapId());
         attributes.put("siteMapId", getSiteMapId());
+        attributes.put("group", getGroup());
         attributes.put("friendlyUrl", getFriendlyUrl());
         attributes.put("url", getUrl());
         attributes.put("weight", getWeight());
@@ -142,6 +145,12 @@ public class UrlSiteMapModelImpl extends BaseModelImpl<UrlSiteMap>
 
         if (siteMapId != null) {
             setSiteMapId(siteMapId);
+        }
+
+        String group = (String) attributes.get("group");
+
+        if (group != null) {
+            setGroup(group);
         }
 
         String friendlyUrl = (String) attributes.get("friendlyUrl");
@@ -193,6 +202,20 @@ public class UrlSiteMapModelImpl extends BaseModelImpl<UrlSiteMap>
 
     public long getOriginalSiteMapId() {
         return _originalSiteMapId;
+    }
+
+    @Override
+    public String getGroup() {
+        if (_group == null) {
+            return StringPool.BLANK;
+        } else {
+            return _group;
+        }
+    }
+
+    @Override
+    public void setGroup(String group) {
+        _group = group;
     }
 
     @Override
@@ -266,6 +289,7 @@ public class UrlSiteMapModelImpl extends BaseModelImpl<UrlSiteMap>
 
         urlSiteMapImpl.setUrlSiteMapId(getUrlSiteMapId());
         urlSiteMapImpl.setSiteMapId(getSiteMapId());
+        urlSiteMapImpl.setGroup(getGroup());
         urlSiteMapImpl.setFriendlyUrl(getFriendlyUrl());
         urlSiteMapImpl.setUrl(getUrl());
         urlSiteMapImpl.setWeight(getWeight());
@@ -333,6 +357,14 @@ public class UrlSiteMapModelImpl extends BaseModelImpl<UrlSiteMap>
 
         urlSiteMapCacheModel.siteMapId = getSiteMapId();
 
+        urlSiteMapCacheModel.group = getGroup();
+
+        String group = urlSiteMapCacheModel.group;
+
+        if ((group != null) && (group.length() == 0)) {
+            urlSiteMapCacheModel.group = null;
+        }
+
         urlSiteMapCacheModel.friendlyUrl = getFriendlyUrl();
 
         String friendlyUrl = urlSiteMapCacheModel.friendlyUrl;
@@ -356,12 +388,14 @@ public class UrlSiteMapModelImpl extends BaseModelImpl<UrlSiteMap>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(11);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("{urlSiteMapId=");
         sb.append(getUrlSiteMapId());
         sb.append(", siteMapId=");
         sb.append(getSiteMapId());
+        sb.append(", group=");
+        sb.append(getGroup());
         sb.append(", friendlyUrl=");
         sb.append(getFriendlyUrl());
         sb.append(", url=");
@@ -375,7 +409,7 @@ public class UrlSiteMapModelImpl extends BaseModelImpl<UrlSiteMap>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(19);
+        StringBundler sb = new StringBundler(22);
 
         sb.append("<model><model-name>");
         sb.append("io.gatling.liferay.model.UrlSiteMap");
@@ -388,6 +422,10 @@ public class UrlSiteMapModelImpl extends BaseModelImpl<UrlSiteMap>
         sb.append(
             "<column><column-name>siteMapId</column-name><column-value><![CDATA[");
         sb.append(getSiteMapId());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>group</column-name><column-value><![CDATA[");
+        sb.append(getGroup());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>friendlyUrl</column-name><column-value><![CDATA[");

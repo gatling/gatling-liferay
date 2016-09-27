@@ -146,7 +146,8 @@ public class UrlSiteMapLocalServiceClp implements UrlSiteMapLocalService {
         _methodName19 = "createUrlSiteMap";
 
         _methodParameterTypes19 = new String[] {
-                "long", "java.lang.String", "java.lang.String", "int"
+                "long", "java.lang.String", "java.lang.String",
+                "java.lang.String", "int"
             };
 
         _methodName20 = "findBySiteMapId";
@@ -669,8 +670,9 @@ public class UrlSiteMapLocalServiceClp implements UrlSiteMapLocalService {
 
     @Override
     public io.gatling.liferay.model.UrlSiteMap createUrlSiteMap(
-        long siteMapId, java.lang.String friendlyUrl, java.lang.String url,
-        int weight) throws com.liferay.portal.kernel.exception.SystemException {
+        long siteMapId, java.lang.String friendlyUrl, java.lang.String group,
+        java.lang.String url, int weight)
+        throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
@@ -680,6 +682,8 @@ public class UrlSiteMapLocalServiceClp implements UrlSiteMapLocalService {
                         siteMapId,
                         
                     ClpSerializer.translateInput(friendlyUrl),
+                        
+                    ClpSerializer.translateInput(group),
                         
                     ClpSerializer.translateInput(url),
                         

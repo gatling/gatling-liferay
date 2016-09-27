@@ -61,6 +61,7 @@
 	<model name="io.gatling.liferay.model.UrlSiteMap">
 		<field name="urlSiteMapId" type="long" />
 		<field name="siteMapId" type="long" />
+		<field name="group" type="String" />
 		<field name="friendlyUrl" type="String" />
 		<field name="url" type="String" />
 		<field name="weight" type="int" />

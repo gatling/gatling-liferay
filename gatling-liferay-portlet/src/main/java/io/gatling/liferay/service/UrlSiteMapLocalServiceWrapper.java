@@ -276,10 +276,11 @@ public class UrlSiteMapLocalServiceWrapper implements UrlSiteMapLocalService,
 
     @Override
     public io.gatling.liferay.model.UrlSiteMap createUrlSiteMap(
-        long siteMapId, java.lang.String friendlyUrl, java.lang.String url,
-        int weight) throws com.liferay.portal.kernel.exception.SystemException {
+        long siteMapId, java.lang.String friendlyUrl, java.lang.String group,
+        java.lang.String url, int weight)
+        throws com.liferay.portal.kernel.exception.SystemException {
         return _urlSiteMapLocalService.createUrlSiteMap(siteMapId, friendlyUrl,
-            url, weight);
+            group, url, weight);
     }
 
     @Override

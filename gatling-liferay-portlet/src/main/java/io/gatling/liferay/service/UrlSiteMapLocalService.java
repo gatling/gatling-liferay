@@ -241,8 +241,9 @@ public interface UrlSiteMapLocalService extends BaseLocalService,
         throws java.lang.Throwable;
 
     public io.gatling.liferay.model.UrlSiteMap createUrlSiteMap(
-        long siteMapId, java.lang.String friendlyUrl, java.lang.String url,
-        int weight) throws com.liferay.portal.kernel.exception.SystemException;
+        long siteMapId, java.lang.String friendlyUrl, java.lang.String group,
+        java.lang.String url, int weight)
+        throws com.liferay.portal.kernel.exception.SystemException;
 
     public java.util.List<io.gatling.liferay.model.UrlSiteMap> findBySiteMapId(
         long siteMapId)

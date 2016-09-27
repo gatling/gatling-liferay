@@ -72,6 +72,21 @@ public interface UrlSiteMapModel extends BaseModel<UrlSiteMap> {
     public void setSiteMapId(long siteMapId);
 
     /**
+     * Returns the group of this url site map.
+     *
+     * @return the group of this url site map
+     */
+    @AutoEscape
+    public String getGroup();
+
+    /**
+     * Sets the group of this url site map.
+     *
+     * @param group the group of this url site map
+     */
+    public void setGroup(String group);
+
+    /**
      * Returns the friendly url of this url site map.
      *
      * @return the friendly url of this url site map
