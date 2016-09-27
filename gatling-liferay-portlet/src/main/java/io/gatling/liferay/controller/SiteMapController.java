@@ -44,7 +44,7 @@ public class SiteMapController {
 		
 		String name = request.getParameter("name");
 		
-		//TODO: Add a way to use this !
+		//TODO: Add a way to add an iteration parameter/functionality so that the user can hit several times a random page!
 		//int iterations = Integer.parseInt(request.getParameter("iterations"));
 		
 		SiteMap siteMap = SiteMapLocalServiceUtil.createSiteMap(name);
