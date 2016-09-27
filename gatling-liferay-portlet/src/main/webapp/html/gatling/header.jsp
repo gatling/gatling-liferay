@@ -30,6 +30,9 @@
 <%@ page import="com.liferay.util.portlet.PortletProps" %>
 <%@ page import="com.liferay.portal.service.PortletLocalServiceUtil" %>
 
+<c:set var="css" value="${pageContext.request.contextPath}/css"/>
+<c:set var="js" value="${pageContext.request.contextPath}/js"/>
+
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects /> 

@@ -10,6 +10,8 @@
 	}	
 </style>
 
+<%@include file="/html/gatling/menuButtons.jsp"%>
+
 
 <%-- Title --%>
 <liferay-ui:header title="recorder-title"></liferay-ui:header>
@@ -90,4 +92,8 @@
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.0.min.js"></script>
 
+<%-- Must be included this way to use liferay taglibs --%>
+<script type="text/javascript" >
+	<%@ include file="/js/recordTour.js" %>
+</script>
 

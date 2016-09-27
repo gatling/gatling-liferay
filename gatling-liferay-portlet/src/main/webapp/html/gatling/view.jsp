@@ -6,7 +6,6 @@
 
 <%-- CSS --%>
 
-<c:set var="css" value="${pageContext.request.contextPath}/css"/>
 <link rel="stylesheet" type="text/css" href="${css}/view.css">
 <link rel="stylesheet" type="text/css" href="${css}/wan-spinner.css">
 <link rel="stylesheet" type="text/css" href="${css}/drag-and-drop.css">
@@ -15,6 +14,7 @@
 
 
 <%-- COWDE --%>
+
 
 <%-- Tabs --%>
 <portlet:renderURL var="renderRecorderView">
@@ -29,21 +29,7 @@
 <liferay-ui:tabs names="Scenario Builder,Recorder" param="tabs" refresh="false" url1="${renderRecorderView}"> 
 <liferay-ui:section>
 
-<%-- Top Menu --%>
-<div id="menus">
-
-	<%--Take a tour view link --%>
-	<a href="#" class="btn" onclick="tourDefaultFirstSimu.start();">
-		<i class="icon-list-alt"></i> <liferay-ui:message key="take-a-tour" />
-	</a> 
-
-	<%-- Wiki Gatling Link --%>
-	<a target="blank" href='<%=PortletProps.get("gatling-wiki")%>'
-		class="btn">
-		<i class="icon-book"></i> <liferay-ui:message key="help-gatling-wiki" />
-	</a> 
-
-</div>
+<%@include file="/html/gatling/menuButtons.jsp"%>
 
 <%-- Simulation Form --%>
 
@@ -321,8 +307,6 @@
 
 
 <%-- JS --%>
-
-<c:set var="js" value="${pageContext.request.contextPath}/js"/>
 
 <script type="text/javascript" src="${js}/jquery-3.1.0.min.js"></script>
 <script type="text/javascript" src="${js}/bootstrap.min.js"></script>

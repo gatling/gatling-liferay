@@ -3,6 +3,9 @@
 --%>
 <%@include file="/html/gatling/header.jsp"%>
 
+
+<%@include file="/html/gatling/menuButtons.jsp"%>
+
 <liferay-ui:header title="random-title"></liferay-ui:header>
 
 <portlet:actionURL var="saveSiteMap" windowState="pop_up">
@@ -16,18 +19,12 @@
 		 <aui:validator name="alphanum" />
 	</aui:input>
 
-		<!-- TODO: Add a way to use iterations -->
-<%-- 	<aui:input name="iterations" label="Iterations" value="1"> --%>
-<%-- 		<aui:validator name="number" /> --%>
-<%-- 		<aui:validator name="min">1</aui:validator> --%>
-<%-- 	</aui:input> --%>
-
 	<table class="tree table table-striped table-bordered table-hover table-condensed">
 		<thead class="table-columns">
 			<tr>
-				<th><liferay-ui:message key="random-pageName" /></th>
+				<th id="page-header"><liferay-ui:message key="random-pageName" /></th>
 				<th><liferay-ui:message key="random-url" /></th>
-				<th><liferay-ui:message key="random-weight" /></th>
+				<th id="weight-header"><liferay-ui:message key="random-weight" /></th>
 				<th><liferay-ui:message key="random-percent" /></th>
 			</tr>
 		</thead>
@@ -88,6 +85,10 @@
 </script>
 </aui:form>
 
+<%-- Must be included this way to use liferay taglibs --%>
+<script type="text/javascript" >
+	<%@ include file="/js/randomTour.js" %>
+</script>
 
 
 
