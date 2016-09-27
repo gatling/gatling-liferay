@@ -106,9 +106,6 @@ public class RecorderController {
 	public void exportZippedProcess(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
 		LOG.debug("\\o/ Generating zip process...");
 		String name = ParamUtil.getString(request, "recordName");
-		System.out.println("name: " +name);
-		
-		
 		
 		response.setContentType("application/zip");
 		response.addProperty("Content-Disposition", "attachment; filename = GatlingProcess.zip");

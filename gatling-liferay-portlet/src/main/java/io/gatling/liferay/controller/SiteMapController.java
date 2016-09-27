@@ -53,8 +53,6 @@ public class SiteMapController {
 		List<UrlSiteMap> urldata = UrlSiteMapLocalServiceUtil.findBySiteMapId(defaultSiteMapId);
 		for (UrlSiteMap url : urldata) {
 			
-			System.out.println(url.getFriendlyUrl());
-			
 			int weight = Integer.parseInt(request.getParameter(url.getFriendlyUrl()));
 			UrlSiteMapLocalServiceUtil.createUrlSiteMap(siteMap.getSiteMapId(), url.getFriendlyUrl(), url.getUrl(), weight);
 		}

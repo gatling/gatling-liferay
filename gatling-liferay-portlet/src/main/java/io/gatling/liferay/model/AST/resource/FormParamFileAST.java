@@ -12,7 +12,6 @@ public class FormParamFileAST extends InnerContent {
 
 	public FormParamFileAST(String name, String content) {
 		super(name, TYPE);
-		System.out.println("Content" + content);
 		forms = new ArrayList<>();
 		String[] params = content.split("\n");
 		for (String param : params) {

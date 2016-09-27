@@ -47,6 +47,7 @@ public class GatlingUtil {
 	/**
 	 * create variable name for gatling scenario
 	 * 
+	 * my variable_name -> PrefixMyVariableName
 	 * @param prefix
 	 * @param name
 	 * @return
@@ -84,8 +85,7 @@ public class GatlingUtil {
 	public static List<Group> getListOfSites() {
 		/* get sites list */
 		DynamicQuery dq = DynamicQueryFactoryUtil.forClass(Group.class)
-				.add(PropertyFactoryUtil.forName("type").eq(1))
-				// 1 -> site
+				.add(PropertyFactoryUtil.forName("type").eq(1)) // 1 -> site
 				.add(PropertyFactoryUtil.forName("site").eq(true))
 				.add(PropertyFactoryUtil.forName("active").eq(true));
 
@@ -219,6 +219,7 @@ public class GatlingUtil {
 							zipOutputStream.write(feederFileAST.getContent().getBytes());
 							zipOutputStream.closeEntry();
 						} catch(ZipException e) {
+							//Duplicate entry exeptions are ignored, they come from feeder file duplication
 							if(!e.getMessage().startsWith("duplicate entry:")) {
 								throw e;
 							}
