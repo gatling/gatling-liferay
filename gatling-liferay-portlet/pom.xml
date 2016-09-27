@@ -145,5 +145,14 @@
               <artifactId>jackson-databind</artifactId>
               <version>${jackson.version}</version>
         </dependency>
+
+	<!-- AOP -->
+	<dependency>
+    		<groupId>org.springframework</groupId>
+    		<artifactId>spring-aop</artifactId>
+    		<version>4.3.2.RELEASE</version>
+	</dependency>
+
+
 	</dependencies>
 </project>
