@@ -166,10 +166,11 @@ public class RecorderFilter implements Filter {
 	 */
 	private static void saveURL(HttpServletRequest request, ServletResponse response, HttpSession session, List<RecordURL> currentRecords) throws IOException{
 		
+		//Handle timer between two requests
 		long start = (long) session.getAttribute("GATLING_PAUSE_TIME");
 		long now = System.nanoTime();
 		session.setAttribute("GATLING_PAUSE_TIME", now);
-		int pauseTime = (int) Math.floor((now- start) / Math.pow(10, 9));
+		int pauseTime = (int) Math.floor((now - start) / Math.pow(10, 9));
 		
 		Map<String, String[]> parametersMap = request.getParameterMap();
 
