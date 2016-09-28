@@ -51,7 +51,7 @@ public class UrlSiteMapModelImpl extends BaseModelImpl<UrlSiteMap>
             { "url", Types.VARCHAR },
             { "weight", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table StressTool_UrlSiteMap (urlSiteMapId LONG not null primary key,siteMapId LONG,group_ VARCHAR(75) null,friendlyUrl VARCHAR(75) null,url VARCHAR(75) null,weight INTEGER)";
+    public static final String TABLE_SQL_CREATE = "create table StressTool_UrlSiteMap (urlSiteMapId LONG not null primary key,siteMapId LONG,group_ VARCHAR(75) null,friendlyUrl VARCHAR(75) null,url TEXT null,weight INTEGER)";
     public static final String TABLE_SQL_DROP = "drop table StressTool_UrlSiteMap";
     public static final String ORDER_BY_JPQL = " ORDER BY urlSiteMap.urlSiteMapId ASC";
     public static final String ORDER_BY_SQL = " ORDER BY StressTool_UrlSiteMap.urlSiteMapId ASC";

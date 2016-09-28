@@ -25,10 +25,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+/**
+ * Controller linked to the random process creation view
+ */
 @Controller(value = "SiteMapController")
 @RequestMapping("VIEW")
 public class SiteMapController {
 	
+	/**
+	 * Prepares the rendering of the random process view.
+	 * The view proposes a way to show the sitemap of all sites in the portal.
+	 * 
+	 * @param renderRequest
+	 * @param renderResponse
+	 * @param model
+	 * @return
+	 * @throws SystemException
+	 * @throws NoSuchRecordException
+	 * @throws NoSuchSiteMapException
+	 */
 	@RenderMapping(params = "render=renderSiteMap")
 	public String renderRequest(final RenderRequest renderRequest,
 			final RenderResponse renderResponse, final Model model) throws SystemException, NoSuchRecordException, NoSuchSiteMapException {
@@ -40,6 +55,15 @@ public class SiteMapController {
 		return "siteMap";
 	}
 	
+	/**
+	 * Creates a new random process based of weight decided by
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @throws SystemException
+	 * @throws NoSuchRecordException
+	 * @throws NoSuchSiteMapException
+	 */
 	@ActionMapping(params = "action=saveSiteMap")
 	public void saveSiteMap(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, NoSuchRecordException, NoSuchSiteMapException {
 		

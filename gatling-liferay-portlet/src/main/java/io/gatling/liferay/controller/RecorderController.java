@@ -3,6 +3,8 @@
  */
 package io.gatling.liferay.controller;
 
+import io.gatling.liferay.NoSuchFormParamException;
+import io.gatling.liferay.NoSuchRecordException;
 import io.gatling.liferay.model.Record;
 import io.gatling.liferay.model.AST.ScenarioAST;
 import io.gatling.liferay.model.AST.SimulationAST;
@@ -47,14 +49,24 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 
 /**
- * Controller linked to the default view
+ * Controller linked to the record view
  */
 @Controller(value = "ViewController")
 @RequestMapping("VIEW")
 public class RecorderController {
 
 	private static final Log LOG = LogFactoryUtil.getLog(RecorderController.class);
-
+	
+	/**
+	 * Prepares the rendering of the recorder view.
+	 * The function mainly handles the record state.
+	 * 
+	 * @param renderRequest
+	 * @param renderResponse
+	 * @param model
+	 * @return
+	 * @throws SystemException
+	 */
 	@RenderMapping(params = "render=renderRecorderView")
 	public String renderRequest(final RenderRequest renderRequest,
 			final RenderResponse renderResponse, final Model model) throws SystemException {
@@ -86,7 +98,14 @@ public class RecorderController {
 		return "tabs";
 	} 
 	
-	
+	/**
+	 * Perform the action of toggle a record by setting the record state to
+	 * the next record state.
+	 * 
+	 * @param request
+	 * @param response
+	 * @param model
+	 */
 	@ActionMapping(params="action=toggleRecord2")
 	public void toggleRecordAction(final ActionRequest request, final ActionResponse response, final Model model){
 		final String recordState = ParamUtil.getString(request, "nextRecordState");
@@ -102,6 +121,18 @@ public class RecorderController {
 		SessionMessages.add(request, PortalUtil.getPortletId(request)+SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_SUCCESS_MESSAGE);
 	}
 
+	/**
+	 * Generate a zip file with the a simulation that contains a choosen record.
+	 *  
+	 * @param request
+	 * @param response
+	 * @throws ValidatorException
+	 * @throws ReadOnlyException
+	 * @throws IOException
+	 * @throws SystemException
+	 * @throws PortalException
+	 * @throws Exception
+	 */
 	@ResourceMapping(value="generateProcessZip")	
 	public void exportZippedProcess(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
 		LOG.debug("\\o/ Generating zip process...");
@@ -121,7 +152,16 @@ public class RecorderController {
 	
 	}
 	
-	private static SimulationAST createDefaultAST(String name) throws Exception{
+	/**
+	 * Creates an AST representing a simulation that contains a unique scenarios
+	 * which will play the record corresponding to the given name.
+	 * @param name The name of the record to play in the the returned simulation AST
+	 * @return The AST of a simulation that will play the named record
+	 * @throws SystemException If a service failed
+	 * @throws NoSuchRecordException If no record was found in database
+	 * @throws NoSuchFormParamException If no corresponding form param was found in database
+	 */
+	private static SimulationAST createDefaultAST(String name) throws NoSuchRecordException, SystemException, NoSuchFormParamException  {
 		
 		Record record = RecordLocalServiceUtil.findByName(name);
 		

@@ -49,7 +49,7 @@ public class SimulationModelImpl extends BaseModelImpl<Simulation>
             { "feederContent", Types.VARCHAR },
             { "isFeederAFile", Types.BOOLEAN }
         };
-    public static final String TABLE_SQL_CREATE = "create table StressTool_Simulation (simulation_id LONG not null primary key,name VARCHAR(75) null,feederContent VARCHAR(75) null,isFeederAFile BOOLEAN)";
+    public static final String TABLE_SQL_CREATE = "create table StressTool_Simulation (simulation_id LONG not null primary key,name VARCHAR(75) null,feederContent STRING null,isFeederAFile BOOLEAN)";
     public static final String TABLE_SQL_DROP = "drop table StressTool_Simulation";
     public static final String ORDER_BY_JPQL = " ORDER BY simulation.simulation_id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY StressTool_Simulation.simulation_id ASC";

@@ -4,7 +4,9 @@
 	<model name="io.gatling.liferay.model.FormParam">
 		<field name="formParamId" type="long" />
 		<field name="urlRecordId" type="long" />
-		<field name="data" type="String" />
+		<field name="data" type="String">
+			<hint name="max-length">5000</hint>
+		</field>
 	</model>
 	<model name="io.gatling.liferay.model.Login">
 		<field name="userId" type="long" />
@@ -43,7 +45,9 @@
 	<model name="io.gatling.liferay.model.Simulation">
 		<field name="simulation_id" type="long" />
 		<field name="name" type="String" />
-		<field name="feederContent" type="String" />
+		<field name="feederContent" type="String">
+			<hint name="max-length">4000</hint>
+		</field>
 		<field name="isFeederAFile" type="boolean" />
 	</model>
 	<model name="io.gatling.liferay.model.SiteMap">
@@ -53,7 +57,9 @@
 	<model name="io.gatling.liferay.model.UrlRecord">
 		<field name="urlRecordId" type="long" />
 		<field name="recordId" type="long" />
-		<field name="url" type="String" />
+		<field name="url" type="String">
+			<hint name="max-length">5000</hint>
+		</field>
 		<field name="type" type="String" />
 		<field name="order" type="int" />
 		<field name="pauseTime" type="int" />
@@ -63,7 +69,9 @@
 		<field name="siteMapId" type="long" />
 		<field name="group" type="String" />
 		<field name="friendlyUrl" type="String" />
-		<field name="url" type="String" />
+		<field name="url" type="String">
+			<hint name="max-length">5000</hint>
+		</field>
 		<field name="weight" type="int" />
 	</model>
 </model-hints>

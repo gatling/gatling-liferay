@@ -60,6 +60,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
+
+
 /**
  * Controller linked to the default view
  */
@@ -74,7 +76,8 @@ public class ViewController {
 	private static final int RANDOM = 2;
 	
 	/**
-	 * Represents a counter to count boxes
+	 * Represents a counter to count boxes.
+	 * This is used to generate unique boxes id in the view.
 	 */
 	private class BoxCounter {
 		int count;
@@ -97,7 +100,12 @@ public class ViewController {
 	 * 
 	 * the function prepares all the simulation data
 	 * it retrieves the defautl simulation related elements and transmits them to the view
-	 * 
+	 * @param renderRequest
+	 * @param renderResponse
+	 * @param model
+	 * @return
+	 * @throws SystemException
+	 * @throws PortalException
 	 */
 	@RenderMapping(params = "render=renderView")
 	public String renderRequest(final RenderRequest renderRequest,
@@ -113,7 +121,7 @@ public class ViewController {
 		
 		List<Scenario> scenarios = createScenarios(defaultSimulation, defaultProcesses);
 		
-		List<ScenarioDTO> scenariosDTO = convertScenariosToScenariosDTO(defaultSimulation, scenarios, boxCounter);
+		List<ScenarioDTO> scenariosDTO = convertScenariosToScenariosDTO(scenarios, boxCounter);
 		
 		List<String> injectionsMode = Arrays.asList("ramp Over", "at Once");
 		String currentInjection = scenarios.get(0).getInjection();
@@ -142,7 +150,13 @@ public class ViewController {
 		return "view";
 	}
 	
-
+	/**
+	 * Try to retrieve the list of the default processes if they exist,
+	 * or create them else
+	 * @param renderRequest The rendering request
+	 * @return The list of these processes
+	 * @throws SystemException If some services failed to retrieve or create the processes
+	 */
 	private List<Process> createDefaultProcesses(final RenderRequest renderRequest) throws SystemException{
 		List<Process> processes = new ArrayList<>(3);
 		processes.add(getDefaultLogin());
@@ -151,6 +165,12 @@ public class ViewController {
 		return processes;
 	}
 	
+	/**
+	 * Try to retrieve the default login process. If it can't be find,
+	 * the login process is created and persisted.
+	 * @return The default login process
+	 * @throws SystemException If some services failed to retrieve or create the process
+	 */
 	private Process getDefaultLogin() throws SystemException{
 		Login defaultLogin = LoginLocalServiceUtil.createDefaultLogin();
 		try {
@@ -160,6 +180,12 @@ public class ViewController {
 		}
 	}
 	
+	/**
+	 * Try to retrieve the default logout process. If it can't be find,
+	 * the logotu process is created and persisted.
+	 * @return The default logout process
+	 * @throws SystemException If some services failed to retrieve or create the process
+	 */
 	private Process getDefaultLogout() throws SystemException {
 		try {
 			return ProcessLocalServiceUtil.findByName("Logout");
@@ -168,6 +194,12 @@ public class ViewController {
 		}
 	}
 	
+	/**
+	 * Try to retrieve the default random process. If it can't be find,
+	 * the random process is created and persisted.
+	 * @return The default random process
+	 * @throws SystemException If some services failed to retrieve or create the process
+	 */
 	private Process getdefaultRandom(final RenderRequest renderRequest) throws SystemException {
 		final ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		String portalURL = PortalUtil.getPortalURL(renderRequest);
@@ -184,6 +216,14 @@ public class ViewController {
 		return random;
 	}
 	
+	/**
+	 * Creates a list of ProcessDTO that will represents the different boxes
+	 * present in the process library.
+	 * @param boxCounter The BoxCounter that will be used to give ids to the boxes.
+	 * 		boxCounter is updated by this function.
+	 * @return The list of the library's processDTO 
+	 * @throws SystemException If some services failed to retrieve or create processes
+	 */
 	private List<ProcessDTO> createLibraryProcessDTO(BoxCounter boxCounter) throws SystemException {
 		int counter = boxCounter.getCount();
 		List<Process> allProcesses = ProcessLocalServiceUtil.getProcesses(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
@@ -198,6 +238,17 @@ public class ViewController {
 		return templates;
 	}
 
+	/**
+	 * Retrieve the scenarios contained by the given default simulation.
+	 * If the simulation doesn't contain any scenrario, it creates a default scenario with
+	 * the default processes, add it to the default simulation, persists it and return it as
+	 * a single element in the list.
+	 * @param defaultSimulation The default simulation
+	 * @param defaultProcesses The default processes to use if no scenario exists in the default
+	 * 		simulation
+	 * @return The list of scenarios in the default simulation
+	 * @throws SystemException If some services failed to retrieve or create the scenarios
+	 */
 	private List<Scenario> createScenarios(Simulation defaultSimulation, List<Process> defaultProcesses) throws SystemException {
 		if(ScenarioLocalServiceUtil.countBySimulationId(defaultSimulation.getSimulation_id()) == 0){
 			Scenario defaultScenario = ScenarioLocalServiceUtil.createDefaultScenario(defaultSimulation);
@@ -209,7 +260,17 @@ public class ViewController {
 		return ScenarioLocalServiceUtil.findBySimulationId(defaultSimulation.getSimulation_id());
 	}
 	
-	private List<ScenarioDTO> convertScenariosToScenariosDTO(Simulation defaultSimulation, List<Scenario> scenarios, BoxCounter boxCounter)
+	/**
+	 * Takes a list of scenarios and converts it into scenarioDTOs that will represent
+	 * boxes in the view
+	 * @param scenarios The scenarios to convert into scenariosDTOs
+	 * @param boxCounter The BoxCounter that will be used to give ids to the boxes.
+	 * 		boxCounter is updated by this function.
+	 * @return The scenariosDTO converted from the given scenarios
+	 * @throws SystemException If some service fail
+	 * @throws PortalException If Portal services encounter a problem
+	 */
+	private List<ScenarioDTO> convertScenariosToScenariosDTO(List<Scenario> scenarios, BoxCounter boxCounter)
 			throws SystemException, PortalException {
 		int counter = boxCounter.getCount();
 		List<ScenarioDTO> scenariosDTO = new ArrayList<>(scenarios.size());
@@ -230,6 +291,11 @@ public class ViewController {
 	 * Function called when the injection profile is saved
 	 * 
 	 * it updates all the injection data received from the view
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @throws SystemException
+	 * @throws NoSuchScenarioException
 	 */
 	@ActionMapping(params="action=saveInjectionProfile")
 	public void saveInjectionProfile(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, NoSuchScenarioException{
@@ -261,6 +327,11 @@ public class ViewController {
 	 * Function called when the feeders are saved
 	 * 
 	 * It updates the _default_login_ received from the view
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @throws PortalException
+	 * @throws SystemException
 	 */
 	@ActionMapping(params="action=saveFeeders")
 	public void saveFeeders(final ActionRequest request, final ActionResponse response, final Model model) throws PortalException, SystemException{
@@ -278,6 +349,11 @@ public class ViewController {
 	 * Updates all the scenarios from the JSON send by the view
 	 * 
 	 * The JSON represent all the default simulation, it is mapped into dtos and persisted
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @throws SystemException
+	 * @throws PortalException
 	 */
 	@ActionMapping(params="action=saveScenarios")
 	public void saveMyScenarios(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{
@@ -319,6 +395,14 @@ public class ViewController {
 
 	/**
 	 * Generate a zip file with the default simulation and the related elements
+	 * @param request
+	 * @param response
+	 * @throws ValidatorException
+	 * @throws ReadOnlyException
+	 * @throws IOException
+	 * @throws SystemException
+	 * @throws PortalException
+	 * @throws Exception
 	 */
 	@ResourceMapping(value="generateZip")	
 	public void exportZippedEnvironment(final ResourceRequest request, final ResourceResponse response) throws ValidatorException, ReadOnlyException, IOException, SystemException, PortalException, Exception {
@@ -343,6 +427,11 @@ public class ViewController {
 	
 	/**
 	 * Creates a new scenario
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @throws SystemException
+	 * @throws PortalException
 	 */
 	@ActionMapping(params="action=persistNewScenario")
 	public void persistNewScenario(final ActionRequest request, final ActionResponse response, final Model model) throws SystemException, PortalException{

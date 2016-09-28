@@ -1,7 +1,7 @@
 create table StressTool_FormParam (
 	formParamId LONG not null primary key,
 	urlRecordId LONG,
-	data_ VARCHAR(75) null
+	data_ TEXT null
 );
 
 create table StressTool_LinkProcessRecord (
@@ -72,7 +72,7 @@ create table StressTool_Scenario (
 create table StressTool_Simulation (
 	simulation_id LONG not null primary key,
 	name VARCHAR(75) null,
-	feederContent VARCHAR(75) null,
+	feederContent STRING null,
 	isFeederAFile BOOLEAN
 );
 
@@ -84,7 +84,7 @@ create table StressTool_SiteMap (
 create table StressTool_UrlRecord (
 	urlRecordId LONG not null primary key,
 	recordId LONG,
-	url VARCHAR(75) null,
+	url TEXT null,
 	type_ VARCHAR(75) null,
 	order_ INTEGER,
 	pauseTime INTEGER
@@ -95,7 +95,7 @@ create table StressTool_UrlSiteMap (
 	siteMapId LONG,
 	group_ VARCHAR(75) null,
 	friendlyUrl VARCHAR(75) null,
-	url VARCHAR(75) null,
+	url TEXT null,
 	weight INTEGER
 );
 
