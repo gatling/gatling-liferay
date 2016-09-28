@@ -2,9 +2,13 @@ Gatling-for-Liferay
 ===================
 
 ## Introduction
-_Gatling for Liferay_ is a plugin that helps to simply create stress tests for a Liferay portal. It provides tools for both simulating simple use cases and
+_Gatling for Liferay_ is a plugin that helps to simply create Gatling stress tests for a Liferay portal. It provides tools for both simulating simple use cases and
 recording advanced scenarios. All the generated simulations come along with
 a complete file hierarchy (feeders, processes...) and can be run in any Galting Environment.
+
+The script will be based on your site map, and you can define which pages will be accessed by the simulated users - and even specify which ones will be more requested than the others to be more accurate.
+
+This year, benefit from Liferay-Gatling's exclusive partnership! For every Liferay's customer: get a 1-year licence for our enterprise extension Gatling FrontLine for free. Contact us now: liferay@gatling.io
 
 ## Functionnalities
 Two different functionnalities are available with the plugin:
