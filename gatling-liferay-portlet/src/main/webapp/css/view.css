@@ -278,5 +278,6 @@
    	margin-bottom: 0;
 }
 
-
-
+#injectionBlock .control-group-inline {
+	margin-right: 30px;
+}
