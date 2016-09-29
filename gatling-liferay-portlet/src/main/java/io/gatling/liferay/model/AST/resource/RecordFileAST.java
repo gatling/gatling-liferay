@@ -59,7 +59,7 @@ public class RecordFileAST extends ScalaFileAST {
 	}
 
 	/*
-	 * Handles the scala file header (package definition, imports...)
+	 * Handles the scala file header generation (package definition, imports...)
 	 */
 	private void fillHeader(StringBuilder contentBuilder) {
 		contentBuilder.append("package liferay.processes\n\n")

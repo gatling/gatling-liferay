@@ -1,6 +1,12 @@
 package io.gatling.liferay.model.AST.resource;
 
-
+/**
+ * HttpBodyFileAST represents a resource file that will
+ * store data contained in the payload of a multipart POST
+ * HTTP request.
+ * These resource files are stored as txt files in the bodies
+ * subdirectory of the Gatling Bundle.
+ */
 public class HttpBodyFileAST extends ResourceFileAST {
 
 	private static final String LOCATION = "bodies/liferay/";

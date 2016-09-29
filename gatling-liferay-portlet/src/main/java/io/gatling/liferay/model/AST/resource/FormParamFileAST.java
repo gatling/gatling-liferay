@@ -5,6 +5,10 @@ import io.gatling.liferay.model.AST.resource.data.FormDataAST;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This resource inner content represents the data of a form.
+ * It is actually used as a subpart of a RecordFileAST.
+ */
 public class FormParamFileAST extends InnerContent {
 
 	private static final String TYPE = "FormParam";

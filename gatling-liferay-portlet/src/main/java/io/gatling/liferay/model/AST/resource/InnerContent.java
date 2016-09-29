@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * InnerContent represents some file Content 
+ * InnerContent represents resource data that must be
+ * included into some other file.
+ * Thus, it isn't really a plain file. 
  */
 public abstract class InnerContent extends ResourceFileAST{
 

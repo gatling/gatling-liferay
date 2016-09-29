@@ -3,6 +3,8 @@ package io.gatling.liferay.model.AST.resource;
 
 /**
  * The representation of a Feeder file and his content.
+ * Feeder file are here stored as csv files in the data
+ * subdirectory of the Gatling bundle.
  */
 public abstract class FeederFileAST extends ResourceFileAST {
 	

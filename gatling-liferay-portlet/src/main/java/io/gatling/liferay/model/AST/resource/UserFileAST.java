@@ -1,8 +1,7 @@
 package io.gatling.liferay.model.AST.resource;
 
 /**
- * Represents an user feeder file, used for the login profile
- *
+ * Represents an user feeder file, used for the login profile.
  */
 public class UserFileAST extends FeederFileAST {
 	

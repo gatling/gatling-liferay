@@ -6,7 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * The representation of a scala file containing
+ * the urls of all the siteMap page and the percentage
+ * of chance to be hit during a	simulation.
+ * 
+ * This class handles the generation of the scala code
+ * that will run the process of randomly select the
+ * page that will be requested.
+ */
 public class SiteMapFileAST extends ScalaFileAST {
 
 	private static final String TYPE = "SiteMap";
