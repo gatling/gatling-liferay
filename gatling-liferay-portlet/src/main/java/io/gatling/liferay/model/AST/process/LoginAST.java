@@ -6,9 +6,18 @@ import io.gatling.liferay.model.AST.resource.ResourceFileAST;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * LoginAST represents a process in which a
+ * user from a feeder file is randomly selected
+ * and logged in the portal. 
+ */
 public class LoginAST extends ProcessAST{
 
+	/**
+	 * The feederfile containing user data.
+	 */
 	FeederFileAST loginFeeder;
+	
 	private String url;
 	
 	public LoginAST(FeederFileAST feeder) {

@@ -6,6 +6,11 @@ import io.gatling.liferay.util.GatlingUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A ScenarioAST represents the structure of scenario
+ * in a Gatling Simulation.
+ * This class is used to generate the source code of a scenario.
+ */
 public class ScenarioAST {
 	
 	private String scenarioName;
@@ -67,7 +72,7 @@ public class ScenarioAST {
 	}
 	
 	/**
-	 * getInjectionCode generates a scala injection line (rampOver or atOnce) 
+	 * Generates a scala injection line (rampOver or atOnce) 
 	 * 
 	 * @return the injection code
 	 */
@@ -89,7 +94,7 @@ public class ScenarioAST {
 	}
 	
 	/**
-	 * printCode computes all the scala code related to the scenario.
+	 * Computes all the scala code related to the scenario.
 	 * 
 	 * @return the scala code that will be included in the simulation file.
 	 */

@@ -5,6 +5,10 @@ import io.gatling.liferay.model.AST.resource.ResourceFileAST;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * LogoutAST represents a process in which the
+ * current virtual user in the simulation logs out.
+ */
 public class LogoutAST extends ProcessAST {
 	
 	public LogoutAST() {

@@ -4,16 +4,55 @@ import io.gatling.liferay.model.AST.resource.ResourceFileAST;
 
 import java.util.List;
 
+/**
+ * ProcessAST represents the structure of a process.
+ * This class handles the source code generation of a
+ * process.
+ */
 public abstract class ProcessAST {
 	
-	protected String scalaObject; // The scala Object name (class name)
-	protected String scalaFunction; // The scala function name
-	protected int pause; // The pause between this process and the next one
+	/**
+	 * The scala Object name
+	 */
+	protected String scalaObject;
+	
+	/**
+	 *  The scala function name
+	 */
+	protected String scalaFunction;
+	
+	/**
+	 * The pause between this process and the next one
+	 */
+	protected int pause;
+	
+	
+	
 	
 	protected ProcessAST(String scalaObject, String scalaFunction){
 		this.scalaObject = scalaObject;
 		this.scalaFunction = scalaFunction;
 	}
+	
+
+	/**
+	 * Gets the pause that will be performed after this process.
+	 * @return The pause after this process
+	 */
+	public int getPause() {
+		return this.pause;
+	}
+	
+	/**
+	 * Sets the pause that will be performed after this process.
+	 * @param p the pause after this process
+	 */
+	public void setPause(int p){
+		this.pause = p;
+	}
+	
+	
+	
 	
 	/**
 	 * Computes the code of the process
@@ -53,16 +92,10 @@ public abstract class ProcessAST {
 	 */
 	public abstract List<ResourceFileAST> getFeederFiles();
 	
+	
 	@Override
 	public String toString() {
 		return "Object: " + scalaObject + "\tFunction: " + scalaFunction;
 	}
 	
-	public void setPause(int p){
-		this.pause = p;
-	}
-	
-	public int getPause() {
-		return this.pause;
-	}
 }

@@ -4,6 +4,18 @@ import io.gatling.liferay.util.GatlingUtil;
 
 import java.util.List;
 
+
+/*
+ * TODO: In a future design, The mustache template should maybe
+ * desapear and the class should handles itself the generation.
+ */
+
+/**
+ * A Simulation AST defines the structure of a simulation.
+ * This class is used to generate the source code that must be
+ * run in Gatling.
+ * The generation will use a Mustache template.
+ */
 public class SimulationAST {
 
 	private String simulationName;
@@ -19,35 +31,59 @@ public class SimulationAST {
 
 	/* Getters and Setters */
 	
+	/**
+	 * Gets the simulation's name.
+	 * @return The simulation's name
+	 */
 	public String getSimulationName() {
 		return simulationName;
 	}
 
+	/**
+	 * Sets the simulation's name.
+	 * @param simulationName The simulation's name
+	 */
 	public void setSimulationName(String simulationName) {
 		this.simulationName = simulationName;
 	}
 	
+	/**
+	 * Gets the portal's URL of this simulation.
+	 * @return the portal's URL of this simulation
+	 */
 	public String getPortalURL() {
 		return portalURL;
 	}
 
+	/**
+	 * Sets the portal's URL of this simulation.
+	 * @param portalURL the portal's URL of this simulation
+	 */
 	public void setPortalURL(String portalURL) {
 		this.portalURL = portalURL;
 	}
 
+	/**
+	 * Returns the scenarios contained in this simulation.
+	 * @return the simulation's scenarios
+	 */
 	public List<ScenarioAST> getScenarios() {
 		return scenariosAST;
 	}
 
-	public void setMustacheScenarios(List<ScenarioAST> scenario) {
-		this.scenariosAST = scenario;
+	/**
+	 * Sets the scenarios AST
+	 * @param scenarios The scenarios AST
+	 */
+	public void setScenarios(List<ScenarioAST> scenarios) {
+		this.scenariosAST = scenarios;
 	}
 	
 	/**
 	 * GetInjection code computes the scala code related to te injection
 	 * 
 	 * It goes through all the scenarios in order to generate the scala injection section
-	 * NOTE: at the moment all the scenarios injections are the same (a single profile is set in the view),
+	 * NOTE: at this moment all the scenarios injections are the same (a single profile is set in the view),
 	 *
 	 * @return the injection code
 	 */
