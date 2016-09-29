@@ -2,12 +2,31 @@ package io.gatling.liferay.dto;
 
 import java.util.List;
 
+
+/**
+ * ScenarioDTO regroups all the data needed to to draw
+ * a scenario in the builder scenario view.
+ */
 public class ScenarioDTO {
 	
+	/**
+	 * The scenario's name
+	 */
 	private String name;
+	
+	/**
+	 * The scenario's id
+	 */
 	private long id;
+	
+	/**
+	 * The list of data used to draw process boxes in the scenario
+	 */
 	private List<ProcessDTO> processes;
 
+	
+	
+	
 	public ScenarioDTO() {}
 	
 	public ScenarioDTO(String name, long l, List<ProcessDTO> processes) {

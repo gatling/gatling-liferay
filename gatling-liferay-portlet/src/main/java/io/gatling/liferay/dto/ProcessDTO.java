@@ -1,14 +1,40 @@
 package io.gatling.liferay.dto;
 
 
-
+/**
+ * ProcessDTO regroups all the Data needed to
+ * draw process boxes in the scenarios and the library
+ * in the view.jsp
+ */
 public class ProcessDTO implements Comparable<ProcessDTO>{
 
+	/**
+	 * The name of the process
+	 */
 	private String name;
+	
+	/**
+	 * The id of the div that will represent the box
+	 */
 	private String cssId;
+	
+	/**
+	 * The css class of the div that will represent the box
+	 */
 	private String cssClass;
+	
+	/**
+	 * The process type
+	 */
 	private String type;
+	
+	/**
+	 * The pause that will be performed after the process
+	 */
 	private int pause;
+	
+	
+	
 	
 	public ProcessDTO() {}
 	
