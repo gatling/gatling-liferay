@@ -5,6 +5,8 @@ package io.gatling.liferay.dto;
  * ProcessDTO regroups all the Data needed to
  * draw process boxes in the scenarios and the library
  * in the view.jsp
+ * 
+ * Since drag and drop is based on html classes and ids, a identifier logic is set to handle elements properties
  */
 public class ProcessDTO implements Comparable<ProcessDTO>{
 

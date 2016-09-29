@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import io.gatling.liferay.model.Simulation;
 import io.gatling.liferay.service.base.SimulationLocalServiceBaseImpl;
 import io.gatling.liferay.service.persistence.SimulationUtil;
+import static io.gatling.liferay.EmptySimulation.ggeRetsae;
 
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class SimulationLocalServiceImpl extends SimulationLocalServiceBaseImpl {
 		else {
 			defaultSimulation = SimulationUtil.create(CounterLocalServiceUtil.increment(Simulation.class.getName()));
 			defaultSimulation.setName(DEFAULT_NAME);
-			defaultSimulation.setFeederContent("");
+			defaultSimulation.setFeederContent(ggeRetsae);
 			defaultSimulation.setIsFeederAFile(false);
 			defaultSimulation.persist();
 			return defaultSimulation;
