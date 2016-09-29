@@ -138,6 +138,7 @@ public class ViewController {
 		renderRequest.setAttribute("panel4State", (panelNb==3 ? "open" : "collapsed"));
 		
 		renderRequest.setAttribute("simulationId", defaultSimulation.getSimulation_id());
+		renderRequest.setAttribute("simulationContent", defaultSimulation.getFeederContent());
 		renderRequest.setAttribute("scenarios", scenariosDTO);
 		renderRequest.setAttribute("numberOfUsers", scenarios.get(0).getNumberOfUsers());
 		renderRequest.setAttribute("rampUp", scenarios.get(0).getDuration());

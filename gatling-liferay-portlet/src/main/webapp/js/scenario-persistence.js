@@ -1,15 +1,22 @@
 
+
+/* The following code generates a JSON representing the simulation.
+ * The JSON object is created by several functions (one by element level)
+ * 
+ * At the moment the json result is passed from the view to the controller via a hidden form input (yeah bit ugly isn't it?)
+ * NOTE: some improvements can be done regarding this part:
+ * 	1 -> Persist scenario is called each time a box changes (time, order, name...),
+ * 		 is could only be called at actionURL/resourcesURL calls
+ *  2 -> A REST implementation with web services and ajax calls would improve performances.
+ */
+
 persistScenarios();
 
-
-/* Events */
+/* Main Functions */
 
 function persistScenarios(){
-	console.log("Call persistScenarios()");
-	
 	
 	var json = computesScenariosJSon();
-	console.log("scenarios: " + JSON.stringify(json));
 		
 	document.getElementById('JSON').value = JSON.stringify(json);
 }
@@ -28,7 +35,6 @@ function computesScenariosJSon(){
 /* JSON Genertors */	
 
 function scenarioToJSon(scenario) {
-	console.log("scenarioToJSON called");
 	var nameBlock = scenario.getElementsByClassName("scenario-name")[0];
 	var name;
 	
@@ -55,7 +61,6 @@ function scenarioToJSon(scenario) {
 
 
 function blockusToJSon(blockus) {
-	console.log("blockusToJSON called");
 	
 	var cssId = blockus.id.replace("_box", "");
 	var cssClass = getClass(blockus, "_p");
@@ -64,14 +69,12 @@ function blockusToJSon(blockus) {
 	var name;
 	var pause;
 	if(type==="PAUSE"){
-		console.log("Pause condition");
 		var pauseBlock = blockus.getElementsByClassName("pause-name")[0];
 		name = pauseBlock.innerHTML;
 		var s = "#" + blockus.id + " input";
 		pause = parseInt( $("#" + blockus.id + " input")[0].value, 10);
 	}
 	else {
-		console.log("else condition");
 		var process = blockus.getElementsByClassName("action")[0];
 		name = process.innerHTML;
 		pause = -1;

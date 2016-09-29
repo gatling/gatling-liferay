@@ -39,7 +39,7 @@
 </portlet:actionURL>
 
 
-<!-- Scenario building block -->
+<%-- Scenario building block --%>
 <liferay-ui:panel-container extended="true" id="scenarioBlock">
  <liferay-ui:panel id="design-scenario" collapsible="true" defaultState="${panel1State}"  title="section-title1" >
 
@@ -292,12 +292,11 @@
 <liferay-ui:panel-container extended="true" id="exportBlock">
  <liferay-ui:panel collapsible="true" defaultState="${panel4State}"  title="section-title4" >
 <portlet:resourceURL id="generateZip" var="resourceUrl" />
-
 	<aui:button type="button" value="export-simulation" id="generateZip" onClick="${resourceUrl}" />
 
 </liferay-ui:panel>
+<!-- ${simulationContent} -->
 </liferay-ui:panel-container>
-	
     </liferay-ui:section>
     <liferay-ui:section>
     </liferay-ui:section>

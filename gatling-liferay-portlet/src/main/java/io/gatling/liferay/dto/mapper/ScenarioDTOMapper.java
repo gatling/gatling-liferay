@@ -34,6 +34,10 @@ public class ScenarioDTOMapper {
 		return new ScenarioDTO(scenario.getName(), scenario.getScenario_id(), processesDTO);
 	}
 	
+	/*
+	 * Update scenario data received from the view
+	 * Since the processes can be entirely changed, we clean database related rows and rewrite them.
+	 */
 	public static void persistData(ScenarioDTO scenarioDTO) throws SystemException, PortalException {
 		Scenario scenario = ScenarioLocalServiceUtil.getScenario(scenarioDTO.getId());
 		scenario.setName(scenarioDTO.getName());
@@ -56,8 +60,8 @@ public class ScenarioDTOMapper {
 				link.setScenario_id(scenario.getScenario_id());
 				link.setProcess_id(Long.parseLong(processDTO.getCssClass()));
 				link.setOrder(order);
+
 				int pauseTime = 0;
-				
 				// Goes through following Pauses and add their pauseTime;
 				int nextIndex = i+1;
 				while (nextIndex < dtos.size() && ( nextElement = dtos.get(nextIndex)).isPause()) {
