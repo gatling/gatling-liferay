@@ -41,12 +41,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 
+
 /**
  * Servlet Filter implementation class RecordFilter
  * 
- * The recorder is used in two different ways:
- * 	1/ With the advanced recorder: the recording is then focused on a single portlet
- * 	2/ With the smooth recorder: this time all the portal actions are recorded
+ * The filter code migth be a little bit messy, two different recorder used to cohexist, 
+ * requiring the use of conditionnal instructions to distinguish one from another.
+ * It has not been cleaned properly and is more likely to contain old instructions no longer used.
  * 
  *  The architecture is made up in order to work for both use case, which means that despite the design pattern usages, some
  *  cumbersome codes remain.
