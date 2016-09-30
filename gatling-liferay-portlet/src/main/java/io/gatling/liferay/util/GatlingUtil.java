@@ -46,14 +46,12 @@ public class GatlingUtil {
 
 	/**
 	 * create variable name for gatling scenario
-	 * 
-	 * my variable_name -> PrefixMyVariableName
-	 * @param prefix
-	 * @param name
-	 * @return
+	 * Example: "my variable_name" becomes "PrefixMyVariableName"
+	 * @param prefix The prefix to insert in the begining of the returned scenario name
+	 * @param name The initial name
+	 * @return The modified name
 	 */
 	public static String createVariableName(String prefix, String name) {
-		
 		if (!name.isEmpty() && name.charAt(0)=='_') {
 			//Hack if the name starts with '_' which causes an Error if not processed
 			name = name.substring(1); 
@@ -68,18 +66,29 @@ public class GatlingUtil {
 		return sb.toString();
 	}
 
+	/**
+	 * Computes the scenario variable name by appending the 
+	 * prefix "scenario".
+	 * @param name The name of the variable
+	 * @return The scenario variable
+	 */
 	public static String createScenarioVariable(String name) {
 		return createVariableName("Scenario", name);
 	}
 
+	/**
+	 * Computes the simulation variable name by appending the
+	 * prefix "Simulation".
+	 * @param name The name of the variable
+	 * @return The simulation variable
+	 */
 	public static String createSimulationVariable(String name) {
 		return createVariableName("Simulation", name);
 	}
 
 	/**
-	 * Retrieve list of active sites
-	 * 
-	 * @return list
+	 * Retrieve list of active sites present in the portal.
+	 * @return The site list
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<Group> getListOfSites() {
@@ -99,7 +108,14 @@ public class GatlingUtil {
 		return listGroups;
 	}
 
-	
+	/**
+	 * Get the friendlyUrl of the given site.
+	 * @param themeDisplay The portal theme display needed to retrieve site
+	 * 		informations
+	 * @param layout The layout corresponding to the desired site
+	 * @return The friendlyUrl of the site
+	 * @throws SystemException If an error occured in the services
+	 */
 	public static String getGroupFriendlyURL(ThemeDisplay themeDisplay, Layout layout) throws SystemException {
 		StringBuilder sb  = new StringBuilder();
 		String currentFriendlyURL = GroupLocalServiceUtil.fetchGroup(layout.getGroupId()).getIconURL(themeDisplay);
@@ -117,13 +133,13 @@ public class GatlingUtil {
 	}
 	
 	/**
-	 * Zip the test environment in 4 steps (predifined scenarios, simulations, feeders, properties)
-	 * 	
-	 *  1 -> Copies the predefined scenarios from resources to the zip environment
-	 *  2 -> Generates the simulations based on the gatlingTemplate and mustache engine
-	 *  3 -> Prepares all the feeders used for the execution
-	 *  4 -> Copies all the propertie files
-	 *  
+	 * Zip the test environment in 4 steps (predifined scenarios, simulations, feeders, properties).
+	 * <ol>
+	 *  	<li>Copies the predefined scenarios from resources to the zip environment
+	 *  	<li> Generates the simulations based on the gatlingTemplate and mustache engine
+	 *  	<li> Prepares all the feeders used for the execution
+	 *  	<li> Copies all the propertie files
+	 *  </ol>
 	 * @param os: the outputStream used to transfer the zip
 	 * @param classLoader: used to retreive the resource files' path
 	 * @param request: resourcesRequest containing needed data (themeDisplay and portalURL)
@@ -138,12 +154,9 @@ public class GatlingUtil {
 		LOG.debug(scripts.get(0));
 
 		// Scenario files:
-		//-------------------------------------------------------------------------------------------------------------------------------------	
 		zipMyResources(packageFolder, classLoader, zipOutputStream);
-
 		
 		// Adds the generated simulations
-		//-------------------------------------------------------------------------------------------------------------------------------------
 		String template = "/templateGatling2.2.X.mustache";
 		
 		//create and export only one file with scenario script for this simulation id
@@ -161,21 +174,18 @@ public class GatlingUtil {
 			 zipOutputStream.write(scalaCompiled.getBytes());
 			 zipOutputStream.closeEntry();
 		 } 
-		 
 
-		// Saving feeders:
-		//-------------------------------------------------------------------------------------------------------------------------------------
 		zipMyFeeders(packageFolder, classLoader, zipOutputStream, scripts);
-		
-		// Properties file:
-		//-------------------------------------------------------------------------------------------------------------------------------------	
 		zipMyProperties(classLoader, zipOutputStream);
-		
 		zipOutputStream.close();
 	}
 	
-	// Properties file:
-	//-------------------------------------------------------------------------------------------------------------------------------------	
+	/**
+	 * Zip the properties files.
+	 * @param classLoader The current classloader
+	 * @param zipOutputStream The produced zip output stream
+	 * @throws IOException If an input/output error occurs
+	 */
 	private static void zipMyProperties(ClassLoader classLoader, ZipOutputStream zipOutputStream) throws IOException {
 		File[] properties = new File(classLoader.getResource("gatling/")
 				.getFile()).listFiles();
@@ -188,12 +198,16 @@ public class GatlingUtil {
 			}
 		}
 	}
-	
-	// Resource files:
-	//-------------------------------------------------------------------------------------------------------------------------------------	
+	/**
+	 * Zip the resource files.
+	 * @param packageFolder The folder representing the package in which the resource file
+	 * 		will be present in the created directory structure.
+	 * @param classLoader The current classloader
+	 * @param zipOutputStream The produced zip output stream
+	 * @throws IOException If an input/output error occurs
+	 */
 	private static void zipMyResources(String packageFolder, ClassLoader classLoader, ZipOutputStream zipOutputStream) throws IOException {
-		// Get processes from resources folder
-		//-------------------------------------------------------------------------------------------------------------------------------------
+		
 		File[] sources = new File(classLoader.getResource("gatling/processes/").getFile()).listFiles();
 		// Goes through the sources directories
 			for (File source : sources) {
@@ -203,8 +217,16 @@ public class GatlingUtil {
 		}
 	}
 	
-	// Feeder files:
-	//-------------------------------------------------------------------------------------------------------------------------------------	
+	/**
+	 * Zip the feeder files.
+	 * @param packageFolder The folder representing the package in which the resource file
+	 * 		will be present in the created directory structure.
+	 * @param classLoader The current classloader
+	 * @param zipOutputStream The produced zip output stream
+	 * @param simulations The simulations containing the feeder files
+	 * @throws IOException If an input/output error occurs during the process
+	 * @throws SystemException If an error occurs in the services
+	 */
 	private static void zipMyFeeders(String packageFolder, ClassLoader classLoader, ZipOutputStream zipOutputStream, List<SimulationAST> simulations) throws IOException, SystemException {
 		
 		// Going through the entire AST in order to generated the required feeder files
@@ -231,17 +253,29 @@ public class GatlingUtil {
 		}
 	}	
 	
-	// Get file loads a specific file from WEB-INF/classes
-	// https://web.liferay.com/community/forums/-/message_boards/message/10307074
+	
+	/* 
+	 * This function uses a trick found at this page
+	 * https://web.liferay.com/community/forums/-/message_boards/message/10307074
+	 * This should be improved by using NIO.2 (OCP, newby)
+	 */
+	
+	/**
+	 * Get file loads a specific file from WEB-INF/classes.
+	 * @param path The file path
+	 * @param classLoader The classloader used to retrieve the file
+	 * @return The content of the file
+	 */
 	public static String getFile(String path, ClassLoader classLoader) {
-
-		// Get file from resources folder
 		File file = new File(classLoader.getResource(path).getFile());
 		return getFile(file);
 	}
 
-	
-	/* Returnes the file's content */
+	/**
+	 * Returns the file's content.
+	 * @param file The desired file
+	 * @return The content of the file
+	 */
 	public static String getFile(File file) {
 		StringBuilder result = new StringBuilder("");
 
@@ -260,7 +294,12 @@ public class GatlingUtil {
 		return result.toString();
 	}
 
-	// Combines all the private (true) and public (false) layouts, the returned list represents the sipe map
+	/**
+	 * Combines all the private (true) and public (false) layouts, the returned list represents the sipe map.
+	 * @param groupId The site identifier
+	 * @return The layout corresponding to the site
+	 * @throws SystemException If an error occurs in the Layout Services
+	 */
 	public static List<Layout> getSiteMap(long groupId) throws SystemException {
 		// NOTE get scenario group id -> scenario.getGroup_id();
 		List<Layout> layouts = new ArrayList<>();

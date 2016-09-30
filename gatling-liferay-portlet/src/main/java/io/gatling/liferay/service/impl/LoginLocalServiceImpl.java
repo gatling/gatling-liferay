@@ -35,6 +35,12 @@ public class LoginLocalServiceImpl extends LoginLocalServiceBaseImpl {
 	
 	public static final String DEFAULT_NAME = "_default_login_";
 	
+	/**
+	 * Tries to return the default login if it exists in database.
+	 * If not found, this function creates it, persist it and returns it
+	 * @return The default Login
+	 * @throws SystemException if an error occurs in services
+	 */
 	@Override
 	public Login createDefaultLogin() throws SystemException {
 		try {
@@ -49,7 +55,13 @@ public class LoginLocalServiceImpl extends LoginLocalServiceBaseImpl {
 		
 	}
 	
-	
+	/**
+	 * Finds the Login corresponding to the given processId.
+	 * @param processId The processId contained by the Login we search for
+	 * @return the matching Login
+	 * @throws SystemException if an error occurs in services
+	 * @throws NoSuchProcessExceptino if no process was found
+	 */
 	@Override
 	public Login findByProcessId(long processId) throws SystemException, NoSuchModelException, NoSuchProcessException {
 		Process process = processPersistence.findByPrimaryKey(processId);
@@ -60,6 +72,14 @@ public class LoginLocalServiceImpl extends LoginLocalServiceBaseImpl {
 		return null;
 	}
 	
+	/**
+	 * Finds the Login corresponding to the given name.
+	 * @param name The name of Login we are searching for
+	 * @return The matching Login
+	 * @throws SystemException if an error occurs in services
+	 * @throws NoSuchRecordException if no Record was found
+	 * @throws NoSuchLoginException if no Login was found
+	 */
 	@Override
 	public Login findByName(String name) throws NoSuchRecordException, SystemException, NoSuchLoginException {
 		return loginPersistence.findByName(name);

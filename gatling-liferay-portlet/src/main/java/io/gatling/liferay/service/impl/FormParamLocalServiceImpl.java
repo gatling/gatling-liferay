@@ -30,11 +30,22 @@ public class FormParamLocalServiceImpl extends FormParamLocalServiceBaseImpl {
      * Never reference this interface directly. Always use {@link io.gatling.liferay.service.FormParamLocalServiceUtil} to access the form param local service.
      */
 	
+	/**
+	 * Finds the FormParam by the UrlRecordId field.
+	 * @param urlRecordId The id of the urlRecord
+	 * @return The FormParam contained by the urlRecord of the given id
+	 */
 	@Override
 	public FormParam findByUrlRecordId(long urlRecordId) throws SystemException, NoSuchFormParamException {
 		return formParamPersistence.findByUrlRecordId(urlRecordId);
 	}
 	
+	/**
+	 * Create a new FormParam with the given arguments
+	 * and persist it in database.
+	 * @param urlRecordId The id of the UrlRecord containing the current formParam
+	 * @param data The form data
+	 */
 	@Override
 	public void save(long urlRecordId, String data) throws SystemException{
 		long primaryKeyUrl = CounterLocalServiceUtil.increment(FormParam.class.getName());
