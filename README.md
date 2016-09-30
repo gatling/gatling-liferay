@@ -1,6 +1,6 @@
 Gatling-for-Liferay
 ===================
-
+![GitHub Logo](images/gatling_for_liferay_logo.jpg)
 ## Introduction
 _Gatling for Liferay_ is a plugin that helps to simply create Gatling stress tests for a Liferay portal. It provides tools for both simulating simple use cases and
 recording advanced scenarios. All the generated simulations come along with
@@ -10,7 +10,7 @@ The script will be based on your site map, and you can define which pages will b
 
 This year, benefit from Liferay-Gatling's exclusive partnership! For every Liferay's customer: get a 1-year licence for our enterprise extension Gatling FrontLine for free. Contact us now: liferay@gatling.io
 
-## Functionnalities
+### Functionnalities
 Two different functionnalities are available with the plugin:
   - The scenarios builder allows you to easily create user stories. Workflows are
   embodied by the succession of boxes, each boxe represents a process action
@@ -20,18 +20,29 @@ Two different functionnalities are available with the plugin:
   It also adds custom record boxes in order for the latter to be added to the workflow in a simple way.
 
 
-## Gatling exportation
+### Gatling exportation
   The zip hierarchy is related to the Gatling bundle file structure. Exportation Scripts based on the GATLING_HOME variable help you to move the exported files to the Gatling directory.
 
-## Script generation
-  The script generation is done by a ZipOutStream. The following elements are written into this stream:
-  - The simulation and scenarios code
-  - The resource files (feeders and data)
-  - The complementary files such as README and scripts.
+## Installation
+The plugin can be download from the liferay marketplace [here](//TODO insert link), it works on Liferay 6.2+ versions.
 
-  ### Simulation code
-  The scala code contained in the zip file is created from an Abstract Syntax Tree (AST). This tree  embodies the simultation structure.
+  The code source can also be found on our github and imported in a Liferay Developer Studio environment. It used the following tools:
+  - Maven is as a build manager.
+  - Git for the versioning.
+  - Mustache as a Template motor, it creates scala files from a predefined Simulation structure.
 
+## Contribution
+Gatling for Liferay is meant to be an open-source project, it therefore welcome everyone aboard. It can be done in many ways:
+
+### Issues
+Issues can be created in the github project in order to report any bugs or ask for futur functionnalities.
+### Communication
+In case of question or recommandation, a [mailing list](https://groups.google.com/forum/#!forum/gatling) allows you to join us.
+
+## About us
+
+### Licence
+Incomming...
 ### Corporation
 _Gatling Corp_
 ### Authors
