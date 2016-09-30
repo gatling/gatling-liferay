@@ -1,6 +1,6 @@
 Gatling-for-Liferay
 ===================
-![GitHub Logo](images/gatling_for_liferay_logo.jpg)
+![Project Logo](images/gatling_for_liferay_logo.jpg)
 ## Introduction
 _Gatling for Liferay_ is a plugin that helps to simply create Gatling stress tests for a Liferay portal. It provides tools for both simulating simple use cases and
 recording advanced scenarios. All the generated simulations come along with
@@ -38,6 +38,11 @@ Gatling for Liferay is meant to be an open-source project, it therefore welcome 
 Issues can be created in the github project in order to report any bugs or ask for futur functionnalities.
 ### Communication
 In case of question or recommandation, a [mailing list](https://groups.google.com/forum/#!forum/gatling) allows you to join us.
+
+### Code Contribution
+Code contribution can be done via pull requests.
+
+Before any contribution, please check our [contribution guide](CONTRIBUTING.md).
 
 ## About us
 
