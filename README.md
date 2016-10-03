@@ -43,16 +43,11 @@ The plugin can be download from the liferay marketplace [here](https://web.lifer
 ## Contribution
 Gatling for Liferay is meant to be an open-source project, it therefore welcome everyone aboard. It can be done in many ways:
 
-### Issues
+### Issues and code contributions
 Issues can be created in the github project in order to report any bugs or ask for futur functionnalities. See our [contribution guidelines](CONTRIBUTING.md) !
 
 ### Communication
 In case of question or recommandation, a [mailing list](https://groups.google.com/forum/#!forum/gatling) allows you to join us.
-
-### Code Contribution
-Code contribution can be done via pull requests.
-
-Before any contribution, please check our [contribution guide](CONTRIBUTING.md).
 
 ## About us
 

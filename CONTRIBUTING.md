@@ -74,7 +74,7 @@ Before you submit a pull request, make sure that:
 
 	```
 	/**
- 	 * Copyright 2011-2014 eBusiness Information, Groupe Excilys (www.ebusinessinformation.fr)
+ 	 * Copyright 2011-2014 eBusiness Information (www.ebusinessinformation.fr)
  	 *
 	 * Licensed under the Apache License, Version 2.0 (the "License");
 	 * you may not use this file except in compliance with the License.
