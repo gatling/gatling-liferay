@@ -10,7 +10,7 @@ a complete file hierarchy (feeders, processes...) and can be run in any Galting 
 
 The script will be based on your site map, and you can define which pages will be accessed by the simulated users - and even specify which ones will be more requested than the others to be more accurate.
 
-This year, benefit from Liferay-Gatling's exclusive partnership! For every Liferay's customer: get a 1-year licence for our enterprise extension Gatling FrontLine for free. Contact us now: liferay@gatling.io
+_This year, benefit from Liferay-Gatling's exclusive partnership! For every Liferay's customer: get a 1-year licence for our enterprise extension Gatling FrontLine for free. Contact us now: liferay@gatling.io_
 
 ### versions
 
