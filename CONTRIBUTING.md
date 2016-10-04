@@ -12,7 +12,8 @@ Search [Gatling's Google Group](https://groups.google.com/forum/#!forum/gatling)
 
 ## Preliminaries
 
-* Whenever possible, use the latest Gatling version.
+* If you want to contribute to the project, please read our [Wiki](https://github.com/e-biz/gatling-liferay/wiki) to get more informations.
+* Uses version 2.2.* of Gatling.
 * Search [Issues](https://github.com/gatling/gatling/issues) beforehand, your bug may have been already reported by another user.
 * Open one issue for each problem.
 
@@ -91,25 +92,3 @@ Before you submit a pull request, make sure that:
  	```
 
 Pull requests are automatically validated by Travis CI and pull requests resulting in a build failure won't obviously be merged.
-
-## Project details
-
-### Web interface
-Different views are used for the simulation creation:
-
-#### The simulation building
-This page allows the user to easily creates a simulation by manipulating boxes. Each box represents a scala process. What with scenarios, injection profile and feeders, a simulation can be custumazed for all the use cases.
-
-Since rest web services are not used, all the parameters transmited from the view to the controlers are based on forms and link. It implies some tricky hidden form field manipulated by js functions. For example a JSON field is set each time boxes are manipulated, it contains all the information regarding the simulation structure.
-
-### The recorder
-This page record a portal navigation thought an iFrame. All the actions done inside this iFrame are recorded, such as requests'parameters and pause times. A filter is used, since
-the iframe use our portlet group id, all actions done with this id during a record are persisted.
-
-The filter code migth be a little bit messy, two different recorder used to cohexist, requiring the use of conditionnal instructions to distinguish one from another. It has not been cleaned properly and is more likely to contain old instructions no longer used.
-
-### Services
-![database structure](images/database.uml.png)
-### Code generation
-
-The scala code contained in the zip file is created from an Abstract Syntax Tree (AST). This tree  embodies the simultation structure.
