@@ -12,7 +12,7 @@ Search [Gatling's Google Group](https://groups.google.com/forum/#!forum/gatling)
 
 ## Preliminaries
 
-* If you want to contribute to the project, please read our [Wiki](https://github.com/e-biz/gatling-liferay/wiki) to get more informations.
+* If you want to contribute to the project, please take a look at our [Wiki](https://github.com/e-biz/gatling-liferay/wiki) where you can get more informations.
 * Uses version 2.2.* of Gatling.
 * Search [Issues](https://github.com/gatling/gatling/issues) beforehand, your bug may have been already reported by another user.
 * Open one issue for each problem.
