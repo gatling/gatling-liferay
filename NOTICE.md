@@ -42,7 +42,7 @@ This product depends on AlloyUi, distributed by Liferay Inc.:
 
 This product depends on JMustache, distributed by samskivert:
 
-  * License: license/LICENSE.jmustache.txt
+  * License: license/LICENSE.jmustache.bsd3.txt (BSD 3 License)
   * Homepage: https://github.com/samskivert/jmustache
 
 This product depends on Jackson, distributed by FasterXML:
@@ -57,7 +57,7 @@ This product depends on Maven, distributed by The Apache Software Foundation:
 
 This product depends on Shepherd, distributed by HubSpot:
 
-  * License: license/LICENSE.shepherd.txt
+  * License: license/LICENSE.shepherd.mit.txt (MIT License)
   * Homepage: http://github.hubspot.com/shepherd/docs/welcome/
 
 This product depends on slf4j, distributed by QOS:
