@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>altendis</groupId>
@@ -10,18 +10,125 @@
 	<packaging>war</packaging>
 	<name>Gatling Liferay Portlet</name>
 	<version>2.4.0.0-SNAPSHOT</version>
+
+	<licenses>
+		<license>
+			<name>Apache 2</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
 	<properties>
 		<liferay.version>6.2.2</liferay.version>
 		<liferay.maven.plugin.version>6.2.2</liferay.maven.plugin.version>
 		<springframework.version>3.0.7.RELEASE</springframework.version>
+		<springaop.version>4.3.2.RELEASE</springaop.version>
 		<jmustache.version>1.10</jmustache.version>
 		<taglib.version>1.1.2</taglib.version>
 		<jstl.version>1.2</jstl.version>
 		<jsp.version>2.0</jsp.version>
-        <jackson.version>2.8.2</jackson.version>
+		<jackson.version>2.8.2</jackson.version>
 		<servlet-api.version>3.0.1</servlet-api.version>
 		<portlet-api.version>2.0</portlet-api.version>
+
+		<maven-license-plugin.version>1.10.b1</maven-license-plugin.version>
+		<license-header-file.path>src/etc/license.header.txt</license-header-file.path>
+		<webapp.path>src/main/webapp</webapp.path>
 	</properties>
+
+	<dependencies>
+		<!-- Mustache -->
+		<dependency>
+			<groupId>com.samskivert</groupId>
+			<artifactId>jmustache</artifactId>
+			<version>${jmustache.version}</version>
+		</dependency>
+
+		<!-- JSTL -->
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>${jstl.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>${taglib.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Servlet API -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${servlet-api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Spring Framework Dependencies -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc-portlet</artifactId>
+			<version>${springframework.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Liferay -->
+		<dependency>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>portal-service</artifactId>
+			<version>${liferay.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>util-taglib</artifactId>
+			<version>${liferay.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>util-java</artifactId>
+			<version>${liferay.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Javax -->
+		<dependency>
+			<groupId>javax.portlet</groupId>
+			<artifactId>portlet-api</artifactId>
+			<version>${portlet-api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>${jsp.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- JSON to/from DTO -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<!-- AOP -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${springaop.version}</version>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -61,98 +168,30 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<version>${maven-license-plugin.version}</version>
+				<configuration>
+					<header>${license-header-file.path}</header>
+					<strictCheck>false</strictCheck>
+					<excludes>
+						<exclude>${webapp.path}/css/shepherd-theme-arrows.css</exclude>
+						<exclude>${webapp.path}/js/bootstrap.min.js</exclude>
+						<exclude>${webapp.path}/js/jquery-3.1.0.min.js</exclude>
+						<exclude>${webapp.path}/js/shepherd.min.js</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-	<dependencies>
-		<!-- Mustache -->
-		<dependency>
-			<groupId>com.samskivert</groupId>
-			<artifactId>jmustache</artifactId>
-			<version>${jmustache.version}</version>
-		</dependency>
-		<!-- JSTL -->
-		<dependency>
-			<groupId>jstl</groupId>
-			<artifactId>jstl</artifactId>
-			<version>${jstl.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>taglibs</groupId>
-			<artifactId>standard</artifactId>
-			<version>${taglib.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- Servlet API -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>${servlet-api.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- Spring Framework Dependencies -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc-portlet</artifactId>
-			<version>${springframework.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- DEFAULT -->
-		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>portal-service</artifactId>
-			<version>${liferay.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>util-bridges</artifactId>
-			<version>${liferay.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>util-taglib</artifactId>
-			<version>${liferay.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>util-java</artifactId>
-			<version>${liferay.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.portlet</groupId>
-			<artifactId>portlet-api</artifactId>
-			<version>${portlet-api.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
-			<version>${jsp.version}</version>
-			<scope>provided</scope>
-		</dependency>
-        <!-- JSON to/from DTO -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-              <groupId>com.fasterxml.jackson.core</groupId>
-              <artifactId>jackson-databind</artifactId>
-              <version>${jackson.version}</version>
-        </dependency>
 
-	<!-- AOP -->
-	<dependency>
-    		<groupId>org.springframework</groupId>
-    		<artifactId>spring-aop</artifactId>
-    		<version>4.3.2.RELEASE</version>
-	</dependency>
-
-
-	</dependencies>
 </project>
