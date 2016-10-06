@@ -121,7 +121,6 @@ function drop(ev) {
 	persistScenarios();
 }
 
-//TODO check the use of this fucntion
 function handleDragOver(e) {
 	if (e.preventDefault) {
 		e.preventDefault(); // Necessary. Allows us to drop.
