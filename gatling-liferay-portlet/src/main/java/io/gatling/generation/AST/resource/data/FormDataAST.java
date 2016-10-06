@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.generation.AST.resource;
+package io.gatling.generation.AST.resource.data;
 
-
-/**
- * The representation of a Feeder file and his content.
- * Feeder file are here stored as csv files in the data
- * subdirectory of the Gatling bundle.
- */
-public abstract class FeederFileAST extends ResourceFileAST {
+public class FormDataAST {
+	private String key;
+	private String value;
 	
-	private static final String LOCATION = "data/feeders/";
-	
-	protected FeederFileAST(String name, String type) {
-		super(name, type, LOCATION);
-	}
-
-	@Override
-	public String getLocatedName() {
-		return super.getLocatedName() + ".csv";
+	public FormDataAST(String content) {
+		int limit = content.indexOf(',');
+		key = content.substring(0, limit);
+		value = content.substring(limit+1,content.length());
 	}
 	
+	public String getContent() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("      .formParam(\"")
+		.append(key)
+		.append("\", \"")
+		.append(value)
+		.append("\")\n");
+		return sb.toString();
+	}
 }

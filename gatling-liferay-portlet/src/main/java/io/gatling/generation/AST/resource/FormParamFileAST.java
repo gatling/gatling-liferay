@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.generation.AST.resource;
+package io.gatling.generation.AST.resource;
 
-import io.gatling.liferay.generation.AST.resource.data.FormDataAST;
+import io.gatling.generation.AST.resource.data.FormDataAST;
 
 import java.util.ArrayList;
 import java.util.List;

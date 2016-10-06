@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.generation.AST;
+package io.gatling.generation.AST;
 
-import io.gatling.liferay.util.GatlingUtil;
+import io.gatling.generation.service.SourceCodeIdentifierServices;
+import io.gatling.liferay.util.LiferayUtil;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class SimulationAST {
 	
 	
 	public SimulationAST(String simulationName, List<ScenarioAST> scenarios, String portalURL) {
-		this.simulationName = GatlingUtil.createVariableName("", simulationName);
+		this.simulationName = SourceCodeIdentifierServices.createVariableName("", simulationName);
 		scenariosAST = scenarios;
 		this.portalURL = portalURL;
 	}

@@ -13,47 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.generation.AST.process;
+package io.gatling.generation.AST.process;
 
-import io.gatling.liferay.generation.AST.resource.ResourceFileAST;
+import io.gatling.generation.AST.resource.FeederFileAST;
+import io.gatling.generation.AST.resource.ResourceFileAST;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-/*
- * TODO: It would be nice if the Random page could be
- * hit several times.
- */
-
 /**
- * RandomPageAST represents a process in which a
- * random url from the siteMap resourceFile is 
- * requested.
+ * LoginAST represents a process in which a
+ * user from a feeder file is randomly selected
+ * and logged in the portal. 
  */
-public class RandomPageAST extends ProcessAST {
+public class LoginAST extends ProcessAST{
 
 	/**
-	 * The resourceFile containing the siteMap and the
-	 * percentages of chances that each page will be
-	 * requested
+	 * The feederfile containing user data.
 	 */
-	ResourceFileAST siteMap;
+	FeederFileAST loginFeeder;
 	
-	public RandomPageAST(ResourceFileAST feeder) {
-		super(feeder.getName(), "run");
-		this.siteMap = feeder;
+	private String url;
+	
+	public LoginAST(FeederFileAST feeder) {
+		super("Login","successfulLogin");
+		this.loginFeeder = feeder;
+		this.url = "/home";
 	}
-
+	
 	@Override
 	protected String computeArguments() {
-		return "";
+		return '"' + url + "\", \""  + loginFeeder.getLocatedName() + '"';
 	}
-
+	
 	@Override
 	public List<ResourceFileAST> getFeederFiles() {
 		 List<ResourceFileAST> feeders = new ArrayList<>();
-		 feeders.add(siteMap);
+		 feeders.add(loginFeeder);
 		 return feeders;
 	}
 

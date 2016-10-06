@@ -13,25 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.generation.AST.resource.data;
+package io.gatling.generation.AST.process;
 
-public class FormDataAST {
-	private String key;
-	private String value;
+import io.gatling.generation.AST.resource.ResourceFileAST;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * LogoutAST represents a process in which the
+ * current virtual user in the simulation logs out.
+ */
+public class LogoutAST extends ProcessAST {
 	
-	public FormDataAST(String content) {
-		int limit = content.indexOf(',');
-		key = content.substring(0, limit);
-		value = content.substring(limit+1,content.length());
+	public LogoutAST() {
+		super("Logout", "logout");
 	}
 	
-	public String getContent() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("      .formParam(\"")
-		.append(key)
-		.append("\", \"")
-		.append(value)
-		.append("\")\n");
-		return sb.toString();
+	@Override
+	protected String computeArguments() {
+		return "";
 	}
+
+	@Override
+	public List<ResourceFileAST> getFeederFiles() {
+		//No feederFile 
+		return new ArrayList<>();
+	}
+
 }

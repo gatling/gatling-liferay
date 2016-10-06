@@ -32,7 +32,7 @@ import io.gatling.liferay.service.ScenarioLocalServiceUtil;
 import io.gatling.liferay.service.base.ScenarioLocalServiceBaseImpl;
 import io.gatling.liferay.service.persistence.ProcessScenarioLinkUtil;
 import io.gatling.liferay.service.persistence.ScenarioUtil;
-import io.gatling.liferay.util.GatlingUtil;
+import io.gatling.liferay.util.LiferayUtil;
 
 import java.util.List;
 
@@ -81,7 +81,7 @@ public class ScenarioLocalServiceImpl extends ScenarioLocalServiceBaseImpl {
 	@Override
 	public Scenario createScenario(String name, long simulationId, String injection, long numberOfUsers, long duration) throws SystemException{
 		Scenario scenario = ScenarioUtil.create(CounterLocalServiceUtil.increment(Scenario.class.getName()));
-		List<Group> listGroups = GatlingUtil.getListOfSites();
+		List<Group> listGroups = LiferayUtil.getListOfSites();
 		if (listGroups.isEmpty()) {
 			scenario.setGroup_id(0);
 		}

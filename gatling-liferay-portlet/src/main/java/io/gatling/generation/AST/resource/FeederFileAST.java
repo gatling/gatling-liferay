@@ -13,11 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.generation.AST;
+package io.gatling.generation.AST.resource;
 
-@SuppressWarnings("serial")
-public class InvalidAST extends RuntimeException {
 
-	public InvalidAST() {}
+/**
+ * The representation of a Feeder file and his content.
+ * Feeder file are here stored as csv files in the data
+ * subdirectory of the Gatling bundle.
+ */
+public abstract class FeederFileAST extends ResourceFileAST {
+	
+	private static final String LOCATION = "data/feeders/";
+	
+	protected FeederFileAST(String name, String type) {
+		super(name, type, LOCATION);
+	}
+
+	@Override
+	public String getLocatedName() {
+		return super.getLocatedName() + ".csv";
+	}
 	
 }

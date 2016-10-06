@@ -27,14 +27,15 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 
+import io.gatling.generation.AST.SimulationAST;
+import io.gatling.generation.service.ASTService;
+import io.gatling.generation.service.GenerationService;
 import io.gatling.liferay.NoSuchProcessException;
 import io.gatling.liferay.NoSuchScenarioException;
 import io.gatling.liferay.dto.ProcessDTO;
 import io.gatling.liferay.dto.ScenarioDTO;
 import io.gatling.liferay.dto.mapper.ProcessDTOMapper;
 import io.gatling.liferay.dto.mapper.ScenarioDTOMapper;
-import io.gatling.liferay.generation.AST.SimulationAST;
-import io.gatling.liferay.generation.service.ASTService;
 import io.gatling.liferay.model.Login;
 import io.gatling.liferay.model.Process;
 import io.gatling.liferay.model.ProcessScenarioLink;
@@ -49,7 +50,7 @@ import io.gatling.liferay.service.ScenarioLocalServiceUtil;
 import io.gatling.liferay.service.SimulationLocalServiceUtil;
 import io.gatling.liferay.service.SiteMapLocalServiceUtil;
 import io.gatling.liferay.service.impl.SimulationLocalServiceImpl;
-import io.gatling.liferay.util.GatlingUtil;
+import io.gatling.liferay.util.LiferayUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -432,7 +433,7 @@ public class ViewController {
 		scriptASTs.add(ASTService.computesSimulationAST(simulation.getSimulation_id(), PortalUtil.getPortalURL(request)));
 		
 		// Generate the zip
-		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, scriptASTs);
+		GenerationService.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, scriptASTs);
 
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 		LOG.debug("Zip generated ...");

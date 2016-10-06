@@ -15,17 +15,18 @@
  */
 package io.gatling.liferay.controller;
 
+import io.gatling.generation.AST.ScenarioAST;
+import io.gatling.generation.AST.SimulationAST;
+import io.gatling.generation.AST.process.ProcessAST;
+import io.gatling.generation.AST.process.RecorderAST;
+import io.gatling.generation.AST.resource.RecordFileAST;
+import io.gatling.generation.mapper.ASTMapper;
+import io.gatling.generation.service.GenerationService;
 import io.gatling.liferay.NoSuchFormParamException;
 import io.gatling.liferay.NoSuchRecordException;
-import io.gatling.liferay.generation.AST.ScenarioAST;
-import io.gatling.liferay.generation.AST.SimulationAST;
-import io.gatling.liferay.generation.AST.process.ProcessAST;
-import io.gatling.liferay.generation.AST.process.RecorderAST;
-import io.gatling.liferay.generation.AST.resource.RecordFileAST;
-import io.gatling.liferay.generation.mapper.ASTMapper;
 import io.gatling.liferay.model.Record;
 import io.gatling.liferay.service.RecordLocalServiceUtil;
-import io.gatling.liferay.util.GatlingUtil;
+import io.gatling.liferay.util.LiferayUtil;
 
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -157,7 +158,7 @@ public class RecorderController {
 		SimulationAST ast = createDefaultAST(name);
 		asts.add(ast);
 		
-		GatlingUtil.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, asts);
+		GenerationService.zipMyEnvironment(response.getPortletOutputStream(), getClass().getClassLoader(), request, asts);
 		 		
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 		LOG.debug("Zip process generated ...");

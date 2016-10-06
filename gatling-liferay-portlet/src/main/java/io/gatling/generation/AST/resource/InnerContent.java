@@ -13,25 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.generation.AST.resource;
+package io.gatling.generation.AST.resource;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * The representation of a Scala File that contains some data.
- * These files will be placed in the code processes part of the 
- * code source in the simulation section of the Gatling bundle.
+ * InnerContent represents resource data that must be
+ * included into some other file.
+ * Thus, it isn't really a plain file. 
  */
-public abstract class ScalaFileAST extends ResourceFileAST {
+public abstract class InnerContent extends ResourceFileAST{
 
-	public static final String LOCATION = "simulations/liferay/processes/";
+	private static final String LOCATION = "data/feeders/";
 	
-	public ScalaFileAST(String name, String type) {
+	protected InnerContent(String name, String type) {
 		super(name, type, LOCATION);
 	}
 
 	@Override
-	public String getLocatedName() {
-		return super.getLocatedName() + ".scala";
+	public List<ResourceFileAST> flatWithSubsequentRessourceFile() {
+		return new ArrayList<>(0);
 	}
-	
 }

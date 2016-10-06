@@ -26,7 +26,7 @@ import io.gatling.liferay.model.UrlSiteMap;
 import io.gatling.liferay.service.UrlSiteMapLocalServiceUtil;
 import io.gatling.liferay.service.base.SiteMapLocalServiceBaseImpl;
 import io.gatling.liferay.service.persistence.SiteMapUtil;
-import io.gatling.liferay.util.GatlingUtil;
+import io.gatling.liferay.util.LiferayUtil;
 
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.NoSuchModelException;
@@ -76,13 +76,13 @@ public class SiteMapLocalServiceImpl extends SiteMapLocalServiceBaseImpl {
 		
 		SiteMap siteMap = createSiteMap(DEFAULT_NAME);
 		
-		List<Group> listGroups = GatlingUtil.getListOfSites();
+		List<Group> listGroups = LiferayUtil.getListOfSites();
 		for (Group group : listGroups) {
-			for (Layout layout : GatlingUtil.getSiteMap(group.getGroupId())) {
+			for (Layout layout : LiferayUtil.getSiteMap(group.getGroupId())) {
 		    	long siteMapId = siteMap.getSiteMapId();
 		    	String friendlyUrl =  layout.getFriendlyURL().substring(1);
 		    	String urlGroup = group.getName();
-		    	String url = GatlingUtil.getGroupFriendlyURL(themeDisplay, layout).replaceAll(portalUrl, "");
+		    	String url = LiferayUtil.getGroupFriendlyURL(themeDisplay, layout).replaceAll(portalUrl, "");
 		    	UrlSiteMapLocalServiceUtil.createUrlSiteMap(siteMapId, friendlyUrl, urlGroup, url, 1);
 		    }
 		}

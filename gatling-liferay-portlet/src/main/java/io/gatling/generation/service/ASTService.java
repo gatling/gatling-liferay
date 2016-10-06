@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.generation.service;
+package io.gatling.generation.service;
 
+import io.gatling.generation.AST.ScenarioAST;
+import io.gatling.generation.AST.SimulationAST;
+import io.gatling.generation.AST.process.ProcessAST;
+import io.gatling.generation.AST.resource.HttpBodyFileAST;
+import io.gatling.generation.AST.resource.RecordFileAST;
+import io.gatling.generation.AST.resource.ResourceFileAST;
+import io.gatling.generation.AST.resource.SiteMapFileAST;
+import io.gatling.generation.AST.resource.UserFileAST;
+import io.gatling.generation.AST.resource.data.RecordDataAST;
+import io.gatling.generation.AST.resource.data.SiteMapDataAST;
+import io.gatling.generation.mapper.ASTMapper;
 import io.gatling.liferay.NoSuchFormParamException;
 import io.gatling.liferay.NoSuchProcessException;
-import io.gatling.liferay.generation.AST.ScenarioAST;
-import io.gatling.liferay.generation.AST.SimulationAST;
-import io.gatling.liferay.generation.AST.process.ProcessAST;
-import io.gatling.liferay.generation.AST.resource.HttpBodyFileAST;
-import io.gatling.liferay.generation.AST.resource.RecordFileAST;
-import io.gatling.liferay.generation.AST.resource.ResourceFileAST;
-import io.gatling.liferay.generation.AST.resource.SiteMapFileAST;
-import io.gatling.liferay.generation.AST.resource.UserFileAST;
-import io.gatling.liferay.generation.AST.resource.data.RecordDataAST;
-import io.gatling.liferay.generation.AST.resource.data.SiteMapDataAST;
-import io.gatling.liferay.generation.mapper.ASTMapper;
 import io.gatling.liferay.model.FormParam;
 import io.gatling.liferay.model.Login;
 import io.gatling.liferay.model.Process;

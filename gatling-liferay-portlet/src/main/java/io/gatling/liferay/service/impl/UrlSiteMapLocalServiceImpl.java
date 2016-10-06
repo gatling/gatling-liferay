@@ -18,7 +18,7 @@ package io.gatling.liferay.service.impl;
 import io.gatling.liferay.model.UrlSiteMap;
 import io.gatling.liferay.service.base.UrlSiteMapLocalServiceBaseImpl;
 import io.gatling.liferay.service.persistence.UrlSiteMapUtil;
-import io.gatling.liferay.util.GatlingUtil;
+import io.gatling.liferay.util.LiferayUtil;
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 

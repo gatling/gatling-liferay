@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.generation.AST;
+package io.gatling.generation.AST;
 
-import io.gatling.liferay.generation.AST.process.ProcessAST;
-import io.gatling.liferay.util.GatlingUtil;
+import io.gatling.generation.AST.process.ProcessAST;
+import io.gatling.generation.service.SourceCodeIdentifierServices;
+import io.gatling.liferay.util.LiferayUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class ScenarioAST {
 	private List<ProcessAST> processes;
 
 	public ScenarioAST(String scenarioName, long users, String injection, long rampUp, List<ProcessAST> processList) {
-		this.scenarioName = GatlingUtil.createVariableName("", scenarioName);
+		this.scenarioName = SourceCodeIdentifierServices.createVariableName("", scenarioName);
 		this.users = users;
 		this.injection = injection;
 		this.rampUp = rampUp;

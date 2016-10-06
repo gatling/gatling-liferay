@@ -13,32 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.generation.AST.process;
-
-import io.gatling.liferay.generation.AST.resource.ResourceFileAST;
-
-import java.util.ArrayList;
-import java.util.List;
+package io.gatling.generation.AST.resource;
 
 /**
- * LogoutAST represents a process in which the
- * current virtual user in the simulation logs out.
+ * Represents an user feeder file, used for the login profile.
  */
-public class LogoutAST extends ProcessAST {
+public class UserFileAST extends FeederFileAST {
 	
-	public LogoutAST() {
-		super("Logout", "logout");
-	}
+	private static final String TYPE = "User";
+	private String content;
+	private static final String HEADER = "user,password\n";
 	
-	@Override
-	protected String computeArguments() {
-		return "";
+	public UserFileAST(String name, String content) {
+		super(name, TYPE);
+		this.content = content;
 	}
 
 	@Override
-	public List<ResourceFileAST> getFeederFiles() {
-		//No feederFile 
-		return new ArrayList<>();
+	public String getContent() {
+		return HEADER + content;
 	}
-
+	
 }
