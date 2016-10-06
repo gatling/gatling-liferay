@@ -13,25 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.model.AST.resource;
+package io.gatling.liferay.generation.AST.process;
 
+import io.gatling.liferay.generation.AST.resource.ResourceFileAST;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * The representation of a Feeder file and his content.
- * Feeder file are here stored as csv files in the data
- * subdirectory of the Gatling bundle.
+ * LogoutAST represents a process in which the
+ * current virtual user in the simulation logs out.
  */
-public abstract class FeederFileAST extends ResourceFileAST {
+public class LogoutAST extends ProcessAST {
 	
-	private static final String LOCATION = "data/feeders/";
+	public LogoutAST() {
+		super("Logout", "logout");
+	}
 	
-	protected FeederFileAST(String name, String type) {
-		super(name, type, LOCATION);
+	@Override
+	protected String computeArguments() {
+		return "";
 	}
 
 	@Override
-	public String getLocatedName() {
-		return super.getLocatedName() + ".csv";
+	public List<ResourceFileAST> getFeederFiles() {
+		//No feederFile 
+		return new ArrayList<>();
 	}
-	
+
 }

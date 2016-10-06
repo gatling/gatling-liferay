@@ -13,11 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.model.AST;
+package io.gatling.liferay.generation.AST.resource;
 
-@SuppressWarnings("serial")
-public class InvalidAST extends RuntimeException {
+/**
+ * Represents an user feeder file, used for the login profile.
+ */
+public class UserFileAST extends FeederFileAST {
+	
+	private static final String TYPE = "User";
+	private String content;
+	private static final String HEADER = "user,password\n";
+	
+	public UserFileAST(String name, String content) {
+		super(name, TYPE);
+		this.content = content;
+	}
 
-	public InvalidAST() {}
+	@Override
+	public String getContent() {
+		return HEADER + content;
+	}
 	
 }

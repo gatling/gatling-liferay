@@ -17,14 +17,14 @@ package io.gatling.liferay.controller;
 
 import io.gatling.liferay.NoSuchFormParamException;
 import io.gatling.liferay.NoSuchRecordException;
+import io.gatling.liferay.generation.AST.ScenarioAST;
+import io.gatling.liferay.generation.AST.SimulationAST;
+import io.gatling.liferay.generation.AST.process.ProcessAST;
+import io.gatling.liferay.generation.AST.process.RecorderAST;
+import io.gatling.liferay.generation.AST.resource.RecordFileAST;
+import io.gatling.liferay.generation.mapper.ASTMapper;
 import io.gatling.liferay.model.Record;
-import io.gatling.liferay.model.AST.ScenarioAST;
-import io.gatling.liferay.model.AST.SimulationAST;
-import io.gatling.liferay.model.AST.process.ProcessAST;
-import io.gatling.liferay.model.AST.process.RecorderAST;
-import io.gatling.liferay.model.AST.resource.RecordFileAST;
 import io.gatling.liferay.service.RecordLocalServiceUtil;
-import io.gatling.liferay.service.mapper.ASTMapper;
 import io.gatling.liferay.util.GatlingUtil;
 
 import com.liferay.portal.kernel.dao.orm.QueryUtil;

@@ -13,32 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.model.AST.process;
+package io.gatling.liferay.generation.AST.resource;
 
-import io.gatling.liferay.model.AST.resource.ResourceFileAST;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * LogoutAST represents a process in which the
- * current virtual user in the simulation logs out.
+ * The representation of a Scala File that contains some data.
+ * These files will be placed in the code processes part of the 
+ * code source in the simulation section of the Gatling bundle.
  */
-public class LogoutAST extends ProcessAST {
+public abstract class ScalaFileAST extends ResourceFileAST {
+
+	public static final String LOCATION = "simulations/liferay/processes/";
 	
-	public LogoutAST() {
-		super("Logout", "logout");
-	}
-	
-	@Override
-	protected String computeArguments() {
-		return "";
+	public ScalaFileAST(String name, String type) {
+		super(name, type, LOCATION);
 	}
 
 	@Override
-	public List<ResourceFileAST> getFeederFiles() {
-		//No feederFile 
-		return new ArrayList<>();
+	public String getLocatedName() {
+		return super.getLocatedName() + ".scala";
 	}
-
+	
 }

@@ -13,25 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.model.AST.resource;
+package io.gatling.liferay.generation.AST.resource;
 
 /**
- * Represents an user feeder file, used for the login profile.
+ * HttpBodyFileAST represents a resource file that will
+ * store data contained in the payload of a multipart POST
+ * HTTP request.
+ * These resource files are stored as txt files in the bodies
+ * subdirectory of the Gatling Bundle.
  */
-public class UserFileAST extends FeederFileAST {
+public class HttpBodyFileAST extends ResourceFileAST {
+
+	private static final String LOCATION = "bodies/liferay/";
+	private static final String TYPE = "HttpBody";
 	
-	private static final String TYPE = "User";
 	private String content;
-	private static final String HEADER = "user,password\n";
 	
-	public UserFileAST(String name, String content) {
-		super(name, TYPE);
+	
+	public HttpBodyFileAST(String name, String content) {
+		super(name, TYPE, LOCATION);
 		this.content = content;
 	}
 
 	@Override
-	public String getContent() {
-		return HEADER + content;
+	public String getLocatedName() {
+		return super.getLocatedName() + ".txt";
 	}
+
+	@Override
+	public String getContent() {
+		return content;
+	}
+
+	
 	
 }

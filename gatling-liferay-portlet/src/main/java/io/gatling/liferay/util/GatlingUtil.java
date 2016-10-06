@@ -33,10 +33,10 @@ import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.MustacheException;
 
-import io.gatling.liferay.model.AST.ScenarioAST;
-import io.gatling.liferay.model.AST.SimulationAST;
-import io.gatling.liferay.model.AST.process.ProcessAST;
-import io.gatling.liferay.model.AST.resource.ResourceFileAST;
+import io.gatling.liferay.generation.AST.ScenarioAST;
+import io.gatling.liferay.generation.AST.SimulationAST;
+import io.gatling.liferay.generation.AST.process.ProcessAST;
+import io.gatling.liferay.generation.AST.resource.ResourceFileAST;
 
 import java.io.File;
 import java.io.FileReader;

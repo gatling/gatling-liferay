@@ -13,10 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.service;
+package io.gatling.liferay.generation.service;
 
 import io.gatling.liferay.NoSuchFormParamException;
 import io.gatling.liferay.NoSuchProcessException;
+import io.gatling.liferay.generation.AST.ScenarioAST;
+import io.gatling.liferay.generation.AST.SimulationAST;
+import io.gatling.liferay.generation.AST.process.ProcessAST;
+import io.gatling.liferay.generation.AST.resource.HttpBodyFileAST;
+import io.gatling.liferay.generation.AST.resource.RecordFileAST;
+import io.gatling.liferay.generation.AST.resource.ResourceFileAST;
+import io.gatling.liferay.generation.AST.resource.SiteMapFileAST;
+import io.gatling.liferay.generation.AST.resource.UserFileAST;
+import io.gatling.liferay.generation.AST.resource.data.RecordDataAST;
+import io.gatling.liferay.generation.AST.resource.data.SiteMapDataAST;
+import io.gatling.liferay.generation.mapper.ASTMapper;
 import io.gatling.liferay.model.FormParam;
 import io.gatling.liferay.model.Login;
 import io.gatling.liferay.model.Process;
@@ -26,17 +37,15 @@ import io.gatling.liferay.model.Simulation;
 import io.gatling.liferay.model.SiteMap;
 import io.gatling.liferay.model.UrlRecord;
 import io.gatling.liferay.model.UrlSiteMap;
-import io.gatling.liferay.model.AST.ScenarioAST;
-import io.gatling.liferay.model.AST.SimulationAST;
-import io.gatling.liferay.model.AST.process.ProcessAST;
-import io.gatling.liferay.model.AST.resource.HttpBodyFileAST;
-import io.gatling.liferay.model.AST.resource.RecordFileAST;
-import io.gatling.liferay.model.AST.resource.ResourceFileAST;
-import io.gatling.liferay.model.AST.resource.SiteMapFileAST;
-import io.gatling.liferay.model.AST.resource.UserFileAST;
-import io.gatling.liferay.model.AST.resource.data.RecordDataAST;
-import io.gatling.liferay.model.AST.resource.data.SiteMapDataAST;
-import io.gatling.liferay.service.mapper.ASTMapper;
+import io.gatling.liferay.service.FormParamLocalServiceUtil;
+import io.gatling.liferay.service.LoginLocalServiceUtil;
+import io.gatling.liferay.service.ProcessLocalServiceUtil;
+import io.gatling.liferay.service.RecordLocalServiceUtil;
+import io.gatling.liferay.service.ScenarioLocalServiceUtil;
+import io.gatling.liferay.service.SimulationLocalServiceUtil;
+import io.gatling.liferay.service.SiteMapLocalServiceUtil;
+import io.gatling.liferay.service.UrlRecordLocalServiceUtil;
+import io.gatling.liferay.service.UrlSiteMapLocalServiceUtil;
 
 import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;

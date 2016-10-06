@@ -13,42 +13,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.model.AST.process;
+package io.gatling.liferay.generation.AST.process;
 
-import io.gatling.liferay.model.AST.resource.RecordFileAST;
-import io.gatling.liferay.model.AST.resource.ResourceFileAST;
+import io.gatling.liferay.generation.AST.resource.ResourceFileAST;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * RecorderAST represents a process in which a
- * a record will be replayed.
+
+/*
+ * TODO: It would be nice if the Random page could be
+ * hit several times.
  */
-public class RecorderAST extends ProcessAST {
+
+/**
+ * RandomPageAST represents a process in which a
+ * random url from the siteMap resourceFile is 
+ * requested.
+ */
+public class RandomPageAST extends ProcessAST {
 
 	/**
-	 * The record that will be replayed during the simulation.
+	 * The resourceFile containing the siteMap and the
+	 * percentages of chances that each page will be
+	 * requested
 	 */
-	RecordFileAST recordResource;
+	ResourceFileAST siteMap;
 	
-	public RecorderAST(RecordFileAST recordResource) {
-		super(recordResource.getName(), "run");
-		this.recordResource = recordResource;
-	} 
+	public RandomPageAST(ResourceFileAST feeder) {
+		super(feeder.getName(), "run");
+		this.siteMap = feeder;
+	}
 
 	@Override
 	protected String computeArguments() {
 		return "";
 	}
-	
-	@Override
-	public List<ResourceFileAST> getFeederFiles() {
-		return recordResource.flatWithSubsequentRessourceFile();
-	}
 
 	@Override
-	public String toString() {
-		return "Object: " + scalaObject + "\tFunction: " + scalaFunction + "\tFeeder: " + recordResource;
+	public List<ResourceFileAST> getFeederFiles() {
+		 List<ResourceFileAST> feeders = new ArrayList<>();
+		 feeders.add(siteMap);
+		 return feeders;
 	}
-	
+
 }

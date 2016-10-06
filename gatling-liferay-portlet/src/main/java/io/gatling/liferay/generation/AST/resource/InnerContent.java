@@ -13,25 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.model.AST.resource.data;
+package io.gatling.liferay.generation.AST.resource;
 
-public class FormDataAST {
-	private String key;
-	private String value;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * InnerContent represents resource data that must be
+ * included into some other file.
+ * Thus, it isn't really a plain file. 
+ */
+public abstract class InnerContent extends ResourceFileAST{
+
+	private static final String LOCATION = "data/feeders/";
 	
-	public FormDataAST(String content) {
-		int limit = content.indexOf(',');
-		key = content.substring(0, limit);
-		value = content.substring(limit+1,content.length());
+	protected InnerContent(String name, String type) {
+		super(name, type, LOCATION);
 	}
-	
-	public String getContent() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("      .formParam(\"")
-		.append(key)
-		.append("\", \"")
-		.append(value)
-		.append("\")\n");
-		return sb.toString();
+
+	@Override
+	public List<ResourceFileAST> flatWithSubsequentRessourceFile() {
+		return new ArrayList<>(0);
 	}
 }

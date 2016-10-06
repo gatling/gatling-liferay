@@ -13,26 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.model.AST.resource;
+package io.gatling.liferay.generation.AST;
 
-import java.util.ArrayList;
-import java.util.List;
+@SuppressWarnings("serial")
+public class InvalidAST extends RuntimeException {
 
-/**
- * InnerContent represents resource data that must be
- * included into some other file.
- * Thus, it isn't really a plain file. 
- */
-public abstract class InnerContent extends ResourceFileAST{
-
-	private static final String LOCATION = "data/feeders/";
+	public InvalidAST() {}
 	
-	protected InnerContent(String name, String type) {
-		super(name, type, LOCATION);
-	}
-
-	@Override
-	public List<ResourceFileAST> flatWithSubsequentRessourceFile() {
-		return new ArrayList<>(0);
-	}
 }

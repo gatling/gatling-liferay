@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.model.AST.resource.data;
+package io.gatling.liferay.generation.AST.resource.data;
 
+import io.gatling.liferay.generation.AST.InvalidAST;
+import io.gatling.liferay.generation.AST.resource.ResourceFileAST;
 import io.gatling.liferay.model.UrlRecordType;
-import io.gatling.liferay.model.AST.InvalidAST;
-import io.gatling.liferay.model.AST.resource.ResourceFileAST;
 
 public class RecordDataAST {
 

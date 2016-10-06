@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.model.AST.process;
+package io.gatling.liferay.generation.AST.process;
 
-import io.gatling.liferay.model.AST.resource.ResourceFileAST;
+import io.gatling.liferay.generation.AST.resource.ResourceFileAST;
 
 import java.util.List;
 

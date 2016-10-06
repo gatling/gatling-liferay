@@ -13,44 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gatling.liferay.model.AST.process;
+package io.gatling.liferay.generation.AST.process;
 
-import io.gatling.liferay.model.AST.resource.FeederFileAST;
-import io.gatling.liferay.model.AST.resource.ResourceFileAST;
+import io.gatling.liferay.generation.AST.resource.RecordFileAST;
+import io.gatling.liferay.generation.AST.resource.ResourceFileAST;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * LoginAST represents a process in which a
- * user from a feeder file is randomly selected
- * and logged in the portal. 
+ * RecorderAST represents a process in which a
+ * a record will be replayed.
  */
-public class LoginAST extends ProcessAST{
+public class RecorderAST extends ProcessAST {
 
 	/**
-	 * The feederfile containing user data.
+	 * The record that will be replayed during the simulation.
 	 */
-	FeederFileAST loginFeeder;
+	RecordFileAST recordResource;
 	
-	private String url;
-	
-	public LoginAST(FeederFileAST feeder) {
-		super("Login","successfulLogin");
-		this.loginFeeder = feeder;
-		this.url = "/home";
-	}
-	
+	public RecorderAST(RecordFileAST recordResource) {
+		super(recordResource.getName(), "run");
+		this.recordResource = recordResource;
+	} 
+
 	@Override
 	protected String computeArguments() {
-		return '"' + url + "\", \""  + loginFeeder.getLocatedName() + '"';
+		return "";
 	}
 	
 	@Override
 	public List<ResourceFileAST> getFeederFiles() {
-		 List<ResourceFileAST> feeders = new ArrayList<>();
-		 feeders.add(loginFeeder);
-		 return feeders;
+		return recordResource.flatWithSubsequentRessourceFile();
 	}
 
+	@Override
+	public String toString() {
+		return "Object: " + scalaObject + "\tFunction: " + scalaFunction + "\tFeeder: " + recordResource;
+	}
+	
 }
