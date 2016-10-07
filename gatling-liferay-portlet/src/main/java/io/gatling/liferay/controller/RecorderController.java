@@ -108,7 +108,7 @@ public class RecorderController {
 		List<Record> records = RecordLocalServiceUtil.getRecords(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 		renderRequest.setAttribute("records", records);
 		
-		return "tabs";
+		return "recorderView";
 	} 
 	
 	/**
