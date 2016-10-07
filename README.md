@@ -38,7 +38,7 @@ The plugin can be download from the liferay marketplace [here](https://web.lifer
   The code source can also be found on our github and imported in a Liferay Developer Studio environment. It used the following tools:
   - Maven as a build manager.
   - Git for the versioning.
-  - Mustache as a Template motor, it creates scala files from a predefined Simulation structure.
+  - Mustach as a Template motor, it creates scala files from a predefined Simulation structure.
 
 ## Contribution
 Gatling for Liferay is meant to be an open-source project, it therefore welcome everyone aboard. It can be done in many ways:
@@ -52,7 +52,7 @@ In case of question or recommandation, a [mailing list](https://groups.google.co
 ## About us
 
 ### Licence
-Incomming...
+In coming...
 ### Corporation
 [_Gatling Corp_](http://gatling.io/#/)
 ### Authors
