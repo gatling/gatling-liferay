@@ -32,9 +32,9 @@
 	 
 	<bean  class="org.springframework.web.portlet.mvc.annotation.DefaultAnnotationHandlerMapping" ></bean>
 	
-	<bean class="io.gatling.liferay.controller.ViewController" ></bean>
-	<bean class="io.gatling.liferay.controller.RecorderController" ></bean>
-	<bean class="io.gatling.liferay.controller.SiteMapController" ></bean>
+	<bean class="io.gatling.liferay.controller.BuilderViewController" ></bean>
+	<bean class="io.gatling.liferay.controller.RecorderViewController" ></bean>
+	<bean class="io.gatling.liferay.controller.SiteMapViewController" ></bean>
 	
 	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView" />

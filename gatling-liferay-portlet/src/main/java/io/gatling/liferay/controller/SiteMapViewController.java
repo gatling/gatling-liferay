@@ -45,7 +45,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
  */
 @Controller(value = "SiteMapController")
 @RequestMapping("VIEW")
-public class SiteMapController {
+public class SiteMapViewController {
 	
 	/**
 	 * Prepares the rendering of the random process view.
@@ -67,7 +67,7 @@ public class SiteMapController {
 		List<UrlSiteMap> urldata = UrlSiteMapLocalServiceUtil.findBySiteMapId(siteMapId);
 		
 		renderRequest.setAttribute("urldata", urldata);
-		return "siteMap";
+		return "siteMap/view";
 	}
 	
 	/**

@@ -68,6 +68,9 @@
 	</portlet:renderURL>
 	<a class="btn" href="${renderView}"><liferay-ui:message key="random-cancel" /></a>
 
+</aui:form>
+
+
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.0.min.js"></script>
 
 <script type="text/javascript">
@@ -100,7 +103,6 @@
 	}
 	showWeight();
 </script>
-</aui:form>
 
 <%-- Must be included this way to use liferay taglibs --%>
 <script type="text/javascript" >

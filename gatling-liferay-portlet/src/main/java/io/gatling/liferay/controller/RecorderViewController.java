@@ -66,9 +66,9 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
  */
 @Controller(value = "ViewController")
 @RequestMapping("VIEW")
-public class RecorderController {
+public class RecorderViewController {
 
-	private static final Log LOG = LogFactoryUtil.getLog(RecorderController.class);
+	private static final Log LOG = LogFactoryUtil.getLog(RecorderViewController.class);
 	
 	/**
 	 * Prepares the rendering of the recorder view.
@@ -108,7 +108,7 @@ public class RecorderController {
 		List<Record> records = RecordLocalServiceUtil.getRecords(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 		renderRequest.setAttribute("records", records);
 		
-		return "recorderView";
+		return "recorder/view";
 	} 
 	
 	/**

@@ -80,9 +80,9 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
  */
 @Controller(value = "ViewController")
 @RequestMapping("VIEW")
-public class ViewController {
+public class BuilderViewController {
 
-	private static final Log LOG = LogFactoryUtil.getLog(ViewController.class);
+	private static final Log LOG = LogFactoryUtil.getLog(BuilderViewController.class);
 	
 	private static final int LOGIN = 0;
 	private static final int LOGOUT = 1;
@@ -161,7 +161,7 @@ public class ViewController {
 		renderRequest.setAttribute("templates", templates);
 		renderRequest.setAttribute("counter", boxCounter.getCount());
 		
-		return "view";
+		return "builder/view";
 	}
 	
 	/**
