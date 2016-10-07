@@ -70,14 +70,13 @@ public abstract class ProcessAST {
 	
 	
 	/**
-	 * Computes the code of the process
+	 * Computes the code of the process.
 	 * 
 	 * All process are used as the following way: Object.function(...args...)
-	 * (for example: GetPage.randomPage(feederFile)
+	 * (for example: GetPage.randomPage(feederFile).
 	 * 
-	 * 
-	 * Since Mustache is logicless, we used polymorphisme for code generation:
-	 * all processes compute arguments their own way through the computeArguments method
+	 * We used polymorphisme for code generation:
+	 * all processes compute arguments their own way through the computeArguments method.
 	 *  
 	 * @return The process's code
 	 */
@@ -100,12 +99,12 @@ public abstract class ProcessAST {
 	protected abstract String computeArguments();
 	
 	/**
-	 * Return the several feeders that contains the data associated with the
-	 * process
+	 * Return the several resource files that contains the data associated with the
+	 * process.
 	 * 
-	 * @return the process's feeder
+	 * @return the process's external resource files
 	 */
-	public abstract List<ResourceFileAST> getFeederFiles();
+	public abstract List<ResourceFileAST> getResourceFiles();
 	
 	
 	@Override

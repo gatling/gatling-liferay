@@ -51,7 +51,7 @@ public class RandomPageAST extends ProcessAST {
 	}
 
 	@Override
-	public List<ResourceFileAST> getFeederFiles() {
+	public List<ResourceFileAST> getResourceFiles() {
 		 List<ResourceFileAST> feeders = new ArrayList<>();
 		 feeders.add(siteMap);
 		 return feeders;

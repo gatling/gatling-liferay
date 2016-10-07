@@ -42,7 +42,7 @@ public class RecorderAST extends ProcessAST {
 	}
 	
 	@Override
-	public List<ResourceFileAST> getFeederFiles() {
+	public List<ResourceFileAST> getResourceFiles() {
 		return recordResource.flatWithSubsequentRessourceFile();
 	}
 

@@ -36,7 +36,7 @@ public class LogoutAST extends ProcessAST {
 	}
 
 	@Override
-	public List<ResourceFileAST> getFeederFiles() {
+	public List<ResourceFileAST> getResourceFiles() {
 		//No feederFile 
 		return new ArrayList<>();
 	}

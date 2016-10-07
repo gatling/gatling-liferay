@@ -136,7 +136,7 @@ public class GenerationService {
 		for (SimulationAST simulationAST : simulations) {
 			for (ScenarioAST scenarioAST : simulationAST.getScenarios()) {
 				for (ProcessAST processAST : scenarioAST.getProcesses()) {
-					for (ResourceFileAST feederFileAST : processAST.getFeederFiles()) {
+					for (ResourceFileAST feederFileAST : processAST.getResourceFiles()) {
 						//TODO: remove ugly duplication handling
 						//NOTE: process duplication implies that feeders are exported twice, an improvement in the AST must be done
 						try {

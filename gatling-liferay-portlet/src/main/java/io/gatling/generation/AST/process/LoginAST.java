@@ -47,7 +47,7 @@ public class LoginAST extends ProcessAST{
 	}
 	
 	@Override
-	public List<ResourceFileAST> getFeederFiles() {
+	public List<ResourceFileAST> getResourceFiles() {
 		 List<ResourceFileAST> feeders = new ArrayList<>();
 		 feeders.add(loginFeeder);
 		 return feeders;
