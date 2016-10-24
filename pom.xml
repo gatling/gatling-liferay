@@ -20,8 +20,7 @@
 	</licenses>
 
 	<properties>
-		<liferay.version>6.2.2</liferay.version>
-		<liferay.maven.plugin.version>6.2.2</liferay.maven.plugin.version>
+		<liferay.version>6.2.5</liferay.version>
 		<springframework.version>3.0.7.RELEASE</springframework.version>
 		<springaop.version>4.3.2.RELEASE</springaop.version>
 		<jmustache.version>1.10</jmustache.version>
@@ -134,7 +133,7 @@
 			<plugin>
 				<groupId>com.liferay.maven.plugins</groupId>
 				<artifactId>liferay-maven-plugin</artifactId>
-				<version>${liferay.maven.plugin.version}</version>
+				<version>${liferay.version}</version>
 				<executions>
 					<execution>
 						<phase>generate-sources</phase>
