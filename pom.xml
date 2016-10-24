@@ -21,8 +21,7 @@
 
 	<properties>
 		<liferay.version>6.2.5</liferay.version>
-		<springframework.version>3.0.7.RELEASE</springframework.version>
-		<springaop.version>4.3.2.RELEASE</springaop.version>
+		<spring.version>3.0.7.RELEASE</spring.version>
 		<jmustache.version>1.13</jmustache.version>
 		<taglib.version>1.1.2</taglib.version>
 		<jstl.version>1.2</jstl.version>
@@ -70,7 +69,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc-portlet</artifactId>
-			<version>${springframework.version}</version>
+			<version>${spring.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -124,7 +123,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
-			<version>${springaop.version}</version>
+			<version>${spring.version}</version>
 		</dependency>
 	</dependencies>
 
