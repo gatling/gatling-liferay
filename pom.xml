@@ -23,7 +23,7 @@
 		<liferay.version>6.2.5</liferay.version>
 		<springframework.version>3.0.7.RELEASE</springframework.version>
 		<springaop.version>4.3.2.RELEASE</springaop.version>
-		<jmustache.version>1.10</jmustache.version>
+		<jmustache.version>1.13</jmustache.version>
 		<taglib.version>1.1.2</taglib.version>
 		<jstl.version>1.2</jstl.version>
 		<jsp.version>2.0</jsp.version>
