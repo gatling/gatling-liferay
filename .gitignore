@@ -1,9 +1,7 @@
-gatling-liferay-portlet/.*
-gatling-liferay-portlet/target/
-gatling-liferay.wiki/
+.*
 
 *.idea
 *.iml
-*target
+target
 *~
 *.swp
