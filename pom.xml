@@ -192,6 +192,7 @@
 						<exclude>${webapp.path}/js/bootstrap.min.js</exclude>
 						<exclude>${webapp.path}/js/jquery-3.1.0.min.js</exclude>
 						<exclude>${webapp.path}/js/shepherd.min.js</exclude>
+						<exclude>${webapp.path}/WEB-INF/sql/*</exclude>
 					</excludes>
 				</configuration>
 				<executions>
