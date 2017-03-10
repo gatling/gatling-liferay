@@ -11,7 +11,7 @@ create index IX_3C3D8616 on StressTool_LinkUsecaseRequest (request_id, weight);
 create unique index IX_9B96CBDB on StressTool_Login (name);
 
 create unique index IX_5F97ADA1 on StressTool_Process (name);
-create index IX_9577D1B8 on StressTool_Process (scenario_id);
+create index IX_9577D1B8 on StressTool_Process (feederId);
 
 create index IX_69DEC94B on StressTool_ProcessScenarioLink (process_id);
 create unique index IX_6B50D174 on StressTool_ProcessScenarioLink (process_id, scenario_id, order_);
